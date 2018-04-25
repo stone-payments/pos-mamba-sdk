@@ -2,28 +2,20 @@ const SimpleProgressPlugin = require('webpack-simple-progress-plugin')
 const StyleLintPlugin = require('stylelint-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
-const { fromRoot, fromDist } = require('../helpers/utils.js')
-const { IS_PROD, IS_DEV, PKG } = require('../consts.js')
+const { IS_PROD, IS_DEV } = require('../consts.js')
+const { getPackageBuildConfig } = require('../helpers/utils.js')
 
-/** Get the package entry point by its 'source' property. Default it to src/index.js */
-const entry = fromRoot(PKG.source ? PKG.source : 'src/index.js')
-
-const output = {
-  path: fromDist(),
-  filename: '[name].js',
-  /** Use commonjs2 for smaller bundle sizes. */
-  libraryTarget: 'commonjs2',
-}
+const { entry, output } = getPackageBuildConfig()
 
 /**
  * Mamba Websdk common webpack configuration
  */
 module.exports = {
+  entry,
+  output,
   mode: IS_PROD ? 'production' : 'development',
   cache: true,
   target: 'web',
-  entry,
-  output,
   resolve: {
     /** Do not resolve symlinks */
     symlinks: false,
