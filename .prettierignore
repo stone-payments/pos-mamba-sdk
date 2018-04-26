@@ -1,4 +1,3 @@
-*.json
 dist/
 tools/cli/templates/
 node_modules/
