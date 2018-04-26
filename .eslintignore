@@ -1,5 +1,2 @@
-tools/cli/templates/
 node_modules/
 dist/
-build/
-styleguide/

@@ -17,6 +17,7 @@ Make sure all dependencies have been installed before moving on:
 * `bolt ws build` - Execute the build script in all packages;
 
 #### Bolt specific
+
 > [Bolt documentation](https://github.com/boltpkg/bolt/blob/master/README.md#commands)
 
 * `bolt w @mamba/<workspace> <npm-script>` - Run a npm script on a workspace. Examples:

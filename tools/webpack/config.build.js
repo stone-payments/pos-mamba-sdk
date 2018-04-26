@@ -3,7 +3,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
-const { fromRoot, fromDist } = require('../helpers/utils.js')
+const { fromWorkspace, fromDist } = require('../helpers/utils.js')
 const { IS_PROD, PKG } = require('../consts.js')
 
 /**
@@ -21,7 +21,10 @@ const externals = ['peerDependencies'].reduce((acc, depType) => {
 
 /** Webpack plugins to be used while building */
 const plugins = [
-  new CleanWebpackPlugin([fromDist()], { root: fromRoot(), verbose: false }),
+  new CleanWebpackPlugin([fromDist()], {
+    root: fromWorkspace(),
+    verbose: false,
+  }),
 ]
 
 /** Build optimizations */

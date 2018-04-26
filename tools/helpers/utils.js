@@ -1,25 +1,31 @@
 const { resolve, dirname } = require('path')
 const { PKG } = require('../consts.js')
 
-const rootPath = process.cwd()
-const resolveFromRoot = (...args) => resolve(rootPath, ...args)
+const workspaceRoot = process.cwd()
+const projectRoot = resolve(__dirname, '..', '..')
+
+const resolveFromWorkspace = (...args) => resolve(workspaceRoot, ...args)
 
 /** Project's dist path */
-const distPath = dirname(resolveFromRoot(PKG.main ? PKG.main : 'dist/'))
+const distPath = dirname(resolveFromWorkspace(PKG.main ? PKG.main : 'dist/'))
+
+/** The @mamba project path */
+exports.fromProject = (...args) => resolve(projectRoot, ...args)
 
 /** Current project working directory */
-exports.fromRoot = resolveFromRoot
+exports.fromWorkspace = resolveFromWorkspace
 
 /** Modules path */
-exports.fromModulesRoot = (...args) => resolveFromRoot('node_modules', ...args)
+exports.fromModulesRoot = (...args) =>
+  resolveFromWorkspace('node_modules', ...args)
 
 /** Current project 'dist' directory */
-exports.fromDist = (...args) => resolveFromRoot(distPath, ...args)
+exports.fromDist = (...args) => resolveFromWorkspace(distPath, ...args)
 
 /** Set the entry and output webpack configurations for the current package */
 exports.getPackageBuildConfig = () => {
   /** Get the package entry point by its 'source' property. Default it to src/index.js */
-  const entry = resolveFromRoot(PKG.source ? PKG.source : 'src/index.js')
+  const entry = resolveFromWorkspace(PKG.source ? PKG.source : 'src/index.js')
 
   const output = {
     path: distPath,
