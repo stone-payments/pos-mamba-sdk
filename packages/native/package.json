@@ -1,0 +1,24 @@
+{
+  "name": "@mamba/native",
+  "version": "0.0.1",
+  "description": "Native Mamba applications methods",
+  "main": "dist/main.js",
+  "source": "src/index.js",
+  "scripts": {
+    "watch": "cross-env NODE_ENV=development webpack --config ../../tools/webpack/config.dev.js --watch",
+    "build": "cross-env NODE_ENV=production webpack --config ../../tools/webpack/config.build.js",
+    "build:dev": "cross-env NODE_ENV=development webpack --config ../../tools/webpack/config.build.js",
+    "build:analyze": "cross-env NODE_ENV=production webpack --config ../../tools/webpack/config.analyzer.js",
+    "test": "jest --config='../../jest.config.js'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stone-payments/pos-mamba-web.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stone-payments/pos-mamba-web/issues"
+  },
+  "homepage": "https://github.com/stone-payments/pos-mamba-web#readme"
+}
