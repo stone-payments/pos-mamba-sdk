@@ -1,4 +1,4 @@
-import System from '../system'
+import System from '../src/system'
 
 describe('@mamba/native/System', () => {
   it('global System module should exist', () => {

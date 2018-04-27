@@ -1,4 +1,4 @@
-import Keyboard from '../keyboard'
+import Keyboard from '../src/keyboard'
 
 describe('@mamba/native/Keyboard', () => {
   it('global Keyboard module should exist', () => {

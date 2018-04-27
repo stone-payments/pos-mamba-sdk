@@ -2,7 +2,7 @@
   "name": "@mamba/utils",
   "version": "0.0.1",
   "description": "Collection of web utilities for Mamba Applications",
-  "main": "dist/main.js",
+  "main": "dist/utils.js",
   "source": "src/index.js",
   "scripts": {
     "watch": "cross-env NODE_ENV=development webpack --config ../../tools/webpack/config.dev.js --watch",

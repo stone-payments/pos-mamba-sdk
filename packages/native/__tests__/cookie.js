@@ -1,4 +1,4 @@
-import Cookie from '../cookie'
+import Cookie from '../src/cookie'
 
 describe('@mamba/native/Cookie', () => {
   it('global Cookie module should exist', () => {

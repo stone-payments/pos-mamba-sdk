@@ -1,11 +1,10 @@
-const SimpleProgressPlugin = require('webpack-simple-progress-plugin')
 const StyleLintPlugin = require('stylelint-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const { IS_PROD, IS_DEV } = require('../consts.js')
-const { getPackageBuildConfig } = require('../helpers/utils.js')
+const { getBundleConfig } = require('../helpers/utils.js')
 
-const { entry, output } = getPackageBuildConfig()
+const { entry, output } = getBundleConfig()
 
 /**
  * Mamba Websdk common webpack configuration
@@ -33,7 +32,7 @@ module.exports = {
   },
   /** Minimal useful output log */
   stats: {
-    modules: false,
+    modules: true,
     chunks: false,
     colors: true,
     children: false,
@@ -120,9 +119,6 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'style.css',
       chunkFilename: '[id].css',
-    }),
-    new SimpleProgressPlugin({
-      messageTemplate: [':bar', ':percent', ':elapseds', ':msg'].join(' '),
     }),
   ],
 }

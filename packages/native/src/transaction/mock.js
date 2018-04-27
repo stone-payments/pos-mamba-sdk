@@ -1,6 +1,6 @@
 import validateDates from '../utils/validateDate.js'
-import consolidatedListReportData from './consolidatedReportList.json'
-import detailedReportListData from './detailedReportList.json'
+import getConsolidatedListReportData from './consolidatedReportList.js'
+import getDetailedReportListData from './detailedReportList.js'
 
 const config = {
   supportedBrands: ['VISA', 'MASTERCARD', 'ELO'],
@@ -59,7 +59,7 @@ export default function (Transaction) {
           setTimeout(_ => {
             progress.detailed = false
 
-            callback.call(this, detailedReportListData)
+            callback.call(this, getDetailedReportListData())
           }, config.retrieveTime)
         } else {
           callback.call(this, undefined, new Error('Job already in progress'))
@@ -77,7 +77,7 @@ export default function (Transaction) {
           setTimeout(_ => {
             progress.consolidated = false
 
-            callback.call(this, consolidatedListReportData)
+            callback.call(this, getConsolidatedListReportData())
           }, config.retrieveTime)
         } else {
           callback.call(this, undefined, new Error('Job already in progress'))

@@ -1,4 +1,4 @@
-import Gif from '../gif'
+import Gif from '../src/gif'
 
 describe('@mamba/native/Gif', () => {
   it('global Gif module should exist', () => {

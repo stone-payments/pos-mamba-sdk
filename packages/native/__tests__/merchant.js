@@ -1,4 +1,4 @@
-import Merchant from '../merchant'
+import Merchant from '../src/merchant'
 
 describe('@mamba/native/Merchant', () => {
   it('global Merchant module should exist', () => {

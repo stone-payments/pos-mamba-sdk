@@ -1,4 +1,4 @@
-import StatusBar from '../statusbar'
+import StatusBar from '../src/statusbar'
 
 describe('@mamba/native/StatusBar', () => {
   it('global StatusBar module should exist', () => {

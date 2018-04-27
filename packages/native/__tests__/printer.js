@@ -1,4 +1,4 @@
-import Printer from '../printer'
+import Printer from '../src/printer'
 
 const sampleEl = document.createElement('DIV')
 sampleEl.innerHTML = '<h1>Sample Title</h1><p>Sample text</p>'

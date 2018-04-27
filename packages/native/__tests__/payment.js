@@ -1,4 +1,4 @@
-import Payment from '../payment'
+import Payment from '../src/payment'
 
 describe('@mamba/native/Payment', () => {
   it('global Payment module should exist', () => {

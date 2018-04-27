@@ -2,12 +2,13 @@
   "name": "@mamba/native",
   "version": "0.0.1",
   "description": "Native Mamba applications methods",
-  "main": "dist/main.js",
-  "source": "index.js",
+  "main": "native.js",
+  "source": "src/index.js",
+  "files": ["./*.js"],
   "scripts": {
     "watch": "cross-env NODE_ENV=development webpack --config ../../tools/webpack/config.dev.js --watch",
-    "build": "cross-env NODE_ENV=production webpack --config ../../tools/webpack/config.build.js",
-    "build:dev": "cross-env NODE_ENV=development webpack --config ../../tools/webpack/config.build.js",
+    "build": "cross-env NODE_ENV=production node build",
+    "build:dev": "cross-env NODE_ENV=development node build",
     "build:analyze": "cross-env NODE_ENV=production webpack --config ../../tools/webpack/config.analyzer.js",
     "test": "jest --config='../../jest.config.js'"
   },

@@ -1,4 +1,4 @@
-import Transaction from '../transaction'
+import Transaction from '../src/transaction'
 
 describe('@mamba/native/Transaction', () => {
   it('global Transaction module should exist', () => {
