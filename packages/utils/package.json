@@ -2,14 +2,21 @@
   "name": "@mamba/utils",
   "version": "0.0.1",
   "description": "Collection of web utilities for Mamba Applications",
-  "main": "dist/utils.js",
+  "main": "utils.js",
   "source": "src/index.js",
+  "subModdules": ["src/*/index.js"],
+  "files": ["./*.js"],
   "scripts": {
-    "watch": "cross-env NODE_ENV=development webpack --config ../../tools/webpack/config.dev.js --watch",
-    "build": "cross-env NODE_ENV=production webpack --config ../../tools/webpack/config.build.js",
-    "build:dev": "cross-env NODE_ENV=development webpack --config ../../tools/webpack/config.build.js",
-    "build:analyze": "cross-env NODE_ENV=production webpack --config ../../tools/webpack/config.analyzer.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch":
+      "cross-env NODE_ENV=development webpack --config ../../tools/webpack/config.dev.js --watch",
+    "build":
+      "cross-env NODE_ENV=production node ../../tools/scripts/build-modularized",
+    "build:dev":
+      "cross-env NODE_ENV=development node ../../tools/scripts/build-modularized",
+    "build:analyze":
+      "cross-env NODE_ENV=production webpack --config ../../tools/webpack/config.analyzer.js",
+    "test": "jest --config='../../jest.config.js'",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
