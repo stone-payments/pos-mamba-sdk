@@ -1,16 +1,16 @@
-/**
- * @namespace Printer
- */
-let Printer
+import mock from './mock.js'
+import extendNative from './native.js'
 
-if (process.env.NODE_ENV === 'production') {
-  if (!window.Printer) {
+let Printer = window.Printer
+
+if (process.env.NODE_ENV !== 'production') {
+  Printer = window.Printer = {}
+  mock(Printer)
+} else {
+  if (!Printer) {
     throw new Error("[@mamba/native] 'Printer' module not found")
   }
-  Printer = require('./native.js').default
-} else {
-  Printer = require('./mock.js').default
+  extendNative(Printer)
 }
 
-window.Printer = Printer
-export { Printer as default, Printer }
+export default Printer

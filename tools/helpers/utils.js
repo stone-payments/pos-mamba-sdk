@@ -1,4 +1,4 @@
-const { resolve, dirname } = require('path')
+const { resolve, dirname, basename } = require('path')
 const { PKG } = require('../consts.js')
 
 const workspaceRoot = process.cwd()
@@ -23,15 +23,20 @@ exports.fromModulesRoot = (...args) =>
 exports.fromDist = (...args) => resolveFromWorkspace(distPath, ...args)
 
 /** Set the entry and output webpack configurations for the current package */
-exports.getPackageBuildConfig = () => {
+exports.getPackageBuildConfig = ({
+  source = PKG.source || 'src/index.js',
+  main = PKG.main,
+  target = 'commonjs2',
+  dist = distPath,
+} = {}) => {
   /** Get the package entry point by its 'source' property. Default it to src/index.js */
-  const entry = resolveFromWorkspace(PKG.source ? PKG.source : 'src/index.js')
+  const entry = resolveFromWorkspace(source)
 
   const output = {
-    path: distPath,
-    filename: '[name].js',
+    path: dist,
+    filename: `${basename(main)}`,
     /** Use commonjs2 for smaller bundle sizes. */
-    libraryTarget: 'commonjs2',
+    libraryTarget: target,
   }
   return { entry, output }
 }

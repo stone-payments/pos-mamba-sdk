@@ -1,9 +1,9 @@
-const { Printer } = require('../src/index.js')
+import Printer from '../src/printer'
 
 const sampleEl = document.createElement('DIV')
 sampleEl.innerHTML = '<h1>Sample Title</h1><p>Sample text</p>'
 
-describe('@mamba/native/printer', () => {
+describe('@mamba/native/Printer', () => {
   it('global Printer module should exist', () => {
     expect(window.Printer).toBeTruthy()
   })
@@ -33,6 +33,6 @@ describe('@mamba/native/printer', () => {
     setTimeout(() => {
       expect(Printer.isPrinting()).toBe(false)
       done()
-    }, Printer.SimulatedConfigurations.printing_time * 2)
+    }, Printer.SimulatedConfig.printing_time * 2)
   })
 })

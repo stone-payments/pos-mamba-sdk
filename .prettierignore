@@ -1,4 +1,4 @@
-*.json
-dist/
-tools/cli/templates/
 node_modules/
+dist/
+/packages/native/*.js
+/packages/utils/*.js

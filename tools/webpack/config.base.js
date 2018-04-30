@@ -1,4 +1,3 @@
-const SimpleProgressPlugin = require('webpack-simple-progress-plugin')
 const StyleLintPlugin = require('stylelint-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
@@ -33,7 +32,7 @@ module.exports = {
   },
   /** Minimal useful output log */
   stats: {
-    modules: false,
+    modules: true,
     chunks: false,
     colors: true,
     children: false,
@@ -120,9 +119,6 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'style.css',
       chunkFilename: '[id].css',
-    }),
-    new SimpleProgressPlugin({
-      messageTemplate: [':bar', ':percent', ':elapseds', ':msg'].join(' '),
     }),
   ],
 }
