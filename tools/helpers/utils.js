@@ -23,7 +23,7 @@ exports.fromModulesRoot = (...args) =>
 exports.fromDist = (...args) => resolveFromWorkspace(distPath, ...args)
 
 /** Set the entry and output webpack configurations for the current package */
-exports.getBundleConfig = ({
+exports.getPackageBuildConfig = ({
   source = PKG.source || 'src/index.js',
   main = PKG.main,
   target = 'commonjs2',
