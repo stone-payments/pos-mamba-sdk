@@ -1,5 +1,5 @@
 import { basename, dirname } from 'path'
-import node from 'rollup-plugin-node-resolve'
+import resolve from 'rollup-plugin-node-resolve'
 import cjs from 'rollup-plugin-commonjs'
 import babel from 'rollup-plugin-babel'
 import filesize from 'rollup-plugin-filesize'
@@ -9,8 +9,8 @@ const { PKG } = require('../consts.js')
 
 /** Base rollup plugins */
 const plugins = [
+  resolve(),
   cjs(),
-  node(),
   eslint(),
   babel({
     exclude: 'node_modules/**',

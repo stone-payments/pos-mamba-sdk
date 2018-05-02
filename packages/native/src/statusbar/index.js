@@ -1,8 +1,6 @@
 import mock from './mock.js'
 import extendNative from './native.js'
 
-export const STATUSBAR_HEIGHT = 20
-
 let StatusBar = window.StatusBar
 
 if (process.env.NODE_ENV !== 'production') {

@@ -1,5 +1,6 @@
-import { STATUSBAR_HEIGHT } from './index.js'
 import { convertColorString } from '../utils/color.js'
+
+export const STATUSBAR_HEIGHT = 20
 
 export default function (StatusBar) {
   let _backgroundColor = '#3DA10F'

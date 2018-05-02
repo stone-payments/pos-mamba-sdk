@@ -1,4 +1,4 @@
-import { STATUSBAR_HEIGHT } from '../statusbar'
+import { STATUSBAR_HEIGHT } from '../statusbar/mock.js'
 
 function preventDefault (event) {
   event.preventDefault()
