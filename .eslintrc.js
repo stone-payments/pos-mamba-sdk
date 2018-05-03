@@ -2,9 +2,10 @@ const { IS_PROD } = require('./tools/consts.js')
 
 const rules = {
   indent: ['error', 2, { SwitchCase: 1 }],
-  'no-console': IS_PROD ? ['error', { allow: ['warn', 'error'] }] : 0,
-  'space-before-function-paren': 2,
-  'no-var': 2,
+  'no-console': IS_PROD ? ['error', { allow: ['warn', 'error'] }] : 'off',
+  'space-before-function-paren': 'error',
+  'no-var': 'error',
+  'comma-dangle': ['error', 'always-multiline'],
 }
 
 module.exports = {
@@ -14,7 +15,10 @@ module.exports = {
     'prettier/standard',
     'plugin:jest/recommended',
   ],
-  plugins: ['standard', 'prettier', 'jest'],
+  plugins: ['standard', 'prettier', 'jest', 'html'],
+  settings: {
+    'html/html-extensions': ['.html', '.svelte'],
+  },
   env: {
     browser: true,
     node: true,
@@ -27,13 +31,10 @@ module.exports = {
       modules: true,
     },
   },
-  globals: {
-    sleep: true,
-  },
   rules: rules,
   overrides: [
     {
-      files: ['**/__tests__/**/*.js'],
+      files: ['**/__tests__/**/*.js', '**/*.test.js'],
       env: { jest: true },
     },
     /** Allow native to use console methods */

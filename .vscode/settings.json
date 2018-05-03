@@ -1,0 +1,14 @@
+{
+  "editor.trimAutoWhitespace": true,
+  "files.trimTrailingWhitespace": true,
+  "prettier.eslintIntegration": true,
+  "prettier.stylelintIntegration": true,
+  "files.associations": {
+    "*.svelte": "html"
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "html"
+  ],
+}
