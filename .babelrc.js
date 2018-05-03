@@ -12,10 +12,10 @@ const presets = [
       forceAllTransforms: true,
     },
   ],
-  ['@babel/preset-stage-0', { loose: true }],
+  ['@babel/preset-stage-3', { loose: true }],
 ]
 
-const plugins = ['@babel/plugin-proposal-decorators']
+const plugins = [['@babel/plugin-proposal-class-properties', { loose: true }]]
 
 module.exports = {
   sourceMaps: true,
