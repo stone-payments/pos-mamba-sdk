@@ -1,4 +1,4 @@
-export default function (Payment) {
+export default function(Payment) {
   let _paying = false
   // var _detectCardEventEnabled = false
 
@@ -28,14 +28,14 @@ export default function (Payment) {
    * @param {int}   proposedAmount      Proposed amount to pay
    * @param {paymentCallback} callback  The function to call when the payment is finished
    */
-  function pay (proposedAmount, callback) {
-    if (typeof callback !== 'function') callback = function () {}
+  function pay(proposedAmount, callback) {
+    if (typeof callback !== 'function') callback = function() {}
     if (isPaying() === false) {
       if (!isNaN(proposedAmount)) {
         if (proposedAmount >= 0) {
           _paying = true
           // _showPaymentDialog()
-          setTimeout(function () {
+          setTimeout(function() {
             _paying = false
             console.log('Payment Finished')
             if (failedPaying()) {
@@ -69,7 +69,7 @@ export default function (Payment) {
    * @memberOf Payment
    * @return {boolean} True if is paying
    */
-  function isPaying () {
+  function isPaying() {
     return _paying
   }
 
@@ -77,7 +77,7 @@ export default function (Payment) {
    * Returns true it the last payment job has failed
    * @return {boolean} True if the last payment job has failed
    */
-  function failedPaying () {
+  function failedPaying() {
     return Payment.SimulatedConfigs.shouldFail
   }
 
@@ -96,7 +96,7 @@ export default function (Payment) {
    * })
    *
    */
-  function enableCardEvent () {
+  function enableCardEvent() {
     // _detectCardEventEnabled = true
     console.log('Detect card event enabled')
   }
@@ -105,7 +105,7 @@ export default function (Payment) {
    * Turn off detection of card events.
    * @memberOf Payment
    */
-  function disableCardEvent () {
+  function disableCardEvent() {
     // _detectCardEventEnabled = false
     console.log('Detect card event disabled')
   }
@@ -116,7 +116,7 @@ export default function (Payment) {
    * @memberOf Payment
    * @return {string} cardHolderName
    */
-  function getCardHolderName () {
+  function getCardHolderName() {
     let cardHolderName = ''
     return !failedPaying() ? cardHolderName : 'SPORTELLO/DOC'
   }
@@ -127,7 +127,7 @@ export default function (Payment) {
    * @memberOf Payment
    * @return {string} atk
    */
-  function getAtk () {
+  function getAtk() {
     let atk = ''
     return !failedPaying() ? atk : '11111111111111'
   }
@@ -138,7 +138,7 @@ export default function (Payment) {
    * @memberOf Payment
    * @return {Date} authorizationDateTime
    */
-  function getAuthorizationDateTime () {
+  function getAuthorizationDateTime() {
     let authorizationDateTime = null
     return !failedPaying() ? authorizationDateTime : new Date()
   }
@@ -149,7 +149,7 @@ export default function (Payment) {
    * @memberOf Payment
    * @return {string} brand
    */
-  function getBrand () {
+  function getBrand() {
     let brand = ''
     return !failedPaying() ? brand : 'bandeiraTeste'
   }
@@ -160,7 +160,7 @@ export default function (Payment) {
    * @memberOf Payment
    * @return {string} orderId
    */
-  function getOrderId () {
+  function getOrderId() {
     let orderId = ''
     return !failedPaying() ? orderId : '111111111'
   }
@@ -171,7 +171,7 @@ export default function (Payment) {
    * @memberOf Payment
    * @return {string} authorizationCode
    */
-  function getAuthorizationCode () {
+  function getAuthorizationCode() {
     let authorizationCode = ''
     return !failedPaying() ? authorizationCode : '111111111'
   }
@@ -182,7 +182,7 @@ export default function (Payment) {
    * @memberOf Payment
    * @return {int} installmentCount
    */
-  function getInstallmentCount () {
+  function getInstallmentCount() {
     let installmentCount = 0
     return !failedPaying() ? installmentCount : 0
   }

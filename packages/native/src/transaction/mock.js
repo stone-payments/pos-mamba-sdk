@@ -14,22 +14,22 @@ let progress = {
   consolidated: false,
 }
 
-function getSupportedBrands () {
+function getSupportedBrands() {
   return config.supportedBrands
 }
 
-function getMaximumDetailedReportEntries () {
+function getMaximumDetailedReportEntries() {
   return config.maxDetailedReportEntries
 }
 
-export default function (Transaction) {
-  function getReportResume (from, to, callback) {
+export default function(Transaction) {
+  function getReportResume(from, to, callback) {
     if (validateDates(from, to, callback)) {
       if (typeof callback === 'function') {
         if (!progress.resume) {
           progress.resume = true
 
-          setTimeout(function () {
+          setTimeout(function() {
             progress.resume = false
 
             callback.call(this, {
@@ -50,7 +50,7 @@ export default function (Transaction) {
     }
   }
 
-  function getDetailedReportList (from, to, callback) {
+  function getDetailedReportList(from, to, callback) {
     if (validateDates(from, to, callback)) {
       if (typeof callback === 'function') {
         if (!progress.detailed) {
@@ -68,7 +68,7 @@ export default function (Transaction) {
     }
   }
 
-  function getConsolidatedReportList (from, to, callback) {
+  function getConsolidatedReportList(from, to, callback) {
     if (validateDates(from, to, callback)) {
       if (typeof callback === 'function') {
         if (!progress.consolidated) {

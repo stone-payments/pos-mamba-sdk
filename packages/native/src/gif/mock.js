@@ -1,11 +1,11 @@
 import { STATUSBAR_HEIGHT } from '../statusbar/mock.js'
 
-function preventDefault (event) {
+function preventDefault(event) {
   event.preventDefault()
 }
 
 export default class {
-  constructor () {
+  constructor() {
     this._gif = document.createElement('img')
     this._gif.style.position = 'fixed'
     this._gif.classList.add('mb-global-gif')
@@ -25,7 +25,7 @@ export default class {
    * @returns {boolean} True if the gif is correctly showing
    * @memberof Gif
    */
-  show (path, x, y) {
+  show(path, x, y) {
     console.log(`Gif: Show ${path} at x = ${x} y = ${y}`)
 
     if (x === undefined && y === undefined) {
@@ -77,7 +77,7 @@ export default class {
    * @returns {boolean} True if the position was set correctly
    * @memberof Gif
    */
-  setPosition (path, x, y) {
+  setPosition(path, x, y) {
     if (x !== undefined && y !== undefined) {
       if (this.cache(path)) {
         if (x >= 0 && y >= 0) {
@@ -106,7 +106,7 @@ export default class {
    *
    * @memberof Gif
    */
-  hide () {
+  hide() {
     console.log('Gif: Hide gif')
     this._gif.style.display = 'none'
     document.removeEventListener('keydown', preventDefault)
@@ -121,7 +121,7 @@ export default class {
    * @returns {boolean} True if the gif was cached correctly
    * @memberof Gif
    */
-  cache (path) {
+  cache(path) {
     if (
       typeof path !== 'string' ||
       path.lastIndexOf('.gif') === -1 ||
@@ -152,7 +152,7 @@ export default class {
    * @returns {IRect} Dimension and position
    * @memberof Gif
    */
-  get (path) {
+  get(path) {
     return this._cache[path]
   }
 }

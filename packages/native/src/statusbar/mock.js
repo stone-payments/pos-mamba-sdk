@@ -2,7 +2,7 @@ import { convertColorString } from '../utils/color.js'
 
 export const STATUSBAR_HEIGHT = 20
 
-export default function (StatusBar) {
+export default function(StatusBar) {
   let _backgroundColor = '#3DA10F'
   let _el
 
@@ -15,7 +15,7 @@ export default function (StatusBar) {
    * StatusBar.setBackgroundColor('rgb(244,67,54)')
    * @param {string} color Color in rgb, hexadecimal format or css class name with background-color defined
    */
-  function setBackgroundColor (color) {
+  function setBackgroundColor(color) {
     _addStatusbar()
     let colorHex = convertColorString(
       /** Use white for test environments (JSDOM doesn't render anything) */
@@ -35,11 +35,11 @@ export default function (StatusBar) {
    * @memberOf StatusBar
    * @return {string} Current statusbar color in hexadecimal
    */
-  function getBackgroundColor (color) {
+  function getBackgroundColor(color) {
     return _backgroundColor
   }
 
-  function _addStatusbar () {
+  function _addStatusbar() {
     if (_el === undefined) {
       _el = document.createElement('div')
       _el.classList.add('mb-statusbar')
@@ -58,7 +58,7 @@ export default function (StatusBar) {
    * Applies only for development environment
    * It is not possible to hide it on the POS
    */
-  function hideStatusBarDevelopmentOnly () {
+  function hideStatusBarDevelopmentOnly() {
     _el.style.display = 'none'
   }
 
@@ -66,7 +66,7 @@ export default function (StatusBar) {
    * Start page with a rectangle on top representing the statusbar for simulation
    * @ignore
    */
-  window.addEventListener('load', function () {
+  window.addEventListener('load', function() {
     _addStatusbar()
     setBackgroundColor(_backgroundColor)
   })

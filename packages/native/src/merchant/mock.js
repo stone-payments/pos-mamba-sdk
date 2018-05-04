@@ -1,4 +1,4 @@
-export default function (Merchant) {
+export default function(Merchant) {
   const SimulatedInfo = {
     street: 'Potato street',
     number: '42',
@@ -22,7 +22,7 @@ export default function (Merchant) {
    * @memberof Merchant
    * @return {object} An object containing the merchant info
    */
-  function getInfo () {
+  function getInfo() {
     return SimulatedInfo
   }
 
@@ -31,7 +31,7 @@ export default function (Merchant) {
    * @param {string} password The password to match
    * @returns True if the password matches the admin password, false otherwise
    */
-  function checkPassword (password) {
+  function checkPassword(password) {
     return password === adminPassword
   }
 
@@ -39,7 +39,7 @@ export default function (Merchant) {
  * @memberof Merchant
  * @return {string} The stone code
  */
-  function getStoneCode () {
+  function getStoneCode() {
     return SimulatedInfo.acquirerIssuedMerchantId
   }
 

@@ -1,4 +1,4 @@
-export default function (System) {
+export default function(System) {
   /**
    * The audio context
    * @ignore
@@ -40,7 +40,7 @@ export default function (System) {
    * @param  {AudioType}   type   The wave type of the tone
    * @param  {Function} callback  Callback to use on end of tone
    */
-  function _doBeep (duration, frequency, volume, type, callback) {
+  function _doBeep(duration, frequency, volume, type, callback) {
     const oscillator = _audioCtx.createOscillator()
     const gainNode = _audioCtx.createGain()
 
@@ -61,7 +61,7 @@ export default function (System) {
     }
 
     oscillator.start()
-    setTimeout(function () {
+    setTimeout(function() {
       oscillator.stop()
     }, duration || _DEFAULT_BEEP_DURATION)
   }
@@ -71,7 +71,7 @@ export default function (System) {
    * @param  {System.Tone} tone   The tone to get the Frequency
    * @return {number}             The frequency in Hz
    */
-  function _getToneFrequency (tone) {
+  function _getToneFrequency(tone) {
     if (tone === System.Tone.TONE1) {
       return 1700
     } else if (tone === System.Tone.TONE2) {
@@ -93,8 +93,8 @@ export default function (System) {
    * Sets an interval that updates the {@link System.SimulatedConfig.TimeFromBoot}
    * @returns {object} The interval object
    */
-  function _setTimeFromBootInterval () {
-    return setInterval(function () {
+  function _setTimeFromBootInterval() {
+    return setInterval(function() {
       System.SimulatedConfig.TimeFromBoot += _UPDATE_TIME_INTERVAL
     }, _UPDATE_TIME_INTERVAL)
   }
@@ -102,7 +102,7 @@ export default function (System) {
   /**
    * Start the intervals and call the required functions
    */
-  ;(function _init () {
+  ;(function _init() {
     _setTimeFromBootInterval()
   })()
 
@@ -114,7 +114,7 @@ export default function (System) {
    * @param  {System.Tone} tone         The tone of the beep
    * @param  {number}      [duration=300]     The duration of the tone in milliseconds
    */
-  function beep (tone, duration) {
+  function beep(tone, duration) {
     if (
       (tone === undefined && duration === undefined) ||
       duration === undefined
@@ -142,7 +142,7 @@ export default function (System) {
    * @memberOf System
    * @return {boolean} True if the device has ethernet
    */
-  function hasEthernet () {
+  function hasEthernet() {
     return System.SimulatedConfig.Connections.ethernet
   }
 
@@ -151,7 +151,7 @@ export default function (System) {
    * @memberOf System
    * @return {boolean} True if the device has wifi
    */
-  function hasWifi () {
+  function hasWifi() {
     return System.SimulatedConfig.Connections.wifi
   }
 
@@ -160,7 +160,7 @@ export default function (System) {
    * @memberOf System
    * @return {boolean} True if the device has gprs
    */
-  function hasGprs () {
+  function hasGprs() {
     return System.SimulatedConfig.Connections.gprs
   }
 
@@ -169,7 +169,7 @@ export default function (System) {
    * @memberOf System
    * @return {boolean} True if the battery is present
    */
-  function isBatteryPresent () {
+  function isBatteryPresent() {
     return System.SimulatedConfig.Battery.present
   }
 
@@ -178,7 +178,7 @@ export default function (System) {
    * @memberOf System
    * @return {System.PowerSupply} The current power supply of the device
    */
-  function getPowerSupply () {
+  function getPowerSupply() {
     return System.SimulatedConfig.PowerSupply
   }
 
@@ -187,7 +187,7 @@ export default function (System) {
    * @memberOf System
    * @return {number} The time in milliseconds
    */
-  function getTimeFromBoot () {
+  function getTimeFromBoot() {
     return System.SimulatedConfig.TimeFromBoot
   }
 
@@ -196,7 +196,7 @@ export default function (System) {
    * @memberOf System
    * @return {string} The serial number
    */
-  function getSerialNumber () {
+  function getSerialNumber() {
     return System.SimulatedConfig.SerialNumber
   }
 
@@ -205,7 +205,7 @@ export default function (System) {
    * @memberOf System
    * @return {System.BatteryStatus} The status of the battery
    */
-  function getBatteryStatus () {
+  function getBatteryStatus() {
     return System.SimulatedConfig.Battery.status
   }
 
@@ -223,7 +223,7 @@ export default function (System) {
    * @memberOf System
    * @return {number} The level of the battery
    */
-  function getBatteryLevel () {
+  function getBatteryLevel() {
     return System.SimulatedConfig.Battery.level
   }
 

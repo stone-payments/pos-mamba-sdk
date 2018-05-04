@@ -4,7 +4,7 @@
  * @param  {string} classes
  * @return {string} color in hexadecimal
  */
-export function getColorFromClass (classes) {
+export function getColorFromClass(classes) {
   let dummy = document.createElement('div')
   dummy.classList.add(classes)
   document.body.appendChild(dummy)
@@ -18,7 +18,7 @@ export function getColorFromClass (classes) {
  * @ignore
  * @param  {string} color Color in rgb, hexadecimal format or css class name with background-color defined
  */
-export function convertColorString (color) {
+export function convertColorString(color) {
   let colorHex
 
   if (
@@ -32,7 +32,7 @@ export function convertColorString (color) {
   return colorHex
 }
 
-function hex (x) {
+function hex(x) {
   return ('0' + parseInt(x).toString(16)).slice(-2)
 }
 
@@ -42,7 +42,7 @@ function hex (x) {
  * @param  {function} rgb String in the rbg format
  * @return {string} color in hexadecimal
  */
-export function rgb2hex (rgb) {
+export function rgb2hex(rgb) {
   if (/^#[0-9A-F]{6}$/i.test(rgb)) return rgb
 
   rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/)

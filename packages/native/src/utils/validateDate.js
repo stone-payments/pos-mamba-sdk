@@ -1,4 +1,4 @@
-export default function (from, to, callback) {
+export default function(from, to, callback) {
   if (from instanceof Date && to instanceof Date) {
     return true
   } else {

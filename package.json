@@ -19,8 +19,8 @@
     "lint:js": "eslint '*.js' 'tools/**/*.js' 'packages/**/*.js'",
     "lint:css": "stylelint 'packages/**/*.{css,scss}'",
     "format": "npm run format:css; npm run format:js",
-    "format:js": "prettier --write '*.js' 'tools/**/*.js' 'packages/**/*.js' && eslint --fix '*.js' 'tools/**/*.js' 'packages/**/*.js'",
-    "format:css": "prettier --write 'packages/**/*.{css,scss}' && stylelint --fix 'packages/**/*.{css,scss}'",
+    "format:js": "prettier --loglevel silent --write '*.js' 'tools/**/*.js' 'packages/**/*.js' && eslint --fix '*.js' 'tools/**/*.js' 'packages/**/*.js'",
+    "format:css": "prettier --loglevel silent --write 'packages/**/*.{css,scss}' && stylelint --fix 'packages/**/*.{css,scss}'",
     "test": "bolt ws test"
   },
   "peerDependencies": {},

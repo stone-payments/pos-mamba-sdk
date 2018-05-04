@@ -1,14 +1,14 @@
 export default class Cookie {
-  set (key, value) {
+  set(key, value) {
     localStorage.setItem(key, value)
     return true
   }
 
-  get (key) {
+  get(key) {
     return localStorage.getItem(key) || ''
   }
 
-  clear () {
+  clear() {
     localStorage.clear()
     return true
   }

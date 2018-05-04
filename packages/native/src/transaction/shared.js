@@ -1,4 +1,4 @@
-export default function (Transaction) {
+export default function(Transaction) {
   Transaction.TransactionStatusCodes = Object.freeze({
     PENDING_REVERSAL_BY_TECHNICAL_ERROR: -3,
     PENDING_REVERSAL: -2, // if the authorizer approved, but the card did not

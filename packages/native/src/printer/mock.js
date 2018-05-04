@@ -1,4 +1,4 @@
-export default function (Printer) {
+export default function(Printer) {
   let _printing = false
 
   /**
@@ -34,8 +34,8 @@ export default function (Printer) {
    *
    * @param {printCallback} callback                              The function to call when the print is finished
    */
-  function print (element, config, callback) {
-    if (typeof callback !== 'function') callback = function () {}
+  function print(element, config, callback) {
+    if (typeof callback !== 'function') callback = function() {}
 
     if (!isPrinting()) {
       if (config === undefined) config = {}
@@ -71,7 +71,7 @@ export default function (Printer) {
           callback(error)
         } else {
           _printing = true
-          setTimeout(function () {
+          setTimeout(function() {
             _printing = false
             console.log('Finished printing')
             if (Printer.SimulatedConfig.should_fail) {
@@ -105,7 +105,7 @@ export default function (Printer) {
    * element.style.width = Printer.getPaperWidth()
    * @return {number} The width of the paper [pixels]
    */
-  function getPaperWidth () {
+  function getPaperWidth() {
     return 384
   }
 
@@ -114,7 +114,7 @@ export default function (Printer) {
    * @memberOf Printer
    * @return {boolean} True if is printing
    */
-  function isPrinting () {
+  function isPrinting() {
     return _printing
   }
 
@@ -122,7 +122,7 @@ export default function (Printer) {
    * Returns true it the last printing job has failed
    * @return {boolean} True if the last printing job has failed
    */
-  function failedPrinting () {
+  function failedPrinting() {
     return Printer.SimulatedConfig.should_fail
   }
 

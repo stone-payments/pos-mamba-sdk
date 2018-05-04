@@ -26,7 +26,7 @@ module.exports = {
   },
   parserOptions: {
     ecmaFeatures: {
-      jsx: true,
+      jsx: false,
       modules: true,
     },
   },

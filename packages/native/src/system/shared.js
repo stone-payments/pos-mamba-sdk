@@ -1,4 +1,4 @@
-export default function (System) {
+export default function(System) {
   /**
    * Definition of the possible tones. TONE1 has the lowest frequency, while TONE7 has the highest one
    * @memberOf System

@@ -21,7 +21,7 @@ const plugins = [
   filesize(),
 ].filter(Boolean)
 
-export default function ({
+export default function({
   /** Input file relative path */
   input = PKG.source || 'src/index.js',
   /** Output file relative path */

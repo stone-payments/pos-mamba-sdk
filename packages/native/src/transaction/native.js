@@ -2,7 +2,7 @@ import validateDates from '../utils/validateDate.js'
 
 import { link } from '../utils/bridge'
 
-export default function (Transaction) {
+export default function(Transaction) {
   link({
     name: 'getReportResume',
     signal: Transaction.reportResumeDone,

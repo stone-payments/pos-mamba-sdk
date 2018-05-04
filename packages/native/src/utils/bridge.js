@@ -22,10 +22,10 @@
  * Links a function correctly to the backend
  * @param {LinkOptions} options The options to use
  */
-function link (options) {
-  options.injectedObject[options.name] = function () {
+function link(options) {
+  options.injectedObject[options.name] = function() {
     let callback
-    let jobDoneCallback = function () {
+    let jobDoneCallback = function() {
       try {
         options.signal.disconnect(this, jobDoneCallback)
       } catch (err) {

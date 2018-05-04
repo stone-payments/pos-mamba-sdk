@@ -1,10 +1,10 @@
-export default function (App) {
+export default function(App) {
   // import MbDialog from '../components/mb-dialog/mb-dialog'
   // import Mamba from '../api/mamba'
 
-  let dialog = { mount () {}, open () {}, close () {} } // Mock element for now
+  let dialog = { mount() {}, open() {}, close() {} } // Mock element for now
 
-  window.addEventListener('load', function () {
+  window.addEventListener('load', function() {
     dialog.mount(document.body)
   })
 
@@ -13,7 +13,7 @@ export default function (App) {
    * @memberOf App
    * @param {boolean} showConfirmationDialog True to show a confirmation dialog asking the user if the app should close
    */
-  function close (showConfirmationDialog = false) {
+  function close(showConfirmationDialog = false) {
     if (showConfirmationDialog) {
       dialog.open(action => {
         if (action === dialog.positiveAction) {
@@ -25,19 +25,19 @@ export default function (App) {
     }
   }
 
-  function getAppKey () {
+  function getAppKey() {
     return '123456'
   }
 
-  function getProxyURL (url) {
+  function getProxyURL(url) {
     return url
   }
 
-  function isRunningOnDevice () {
+  function isRunningOnDevice() {
     return false
   }
 
-  function isProxyEnabled () {
+  function isProxyEnabled() {
     return false
   }
 

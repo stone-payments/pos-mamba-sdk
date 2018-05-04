@@ -1,7 +1,7 @@
 import { convertColorString } from '../utils/color.js'
 
-export default function (StatusBar) {
-  StatusBar.setBackgroundColor = function (color) {
+export default function(StatusBar) {
+  StatusBar.setBackgroundColor = function(color) {
     let colorHex = convertColorString(color)
 
     if (colorHex === 'transparent') {
@@ -12,7 +12,7 @@ export default function (StatusBar) {
     StatusBar.doSetBackgroundColor(colorHex.replace('#', '0x'))
   }
 
-  StatusBar.getBackgroundColor = function () {
+  StatusBar.getBackgroundColor = function() {
     return '#' + StatusBar.doGetBackgroundColor().toString(16)
   }
 

@@ -1,7 +1,7 @@
-export default function (Payment) {
+export default function(Payment) {
   Payment.currentPaymentDoneCallback = undefined
 
-  Payment.paymentDoneCallback = function () {
+  Payment.paymentDoneCallback = function() {
     let amoutPaid = Payment.getAmountAuthorized()
 
     try {
@@ -18,7 +18,7 @@ export default function (Payment) {
     Payment.currentPaymentDoneCallback = undefined
   }
 
-  Payment.pay = function (params, callback) {
+  Payment.pay = function(params, callback) {
     if (typeof params !== 'object') {
       params = {
         amount: params,
@@ -48,7 +48,7 @@ export default function (Payment) {
     }
   }
 
-  Payment.triggerEvent = function () {
+  Payment.triggerEvent = function() {
     let event
 
     event = document.createEvent('CustomEvent')
@@ -56,7 +56,7 @@ export default function (Payment) {
     document.dispatchEvent(event)
   }
 
-  Payment.enableCardEvent = function () {
+  Payment.enableCardEvent = function() {
     Payment.doEnableCardEvent()
     try {
       Payment.cardEvent.disconnect(this, Payment.triggerEvent)
@@ -66,7 +66,7 @@ export default function (Payment) {
     Payment.cardEvent.connect(this, Payment.triggerEvent)
   }
 
-  Payment.disableCardEvent = function () {
+  Payment.disableCardEvent = function() {
     Payment.doDisableCardEvent()
     try {
       Payment.cardEvent.disconnect(this, Payment.triggerEvent)
