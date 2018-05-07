@@ -1,4 +1,4 @@
-const { fromWorkspace, fromProject } = require('./tools/helpers/utils.js')
+const { fromWorkspace, fromProject } = require('./tools/helpers/paths.js')
 
 module.exports = {
   rootDir: fromWorkspace(),

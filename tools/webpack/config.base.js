@@ -4,11 +4,11 @@
 const StyleLintPlugin = require('stylelint-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
-const { getPackageBuildConfig } = require('../helpers/utils.js')
+const makeWebpackIOConfig = require('./makeWebpackIOConfig.js')
 const { IS_PROD } = require('../consts.js')
 const loaders = require('./loaders.js')
 
-const { entry, output } = getPackageBuildConfig()
+const { entry, output } = makeWebpackIOConfig()
 
 module.exports = {
   entry,

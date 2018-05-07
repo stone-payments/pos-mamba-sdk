@@ -4,7 +4,7 @@
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 
-const { fromDist } = require('../helpers/utils.js')
+const { fromDist } = require('../helpers/paths.js')
 const baseConfig = require('./config.base.js')
 
 module.exports = merge(baseConfig, {

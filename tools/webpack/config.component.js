@@ -4,7 +4,7 @@
 const merge = require('webpack-merge')
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin')
 
-const { fromWorkspace } = require('../helpers/utils.js')
+const { fromWorkspace } = require('../helpers/paths.js')
 const { IS_WATCHING } = require('../consts.js')
 const htmlTemplate = require('../helpers/htmlTemplate.js')
 

@@ -6,7 +6,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
-const { fromWorkspace, fromDist } = require('../helpers/utils.js')
+const { fromWorkspace, fromDist } = require('../helpers/paths.js')
 const { IS_PROD, PKG } = require('../consts.js')
 const baseConfig = require('./config.base.js')
 

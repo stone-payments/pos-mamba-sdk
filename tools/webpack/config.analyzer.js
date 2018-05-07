@@ -7,9 +7,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 
 const buildConfig = require('./config.build.js')
 
-/** Webpack configuration for bundle analyzing */
 module.exports = merge(buildConfig, {
-  /** Normal output log for bundle-analyzer */
   stats: 'verbose',
   devtool: false,
   plugins: [
