@@ -1,18 +1,44 @@
+/**
+ * Webpack configuration for active development
+ */
+const webpack = require('webpack')
 const merge = require('webpack-merge')
-const SimpleProgressPlugin = require('webpack-simple-progress-plugin')
+const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin')
 
-/** Webpack configuration used for development */
-module.exports = merge(require('./config.base.js'), {
-  devtool: 'eval-source-map',
+const { fromDist } = require('../utils/paths.js')
+const baseConfig = require('./config.base.js')
+const htmlTemplate = require('../utils/htmlTemplate.js')
+
+module.exports = merge(baseConfig, {
+  devtool: 'source-map',
 
   plugins: [
-    new SimpleProgressPlugin({
-      messageTemplate: [':bar', ':percent', ':elapseds', ':msg'].join(' '),
+    new webpack.HotModuleReplacementPlugin(),
+    new MiniHtmlWebpackPlugin({
+      context: { title: 'Mamba Application' },
+      template: htmlTemplate,
     }),
   ],
 
   optimization: {
     namedModules: true,
     noEmitOnErrors: true,
+  },
+
+  devServer: {
+    contentBase: fromDist(),
+    compress: true,
+    headers: {
+      'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'DENY',
+    },
+    open: true,
+    overlay: {
+      warnings: true,
+      errors: true,
+    },
+    port: 8080,
+    publicPath: 'http://localhost:8080/',
+    hot: true,
   },
 })

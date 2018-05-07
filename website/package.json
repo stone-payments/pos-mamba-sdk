@@ -1,0 +1,17 @@
+{
+  "name": "@mamba/website",
+  "title": "Mamba website",
+  "private": true,
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "cross-env NODE_ENV=development webpack-dev-server --config 'webpack.config.js'",
+    "build": "cross-env NODE_ENV=production webpack --config 'webpack.config.js'",
+    "build:dev": "cross-env NODE_ENV=development webpack --config 'webpack.config.js'"
+  },
+  "dependencies": {
+    "@mamba/core-styles": "^0.0.1",
+    "svelte": "^2.5.0",
+    "svelte-routing": "^0.4.0"
+  }
+}

@@ -9,4 +9,7 @@ module.exports = {
   IS_PROD: process.env.NODE_ENV === 'production',
   IS_TEST: process.env.NODE_ENV === 'test',
   IS_DEV: process.env.NODE_ENV === 'development',
+  IS_WATCHING:
+    require.main.filename.includes('webpack-dev-server') ||
+    require.main.filename.includes('webpack-serve'),
 }

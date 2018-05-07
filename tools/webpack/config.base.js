@@ -1,14 +1,15 @@
+/**
+ * Common webpack configuration
+ */
 const StyleLintPlugin = require('stylelint-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
-const { IS_PROD, IS_DEV } = require('../consts.js')
-const { getPackageBuildConfig } = require('../helpers/utils.js')
+const makeWebpackIOConfig = require('./helpers/makeWebpackIOConfig.js')
+const { IS_PROD } = require('../consts.js')
+const loaders = require('./helpers/loaders.js')
 
-const { entry, output } = getPackageBuildConfig()
+const { entry, output } = makeWebpackIOConfig()
 
-/**
- * Mamba Websdk common webpack configuration
- */
 module.exports = {
   entry,
   output,
@@ -18,17 +19,8 @@ module.exports = {
   resolve: {
     /** Do not resolve symlinks */
     symlinks: false,
-    extensions: [
-      '.js',
-      '.jsx',
-      '.ts',
-      '.tsx',
-      '.json',
-      '.scss',
-      '.sass',
-      '.css',
-      '.html',
-    ],
+    mainFields: ['svelte', 'browser', 'module', 'main'],
+    extensions: ['.js', '.json', '.scss', '.css', '.html', '.svelte'],
   },
   /** Minimal useful output log */
   stats: {
@@ -44,23 +36,15 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(html|svelte)$/,
+        /** We want to parse components from packages that start with 'svelte' or '@mamba' */
+        exclude: /node_modules\/(?!svelte|@mamba)/,
+        use: [loaders.babel, loaders.svelte, loaders.eslint],
+      },
+      {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              compact: false,
-              cacheDirectory: true,
-            },
-          },
-          {
-            loader: 'eslint-loader',
-            options: {
-              emitWarning: IS_DEV,
-            },
-          },
-        ],
+        use: [loaders.babel, loaders.eslint],
       },
       {
         test: /\.(css|less|s[ac]ss|styl)$/,
@@ -69,48 +53,20 @@ module.exports = {
           mainFields: ['style', 'main'],
         },
         use: [
-          MiniCssExtractPlugin.loader,
-          {
-            loader: 'css-loader',
-            options: { sourceMap: IS_DEV },
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              plugins: [
-                require('postcss-import')(),
-                require('autoprefixer')(),
-                require('postcss-reporter')({ clearReportedMessages: true }),
-              ],
-              sourceMap: IS_DEV,
-            },
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              sourceMap: IS_DEV,
-            },
-          },
+          loaders.extractCss,
+          loaders.css,
+          loaders.resolveUrl,
+          loaders.postcss,
+          loaders.sass,
         ],
       },
       {
         test: /\.(eot|woff2?|otf|ttf)$/,
-        loader: 'url-loader',
-        options: {
-          // TODO: Test if an inline font works on the POS
-          limit: 1, // Copy font files instead of inserting them on the css
-          outputPath: 'assets/',
-          name: './fonts/[name].[ext]',
-        },
+        use: [loaders.fonts],
       },
       {
         test: /\.(gif|jpe?g|png|ico|svg)$/,
-        loader: 'url-loader',
-        options: {
-          limit: 1,
-          outputPath: 'assets/',
-          name: './images/[name].[ext]',
-        },
+        use: [loaders.images],
       },
     ],
   },

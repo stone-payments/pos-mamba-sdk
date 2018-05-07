@@ -1,5 +1,5 @@
 import { basename, dirname } from 'path'
-import makeRollupConfig from './makeRollupConfig.js'
+import makeRollupConfig from './helpers/makeRollupConfig.js'
 import glob from 'globby'
 
 const { PKG } = require('../consts.js')
