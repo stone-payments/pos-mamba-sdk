@@ -37,7 +37,7 @@ module.exports = {
   postcss: {
     loader: 'postcss-loader',
     options: {
-      plugins: [require('postcss-import')(), require('autoprefixer')()],
+      plugins: [require('autoprefixer')()],
       sourceMap: true,
     },
   },

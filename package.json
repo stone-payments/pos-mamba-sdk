@@ -15,6 +15,7 @@
     ]
   },
   "scripts": {
+    "start": "bolt w @mamba/website start",
     "build": "bolt ws build",
     "delete:modules": "rm -rf 'node_modules' './**/node_modules'",
     "lint": "npm run lint:js; npm run lint:css",
@@ -63,7 +64,6 @@
     "ncp": "^2.0.0",
     "node-sass": "^4.9.0",
     "optimize-css-assets-webpack-plugin": "^4.0.1",
-    "postcss-import": "^11.1.0",
     "postcss-loader": "^2.1.4",
     "postcss-reporter": "^5.0.0",
     "prettier": "^1.12.1",

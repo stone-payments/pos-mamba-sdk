@@ -12,16 +12,17 @@ const devConfig = require('../tools/webpack/config.dev.js')
 
 let config
 
+const commonWebsiteConfig = {
+  entry: ['./src/external.scss'],
+  optimization: { nodeEnv: process.env.NODE_ENV },
+}
+
 /** If using webpack-dev-server, serve the appropriated dev config */
 if (IS_WATCHING) {
-  config = devConfig
+  config = merge(devConfig, commonWebsiteConfig)
   /** If not watching, use the build config */
 } else {
-  config = merge(buildConfig, {
-    entry: ['./src/external.scss'],
-    optimization: {
-      nodeEnv: process.env.NODE_ENV,
-    },
+  config = merge(buildConfig, commonWebsiteConfig, {
     plugins: [
       new MiniHtmlWebpackPlugin({
         context: { title: PKG.title || 'Mamba Application' },
