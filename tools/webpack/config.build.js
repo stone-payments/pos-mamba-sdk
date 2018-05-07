@@ -75,7 +75,7 @@ const optimization = {
 
 /** Webpack configuration for building */
 module.exports = merge(require('./config.base.js'), {
-  devtool: 'source-map',
+  devtool: false,
   node: false,
   externals,
   plugins,
