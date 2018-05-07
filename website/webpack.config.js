@@ -1,5 +1,5 @@
 /**
- * Webpack configuration for developing and building svelte components
+ * Webpack configuration for the main mamba website
  */
 const merge = require('webpack-merge')
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin')
@@ -20,8 +20,8 @@ const commonWebsiteConfig = {
 /** If using webpack-dev-server, serve the appropriated dev config */
 if (IS_WATCHING) {
   config = merge(devConfig, commonWebsiteConfig)
-  /** If not watching, use the build config */
 } else {
+  /** If not watching, use the build config */
   config = merge(buildConfig, commonWebsiteConfig, {
     plugins: [
       new MiniHtmlWebpackPlugin({

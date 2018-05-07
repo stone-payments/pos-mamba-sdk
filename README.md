@@ -10,8 +10,8 @@ Make sure all dependencies have been installed before moving on:
 
 ### Commands
 
-* `bolt start` - Start the styleguide webserver;
-* `bolt build` - Build the WebSDK package;
+* `bolt start` - Start the project's main website dev server;
+* `bolt build` - Build the all packages;
 * `bolt lint` - Lint all style and script files;
 * `bolt format` - Format all style and script files;
 * `bolt ws build` - Execute the build script in all packages;
