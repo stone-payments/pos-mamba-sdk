@@ -3,18 +3,13 @@
   "version": "0.0.1",
   "description": "Native Mamba applications methods",
   "main": "native.js",
+  "module": "native.esm.js",
   "source": "src/index.js",
   "subModules": ["src/*/index.js", "!src/utils"],
   "files": ["./*.js"],
   "scripts": {
-    "watch":
-      "cross-env NODE_ENV=development webpack --config ../../tools/webpack/config.dev.js --watch",
-    "build":
-      "cross-env NODE_ENV=production node ../../tools/scripts/build-modularized",
-    "build:dev":
-      "cross-env NODE_ENV=development node ../../tools/scripts/build-modularized",
-    "build:analyze":
-      "cross-env NODE_ENV=production webpack --config ../../tools/webpack/config.analyzer.js",
+    "watch": "rollup -c ../../tools/rollup/config.lib.js -w",
+    "build": "cross-env NODE_ENV=production rollup -c ../../tools/rollup/config.lib.js",
     "test": "jest --config='../../jest.config.js'",
     "prepublishOnly": "npm run build"
   },

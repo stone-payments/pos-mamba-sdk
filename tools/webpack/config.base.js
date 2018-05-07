@@ -2,9 +2,9 @@ const StyleLintPlugin = require('stylelint-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const { IS_PROD, IS_DEV } = require('../consts.js')
-const { getBundleConfig } = require('../helpers/utils.js')
+const { getPackageBuildConfig } = require('../helpers/utils.js')
 
-const { entry, output } = getBundleConfig()
+const { entry, output } = getPackageBuildConfig()
 
 /**
  * Mamba Websdk common webpack configuration

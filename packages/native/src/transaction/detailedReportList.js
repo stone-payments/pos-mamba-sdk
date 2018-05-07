@@ -1,4 +1,4 @@
-module.exports = () => [
+export default () => [
   {
     brand: 'VISA',
     transactionType: 'Crédito à vista',
