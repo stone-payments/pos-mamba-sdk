@@ -1,10 +1,13 @@
+/**
+ * Webpack configuration for active development
+ */
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 
 const { fromDist } = require('../helpers/utils.js')
+const baseConfig = require('./config.base.js')
 
-/** Webpack configuration used for development */
-module.exports = merge(require('./config.base.js'), {
+module.exports = merge(baseConfig, {
   devtool: 'source-map',
 
   plugins: [new webpack.HotModuleReplacementPlugin()],

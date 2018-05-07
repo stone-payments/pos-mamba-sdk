@@ -1,3 +1,6 @@
+/**
+ * Webpack configuration for developing and building svelte components
+ */
 const merge = require('webpack-merge')
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin')
 
@@ -27,7 +30,7 @@ if (IS_WATCHING) {
       contentBase: fromWorkspace('example'),
     },
   })
-  // If not watching, use the build config
+  /** If not watching, use the build config */
 } else {
   config = buildConfig
 }

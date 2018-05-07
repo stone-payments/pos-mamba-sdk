@@ -1,0 +1,21 @@
+{
+  "name": "@mamba/dialog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/dialog.js",
+  "style": "dist/style.css",
+  "source": "src/index.html",
+  "svelte": "src/index.html",
+  "scripts": {
+    "build":
+      "cross-env NODE_ENV=production webpack --config '../../../tools/webpack/config.component.js'",
+    "build:dev":
+      "cross-env NODE_ENV=development webpack --config '../../../tools/webpack/config.component.js'",
+    "build:analyze":
+      "cross-env NODE_ENV=production webpack --config '../../../tools/webpack/config.analyzer.js'",
+    "watch":
+      "cross-env NODE_ENV=development webpack-dev-server --config '../../../tools/webpack/config.component.js'"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,3 +1,6 @@
+/**
+ * Webpack configuration for building bundles
+ */
 const merge = require('webpack-merge')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
@@ -5,6 +8,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 const { fromWorkspace, fromDist } = require('../helpers/utils.js')
 const { IS_PROD, PKG } = require('../consts.js')
+const baseConfig = require('./config.base.js')
 
 /**
  * Define the external packages that should not be included in the bundle.
@@ -73,8 +77,7 @@ const optimization = {
   ],
 }
 
-/** Webpack configuration for building */
-module.exports = merge(require('./config.base.js'), {
+module.exports = merge(baseConfig, {
   devtool: false,
   node: false,
   externals,
