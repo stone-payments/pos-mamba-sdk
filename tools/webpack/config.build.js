@@ -1,12 +1,13 @@
 /**
- * Webpack configuration for building bundles
+ * Webpack configuration for building library bundles
+ * If building a 'website', don't forget to merge this config with some HTML webpck plugin.
  */
 const merge = require('webpack-merge')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
-const { fromWorkspace, fromDist } = require('../helpers/paths.js')
+const { fromWorkspace, fromDist, fromSrc } = require('../utils/paths.js')
 const { IS_PROD, PKG } = require('../consts.js')
 const baseConfig = require('./config.base.js')
 
@@ -23,13 +24,18 @@ const externals = ['peerDependencies'].reduce((acc, depType) => {
   }
 }, {})
 
+const distFolder = fromDist()
+const srcFolder = fromSrc()
 /** Webpack plugins to be used while building */
-const plugins = [
-  new CleanWebpackPlugin([fromDist()], {
-    root: fromWorkspace(),
-    verbose: false,
-  }),
-]
+const plugins = []
+if (distFolder !== srcFolder) {
+  plugins.push(
+    new CleanWebpackPlugin([fromDist()], {
+      root: fromWorkspace(),
+      verbose: false,
+    }),
+  )
+}
 
 /** Build optimizations */
 const optimization = {

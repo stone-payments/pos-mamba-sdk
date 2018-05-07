@@ -1,6 +1,6 @@
 const { basename } = require('path')
-const { fromDist, fromWorkspace } = require('../helpers/paths.js')
-const { PKG } = require('../consts.js')
+const { fromDist, fromWorkspace } = require('../../utils/paths.js')
+const { PKG } = require('../../consts.js')
 
 /** Set the entry and output webpack configurations for the current package */
 module.exports = ({
@@ -10,13 +10,13 @@ module.exports = ({
   dist = fromDist(),
 } = {}) => {
   /** Get the package entry point by its 'source' property. Default it to src/index.js */
-  const entry = fromWorkspace(source)
+  const entry = [fromWorkspace(source)]
 
   const output = {
     path: dist,
-    filename: `${basename(main)}`,
-    /** Use commonjs2 for smaller bundle sizes. */
-    libraryTarget: target,
+    filename: main ? `${basename(main)}` : '[name].js',
+    /** If no main was defined, fallback to umd format */
+    libraryTarget: main ? target : 'umd',
   }
   return { entry, output }
 }

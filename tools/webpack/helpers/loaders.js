@@ -3,8 +3,8 @@ const { dirname, resolve } = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const sass = require('node-sass')
 
-const { fromProject, fromModulesRoot } = require('../helpers/paths.js')
-const { IS_DEV, IS_WATCHING } = require('../consts.js')
+const { fromProject, fromModulesRoot } = require('../../utils/paths.js')
+const { IS_DEV, IS_WATCHING } = require('../../consts.js')
 
 /** Read the project's .babelrc.js to enforce it in 'babel-loader' */
 const babelrc = require(fromProject('.babelrc.js'))
@@ -38,13 +38,22 @@ module.exports = {
     loader: 'postcss-loader',
     options: {
       plugins: [require('postcss-import')(), require('autoprefixer')()],
-      sourceMap: IS_DEV,
+      sourceMap: true,
     },
   },
   sass: {
     loader: 'sass-loader',
     options: {
+      sourceMap: true, // 'resolve-url-loader' requires this to be always true
+    },
+  },
+  resolveUrl: {
+    loader: 'resolve-url-loader',
+    options: {
       sourceMap: IS_DEV,
+      keepQuery: true,
+      fail: true,
+      debug: IS_DEV,
     },
   },
   fonts: {

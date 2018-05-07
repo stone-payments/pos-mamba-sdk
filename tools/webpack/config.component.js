@@ -2,11 +2,9 @@
  * Webpack configuration for developing and building svelte components
  */
 const merge = require('webpack-merge')
-const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin')
 
-const { fromWorkspace } = require('../helpers/paths.js')
+const { fromWorkspace } = require('../utils/paths.js')
 const { IS_WATCHING } = require('../consts.js')
-const htmlTemplate = require('../helpers/htmlTemplate.js')
 
 /** Webpack configuration used for svelte component build */
 const buildConfig = require('./config.build.js')
@@ -20,12 +18,6 @@ if (IS_WATCHING) {
   config = merge.strategy({ entry: 'replace' })(devConfig, {
     entry: fromWorkspace('example/index.js'),
     output: { libraryTarget: 'umd' },
-    plugins: [
-      new MiniHtmlWebpackPlugin({
-        context: { title: 'Mamba Application' },
-        template: htmlTemplate,
-      }),
-    ],
     devServer: {
       contentBase: fromWorkspace('example'),
     },

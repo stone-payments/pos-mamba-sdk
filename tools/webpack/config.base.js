@@ -4,9 +4,9 @@
 const StyleLintPlugin = require('stylelint-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
-const makeWebpackIOConfig = require('./makeWebpackIOConfig.js')
+const makeWebpackIOConfig = require('./helpers/makeWebpackIOConfig.js')
 const { IS_PROD } = require('../consts.js')
-const loaders = require('./loaders.js')
+const loaders = require('./helpers/loaders.js')
 
 const { entry, output } = makeWebpackIOConfig()
 
@@ -52,7 +52,13 @@ module.exports = {
           /** When importing from a style file, let's use package.json's 'style' field before the actual 'main' one */
           mainFields: ['style', 'main'],
         },
-        use: [loaders.extractCss, loaders.css, loaders.postcss, loaders.sass],
+        use: [
+          loaders.extractCss,
+          loaders.css,
+          loaders.resolveUrl,
+          loaders.postcss,
+          loaders.sass,
+        ],
       },
       {
         test: /\.(eot|woff2?|otf|ttf)$/,

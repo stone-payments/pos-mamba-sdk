@@ -7,7 +7,10 @@ const projectRoot = resolve(__dirname, '..', '..')
 const resolveFromWorkspace = (...args) => resolve(workspaceRoot, ...args)
 
 /** Project's dist path */
-const distPath = dirname(resolveFromWorkspace(PKG.main ? PKG.main : 'dist/'))
+const distPath = dirname(resolveFromWorkspace(PKG.main ? PKG.main : 'dist/x'))
+
+/** Project's src path */
+const srcPath = dirname(resolveFromWorkspace(PKG.source ? PKG.source : 'src/x'))
 
 /** The @mamba project path */
 exports.fromProject = (...args) => resolve(projectRoot, ...args)
@@ -21,3 +24,6 @@ exports.fromModulesRoot = (...args) =>
 
 /** Current project 'dist' directory */
 exports.fromDist = (...args) => resolveFromWorkspace(distPath, ...args)
+
+/** Current project 'src' directory */
+exports.fromSrc = (...args) => resolveFromWorkspace(srcPath, ...args)
