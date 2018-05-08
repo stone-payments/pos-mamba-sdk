@@ -11,5 +11,6 @@ module.exports = {
   IS_DEV: process.env.NODE_ENV === 'development',
   IS_WATCHING:
     require.main.filename.includes('webpack-dev-server') ||
-    require.main.filename.includes('webpack-serve'),
+    require.main.filename.includes('webpack-serve') ||
+    !!process.env.ROLLUP_WATCH,
 }
