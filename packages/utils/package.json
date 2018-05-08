@@ -6,7 +6,6 @@
   "module": "utils.esm.js",
   "source": "src/index.js",
   "subModules": ["src/*/index.js"],
-  "files": ["./*.js"],
   "scripts": {
     "watch": "rollup -c ../../tools/rollup/config.lib.js -w",
     "build":
