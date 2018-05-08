@@ -26,7 +26,9 @@ module.exports = {
   },
   eslint: {
     loader: 'eslint-loader',
-    options: { emitWarning: IS_DEV },
+    options: {
+      emitWarning: IS_DEV,
+    },
   },
   /**
    * MiniCssExtractPlugin doesn't support HMR.
@@ -35,7 +37,9 @@ module.exports = {
   extractCss: IS_WATCHING ? 'style-loader' : MiniCssExtractPlugin.loader,
   css: {
     loader: 'css-loader',
-    options: { sourceMap: IS_DEV },
+    options: {
+      sourceMap: IS_DEV,
+    },
   },
   postcss: {
     loader: 'postcss-loader',
@@ -89,7 +93,9 @@ module.exports = {
             content = readFileSync(styleFilename).toString()
           }
 
-          return { code: content }
+          return {
+            code: content,
+          }
         },
         /** Support <style src=""></style> and SCSS */
         style: ({ content = '', attributes, filename }) => {

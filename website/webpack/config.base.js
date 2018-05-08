@@ -9,7 +9,6 @@ const { IS_PROD, PKG } = require('../../tools/consts.js')
 const { fromWorkspace, fromModulesRoot } = require('../../tools/utils/paths.js')
 const htmlTemplate = require('./helpers/htmlTemplate.js')
 const loaders = require('./helpers/loaders.js')
-const RuntimeBindPolyfillPlugin = require('./helpers/RuntimeBindPolyfillPlugin.js')
 
 module.exports = {
   mode: IS_PROD ? 'production' : 'development',
@@ -92,7 +91,7 @@ module.exports = {
       },
       {
         test: /\.jsx?$/,
-        exclude: /node_modules\/(?!svelte)/,
+        exclude: /node_modules\/(?!svelte\/)/,
         use: [loaders.babel, loaders.eslint],
       },
       {
@@ -116,8 +115,6 @@ module.exports = {
     ],
   },
   plugins: [
-    /** Prepend the Function.prototype.bind() polyfill webpack's runtime code */
-    new RuntimeBindPolyfillPlugin(),
     new MiniCssExtractPlugin({
       filename: 'style.css',
       chunkFilename: '[name].css',
