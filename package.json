@@ -17,13 +17,13 @@
   "scripts": {
     "start": "bolt w @mamba/website start",
     "build": "bolt ws build",
-    "delete:modules": "rm -rf 'node_modules' './**/node_modules'",
+    "delete:modules": "rm -rf \"node_modules\" \"./**/node_modules\"",
     "lint": "npm run lint:js; npm run lint:css",
-    "lint:js": "eslint '*.js' '{tools,packages,website}/**/*.{js,html,svelte}'",
-    "lint:css": "stylelint 'packages/**/*.{css,scss}'",
+    "lint:js": "eslint \"*.js\" \"{tools,packages,website}/**/*.{js,html,svelte}\"",
+    "lint:css": "stylelint \"packages/**/*.{css,scss}\"",
     "format": "npm run format:css; npm run format:js",
-    "format:js": "prettier --loglevel silent --write '*.js' '{tools,packages,website}/**/*.js' && eslint --fix '*.js' '{tools,packages,website}/**/*.{js,html,svelte}'",
-    "format:css": "prettier --loglevel silent --write 'packages/**/*.{css,scss}' && stylelint --fix 'packages/**/*.{css,scss}'",
+    "format:js": "prettier --loglevel silent --write \"*.js\" \"{tools,packages,website}/**/*.js\" && eslint --fix \"*.js\" \"{tools,packages,website}/**/*.{js,html,svelte}\"",
+    "format:css": "prettier --loglevel silent --write \"packages/**/*.{css,scss}\" && stylelint --fix \"packages/**/*.{css,scss}\"",
     "test": "bolt ws test"
   },
   "devDependencies": {

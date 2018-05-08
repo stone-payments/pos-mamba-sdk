@@ -7,10 +7,10 @@
   "svelte": "src/index.svelte",
   "files": ["dist/"],
   "scripts": {
-    "start": "rollup -c \"../../../tools/rollup/config.component.js\" -w",
+    "start": "rollup -c ../../../tools/rollup/config.component.js -w",
     "build":
-      "cross-env NODE_ENV=production rollup -c \"../../../tools/rollup/config.component.js\"",
-    "build:dev": "rollup -c \"../../../tools/rollup/config.component.js\"",
+      "cross-env NODE_ENV=production rollup -c ../../../tools/rollup/config.component.js",
+    "build:dev": "rollup -c ../../../tools/rollup/config.component.js",
     "prepublishOnly": "npm run build"
   }
 }

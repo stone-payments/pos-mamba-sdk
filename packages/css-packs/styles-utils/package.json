@@ -5,8 +5,7 @@
   "license": "Apache-2.0",
   "scss": "index.scss",
   "main": "index.scss",
-  "scripts": {
-  },
+  "scripts": {},
   "author": "Stone Payments - Mamba Team",
   "repository": "https://github.com/stone-payments/pos-mamba-websdk.git",
   "dependencies": {}
