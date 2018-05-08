@@ -1,0 +1,14 @@
+# Dynamically created
+node_modules/
+/dist/
+bundle.stats.json
+
+# Workspace files
+/coverage/
+.idea/
+
+# Garbage
+.DS_Store
+yarn-error.log
+npm-debug.log
+debug.log

@@ -1,39 +1,36 @@
 /**
- * Webpack configuration for building library bundles
- * If building a 'website', don't forget to merge this config with some HTML webpck plugin.
+ * Webpack configuration for building bundles
  */
+const webpack = require('webpack')
 const merge = require('webpack-merge')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
-const { fromWorkspace, fromDist, fromSrc } = require('../utils/paths.js')
-const { IS_PROD, PKG } = require('../consts.js')
+const { fromProject, fromDist } = require('../utils/paths.js')
+const { IS_PROD } = require('../consts.js')
+
 const baseConfig = require('./config.base.js')
 
-/**
- * Define the external packages that should not be included in the bundle.
- * It's defined by the current project's `package.json`.
- * */
-const externals = ['peerDependencies'].reduce((acc, depType) => {
-  if (PKG[depType]) {
-    Object.keys(PKG[depType]).forEach(dep => {
-      acc[dep] = dep
-    })
-    return acc
-  }
-}, {})
-
-const distFolder = fromDist()
-const srcFolder = fromSrc()
 /** Webpack plugins to be used while building */
-const plugins = []
-if (distFolder !== srcFolder) {
+const plugins = [
+  new CleanWebpackPlugin([fromDist()], {
+    root: fromProject(),
+    verbose: false,
+  }),
+
+  new CopyWebpackPlugin([
+    { from: './assets/', to: fromDist('assets') },
+    { from: fromProject('manifest.xml'), to: fromDist() },
+  ]),
+]
+
+/** If building for production... */
+if (IS_PROD) {
   plugins.push(
-    new CleanWebpackPlugin([fromDist()], {
-      root: fromWorkspace(),
-      verbose: false,
-    }),
+    /** Generate hashes based on module's relative path */
+    new webpack.HashedModuleIdsPlugin(),
   )
 }
 
@@ -86,7 +83,6 @@ const optimization = {
 module.exports = merge(baseConfig, {
   devtool: false,
   node: false,
-  externals,
   plugins,
   optimization,
 })

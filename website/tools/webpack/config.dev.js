@@ -3,22 +3,14 @@
  */
 const webpack = require('webpack')
 const merge = require('webpack-merge')
-const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin')
 
 const { fromDist } = require('../utils/paths.js')
 const baseConfig = require('./config.base.js')
-const htmlTemplate = require('./helpers/htmlTemplate.js')
 
 module.exports = merge(baseConfig, {
   devtool: 'source-map',
 
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new MiniHtmlWebpackPlugin({
-      context: { title: 'Mamba Application' },
-      template: htmlTemplate,
-    }),
-  ],
+  plugins: [new webpack.HotModuleReplacementPlugin()],
 
   optimization: {
     namedModules: true,

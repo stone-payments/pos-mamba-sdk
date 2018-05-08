@@ -1,4 +1,6 @@
-import resolve from 'rollup-plugin-node-resolve'
+import { resolve } from 'path'
+import { existsSync } from 'fs'
+import nodeResolve from 'rollup-plugin-node-resolve'
 import cjs from 'rollup-plugin-commonjs'
 import babel from 'rollup-plugin-babel'
 import filesize from 'rollup-plugin-filesize'
@@ -10,23 +12,40 @@ import livereload from 'rollup-plugin-livereload'
 import clear from 'rollup-plugin-clear'
 import uglify from 'rollup-plugin-uglify'
 import html from '@gen/rollup-plugin-generate-html'
+import copy from 'rollup-plugin-copy'
 
 import makeRollupConfig from './helpers/makeRollupConfig.js'
 import sveltePreprocess from './helpers/sveltePreprocess.js'
 
 const { IS_WATCHING, IS_PROD } = require('../consts.js')
-const { fromWorkspace, fromDist, fromProject } = require('../utils/paths.js')
+const {
+  fromWorkspace,
+  fromSrc,
+  fromDist,
+  fromProject,
+} = require('../utils/paths.js')
 
-/** Rollup plugins to execute before the svelte compiler */
+/** Dictionary<src,dest> of static files/folders to be copied to the dist directory */
+const staticList = ['assets']
+const getStaticDictTo = dest =>
+  staticList.reduce((acc, path) => {
+    const srcPath = fromSrc(path)
+    if (existsSync(srcPath)) {
+      acc[fromSrc(path)] = resolve(dest, path)
+    }
+    return acc
+  }, {})
+
+/** Common rollup plugins to execute before the svelte compiler */
 const preSveltePlugins = [
-  resolve({
+  nodeResolve({
     extensions: ['.js', '.svelte', '.html'],
   }),
   cjs(),
   eslint(),
 ]
 
-/** Rollup plugins to execute after the svelte compiler */
+/** Common rollup plugins to execute after the svelte compiler */
 const postSveltePlugins = [
   babel({
     exclude: 'node_modules/**',
@@ -55,8 +74,14 @@ if (IS_WATCHING) {
         }),
         ...preSveltePlugins,
         /** Compile svelte components and extract its css to <workspaceDir>/example/style.css */
-        svelte(),
+        svelte({
+          preprocess: sveltePreprocess,
+        }),
         ...postSveltePlugins,
+        copy({
+          verbose: true,
+          ...getStaticDictTo('./example'),
+        }),
         /** Create an html template in the example directory */
         html({
           template: fromProject(
@@ -66,7 +91,7 @@ if (IS_WATCHING) {
         /** Create a server with '<workspaceDir>/example' as the root */
         serve({
           open: true,
-          contentBase: './example',
+          contentBase: ['./example'],
         }),
         /** Reload the serve on file changes */
         livereload(),
@@ -93,6 +118,10 @@ configs.push(
         },
       }),
       ...postSveltePlugins,
+      copy({
+        verbose: true,
+        ...getStaticDictTo(fromDist()),
+      }),
       /** If building for production, minify the output code */
       IS_PROD &&
         uglify({

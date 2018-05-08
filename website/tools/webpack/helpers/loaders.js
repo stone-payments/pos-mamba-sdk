@@ -38,7 +38,7 @@ module.exports = {
     loader: 'postcss-loader',
     options: {
       plugins: [require('autoprefixer')()],
-      sourceMap: true,
+      sourceMap: true, // 'resolve-url-loader' requires this to be always true
     },
   },
   sass: {
