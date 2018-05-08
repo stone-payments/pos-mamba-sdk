@@ -1,4 +1,5 @@
 node_modules/
 dist/
+/packages/components/*/example/*.js
 /packages/native/*.js
 /packages/utils/*.js

@@ -9,7 +9,7 @@
     "postbuild": "ncp src/assets dist/assets",
     "watch": "node-sass -w src/index.scss -o dist/styles.css",
     "build:wsourcemap": "node-sass --output-style=compressed --precision=3 --source-map=dist/styles.map ./src/index.scss ./dist/styles.css",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "exit 0"
   },
   "main": "dist/styles.css",
   "style": "dist/styles.css",
