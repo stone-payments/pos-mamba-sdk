@@ -3,10 +3,13 @@ const { dirname, resolve } = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const sass = require('node-sass')
 
-const { fromProject, fromModulesRoot } = require('../../utils/paths.js')
-const { IS_DEV, IS_WATCHING } = require('../../consts.js')
+const {
+  fromProject,
+  fromModulesRoot,
+} = require('../../../tools/utils/paths.js')
+const { IS_DEV, IS_WATCHING } = require('../../../tools/consts.js')
 
-/** Read the project's .babelrc.js to enforce it in 'babel-loader' */
+/** Read the ROOT .babelrc.js to enforce it in 'babel-loader' */
 const babelrc = require(fromProject('.babelrc.js'))
 /** 'babel-loader' already appends 'sourceMap: true'. Cannot have both. */
 delete babelrc.sourceMaps
@@ -23,7 +26,9 @@ module.exports = {
   },
   eslint: {
     loader: 'eslint-loader',
-    options: { emitWarning: IS_DEV },
+    options: {
+      emitWarning: IS_DEV,
+    },
   },
   /**
    * MiniCssExtractPlugin doesn't support HMR.
@@ -32,7 +37,9 @@ module.exports = {
   extractCss: IS_WATCHING ? 'style-loader' : MiniCssExtractPlugin.loader,
   css: {
     loader: 'css-loader',
-    options: { sourceMap: IS_DEV },
+    options: {
+      sourceMap: IS_DEV,
+    },
   },
   postcss: {
     loader: 'postcss-loader',
@@ -86,7 +93,9 @@ module.exports = {
             content = readFileSync(styleFilename).toString()
           }
 
-          return { code: content }
+          return {
+            code: content,
+          }
         },
         /** Support <style src=""></style> and SCSS */
         style: ({ content = '', attributes, filename }) => {
