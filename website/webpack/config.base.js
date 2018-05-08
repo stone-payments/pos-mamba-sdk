@@ -5,9 +5,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const StyleLintPlugin = require('stylelint-webpack-plugin')
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin')
 
-const { IS_PROD, PKG } = require('../consts.js')
-const { fromProject, fromModulesRoot } = require('../utils/paths.js')
-const htmlTemplate = require('../utils/htmlTemplate.js')
+const { IS_PROD, PKG } = require('../../tools/consts.js')
+const { fromWorkspace, fromModulesRoot } = require('../../tools/utils/paths.js')
+const htmlTemplate = require('./helpers/htmlTemplate.js')
 const loaders = require('./helpers/loaders.js')
 const RuntimeBindPolyfillPlugin = require('./helpers/RuntimeBindPolyfillPlugin.js')
 
@@ -15,7 +15,7 @@ module.exports = {
   mode: IS_PROD ? 'production' : 'development',
   cache: true,
   target: 'web',
-  context: fromProject('src'),
+  context: fromWorkspace('src'),
   entry: {
     app: [
       /** External scss/css */
@@ -25,7 +25,7 @@ module.exports = {
     ],
   },
   output: {
-    path: fromProject('dist'),
+    path: fromWorkspace('dist'),
     publicPath: './',
     filename: '[name].js',
   },
@@ -42,7 +42,7 @@ module.exports = {
     mainFields: ['svelte', 'browser', 'module', 'main'],
     extensions: ['.js', '.json', '.scss', '.css', '.html', '.svelte'],
     /** Make webpack also resolve modules from './src' */
-    modules: [fromProject('src'), fromModulesRoot()],
+    modules: [fromWorkspace('src'), fromModulesRoot()],
     alias: {
       /**
        * Ensure we're always importing the main packages from this project's root.
