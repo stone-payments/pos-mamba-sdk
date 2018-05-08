@@ -5,7 +5,7 @@ const merge = require('webpack-merge')
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin')
 
 const { IS_WATCHING, PKG } = require('../tools/consts.js')
-const htmlTemplate = require('../tools/utils/htmlTemplate.js')
+const htmlTemplate = require('../tools/webpack/helpers/htmlTemplate.js')
 
 const buildConfig = require('../tools/webpack/config.build.js')
 const devConfig = require('../tools/webpack/config.dev.js')

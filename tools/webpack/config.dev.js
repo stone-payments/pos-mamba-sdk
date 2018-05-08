@@ -7,7 +7,7 @@ const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin')
 
 const { fromDist } = require('../utils/paths.js')
 const baseConfig = require('./config.base.js')
-const htmlTemplate = require('../utils/htmlTemplate.js')
+const htmlTemplate = require('./helpers/htmlTemplate.js')
 
 module.exports = merge(baseConfig, {
   devtool: 'source-map',
