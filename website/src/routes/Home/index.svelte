@@ -2,7 +2,7 @@
 <p>Welcome to my website</p>
 
 <Dialog>
-  OLHA O COMPONENT FUNFANDO
+
 </Dialog>
 
 <script>
