@@ -4,6 +4,7 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const StyleLintPlugin = require('stylelint-webpack-plugin')
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin')
+const SimpleProgressPlugin = require('webpack-simple-progress-plugin')
 
 const { fromWorkspace } = require('../../tools/utils/paths.js')
 const { IS_PROD, PKG } = require('../../tools/consts.js')
@@ -41,7 +42,7 @@ module.exports = {
     mainFields: ['svelte', 'browser', 'module', 'main'],
     extensions: ['.js', '.json', '.scss', '.css', '.html', '.svelte'],
     /** Make webpack also resolve modules from './src' */
-    modules: ['src', 'node_modules'],
+    modules: [fromWorkspace('src'), 'node_modules'],
     alias: {
       /**
        * Ensure we're always importing the main packages from this project's root.
@@ -115,6 +116,7 @@ module.exports = {
     ],
   },
   plugins: [
+    new SimpleProgressPlugin(),
     new MiniCssExtractPlugin({
       filename: 'style.css',
       chunkFilename: '[name].css',
