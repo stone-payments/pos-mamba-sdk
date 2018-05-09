@@ -2,7 +2,7 @@ import { resolve, dirname } from 'path'
 import { readFileSync } from 'fs'
 import sass from 'node-sass'
 
-const { fromWorkspace, fromModulesRoot } = require('../utils/paths.js')
+const { fromWorkspace } = require('../utils/paths.js')
 
 export default {
   /** Support <script src=""></script> */
@@ -31,7 +31,7 @@ export default {
         sass.render(
           {
             data: content,
-            includePaths: [fromWorkspace('src'), fromModulesRoot()],
+            includePaths: [fromWorkspace('src'), fromWorkspace('node_modules')],
             sourceMap: true,
             outFile: filename + '.css', // Needed node-sass property
           },
