@@ -7,11 +7,11 @@
   "repository": "https://github.com/stone-payments/pos-mamba-web.git",
   "bolt": {
     "workspaces": [
-      "website",
       "packages/utils",
       "packages/native",
       "packages/css-packs/*",
-      "packages/components/*"
+      "packages/components/*",
+      "website"
     ]
   },
   "scripts": {
