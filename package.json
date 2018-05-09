@@ -20,10 +20,10 @@
     "delete:modules": "rm -rf \"node_modules\" \"./**/node_modules\"",
     "lint": "npm run lint:js; npm run lint:css",
     "lint:js": "eslint \"*.js\" \"{tools,packages,website}/**/*.{js,html,svelte}\"",
-    "lint:css": "stylelint \"packages/**/*.{css,scss}\"",
+    "lint:css": "stylelint \"packages/**/*.{css,scss,svelte,html}\"",
     "format": "npm run format:css; npm run format:js",
     "format:js": "prettier --loglevel silent --write \"*.js\" \"{tools,packages,website}/**/*.js\" && eslint --fix \"*.js\" \"{tools,packages,website}/**/*.{js,html,svelte}\"",
-    "format:css": "prettier --loglevel silent --write \"packages/**/*.{css,scss}\" && stylelint --fix \"packages/**/*.{css,scss}\"",
+    "format:css": "prettier --loglevel silent --write \"packages/**/*.{css,scss}\" && stylelint --fix \"packages/**/*.{css,scss,svelte,html}\"",
     "test": "bolt ws test"
   },
   "devDependencies": {
@@ -35,6 +35,7 @@
     "@babel/preset-env": "^7.0.0-beta.46",
     "@babel/preset-stage-3": "^7.0.0-beta.46",
     "@gen/rollup-plugin-generate-html": "^0.1.1",
+    "@mapbox/stylelint-processor-arbitrary-tags": "^0.2.0",
     "autoprefixer": "^8.4.1",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^22.4.3",
