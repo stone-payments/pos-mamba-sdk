@@ -18,10 +18,6 @@ exports.fromProject = (...args) => resolve(projectRoot, ...args)
 /** Current project working directory */
 exports.fromWorkspace = resolveFromWorkspace
 
-/** Modules path */
-exports.fromModulesRoot = (...args) =>
-  resolveFromWorkspace('node_modules', ...args)
-
 /** Current project 'dist' directory */
 exports.fromDist = (...args) => resolveFromWorkspace(distPath, ...args)
 
