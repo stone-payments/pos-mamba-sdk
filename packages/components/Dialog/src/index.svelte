@@ -2,10 +2,12 @@
   <slot></slot>
 </h1>
 
-<style>
+<style lang="scss">
   :global(body) {
     background-image: url(./assets/duck.jpg);
   }
+
+  $a: red;
 
   h1 {
     color: red;
