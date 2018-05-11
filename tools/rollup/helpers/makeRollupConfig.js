@@ -1,4 +1,5 @@
 import { basename, dirname } from 'path'
+
 const { PKG } = require('../consts.js')
 
 export default function({

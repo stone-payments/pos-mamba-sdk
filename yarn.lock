@@ -9299,6 +9299,12 @@ svelte-loader@^2.9.0:
     loader-utils "^1.1.0"
     svelte-dev-helper "^1.1.7"
 
+svelte-preprocess@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-1.1.1.tgz#092e2cc1b495025193a063eb7a42f83b80df7de3"
+  dependencies:
+    strip-indent "^2.0.0"
+
 svelte-routing@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/svelte-routing/-/svelte-routing-0.4.0.tgz#de130b0d936bca830347d387269df377b846da48"

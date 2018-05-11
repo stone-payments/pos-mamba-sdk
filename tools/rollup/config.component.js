@@ -13,9 +13,9 @@ import clear from 'rollup-plugin-clear'
 import uglify from 'rollup-plugin-uglify'
 import html from '@gen/rollup-plugin-generate-html'
 import copy from 'rollup-plugin-copy'
+import magicalPreprocess from 'svelte-preprocess'
 
 import makeRollupConfig from './helpers/makeRollupConfig.js'
-import sveltePreprocess from './helpers/sveltePreprocess.js'
 
 const { IS_WATCHING, IS_PROD } = require('../consts.js')
 const {
@@ -25,10 +25,13 @@ const {
   fromProject,
 } = require('../utils/paths.js')
 
+/** Reusable svelte preprocess object */
+const sveltePreprocess = magicalPreprocess()
+
 /** Dictionary<src,dest> of static files/folders to be copied to the dist directory */
-const staticList = ['assets']
+const STATIC_ARTIFACTS = ['assets']
 const getStaticDictTo = dest =>
-  staticList.reduce((acc, path) => {
+  STATIC_ARTIFACTS.reduce((acc, path) => {
     const srcPath = fromSrc(path)
     if (existsSync(srcPath)) {
       acc[fromSrc(path)] = resolve(dest, path)
