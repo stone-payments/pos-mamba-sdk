@@ -96,7 +96,7 @@ if (IS_WATCHING) {
       /** Create a server with '<workspaceDir>/example' as the root */
       serve({
         open: true,
-        contentBase: ['./example'],
+        contentBase: ['./example', './'],
       }),
       /** Reload the serve on file changes */
       livereload(),
