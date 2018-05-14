@@ -14,6 +14,7 @@ module.exports = {
     'prettier/standard',
     'plugin:jest/recommended',
   ],
+  parser: 'babel-eslint',
   plugins: ['standard', 'prettier', 'jest', 'html'],
   settings: {
     'html/html-extensions': ['.html', '.svelte'],

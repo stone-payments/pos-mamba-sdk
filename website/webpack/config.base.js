@@ -59,17 +59,20 @@ module.exports = {
     runtimeChunk: { name: 'runtime' },
     splitChunks: {
       cacheGroups: {
-        /** Disable default chunk groups */
-        default: false,
-        vendor: false,
+        /** Default chunk groups */
+        default: {
+          name: 'app',
+          priority: -20,
+          reuseExistingChunk: true,
+        },
         /** Chunk that contains every external dependency that doesn't begin with '@mamba' */
-        libraries: {
-          test: /node_modules(?![\\/]@mamba)/i,
+        vendor: {
+          test: /node_modules[\\/](?!@mamba)/i,
           name: 'lib',
           chunks: 'initial',
           minSize: 0,
           minChunks: 1,
-          priority: 0,
+          priority: -10,
         },
         /** Chunk that contains used polyfills */
         polyfills: {
