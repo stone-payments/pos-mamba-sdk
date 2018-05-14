@@ -18,6 +18,7 @@ import magicalPreprocess from 'svelte-preprocess'
 import makeRollupConfig from './helpers/makeRollupConfig.js'
 
 const { IS_WATCHING, IS_PROD } = require('../consts.js')
+const posixify = require('../utils/posixify.js')
 const {
   fromWorkspace,
   fromSrc,
@@ -74,7 +75,9 @@ if (IS_WATCHING) {
     plugins: [
       /** Virtual entry module to bootstrap the example app */
       virtual({
-        __entry__: `import App from '${fromWorkspace('example/App.svelte')}'
+        __entry__: `import App from '${posixify(
+          fromWorkspace('example/App.svelte'),
+        )}'
         new App({ target: document.getElementById('root') })`,
       }),
       ...preSveltePlugins,
