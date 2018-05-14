@@ -17,7 +17,7 @@
 <br>
 
 <button on:click="openDialog('disabledPositive')">
-  Open dialog with positive disabled
+  Open dialog waith positive disabled
 </button>
 
 <br>

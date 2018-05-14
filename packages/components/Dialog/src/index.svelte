@@ -1,18 +1,18 @@
-<div class="mb-dialog-container {isOpen ? 'mb-active' : ''}">
-  <div class="mb-dialog">
+<div class="container {isOpen ? 'active' : ''}">
+  <div class="dialog">
 
   {#if title && title.length}
-    <h5 class="mb-dialog-title">{title}</h5>
+    <h5 class="title">{title}</h5>
   {/if}
 
-    <p class="mb-dialog-message">
+    <p class="message">
       <slot></slot>
     </p>
 
-    <div class="mb-dialog-actions">
+    <div class="actions">
       {#if negativeAction && !hideNegativeAction}
         <button
-          class="mb-dialog-action-negative"
+          class="action-negative"
           on:click="close(negativeAction)"
           disabled={disableNegativeAction}
         >
@@ -22,7 +22,7 @@
 
       {#if positiveAction}
         <button
-          class="mb-dialog-action-positive"
+          class="action-positive"
           on:click="close(positiveAction)"
           disabled={disablePositiveAction}
         >
@@ -33,7 +33,7 @@
     </div>
   </div>
 
-  <div class="mb-black-screen" />
+  <div class="black-screen" />
 </div>
 
 <script>
@@ -65,15 +65,15 @@
 <style type="text/scss">
   @import '@mamba/styles-utils/index.scss';
 
-  .mb-dialog-container {
+  .container {
     display: none;
 
-    &.mb-active {
+    &.active {
       display: block;
     }
   }
 
-  .mb-black-screen {
+  .black-screen {
     position: fixed;
     top: 0;
     left: 0;
@@ -83,7 +83,7 @@
     z-index: $dialog-z-index - 1;
   }
 
-  .mb-dialog {
+  .dialog {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -95,21 +95,21 @@
     z-index: $dialog-z-index;
   }
 
-  .mb-dialog-title {
+  .title {
     font-size: 1.3em;
     line-height: 1.4em;
   }
 
-  .mb-dialog-message {
+  .message {
     color: color('grey', 'darken-1');
   }
 
-  .mb-dialog-actions {
+  .actions {
     text-align: right;
   }
 
-  .mb-dialog-action-negative,
-  .mb-dialog-action-positive {
+  .action-negative,
+  .action-positive {
     -webkit-appearance: none;
     border: none;
     background: transparent;
@@ -129,7 +129,7 @@
     }
   }
 
-  .mb-dialog-action-negative {
+  .action-negative {
     margin-right: 0.2em;
   }
 </style>
