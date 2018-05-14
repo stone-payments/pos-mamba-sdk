@@ -67,6 +67,7 @@
   "dependencies": {
     "@mamba/core-styles": "^0.0.1",
     "@mamba/dialog": "^1.0.0",
+    "highlightjs": "^9.10.0",
     "svelte": "^2.5.0",
     "svelte-routing": "^0.4.0"
   }

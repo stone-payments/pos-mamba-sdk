@@ -107,5 +107,8 @@
     "webpack-dev-server": "^3.1.4",
     "webpack-merge": "^4.1.2",
     "webpack-simple-progress-plugin": "^0.0.4"
+  },
+  "dependencies": {
+    "highlightjs": "^9.10.0"
   }
 }
