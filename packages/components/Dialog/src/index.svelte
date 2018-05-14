@@ -24,7 +24,7 @@
         <button
           class="mb-dialog-action-positive"
           on:click="close(positiveAction)"
-          disabled={disablepositiveAction}
+          disabled={disablePositiveAction}
         >
           {positiveAction}
         </button>
