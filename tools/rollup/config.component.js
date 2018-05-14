@@ -13,9 +13,9 @@ import clear from 'rollup-plugin-clear'
 import uglify from 'rollup-plugin-uglify'
 import html from '@gen/rollup-plugin-generate-html'
 import copy from 'rollup-plugin-copy'
+import magicalPreprocess from 'svelte-preprocess'
 
 import makeRollupConfig from './helpers/makeRollupConfig.js'
-import sveltePreprocess from './helpers/sveltePreprocess.js'
 
 const { IS_WATCHING, IS_PROD } = require('../consts.js')
 const {
@@ -25,10 +25,13 @@ const {
   fromProject,
 } = require('../utils/paths.js')
 
+/** Reusable svelte preprocess object */
+const sveltePreprocess = magicalPreprocess()
+
 /** Dictionary<src,dest> of static files/folders to be copied to the dist directory */
-const staticList = ['assets']
+const STATIC_ARTIFACTS = ['assets']
 const getStaticDictTo = dest =>
-  staticList.reduce((acc, path) => {
+  STATIC_ARTIFACTS.reduce((acc, path) => {
     const srcPath = fromSrc(path)
     if (existsSync(srcPath)) {
       acc[fromSrc(path)] = resolve(dest, path)
@@ -56,53 +59,52 @@ const postSveltePlugins = [
   filesize(),
 ]
 
-const configs = []
+let config
 
 if (IS_WATCHING) {
   /** Svelte component example build config */
-  configs.push(
-    makeRollupConfig({
-      /** Use the virtual module __entry__ as the input for rollup */
-      input: '__entry__',
-      output: 'example/bundle.js',
-      format: 'umd',
-      plugins: [
-        /** Virtual entry module to bootstrap the example app */
-        virtual({
-          __entry__: `import App from '${fromWorkspace('example/App.svelte')}'
+  config = {
+    /** Use the virtual module __entry__ as the input for rollup */
+    input: '__entry__',
+    output: 'example/bundle.js',
+    format: 'umd',
+    watch: {
+      chokidar: false,
+    },
+    plugins: [
+      /** Virtual entry module to bootstrap the example app */
+      virtual({
+        __entry__: `import App from '${fromWorkspace('example/App.svelte')}'
         new App({ target: document.getElementById('root') })`,
-        }),
-        ...preSveltePlugins,
-        /** Compile svelte components and extract its css to <workspaceDir>/example/style.css */
-        svelte({
-          preprocess: sveltePreprocess,
-        }),
-        ...postSveltePlugins,
-        copy({
-          verbose: true,
-          ...getStaticDictTo('./example'),
-        }),
-        /** Create an html template in the example directory */
-        html({
-          template: fromProject(
-            'tools/rollup/helpers/componentExampleTemplate.html',
-          ),
-        }),
-        /** Create a server with '<workspaceDir>/example' as the root */
-        serve({
-          open: true,
-          contentBase: ['./example'],
-        }),
-        /** Reload the serve on file changes */
-        livereload(),
-      ],
-    }),
-  )
-}
-
-/** Svelte component default build config */
-configs.push(
-  makeRollupConfig({
+      }),
+      ...preSveltePlugins,
+      /** Compile svelte components and extract its css to <workspaceDir>/example/style.css */
+      svelte({
+        preprocess: sveltePreprocess,
+      }),
+      ...postSveltePlugins,
+      copy({
+        verbose: true,
+        ...getStaticDictTo('./example'),
+      }),
+      /** Create an html template in the example directory */
+      html({
+        template: fromProject(
+          'tools/rollup/helpers/componentExampleTemplate.html',
+        ),
+      }),
+      /** Create a server with '<workspaceDir>/example' as the root */
+      serve({
+        open: true,
+        contentBase: ['./example', './'],
+      }),
+      /** Reload the serve on file changes */
+      livereload(),
+    ],
+  }
+} else {
+  /** Svelte component default build config */
+  config = {
     format: 'umd',
     plugins: [
       /** Clear the dist directory */
@@ -135,7 +137,7 @@ configs.push(
           },
         }),
     ],
-  }),
-)
+  }
+}
 
-export default configs
+export default makeRollupConfig(config)

@@ -64,7 +64,7 @@ module.exports = {
         vendor: false,
         /** Chunk that contains every external dependency that doesn't begin with '@mamba' */
         libraries: {
-          test: /node_modules(?!\/@mamba)/i,
+          test: /node_modules(?![\\/]@mamba)/i,
           name: 'lib',
           chunks: 'initial',
           minSize: 0,
@@ -85,14 +85,26 @@ module.exports = {
   },
   module: {
     rules: [
+      /** Run svelte component related loaders on  */
       {
         test: /\.(html|svelte)$/,
-        exclude: /node_modules\/(?!svelte|@mamba)/,
+        include: [
+          fromWorkspace('src'),
+          /node_modules[\\/]svelte/,
+          /node_modules[\\/]@mamba/,
+        ],
         use: [loaders.babel, loaders.svelte, loaders.eslint],
       },
+      /** Make 'svelte' related javascript code run through babel without linting */
       {
-        test: /\.jsx?$/,
-        exclude: /node_modules\/(?!svelte\/)/,
+        test: /\.js?$/,
+        include: [/node_modules[\\/]svelte/],
+        use: [loaders.babel],
+      },
+      /** Run babel and eslint on projects src files only */
+      {
+        test: /\.js?$/,
+        include: [fromWorkspace('src')],
         use: [loaders.babel, loaders.eslint],
       },
       {
@@ -102,8 +114,8 @@ module.exports = {
         use: [
           loaders.extractCss,
           loaders.css,
-          loaders.resolveUrl,
           loaders.postcss,
+          loaders.resolveUrl,
           loaders.sass,
         ],
       },

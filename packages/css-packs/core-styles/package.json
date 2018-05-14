@@ -5,10 +5,10 @@
   "license": "Apache-2.0",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "node-sass --output-style=compressed --precision=3 ./src/index.scss ./dist/styles.css",
+    "build": "node-sass --output-style=compressed --precision=3 ./index.scss ./dist/styles.css",
     "postbuild": "ncp src/assets dist/assets",
-    "watch": "node-sass -w src/index.scss -o dist/styles.css",
-    "build:wsourcemap": "node-sass --output-style=compressed --precision=3 --source-map=dist/styles.map ./src/index.scss ./dist/styles.css",
+    "watch": "node-sass -w ./index.scss -o dist/styles.css",
+    "build:wsourcemap": "node-sass --output-style=compressed --precision=3 --source-map=dist/styles.map ./index.scss ./dist/styles.css",
     "test": "exit 0"
   },
   "main": "dist/styles.css",
