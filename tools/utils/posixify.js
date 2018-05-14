@@ -1,1 +1,1 @@
-exports.posixify = file => file.replace(/[/\\]/g, '/')
+module.exports = file => file.replace(/[/\\]/g, '/')
