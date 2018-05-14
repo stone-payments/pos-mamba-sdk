@@ -1,10 +1,12 @@
 const { resolve, dirname } = require('path')
 const { PKG } = require('../consts.js')
+const posixify = require('./posixify.js')
 
 const workspaceRoot = process.cwd()
 const projectRoot = resolve(__dirname, '..', '..')
 
-const resolveFromWorkspace = (...args) => resolve(workspaceRoot, ...args)
+const resolveFromWorkspace = (...args) =>
+  posixify(resolve(workspaceRoot, ...args))
 
 /** Project's dist path */
 const distPath = dirname(resolveFromWorkspace(PKG.main ? PKG.main : 'dist/x'))
@@ -13,7 +15,7 @@ const distPath = dirname(resolveFromWorkspace(PKG.main ? PKG.main : 'dist/x'))
 const srcPath = dirname(resolveFromWorkspace(PKG.source ? PKG.source : 'src/x'))
 
 /** The @mamba project path */
-exports.fromProject = (...args) => resolve(projectRoot, ...args)
+exports.fromProject = (...args) => posixify(resolve(projectRoot, ...args))
 
 /** Current project working directory */
 exports.fromWorkspace = resolveFromWorkspace
