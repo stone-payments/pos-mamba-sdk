@@ -13,7 +13,6 @@ import clear from 'rollup-plugin-clear'
 import uglify from 'rollup-plugin-uglify'
 import html from '@gen/rollup-plugin-generate-html'
 import copy from 'rollup-plugin-copy'
-import magicalPreprocess from 'svelte-preprocess'
 
 import makeRollupConfig from './helpers/makeRollupConfig.js'
 
@@ -25,8 +24,7 @@ const {
   fromProject,
 } = require('../utils/paths.js')
 
-/** Reusable svelte preprocess object */
-const sveltePreprocess = magicalPreprocess()
+const defaultSvelteConfig = require(fromProject('svelte.config.js'))
 
 /** Dictionary<src,dest> of static files/folders to be copied to the dist directory */
 const STATIC_ARTIFACTS = ['assets']
@@ -79,9 +77,7 @@ if (IS_WATCHING) {
       }),
       ...preSveltePlugins,
       /** Compile svelte components and extract its css to <workspaceDir>/example/style.css */
-      svelte({
-        preprocess: sveltePreprocess,
-      }),
+      svelte(defaultSvelteConfig),
       ...postSveltePlugins,
       copy({
         verbose: true,
@@ -114,7 +110,7 @@ if (IS_WATCHING) {
       ...preSveltePlugins,
       /** Compile svelte components and extract its css to <distFolder>/style.css */
       svelte({
-        preprocess: sveltePreprocess,
+        ...defaultSvelteConfig,
         css(css) {
           css.write(fromDist('style.css'), false)
         },
