@@ -18,6 +18,7 @@
     "start": "bolt w @mamba/website start",
     "build": "bolt ws build",
     "delete:modules": "rm -rf \"node_modules\" \"./**/node_modules\"",
+    "link:packages": "bolt ws exec --only-fs \"packages/**\" -- yarn link",
     "lint": "npm run lint:js; npm run lint:css",
     "lint:js": "eslint \"*.js\" \"{tools,packages,website}/**/*.{js,html,svelte}\"",
     "lint:css": "stylelint \"packages/**/*.{css,scss,svelte,html}\"",
