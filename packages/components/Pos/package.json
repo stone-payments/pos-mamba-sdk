@@ -4,7 +4,7 @@
   "main": "dist/pos.js",
   "style": "dist/style.css",
   "source": "src/index.svelte",
-  "svelte": "src/index.svelte",
+  "svelte:component": "src/index.svelte",
   "files": ["dist/", "src/"],
   "scripts": {
     "start": "rollup -c ../../../tools/rollup/config.component.js -w",
