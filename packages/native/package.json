@@ -7,7 +7,7 @@
   "source": "src/index.js",
   "subModules": ["src/*/index.js", "!src/utils"],
   "scripts": {
-    "watch": "rollup -c ../../tools/rollup/config.lib.js -w",
+    "start": "rollup -c ../../tools/rollup/config.lib.js -w",
     "build":
       "cross-env NODE_ENV=production rollup -c ../../tools/rollup/config.lib.js",
     "test": "jest -c ../../jest.config.js --no-cache",

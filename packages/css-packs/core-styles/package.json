@@ -7,7 +7,7 @@
     "prebuild": "rimraf dist",
     "build": "node-sass --output-style=compressed --precision=3 ./index.scss ./dist/styles.css",
     "postbuild": "ncp src/assets dist/assets",
-    "watch": "node-sass -w ./index.scss -o dist/styles.css",
+    "start": "node-sass -w ./index.scss -o dist/styles.css",
     "build:wsourcemap": "node-sass --output-style=compressed --precision=3 --source-map=dist/styles.map ./index.scss ./dist/styles.css",
     "test": "exit 0"
   },

@@ -4,7 +4,7 @@
   "main": "dist/appbar.js",
   "style": "dist/style.css",
   "source": "src/index.svelte",
-  "svelte": "src/index.svelte",
+  "svelte:component": "src/index.svelte",
   "files": ["dist/", "src/"],
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",

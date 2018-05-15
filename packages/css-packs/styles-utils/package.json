@@ -7,6 +7,5 @@
   "main": "index.scss",
   "scripts": {},
   "author": "Stone Payments - Mamba Team",
-  "repository": "https://github.com/stone-payments/pos-mamba-websdk.git",
-  "dependencies": {}
+  "repository": "https://github.com/stone-payments/pos-mamba-websdk.git"
 }

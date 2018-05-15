@@ -39,7 +39,7 @@ module.exports = {
   resolve: {
     /** Do not resolve symlinks */
     symlinks: false,
-    mainFields: ['svelte', 'browser', 'module', 'main'],
+    mainFields: ['svelte:component', 'svelte', 'browser', 'module', 'main'],
     extensions: ['.js', '.json', '.scss', '.css', '.html', '.svelte'],
     /** Make webpack also resolve modules from './src' */
     modules: [fromWorkspace('src'), 'node_modules'],
