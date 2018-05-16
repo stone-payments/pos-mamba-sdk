@@ -1,18 +1,20 @@
-<div class="container {isOpen ? 'active' : ''}">
-  <div class="dialog">
+<div class="container {isOpen ? 'is-active' : ''}">
 
-  {#if title && title.length}
-    <h5 class="title">{title}</h5>
-  {/if}
+  <div class="modal">
+    <div class="content">
+      {#if title && title.length}
+        <h5 class="title">{title}</h5>
+      {/if}
 
-    <p class="message">
-      <slot></slot>
-    </p>
+      <p class="message">
+        <slot></slot>
+      </p>
+    </div>
 
     <div class="actions">
       {#if negativeAction && !hideNegativeAction}
         <button
-          class="action-negative"
+          class="action -negative"
           on:click="close(negativeAction)"
           disabled={disableNegativeAction}
         >
@@ -22,7 +24,7 @@
 
       {#if positiveAction}
         <button
-          class="action-positive"
+          class="action -positive"
           on:click="close(positiveAction)"
           disabled={disablePositiveAction}
         >
@@ -32,8 +34,6 @@
 
     </div>
   </div>
-
-  <div class="black-screen" />
 </div>
 
 <script>
@@ -66,70 +66,72 @@
   @import '@mamba/styles-utils/index.scss';
 
   .container {
-    display: none;
-
-    &.active {
-      display: block;
-    }
-  }
-
-  .black-screen {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: $dialog-z-index - 1;
+
+    &:not(.is-active) {
+      display: none;
+    }
   }
 
-  .dialog {
+  .modal {
+    max-width: 210px;
+    width: 80%;
     position: fixed;
     top: 50%;
     left: 50%;
     width: 80%;
-    padding: 15px;
     padding-bottom: 0;
     transform: translate(-50%, -50%);
     background-color: #fff;
     z-index: $dialog-z-index;
   }
 
+  .content {
+    padding: 10px 15px 15px;
+  }
+
   .title {
     font-size: 1.3em;
+    font-weight: bold;
     line-height: 1.4em;
   }
 
   .message {
-    color: color('grey', 'darken-1');
+    color: $grey-dark;
   }
 
   .actions {
-    text-align: right;
+    display: flex;
+    text-align: center;
+    border-top: 1px solid $grey-lighter;
   }
 
-  .action-negative,
-  .action-positive {
-    -webkit-appearance: none;
-    border: none;
-    background: transparent;
-    display: inline-block;
+  .action {
+    display: block;
+    flex: 1 0 50%;
     min-width: 3em;
-    margin: 0;
-    padding: 0.3em;
-    padding-top: 1em;
-    padding-bottom: 1em;
+    padding: 1em;
+    border: none;
     color: $primary-color;
-    text-align: right;
+    background: transparent;
+    font-weight: bold;
     text-transform: uppercase;
-    cursor: pointer;
+    appearance: none;
+
+    &.-positive {
+      background-color: $green;
+      color: $white;
+    }
 
     &[disabled] {
       color: $grey;
+      background-color: $grey-lighter;
     }
   }
 
-  .action-negative {
-    margin-right: 0.2em;
-  }
 </style>

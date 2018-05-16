@@ -23,6 +23,7 @@
 <br>
 
 <Dialog
+  isOpen={true}
   ref:defaultDialog
   title="Dialog Title"
   on:close="console.log(event)"
