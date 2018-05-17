@@ -1,10 +1,7 @@
-const { readFileSync } = require('fs')
-const { dirname, resolve } = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const sass = require('node-sass')
+const { IS_DEV, IS_WATCHING } = require('quickenv')
 
-const { fromProject, fromWorkspace } = require('../../../tools/utils/paths.js')
-const { IS_DEV, IS_WATCHING } = require('../../../tools/consts.js')
+const { fromProject } = require('../../../tools/utils/paths.js')
 
 /** Read the ROOT .babelrc.js to enforce it in 'babel-loader' */
 const babelrc = require(fromProject('.babelrc.js'))
@@ -84,56 +81,7 @@ module.exports = {
     options: {
       emitCss: true,
       hotReload: IS_DEV,
-      preprocess: {
-        /** Support <script src=""></script> */
-        script: ({ content = '', attributes, filename }) => {
-          if (attributes.src) {
-            const styleFilename = resolve(dirname(filename), attributes.src)
-            content = readFileSync(styleFilename).toString()
-          }
-
-          return {
-            code: content,
-          }
-        },
-        /** Support <style src=""></style> and SCSS */
-        style: ({ content = '', attributes, filename }) => {
-          if (attributes.src) {
-            const styleFilename = resolve(dirname(filename), attributes.src)
-            content = readFileSync(styleFilename).toString()
-          }
-
-          const type = (
-            attributes.type ||
-            attributes.lang ||
-            'text/css'
-          ).replace('text/', '')
-
-          if (type === 'scss') {
-            return new Promise((resolve, reject) => {
-              sass.render(
-                {
-                  data: content,
-                  includePaths: [
-                    fromProject('src'),
-                    fromWorkspace('node_modules'),
-                  ],
-                  sourceMap: true,
-                  outFile: filename + '.css', // Needed node-sass property
-                },
-                (err, result) => {
-                  if (err) return reject(err)
-
-                  resolve({
-                    code: result.css.toString(),
-                    map: result.map.toString(),
-                  })
-                },
-              )
-            })
-          }
-        },
-      },
+      ...require(fromProject('svelte.config.js')),
     },
   },
 }

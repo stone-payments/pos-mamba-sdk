@@ -6,8 +6,9 @@ import cjs from 'rollup-plugin-commonjs'
 import babel from 'rollup-plugin-babel'
 import filesize from 'rollup-plugin-filesize'
 import eslint from 'rollup-plugin-eslint'
+import { getPkg } from 'quickenv'
 
-const { PKG } = require('../consts.js')
+const PKG = getPkg()
 
 /** Common rollup plugins */
 const plugins = [
@@ -45,7 +46,7 @@ configs.push(
   }),
 )
 
-/** The ESM bundle if  */
+/** The ESM bundle */
 if (PKG.module) {
   configs.push(
     makeRollupConfig({

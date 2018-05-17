@@ -13,11 +13,11 @@ import clear from 'rollup-plugin-clear'
 import uglify from 'rollup-plugin-uglify'
 import html from '@gen/rollup-plugin-generate-html'
 import copy from 'rollup-plugin-copy'
-import magicalPreprocess from 'svelte-preprocess'
+import { IS_WATCHING, IS_PROD } from 'quickenv'
 
+import posixify from './helpers/posixify.js'
 import makeRollupConfig from './helpers/makeRollupConfig.js'
 
-const { IS_WATCHING, IS_PROD } = require('../consts.js')
 const {
   fromWorkspace,
   fromSrc,
@@ -25,43 +25,27 @@ const {
   fromProject,
 } = require('../utils/paths.js')
 
-/** Reusable svelte preprocess object */
-const sveltePreprocess = magicalPreprocess()
+const defaultSvelteConfig = require(fromProject('svelte.config.js'))
+const babelrc = require(fromProject('.babelrc.js'))
 
-/** Dictionary<src,dest> of static files/folders to be copied to the dist directory */
 const STATIC_ARTIFACTS = ['assets']
-const getStaticDictTo = dest =>
-  STATIC_ARTIFACTS.reduce((acc, path) => {
-    const srcPath = fromSrc(path)
-    if (existsSync(srcPath)) {
-      acc[fromSrc(path)] = resolve(dest, path)
-    }
-    return acc
-  }, {})
 
-/** Common rollup plugins to execute before the svelte compiler */
-const preSveltePlugins = [
-  nodeResolve({
-    extensions: ['.js', '.svelte', '.html'],
-  }),
-  cjs(),
-  eslint(),
-]
-
-/** Common rollup plugins to execute after the svelte compiler */
-const postSveltePlugins = [
-  babel({
-    exclude: 'node_modules/**',
-    /** Enforce usage of '.babelrc.js' at the project's root directory */
-    babelrc: false,
-    ...require('../../.babelrc.js'),
-  }),
-  filesize(),
-]
+/** rollup-plugin-copy wrapper */
+const copyStaticArtifacts = distPath =>
+  copy({
+    verbose: true,
+    ...STATIC_ARTIFACTS.reduce((acc, artifactPath) => {
+      const srcPath = fromSrc(artifactPath)
+      if (existsSync(srcPath)) {
+        acc[fromSrc(artifactPath)] = resolve(distPath, artifactPath)
+      }
+      return acc
+    }, {}),
+  })
 
 let config
 
-if (IS_WATCHING) {
+if (IS_WATCHING()) {
   /** Svelte component example build config */
   config = {
     /** Use the virtual module __entry__ as the input for rollup */
@@ -74,19 +58,26 @@ if (IS_WATCHING) {
     plugins: [
       /** Virtual entry module to bootstrap the example app */
       virtual({
-        __entry__: `import App from '${fromWorkspace('example/App.svelte')}'
+        __entry__: `import App from '${posixify(
+          fromWorkspace('example/App.svelte'),
+        )}'
         new App({ target: document.getElementById('root') })`,
       }),
-      ...preSveltePlugins,
+      nodeResolve({
+        extensions: ['.js', '.svelte', '.html'],
+      }),
+      cjs(),
+      eslint(),
       /** Compile svelte components and extract its css to <workspaceDir>/example/style.css */
-      svelte({
-        preprocess: sveltePreprocess,
+      svelte(defaultSvelteConfig),
+      babel({
+        exclude: 'node_modules/**',
+        /** Enforce usage of '.babelrc.js' at the project's root directory */
+        babelrc: false,
+        ...babelrc,
       }),
-      ...postSveltePlugins,
-      copy({
-        verbose: true,
-        ...getStaticDictTo('./example'),
-      }),
+      filesize(),
+      copyStaticArtifacts('example'),
       /** Create an html template in the example directory */
       html({
         template: fromProject(
@@ -111,21 +102,28 @@ if (IS_WATCHING) {
       clear({
         targets: [fromDist()],
       }),
-      ...preSveltePlugins,
+      nodeResolve({
+        extensions: ['.js', '.svelte', '.html'],
+      }),
+      cjs(),
+      eslint(),
       /** Compile svelte components and extract its css to <distFolder>/style.css */
       svelte({
-        preprocess: sveltePreprocess,
+        ...defaultSvelteConfig,
         css(css) {
           css.write(fromDist('style.css'), false)
         },
       }),
-      ...postSveltePlugins,
-      copy({
-        verbose: true,
-        ...getStaticDictTo(fromDist()),
+      babel({
+        exclude: 'node_modules/**',
+        /** Enforce usage of '.babelrc.js' at the project's root directory */
+        babelrc: false,
+        ...babelrc,
       }),
+      filesize(),
+      copyStaticArtifacts(fromDist()),
       /** If building for production, minify the output code */
-      IS_PROD &&
+      IS_PROD() &&
         uglify({
           mangle: {
             toplevel: true,

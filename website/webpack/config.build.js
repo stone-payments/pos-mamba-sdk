@@ -9,7 +9,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 const { fromWorkspace, fromDist } = require('../../tools/utils/paths.js')
-const { IS_PROD } = require('../../tools/consts.js')
+const { IS_PROD } = require('quickenv')
 
 const baseConfig = require('./config.base.js')
 
@@ -24,7 +24,7 @@ const plugins = [
 ]
 
 /** If building for production... */
-if (IS_PROD) {
+if (IS_PROD()) {
   plugins.push(
     /** Generate hashes based on module's relative path */
     new webpack.HashedModuleIdsPlugin(),
@@ -34,15 +34,15 @@ if (IS_PROD) {
 /** Build optimizations */
 const optimization = {
   /** If analyzing bundle, don't concatenate modules */
-  minimize: IS_PROD,
+  minimize: IS_PROD(),
   minimizer: [
     /** Minify the bundle's css */
     new OptimizeCSSAssetsPlugin({
       /** Default css processor is 'cssnano' */
       cssProcessor: require('cssnano'),
       cssProcessorOptions: {
-        core: IS_PROD,
-        discardComments: IS_PROD,
+        core: IS_PROD(),
+        discardComments: IS_PROD(),
       },
     }),
     /** Minify the bundle's js */
