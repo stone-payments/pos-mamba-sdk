@@ -11,7 +11,7 @@
       </p>
     </div>
 
-    <div class="actions">
+    <div class="actions {hideNegativeAction ? 'is-alert' : ''}">
       {#if negativeAction && !hideNegativeAction}
         <button
           class="action -negative"
@@ -112,7 +112,7 @@
 
   .action {
     display: block;
-    flex: 1 0 50%;
+    width: 50%;
     min-width: 3em;
     padding: 1em;
     border: none;
@@ -121,6 +121,10 @@
     font-weight: bold;
     text-transform: uppercase;
     appearance: none;
+
+    .actions.is-alert & {
+      width: 100%;
+    }
 
     &.-positive {
       background-color: $green;
