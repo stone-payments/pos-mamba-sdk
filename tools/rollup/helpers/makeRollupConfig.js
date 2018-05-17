@@ -32,6 +32,7 @@ export default function({
     name,
     /** Use commonjs2 for smaller bundle sizes. */
     format,
+    exports: 'named',
   }
 
   return {

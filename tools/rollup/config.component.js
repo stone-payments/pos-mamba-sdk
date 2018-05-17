@@ -13,7 +13,7 @@ import clear from 'rollup-plugin-clear'
 import uglify from 'rollup-plugin-uglify'
 import html from '@gen/rollup-plugin-generate-html'
 import copy from 'rollup-plugin-copy'
-import { IS_WATCHING, IS_PROD } from 'quickenv'
+import { IS_WATCHING, IS_PROD, getPkg } from 'quickenv'
 
 import posixify from './helpers/posixify.js'
 import makeRollupConfig from './helpers/makeRollupConfig.js'
@@ -27,6 +27,7 @@ const {
 
 const defaultSvelteConfig = require(fromProject('svelte.config.js'))
 const babelrc = require(fromProject('.babelrc.js'))
+const PKG = getPkg()
 
 const STATIC_ARTIFACTS = ['assets']
 
@@ -87,7 +88,18 @@ if (IS_WATCHING()) {
       /** Create a server with '<workspaceDir>/example' as the root */
       serve({
         open: true,
-        contentBase: ['./example', './'],
+        contentBase: [
+          './example',
+          './',
+          /**
+           * We add each @mamba/dependency src path to the server
+           * since rollup doesn't have something like 'css-loader' to
+           * automatically copy the required assets via css url().
+           */
+          ...Object.keys(PKG.dependencies)
+            .filter(dep => dep.match(/@mamba/))
+            .map(dep => fromWorkspace('node_modules', dep, 'src')),
+        ],
       }),
       /** Reload the serve on file changes */
       livereload(),
