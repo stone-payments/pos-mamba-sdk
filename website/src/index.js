@@ -1,5 +1,5 @@
 import { createHashHistory } from 'svelte-routing'
-import App from './App'
+import App from './App.html'
 
 createHashHistory()
 

@@ -1,0 +1,18 @@
+<Main>
+  <Route exact path="/"><Home/></Route>
+</Main>
+
+<script>
+  import Route from 'svelte-routing/Route.html'
+  import Main from './routes/Main.svelte'
+
+  import Home from './routes/Home'
+  export default {
+    components: { Main, Route, Home },
+    data() {
+      return {
+        
+      }
+    }
+  }
+</script>
