@@ -1,8 +1,7 @@
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin')
 const { minify: htmlMinifier } = require('html-minifier')
 const { generateCSSReferences, generateJSReferences } = MiniHtmlWebpackPlugin
-
-const { IS_PROD } = require('../../../tools/consts.js')
+const { IS_PROD } = require('quickenv')
 
 module.exports = ({ css, js, title, publicPath }) => {
   const htmlTemplate = `<!DOCTYPE html>
@@ -18,7 +17,7 @@ module.exports = ({ css, js, title, publicPath }) => {
           </body>
         </html>`
 
-  return IS_PROD
+  return IS_PROD()
     ? htmlMinifier(htmlTemplate, {
       collapseWhitespace: true,
       conservativeCollapse: true,

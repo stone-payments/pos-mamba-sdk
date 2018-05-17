@@ -1,6 +1,7 @@
 import { basename, dirname } from 'path'
+import { getPkg } from 'quickenv'
 
-const { PKG } = require('../consts.js')
+const PKG = getPkg()
 
 export default function({
   /** Input file relative path */

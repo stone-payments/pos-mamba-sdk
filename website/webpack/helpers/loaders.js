@@ -1,7 +1,7 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const { IS_DEV, IS_WATCHING } = require('quickenv')
 
 const { fromProject } = require('../../../tools/utils/paths.js')
-const { IS_DEV, IS_WATCHING } = require('../../../tools/consts.js')
 
 /** Read the ROOT .babelrc.js to enforce it in 'babel-loader' */
 const babelrc = require(fromProject('.babelrc.js'))

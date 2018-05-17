@@ -5,14 +5,14 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const StyleLintPlugin = require('stylelint-webpack-plugin')
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin')
 const SimpleProgressPlugin = require('webpack-simple-progress-plugin')
+const { IS_PROD } = require('quickenv')
 
 const { fromWorkspace } = require('../../tools/utils/paths.js')
-const { IS_PROD, PKG } = require('../../tools/consts.js')
 const htmlTemplate = require('./helpers/htmlTemplate.js')
 const loaders = require('./helpers/loaders.js')
 
 module.exports = {
-  mode: IS_PROD ? 'production' : 'development',
+  mode: IS_PROD() ? 'production' : 'development',
   cache: true,
   target: 'web',
   context: fromWorkspace('src'),
@@ -43,16 +43,6 @@ module.exports = {
     extensions: ['.js', '.json', '.scss', '.css', '.html', '.svelte'],
     /** Make webpack also resolve modules from './src' */
     modules: [fromWorkspace('src'), 'node_modules'],
-    alias: {
-      /**
-       * Ensure we're always importing the main packages from this project's root.
-       * Fixes linked components using their own dependencies.
-       */
-      ...Object.keys(PKG.dependencies).reduce((acc, libName) => {
-        acc[libName] = fromWorkspace('node_modules', libName)
-        return acc
-      }, {}),
-    },
   },
   optimization: {
     /** Create a separate chunk for webpack runtime */

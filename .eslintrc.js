@@ -1,8 +1,8 @@
-const { IS_PROD } = require('./tools/consts.js')
+const { IS_PROD } = require('quickenv')
 
 const rules = {
   indent: ['error', 2, { SwitchCase: 1 }],
-  'no-console': IS_PROD ? ['error', { allow: ['warn', 'error'] }] : 'off',
+  'no-console': IS_PROD() ? ['error', { allow: ['warn', 'error'] }] : 'off',
   'no-var': 'error',
   'comma-dangle': ['error', 'always-multiline'],
 }

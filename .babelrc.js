@@ -1,4 +1,4 @@
-const { IS_PROD, IS_DEV, IS_TEST } = require('./tools/consts.js')
+const { IS_TEST } = require('quickenv')
 
 const presets = [
   [
@@ -7,7 +7,7 @@ const presets = [
       useBuiltIns: false,
       loose: true,
       /** Only parse modules if testing. If not, let webpack handle it */
-      modules: IS_TEST ? 'commonjs' : false,
+      modules: IS_TEST() ? 'commonjs' : false,
       debug: false,
       forceAllTransforms: true,
     },

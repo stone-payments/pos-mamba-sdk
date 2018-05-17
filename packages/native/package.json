@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "Native Mamba applications methods",
   "main": "native.js",
-  "module": "native.esm.js",
   "source": "src/index.js",
   "subModules": ["src/*/index.js", "!src/utils"],
   "scripts": {
