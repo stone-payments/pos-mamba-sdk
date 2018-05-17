@@ -8,6 +8,7 @@
   "scripts": {
     "start": "bolt w @mamba/website start",
     "build": "bolt ws build",
+    "build:components": "bolt ws build --only-fs \"packages/components/**\"",
     "delete:modules": "rm -rf \"node_modules\" \"./**/node_modules\"",
     "link:packages": "bolt ws exec --only-fs \"packages/**\" -- yarn link",
     "lint": "npm run lint:js; npm run lint:css",
@@ -33,6 +34,10 @@
     }
   },
   "lint-staged": {
+    "*.{html,svelte}": [
+      "eslint --fix",
+      "git add"
+    ],
     "*.js": [
       "prettier --write",
       "eslint --fix",

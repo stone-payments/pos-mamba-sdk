@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "main": "dist/pos.js",
   "style": "dist/style.css",
-  "source": "src/index.svelte",
-  "svelte:component": "src/index.svelte",
+  "source": "src/index.js",
+  "svelte": "src/index.js",
   "files": ["dist/", "src/"],
+  "author": "Stone Payments - Mamba Team",
+  "license": "Apache-2.0",
   "scripts": {
     "start": "rollup -c ../../../tools/rollup/config.component.js -w",
     "build": "cross-env NODE_ENV=production rollup -c ../../../tools/rollup/config.component.js",
