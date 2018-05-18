@@ -1,7 +1,7 @@
-import Home from './Home'
+import Icon from './Components/Icon'
 
-export const routes = {
-  Home: Home,
-}
+const routes = Object.entries({
+  '/components/icon': Icon,
+})
 
-export default { ...routes }
+export default routes

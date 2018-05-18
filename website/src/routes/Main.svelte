@@ -1,6 +1,6 @@
-<section class="router-layout">
+<section class="router-layout" use:links>
   <header class="router-header">
-    <NavLink exact to="/"><img src="{LogoImg}" alt="Svelte Flat" width="60" /></NavLink>
+    <a href="/"><img src="{LogoImg}" alt="Svelte Flat" width="60" /></a>
   </header>
 
   <section class="router-content">
@@ -17,7 +17,7 @@
 
 <script>
   
-  import NavLink from 'svelte-routing/NavLink.html'
+  import links from 'svelte-routing/links'
   // import menus from './menus'
   import LogoImg from '../assets/logo.svg'
 
@@ -27,8 +27,8 @@
         LogoImg,
       }
     },
-    components: {
-      NavLink
+    actions: { 
+      links 
     }
   }
 </script>

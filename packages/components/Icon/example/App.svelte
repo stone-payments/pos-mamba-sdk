@@ -70,6 +70,8 @@
 </style>
 
 <script>
+  // TODO: Refactor to use a JSON list of icons
+
   export default {
     components: {
       Icon: '../src',

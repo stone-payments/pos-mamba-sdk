@@ -1,17 +1,23 @@
 <Main>
   <Route exact path="/"><Home/></Route>
+  {#each routes as route}
+    <Route path={route[0]} component={route[1]}></Route>
+  {/each}
 </Main>
 
 <script>
   import Route from 'svelte-routing/Route.html'
-  import Main from './routes/Main.svelte'
+  import routes from 'routes'
+  import Main from 'routes/Main.svelte'
+  import Home from 'routes/Home'
+  
+  console.log('routes: ', routes);
 
-  import Home from './routes/Home'
   export default {
     components: { Main, Route, Home },
     data() {
       return {
-        
+        routes: routes
       }
     }
   }
