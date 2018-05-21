@@ -3,11 +3,9 @@
  */
 const webpack = require('webpack')
 const merge = require('webpack-merge')
+const { fromWorkspace } = require('../../tools/utils/paths')
 
-const { fromDist } = require('../../tools/utils/paths.js')
-const baseConfig = require('./config.base.js')
-
-module.exports = merge(baseConfig, {
+module.exports = merge(require('./config.base.js'), {
   devtool: 'source-map',
 
   plugins: [new webpack.HotModuleReplacementPlugin()],
@@ -18,7 +16,7 @@ module.exports = merge(baseConfig, {
   },
 
   devServer: {
-    contentBase: fromDist(),
+    contentBase: fromWorkspace('dist'),
     compress: true,
     headers: {
       'X-Content-Type-Options': 'nosniff',
