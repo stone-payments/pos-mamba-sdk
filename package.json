@@ -23,6 +23,7 @@
   },
   "bolt": {
     "workspaces": [
+      "packages/cli",
       "packages/utils",
       "packages/native",
       "packages/css-packs/*",

@@ -3,14 +3,12 @@
 </div>
 
 <script>
-  import links from "svelte-routing/links";
+  import { createHashHistory } from 'svelte-routing';
+  import links from 'svelte-routing/links';
+
+  createHashHistory()
+
   export default {
-    data() {
-      return {
-        disabled: false,
-        checked: false,
-      }
-    },
     actions: {
       links,
     },
