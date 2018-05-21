@@ -5,12 +5,14 @@
   "bin": {
     "mamba": "src/cli.js"
   },
-  "files": ["src/"],
+  "files": [
+    "src/"
+  ],
   "license": "ISC",
   "dependencies": {
-    "argv": "^0.0.2",
     "quickenv": "^0.0.5",
     "shelljs": "^0.8.2",
-    "xml-js": "^1.6.3"
+    "xml-js": "^1.6.3",
+    "yargs": "^11.0.0"
   }
 }
