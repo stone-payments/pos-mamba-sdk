@@ -1,7 +1,7 @@
 {
-  "name": "@mamba/pos",
+  "name": "@mamba/collection",
   "version": "1.0.0",
-  "main": "dist/pos.js",
+  "main": "dist/collection.js",
   "style": "dist/style.css",
   "source": "src/index.js",
   "svelte": "src/index.js",
@@ -17,7 +17,11 @@
     "build:dev": "rollup -c ../../../tools/rollup/config.component.js",
     "prepublishOnly": "npm run build"
   },
-  "peerDependencies": {
-    "svelte-routing": "^0.4.2"
+  "devDependencies": {
+    "@mamba/core-styles": "^0.0.1"
+  },
+  "dependencies": {
+    "@mamba/icon": "^1.0.0",
+    "@mamba/styles-utils": "^0.0.1"
   }
 }

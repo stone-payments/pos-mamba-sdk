@@ -66,7 +66,7 @@
     "webpack-simple-progress-plugin": "^0.0.4"
   },
   "dependencies": {
-    "svelte": "^2.5.0",
+    "svelte": "^2.6.3",
     "svelte-routing": "^0.4.0"
   }
 }

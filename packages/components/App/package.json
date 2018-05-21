@@ -1,14 +1,11 @@
 {
-  "name": "@mamba/pos",
+  "name": "@mamba/app",
   "version": "1.0.0",
-  "main": "dist/pos.js",
+  "main": "dist/app.js",
   "style": "dist/style.css",
   "source": "src/index.js",
   "svelte": "src/index.js",
-  "files": [
-    "dist/",
-    "src/"
-  ],
+  "files": ["dist/", "src/"],
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
   "scripts": {
@@ -17,7 +14,7 @@
     "build:dev": "rollup -c ../../../tools/rollup/config.component.js",
     "prepublishOnly": "npm run build"
   },
-  "peerDependencies": {
-    "svelte-routing": "^0.4.2"
+  "devDependencies": {
+    "@mamba/core-styles": "^0.0.1"
   }
 }
