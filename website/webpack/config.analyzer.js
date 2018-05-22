@@ -5,9 +5,7 @@ const merge = require('webpack-merge')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
 
-const buildConfig = require('./config.build.js')
-
-module.exports = merge(buildConfig, {
+module.exports = merge(require('./config.build.js'), {
   stats: 'verbose',
   devtool: false,
   plugins: [

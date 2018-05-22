@@ -6,6 +6,7 @@
       return {
         size: 'normal',
         symbol: 'custom',
+        level: undefined,
       }
     },
     onstate({ current: { color, src } }) {

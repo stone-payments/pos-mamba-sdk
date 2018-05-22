@@ -5,11 +5,12 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const StyleLintPlugin = require('stylelint-webpack-plugin')
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin')
 const SimpleProgressPlugin = require('webpack-simple-progress-plugin')
-const { IS_PROD } = require('quickenv')
 
-const { fromWorkspace } = require('../../tools/utils/paths.js')
+const { IS_PROD, IS_WATCHING } = require('quickenv')
 const htmlTemplate = require('./helpers/htmlTemplate.js')
 const loaders = require('./helpers/loaders.js')
+
+const { fromWorkspace, fromProject } = require('../../tools/utils/paths')
 
 module.exports = {
   mode: IS_PROD() ? 'production' : 'development',
@@ -17,12 +18,7 @@ module.exports = {
   target: 'web',
   context: fromWorkspace('src'),
   entry: {
-    app: [
-      /** External scss/css */
-      './external.scss',
-      /** App entry point */
-      './index.js',
-    ],
+    app: ['./index.js'],
   },
   output: {
     path: fromWorkspace('dist'),
@@ -42,7 +38,11 @@ module.exports = {
     mainFields: ['svelte', 'browser', 'module', 'main'],
     extensions: ['.js', '.json', '.scss', '.css', '.html', '.svelte'],
     /** Make webpack also resolve modules from './src' */
-    modules: [fromWorkspace('src'), 'node_modules'],
+    modules: [
+      fromWorkspace('src'),
+      fromWorkspace('node_modules'),
+      fromProject('node_modules'),
+    ],
   },
   optimization: {
     /** Create a separate chunk for webpack runtime */
@@ -122,14 +122,15 @@ module.exports = {
   },
   plugins: [
     new SimpleProgressPlugin(),
-    new MiniCssExtractPlugin({
-      filename: 'style.css',
-      chunkFilename: '[name].css',
-    }),
+    !IS_WATCHING() &&
+      new MiniCssExtractPlugin({
+        filename: 'style.css',
+        chunkFilename: '[name].css',
+      }),
     new StyleLintPlugin(),
     new MiniHtmlWebpackPlugin({
       context: { title: 'Mamba Application' },
       template: htmlTemplate,
     }),
-  ],
+  ].filter(Boolean),
 }

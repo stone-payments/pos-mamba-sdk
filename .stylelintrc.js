@@ -10,6 +10,7 @@ module.exports = {
     ],
   ],
   rules: {
+    'color-hex-case': null,
     'no-empty-source': null,
     'value-list-comma-newline-after': null,
     'declaration-colon-newline-after': null,

@@ -1,0 +1,23 @@
+@import url('~@mamba/core-styles');
+@import '@mamba/styles-utils/index.scss';
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  font-size: 16px 1.7;
+  font-family: -apple-system, 'Helvetica Neue', Arial, 'Segoe UI', 'PingFang SC',
+    'Hiragino Sans GB', STHeiti, 'Microsoft YaHei', 'Microsoft JhengHei',
+    'Source Han Sans SC', 'Noto Sans CJK SC', 'Source Han Sans CN',
+    'Noto Sans SC', 'Source Han Sans TC', 'Noto Sans CJK TC',
+    'WenQuanYi Micro Hei', SimSun, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.router-layout {
+  min-height: 100%;
+  background: #f0f2f5;
+  display: flex;
+  flex-direction: column;
+}

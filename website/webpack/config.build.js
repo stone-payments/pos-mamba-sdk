@@ -7,79 +7,68 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
-
-const { fromWorkspace, fromDist } = require('../../tools/utils/paths.js')
 const { IS_PROD } = require('quickenv')
 
-const baseConfig = require('./config.base.js')
+const { fromWorkspace } = require('../../tools/utils/paths')
 
-/** Webpack plugins to be used while building */
-const plugins = [
-  new CleanWebpackPlugin([fromDist()], {
-    root: fromWorkspace(),
-    verbose: false,
-  }),
-
-  new CopyWebpackPlugin([{ from: './assets/', to: fromDist('assets') }]),
-]
-
-/** If building for production... */
-if (IS_PROD()) {
-  plugins.push(
-    /** Generate hashes based on module's relative path */
-    new webpack.HashedModuleIdsPlugin(),
-  )
-}
-
-/** Build optimizations */
-const optimization = {
-  /** If analyzing bundle, don't concatenate modules */
-  minimize: IS_PROD(),
-  minimizer: [
-    /** Minify the bundle's css */
-    new OptimizeCSSAssetsPlugin({
-      /** Default css processor is 'cssnano' */
-      cssProcessor: require('cssnano'),
-      cssProcessorOptions: {
-        core: IS_PROD(),
-        discardComments: IS_PROD(),
-      },
-    }),
-    /** Minify the bundle's js */
-    new UglifyJsPlugin({
-      cache: true, // Enables file caching
-      parallel: true, // Use multiple CPUs if available,
-      sourceMap: true, // Enables sourcemap,
-      uglifyOptions: {
-        compress: {
-          reduce_funcs: false,
-          keep_fnames: false,
-          /** Functions that doesn't have side-effects */
-          pure_funcs: [
-            'classCallCheck',
-            '_classCallCheck',
-            '_possibleConstructorReturn',
-            'Object.freeze',
-            'invariant',
-            'warning',
-          ],
-        },
-        mangle: {
-          keep_fnames: false,
-          /** Prevent renaming of `process.env...` */
-          reserved: ['process'],
-        },
-        output: {
-          comments: false,
-        },
-      },
-    }),
-  ],
-}
-
-module.exports = merge(baseConfig, {
+module.exports = merge(require('./config.base.js'), {
   devtool: false,
   node: false,
-  plugins,
-  optimization,
+  plugins: [
+    new CleanWebpackPlugin([fromWorkspace('dist')], {
+      root: fromWorkspace(),
+      verbose: false,
+    }),
+
+    new CopyWebpackPlugin([
+      { from: './assets/', to: fromWorkspace('dist', 'assets') },
+    ]),
+    /** Generate hashes based on module's relative path */
+    IS_PROD() && new webpack.HashedModuleIdsPlugin(),
+  ].filter(Boolean),
+  optimization: {
+    /** If analyzing bundle, don't concatenate modules */
+    minimize: IS_PROD(),
+    minimizer: [
+      /** Minify the bundle's css */
+      new OptimizeCSSAssetsPlugin({
+        /** Default css processor is 'cssnano' */
+        cssProcessor: require('cssnano'),
+        cssProcessorOptions: {
+          core: IS_PROD(),
+          discardComments: IS_PROD(),
+          autoprefixer: false,
+        },
+      }),
+      /** Minify the bundle's js */
+      new UglifyJsPlugin({
+        cache: true, // Enables file caching
+        parallel: true, // Use multiple CPUs if available,
+        sourceMap: true, // Enables sourcemap,
+        uglifyOptions: {
+          compress: {
+            reduce_funcs: false,
+            keep_fnames: false,
+            /** Functions that doesn't have side-effects */
+            pure_funcs: [
+              'classCallCheck',
+              '_classCallCheck',
+              '_possibleConstructorReturn',
+              'Object.freeze',
+              'invariant',
+              'warning',
+            ],
+          },
+          mangle: {
+            keep_fnames: false,
+            /** Prevent renaming of `process.env...` */
+            reserved: ['process'],
+          },
+          output: {
+            comments: false,
+          },
+        },
+      }),
+    ],
+  },
 })

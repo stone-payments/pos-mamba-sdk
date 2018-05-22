@@ -1,4 +1,4 @@
-<div class="icons">
+<div class="container">
   <h1>Icons</h1>
 
   <div class="row">
@@ -58,7 +58,7 @@
     font-family: monospace;
   }
 
-  .icons {
+  .container {
     max-width: 80%;
     width: 700px;
     margin: 0 auto;

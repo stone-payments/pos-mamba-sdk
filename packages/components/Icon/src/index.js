@@ -1,1 +1,1 @@
-export { default } from './Icon.svelte'
+export { default, default as Icon } from './Icon.svelte'
