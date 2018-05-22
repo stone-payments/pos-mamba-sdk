@@ -27,6 +27,7 @@ const {
 
 const defaultSvelteConfig = require(fromProject('svelte.config.js'))
 const babelrc = require(fromProject('.babelrc.js'))
+const eslintOptions = require(fromProject('.eslintrc.js'))
 const PKG = getPkg()
 
 const STATIC_ARTIFACTS = ['assets']
@@ -68,8 +69,8 @@ if (IS_WATCHING()) {
         extensions: ['.js', '.svelte', '.html'],
       }),
       cjs(),
-      eslint(),
-      /** Compile svelte components and extract its css to <workspaceDir>/example/style.css */
+      eslint(eslintOptions),
+      /** Compile svepte components and extract its css to <workspaceDir>/example/style.css */
       svelte(defaultSvelteConfig),
       babel({
         exclude: 'node_modules/**',
@@ -150,4 +151,7 @@ if (IS_WATCHING()) {
   }
 }
 
-export default makeRollupConfig(config)
+export default makeRollupConfig({
+  ...config,
+  experimentalDynamicImport: true,
+})

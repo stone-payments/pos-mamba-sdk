@@ -17,7 +17,7 @@
           const { getHistory } = await import('svelte-routing')
           getHistory().goBack()
         } catch(e) {
-          console.log('[@mamba/POS] Missing "svelte-routing" package. Cannot goBack(). ')
+          console.log('[@mamba/POS] Missing "svelte-routing" package. Cannot goBack(). ') // eslint-disable-line
         }
       },
     },

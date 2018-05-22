@@ -21,6 +21,6 @@
     "@mamba/core-styles": "^0.0.1"
   },
   "dependencies": {
-    "svelte-routing": "^0.4.0"
+    "svelte-routing": "^0.4.2"
   }
 }
