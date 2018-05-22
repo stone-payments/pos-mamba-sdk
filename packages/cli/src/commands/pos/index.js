@@ -1,6 +1,16 @@
 const shell = require('shelljs')
-const { CMDS, REMOTE_HOST, REMOTE_MAINAPP_DIR } = require('../../consts')
+const { CMDS } = require('../../consts')
 const { remoteExec } = require('../../helpers/utils')
+
+const getStartCMD = background => (background ? CMDS.startBg : CMDS.start)
+
+const startOpts = {
+  background: {
+    description: 'Starts the MambaSystem in background',
+    default: false,
+    alias: ['bg'],
+  },
+}
 
 module.exports = {
   command: 'pos <command>',
@@ -21,22 +31,27 @@ module.exports = {
           shell.exec(`start_ssh.sh com:/dev/tty${tty}`)
         },
       )
-      .command('connect', 'connect to the POS via ssh', () => {
-        shell.exec(
-          `ssh -tt ${REMOTE_HOST} 'cd ${REMOTE_MAINAPP_DIR}; /bin/sh -l'`,
-        )
-      })
       .command('stop', 'stop the MambaSystem', () => {
         console.info('Stopping MambaSystem')
         remoteExec(CMDS.stop)
       })
-      .command('start', 'start the MambaSystem', () => {
-        console.info('Starting MambaSystem')
-        remoteExec(CMDS.start)
-      })
-      .command('restart', 'restart the MambaSystem', () => {
-        console.info('Restarting MambaSystem')
-        remoteExec(CMDS.stop, CMDS.start)
-      }),
+      .command(
+        'start',
+        'start the MambaSystem',
+        startOpts,
+        ({ background }) => {
+          console.info('Starting MambaSystem')
+          remoteExec(getStartCMD(background))
+        },
+      )
+      .command(
+        'restart',
+        'restart the MambaSystem',
+        startOpts,
+        ({ background }) => {
+          console.info('Restarting MambaSystem')
+          remoteExec(CMDS.stop, getStartCMD(background))
+        },
+      ),
   // checkCommands(yargs, 2)
 }

@@ -7,4 +7,5 @@ exports.REMOTE_APPS_DIR = `${exports.REMOTE_HOST}:/${
 exports.CMDS = {
   stop: 'killall StoneMambaLoader StoneMambaSystem',
   start: './StoneMambaLoader',
+  startBg: './StoneMambaLoader </dev/null &>/dev/null &',
 }
