@@ -3,6 +3,7 @@ const yargs = require('yargs')
 
 yargs
   .usage('usage: $0 <command>')
+  .demand(1)
   .command(require('./commands/app'))
   .command(require('./commands/pos'))
   .strict()
