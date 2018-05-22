@@ -14,9 +14,3 @@ exports.slugify = text =>
 exports.remoteExec = (...cmdList) => {
   shell.exec(`ssh POS 'cd ${REMOTE_MAINAPP_DIR}; ${cmdList.join(';')}'`)
 }
-
-exports.checkCommands = (yargs, min) => {
-  if (yargs.argv._.length < min) {
-    yargs.showHelp()
-  }
-}

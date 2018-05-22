@@ -4,7 +4,7 @@ const { remoteExec } = require('../../helpers/utils')
 
 module.exports = {
   command: 'pos <command>',
-  desc: 'POS related tasks',
+  desc: 'POS related commands',
   builder: yargs =>
     yargs
       .demand(2)
