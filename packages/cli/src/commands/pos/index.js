@@ -26,16 +26,16 @@ module.exports = {
           `ssh -tt ${REMOTE_HOST} 'cd ${REMOTE_MAINAPP_DIR}; /bin/sh -l'`,
         )
       })
-      .command('stop', 'stop the Mamba OS', () => {
-        console.info('Stopping Mamba OS')
+      .command('stop', 'stop the MambaSystem', () => {
+        console.info('Stopping MambaSystem')
         remoteExec(CMDS.stop)
       })
-      .command('start', 'start the Mamba OS', () => {
-        console.info('Starting Mamba OS')
+      .command('start', 'start the MambaSystem', () => {
+        console.info('Starting MambaSystem')
         remoteExec(CMDS.start)
       })
-      .command('restart', 'restart the Mamba OS', () => {
-        console.info('Restarting Mamba OS')
+      .command('restart', 'restart the MambaSystem', () => {
+        console.info('Restarting MambaSystem')
         remoteExec(CMDS.stop, CMDS.start)
       }),
   // checkCommands(yargs, 2)

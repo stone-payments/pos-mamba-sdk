@@ -1,11 +1,8 @@
-const { fromCwd } = require('quickenv')
-
-exports.DIST_PATH = fromCwd('dist')
 exports.REMOTE_HOST = 'POS'
 exports.REMOTE_MAINAPP_DIR = 'data/app/MAINAPP'
 exports.REMOTE_APPS_DIR = `${exports.REMOTE_HOST}:/${
   exports.REMOTE_MAINAPP_DIR
-}/apps/`
+}/apps`
 
 exports.CMDS = {
   stop: 'killall StoneMambaLoader StoneMambaSystem',
