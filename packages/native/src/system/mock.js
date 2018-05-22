@@ -5,10 +5,8 @@ export default function(System) {
    * @type {object}
    */
   const _audioCtx =
-    process.env.NODE_ENV !== 'test'
-      ? new (window.AudioContext ||
-          window.webkitAudioContext ||
-          window.audioContext)()
+    process.env.NODE_ENV !== 'test' && window.AudioContext
+      ? new window.AudioContext()
       : {}
 
   /**
@@ -264,7 +262,35 @@ export default function(System) {
     SerialNumber: '00000000',
   }
 
+  const KeyboardLight = {
+    enable() {
+      console.log('enabled keyboard light')
+    },
+    disable() {
+      console.log('disabled keyboard light')
+    },
+
+    isEnabled() {
+      return true
+    },
+  }
+
+  const Sound = {
+    enable() {
+      console.log('enabled keyboard sound')
+    },
+    disable() {
+      console.log('disabled keyboard sound')
+    },
+
+    isEnabled() {
+      return true
+    },
+  }
+
   Object.assign(System, {
+    Sound,
+    KeyboardLight,
     beep,
     hasEthernet,
     hasWifi,
