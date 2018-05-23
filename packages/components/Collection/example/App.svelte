@@ -1,27 +1,27 @@
 <Collection title="Rede">
-  <CollectionRow label="1. Configurar" href="/network/configure"/>
+  <Row label="1. Configurar" href="/network/configure"/>
 </Collection>
 
 <Collection title="Dispositivo">
-  <CollectionRow label="2. Som do Teclado">
+  <Row label="2. Som do Teclado">
     <div slot="controller">
       <Icon symbol="account"/>
     </div>
-  </CollectionRow>
-  <CollectionRow label="3. Luz do Teclado">
+  </Row>
+  <Row label="3. Luz do Teclado">
     <div slot="controller">
       <Icon symbol="account"/>
     </div>
-  </CollectionRow>
+  </Row>
 </Collection>
 
 <script>
-  import { Collection, CollectionRow } from '../src'
+  import { Collection, Row } from '../src'
   import Icon from '@mamba/icon'
   export default {
     components: {
       Icon,
-      CollectionRow,
+      Row,
       Collection,
     },
   }
