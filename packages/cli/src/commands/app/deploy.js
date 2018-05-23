@@ -21,9 +21,7 @@ module.exports = {
 
     console.log(`Deploying "${appSlug}" to "${REMOTE_APP_DIR}"`)
 
-    shell.exec(`rsync -zzaP --delete ${DIST_DIR}/ ${REMOTE_APP_DIR}`, {
-      silent: true,
-    })
+    shell.exec(`rsync -zzaP --delete ${DIST_DIR}/ ${REMOTE_APP_DIR}`)
 
     if (legacy) {
       console.log(
@@ -36,9 +34,6 @@ module.exports = {
 
       shell.exec(
         `rsync -zzaPR --delete ${includes} --exclude '**/*' . ${REMOTE_APP_DIR}/`,
-        {
-          silent: true,
-        },
       )
     }
     console.log('App deployed')

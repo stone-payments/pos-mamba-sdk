@@ -2,7 +2,11 @@ const { readFileSync, existsSync } = require('fs')
 const { xml2js } = require('xml-js')
 const { fromCwd } = require('quickenv')
 
-exports.manifestPath = fromCwd('manifest.xml')
+const hasMambaDir = existsSync(fromCwd('.mamba'))
+
+exports.manifestPath = hasMambaDir
+  ? fromCwd('.mamba', 'manifest.xml')
+  : fromCwd('manifest.xml')
 
 exports.hasManifest = existsSync(exports.manifestPath)
 
