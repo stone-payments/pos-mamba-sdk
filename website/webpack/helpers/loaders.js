@@ -32,7 +32,7 @@ module.exports = {
     options: {
       sourceMap: IS_DEV(),
       /** Apply the two last loaders (resolve-url, postcss) to @imported url() css files */
-      importLoaders: 2,
+      importLoaders: 3,
     },
   },
   postcss: {

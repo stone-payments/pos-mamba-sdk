@@ -5,7 +5,7 @@
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
   "scripts": {
-    "start": "webpack-dev-server --config webpack/config.dev.js",
+    "start": "webpack-dev-server --config webpack/config.dev.js --hot --inline",
     "build": "cross-env NODE_ENV=production webpack --config webpack/config.build.js",
     "build:dev": "webpack --config webpack/config.build.js",
     "build:analyze": "cross-env NODE_ENV=production webpack --config webpack/config.analyzer.js"
@@ -23,6 +23,7 @@
     "babel-eslint": "^8.2.3",
     "babel-jest": "^22.4.3",
     "babel-loader": "^8.0.0-beta",
+    "case-sensitive-paths-webpack-plugin": "^2.1.2",
     "clean-webpack-plugin": "^0.1.19",
     "copy-webpack-plugin": "^4.5.1",
     "cross-env": "^5.1.5",
@@ -73,6 +74,7 @@
   "dependencies": {
     "@mamba/core-styles": "^0.0.1",
     "@mamba/dialog": "^1.0.0",
+    "@mamba/styles-utils": "^0.0.1",
     "svelte": "^2.6.3",
     "svelte-routing": "^0.4.2"
   }

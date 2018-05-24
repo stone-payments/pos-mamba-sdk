@@ -1,15 +1,21 @@
 import { createHashHistory } from 'svelte-routing'
 import App from './App.html'
+import './styles/all.scss'
 
 createHashHistory()
 
-const app = new App({
-  target: document.getElementById('root'),
-  data: {
-    name: 'world',
-  },
-})
+const renderApp = () => {
+  const app = new App({
+    target: document.getElementById('root'),
+    data: {
+      name: 'world',
+    },
+  })
+  window.app = app
+}
 
-window.app = app
+if (module.hot) {
+  module.hot.accept()
+}
 
-export default app
+renderApp()
