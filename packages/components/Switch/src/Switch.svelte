@@ -1,5 +1,5 @@
 <label class="switch" {checked} {disabled}>
-  <input type="checkbox" {disabled} bind:checked on:change="fire('change', event)"/>
+  <input type="checkbox" {disabled} bind:checked on:change="fire('change', { value: checked })"/>
 </label>
 
 <script>

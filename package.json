@@ -137,6 +137,7 @@
     "webpack-merge": "^4.1.2",
     "webpack-simple-progress-plugin": "^0.0.4",
     "xml-js": "^1.6.3",
+    "yargonaut": "^1.1.2",
     "yargs": "^11.0.0"
   }
 }
