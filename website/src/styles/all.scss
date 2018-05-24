@@ -1,5 +1,6 @@
-@import url('~@mamba/core-styles');
-@import '@mamba/styles-utils/index.scss';
+@import '../packages/css-packs/core-styles/index.scss';
+@import '../packages/css-packs/styles-utils/index.scss';
+@import 'layout/header';
 
 html,
 body,

@@ -1,5 +1,5 @@
 <header class="header">
-  Header 4
+  Header 6
 </header>
 
 <script>
@@ -13,5 +13,3 @@
     }
   }
 </script>
-
-<style type="text/scss" src="../../styles/layout/header.scss"></style>
