@@ -7,6 +7,16 @@
   <slot></slot>
 </div>
 
+<script>
+  export default {
+    data() {
+      return {
+        title: undefined,
+      }
+    },
+  }
+</script>
+
 <style type="text/scss">
   @import './Row.style.scss';
 
