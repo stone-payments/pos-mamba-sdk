@@ -54,14 +54,11 @@ if (IS_WATCHING()) {
     input: '__entry__',
     output: 'example/bundle.js',
     format: 'umd',
-    watch: {
-      chokidar: false,
-    },
     plugins: [
       /** Virtual entry module to bootstrap the example app */
       virtual({
         __entry__: `import App from '${posixify(
-          fromWorkspace('example/App.svelte'),
+          fromWorkspace('example', 'App.svelte'),
         )}'
         new App({ target: document.getElementById('root') })`,
       }),
@@ -83,7 +80,10 @@ if (IS_WATCHING()) {
       /** Create an html template in the example directory */
       html({
         template: fromProject(
-          'tools/rollup/helpers/componentExampleTemplate.html',
+          'tools',
+          'rollup',
+          'helpers',
+          'componentExampleTemplate.html',
         ),
       }),
       /** Create a server with '<workspaceDir>/example' as the root */
