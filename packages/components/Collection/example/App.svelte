@@ -24,22 +24,15 @@
       Conectado
     </p>
   </Row>
-  <Row label="HideYoKidsHideYoWiFi">
+  <Row label="HideYoKidsHideYoWiFi" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic maiores mollitia asperiores delectus, deleniti nobis fugiat quas eaque aspernatur atque ex voluptate modi fuga, iusto minus magni reprehenderit libero numquam.">
     <div slot="controller">
       <Icon symbol="wifi" color="green" level={0}/>
     </div>
-    <p slot="description">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic maiores mollitia asperiores delectus, deleniti nobis fugiat quas eaque aspernatur atque ex voluptate modi fuga, iusto minus magni reprehenderit libero numquam.
-    </p>
   </Row>
 </Collection>
 
 <Collection>
-  <Row label="HideYoKidsHideYoWiFi" href="/">
-    <p slot="description">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-    </p>
-  </Row>
+  <Row label="HideYoKidsHideYoWiFi" href="/" description="Lorem ipsum dolor sit amet consectetur adipisicing elit."/>
 </Collection>
 
 <script>

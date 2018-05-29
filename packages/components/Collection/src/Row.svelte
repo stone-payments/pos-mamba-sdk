@@ -1,49 +1,46 @@
 <!-- If there's a href defined, wrap the row with a link -->
-{#if href}
-  <a {href} class="row">
-    <div class="main">
-      <div class="label">{label}</div>
-      <div class="controller">
+<div class="row" on:click="handleClick({ href })">
+  <div class="main">
+    <div class="label">{label}</div>
+    <div class="controller">
+      {#if href && !hasCustomController}
         <Icon symbol="chevron-right"/>
-      </div>
-    </div>
-    {#if hasExtra}
-      <div class="extra">
-        <slot name="description"></slot>
-      </div>
-    {/if}
-  </a>
-{:else}
-  <div class="row">
-    <div class="main">
-      <div class="label">{label}</div>
-      <div class="controller">
+      {:else}
         <slot name="controller"></slot>
-      </div>
-    </div>
-    <div class="extra">
-      <slot name="description"></slot>
+      {/if}
     </div>
   </div>
-{/if}
+  {#if description}
+    <div class="extra">
+      <p>{description}</p>
+    </div>
+  {/if}
+</div>
 
 <script>
-  import Icon from '@mamba/icon'
+  import { getHistory } from 'svelte-routing'
 
   export default {
     components: {
-      Icon,
+      Icon: '@mamba/icon',
     },
     data() {
       return {
         href: undefined,
-        hasExtra: false,
+        description: undefined,
+        hasCustomController: false,
       }
     },
     oncreate() {
       this.set({
-        hasExtra: !!(this.options.slots && this.options.slots.description),
+        hasCustomController: !!(this.options.slots && this.options.slots.controller),
       })
+    },
+    methods: {
+      handleClick({ href }) {
+        if(!href) return
+        getHistory().push(href)
+      },
     },
   }
 </script>
