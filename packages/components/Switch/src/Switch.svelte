@@ -1,5 +1,11 @@
-<label class="switch" {checked} {disabled}>
-  <input type="checkbox" {disabled} bind:checked on:change="fire('change', { value: checked })"/>
+<label class="switch" {checked} {disabled} >
+  <input
+    type="checkbox"
+    {disabled}
+    bind:checked
+    on:change="fire('change', { value: checked })"
+    data-controller-trigger="click"
+  />
 </label>
 
 <script>
