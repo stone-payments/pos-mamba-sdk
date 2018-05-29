@@ -9449,9 +9449,9 @@ svelte-routing@^0.4.2:
     history "^4.7.2"
     path-to-regexp "^2.1.0"
 
-svelte@^2.6.3:
-  version "2.6.3"
-  resolved "https://registry.yarnpkg.com/svelte/-/svelte-2.6.3.tgz#ab6b463e76df7a294187396b3776b8b0c12c3c08"
+svelte@^2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-2.7.0.tgz#abad5b4dbfe5d69ead89b4ab8fff1f7b58eacd3a"
 
 svg-tags@^1.0.0:
   version "1.0.0"
