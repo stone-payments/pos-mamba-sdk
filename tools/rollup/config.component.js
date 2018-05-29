@@ -97,7 +97,8 @@ if (IS_WATCHING()) {
            * since rollup doesn't have something like 'css-loader' to
            * automatically copy the required assets via css url().
            */
-          ...Object.keys(PKG.dependencies)
+          ...Object.keys(PKG.dependencies || {})
+            .concat(Object.keys(PKG.devDependencies || {}))
             .filter(dep => dep.match(/@mamba/))
             .map(dep => fromWorkspace('node_modules', dep, 'src')),
         ],
