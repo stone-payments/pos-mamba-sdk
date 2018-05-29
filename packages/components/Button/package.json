@@ -1,0 +1,27 @@
+{
+  "name": "@mamba/button",
+  "version": "1.0.0",
+  "main": "dist/button.js",
+  "style": "dist/style.css",
+  "source": "src/index.js",
+  "svelte": "src/index.js",
+  "files": [
+    "dist/",
+    "src/"
+  ],
+  "author": "Stone Payments - Mamba Team",
+  "license": "Apache-2.0",
+  "scripts": {
+    "start": "rollup -c ../../../tools/rollup/config.component.js -w",
+    "build": "cross-env NODE_ENV=production rollup -c ../../../tools/rollup/config.component.js",
+    "build:dev": "rollup -c ../../../tools/rollup/config.component.js",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@mamba/core-styles": "^0.0.1",
+    "@mamba/icon": "^1.0.0"
+  },
+  "dependencies": {
+    "@mamba/styles-utils": "^0.0.1"
+  }
+}
