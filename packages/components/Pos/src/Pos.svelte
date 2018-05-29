@@ -43,26 +43,27 @@
     .pos {
       position: relative;
       margin: 0 auto;
-      width: 261px;
-      height: 572px;
+      width: 342px;
+      height: 751px;
       background-image: url(./assets/POS.png);
+      background-size: cover;
     }
 
     .screen {
       position: absolute;
-      top: 172px;
-      left: 36px;
-      width: 183px;
-      height: 243px;
+      top: 226px;
+      left: 47px;
+      width: 240px;
+      height: 319px;
       overflow-y: auto;
     }
 
     .back {
       position: absolute;
-      bottom: 77px;
-      right: 35px;
-      width: 48px;
-      height: 22px;
+      bottom: 101px;
+      right: 49px;
+      width: 60px;
+      height: 29px;
       border: 0;
       appearance: none;
       cursor: pointer;
