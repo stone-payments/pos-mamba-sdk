@@ -10,17 +10,14 @@
     Conectando...
   </Dialog>
 
-  <h1>Dialog with custom timeout</h1>
+  <h1>Dialog with custom duration</h1>
   <div class="row">
     <button on:click="openDialog('customTimeout')">
       Open dialog
     </button>
   </div>
 
-  <Dialog
-    ref:customTimeout
-    timeout="1000"
-  >
+  <Dialog ref:customTimeout duration="1000">
     Conectando...
   </Dialog>
 

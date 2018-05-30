@@ -1,29 +1,30 @@
-<div class="dialog {isOpen ? 'is-open' : ''}" {style}>
+{#if isOpen}
+  <div class="dialog" {style}>
 
-  <div class="content">
+    <div class="content">
 
-    {#if hasImage}
-      <div class="image">
-        <slot name="image"/>
+      {#if hasImage}
+        <div class="image">
+          <slot name="image"/>
+        </div>
+      {/if}
+
+      <div class="message">
+        <slot></slot>
+      </div>
+    </div>
+
+    {#if actions}
+      <div class="actions">
+        {#each actions as { label, event: eventName, props }}
+          <Button width="{100/actions.length}%" on:click="handleAction(eventName)" {...props}>
+            {label}
+          </Button>
+        {/each}
       </div>
     {/if}
-
-    <div class="message">
-      <slot></slot>
-    </div>
   </div>
-
-  {#if actions}
-    <div class="actions">
-      {#each actions as { label, event: eventName, props }}
-        <Button width="{100/actions.length}%" on:click="handleAction(eventName)" {...props}>
-          {label}
-        </Button>
-      {/each}
-    </div>
-  {/if}
-
-</div>
+{/if}
 
 <script>
   export default {
@@ -32,8 +33,8 @@
     },
     data() {
       return {
-        message: '',
-        timeout: 3000,
+        isOpen: false,
+        duration: 3000,
         actions: null,
         bgColor: 'rgba(255, 255, 255, .95)',
         textColor: '#4a4a4a',
@@ -52,12 +53,22 @@
         hasImage: !!(this.options.slots && this.options.slots.image),
       })
     },
-    onstate({ changed, current: { actions, isOpen, timeout } }) {
-      /** If the dialog is open and there's no actions, close it after {timeout} msecs */
-      if(changed.isOpen && isOpen && (!actions || !actions.length)) {
-        setTimeout(() => {
+    onstate({ changed, current: { actions, isOpen, duration } }) {
+      if(changed.isOpen && Promise.resolve(isOpen) === isOpen) {
+        isOpen
+          .then(() => this.close(1500))
+          .catch(() => this.close(1500))
+        this.open()
+        return
+      }
+
+      /** If the dialog is open and there's no actions, close it after {duration} msecs */
+      if(changed.isOpen && isOpen === true && (!actions || !actions.length)) {
+        duration = parseInt(duration)
+        const closeTimeout = setTimeout(() => {
           this.close()
-        }, parseInt(timeout));
+        }, parseInt(duration));
+        this.set({ closeTimeout })
       }
     },
     methods: {
@@ -66,12 +77,17 @@
         this.close()
       },
       open() {
-        this.fire('open')
         this.set({ isOpen: true })
+        this.fire('open')
       },
-      close() {
-        this.fire('close')
-        this.set({ isOpen: false })
+      close(delay = 0) {
+        const { closeTimeout } = this.get()
+
+        setTimeout(() => {
+          if(closeTimeout) clearTimeout(closeTimeout)
+          this.set({ isOpen: false })
+          this.fire('close')
+        }, delay)
       },
     },
   }
@@ -84,10 +100,6 @@
     left: 0;
     width: 100%;
     height: 100%;
-  }
-
-  .dialog:not(.is-open) {
-    display: none;
   }
 
   .content {
