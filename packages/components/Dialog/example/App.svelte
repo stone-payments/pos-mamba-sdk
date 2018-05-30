@@ -1,72 +1,211 @@
-<button on:click="openDialog('defaultDialog')">
-  Open Default Dialog
-</button>
+<div class="container">
+  <h1>Default Dialog (closes after 3 secs)</h1>
+  <div class="row">
+    <button on:click="openDialog('defaultDialog')">
+      Open dialog
+    </button>
+  </div>
 
-<br>
+  <Dialog ref:defaultDialog>
+    Conectando...
+  </Dialog>
 
-<button on:click="openDialog('negativeDialog')">
-  Open dialog with no negative action
-</button>
+  <h1>Dialog with custom timeout</h1>
+  <div class="row">
+    <button on:click="openDialog('customTimeout')">
+      Open dialog
+    </button>
+  </div>
 
-<br>
+  <Dialog
+    ref:customTimeout
+    timeout="1000"
+  >
+    Conectando...
+  </Dialog>
 
-<button on:click="openDialog('disabledNegative')">
-  Open dialog with negative disabled
-</button>
+  <h1>Dialog with image</h1>
+  <div class="row">
+    <button on:click="openDialog('imageDialog')">
+      Open dialog
+    </button>
+  </div>
 
-<br>
+  <Dialog ref:imageDialog>
+    <div slot="image">
+      <img src="./assets/images/success.png" alt="">
+    </div>
 
-<button on:click="openDialog('disabledPositive')">
-  Open dialog waith positive disabled
-</button>
+    Conectando...
+  </Dialog>
 
-<br>
+  <h1>Dialog with sprite</h1>
+  <div class="row">
+    <button on:click="openDialog('spriteDialog')">
+      Open dialog
+    </button>
+  </div>
 
-<Dialog
-  isOpen={true}
-  ref:defaultDialog
-  title="Dialog Title"
-  on:close="console.log(event)"
->
-  Dialogo
-</Dialog>
+  <Dialog ref:spriteDialog>
+    <div slot="image">
+      <Sprite src="./assets/images/loading-sprite.png" width="70px"/>
+    </div>
+    Conectando...
+  </Dialog>
 
-<Dialog
-  ref:negativeDialog
-  title="Dialog Title"
-  on:close="console.log(event)"
-  hideNegativeAction
->
-  Dialogo 2
-</Dialog>
+  <h1>Dialog with custom colors</h1>
+  <div class="row">
+    <button on:click="openDialog('bgDialog')">
+      Open dialog
+    </button>
+  </div>
 
-<Dialog
-  ref:disabledNegative
-  title="Dialog Title"
-  on:close="console.log(event)"
-  disableNegativeAction
->
-  Dialogo 3
-</Dialog>
+  <Dialog
+    ref:bgDialog
+    bgColor="rgba(0,0,0,.95)"
+    textColor="white"
+  >
+    <div slot="image">
+      <img src="./assets/images/success.png" alt="">
+    </div>
+    Conectando...
+  </Dialog>
 
-<Dialog
-  ref:disabledPositive
-  title="Dialog Title"
-  on:close="console.log(event)"
-  disablePositiveAction
->
-  Dialogo 3
-</Dialog>
+  <h1>Dialog with actions</h1>
+  <div class="row">
+    <button on:click="openDialog('actionsDialog')">
+      Open Dialog
+    </button>
+  </div>
+
+  <Dialog
+    ref:actionsDialog
+    bgColor="rgba(0,0,0,.95)"
+    textColor="white"
+    actions={[{
+      label: 'Cancelar',
+      event: 'cancel',
+      props: {
+        bgColor: 'white',
+        textColor: 'black',
+        borderColor: '#4ebf1a'
+      }
+    },
+    {
+      label: 'Ok',
+      event: 'ok'
+    }]}
+    on:ok="console.log('ok')"
+    on:cancel="console.log('cancel')"
+  >
+    <div slot="image">
+      <img src="./assets/images/success.png" alt="">
+    </div>
+    Conectando...
+  </Dialog>
+
+
+  <h1>Default Modal</h1>
+  <div class="row">
+    <button on:click="openModal('defaultModal')">
+      Open Default Modal
+    </button>
+  </div>
+
+  <div class="row">
+    <button on:click="openModal('negativeModal')">
+      Open modal with no negative action
+    </button>
+  </div>
+
+  <div class="row">
+    <button on:click="openModal('disabledNegative')">
+      Open modal with negative disabled
+    </button>
+  </div>
+
+  <div class="row">
+    <button on:click="openModal('disabledPositive')">
+      Open modal with positive disabled
+    </button>
+  </div>
+
+  <Modal
+    ref:defaultModal
+    title="Modal Title"
+    on:close="console.log(event)"
+  >
+    Modal
+  </Modal>
+
+  <Modal
+    ref:negativeModal
+    title="Modal Title"
+    on:close="console.log(event)"
+    hideNegativeAction
+  >
+    Modal 2
+  </Modal>
+
+  <Modal
+    ref:disabledNegative
+    title="Modal Title"
+    on:close="console.log(event)"
+    disableNegativeAction
+  >
+    Modal 3
+  </Modal>
+
+  <Modal
+    ref:disabledPositive
+    title="Modal Title"
+    on:close="console.log(event)"
+    disablePositiveAction
+  >
+    Modal 3
+  </Modal>
+</div>
 
 <script>
+  import { Modal, Dialog } from '../src'
   export default {
     components: {
-      Dialog: '../src',
+      Modal,
+      Dialog,
+      Sprite: '@mamba/sprite',
     },
     methods: {
       openDialog(dialog) {
         this.refs[dialog].open()
       },
+      openModal(modal) {
+        this.refs[modal].open()
+      },
     },
   }
 </script>
+
+<style>
+  :global(body) {
+    background-color: #ddd;
+  }
+
+  h1 span {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: monospace;
+  }
+
+  .container {
+    max-width: 80%;
+    width: 700px;
+    margin: 80px auto;
+  }
+
+  .row {
+    margin-bottom: 50px
+  }
+</style>

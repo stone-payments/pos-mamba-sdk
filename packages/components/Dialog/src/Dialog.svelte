@@ -1,140 +1,122 @@
-<div class="container {isOpen ? 'is-active' : ''}">
+<div class="dialog {isOpen ? 'is-open' : ''}" {style}>
 
-  <div class="modal">
-    <div class="content">
-      {#if title && title.length}
-        <h5 class="title">{title}</h5>
-      {/if}
+  <div class="content">
 
-      <p class="message">
-        <slot></slot>
-      </p>
-    </div>
+    {#if hasImage}
+      <div class="image">
+        <slot name="image"/>
+      </div>
+    {/if}
 
-    <div class="actions {hideNegativeAction ? 'is-alert' : ''}">
-      {#if negativeAction && !hideNegativeAction}
-        <button
-          class="action -negative"
-          on:click="close(negativeAction)"
-          disabled={disableNegativeAction}
-        >
-          {negativeAction}
-        </button>
-      {/if}
-
-      {#if positiveAction}
-        <button
-          class="action -positive"
-          on:click="close(positiveAction)"
-          disabled={disablePositiveAction}
-        >
-          {positiveAction}
-        </button>
-      {/if}
-
+    <div class="message">
+      <slot></slot>
     </div>
   </div>
+
+  {#if actions}
+    <div class="actions">
+      {#each actions as { label, event: eventName, props }}
+        <Button width="{100/actions.length}%" on:click="handleAction(eventName)" {...props}>
+          {label}
+        </Button>
+      {/each}
+    </div>
+  {/if}
+
 </div>
 
 <script>
   export default {
+    components: {
+      Button: '@mamba/button',
+    },
     data() {
       return {
-        positiveAction: 'Ok',
-        negativeAction: 'Cancel',
-        hideNegativeAction: false,
-        disableNegativeAction: false,
-        disablePositiveAction: false,
-        isOpen: false,
+        message: '',
+        timeout: 3000,
+        actions: null,
+        bgColor: 'rgba(255, 255, 255, .95)',
+        textColor: '#4a4a4a',
+      }
+    },
+    computed: {
+      style({ bgColor, textColor }) {
+        return [
+          `background-color:${bgColor}`,
+          `color:${textColor}`,
+        ].join(';')
+      },
+    },
+    oncreate() {
+      this.set({
+        hasImage: !!(this.options.slots && this.options.slots.image),
+      })
+    },
+    onstate({ changed, current: { actions, isOpen, timeout } }) {
+      /** If the dialog is open and there's no actions, close it after {timeout} msecs */
+      if(changed.isOpen && isOpen && (!actions || !actions.length)) {
+        setTimeout(() => {
+          this.close()
+        }, parseInt(timeout));
       }
     },
     methods: {
-      open() {
-        this.set({ isOpen: true })
-        document.body.classList.add('no-scroll')
+      handleAction(eventName) {
+        this.fire(eventName)
+        this.close()
       },
-      close(action) {
+      open() {
+        this.fire('open')
+        this.set({ isOpen: true })
+      },
+      close() {
+        this.fire('close')
         this.set({ isOpen: false })
-        document.body.classList.remove('no-scroll')
-        this.fire('close', { action })
       },
     },
   }
 </script>
 
-<style type="text/scss">
-  @import '@mamba/styles-utils/index.scss';
-
-  .container {
+<style>
+  .dialog {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-
-    &:not(.is-active) {
-      display: none;
-    }
   }
 
-  .modal {
-    max-width: 210px;
-    width: 80%;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    padding-bottom: 0;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    z-index: $dialog-z-index;
+  .dialog:not(.is-open) {
+    display: none;
   }
 
   .content {
-    padding: 10px 15px 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
   }
 
-  .title {
-    font-size: 1.3em;
-    font-weight: bold;
-    line-height: 1.4em;
+  .image {
+    margin: 0 auto 15px;
   }
 
   .message {
-    color: $grey-dark;
+    font-size: 20px;
   }
 
   .actions {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     display: flex;
-    text-align: center;
-    border-top: 1px solid $grey-lighter;
+    padding: 15px;
   }
 
-  .action {
-    display: block;
-    width: 50%;
-    min-width: 3em;
-    padding: 1em;
-    border: none;
-    color: $primary-color;
-    background: transparent;
-    font-weight: bold;
-    text-transform: uppercase;
-    appearance: none;
-
-    .actions.is-alert & {
-      width: 100%;
-    }
-
-    &.-positive {
-      background-color: $green;
-      color: $white;
-    }
-
-    &[disabled] {
-      color: $grey;
-      background-color: $grey-lighter;
-    }
+  .actions > :global(.button + .button) {
+    margin-left: 5px
   }
 
 </style>
