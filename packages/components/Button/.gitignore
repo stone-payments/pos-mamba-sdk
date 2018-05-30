@@ -1,2 +1,2 @@
-/example/*
-!/example/App.svelte
+/example/assets
+/example/index.html

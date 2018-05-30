@@ -1,16 +1,14 @@
 <button
-  class="is-{size} {bottom ? 'is-fixed' : ''}"
+  class="button is-{size} {bottom ? 'is-fixed' : ''}"
   {style}
   {disabled}
-  on:click="fire('click', event)"
+  on:click
 >
   <slot></slot>
 </button>
 
 <script>
   export default {
-    components: {
-    },
     data() {
       return {
         size: 'regular',
@@ -19,10 +17,11 @@
       }
     },
     computed: {
-      style({ textColor, bgColor, width }) {
+      style({ textColor, bgColor, width, borderColor}) {
         return [
           textColor && `color:${textColor}`,
           bgColor && `background-color:${bgColor}`,
+          borderColor && `border: 2px solid ${borderColor}`,
           width && `width:${width}`,
         ].filter(Boolean).join(';')
       },
@@ -37,7 +36,7 @@
     cursor: pointer;
     appearance: none;
     border: none;
-    background-color: $green;
+    background-color: #4ebf1a;
     color: $white;
     font-size: 16px;
     font-weight: bold;
@@ -48,6 +47,7 @@
     cursor: not-allowed;
     background-color: $grey-light !important;
     color: $grey !important;
+    border: none !important;
   }
 
   button.is-fixed {
