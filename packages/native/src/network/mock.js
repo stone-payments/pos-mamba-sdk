@@ -1,25 +1,47 @@
 import lastWifiList from './fixtures/lasWifiList'
 
 export default function(Network) {
-  console.log(lastWifiList)
+  const SimulatedConfig = {
+    connect_should_fail: false,
+    forget_should_fail: false,
+    get_wifi_list_should_fail: false,
+    connect_time: 3000,
+    forget_time: 100,
+    get_wifi_list_time: 1500,
+    wifi_connected: false,
+    wifi_enabled: true,
+    current_network_adapter: 'wifi',
+  }
 
-  function connect(callback) {
-    if (typeof callback !== 'function') callback = function() {}
-
-    console.log('connecting')
-    if (Network.SimulatedConfig.connect_should_fail) {
-      console.log('connect failure')
+  function getWifiList() {
+    return new Promise((resolve, reject) => {
       setTimeout(function() {
-        callback(new Error(0, Network.Errors[0]))
-      }, Network.SimulatedConfig.connect_time)
+        if (Network.SimulatedConfig.get_wifi_list_should_fail) {
+          console.log('get wifi list failure')
+          reject(new Error(3, Network.Errors[3]))
+        } else {
+          console.log('get wifi list success')
+          resolve(lastWifiList)
+        }
+      }, Network.SimulatedConfig.get_wifi_list_time)
+    }).catch(e => console.log(e))
+  }
 
-      Network.SimulatedConfig.wifi_connected = false
-    } else {
-      console.log('connect success')
-      setTimeout(callback, Network.SimulatedConfig.connect_time)
-      Network.SimulatedConfig.wifi_enabled = true
-      Network.SimulatedConfig.wifi_connected = true
-    }
+  function connect(wifiObject) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (Network.SimulatedConfig.connect_should_fail) {
+          console.log('connect failure')
+          Network.SimulatedConfig.wifi_connected = false
+          reject(new Error(0, Network.Errors[0]))
+        } else {
+          console.log('connect success')
+          resolve(wifiObject)
+          Network.SimulatedConfig.wifi_enabled = true
+          Network.SimulatedConfig.wifi_connected = true
+        }
+      }, Network.SimulatedConfig.connect_time)
+    }).catch(e => console.log(e))
   }
 
   function hasSavedWifi() {
@@ -56,22 +78,6 @@ export default function(Network) {
       // Network.SimulatedConfig.current_connection = ConnectionTypes.MBB;
       Network.SimulatedConfig.wifi_connected = true
     }
-  }
-
-  function getWifiList(callback) {
-    return new Promise((resolve, reject) => {
-      if (Network.SimulatedConfig.get_wifi_list_should_fail) {
-        console.log('get wifi list failure')
-        setTimeout(function() {
-          reject(new Error(3, Network.Errors[3]))
-        }, Network.SimulatedConfig.get_wifi_list_time)
-      } else {
-        console.log('get wifi list success')
-        setTimeout(function() {
-          resolve(lastWifiList)
-        }, Network.SimulatedConfig.get_wifi_list_time)
-      }
-    }).catch(e => console.log(e))
   }
 
   function isWifiConnected() {
@@ -126,18 +132,6 @@ export default function(Network) {
 
   function getLastWifiList() {
     return lastWifiList
-  }
-
-  const SimulatedConfig = {
-    connect_should_fail: false,
-    forget_should_fail: false,
-    get_wifi_list_should_fail: false,
-    connect_time: 1000,
-    forget_time: 100,
-    get_wifi_list_time: 1500,
-    wifi_connected: false,
-    wifi_enabled: true,
-    current_network_adapter: 'wifi',
   }
 
   Object.assign(Network, {

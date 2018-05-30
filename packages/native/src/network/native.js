@@ -3,58 +3,6 @@ import SignalHandler from '../SignalHandler'
 export default function(Network) {
   const NetworkSignals = SignalHandler(Network)
 
-  Network.connect = function(wifiObject, callback) {
-    if (wifiObject === undefined) {
-      wifiObject = {}
-    }
-    NetworkSignals.once([
-      ['connectSuccess', callback],
-      ['connectFailure', callback],
-    ])
-    Network.doConnectWifi(wifiObject)
-  }
-
-  Network.forgetWifi = function(wifiObject, callback) {
-    if (typeof callback !== 'function') callback = function() {}
-
-    Network.forgetSuccess.connect(callback)
-    Network.forgetFailure.connect(function() {
-      let err = new Error(2, Network.Errors[2])
-      callback(err)
-    })
-
-    Network.doForgetWifi(wifiObject)
-  }
-
-  Network.reconnect = function(callback) {
-    console.log('reconnect')
-    NetworkSignals.once([
-      ['connectSuccess', callback],
-      ['connectFailure', callback],
-    ])
-    Network.doReconnect()
-  }
-
-  Network.connectToMBB = function(callback) {
-    console.log('connect to mbb')
-    NetworkSignals.once([
-      ['connectSuccess', callback],
-      ['connectFailure', callback],
-    ])
-    Network.doConnectToMBB()
-  }
-
-  Network.connectToWifi = function(callback) {
-    console.log('connect to wifi')
-
-    NetworkSignals.once([
-      ['connectSuccess', callback],
-      ['connectFailure', callback],
-    ])
-
-    Network.doConnectToWifi()
-  }
-
   Network.getWifiList = function() {
     console.log('get wifilist')
     return new Promise((resolve, reject) => {
@@ -75,7 +23,7 @@ export default function(Network) {
         reject(new Error(3, Network.Errors[3]))
       }
 
-      NetworkSignals.once([
+      NetworkSignals.race([
         ['getWifiListSuccess', onSuccess],
         ['getWifiListFailure', onFailure],
       ])
@@ -83,5 +31,56 @@ export default function(Network) {
       // TODO: investigar porque retorna '' as vezes
       setTimeout(() => Network.doGetWifiList())
     })
+  }
+
+  Network.connect = function(wifiObject) {
+    return new Promise((resolve, reject) => {
+      NetworkSignals.race([
+        ['connectSuccess', resolve],
+        ['connectFailure', reject],
+      ])
+      Network.doConnectWifi(wifiObject)
+    })
+  }
+
+  Network.forgetWifi = function(wifiObject, callback) {
+    if (typeof callback !== 'function') callback = function() {}
+
+    Network.forgetSuccess.connect(callback)
+    Network.forgetFailure.connect(function() {
+      let err = new Error(2, Network.Errors[2])
+      callback(err)
+    })
+
+    Network.doForgetWifi(wifiObject)
+  }
+
+  Network.reconnect = function(callback) {
+    console.log('reconnect')
+    NetworkSignals.race([
+      ['connectSuccess', callback],
+      ['connectFailure', callback],
+    ])
+    Network.doReconnect()
+  }
+
+  Network.connectToMBB = function(callback) {
+    console.log('connect to mbb')
+    NetworkSignals.race([
+      ['connectSuccess', callback],
+      ['connectFailure', callback],
+    ])
+    Network.doConnectToMBB()
+  }
+
+  Network.connectToWifi = function(callback) {
+    console.log('connect to wifi')
+
+    NetworkSignals.race([
+      ['connectSuccess', callback],
+      ['connectFailure', callback],
+    ])
+
+    Network.doConnectToWifi()
   }
 }

@@ -24,7 +24,7 @@ class SignalHandler {
     return this
   }
 
-  once(entries) {
+  race(entries) {
     if (!Array.isArray(entries)) {
       entries = [[arguments[0], arguments[1]]]
     }
