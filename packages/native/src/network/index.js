@@ -4,11 +4,13 @@ import extendNative from './native.js'
 
 let Network = window.Network
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'development') {
   Network = window.Network = {}
   addSharedTo(Network)
   mock(Network)
-} else {
+}
+
+if (process.env.NODE_ENV === 'production') {
   if (!Network) {
     throw new Error("[@mamba/native] 'Network' module not found")
   }

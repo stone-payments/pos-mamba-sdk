@@ -1,51 +1,24 @@
+import SignalHandler from '../SignalHandler'
+
 export default function(Network) {
-  function disconnectConnectCallbacks() {
-    try {
-      Network.connectSuccess.disconnect(this, connectSuccessCallback)
-    } catch (e) {
-      console.log(e)
-    }
-    try {
-      Network.connectFailure.disconnect(this, connectFailureCallback)
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  function connectSuccessCallback() {
-    if (typeof Network.connectCallback === 'function') {
-      Network.connectCallback()
-    }
-  }
-
-  function connectFailureCallback() {
-    if (typeof Network.connectCallback === 'function') {
-      let err = new Error(0, 'Erro ao conectar')
-
-      Network.connectCallback(err)
-    }
-  }
-
-  function connectConnectCallbacks(callback) {
-    Network.connectCallback = callback
-    Network.connectSuccess.connect(this, connectSuccessCallback)
-    Network.connectFailure.connect(this, connectFailureCallback)
-  }
+  const NetworkSignals = SignalHandler(Network)
 
   Network.connect = function(wifiObject, callback) {
-    if (wifiObject === undefined) wifiObject = {}
-
-    disconnectConnectCallbacks()
-    connectConnectCallbacks(callback)
-
+    if (wifiObject === undefined) {
+      wifiObject = {}
+    }
+    NetworkSignals.once([
+      ['connectSuccess', callback],
+      ['connectFailure', callback],
+    ])
     Network.doConnectWifi(wifiObject)
   }
 
   Network.forgetWifi = function(wifiObject, callback) {
     if (typeof callback !== 'function') callback = function() {}
 
-    Network.forgetSuccess.connect(this, callback)
-    Network.forgetFailure.connect(this, function() {
+    Network.forgetSuccess.connect(callback)
+    Network.forgetFailure.connect(function() {
       let err = new Error(2, Network.Errors[2])
       callback(err)
     })
@@ -55,45 +28,60 @@ export default function(Network) {
 
   Network.reconnect = function(callback) {
     console.log('reconnect')
-
-    disconnectConnectCallbacks()
-    connectConnectCallbacks(callback)
-
+    NetworkSignals.once([
+      ['connectSuccess', callback],
+      ['connectFailure', callback],
+    ])
     Network.doReconnect()
   }
 
   Network.connectToMBB = function(callback) {
     console.log('connect to mbb')
-
-    disconnectConnectCallbacks()
-    connectConnectCallbacks(callback)
-
+    NetworkSignals.once([
+      ['connectSuccess', callback],
+      ['connectFailure', callback],
+    ])
     Network.doConnectToMBB()
   }
 
   Network.connectToWifi = function(callback) {
     console.log('connect to wifi')
 
-    disconnectConnectCallbacks()
-    connectConnectCallbacks(callback)
+    NetworkSignals.once([
+      ['connectSuccess', callback],
+      ['connectFailure', callback],
+    ])
 
     Network.doConnectToWifi()
   }
 
-  Network.getWifiList = function(callback) {
-    console.log('get wifi list')
+  Network.getWifiList = function() {
+    console.log('get wifilist')
+    return new Promise((resolve, reject) => {
+      const onSuccess = () => {
+        console.log('get wifi SUCCESS')
+        let data = Network.getLastWifiList()
+        console.log(data)
+        data = data.sort((a, b) => {
+          if (a.connected || a.strength > b.strength) return -1
+          if (b.connected || a.strength < b.strength) return 1
+          return 0
+        })
+        resolve(data)
+      }
 
-    if (typeof callback !== 'function') callback = function() {}
+      const onFailure = () => {
+        console.log('get wifi FAILED')
+        reject(new Error(3, Network.Errors[3]))
+      }
 
-    Network.getWifiListSuccess.connect(this, function() {
-      callback(undefined, Network.getLastWifiList())
+      NetworkSignals.once([
+        ['getWifiListSuccess', onSuccess],
+        ['getWifiListFailure', onFailure],
+      ])
+
+      // TODO: investigar porque retorna '' as vezes
+      setTimeout(() => Network.doGetWifiList())
     })
-
-    Network.getWifiListFailure.connect(this, function() {
-      let err = new Error(3, Network.Errors[3])
-      callback(err)
-    })
-
-    Network.doGetWifiList()
   }
 }

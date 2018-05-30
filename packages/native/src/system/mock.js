@@ -262,35 +262,7 @@ export default function(System) {
     SerialNumber: '00000000',
   }
 
-  const KeyboardLight = {
-    enable() {
-      console.log('enabled keyboard light')
-    },
-    disable() {
-      console.log('disabled keyboard light')
-    },
-
-    isEnabled() {
-      return true
-    },
-  }
-
-  const Sound = {
-    enable() {
-      console.log('enabled keyboard sound')
-    },
-    disable() {
-      console.log('disabled keyboard sound')
-    },
-
-    isEnabled() {
-      return true
-    },
-  }
-
   Object.assign(System, {
-    Sound,
-    KeyboardLight,
     beep,
     hasEthernet,
     hasWifi,

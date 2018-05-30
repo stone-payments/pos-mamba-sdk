@@ -1,7 +1,9 @@
-export default function(Network) {
-  let lastWifiList = []
+import lastWifiList from './fixtures/lasWifiList'
 
-  function connect(wifiObject, callback) {
+export default function(Network) {
+  console.log(lastWifiList)
+
+  function connect(callback) {
     if (typeof callback !== 'function') callback = function() {}
 
     console.log('connecting')
@@ -57,69 +59,19 @@ export default function(Network) {
   }
 
   function getWifiList(callback) {
-    if (typeof callback !== 'function') callback = function() {}
-
-    if (Network.SimulatedConfig.get_wifi_list_should_fail) {
-      console.log('get wifi list failure')
-      setTimeout(function() {
-        callback(new Error(3, Network.Errors[3]))
-      }, Network.SimulatedConfig.get_wifi_list_time)
-    } else {
-      console.log('get wifi list success')
-      lastWifiList = [
-        {
-          bssid: '00:00:00:00:00:00',
-          ssid: 'Wifi name 5',
-          strength: Network.SignalStrength['NO_SIGNAL'],
-          connected: false,
-          saved: true,
-          password: '123456',
-        },
-        {
-          bssid: '00:00:00:00:00:01',
-          ssid: 'Wifi name',
-          strength: Network.SignalStrength.LOW,
-          connected: false,
-          saved: false,
-          password: '123456',
-        },
-        {
-          bssid: '00:00:00:00:00:02',
-          ssid: 'Wifi name 2',
-          strength: Network.SignalStrength['MED_LOW'],
-          connected: false,
-          saved: false,
-          password: '123456',
-        },
-        {
-          bssid: '00:00:00:00:00:03',
-          ssid: 'Wifi name 3',
-          strength: Network.SignalStrength['MED_HIGH'],
-          connected: false,
-          saved: true,
-          password: '123456',
-        },
-        {
-          bssid: '00:00:00:00:00:04',
-          ssid: 'Wifi name 4',
-          strength: Network.SignalStrength['HIGH'],
-          connected: false,
-          saved: true,
-          password: '123456',
-        },
-        {
-          bssid: '00:00:00:00:00:05',
-          ssid: 'Wifi name 5',
-          strength: Network.SignalStrength['HIGH'],
-          connected: true,
-          saved: true,
-          password: '123456',
-        },
-      ]
-      setTimeout(function() {
-        callback(undefined, lastWifiList)
-      }, Network.SimulatedConfig.get_wifi_list_time)
-    }
+    return new Promise((resolve, reject) => {
+      if (Network.SimulatedConfig.get_wifi_list_should_fail) {
+        console.log('get wifi list failure')
+        setTimeout(function() {
+          reject(new Error(3, Network.Errors[3]))
+        }, Network.SimulatedConfig.get_wifi_list_time)
+      } else {
+        console.log('get wifi list success')
+        setTimeout(function() {
+          resolve(lastWifiList)
+        }, Network.SimulatedConfig.get_wifi_list_time)
+      }
+    }).catch(e => console.log(e))
   }
 
   function isWifiConnected() {
