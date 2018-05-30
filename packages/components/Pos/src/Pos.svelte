@@ -43,7 +43,7 @@
     .pos {
       position: relative;
       margin: 0 auto;
-      width: 342px;
+      width: 342.5px;
       height: 751px;
       background-image: url(./assets/POS.png);
       background-size: cover;
@@ -52,7 +52,7 @@
     .screen {
       position: absolute;
       top: 226px;
-      left: 47px;
+      left: 47.3px;
       width: 240px;
       height: 319px;
       overflow-y: auto;
