@@ -13,6 +13,7 @@ import clear from 'rollup-plugin-clear'
 import uglify from 'rollup-plugin-uglify'
 import html from '@gen/rollup-plugin-generate-html'
 import copy from 'rollup-plugin-copy'
+import replace from 'rollup-plugin-replace'
 import { IS_WATCHING, IS_PROD, getPkg } from 'quickenv'
 
 import posixify from './helpers/posixify.js'
@@ -27,7 +28,6 @@ const {
 
 const defaultSvelteConfig = require(fromProject('svelte.config.js'))
 const babelrc = require(fromProject('.babelrc.js'))
-const eslintOptions = require(fromProject('.eslintrc.js'))
 const PKG = getPkg()
 
 const STATIC_ARTIFACTS = ['assets']
@@ -66,7 +66,6 @@ if (IS_WATCHING()) {
         extensions: ['.js', '.svelte', '.html'],
       }),
       cjs(),
-      eslint(eslintOptions),
       /** Compile svepte components and extract its css to <workspaceDir>/example/style.css */
       svelte(defaultSvelteConfig),
       babel({
@@ -99,12 +98,16 @@ if (IS_WATCHING()) {
            */
           ...Object.keys(PKG.dependencies || {})
             .concat(Object.keys(PKG.devDependencies || {}))
+            .concat(Object.keys(PKG.peerDependencies || {}))
             .filter(dep => dep.match(/@mamba/))
             .map(dep => fromWorkspace('node_modules', dep, 'src')),
         ],
       }),
       /** Reload the serve on file changes */
       livereload(),
+      replace({
+        'process.env.NODE_ENV': JSON.stringify('development'),
+      }),
     ],
   }
 } else {
