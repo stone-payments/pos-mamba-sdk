@@ -51,6 +51,7 @@
       }
     },
     methods: {
+      // TODO: when 'visible' changes, it triggers a focus
       onFocus() {
         const { alphanumeric } = this.get()
         if(alphanumeric) {
