@@ -5,6 +5,11 @@
     <Input />
   </div>
 
+  <h1>Alphanumeric input <span>{'<Input alphanumeric/>'}</span></h1>
+  <div class="row">
+    <Input alphanumeric />
+  </div>
+
   <h1>Autofocused input <span>{'<Input autofocus />'}</span></h1>
   <div class="row">
     <Input autofocus/>

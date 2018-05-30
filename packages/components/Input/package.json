@@ -18,6 +18,7 @@
     "@mamba/core-styles": "^0.0.1"
   },
   "dependencies": {
-    "@mamba/icon": "^1.0.0"
+    "@mamba/icon": "^1.0.0",
+    "@mamba/native": "^0.0.1"
   }
 }

@@ -9,8 +9,10 @@
 
   <input
     ref:input
-    type={visible ? 'text' : type}
+    type={visible ? 'text' : 'password'}
     style="color: {textColor}"
+    on:focus="onFocus()"
+    on:blur="onBlur()"
     on:input="set({ value: this.value })"
     {autofocus}
     />
@@ -24,34 +26,53 @@
 
 
 <script>
+  import Keyboard from '@mamba/native/keyboard'
+
   export default {
     components: {
       Icon: '@mamba/icon',
     },
     data() {
       return {
+        label: undefined,
         type: 'text',
         bgColor: '#fff',
-        textColor: '#000',
+        textColor: '#4a4a4a',
         visible: true,
         value: '',
-        autofocus: false,
+        alphanumeric: false,
       }
     },
     oncreate() {
-      if(this.get().type === 'password') {
+      const { type } = this.get()
+
+      if (type === 'password') {
         this.set({ visible: false })
       }
     },
     methods: {
+      onFocus() {
+        const { alphanumeric } = this.get()
+        if(alphanumeric) {
+          Keyboard.setKeyboardAsAlphanumeric()
+        } else {
+          Keyboard.setKeyboardAsNumeric()
+        }
+      },
+      onBlur() {
+        const { alphanumeric } = this.get()
+        if(alphanumeric) {
+          Keyboard.setKeyboardAsNumeric()
+        }
+      },
       /** We use mousedown instead of click because it fires before the input's .focus() */
       handleMousedown(e) {
         const { type, visible } = this.get()
         /** Change password visibility only if element is focused */
-        if(type === 'password' && document.activeElement === this.refs.input) {
+        if (type === 'password' && document.activeElement === this.refs.input) {
           this.set({ visible: !visible })
+          setTimeout(() => this.refs.input.focus())
         }
-
       },
     },
   }
@@ -84,6 +105,11 @@
     -webkit-appearance: none;
     border: none;
     font-size: 30px;
+    height: 36px;
+  }
+
+  input[type='text'] {
+    font-size: 20px;
   }
 
   .type-toggle {
