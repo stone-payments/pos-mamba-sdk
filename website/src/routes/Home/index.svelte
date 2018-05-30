@@ -1,7 +1,7 @@
-<div class="router-home">
-  <h1>Mamba Web</h1>
-  <p>UI components built with Svelte.</p>
-</div>
+<header>
+  <h1>Documentation</h1>
+  <p>Shared unit of analysis think tank incubator empower systems thinking shine. Impact investing because venture philanthropy.</p>
+</header>
 
 <script>
 

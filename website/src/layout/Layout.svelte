@@ -1,21 +1,18 @@
-<section class="router-layout wrapper" use:links>
-  <Header />
-  <section class="scrollWrapper">
-    <Navigation />
-    <Main>
-      <slot></slot>
-    </Main>
-  </section>
-</section>
+<main class="docs Grid" use:links>
+  <Sidebar />
+  <Main>
+    <slot></slot>
+  </Main>
+  <div class="Grid-rightSpacer Flex--grow "></div>
+</main>
 
 <script>
   import links from 'svelte-routing/links'
-  import Header from './components/header'
-  import Navigation from './components/navigation'
-  import Main from './components/main'
+  import Sidebar from './components/Sidebar'
+  import Main from './components/Main'
 
   export default {
-    components: { Header, Navigation, Main },
+    components: { Sidebar, Main },
     actions: { 
       links 
     }

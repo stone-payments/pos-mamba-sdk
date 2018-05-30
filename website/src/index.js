@@ -1,6 +1,8 @@
 import { createHashHistory } from 'svelte-routing'
 import App from './App.html'
-import './styles/all.scss'
+
+import './styles/reset.scss'
+import './styles/app.css'
 
 createHashHistory()
 

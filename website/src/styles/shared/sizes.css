@@ -1,0 +1,30 @@
+/* shared/sizes.css */
+
+/* SideBar */
+
+:root {
+  --sidebar-minwidth: 256px;
+
+  --sidebar-sizes: {
+    min-width: var(--sidebar-minwidth);
+    width: 100%;
+    height: 100vh;
+  }
+
+  --sidebar-position: {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+  }
+
+  /* logo descendent */
+  --logo-container-size: 105px;
+
+  --logo-svg-sizes: {
+    width: var(--logo-container-size);
+    height: 90px;
+  }
+
+  /* Nav */
+  --nav-width: 400px;
+}

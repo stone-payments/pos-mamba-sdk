@@ -1,0 +1,44 @@
+@import '@mamba/core-styles/src/reset.scss';
+
+blockquote,
+body,
+button,
+dd,
+dl,
+figure,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ol,
+p,
+pre,
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+article blockquote,
+article dl,
+article ol,
+article p,
+article table tbody,
+article ul {
+  font-size: 15px;
+  color: #373e42;
+  line-height: 26px;
+}
+
+a,
+button,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  text-decoration: none;
+}

@@ -1,0 +1,16 @@
+.Content {
+  &-wrapper {
+    background: #fff;
+  }
+
+  &.Content {
+    width: 770px;
+    padding-top: 33px;
+    padding-left: 32px;
+    position: relative;
+  }
+}
+
+.docs {
+  grid-template-columns: minmax(var(--sidebar-minwidth), calc(50% - 299px)) 865px 1fr;
+}
