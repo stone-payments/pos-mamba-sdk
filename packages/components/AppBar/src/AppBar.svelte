@@ -1,4 +1,4 @@
-<header ref:navbar class="appbar">
+<header ref:navbar class="appbar" on:click="goback()">
   <div class="content">
     {#if leftIcon}
       <div class="icon-left" on:click="console.log('left-click')">
@@ -33,7 +33,12 @@
       if (color) {
         navBar.style.backgroundColor = color
       }
-
+    },
+    methods: {
+      async goback() {
+        const { getHistory } = await import('svelte-routing')
+        getHistory().goBack()
+      },
     },
   }
 </script>
