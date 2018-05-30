@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const { IS_DEV, IS_WATCHING } = require('quickenv')
 
@@ -31,14 +32,30 @@ module.exports = {
     loader: 'css-loader',
     options: {
       sourceMap: IS_DEV(),
+      minimize: !IS_DEV(),
       /** Apply the two last loaders (resolve-url, postcss) to @imported url() css files */
-      importLoaders: 3,
+      importLoaders: 2,
     },
   },
   postcss: {
     loader: 'postcss-loader',
     options: {
-      plugins: [require('autoprefixer')()],
+      plugins: [
+        require('postcss-import')({ addDependencyTo: webpack }),
+        require('postcss-url')(),
+        require('postcss-cssnext')({
+          features: {
+            customMedia: {
+              extensions: {
+                '--pos': '(min-width: 240px)',
+              },
+            },
+          },
+        }),
+        require('postcss-nested')(),
+        require('postcss-browser-reporter')(),
+        require('postcss-reporter')(),
+      ],
       sourceMap: true, // 'resolve-url-loader' requires this to be always true
     },
   },
