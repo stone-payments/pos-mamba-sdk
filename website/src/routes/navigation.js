@@ -1,5 +1,5 @@
 export default [
-  { title: 'Getting Started', to: '/home' },
+  { title: 'Getting Started', to: '/' },
   {
     title: 'Native API',
     to: '/native',
