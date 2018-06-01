@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>Default Dialog (closes after 3 secs)</h1>
+  <h1>Default Dialog (closes after 2 secs)</h1>
   <div class="row">
     <button on:click="openDialog('defaultDialog')">
       Open dialog
@@ -101,6 +101,27 @@
     Conectando...
   </Dialog>
 
+  <h1>Dialog based on a Promise</h1>
+  <div class="row">
+    <button on:click="refreshPromise()">
+      Open Dialog
+    </button>
+  </div>
+
+  <Dialog
+    {promise}
+    on:success="console.log('promise success', event)"
+    on:failure="console.log(event)"
+  >
+    {#await promise}
+      Loading....
+    {:then }
+      Success!!!
+    {:catch }
+      Something went wrong...
+    {/await}
+  </Dialog>
+
 
   <h1>Default Modal</h1>
   <div class="row">
@@ -172,6 +193,13 @@
       Sprite: '@mamba/sprite',
     },
     methods: {
+      refreshPromise() {
+        this.set({
+          promise: new Promise((resolve, reject) =>
+            setTimeout(() => resolve(), 2000),
+          ),
+        })
+      },
       openDialog(dialog) {
         this.refs[dialog].open()
       },
@@ -203,6 +231,6 @@
   }
 
   .row {
-    margin-bottom: 50px
+    margin-bottom: 50px;
   }
 </style>

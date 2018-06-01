@@ -1,23 +1,19 @@
 {#if isOpen}
   <div class="dialog" {style}>
-
     <div class="content">
-
       {#if hasImage}
         <div class="image">
           <slot name="image"/>
         </div>
       {/if}
-
       <div class="message">
         <slot></slot>
       </div>
     </div>
-
     {#if actions}
       <div class="actions">
         {#each actions as { label, event: eventName, props }}
-          <Button width="{100/actions.length}%" on:click="handleAction(eventName)" {...props}>
+          <Button width="{100/actions.length}%" on:click="handleAction(eventName, event)" {...props}>
             {label}
           </Button>
         {/each}
@@ -34,10 +30,11 @@
     data() {
       return {
         isOpen: false,
-        duration: 3000,
+        duration: 2000,
         actions: null,
-        bgColor: 'rgba(255, 255, 255, .95)',
+        bgColor: '#eee',
         textColor: '#4a4a4a',
+        hasImage: false,
       }
     },
     computed: {
@@ -53,41 +50,41 @@
         hasImage: !!(this.options.slots && this.options.slots.image),
       })
     },
-    onstate({ changed, current: { actions, isOpen, duration } }) {
-      if(changed.isOpen && Promise.resolve(isOpen) === isOpen) {
-        isOpen
-          .then(() => this.close(1500))
-          .catch(() => this.close(1500))
+    onstate({ changed, current: { actions, isOpen, duration, promise } }) {
+      if(changed.promise && promise && typeof promise.then === 'function') {
+        promise
+          .then(() => {
+            this.fire('success')
+            this.close(duration)
+          })
+          .catch((e) => {
+            this.fire('failure', e)
+            this.close(duration)
+          })
         this.open()
         return
       }
 
       /** If the dialog is open and there's no actions, close it after {duration} msecs */
-      if(changed.isOpen && isOpen === true && (!actions || !actions.length)) {
-        duration = parseInt(duration)
-        const closeTimeout = setTimeout(() => {
-          this.close()
-        }, parseInt(duration));
-        this.set({ closeTimeout })
+      if(changed.isOpen && isOpen === true && !promise && (!actions || !actions.length)) {
+        this.close(duration)
       }
     },
     methods: {
-      handleAction(eventName) {
-        this.fire(eventName)
+      handleAction(eventName, data) {
         this.close()
+        this.fire(eventName, data)
       },
       open() {
         this.set({ isOpen: true })
         this.fire('open')
       },
-      close(delay = 0) {
-        const { closeTimeout } = this.get()
-
-        setTimeout(() => {
-          if(closeTimeout) clearTimeout(closeTimeout)
-          this.set({ isOpen: false })
-          this.fire('close')
-        }, delay)
+      close(delay) {
+        if(typeof delay !== 'undefined') {
+          return setTimeout(() => this.close(), delay)
+        }
+        this.set({ isOpen: false })
+        this.fire('close')
       },
     },
   }
