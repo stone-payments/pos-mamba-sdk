@@ -1,23 +1,51 @@
 @import '@mamba/core-styles/src/reset.scss';
+@import '@mamba/core-styles/src/links.scss';
+@import '@mamba/core-styles/src/reset-spaces.scss';
+@import '@mamba/core-styles/src/tables.scss';
 
-blockquote,
+// Base
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+*::after,
+*::before,
+*:not(input),
+*:not(code) input[type='checkbox'],
+input[type='radio'] {
+  // Remove orange selection
+  outline: none;
+
+  /* user-select: none; */
+}
+
+*:focus {
+  outline: none !important;
+}
+
 body,
-button,
-dd,
-dl,
-figure,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-ol,
-p,
-pre,
-ul {
-  margin: 0;
-  padding: 0;
+html {
+  height: 100%;
+  width: 100%;
+}
+
+// Others
+small {
+  font-size: 12px;
+}
+
+var,
+address,
+dfn,
+cite {
+  font-style: italic;
+}
+
+abbr {
+  border-bottom: 1px #ccc dotted;
+  cursor: help;
 }
 
 article blockquote,
@@ -37,8 +65,4 @@ input,
 select,
 textarea {
   -webkit-tap-highlight-color: transparent;
-}
-
-a {
-  text-decoration: none;
 }

@@ -10,6 +10,7 @@ module.exports = {
     ],
   ],
   rules: {
+    'no-descending-specificity': null,
     'color-hex-case': null,
     'no-empty-source': null,
     'value-list-comma-newline-after': null,

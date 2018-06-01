@@ -1,42 +1,36 @@
 <div class="SideBar Flex--flex Flex--grow Flex-direction--column Flex-alignItems--flexEnd">
+  
   <div class="SideBar-logo">
-    <a href="/" title="Mamba"><span>Web Documentation</span></a>
+    <a href="/" title="Mamba"><span>WEB DOCS</span></a>
   </div>
+  <div class="SideBar-border"></div>
   <nav>
-    <h1 class="home">
-        <a href="/" class="selected">
-          Getting Started
+    {#each navigation as [idx, item]}
+      <h1 class="home">
+        <a href={item.to} class="">
+          {item.title}
         </a>
-    </h1>
-    <h1 class="native">
-        <a href="/" >
-          Native API
-        </a>
-    </h1>
-    <ul></ul>
-    <h1 class="styles">
-        <a href="/" >
-          Style
-        </a>
-    </h1>
-    <ul></ul>
-    <h1 class="components">
-        <a href="/" >
-          Components
-        </a>
-    </h1>
-    <ul></ul>
-    <h1 class="utils">
-        <a href="/" >
-          Utils
-        </a>
-    </h1>
-    <ul></ul>
-    <h1 class="development">
-        <a href="/">
-          Development
-        </a>
-    </h1>
-    <ul></ul>
+      </h1>
+      {#if item.submenu}
+        <ul>
+          {#each item.submenu as sub}
+          <li>
+            <a href={item.to}{sub.to}>{sub.title}</a>
+          </li>
+          {/each}
+        </ul>
+      {/if}
+    {/each}
   </nav>
 </div>
+
+<script>
+  import navigation from '../../routes/navigation.js';
+  export default {
+    data() {
+      return {
+        navigation: Object.entries(navigation)
+      }
+    }
+  }
+</script>

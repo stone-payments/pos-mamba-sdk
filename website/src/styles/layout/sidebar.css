@@ -21,13 +21,17 @@
     background: rgba(18, 60, 83, 0.05);
   }
 
+  &-logo,
+  &-border,
+  nav {
+    position: absolute;
+  }
+
   /* logo */
   &-logo {
-    overflow: hidden;
     padding-bottom: 20px;
-    position: absolute;
-    top: 38px;
-    right: 50px;
+    top: var(--logo-container-top);
+    right: var(--logo-container-right);
 
     /* Link */
     & a {
@@ -35,21 +39,22 @@
       background-position: center center;
       background-size: contain;
       display: inline-block;
-      font-size: 12px;
-      font-weight: 500;
-      line-height: 1.5;
       position: relative;
       text-decoration: none;
-      text-align: left;
-      vertical-align: bottom;
 
       & span {
-        color: var(--primary);
+        color: rgba(46, 56, 47, 0.5);
         position: absolute;
-        bottom: -25px;
+        bottom: -15px;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 1.5;
         left: 0;
         right: 0;
-        display: none;
+        letter-spacing: -0.5px;
+        font-variant: all-petite-caps;
+        text-align: center;
+        display: hidden;
       }
 
       @apply --logo-svg-sizes;
@@ -57,35 +62,69 @@
   }
 
   /* Nav */
-  nav {
-    bottom: 50px;
+  &-border {
+    top: calc(var(--nav-top-position) - 1px);
     right: 0;
-    left: calc(100% - var(--nav-width));
-    top: 120px;
-    margin-left: 226px;
+    width: var(--nav-hr-border-width);
+    height: 1px;
+    background: var(--nav-hr-border-color);
+    opacity: 1;
+    transition: opacity 0.25s ease-in-out;
+    pointer-events: none;
+  }
+
+  /* Nav */
+  nav {
+    bottom: 0;
+    right: 0;
+    width: var(--nav-width);
+    top: var(--nav-top-position);
     overflow-y: auto;
-    padding-top: 37px;
-    padding-bottom: 45px;
-    position: absolute;
+    padding-top: 25px;
+    padding-bottom: 25px;
     z-index: 1;
     -webkit-overflow-scrolling: touch;
+
+    h1 a {
+      padding-left: 0;
+
+      &.selected {
+        color: var(--primary);
+        font-weight: 500;
+      }
+    }
 
     h1,
     h1 a {
       display: block;
       font-size: 15px;
       font-weight: 500;
-      height: 38px;
+      height: 36px;
       line-height: 36px;
       color: #0d2b3e;
+      transition: opacity 0.2s;
+
+      &:hover {
+        opacity: 0.8;
+      }
     }
+  }
 
-    h1 a {
-      padding-left: 20px;
+  ul {
+    padding-left: 0;
+    overflow: hidden;
 
-      &.selected {
-        color: var(--primary);
-        font-weight: 500;
+    li {
+      overflow: hidden;
+
+      a {
+        position: relative;
+        display: block;
+        font-size: 14px;
+        color: #4c555a;
+        min-height: 28px;
+        line-height: 20px;
+        padding: 4px 0;
       }
     }
   }

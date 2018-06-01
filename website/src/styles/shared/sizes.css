@@ -3,7 +3,12 @@
 /* SideBar */
 
 :root {
+  /* Content */
+  --content-width: 770px;
+
+  /* Sidebar */
   --sidebar-minwidth: 256px;
+  --sidebar-width: 260px;
 
   --sidebar-sizes: {
     min-width: var(--sidebar-minwidth);
@@ -17,7 +22,9 @@
     z-index: 5;
   }
 
-  /* logo descendent */
+  /* Logo */
+  --logo-container-top: 15px;
+  --logo-container-right: 64px;
   --logo-container-size: 105px;
 
   --logo-svg-sizes: {
@@ -26,5 +33,8 @@
   }
 
   /* Nav */
-  --nav-width: 400px;
+  --nav-hr-border-color: rgba(120, 134, 156, 0.08);
+  --nav-hr-border-width: 225px;
+  --nav-width: 170px;
+  --nav-top-position: 135px;
 }
