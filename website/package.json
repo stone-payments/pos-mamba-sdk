@@ -81,6 +81,7 @@
     "@mamba/core-styles": "^0.0.1",
     "@mamba/dialog": "^1.0.0",
     "@mamba/styles-utils": "^0.0.1",
+    "highlight.js": "^9.12.0",
     "svelte": "^2.6.3",
     "svelte-routing": "^0.4.2"
   }
