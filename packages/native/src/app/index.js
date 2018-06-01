@@ -3,10 +3,12 @@ import extendNative from './native.js'
 
 let App = window.App
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
   App = window.App = {}
   mock(App)
-} else {
+}
+
+if (process.env.NODE_ENV === 'production') {
   if (!App) {
     throw new Error("[@mamba/native] 'App' module not found")
   }

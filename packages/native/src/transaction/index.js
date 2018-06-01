@@ -3,11 +3,13 @@ import addSharedTo from './shared.js'
 
 let Transaction = window.MbTransaction
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
   Transaction = window.MbTransaction = {}
   addSharedTo(Transaction)
   mock(Transaction)
-} else {
+}
+
+if (process.env.NODE_ENV === 'production') {
   if (!Transaction) {
     throw new Error("[@mamba/native] 'Transaction' module not found")
   }

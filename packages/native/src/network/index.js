@@ -4,7 +4,7 @@ import extendNative from './native.js'
 
 let Network = window.Network
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
   Network = window.Network = {}
   addSharedTo(Network)
   mock(Network)

@@ -3,10 +3,12 @@ import extendNative from './native.js'
 
 let Keyboard = window.Keyboard
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
   Keyboard = window.Keyboard = {}
   mock(Keyboard)
-} else {
+}
+
+if (process.env.NODE_ENV === 'production') {
   if (!Keyboard) {
     throw new Error("[@mamba/native] 'Keyboard' module not found")
   }
