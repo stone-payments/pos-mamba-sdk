@@ -13,6 +13,28 @@ export default function(Network) {
     current_network_adapter: 'wifi',
   }
 
+  function forgetWifi(wifiObject) {
+    console.log('forget wifi')
+
+    return new Promise((resolve, reject) => {
+      setTimeout(function() {
+        if (Network.SimulatedConfig.forget_should_fail) {
+          console.log('forget wifi failure')
+          reject(new Error(3, Network.Errors[2]))
+        } else {
+          console.log('forget wifi success')
+          /** Update the wifi list */
+          lastWifiList.forEach(item => {
+            item.saved = item.bssid === wifiObject.bssid ? false : item.saved
+            item.connected =
+              item.bssid === wifiObject.bssid ? false : item.connected
+          })
+          resolve()
+        }
+      }, Network.SimulatedConfig.forget_time)
+    }).catch(e => console.log(e))
+  }
+
   function getWifiList() {
     return new Promise((resolve, reject) => {
       setTimeout(function() {
@@ -32,13 +54,22 @@ export default function(Network) {
       setTimeout(() => {
         if (Network.SimulatedConfig.connect_should_fail) {
           console.log('connect failure')
+
           Network.SimulatedConfig.wifi_connected = false
+
           reject(new Error(0, Network.Errors[0]))
         } else {
           console.log('connect success')
+
           resolve(wifiObject)
+
           Network.SimulatedConfig.wifi_enabled = true
           Network.SimulatedConfig.wifi_connected = true
+
+          /** Update the wifi list */
+          lastWifiList.forEach(wifi => {
+            wifi.connected = wifi.bssid !== wifiObject.bssid
+          })
         }
       }, Network.SimulatedConfig.connect_time)
     }).catch(e => console.log(e))
@@ -98,26 +129,6 @@ export default function(Network) {
     console.log('disabled wifi')
     Network.SimulatedConfig['wifi_enabled'] = false
     Network.SimulatedConfig['wifi_connected'] = false
-  }
-
-  function forgetWifi(wifiObject, callback) {
-    if (typeof callback !== 'function') callback = function() {}
-
-    console.log('forget wifi')
-    if (Network.SimulatedConfig.forget_should_fail) {
-      setTimeout(function() {
-        let err = new Error(2, Network.Errors[2])
-        callback(err)
-      }, Network.SimulatedConfig.forget_time)
-    } else {
-      for (let i = 0; i < lastWifiList.length; i++) {
-        if (lastWifiList[i].ssid === wifiObject.ssid) {
-          lastWifiList[i].saved = false
-          break
-        }
-      }
-      setTimeout(callback, Network.SimulatedConfig.forget_time)
-    }
   }
 
   function toggleNetworkAdapter() {

@@ -9,7 +9,6 @@ export default function(Network) {
       const onSuccess = () => {
         console.log('get wifi SUCCESS')
         let data = Network.getLastWifiList()
-        console.log(data)
         data = data.sort((a, b) => {
           if (a.connected || a.strength > b.strength) return -1
           if (b.connected || a.strength < b.strength) return 1
@@ -44,15 +43,13 @@ export default function(Network) {
   }
 
   Network.forgetWifi = function(wifiObject, callback) {
-    if (typeof callback !== 'function') callback = function() {}
-
-    Network.forgetSuccess.connect(callback)
-    Network.forgetFailure.connect(function() {
-      let err = new Error(2, Network.Errors[2])
-      callback(err)
+    return new Promise((resolve, reject) => {
+      NetworkSignals.race([
+        ['forgetSuccess', resolve],
+        ['forgetFailure', () => reject(new Error(2, Network.Errors[2]))],
+      ])
+      Network.doForgetWifi(wifiObject)
     })
-
-    Network.doForgetWifi(wifiObject)
   }
 
   Network.reconnect = function(callback) {
