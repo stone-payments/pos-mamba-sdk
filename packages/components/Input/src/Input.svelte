@@ -46,7 +46,7 @@
       }
     },
     oncreate() {
-      const { type } = this.get()
+      const { type } = this.options.data
 
       if (type === 'password') {
         this.set({ visible: false })
