@@ -11,10 +11,11 @@
     ref:input
     type={visible ? 'text' : 'password'}
     style="color: {textColor}"
+    {autofocus}
     on:focus="onFocus()"
     on:blur="onBlur()"
     on:input="set({ value: this.value })"
-    {autofocus}
+    on:keypress
     />
 
   {#if type === 'password'}
@@ -34,6 +35,7 @@
     },
     data() {
       return {
+        autofocus: false,
         label: undefined,
         type: 'text',
         bgColor: '#fff',
