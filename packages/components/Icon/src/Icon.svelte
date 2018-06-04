@@ -1,4 +1,4 @@
-<div ref:icon class="icon" {...attrs}></div>
+<div ref:icon class="icon" {...attrs} on:click></div>
 
 <script>
   export default {

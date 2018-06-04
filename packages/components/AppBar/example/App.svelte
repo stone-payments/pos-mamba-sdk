@@ -4,7 +4,7 @@
 
 <h1>Colored AppBar</h1>
 <br><br>
-<AppBar color="red"></AppBar>
+<AppBar bgColor="red" textColor="green" title="Colored"></AppBar>
 
 <h1>AppBar with title</h1>
 <br><br>

@@ -1,8 +1,8 @@
-<header ref:navbar class="appbar" on:click="goback()">
+<header class="appbar" {style}>
   <div class="content">
-    {#if leftIcon}
-      <div class="icon-left" on:click="console.log('left-click')">
-        X
+    {#if showBackBtn}
+      <div class="icon-left" on:click="goback()">
+        <Icon symbol="chevron-left" color={textColor} />
       </div>
     {/if}
 
@@ -19,24 +19,39 @@
 </header>
 
 <script>
+  import { getHistory } from 'svelte-routing'
+
   export default {
+    components: {
+      Icon: '@mamba/icon',
+    },
     data() {
       return {
-        position: 'static',
+        position: 'relative',
+        textColor: '#fff',
+        bgColor: '#4ebf1a',
       }
+    },
+    computed: {
+      style({ bgColor, textColor, position }){
+        return [
+          `position:${position}`,
+          `color:${textColor}`,
+          `background-color:${bgColor}`,
+        ].join(';')
+      },
+      showBackBtn: ({ location }) => location !== '/',
     },
     oncreate() {
-      const { color, position } = this.get()
-      const navBar = this.refs.navbar
+      const history = getHistory()
 
-      navBar.style.position = position
-      if (color) {
-        navBar.style.backgroundColor = color
-      }
+      /** Listen for route changes */
+      history.listen(location => {
+        this.set({ location: location.pathname })
+      })
     },
     methods: {
-      async goback() {
-        const { getHistory } = await import('svelte-routing')
+      goback() {
         getHistory().goBack()
       },
     },
@@ -48,8 +63,6 @@
   @import '@mamba/styles-utils/src/appbar.scss';
 
   .appbar {
-    position: static;
-    background-color: $primary-color;
     width: 100%;
     z-index: 1100;
   }
@@ -57,7 +70,7 @@
   .title {
     padding: 0;
     margin: 0;
-    color: $mb-appbar-font-color;
+    color: inherit;
     font-size: $mb-appbar-font-size;
     font-weight: 600;
     line-height: $mb-appbar-height;
@@ -70,13 +83,9 @@
   }
 
   .content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     padding-left: $mb-appbar-item-horizontal-margin;
     padding-right: $mb-appbar-item-horizontal-margin;
     min-height: $mb-appbar-height;
-    color: $mb-appbar-font-color;
   }
 
   .icon {
@@ -88,9 +97,12 @@
   .icon-left,
   .icon-right {
     position: absolute;
-    background-color: #fff;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: none;
     mask-size: 1em;
     mask-position: 0;
+    line-height: 1;
   }
 
   .icon-left {

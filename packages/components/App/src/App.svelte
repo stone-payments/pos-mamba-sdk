@@ -9,7 +9,9 @@
   import { createHashHistory } from 'svelte-routing'
   import links from 'svelte-routing/links'
 
-  createHashHistory()
+  createHashHistory({
+    basename: '/',
+  })
 
   export default {
     actions: {
