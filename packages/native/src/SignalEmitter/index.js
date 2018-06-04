@@ -1,24 +1,25 @@
-function pickProbableSlot(signals) {
+function pickProbableSignal(signals) {
   const winner = Math.random()
   for (let i = 0, threshold = 0; i < signals.length; i++) {
     threshold += parseFloat(signals[i][1])
     if (threshold > winner) {
-      return signals[i][0]
+      return signals[i]
     }
   }
 }
 
-export default function(namespace, possibleSignals) {
-  function SignalEmitter(resultSignal, timeout = 3000) {
-    setTimeout(() => SignalEmitter.emit(resultSignal), timeout)
-  }
+export default function(namespace, timeout = 1500) {
+  function SignalEmitter(...args) {
+    setTimeout(() => {
+      const [signal, , transformer] = pickProbableSignal(SignalEmitter.signals)
+      console.log(`Picked signal: ${signal}`)
 
-  SignalEmitter.emit = (resultSignal = null) => {
-    if (!resultSignal) {
-      resultSignal = pickProbableSlot(possibleSignals)
-    }
-    console.log(`Picked signal: ${resultSignal}`)
-    namespace[resultSignal].callbacks.forEach(callback => callback())
+      namespace[signal].callbacks.forEach(callback => callback())
+
+      if (typeof transformer === 'function') {
+        transformer(...args)
+      }
+    }, timeout)
   }
 
   function Signal() {
@@ -35,9 +36,16 @@ export default function(namespace, possibleSignals) {
     }
   }
 
-  possibleSignals.forEach(([signalName]) => {
-    namespace[signalName] = Signal(signalName)
-  })
+  SignalEmitter.signals = []
+
+  SignalEmitter.on = function(signalName, probability, transformer) {
+    if (SignalEmitter.signals.indexOf(signalName) < 0) {
+      SignalEmitter.signals.push([signalName, probability, transformer])
+      namespace[signalName] = Signal(signalName)
+    }
+    return SignalEmitter
+  }
+  SignalEmitter.add = SignalEmitter.on
 
   return SignalEmitter
 }

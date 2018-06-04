@@ -2,69 +2,40 @@ import lastWifiList from './fixtures/lasWifiList'
 import SignalEmitter from '../SignalEmitter'
 
 export default function(Network) {
+  /** Register Signal Emitters and it's possible signals */
+  Network.doGetWifiList = SignalEmitter(Network)
+    .add('getWifiListSuccess', 0.8)
+    .add('getWifiListFailure', 0.2)
+
+  Network.doForgetWifi = SignalEmitter(Network)
+    .add('forgetSuccess', 0.9, wifiObject => {
+      lastWifiList.forEach(item => {
+        item.saved = item.bssid === wifiObject.bssid ? false : item.saved
+        item.connected =
+          item.bssid === wifiObject.bssid ? false : item.connected
+      })
+    })
+    .add('forgetFailure', 0.1)
+
+  Network.doConnectWifi = SignalEmitter(Network)
+    .add('connectSuccess', 0.9, wifiObject => {
+      MockConfig.wifi_enabled = true
+      MockConfig.wifi_connected = true
+
+      /** Update the wifi list */
+      lastWifiList.forEach(wifi => {
+        wifi.connected = wifi.bssid !== wifiObject.bssid
+      })
+    })
+    .add('connectFailure', 0.1, () => {
+      MockConfig.wifi_connected = false
+    })
+
+  /** Mock config */
   const MockConfig = {
-    connect_should_fail: false,
-    forget_should_fail: false,
-    get_wifi_list_should_fail: false,
-    connect_time: 3000,
-    forget_time: 100,
-    get_wifi_list_time: 1500,
     wifi_connected: false,
     wifi_enabled: true,
     current_network_adapter: 'wifi',
-  }
-
-  Network.doGetWifiList = SignalEmitter(Network, [
-    ['getWifiListSuccess', 0.2],
-    ['getWifiListFailure', 0.8],
-  ])
-
-  function forgetWifi(wifiObject) {
-    console.log('forget wifi')
-
-    return new Promise((resolve, reject) => {
-      setTimeout(function() {
-        if (MockConfig.forget_should_fail) {
-          console.log('forget wifi failure')
-          reject(new Error(3, Network.Errors[2]))
-        } else {
-          console.log('forget wifi success')
-          /** Update the wifi list */
-          lastWifiList.forEach(item => {
-            item.saved = item.bssid === wifiObject.bssid ? false : item.saved
-            item.connected =
-              item.bssid === wifiObject.bssid ? false : item.connected
-          })
-          resolve()
-        }
-      }, MockConfig.forget_time)
-    }).catch(e => console.log(e))
-  }
-
-  function connect(wifiObject) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (MockConfig.connect_should_fail) {
-          console.log('connect failure')
-
-          MockConfig.wifi_connected = false
-
-          reject(new Error(0, Network.Errors[0]))
-        } else {
-          console.log('connect success')
-
-          resolve(wifiObject)
-
-          MockConfig.wifi_enabled = true
-          MockConfig.wifi_connected = true
-
-          /** Update the wifi list */
-          lastWifiList.forEach(wifi => {
-            wifi.connected = wifi.bssid !== wifiObject.bssid
-          })
-        }
-      }, MockConfig.connect_time)
-    }).catch(e => console.log(e))
   }
 
   function hasSavedWifi() {
@@ -107,12 +78,10 @@ export default function(Network) {
   }
 
   Object.assign(Network, {
-    connect,
     isWifiConnected,
     isWifiEnabled,
     enableWifi,
     disableWifi,
-    forgetWifi,
     toggleNetworkAdapter,
     getCurrentNetworkAdapter,
     getLastWifiList,
