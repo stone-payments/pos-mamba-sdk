@@ -31,7 +31,7 @@ class SignalHandler {
   race(entries) {
     const wrappedCallbacks = {}
     entries.forEach(([signalName, callback]) => {
-      console.log(`connecting once ${signalName}`)
+      console.log(`Connecting once '${signalName}'`)
 
       /** If the signal's slot is already filled with a callback, disconnect it */
       if (this.signals[signalName]) {
@@ -42,7 +42,7 @@ class SignalHandler {
       wrappedCallbacks[signalName] = () => {
         callback()
         Object.keys(wrappedCallbacks).forEach(signalName => {
-          console.log(`Removing ${signalName}`)
+          console.log(`Removing '${signalName}'`)
           this.off(signalName, wrappedCallbacks[signalName])
         })
       }
@@ -52,6 +52,13 @@ class SignalHandler {
     })
 
     return this
+  }
+
+  destroy() {
+    Object.keys(this.signals).forEach(signalName => {
+      console.log(`Removing '${signalName}'`)
+      this.off(signalName, this.signals[signalName])
+    })
   }
 }
 

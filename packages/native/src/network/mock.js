@@ -1,4 +1,5 @@
 import lastWifiList from './fixtures/lasWifiList'
+import SignalEmitter from '../SignalEmitter'
 
 export default function(Network) {
   const MockConfig = {
@@ -12,6 +13,11 @@ export default function(Network) {
     wifi_enabled: true,
     current_network_adapter: 'wifi',
   }
+
+  Network.doGetWifiList = SignalEmitter(Network, [
+    ['getWifiListSuccess', 0.2],
+    ['getWifiListFailure', 0.8],
+  ])
 
   function forgetWifi(wifiObject) {
     console.log('forget wifi')
@@ -32,20 +38,6 @@ export default function(Network) {
           resolve()
         }
       }, MockConfig.forget_time)
-    }).catch(e => console.log(e))
-  }
-
-  function getWifiList() {
-    return new Promise((resolve, reject) => {
-      setTimeout(function() {
-        if (MockConfig.get_wifi_list_should_fail) {
-          console.log('get wifi list failure')
-          reject(new Error(3, Network.Errors[3]))
-        } else {
-          console.log('get wifi list success')
-          resolve(lastWifiList)
-        }
-      }, MockConfig.get_wifi_list_time)
     }).catch(e => console.log(e))
   }
 
@@ -116,7 +108,6 @@ export default function(Network) {
 
   Object.assign(Network, {
     connect,
-    getWifiList,
     isWifiConnected,
     isWifiEnabled,
     enableWifi,
