@@ -34,14 +34,16 @@
         const focusedEl = document.activeElement
         const isFocusedInput = focusedEl && focusedEl.tagName === 'INPUT'
 
-        const code = Object.keys(Keyboard.KEYMAP).find(code => Keyboard.KEYMAP[code] === keyName)
+        const code = Object.keys(Keyboard.KEYMAP).find(
+          code => Keyboard.KEYMAP[code] === keyName,
+        )
         const isNumberKey = !isNaN(parseFloat(Keyboard.KEYMAP[code]))
 
         /** If action button clicked */
         if (!isNumberKey) {
           if (keyName === 'back') {
             /** If we're focusing on a <input> erase the last character */
-            if(isFocusedInput){
+            if (isFocusedInput) {
               focusedEl.value = focusedEl.value.slice(0, -1)
               focusedEl.dispatchEvent(new Event('input'))
             } else {
@@ -113,6 +115,15 @@
       overflow-y: auto;
     }
 
+    /**
+     * Override the position: fixed to display content in the POS mockup.
+     * This may eventually brake.
+     */
+    .screen :global(.button.is-fixed),
+    .screen :global(.dialog) {
+      position: absolute !important;
+    }
+
     button {
       position: absolute;
       width: 60px;
@@ -130,7 +141,7 @@
     button:hover {
       opacity: 1;
       color: white;
-      background-color: rgba(22, 22, 22, .8);
+      background-color: rgba(22, 22, 22, 0.8);
       border: 2px solid white;
       font-size: 18px;
     }
