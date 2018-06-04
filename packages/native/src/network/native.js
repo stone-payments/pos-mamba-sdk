@@ -3,6 +3,7 @@ import SignalHandler from '../SignalHandler'
 export default function(Network) {
   const NetworkSignals = SignalHandler(Network)
 
+  /** Return the current wifi list */
   Network.getWifiList = function() {
     console.log('get wifilist')
     return new Promise((resolve, reject) => {
@@ -32,6 +33,7 @@ export default function(Network) {
     })
   }
 
+  /** Connect to a wifi */
   Network.connect = function(wifiObject) {
     return new Promise((resolve, reject) => {
       NetworkSignals.race([
@@ -42,7 +44,8 @@ export default function(Network) {
     })
   }
 
-  Network.forgetWifi = function(wifiObject, callback) {
+  /** Forget a specific wifi */
+  Network.forgetWifi = function(wifiObject) {
     return new Promise((resolve, reject) => {
       NetworkSignals.race([
         ['forgetSuccess', resolve],
@@ -50,34 +53,5 @@ export default function(Network) {
       ])
       Network.doForgetWifi(wifiObject)
     })
-  }
-
-  Network.reconnect = function(callback) {
-    console.log('reconnect')
-    NetworkSignals.race([
-      ['connectSuccess', callback],
-      ['connectFailure', callback],
-    ])
-    Network.doReconnect()
-  }
-
-  Network.connectToMBB = function(callback) {
-    console.log('connect to mbb')
-    NetworkSignals.race([
-      ['connectSuccess', callback],
-      ['connectFailure', callback],
-    ])
-    Network.doConnectToMBB()
-  }
-
-  Network.connectToWifi = function(callback) {
-    console.log('connect to wifi')
-
-    NetworkSignals.race([
-      ['connectSuccess', callback],
-      ['connectFailure', callback],
-    ])
-
-    Network.doConnectToWifi()
   }
 }

@@ -24,11 +24,11 @@ class SignalHandler {
     return this
   }
 
-  race(entries) {
-    if (!Array.isArray(entries)) {
-      entries = [[arguments[0], arguments[1]]]
-    }
+  once(signalName, callback) {
+    return this.race([[signalName, callback]])
+  }
 
+  race(entries) {
     const wrappedCallbacks = {}
     entries.forEach(([signalName, callback]) => {
       console.log(`connecting once ${signalName}`)
