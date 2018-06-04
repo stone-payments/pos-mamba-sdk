@@ -15,7 +15,7 @@
     on:focus="onFocus()"
     on:blur="onBlur()"
     on:input="set({ value: this.value })"
-    on:keypress
+    on:keydown
     />
 
   {#if type === 'password'}

@@ -29,7 +29,7 @@
   </div>
 
   <Dialog ref:imageDialog>
-    <div slot="image">
+    <div>
       <img src="./assets/images/success.png" alt="">
     </div>
 
@@ -44,7 +44,7 @@
   </div>
 
   <Dialog ref:spriteDialog>
-    <div slot="image">
+    <div>
       <Sprite src="./assets/images/loading-sprite.png" width="70px"/>
     </div>
     Conectando...
@@ -62,7 +62,7 @@
     bgColor="rgba(0,0,0,.95)"
     textColor="white"
   >
-    <div slot="image">
+    <div>
       <img src="./assets/images/success.png" alt="">
     </div>
     Conectando...
@@ -95,7 +95,7 @@
     on:ok="console.log('ok')"
     on:cancel="console.log('cancel')"
   >
-    <div slot="image">
+    <div>
       <img src="./assets/images/success.png" alt="">
     </div>
     Conectando...

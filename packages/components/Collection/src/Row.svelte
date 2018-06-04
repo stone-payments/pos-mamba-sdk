@@ -1,5 +1,5 @@
 <!-- If there's a href defined, wrap the row with a link -->
-<div class="row" on:click="handleClick({ event, href })">
+<div class="row" on:click="handleClick({ event, href })" {shortcut}>
   <div class="main">
     <div class="label">{label}</div>
     <div ref:controller class="controller">

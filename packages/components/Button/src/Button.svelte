@@ -42,7 +42,7 @@
     color: $white;
     font-size: 16px;
     font-weight: bold;
-    padding: 10px 36px;
+    padding: 10px 16px;
   }
 
   button[disabled] {
@@ -53,7 +53,7 @@
   }
 
   button.is-fixed {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
   }

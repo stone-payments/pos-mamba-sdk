@@ -24,23 +24,26 @@
 </div>
 
 <script>
-  import { KEYMAP } from '@mamba/native/keyboard'
+  import Keyboard from '@mamba/native/keyboard'
 
   export default {
     methods: {
       async dispatchKey({ event, keyName }) {
+        /** Prevent the button from being focused */
         event.preventDefault()
         const focusedEl = document.activeElement
         const isFocusedInput = focusedEl && focusedEl.tagName === 'INPUT'
 
-        let code = Object.keys(KEYMAP).find(code => KEYMAP[code] === keyName)
+        const code = Object.keys(Keyboard.KEYMAP).find(code => Keyboard.KEYMAP[code] === keyName)
+        const isNumberKey = !isNaN(parseFloat(Keyboard.KEYMAP[code]))
 
         /** If action button clicked */
-        if (typeof code !== 'undefined') {
+        if (!isNumberKey) {
           if (keyName === 'back') {
             /** If we're focusing on a <input> erase the last character */
             if(isFocusedInput){
               focusedEl.value = focusedEl.value.slice(0, -1)
+              focusedEl.dispatchEvent(new Event('input'))
             } else {
               /** Otherwise, go back to the previous page */
               return this.goBack()
@@ -48,11 +51,9 @@
           }
         } else {
           /** If numeric button clicked */
-          code = (+keyName + 48).toString()
-
-          // TODO: Is there a way to trigger the change event for the input?
           if (isFocusedInput) {
             focusedEl.value += keyName
+            focusedEl.dispatchEvent(new Event('input'))
           }
         }
 
@@ -129,8 +130,9 @@
     button:hover {
       opacity: 1;
       color: white;
-      background-color: #222;
+      background-color: rgba(22, 22, 22, .8);
       border: 2px solid white;
+      font-size: 18px;
     }
 
     .close {
@@ -216,6 +218,10 @@
 
     .shortcuts {
       bottom: 32px;
+    }
+
+    .shortcuts:hover {
+      font-size: 10px;
     }
   }
 </style>

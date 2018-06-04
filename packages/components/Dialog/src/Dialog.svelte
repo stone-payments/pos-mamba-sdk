@@ -1,11 +1,6 @@
 {#if isOpen}
   <div class="dialog" {style}>
     <div class="content">
-      {#if hasImage}
-        <div class="image">
-          <slot name="image"/>
-        </div>
-      {/if}
       <div class="message">
         <slot></slot>
       </div>
@@ -34,7 +29,6 @@
         actions: null,
         bgColor: '#eee',
         textColor: '#4a4a4a',
-        hasImage: false,
       }
     },
     computed: {
@@ -44,11 +38,6 @@
           `color:${textColor}`,
         ].join(';')
       },
-    },
-    oncreate() {
-      this.set({
-        hasImage: !!(this.options.slots && this.options.slots.image),
-      })
     },
     onstate({ changed, current: { actions, isOpen, duration, promise } }) {
       if(changed.promise && promise && typeof promise.then === 'function') {
@@ -101,6 +90,7 @@
   }
 
   .content {
+    width: 90%;
     position: absolute;
     top: 50%;
     left: 50%;
