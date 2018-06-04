@@ -16,3 +16,11 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 export default Keyboard
+
+export const KEYMAP = {
+  13: 'enter',
+  8: 'back',
+  27: 'close',
+  17: 'help',
+  16: 'shortcuts',
+}

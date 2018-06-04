@@ -2,6 +2,7 @@
   class="button is-{size} {bottom ? 'is-fixed' : ''}"
   {style}
   {disabled}
+  {shortcut}
   on:click
 >
   <slot></slot>
@@ -14,6 +15,7 @@
         size: 'regular',
         disabled: false,
         bottom: false,
+        shortcut: null,
       }
     },
     computed: {

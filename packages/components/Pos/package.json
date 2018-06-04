@@ -18,6 +18,7 @@
     "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
+    "@mamba/native": "^0.0.1",
     "svelte-routing": "^0.4.2"
   }
 }
