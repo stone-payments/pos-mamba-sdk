@@ -27,7 +27,7 @@
         isOpen: false,
         duration: 2000,
         actions: null,
-        bgColor: '#eee',
+        bgColor: '#e3e3e3',
         textColor: '#4a4a4a',
       }
     },
