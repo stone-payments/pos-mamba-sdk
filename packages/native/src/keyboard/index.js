@@ -4,7 +4,7 @@ import addSharedTo from './shared.js'
 
 let Keyboard = window.Keyboard
 
-if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+if (process.env.NODE_ENV !== 'production') {
   Keyboard = window.Keyboard = {}
   mock(Keyboard)
   addSharedTo(Keyboard)

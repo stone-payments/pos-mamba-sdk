@@ -3,7 +3,7 @@ import addSharedTo from './shared.js'
 
 let System = window.System
 
-if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+if (process.env.NODE_ENV !== 'production') {
   System = window.System = {}
   addSharedTo(System)
   mock(System)

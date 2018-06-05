@@ -3,7 +3,7 @@ import extendNative from './native.js'
 
 let StatusBar = window.StatusBar
 
-if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+if (process.env.NODE_ENV !== 'production') {
   StatusBar = window.StatusBar = {}
   mock(StatusBar)
 }

@@ -2,7 +2,7 @@ import CookieMock from './mock.js'
 
 let Cookie = window.MbCookie
 
-if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+if (process.env.NODE_ENV !== 'production') {
   Cookie = window.MbCookie = new CookieMock()
 }
 

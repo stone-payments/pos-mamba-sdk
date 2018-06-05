@@ -3,7 +3,7 @@ import addSharedTo from './shared.js'
 
 let Network = window.Network
 
-if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+if (process.env.NODE_ENV !== 'production') {
   Network = window.Network = {}
   addSharedTo(Network)
   mock(Network)

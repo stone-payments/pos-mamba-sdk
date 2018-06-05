@@ -2,7 +2,7 @@ import GifMock from './mock.js'
 
 let Gif = window.Gif
 
-if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+if (process.env.NODE_ENV !== 'production') {
   Gif = window.Gif = new GifMock()
 }
 

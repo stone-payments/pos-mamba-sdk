@@ -3,7 +3,7 @@ import addSharedTo from './shared.js'
 
 let Transaction = window.MbTransaction
 
-if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+if (process.env.NODE_ENV !== 'production') {
   Transaction = window.MbTransaction = {}
   addSharedTo(Transaction)
   mock(Transaction)

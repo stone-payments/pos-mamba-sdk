@@ -3,7 +3,7 @@ import extendNative from './native.js'
 
 let Merchant = window.MbMerchant
 
-if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+if (process.env.NODE_ENV !== 'production') {
   Merchant = window.MbMerchant = {}
   mock(Merchant)
 }
