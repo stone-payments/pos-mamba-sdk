@@ -10,8 +10,8 @@
   "license": "Apache-2.0",
   "scripts": {
     "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w",
-    "build": "cross-env NODE_ENV=production rollup -c ../../../tools/rollup/config.component.js",
-    "build:dev": "rollup -c ../../../tools/rollup/config.component.js",
+    "build": "cross-env NODE_ENV=production rollup -c ../../../tools/rollup/config.component.build.js",
+    "build:dev": "rollup -c ../../../tools/rollup/config.component.build.js",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
