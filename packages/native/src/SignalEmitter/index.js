@@ -8,7 +8,22 @@ function pickProbableSignal(signals) {
   }
 }
 
-export default function(namespace, timeout = 1500) {
+function Signal() {
+  const callbacks = []
+  return {
+    callbacks,
+    connect(callback) {
+      callbacks.push(callback)
+    },
+    disconnect(callback) {
+      const callbackIndex = callbacks.indexOf(callback)
+      if (callbackIndex < 0) return
+      callbacks.splice(callbackIndex, 1)
+    },
+  }
+}
+
+export default function emitterFactory(namespace, timeout = 1500) {
   function SignalEmitter(...args) {
     setTimeout(() => {
       const [signal, , transformer] = pickProbableSignal(SignalEmitter.signals)
@@ -22,30 +37,14 @@ export default function(namespace, timeout = 1500) {
     }, timeout)
   }
 
-  function Signal() {
-    return {
-      callbacks: [],
-      connect(callback) {
-        this.callbacks.push(callback)
-      },
-      disconnect(callback) {
-        const callbackIndex = this.callbacks.indexOf(callback)
-        if (callbackIndex < 0) return
-        this.callbacks.splice(callbackIndex, 1)
-      },
-    }
-  }
-
   SignalEmitter.signals = []
-
-  SignalEmitter.on = function(signalName, probability, transformer) {
+  SignalEmitter.add = function(signalName, probability, transformer) {
     if (SignalEmitter.signals.indexOf(signalName) < 0) {
       SignalEmitter.signals.push([signalName, probability, transformer])
       namespace[signalName] = Signal(signalName)
     }
     return SignalEmitter
   }
-  SignalEmitter.add = SignalEmitter.on
 
   return SignalEmitter
 }
