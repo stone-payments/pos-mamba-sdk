@@ -1,3 +1,5 @@
+<svelte:window on:keydown="handleKeydown(event)" />
+
 <div class="wrapper">
   <div class="pos">
     <div class="screen">
@@ -28,7 +30,27 @@
 
   export default {
     methods: {
-      async dispatchKey({ event, keyName }) {
+      /** Treat backspace as the 'back button' */
+      handleKeydown({ keyCode }) {
+        if (
+          keyCode === 8 &&
+          document.activeElement.tagName !== 'INPUT' &&
+          (!this.store || (this.store && !this.store.get().locked))
+        ) {
+          this.goBack()
+        }
+      },
+      async goBack() {
+        try {
+          const { getHistory } = await import('svelte-routing')
+          getHistory().goBack()
+        } catch (e) {
+          console.log(
+            '[@mamba/POS] Missing "svelte-routing" package. Cannot goBack(). ',
+          ) // eslint-disable-line
+        }
+      },
+      dispatchKey({ event, keyName }) {
         /** Prevent the button from being focused */
         event.preventDefault()
         const focusedEl = document.activeElement
@@ -41,14 +63,12 @@
 
         /** If action button clicked */
         if (!isNumberKey) {
+          /** The actual 'back' is handled by that 'handleKeydown' method */
           if (keyName === 'back') {
             /** If we're focusing on a <input> erase the last character */
             if (isFocusedInput) {
               focusedEl.value = focusedEl.value.slice(0, -1)
               focusedEl.dispatchEvent(new Event('input'))
-            } else {
-              /** Otherwise, go back to the previous page */
-              return this.goBack()
             }
           }
         } else {
@@ -65,16 +85,6 @@
             keyCode: code,
           }),
         )
-      },
-      async goBack() {
-        try {
-          const { getHistory } = await import('svelte-routing')
-          getHistory().goBack()
-        } catch (e) {
-          console.log(
-            '[@mamba/POS] Missing "svelte-routing" package. Cannot goBack(). ',
-          ) // eslint-disable-line
-        }
       },
     },
   }

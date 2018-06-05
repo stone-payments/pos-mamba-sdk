@@ -26,6 +26,7 @@
       "packages/cli",
       "packages/utils",
       "packages/native",
+      "packages/store",
       "packages/css-packs/*",
       "packages/components/*",
       "website"

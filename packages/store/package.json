@@ -1,0 +1,22 @@
+{
+  "name": "@mamba/store",
+  "version": "0.0.1",
+  "description": "Store for Svelte Mamba Applications",
+  "main": "store.js",
+  "source": "src/index.js",
+  "scripts": {
+    "start": "rollup -c ../../tools/rollup/config.lib.js -w",
+    "build": "cross-env NODE_ENV=production rollup -c ../../tools/rollup/config.lib.js",
+    "test": "exit 0; jest -c ../../jest.config.js --no-cache",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stone-payments/pos-mamba-web.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "peerDependencies": {
+    "svelte": "^2.7.0"
+  }
+}
