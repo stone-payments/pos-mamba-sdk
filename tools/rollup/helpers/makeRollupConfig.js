@@ -11,6 +11,9 @@ export default function({
   format = 'cjs',
   ...rest
 } = {}) {
+  if (format !== 'cjs' && !output.includes(format)) {
+    output = output.replace('.js', `.${format}.js`)
+  }
   /** Output filename */
   const filename = basename(output)
 
@@ -30,7 +33,6 @@ export default function({
     dest: output,
     filename,
     name,
-    /** Use commonjs2 for smaller bundle sizes. */
     format,
     exports: 'named',
   }

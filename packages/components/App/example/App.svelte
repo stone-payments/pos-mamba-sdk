@@ -2,12 +2,12 @@
   <div class="container">
     <h1>@mamba/app</h1>
     <div class="row">
-    <p>It is a obligatory component for all Svelte Mamba Apps</p>
-    <br>
-    <ul>
-      <li>It initializes the application router</li>
-      <li>It listens to keyboard strokes and dispatches a click event on elements with a <b>shortcut="keyName"</b> attribute</li>
-    </ul>
+      <p>It is a obligatory component for all Svelte Mamba Apps</p>
+      <br>
+      <ul>
+        <li>It initializes the application router</li>
+        <li>It listens to keyboard strokes and dispatches a click event on elements with a <b>shortcut="keyName"</b> attribute</li>
+      </ul>
     </div>
     <button shortcut="enter" on:click="set({ counter: counter + 1 })">click me or press enter {counter}!</button>
   </div>
@@ -30,15 +30,6 @@
 <style>
   :global(body) {
     background-color: #ddd;
-  }
-
-  h1 span {
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: 10px;
-    font-size: 14px;
-    font-weight: bold;
-    font-family: monospace;
   }
 
   .container {

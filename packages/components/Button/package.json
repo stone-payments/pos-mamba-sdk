@@ -12,7 +12,7 @@
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
   "scripts": {
-    "start": "rollup -c ../../../tools/rollup/config.component.js -w",
+    "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w",
     "build": "cross-env NODE_ENV=production rollup -c ../../../tools/rollup/config.component.js",
     "build:dev": "rollup -c ../../../tools/rollup/config.component.js",
     "prepublishOnly": "npm run build"
