@@ -11,9 +11,6 @@ export default function({
   format = 'cjs',
   ...rest
 } = {}) {
-  if (format !== 'cjs' && !output.includes(format)) {
-    output = output.replace('.js', `.${format}.js`)
-  }
   /** Output filename */
   const filename = basename(output)
 

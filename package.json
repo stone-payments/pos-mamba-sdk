@@ -18,7 +18,7 @@
     "lint:css": "stylelint \"packages/**/*.{css,scss,svelte,html}\"",
     "format": "npm run format:css; npm run format:js",
     "format:js": "prettier --loglevel silent --write \"*.js\" \"{tools,packages,website}/**/*.js\" && eslint --fix \"*.js\" \"{tools,packages,website}/**/*.{js,html,svelte}\"",
-    "format:css": "prettier --loglevel silent --write \"packages/**/*.{css,scss}\" && stylelint --fix \"packages/**/*.{css,scss,svelte,html}\"",
+    "format:css": "prettier --loglevel silent --write \"packages/**/*.{css,scss}\" && stylelint --fix \"packages/**/*.{css,scss}\"",
     "test": "bolt ws test"
   },
   "bolt": {

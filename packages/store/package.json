@@ -2,7 +2,7 @@
   "name": "@mamba/store",
   "version": "0.0.1",
   "description": "Store for Svelte Mamba Applications",
-  "main": "store.js",
+  "main": "dist/store.js",
   "source": "src/index.js",
   "scripts": {
     "start": "rollup -c ../../tools/rollup/config.lib.js -w",

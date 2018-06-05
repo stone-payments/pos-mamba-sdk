@@ -20,7 +20,7 @@ const STATIC_ARTIFACTS = ['assets']
 
 /** Svelte component default build config */
 const plugins = [
-  clear(fromDist()),
+  clear({ targets: [fromDist()] }),
   /** Clear the dist directory */
   nodeResolve({
     extensions: ['.js', '.svelte', '.html'],
@@ -56,10 +56,8 @@ const plugins = [
     }),
 ]
 
-const config = {
+export default makeRollupConfig({
   format: 'umd',
   plugins,
   experimentalDynamicImport: true,
-}
-
-export default makeRollupConfig(config)
+})
