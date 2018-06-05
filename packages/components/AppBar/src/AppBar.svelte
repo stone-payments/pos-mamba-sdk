@@ -2,7 +2,7 @@
   <div class="content">
     {#if showBackBtn}
       <div class="icon-left" on:click="goback()">
-        <Icon symbol="chevron-left" color={textColor} />
+        <Icon symbol="chevron-left" color={$locked ? '#dbdbdb' : textColor} />
       </div>
     {/if}
 
@@ -33,7 +33,7 @@
       }
     },
     computed: {
-      style({ bgColor, textColor, position }){
+      style({ bgColor, textColor, position }) {
         return [
           `position:${position}`,
           `color:${textColor}`,
@@ -46,12 +46,15 @@
       const history = getHistory()
 
       /** Listen for route changes */
+      this.set({ location: history.location.pathname })
       history.listen(location => {
         this.set({ location: location.pathname })
       })
     },
     methods: {
       goback() {
+        const { locked } = this.store.get()
+        if (locked) return
         getHistory().goBack()
       },
     },

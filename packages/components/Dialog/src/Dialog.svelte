@@ -67,6 +67,11 @@
       open() {
         this.set({ isOpen: true })
         this.fire('open')
+
+        /** If there's a existant store, let's lock the app */
+        if(this.store) {
+          this.store.fire('lock', true)
+        }
       },
       close(delay) {
         if(typeof delay !== 'undefined') {
@@ -74,6 +79,11 @@
         }
         this.set({ isOpen: false })
         this.fire('close')
+
+        /** If there's a existant store, let's unlock the app */
+        if(this.store) {
+          this.store.fire('lock', false)
+        }
       },
     },
   }
