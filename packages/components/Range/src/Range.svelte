@@ -5,10 +5,13 @@
     {/if}
     <span class="value">{value}{unit}</span>
   </div>
+
   <button style={buttonStyle} on:click="decrement()">-</button>
+
   <div class="track" style="background-color: {barColor}">
     <div class="bar" style="width: {barWidth}%; background-color: {mainColor}"></div>
   </div>
+
   <button style={buttonStyle} on:click="increment()">+</button>
 </div>
 
@@ -34,20 +37,27 @@
       }
     },
     computed: {
-      barWidth: ({ value, max, min }) => (value - min) / (max - min) * 100,
+      barWidth: ({ value, max, min, unit }) => {
+        if (unit === '%') {
+          return value / max * 100
+        }
+        return (value - min) / (max - min) * 100
+      },
       buttonStyle({ mainColor }) {
-        return [`background-color: ${mainColor}`].join(';')
+        return `background-color: ${mainColor}`
       },
     },
     methods: {
       decrement() {
         const { min, value, step } = this.get()
         this.set({ value: Math.max(min, value - step) })
+        this.fire('decrement', { value })
         this.fire('change', { value })
       },
       increment() {
         const { max, value, step } = this.get()
         this.set({ value: Math.min(max, value + step) })
+        this.fire('increment', { value })
         this.fire('change', { value })
       },
     },
@@ -61,6 +71,7 @@
     align-items: center;
     width: 100%;
     margin-top: 30px;
+    padding: 0 15px;
   }
 
   .indicator {
@@ -83,7 +94,7 @@
   }
 
   .track {
-    width: 100%;
+    flex-grow: 1;
     margin: 0 15px;
     position: relative;
     background-color: #000;
@@ -92,12 +103,9 @@
   .bar {
     height: 6px;
     background-color: #3da10f;
-    will-change: width;
-    transition: width 0.3s ease;
   }
 
   button {
-    flex: 0 0 31px;
     appearance: none;
     border: none;
     border-radius: 3px;
