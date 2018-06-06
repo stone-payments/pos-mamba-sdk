@@ -1,4 +1,4 @@
-<main class="docs Grid" use:links>
+<main class="Docs Grid" use:links>
   <Sidebar />
   <Main>
     <slot></slot>
