@@ -5,19 +5,24 @@
     <Range on:change="console.log(event)"/>
   </div>
 
-  <h1>Range with default value <span>{'<Range value={75} step={5}/>'}</span></h1>
+  <h1>Range with value <span>{'<Range value={75} step={5}/>'}</span></h1>
   <div class="row">
     <Range value={75} step={5} on:change="console.log(event)"/>
   </div>
 
-  <h1>Custom range <span>{'<Range max={1000} min={-1000} step={500}/>'}</span></h1>
+  <h1>Range with unit <span>{'<Range unit="m" />'}</span></h1>
   <div class="row">
-    <Range max={1000} min={-1000} step={500} on:change="console.log(event)"/>
+    <Range unit="m" on:change="console.log(event)"/>
   </div>
 
-  <h1>Custom colored range <span>{'<Range color="red"/>'}</span></h1>
+  <h1>Custom range <span>{'<Range unit="" max={1000} min={-1000} step={500}/>'}</span></h1>
   <div class="row">
-    <Range color="red" on:change="console.log(event)"/>
+    <Range unit="" max={1000} min={-1000} step={500} on:change="console.log(event)"/>
+  </div>
+
+  <h1>Custom colored range <span>{'<Range mainColor="#888" textColor="#555" barColor="#fdd"/>'}</span></h1>
+  <div class="row">
+    <Range mainColor="#888" textColor="#555" barColor="#fdd" on:change="console.log(event)"/>
   </div>
 
   <h1>Range with image <span>{'<Range icon="pathToFile"/>'}</span></h1>

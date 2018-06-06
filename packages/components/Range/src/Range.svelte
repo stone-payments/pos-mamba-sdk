@@ -1,15 +1,15 @@
 <div class="range">
-  <div class="indicator">
+  <div class="indicator" style="color: {textColor};">
     {#if icon}
-      <img src={icon} alt="range symbol" />
+      <img class="icon" src={icon} alt="range symbol" />
     {/if}
-    <span>{value}{min === 0 && max === 100 ? '%' : ''}</span>
+    <span class="value">{value}{unit}</span>
   </div>
-  <button style={buttonStyle} on:click="set({ value: Math.max(min, value - step) })">-</button>
-  <div class="bar">
-    <div class="value" style="width: {barWidth}%; background-color: {color}"></div>
+  <button style={buttonStyle} on:click="decrement()">-</button>
+  <div class="track" style="background-color: {barColor}">
+    <div class="bar" style="width: {barWidth}%; background-color: {mainColor}"></div>
   </div>
-  <button style={buttonStyle} on:click="set({ value: Math.min(max, value + step) })">+</button>
+  <button style={buttonStyle} on:click="increment()">+</button>
 </div>
 
 <script>
@@ -20,18 +20,35 @@
         max: 100,
         step: 10,
         value: 0,
-        color: '#3da10f',
+        label: '',
+        unit: '%',
+        mainColor: '#3da10f',
+        textColor: '#000',
+        barColor: '#000',
       }
     },
-    onstate({ changed, current: { value }, previous }) {
-      if (changed.value) {
-        this.fire('change', { value })
+    oncreate() {
+      if (!this.options.data || typeof this.options.data.value === 'undefined') {
+        const { min, max } = this.get()
+        this.set({ value: (max + min) / 2 })
       }
     },
     computed: {
       barWidth: ({ value, max, min }) => (value - min) / (max - min) * 100,
-      buttonStyle({ color }) {
-        return [`background-color: ${color}`]
+      buttonStyle({ mainColor }) {
+        return [`background-color: ${mainColor}`].join(';')
+      },
+    },
+    methods: {
+      decrement() {
+        const { min, value, step } = this.get()
+        this.set({ value: Math.max(min, value - step) })
+        this.fire('change', { value })
+      },
+      increment() {
+        const { max, value, step } = this.get()
+        this.set({ value: Math.min(max, value + step) })
+        this.fire('change', { value })
       },
     },
   }
@@ -55,24 +72,24 @@
     font-weight: bold;
   }
 
-  .indicator img,
-  .indicator span {
+  .icon,
+  .value {
     display: inline-block;
     vertical-align: middle;
   }
 
-  .indicator img {
+  .icon {
     margin-right: 5px;
   }
 
-  .bar {
+  .track {
     width: 100%;
     margin: 0 15px;
     position: relative;
     background-color: #000;
   }
 
-  .value {
+  .bar {
     height: 6px;
     background-color: #3da10f;
     will-change: width;
