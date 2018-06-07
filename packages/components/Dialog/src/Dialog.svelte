@@ -108,10 +108,6 @@
     text-align: center;
   }
 
-  .image {
-    margin: 0 auto 15px;
-  }
-
   .message {
     font-size: 20px;
   }

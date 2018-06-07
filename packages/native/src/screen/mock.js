@@ -1,7 +1,7 @@
 const MAX_BRIGHTNESS = 10
 const MIN_BRIGHTNESS = 1
 
-let brightnessValue = 5
+let brightnessValue = 10
 
 const brightness = {
   decrease() {
