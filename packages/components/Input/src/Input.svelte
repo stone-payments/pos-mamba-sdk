@@ -15,12 +15,18 @@
     on:focus="onFocus()"
     on:blur="onBlur()"
     on:input="set({ value: this.value })"
-    on:keydown
+    on:keydown="onKeydown(event)"
     />
 
-  {#if type === 'password'}
+  {#if type === 'password' && readable}
     <div class="type-toggle">
       <Icon symbol="{visible ? 'eye' : 'eye-off'}" />
+    </div>
+  {/if}
+
+  {#if typeof validate === 'function' && !!errorMsg}
+    <div class="validation-msg" style="color: {errorColor}; border-color: {errorColor}">
+      {errorMsg}
     </div>
   {/if}
 </label>
@@ -35,18 +41,22 @@
     },
     data() {
       return {
-        autofocus: false,
-        label: undefined,
-        type: 'text',
-        bgColor: '#fff',
-        textColor: '#4a4a4a',
         visible: true,
         value: '',
+        validate: undefined,
+        errorMsg: undefined,
+        label: undefined,
+        type: 'text',
         alphanumeric: false,
+        readable: false,
+        autofocus: false,
+        bgColor: '#fff',
+        textColor: '#4a4a4a',
+        errorColor: '#d50000',
       }
     },
     oncreate() {
-      const { type } = this.options.data
+      const { type } = this.get()
 
       if (type === 'password') {
         this.set({ visible: false })
@@ -59,7 +69,7 @@
       // TODO: when 'visible' changes, it triggers a focus
       onFocus() {
         const { alphanumeric } = this.get()
-        if(alphanumeric) {
+        if (alphanumeric) {
           Keyboard.setKeyboardAsAlphanumeric()
         } else {
           Keyboard.setKeyboardAsNumeric()
@@ -67,15 +77,37 @@
       },
       onBlur() {
         const { alphanumeric } = this.get()
-        if(alphanumeric) {
+        if (alphanumeric) {
           Keyboard.setKeyboardAsNumeric()
         }
       },
+      onKeydown({ keyCode }) {
+        const key = Keyboard.KEYMAP[keyCode]
+        if (key === 'enter') {
+          const { validate } = this.get()
+          if(typeof validate === 'function') {
+            const { error , message } = validate(this)
+            if(error) {
+              this.set({ errorMsg: message })
+              this.fire('invalid')
+            } else {
+              this.set({ errorMsg: undefined })
+              this.fire('valid')
+            }
+          }
+          this.fire('submit')
+        }
+        this.fire('keydown')
+      },
       /** We use mousedown instead of click because it fires before the input's .focus() */
       handleMousedown(e) {
-        const { type, visible } = this.get()
+        const { type, visible, readable } = this.get()
         /** Change password visibility only if element is focused */
-        if (type === 'password' && document.activeElement === this.refs.input) {
+        if (
+          type === 'password' &&
+          readable &&
+          document.activeElement === this.refs.input
+        ) {
           this.set({ visible: !visible })
           setTimeout(() => this.refs.input.focus())
         }
@@ -122,5 +154,12 @@
     position: absolute;
     right: 20px;
     bottom: 10px;
+  }
+
+  .validation-msg {
+    color: #d50000;
+    border-top: 2px solid;
+    padding-top: 5px;
+    font-size: 12px;
   }
 </style>

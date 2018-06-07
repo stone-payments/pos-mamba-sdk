@@ -1,5 +1,15 @@
 <div class="container">
 
+  <h1>Validated input <span>{'<Input validate="method()"/>'}</span></h1>
+  <div class="row">
+    <Input
+      type="password"
+      validate={validate}
+      on:valid="console.log('VALIDO')"
+      on:invalid="console.log('INVALIDO')"
+    />
+  </div>
+
   <h1>Default input <span>{'<Input />'}</span></h1>
   <div class="row">
     <Input />
@@ -18,6 +28,11 @@
   <h1>Password input <span>{'<Input type="password"/>'}</span></h1>
   <div class="row">
     <Input type="password" />
+  </div>
+
+  <h1>Readable Password input <span>{'<Input type="password" readable/>'}</span></h1>
+  <div class="row">
+    <Input type="password" readable />
   </div>
 
   <h1>Labeled input <span>{'<Input label="Input"/>'}</span></h1>
@@ -62,7 +77,7 @@
   }
 
   .row {
-    margin-bottom: 50px
+    margin-bottom: 50px;
   }
 </style>
 
@@ -70,6 +85,24 @@
   export default {
     components: {
       Input: '../src',
+    },
+    data() {
+      return {
+        validate(Input) {
+          const { value } = Input.get()
+          let error
+          let message
+
+          if ((error = value !== '2')) {
+            message = 'Senha inválida'
+          }
+
+          return {
+            error,
+            message,
+          }
+        },
+      }
     },
   }
 </script>
