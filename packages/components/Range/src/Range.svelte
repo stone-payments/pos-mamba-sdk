@@ -19,6 +19,8 @@
   export default {
     data() {
       return {
+        class: '',
+        style: '',
         min: 0,
         max: 100,
         step: 10,
@@ -26,7 +28,7 @@
         label: '',
         unit: '%',
         mainColor: '#3da10f',
-        textColor: '#000',
+        textColor: '#494949',
         barColor: '#000',
       }
     },
@@ -70,14 +72,13 @@
     display: flex;
     align-items: center;
     width: 100%;
-    margin-top: 30px;
-    padding: 0 15px;
+    padding: 30px 15px 0;
   }
 
   .indicator {
     position: absolute;
     left: 50%;
-    top: -25px;
+    top: 0;
     transform: translateX(-50%);
     font-size: 18px;
     font-weight: bold;
