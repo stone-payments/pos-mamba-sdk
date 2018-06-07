@@ -53,6 +53,9 @@
       }
     },
     methods: {
+      focus() {
+        this.refs.input.focus()
+      },
       // TODO: when 'visible' changes, it triggers a focus
       onFocus() {
         const { alphanumeric } = this.get()
