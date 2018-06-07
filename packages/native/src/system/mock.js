@@ -253,13 +253,32 @@ export default function(System) {
     },
     Battery: {
       present: true,
-
       level: 50,
       status: System.BatteryStatus.DISCHARGE,
     },
     PowerSupply: System.PowerSupply.USB,
     TimeFromBoot: 0,
     SerialNumber: '00000000',
+  }
+
+  // TODO: Rename window.PowerManagement
+  let sleepDelay = 5
+  let sleepEnabled = false
+  const MIN_SLEEP_DELAY = 0
+  const MAX_SLEEP_DELAY = 10
+  const PowerManagement = {
+    isSleepEnabled: () => sleepEnabled,
+    getSleepDelay: () => sleepDelay,
+    toggleSleep() {
+      sleepEnabled = !sleepEnabled
+      console.log(`${sleepEnabled ? 'Enabled' : 'Disabled'} automatic sleep`)
+    },
+    decreaseSleepDelay() {
+      sleepDelay = Math.max(MIN_SLEEP_DELAY, sleepDelay - 1)
+    },
+    increaseSleepDelay() {
+      sleepDelay = Math.min(sleepDelay + 1, MAX_SLEEP_DELAY)
+    },
   }
 
   Object.assign(System, {
@@ -274,5 +293,6 @@ export default function(System) {
     getBatteryStatus,
     getBatteryLevel,
     SimulatedConfig,
+    PowerManagement,
   })
 }
