@@ -27,7 +27,7 @@ module.exports = {
     console.log(`Deploying "${appSlug}" to "${REMOTE_APP_DIR}"`)
     shell.exec(
       `rsync -zzaP ${
-        !force ? '--size-only' : ''
+        !force ? '--checksum' : ''
       } --delete ${DIST_DIR}/ ${REMOTE_APP_DIR}`,
     )
 
