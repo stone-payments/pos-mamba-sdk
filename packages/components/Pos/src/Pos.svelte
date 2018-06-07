@@ -2,6 +2,7 @@
 
 <div class="wrapper">
   <div class="pos">
+    <div class="brightness" style="opacity: {brightnessOpacity};"></div>
     <div class="screen">
       <slot></slot>
     </div>
@@ -29,6 +30,22 @@
   import Keyboard from '@mamba/native/keyboard'
 
   export default {
+    data() {
+      return {
+        brightnessLevel: 10,
+      }
+    },
+    computed: {
+      brightnessOpacity: ({ brightnessLevel }) => 1 - (brightnessLevel / 10),
+    },
+    oncreate() {
+      if(this.store) {
+        /** Listen for brightness changes */
+        this.store.on('change:brightness', ({ brightnessLevel }) => {
+          this.set({ brightnessLevel })
+        })
+      }
+    },
     methods: {
       /** Treat backspace as the 'back button' */
       handleKeydown({ keyCode }) {
@@ -110,19 +127,30 @@
       position: relative;
       z-index: 0;
       margin: 0 auto;
-      width: 342.5px;
+      width: 342px;
       height: 751px;
       background-image: url(./assets/POS.png);
       background-size: cover;
     }
 
-    .screen {
+    .screen,
+    .brightness {
       position: absolute;
-      top: 226px;
-      left: 47.3px;
+      top: 225px;
+      left: 47px;
       width: 240px;
-      height: 319px;
+      height: 320px;
+    }
+
+    .screen {
       overflow-y: auto;
+    }
+
+    .brightness {
+      background-color: #000;
+      z-index: 100000;
+      pointer-events: none;
+      opacity: .05;
     }
 
     /**
