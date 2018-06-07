@@ -1,19 +1,30 @@
 import { Store } from 'svelte/store'
 
+const LOCAL_STORAGE_KEY = 'MambaStore'
+
+/** Initial data that overrides local storage */
+const initialData = {
+  lock: false,
+}
+
 export default class MambaStore extends Store {
   constructor(data) {
-    /** Get persisted data from localstorage if available */
+    /** Get persisted data from localStorage if available */
     if (localStorage) {
-      const persistedStore = localStorage.getItem('mamba-store')
-      data = persistedStore != null ? JSON.parse(persistedStore) : data
+      const persistedStore = localStorage.getItem(LOCAL_STORAGE_KEY)
+      if (persistedStore != null) {
+        /** Get persisted data */
+        data = Object.assign({}, JSON.parse(persistedStore), initialData)
+      }
     }
 
+    /** Initialize the actual store */
     super(data)
 
-    /** Persist store changes to localstorage */
+    /** Persist store changes to localStorage */
     if (localStorage) {
       this.on('state', ({ current }) => {
-        localStorage.setItem('mamba-store', JSON.stringify(current))
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(current))
       })
     }
   }
