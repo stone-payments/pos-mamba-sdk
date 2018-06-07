@@ -107,7 +107,7 @@
   }
 
   button {
-    appearance: none;
+    -webkit-appearance: none;
     border: none;
     border-radius: 3px;
     color: #fff;

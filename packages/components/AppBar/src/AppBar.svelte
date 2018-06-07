@@ -10,11 +10,11 @@
       <div class="title">{title}</div>
     {/if}
 
-    {#if rightIcon}
+    <!-- {#if rightIcon}
       <div class="icon-right" on:click="console.log('right-click')">
         X
       </div>
-    {/if}
+    {/if} -->
   </div>
 </header>
 
@@ -27,6 +27,7 @@
     },
     data() {
       return {
+        location: undefined,
         position: 'relative',
         textColor: '#fff',
         bgColor: '#4ebf1a',

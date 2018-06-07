@@ -167,7 +167,7 @@
       width: 60px;
       height: 29px;
       border: 0;
-      appearance: none;
+      -webkit-appearance: none;
       cursor: pointer;
       background: none;
       border-radius: 8px;
