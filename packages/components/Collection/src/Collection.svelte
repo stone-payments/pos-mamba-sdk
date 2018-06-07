@@ -17,11 +17,19 @@
   }
 </script>
 
-<style type="text/scss">
-  @import './Row.style.scss';
+<style>
+  .row {
+    display: block;
+    padding: 10px 20px;
+    margin: 0;
+    line-height: 1.5rem;
+    background: #fff;
+    border-bottom: 1px solid #f4f4f4;
+    color: #494949;
+  }
 
   .title {
-    color: $green;
+    color: #4ebf1a;
     font-size: 1.2rem;
   }
 
