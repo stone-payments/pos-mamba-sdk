@@ -5,6 +5,7 @@ const rules = {
   'no-console': IS_PROD() ? ['error', { allow: ['warn', 'error'] }] : 'off',
   'no-var': 'error',
   'comma-dangle': ['error', 'always-multiline'],
+  'no-new': 'off',
 }
 
 module.exports = {
