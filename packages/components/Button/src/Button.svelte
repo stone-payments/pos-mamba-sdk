@@ -1,4 +1,5 @@
 <button
+  ref:button
   class="button is-{size} {bottom ? 'is-fixed' : ''}"
   {style}
   {disabled}
@@ -19,13 +20,20 @@
       }
     },
     computed: {
-      style({ textColor, bgColor, width, borderColor}) {
+      style({ textColor, bgColor, width, borderColor }) {
         return [
           textColor && `color:${textColor}`,
           bgColor && `background-color:${bgColor}`,
           borderColor && `border: 2px solid ${borderColor}`,
           width && `width:${width}`,
-        ].filter(Boolean).join(';')
+        ]
+          .filter(Boolean)
+          .join(';')
+      },
+    },
+    methods: {
+      focus() {
+        this.refs.button.focus()
       },
     },
   }
