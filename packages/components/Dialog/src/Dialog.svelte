@@ -33,20 +33,17 @@
     },
     computed: {
       style({ bgColor, textColor }) {
-        return [
-          `background-color:${bgColor}`,
-          `color:${textColor}`,
-        ].join(';')
+        return [`background-color:${bgColor}`, `color:${textColor}`].join(';')
       },
     },
     onstate({ changed, current: { actions, isOpen, duration, promise } }) {
-      if(changed.promise && promise && typeof promise.then === 'function') {
+      if (changed.promise && promise && typeof promise.then === 'function') {
         promise
           .then(() => {
             this.fire('success')
             this.close(duration)
           })
-          .catch((e) => {
+          .catch(e => {
             this.fire('failure', e)
             this.close(duration)
           })
@@ -55,7 +52,12 @@
       }
 
       /** If the dialog is open and there's no actions, close it after {duration} msecs */
-      if(changed.isOpen && isOpen === true && !promise && (!actions || !actions.length)) {
+      if (
+        changed.isOpen &&
+        isOpen === true &&
+        !promise &&
+        (!actions || !actions.length)
+      ) {
         this.close(duration)
       }
     },
@@ -69,19 +71,19 @@
         this.fire('open')
 
         /** If there's a existant store, let's lock the app */
-        if(this.store) {
+        if (this.store) {
           this.store.fire('lock', true)
         }
       },
       close(delay) {
-        if(typeof delay !== 'undefined') {
-          return setTimeout(() => this.close(), delay)
+        if (typeof delay !== 'undefined') {
+          return setTimeout(() => this.close(), parseFloat(delay))
         }
         this.set({ isOpen: false })
         this.fire('close')
 
         /** If there's a existant store, let's unlock the app */
-        if(this.store) {
+        if (this.store) {
           this.store.fire('lock', false)
         }
       },
@@ -92,7 +94,7 @@
 <style>
   .dialog {
     position: fixed;
-    z-index: 1000;
+    z-index: 1001;
     top: 0;
     left: 0;
     width: 100%;
@@ -122,7 +124,6 @@
   }
 
   .actions > :global(.button + .button) {
-    margin-left: 5px
+    margin-left: 5px;
   }
-
 </style>
