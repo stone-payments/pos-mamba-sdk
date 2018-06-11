@@ -54,8 +54,10 @@
     },
     methods: {
       goback() {
-        const { locked } = this.store.get()
-        if (locked) return
+        if (this.store) {
+          const { locked } = this.store.get()
+          if (locked) return
+        }
         getHistory().goBack()
       },
     },
