@@ -50,7 +50,7 @@
       /** Treat backspace as the 'back button' */
       handleKeydown({ keyCode }) {
         if (
-          keyCode === 8 &&
+          Keyboard.getKeyName(keyCode) === 'back' &&
           document.activeElement.tagName !== 'INPUT' &&
           (!this.store || (this.store && !this.store.get().locked))
         ) {
@@ -73,13 +73,10 @@
         const focusedEl = document.activeElement
         const isFocusedInput = focusedEl && focusedEl.tagName === 'INPUT'
 
-        const code = Object.keys(Keyboard.KEYMAP).find(
-          code => Keyboard.KEYMAP[code] === keyName,
-        )
-        const isNumberKey = !isNaN(parseFloat(Keyboard.KEYMAP[code]))
+        const code = Keyboard.getKeyCode(keyName)
 
         /** If action button clicked */
-        if (!isNumberKey) {
+        if (Keyboard.isActionKey(code)) {
           /** The actual 'back' is handled by that 'handleKeydown' method */
           if (keyName === 'back') {
             /** If we're focusing on a <input> erase the last character */
@@ -137,7 +134,7 @@
     .brightness {
       position: absolute;
       top: 225px;
-      left: 47px;
+      left: 47.99px;
       width: 240px;
       height: 320px;
     }
@@ -150,7 +147,7 @@
       background-color: #000;
       z-index: 100000;
       pointer-events: none;
-      opacity: .05;
+      transition: opacity .3s ease;
     }
 
     /**
