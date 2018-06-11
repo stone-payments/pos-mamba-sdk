@@ -1,6 +1,50 @@
 import lastWifiList from './fixtures/lasWifiList'
 import SignalEmitter from '../SignalEmitter'
 
+/** Mock config */
+const MockConfig = {
+  wifi_connected: false,
+  wifi_enabled: true,
+  current_network_adapter: 'wifi',
+}
+
+function hasSavedWifi() {
+  return Object.keys(lastWifiList).some(wifiKey => lastWifiList[wifiKey].saved)
+}
+
+function isWifiConnected() {
+  return MockConfig.wifi_connected
+}
+
+function isWifiEnabled() {
+  return MockConfig.wifi_enabled
+}
+
+function enableWifi() {
+  console.log('enabled wifi')
+  MockConfig.wifi_enabled = true
+  MockConfig.wifi_connected = false
+}
+
+function disableWifi() {
+  console.log('disabled wifi')
+  MockConfig.wifi_enabled = false
+  MockConfig.wifi_connected = false
+}
+
+function toggleNetworkAdapter() {
+  MockConfig.current_network_adapter =
+    MockConfig.current_network_adapter === 'wifi' ? 'mbb' : 'wifi'
+}
+
+function getCurrentNetworkAdapter() {
+  return MockConfig.current_network_adapter
+}
+
+function getLastWifiList() {
+  return lastWifiList
+}
+
 export default function(Network) {
   /** Register Signal Emitters and it's possible signals */
   Network.doGetWifiList = SignalEmitter(Network)
@@ -30,52 +74,6 @@ export default function(Network) {
     .add('connectFailure', 0.1, () => {
       MockConfig.wifi_connected = false
     })
-
-  /** Mock config */
-  const MockConfig = {
-    wifi_connected: false,
-    wifi_enabled: true,
-    current_network_adapter: 'wifi',
-  }
-
-  function hasSavedWifi() {
-    return Object.keys(lastWifiList).some(
-      wifiKey => lastWifiList[wifiKey].saved,
-    )
-  }
-
-  function isWifiConnected() {
-    return MockConfig.wifi_connected
-  }
-
-  function isWifiEnabled() {
-    return MockConfig.wifi_enabled
-  }
-
-  function enableWifi() {
-    console.log('enabled wifi')
-    MockConfig.wifi_enabled = true
-    MockConfig.wifi_connected = false
-  }
-
-  function disableWifi() {
-    console.log('disabled wifi')
-    MockConfig.wifi_enabled = false
-    MockConfig.wifi_connected = false
-  }
-
-  function toggleNetworkAdapter() {
-    MockConfig.current_network_adapter =
-      MockConfig.current_network_adapter === 'wifi' ? 'mbb' : 'wifi'
-  }
-
-  function getCurrentNetworkAdapter() {
-    return MockConfig.current_network_adapter
-  }
-
-  function getLastWifiList() {
-    return lastWifiList
-  }
 
   Object.assign(Network, {
     isWifiConnected,
