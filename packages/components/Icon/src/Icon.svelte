@@ -12,11 +12,11 @@
     onstate({ current: { color, src } }) {
       const iconEl = this.refs.icon
 
-      if(color) {
+      if (color) {
         iconEl.style.backgroundColor = color
       }
 
-      if(src) {
+      if (src) {
         iconEl.style.webkitMaskImage = `url(${src})`
       }
     },
@@ -33,52 +33,87 @@
 </script>
 
 <style type="text/scss">
-  @import '@mamba/styles-utils/index.scss';
-
-  .icon {
-    display: inline-block;
-    width: $mb-icon-size;
-    height: $mb-icon-size;
-    background-color: $mb-icon-color;
-    mask-size: cover;
-    mask-repeat: no-repeat;
-  }
-
-  [size="large"] {
-    width: $mb-icon-size-large;
-    height: $mb-icon-size-large;
-  }
-
-  [size="small"] {
-    width: $mb-icon-size-mini;
-    height: $mb-icon-size-mini;
-  }
+  $icon-list: (
+    'account',
+    'alert',
+    'autorenew',
+    'bookmark',
+    'calendar',
+    'check',
+    'chevron-down',
+    'chevron-left',
+    'chevron-right',
+    'chevron-up',
+    'close-circle',
+    'close',
+    'credit-card',
+    'delete',
+    'eye-off',
+    'eye',
+    'floppy',
+    'heart',
+    'help-circle',
+    'home',
+    'information',
+    'lock-open',
+    'lock-stn-open',
+    'lock-stn',
+    'lock',
+    'loop',
+    'menu',
+    'pencil',
+    'plus',
+    'printer-outline',
+    'printer',
+    'refresh',
+    'settings',
+    'signal-2g',
+    'signal-3g',
+    'signal-4g',
+    'signal-hspa-plus',
+    'signal-hspa',
+    'signal-variant',
+    'signal',
+    'star-outline',
+    'star',
+    'wifi'
+  );
 
   @each $mb-icon in $icon-list {
-    [symbol="#{$mb-icon}"] {
+    [symbol='#{$mb-icon}'] {
       mask-image: url(./assets/icons/#{$mb-icon}.svg);
     }
   }
 
-  [level="0"] {
-    background-color: $grey-light;
+  .icon {
+    display: inline-block;
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+    background-color: #494949;
+    mask-size: cover;
+    mask-repeat: no-repeat;
   }
 
-  [symbol="wifi"] {
-    &[level="1"] {
-      background: linear-gradient(
-        to bottom,
-        $grey-light 60%,
-        $mb-icon-color 0%
-      );
-    }
+  [size='large'] {
+    width: 36px;
+    height: 36px;
+  }
 
-    &[level="2"] {
-      background: linear-gradient(
-        to bottom,
-        $grey-light 37%,
-        $mb-icon-color 0%
-      );
-    }
+  [size='giant'] {
+    width: 64px;
+    height: 64px;
+  }
+
+  [level='0'] {
+    background-color: #494949;
+  }
+
+  [symbol='wifi'][level='1'] {
+    background: linear-gradient(to bottom, #b5b5b5 60%, #494949 0%);
+  }
+
+  [symbol='wifi'][level='2'] {
+    background: linear-gradient(to bottom, #b5b5b5 37%, #494949 0%);
   }
 </style>

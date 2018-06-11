@@ -7,14 +7,6 @@
     {/each}
   </div>
 
-  <h1>Small icons <span>{'<Icon size="small" />'}</span></h1>
-
-  <div class="row">
-    {#each icons as icon}
-      <Icon symbol="{icon}" size="small" />
-    {/each}
-  </div>
-
   <h1>Large icons <span>{'<Icon size="large" />'}</span></h1>
 
   <div class="row">
@@ -23,11 +15,44 @@
     {/each}
   </div>
 
+  <h1>Giant icons <span>{'<Icon size="giant" />'}</span></h1>
+
+  <div class="row">
+    {#each icons as icon}
+      <Icon symbol="{icon}" size="giant" />
+    {/each}
+  </div>
+
+  <h1>Rounded icons <span>{'<RoundIcon />'}</span></h1>
+
+  <div class="row">
+    {#each icons as icon}
+      <RoundIcon symbol="{icon}"/>
+    {/each}
+  </div>
+
+  <h1>Large rounded icons <span>{'<RoundIcon size="large" />'}</span></h1>
+
+  <div class="row">
+    {#each icons as icon}
+      <RoundIcon symbol="{icon}" size="large" />
+    {/each}
+  </div>
+
+  <h1>Giant rounded icons <span>{'<RoundIcon size="giant" />'}</span></h1>
+
+  <div class="row">
+    {#each icons as icon}
+      <RoundIcon symbol="{icon}" size="giant"/>
+    {/each}
+  </div>
+
   <h1>Colored Icons <span>{'<Icon color="..." />'}</span></h1>
 
   <div class="row">
     {#each icons as icon}
       <Icon symbol="{icon}" color="{getRandomColor()}" />
+      <RoundIcon symbol="{icon}" color="{getRandomColor()}" bgColor="{getRandomColor()}"/>
     {/each}
   </div>
 
@@ -35,14 +60,18 @@
 
   <div class="row">
     <Icon src="assets/icons/account.svg" />
+    <RoundIcon src="assets/icons/account.svg" />
   </div>
 
   <h1>Gradual Icons <span>{'<Icon symbol="..." level="number" />'}</span></h1>
 
   <div class="row">
     <Icon symbol="wifi" level="0" />
+    <RoundIcon symbol="wifi" level="0" />
     <Icon symbol="wifi" level="1" />
+    <RoundIcon symbol="wifi" level="1" />
     <Icon symbol="wifi" level="2" />
+    <RoundIcon symbol="wifi" level="2" />
     <Icon symbol="wifi" level="3" />
   </div>
 
@@ -73,14 +102,13 @@
   export default {
     components: {
       Icon: '../src',
-    },
-    computed: {
-      getRandomColor(state) {
-        return () => `#${Math.floor(Math.random() * 0x1000000).toString(16).padStart(6, '0')}`
-      },
+      RoundIcon: '../src/RoundIcon.svelte',
     },
     data() {
       return {
+        getRandomColor() {
+          return `#${Math.floor(Math.random() * 0x1000000).toString(16).padStart(6, '0')}`
+        },
         icons: [
           'account',
           'alert',
