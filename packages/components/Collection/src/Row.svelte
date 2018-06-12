@@ -2,7 +2,7 @@
 <div ref:row class="row" on:click="handleClick({ event, href })">
   <div class="main" {shortcut}>
     <div class="label">{label}</div>
-    <div ref:controller class="controller">
+    <div ref:controller>
       {#if href}
         <Icon symbol="chevron-right"/>
       {:elseif hasCustomController}
@@ -12,13 +12,13 @@
   </div>
 
   {#if description}
-    <div class="description">
-      <p>{description}</p>
-    </div>
+    <p>{description}</p>
   {/if}
 
-  {#if hasExtraContent}
-    <slot name="extra"></slot>
+  {#if showExtra && hasExtraContent}
+    <div class="extra">
+      <slot name="extra"></slot>
+    </div>
   {/if}
 </div>
 
@@ -26,7 +26,7 @@
   import { getHistory } from 'svelte-routing'
 
   function findClosest(el, cb) {
-    if (el.nodeType !== 1) return null
+    if (!el || el.nodeType !== 1) return null
     if (el && !cb(el)) return findClosest(el.parentNode, cb)
     return el
   }
@@ -46,7 +46,7 @@
     },
     oncreate() {
       const hasSlots = !!this.options.slots
-      if(hasSlots) {
+      if (hasSlots) {
         this.set({
           hasCustomController: !!this.options.slots.controller,
           hasExtraContent: !!this.options.slots.extra,
@@ -117,22 +117,24 @@
     padding: 10px 20px;
   }
 
-  .description {
+  p {
     color: #8c8c8c;
     padding: 0 20px;
-    margin-top: -5px;
+    margin-top: -10px;
     margin-bottom: 10px;
+    font-size: 12px;
   }
 
-  .description p {
-    font-size: 14px;
-  }
-
-  .controller {
+  ref:controller {
     line-height: 1;
   }
 
   .label {
     font-weight: bold;
+  }
+
+  /** TODO: is this breakable? */
+  .extra {
+    border-top: 1px dashed #eee;
   }
 </style>
