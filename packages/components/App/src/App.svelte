@@ -1,6 +1,6 @@
-<svelte:window on:keydown="handleKeyDown(event)"/>
+<svelte:window on:keydown="onKeyDown(event)"/>
 
-<div use:links>
+<div class="app" use:links>
   <slot></slot>
 </div>
 
@@ -18,18 +18,33 @@
       links,
     },
     methods: {
-      handleKeyDown(e) {
-        const keyName = Keyboard.KEYMAP[e.keyCode]
+      onKeyDown(e) {
+        const keyName = Keyboard.getKeyName(e.keyCode)
 
-        /** If the key is not mapped (for some reason, do nothing) */
-        if(!keyName) return
+        /** If the key is not mapped or we're inside an input, do nothing */
+        if (!keyName || e.target.tagName === 'INPUT') {
+          return
+        }
 
         const shortcutEl = document.querySelector(`[shortcut='${keyName}']`)
 
         /** If the key is 'enter', check if the shortcut element isn't already focused */
-        if (shortcutEl && (keyName !== 'enter' || document.activeElement !== shortcutEl)) {
-          // Adapted from
-          // https://stackoverflow.com/questions/15739263/phantomjs-click-an-element
+        if (
+          shortcutEl &&
+          (keyName !== 'enter' || document.activeElement !== shortcutEl)
+        ) {
+          /**
+           * If a shortcut key was clicked and is a numeric one, prevent
+           * the keypress/input/keyup of being fired on a possible to be .focus() input
+           */
+          if (Keyboard.isNumericKey(e.keyCode)) {
+            e.preventDefault()
+          }
+
+          /*
+                   * Adapted from:
+                   * https://stackoverflow.com/questions/15739263/phantomjs-click-an-element
+                  */
           const clickEvent = document.createEvent('MouseEvent')
           clickEvent.initMouseEvent(
             'click',
@@ -54,3 +69,9 @@
     },
   }
 </script>
+
+<style>
+  .app {
+    height: 100%;
+  }
+</style>
