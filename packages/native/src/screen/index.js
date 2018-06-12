@@ -4,8 +4,8 @@ import addSharedTo from './shared.js'
 
 /**
  * Initialize empty object because window.Screen don't exist
- * TODO: Debate and organize native modules
  * */
+// TODO: Find where to put this since it's just for a specific app
 let Screen = window.Screen
 
 if (process.env.NODE_ENV !== 'production') {

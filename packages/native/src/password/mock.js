@@ -6,6 +6,7 @@ let adminPassword = DEFAULT_PASSWORD
 
 // TODO: Refactor the return format to be { valid, msg }
 // TODO: Move messages to app and make all methods return booleans
+// TODO: Find where to put this since it's just for a specific app
 function matchesPassword(password, stonecode) {
   if (stonecode !== undefined) {
     return (
@@ -50,9 +51,9 @@ function changePassword(oldPassword, password, confirmationPassword) {
 
 const getDefaultPassword = () => adminPassword
 const getDefaultPasswordSize = () => getDefaultPassword().length
-const generateRecoverPasswordCode = () => parseInt(Math.random() * 1e6)
-const recoverPassword = (generatedCode, matchCode) => matchCode === MATCH_CODE
 const verifyMatchCode = (generatedCode, matchCode) => matchCode === MATCH_CODE
+const recoverPassword = (generatedCode, matchCode) => matchCode === MATCH_CODE
+const generateRecoverPasswordCode = () => parseInt(Math.random() * 1e6)
 
 export default function(Password) {
   Object.assign(Password, {
