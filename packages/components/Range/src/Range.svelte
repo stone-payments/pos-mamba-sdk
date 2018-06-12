@@ -78,7 +78,7 @@
   .indicator {
     position: absolute;
     left: 50%;
-    top: 0;
+    top: 8px;
     transform: translateX(-50%);
     font-size: 18px;
     font-weight: bold;
