@@ -38,7 +38,7 @@
       if (this.options.data) {
         const { shortcut } = this.options.data
         if (typeof shortcut !== 'undefined') {
-          this.set({ shortcut })
+          this.refs.button.setAttribute('shortcut', shortcut)
         }
       }
     },
