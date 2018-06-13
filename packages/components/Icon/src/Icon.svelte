@@ -101,8 +101,8 @@
   }
 
   [size='giant'] {
-    width: 64px;
-    height: 64px;
+    width: 56px;
+    height: 56px;
   }
 
   [level='0'] {

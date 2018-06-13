@@ -1,5 +1,5 @@
-<div class="round-icon" {size} style="background-color: {bgColor};">
-  <Icon {...iconAttrs} />
+<div class="round-icon" {size} style="background-color: {bgColor}; border-radius: {borderRadius};">
+  <Icon {...iconAttrs} on:click/>
 </div>
 
 <script>
@@ -9,6 +9,7 @@
     },
     data() {
       return {
+        borderRadius: '50%',
         bgColor: '#4ebf1a',
         color: '#fff',
         size: 'normal',
@@ -27,7 +28,6 @@
     display: inline-block;
     padding: 15px;
     background-color: red;
-    border-radius: 50%;
     text-align: center;
   }
 
