@@ -3,7 +3,6 @@
   class="button is-{size} {bottom ? 'is-fixed' : ''}"
   {style}
   {disabled}
-  {shortcut}
   on:click
 >
   <slot></slot>
@@ -16,7 +15,6 @@
         size: 'regular',
         disabled: false,
         bottom: false,
-        shortcut: null,
       }
     },
     computed: {
@@ -35,6 +33,14 @@
       focus() {
         this.refs.button.focus()
       },
+    },
+    oncreate() {
+      if (this.options.data) {
+        const { shortcut } = this.options.data
+        if (typeof shortcut !== 'undefined') {
+          this.set({ shortcut })
+        }
+      }
     },
   }
 </script>
