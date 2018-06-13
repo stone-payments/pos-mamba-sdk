@@ -1,4 +1,5 @@
 import { Store } from 'svelte/store'
+import { setDeep, getDeep } from 'svelte-extras'
 
 const LOCAL_STORAGE_KEY = 'MambaStore'
 
@@ -59,3 +60,6 @@ export default class MambaStore extends Store {
     }
   }
 }
+
+MambaStore.prototype.setDeep = setDeep
+MambaStore.prototype.getDeep = getDeep
