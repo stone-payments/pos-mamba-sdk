@@ -19,6 +19,12 @@
     },
     methods: {
       onKeyup(e) {
+        if(this.store) {
+          if(this.store.get().__meta__.shortcuts === false) {
+            return
+          }
+        }
+
         const keyName = Keyboard.getKeyName(e.keyCode)
 
         /** If the key is not mapped or is the 'close' key or an input is focused */

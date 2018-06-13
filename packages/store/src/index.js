@@ -1,5 +1,6 @@
 import Keyboard from '@mamba/native/keyboard'
 import MambaStore from './MambaStore'
+import { setDeep } from 'svelte-extras'
 
 export default initialData => {
   const store = new MambaStore(initialData)
@@ -12,7 +13,8 @@ export default initialData => {
       console.log('Unlocking App')
       Keyboard.enableBackspace()
     }
-    store.set({ locked })
+
+    setDeep.call(store, '__meta__.locked', locked)
   })
   return store
 }

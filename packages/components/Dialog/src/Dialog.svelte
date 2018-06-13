@@ -60,7 +60,7 @@
     },
     ondestroy() {
       /** If the component is being destroyed and the dialog is still opened, let's unlock the app */
-      if (this.get()._isOpen && this.store && this.store.get().lock) {
+      if (this.get()._isOpen && this.store && this.store.get().__meta__.locked) {
         this.store.fire('lock', false)
       }
     },

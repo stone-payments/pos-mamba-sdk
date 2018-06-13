@@ -52,7 +52,7 @@
         if (
           Keyboard.getKeyName(keyCode) === 'back' &&
           document.activeElement.tagName !== 'INPUT' &&
-          (!this.store || (this.store && !this.store.get().locked))
+          (!this.store || (this.store && !this.store.get().__meta__.locked))
         ) {
           this.goBack()
         }
