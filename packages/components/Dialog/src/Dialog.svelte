@@ -1,85 +1,55 @@
-{#if isOpen}
+{#if _isOpen}
   <div class="dialog" {style}>
-    <div class="content">
+    <div class="content -align-{align}">
       <div class="message">
+        {#if title}
+          <div class="title">{title}</div>
+        {/if}
         <slot></slot>
       </div>
-    </div>
-    {#if actions}
-      <div class="actions">
-        {#each actions as { label, event: eventName, props }}
-          <Button width="{100/actions.length}%" on:click="handleAction(eventName, event)" {...props}>
-            {label}
-          </Button>
-        {/each}
+      <div class="extra">
+        <slot name="extra"></slot>
       </div>
-    {/if}
+    </div>
   </div>
 {/if}
 
 <script>
   export default {
-    components: {
-      Button: '@mamba/button',
-    },
     data() {
       return {
-        isOpen: false,
-        duration: 2000,
+        _isOpen: false,
         actions: null,
         bgColor: '#e3e3e3',
         textColor: '#4a4a4a',
+        align: 'center',
+        type: 'timed',
       }
     },
     computed: {
       style({ bgColor, textColor }) {
-        return [`background-color:${bgColor}`, `color:${textColor}`].join(';')
+        return `background-color:${bgColor};color:${textColor}`
       },
-    },
-    onstate({ changed, current: { actions, isOpen, duration, promise } }) {
-      if (changed.promise && promise && typeof promise.then === 'function') {
-        promise
-          .then(() => {
-            this.fire('success')
-            this.close(duration)
-          })
-          .catch(e => {
-            this.fire('failure', e)
-            this.close(duration)
-          })
-        this.open()
-        return
-      }
-
-      /** If the dialog is open and there's no actions, close it after {duration} msecs */
-      if (
-        changed.isOpen &&
-        isOpen === true &&
-        !promise &&
-        (!actions || !actions.length)
-      ) {
-        this.close(duration)
-      }
     },
     methods: {
-      handleAction(eventName, data) {
-        this.close()
-        this.fire(eventName, data)
-      },
-      open() {
-        this.set({ isOpen: true })
+      open(duration) {
+        this.set({ _isOpen: true })
         this.fire('open')
 
         /** If there's a existant store, let's lock the app */
         if (this.store) {
           this.store.fire('lock', true)
         }
+
+        if (typeof duration !== 'undefined') {
+          this.close(duration)
+        }
       },
       close(delay) {
         if (typeof delay !== 'undefined') {
           return setTimeout(() => this.close(), parseFloat(delay))
         }
-        this.set({ isOpen: false })
+        this.set({ _isOpen: false })
         this.fire('close')
 
         /** If there's a existant store, let's unlock the app */
@@ -87,6 +57,12 @@
           this.store.fire('lock', false)
         }
       },
+    },
+    ondestroy() {
+      /** If the component is being destroyed and the dialog is still opened, let's unlock the app */
+      if (this.get()._isOpen && this.store && this.store.get().lock) {
+        this.store.fire('lock', false)
+      }
     },
   }
 </script>
@@ -103,6 +79,16 @@
 
   .content {
     width: 90%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .content.-align-top {
+    margin-top: 15px;
+  }
+
+  .content.-align-center {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -111,19 +97,12 @@
   }
 
   .message {
+    font-size: 18px;
+  }
+
+  .title {
     font-size: 20px;
-  }
-
-  .actions {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    display: flex;
-    padding: 15px;
-  }
-
-  .actions > :global(.button + .button) {
-    margin-left: 5px;
+    font-weight: bold;
+    margin-bottom: 5px;
   }
 </style>

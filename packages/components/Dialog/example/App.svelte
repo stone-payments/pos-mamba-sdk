@@ -1,114 +1,23 @@
 <div class="container">
-  <h1>Default Dialog (closes after 2 secs)</h1>
+  <h1>Default Dialog</h1>
   <div class="row">
-    <button on:click="openDialog('defaultDialog')">
+    <button on:click="openDialog('defaultDialog', 2000)">
       Open dialog
     </button>
   </div>
 
   <Dialog ref:defaultDialog>
-    Conectando...
+    Default dialog
   </Dialog>
 
-  <h1>Dialog with custom duration</h1>
-  <div class="row">
-    <button on:click="openDialog('customTimeout')">
-      Open dialog
-    </button>
-  </div>
-
-  <Dialog ref:customTimeout duration="1000">
-    Conectando...
-  </Dialog>
-
-  <h1>Dialog with image</h1>
-  <div class="row">
-    <button on:click="openDialog('imageDialog')">
-      Open dialog
-    </button>
-  </div>
-
-  <Dialog ref:imageDialog>
-    <div>
-      <img src="./assets/images/success.png" alt="">
-    </div>
-
-    Conectando...
-  </Dialog>
-
-  <h1>Dialog with sprite</h1>
-  <div class="row">
-    <button on:click="openDialog('spriteDialog')">
-      Open dialog
-    </button>
-  </div>
-
-  <Dialog ref:spriteDialog>
-    <div>
-      <Sprite src="./assets/images/loading-sprite.png" width="70px"/>
-    </div>
-    Conectando...
-  </Dialog>
-
-  <h1>Dialog with custom colors</h1>
-  <div class="row">
-    <button on:click="openDialog('bgDialog')">
-      Open dialog
-    </button>
-  </div>
-
-  <Dialog
-    ref:bgDialog
-    bgColor="rgba(0,0,0,.95)"
-    textColor="white"
-  >
-    <div>
-      <img src="./assets/images/success.png" alt="">
-    </div>
-    Conectando...
-  </Dialog>
-
-  <h1>Dialog with actions</h1>
-  <div class="row">
-    <button on:click="openDialog('actionsDialog')">
-      Open Dialog
-    </button>
-  </div>
-
-  <Dialog
-    ref:actionsDialog
-    bgColor="rgba(0,0,0,.95)"
-    textColor="white"
-    actions={[{
-      label: 'Cancelar',
-      event: 'cancel',
-      props: {
-        bgColor: 'white',
-        textColor: 'black',
-        borderColor: '#4ebf1a'
-      }
-    },
-    {
-      label: 'Ok',
-      event: 'ok'
-    }]}
-    on:ok="console.log('ok')"
-    on:cancel="console.log('cancel')"
-  >
-    <div>
-      <img src="./assets/images/success.png" alt="">
-    </div>
-    Conectando...
-  </Dialog>
-
-  <h1>Dialog based on a Promise</h1>
+  <h1>PromisedDialog <span>{'<PromisedDialog promise="..." on:success on:failure/>'}</span></h1>
   <div class="row">
     <button on:click="refreshPromise()">
-      Open Dialog
+      Initialize promise
     </button>
   </div>
 
-  <Dialog
+  <PromisedDialog
     {promise}
     on:success="console.log('promise success', event)"
     on:failure="console.log(event)"
@@ -120,76 +29,27 @@
     {:catch }
       Something went wrong...
     {/await}
-  </Dialog>
+  </PromisedDialog>
 
-
-  <h1>Default Modal</h1>
+  <h1>Confirmation Dialog</h1>
   <div class="row">
-    <button on:click="openModal('defaultModal')">
-      Open Default Modal
+    <button on:click="openDialog('confirmationDialog')">
+      Open dialog
     </button>
   </div>
 
-  <div class="row">
-    <button on:click="openModal('negativeModal')">
-      Open modal with no negative action
-    </button>
-  </div>
-
-  <div class="row">
-    <button on:click="openModal('disabledNegative')">
-      Open modal with negative disabled
-    </button>
-  </div>
-
-  <div class="row">
-    <button on:click="openModal('disabledPositive')">
-      Open modal with positive disabled
-    </button>
-  </div>
-
-  <Modal
-    ref:defaultModal
-    title="Modal Title"
-    on:close="console.log(event)"
-  >
-    Modal
-  </Modal>
-
-  <Modal
-    ref:negativeModal
-    title="Modal Title"
-    on:close="console.log(event)"
-    hideNegativeAction
-  >
-    Modal 2
-  </Modal>
-
-  <Modal
-    ref:disabledNegative
-    title="Modal Title"
-    on:close="console.log(event)"
-    disableNegativeAction
-  >
-    Modal 3
-  </Modal>
-
-  <Modal
-    ref:disabledPositive
-    title="Modal Title"
-    on:close="console.log(event)"
-    disablePositiveAction
-  >
-    Modal 3
-  </Modal>
+  <ConfirmationDialog ref:confirmationDialog isOpen={true} title="IMPRESSORA SEM PAPEL">
+    Tentar imprimir novamente?
+  </ConfirmationDialog>
 </div>
 
 <script>
-  import { Modal, Dialog } from '../src'
+  import { Dialog, PromisedDialog, ConfirmationDialog } from '../src'
   export default {
     components: {
-      Modal,
       Dialog,
+      PromisedDialog,
+      ConfirmationDialog,
       Sprite: '@mamba/sprite',
     },
     methods: {
@@ -200,11 +60,8 @@
           ),
         })
       },
-      openDialog(dialog) {
-        this.refs[dialog].open()
-      },
-      openModal(modal) {
-        this.refs[modal].open()
+      openDialog(dialog, delay) {
+        this.refs[dialog].open(delay)
       },
     },
   }
@@ -213,6 +70,10 @@
 <style>
   :global(body) {
     background-color: #ddd;
+  }
+
+  h1 {
+    word-break: break-all;
   }
 
   h1 span {
