@@ -123,6 +123,7 @@
     margin-top: -10px;
     margin-bottom: 10px;
     font-size: 12px;
+    line-height: 16px;
   }
 
   ref:controller {
