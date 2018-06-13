@@ -1,4 +1,4 @@
-<svelte:window on:keydown="handleKeydown(event)" />
+<svelte:window on:keyup="handleKeyUp(event)" />
 
 <div class="wrapper">
   <div class="pos">
@@ -48,7 +48,7 @@
     },
     methods: {
       /** Treat backspace as the 'back button' */
-      handleKeydown({ keyCode }) {
+      handleKeyUp({ keyCode }) {
         if (
           Keyboard.getKeyName(keyCode) === 'back' &&
           document.activeElement.tagName !== 'INPUT' &&
@@ -77,7 +77,7 @@
 
         /** If action button clicked */
         if (Keyboard.isActionKey(code)) {
-          /** The actual 'back' is handled by that 'handleKeydown' method */
+          /** The actual 'back' is handled by that 'handleKeyUp' method */
           if (keyName === 'back') {
             /** If we're focusing on a <input> erase the last character */
             if (isFocusedInput) {
@@ -94,7 +94,7 @@
         }
 
         window.dispatchEvent(
-          new KeyboardEvent('keydown', {
+          new KeyboardEvent('keyup', {
             key: keyName,
             keyCode: code,
           }),

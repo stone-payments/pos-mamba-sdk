@@ -33,14 +33,14 @@ export default function(Keyboard) {
 
   Keyboard.disableBackspace = () => {
     if (isBackspaceEnabled) {
-      document.addEventListener('keydown', disableBackspace)
+      window.addEventListener('keyup', disableBackspace)
       isBackspaceEnabled = false
     }
   }
 
   Keyboard.enableBackspace = () => {
     if (!isBackspaceEnabled) {
-      document.removeEventListener('keydown', disableBackspace)
+      window.removeEventListener('keyup', disableBackspace)
       isBackspaceEnabled = true
     }
   }

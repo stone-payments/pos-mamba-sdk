@@ -14,7 +14,7 @@
     {disabled}
     on:focus="onFocus()"
     on:blur="onBlur()"
-    on:keydown="onKeydown(event)"
+    on:keyup="onKeyUp(event)"
     on:input="set({ value: this.value })"
     />
 
@@ -74,6 +74,7 @@
 
         if (autofocus) {
           this.focus()
+          this.refs.input.scrollIntoView()
         }
       }
     },
@@ -104,9 +105,9 @@
           Keyboard.setKeyboardAsNumeric()
         }
       },
-      onKeydown(e) {
+      onKeyUp(e) {
         const key = Keyboard.getKeyName(e.keyCode)
-        this.fire('keydown')
+        this.fire('keyup')
         if (key === 'enter') {
           if (this.validate()) {
             this.fire('valid')
@@ -155,7 +156,7 @@
     position: relative;
     display: block;
     width: 100%;
-    padding: 10px 20px;
+    padding: 10px 15px;
     background-color: #fff;
   }
 

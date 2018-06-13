@@ -1,4 +1,4 @@
-<svelte:window on:keydown="onKeyDown(event)"/>
+<svelte:window on:keyup="onKeyup(event)"/>
 
 <div class="app" use:links>
   <slot></slot>
@@ -18,10 +18,10 @@
       links,
     },
     methods: {
-      onKeyDown(e) {
+      onKeyup(e) {
         const keyName = Keyboard.getKeyName(e.keyCode)
 
-        /** If the key is not mapped or we're inside an input, do nothing */
+        /** If the key is not mapped or is the 'close' key or an input is focused */
         if (!keyName || e.target.tagName === 'INPUT') {
           return
         }
@@ -42,9 +42,9 @@
           }
 
           /*
-                   * Adapted from:
-                   * https://stackoverflow.com/questions/15739263/phantomjs-click-an-element
-                  */
+          * Adapted from:
+          * https://stackoverflow.com/questions/15739263/phantomjs-click-an-element
+          */
           const clickEvent = document.createEvent('MouseEvent')
           clickEvent.initMouseEvent(
             'click',
@@ -73,5 +73,6 @@
 <style>
   .app {
     height: 100%;
+    background-color: #fff;
   }
 </style>
