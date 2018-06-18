@@ -27,6 +27,7 @@
     },
     data() {
       return {
+        title: null,
         location: undefined,
         position: 'relative',
         textColor: '#fff',
@@ -51,6 +52,13 @@
       history.listen(location => {
         this.set({ location: location.pathname })
       })
+
+      if (this.store) {
+        this.store.on('title', title => {
+          this.set({ title })
+        })
+      }
+
     },
     methods: {
       goback() {
@@ -70,7 +78,7 @@
 
   .appbar {
     width: 100%;
-    z-index: 1100;
+    z-index: 1000;
   }
 
   .title {
@@ -100,8 +108,7 @@
     width: 34px;
   }
 
-  .icon-left,
-  .icon-right {
+  .icon-left {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -116,10 +123,10 @@
     margin-left: $mb-appbar-item-horizontal-margin;
   }
 
-  .icon-right {
-    margin-left: initial;
-    margin-right: $mb-appbar-item-horizontal-margin;
-    right: 0;
-    mask-position: right, center;
-  }
+  // .icon-right {
+  //   margin-left: initial;
+  //   margin-right: $mb-appbar-item-horizontal-margin;
+  //   right: 0;
+  //   mask-position: right, center;
+  // }
 </style>

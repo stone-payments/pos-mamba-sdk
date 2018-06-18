@@ -37,6 +37,7 @@
     },
     data() {
       return {
+        showExtra: false,
         shortcut: undefined,
         href: undefined,
         description: undefined,

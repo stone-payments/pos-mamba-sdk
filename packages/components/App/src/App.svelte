@@ -19,8 +19,8 @@
     },
     methods: {
       onKeyup(e) {
-        if(this.store) {
-          if(this.store.get().__meta__.shortcuts === false) {
+        if (this.store) {
+          if (this.store.get().__meta__.shortcuts === false) {
             return
           }
         }
@@ -48,9 +48,9 @@
           }
 
           /*
-          * Adapted from:
-          * https://stackoverflow.com/questions/15739263/phantomjs-click-an-element
-          */
+            * Adapted from:
+            * https://stackoverflow.com/questions/15739263/phantomjs-click-an-element
+            */
           const clickEvent = document.createEvent('MouseEvent')
           clickEvent.initMouseEvent(
             'click',

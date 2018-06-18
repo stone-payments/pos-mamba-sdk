@@ -6,6 +6,7 @@ const LOCAL_STORAGE_KEY = 'MambaStore'
 /** Initial data that overrides local storage */
 const APP_META_DATA = {
   __meta__: {
+    title: 'Mamba App',
     locked: false,
     shortcuts: true,
   },
@@ -58,6 +59,12 @@ export default class MambaStore extends Store {
           }),
       })
     }
+  }
+
+  setTitle(title) {
+    this.setDeep('__meta__.title', title)
+    this.fire('title', title)
+    document.title = title
   }
 }
 
