@@ -1,19 +1,20 @@
 <!-- If there's a href defined, wrap the row with a link -->
-<div ref:row class="row" on:click="handleClick({ event, href })">
-  <div class="main" {shortcut}>
-    <div class="label">{label}</div>
-    <div ref:controller>
-      {#if href}
-        <Icon symbol="chevron-right"/>
-      {:elseif hasCustomController}
-        <slot name="controller"></slot>
-      {/if}
+<div ref:row class="row">
+  <div ref:main {shortcut} on:click="handleClick({ event, href })">
+    <div class="top">
+      <div class="label">{label}</div>
+      <div ref:controller>
+        {#if href}
+          <Icon symbol="chevron-right"/>
+        {:elseif hasCustomController}
+          <slot name="controller"></slot>
+        {/if}
+      </div>
     </div>
+    {#if description}
+      <p>{description}</p>
+    {/if}
   </div>
-
-  {#if description}
-    <p>{description}</p>
-  {/if}
 
   {#if showExtra && hasExtraContent}
     <div class="extra">
@@ -68,11 +69,11 @@
          */
         if (hasCustomController) {
           /** Prevent firing the event twice (because of event bubbling) */
-          const hasClickedSlot = !!findClosest(
+          const hasNotClickedController = !findClosest(
             event.target,
-            el => !!el.getAttribute('slot'),
+            el => el.getAttribute('slot') === 'controller',
           )
-          if (!hasClickedSlot) {
+          if (hasNotClickedController) {
             const triggerEl = this.refs.controller.querySelector(
               '[data-controller-trigger]',
             )
@@ -110,19 +111,20 @@
     border-bottom: none;
   }
 
-  .main {
+  ref:main {
+    padding: 10px 20px;
+  }
+
+  .top {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
   }
 
   p {
     color: #8c8c8c;
-    padding: 0 20px;
-    margin-top: -10px;
-    margin-bottom: 10px;
+    margin: 4px 0 0;
     font-size: 12px;
     line-height: 16px;
   }
