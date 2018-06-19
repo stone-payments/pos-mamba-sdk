@@ -1,15 +1,5 @@
 <div class="container">
 
-  <h1>Validated input <span>{'<Input validate="method()"/>'}</span></h1>
-  <div class="row">
-    <Input
-      type="password"
-      validate={validate}
-      on:valid="console.log('VALIDO')"
-      on:invalid="console.log('INVALIDO')"
-    />
-  </div>
-
   <h1>Default input <span>{'<Input />'}</span></h1>
   <div class="row">
     <Input />
@@ -53,6 +43,16 @@
   <h1>Custom colored labeled input <span>{'<Input bgColor="red" textColor="white" label="Text" />'}</span></h1>
   <div class="row">
     <Input bgColor="red" textColor="white" label="Text"/>
+  </div>
+
+  <h1>Validated input <span>{'<Input validate="method()"/>'}</span></h1>
+  <div class="row">
+    <Input
+      type="password"
+      validate={validate}
+      on:valid="console.log('VALIDO')"
+      on:invalid="console.log('INVALIDO')"
+    />
   </div>
 </div>
 

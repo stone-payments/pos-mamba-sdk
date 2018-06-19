@@ -58,7 +58,7 @@
     },
     oncreate() {
       if (this.options.data) {
-        const { type, maxlength, autofocus, value} = this.options.data
+        const { type, maxlength, autofocus, value } = this.options.data
 
         if (typeof maxlength !== 'undefined') {
           this.refs.input.setAttribute('maxlength', parseInt(maxlength))
@@ -68,8 +68,8 @@
           this.set({ visible: false })
         }
 
-        if(value) {
-          this.refs.input.setAttribute('value', value)
+        if (value) {
+          this.value(value)
         }
 
         if (autofocus) {
@@ -78,12 +78,28 @@
         }
       }
     },
-    onupdate({ changed , current }) {
-      if(changed.errorMsg && current.errorMsg) {
+    onupdate({ changed, current }) {
+      if (changed.errorMsg && current.errorMsg) {
         this.refs.input.scrollIntoView()
       }
     },
     methods: {
+      /** Prepend text to the input */
+      prepend(value) {
+        this.refs.input.value = value + this.refs.input.value
+      },
+      /** Append text to the input */
+      append(value) {
+        this.refs.input.value += value
+      },
+      /** Set or get the input value */
+      value(inputValue) {
+        const inputEl = this.refs.input
+        if (inputValue != null) {
+          inputEl.value = inputValue
+        }
+        return inputEl.value
+      },
       focus() {
         this.refs.input.focus()
       },
