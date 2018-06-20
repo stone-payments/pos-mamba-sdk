@@ -1,0 +1,26 @@
+*::after,
+*::before,
+*:not(input),
+*:not(code) input[type='checkbox'],
+input[type='radio'] {
+  // Remove orange selection
+  outline: none;
+}
+
+var,
+address,
+dfn,
+cite {
+  font-style: italic;
+}
+
+abbr {
+  border-bottom: 1px #ccc dotted;
+  cursor: help;
+}
+
+code,
+kbd {
+  font-family: $mamba-code-font-family;
+  user-select: auto;
+}

@@ -14,14 +14,11 @@
     "build:dev": "rollup -c ../../../tools/rollup/config.component.build.js",
     "prepublishOnly": "npm run build"
   },
-  "devDependencies": {
-    "@mamba/core-styles": "^0.0.1"
-  },
   "peerDependencies": {
     "svelte-routing": "^0.4.2",
     "@mamba/icon": "^1.0.0"
   },
   "dependencies": {
-    "@mamba/styles-utils": "^0.0.1"
+    "@mamba/styles": "^0.0.1"
   }
 }

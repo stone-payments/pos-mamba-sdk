@@ -1,0 +1,24 @@
+{
+  "name": "@mamba/styles",
+  "version": "0.0.1",
+  "description": "Mamba core and reset styles",
+  "author": "Stone Payments - Mamba Team",
+  "license": "Apache-2.0",
+  "repository": "https://github.com/stone-payments/pos-mamba-web.git",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "npm run build:pos && npm run build:desktop",
+    "build:pos": "node-sass --output-style=compressed --precision=3 ./pos.scss ./dist/pos.css",
+    "build:desktop": "node-sass --output-style=compressed --precision=3 ./desktop.scss ./dist/desktop.css",
+    "postbuild": "ncp src/assets dist/assets",
+    "start": "npm run start:pos",
+    "start:pos": "node-sass -w ./pos.scss -o dist/pos.css",
+    "start:desktop": "node-sass -w ./desktop.scss -o dist/desktop.css",
+    "test": "exit 0"
+  },
+  "devDependencies": {
+    "ncp": "^2.0.0",
+    "node-sass": "^4.9.0",
+    "rimraf": "^2.6.2"
+  }
+}

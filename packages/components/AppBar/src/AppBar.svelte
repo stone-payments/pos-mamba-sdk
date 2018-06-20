@@ -58,7 +58,6 @@
           this.set({ title })
         })
       }
-
     },
     methods: {
       goback() {
@@ -73,8 +72,16 @@
 </script>
 
 <style type="text/scss">
-  @import '@mamba/styles-utils/src/colors.scss';
-  @import '@mamba/styles-utils/src/appbar.scss';
+  @import '@mamba/styles/colors.scss';
+
+  $mb-appbar-item-horizontal-margin: 8px !default;
+
+  $mb-appbar-background-color: $white !default;
+  $mb-appbar-border-color: $grey-light !default;
+
+  $mb-appbar-height: 36px !default;
+  $mb-appbar-font-size: 0.9rem !default;
+  $mb-appbar-font-color: $white !default;
 
   .appbar {
     width: 100%;

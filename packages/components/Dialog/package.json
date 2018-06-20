@@ -16,14 +16,13 @@
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
-    "@mamba/core-styles": "^0.0.1",
     "@mamba/sprite": "^1.0.0"
   },
   "peerDependencies": {
-    "@mamba/styles-utils": "^0.0.1",
     "@mamba/native": "^0.0.1"
   },
   "dependencies": {
+    "@mamba/styles": "^0.0.1",
     "@mamba/icon": "^1.0.0"
   }
 }

@@ -9,7 +9,7 @@
     "start": "bolt w @mamba/website start",
     "build": "bolt ws build",
     "build:components": "bolt ws build --only-fs \"packages/components/**\"",
-    "build:css": "bolt ws build --only-fs \"packages/css-packs/**\"",
+    "build:style": "bolt w @mamba/style build",
     "build:libs": "bolt ws build --only-fs \"packages/{utils,native}/**\"",
     "delete:modules": "rm -rf \"node_modules\" \"./**/node_modules\"",
     "link:packages": "bolt ws exec --only-fs \"packages/**\" -- yarn link",
@@ -27,7 +27,7 @@
       "packages/utils",
       "packages/native",
       "packages/store",
-      "packages/css-packs/*",
+      "packages/styles",
       "packages/components/*",
       "website"
     ]

@@ -18,7 +18,7 @@
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
-    "@mamba/core-styles": "^0.0.1"
+    "@mamba/styles": "^0.0.1"
   },
   "peerDependencies": {
     "svelte-routing": "^0.4.2",

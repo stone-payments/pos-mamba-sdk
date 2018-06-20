@@ -15,7 +15,7 @@
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
-    "@mamba/core-styles": "^0.0.1"
+    "@mamba/styles": "^0.0.1"
   },
   "dependencies": {
     "@mamba/icon": "^1.0.0",

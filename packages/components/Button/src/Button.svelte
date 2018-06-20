@@ -15,6 +15,9 @@
         size: 'regular',
         disabled: false,
         bottom: false,
+        textColor: '#fff',
+        bgColor: '4ebf1a',
+        borderColor: null,
       }
     },
     computed: {
@@ -46,14 +49,14 @@
 </script>
 
 <style type="text/scss">
-  @import '@mamba/styles-utils/src/colors.scss';
+  @import '@mamba/styles/colors.scss';
 
   button {
     cursor: pointer;
     appearance: none;
     border: none;
     background-color: #4ebf1a;
-    color: $white;
+    color: #fff;
     font-size: 16px;
     font-weight: bold;
     padding: 10px 16px;

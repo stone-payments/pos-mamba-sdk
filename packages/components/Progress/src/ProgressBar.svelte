@@ -30,7 +30,7 @@
 </script>
 
 <style type="text/scss">
-  @import '@mamba/styles-utils/index.scss';
+  @import '@mamba/styles/colors.scss';
 
   .progress-bar {
     display: block;

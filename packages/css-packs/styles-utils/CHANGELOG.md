@@ -1,1 +1,1 @@
-# @mamba/core-styles
+# @mamba/styles
