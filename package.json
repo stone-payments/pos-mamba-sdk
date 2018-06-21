@@ -94,6 +94,7 @@
     "postcss-nested": "^3.0.0",
     "postcss-preset-env": "^5.1.0",
     "postcss-property-lookup": "^2.0.0",
+    "postcss-scss": "^1.0.6",
     "prettier": "^1.12.1",
     "quickenv": "^0.0.5",
     "rimraf": "^2.6.2",
