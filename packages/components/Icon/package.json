@@ -1,8 +1,6 @@
 {
   "name": "@mamba/icon",
   "version": "1.0.0",
-  "main": "dist/icon.js",
-  "style": "dist/style.css",
   "source": "src/index.js",
   "svelte": "src/index.js",
   "files": ["dist/", "src/"],
@@ -10,8 +8,8 @@
   "license": "Apache-2.0",
   "scripts": {
     "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w",
-    "build": "cross-env NODE_ENV=production rollup -c ../../../tools/rollup/config.component.build.js",
-    "build:dev": "rollup -c ../../../tools/rollup/config.component.build.js",
+    "build": "exit 0",
+    "build:dev": "exit 0",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {

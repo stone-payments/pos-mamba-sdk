@@ -17,8 +17,6 @@ import copyStaticArtifacts from './helpers/copyStaticArtifacts'
 
 const { fromWorkspace, fromProject } = require('../utils/paths.js')
 
-const svelteConfig = require(fromProject('svelte.config.js'))
-const babelConfig = require(fromProject('.babelrc.js'))
 const PKG = getPkg()
 
 const STATIC_ARTIFACTS = ['assets']
@@ -43,13 +41,13 @@ const config = {
     }),
     cjs(),
     /** Compile svepte components and extract its css to <workspaceDir>/example/style.css */
-    svelte(svelteConfig),
+    svelte(require(fromProject('svelte.config.js'))),
     babel({
       /** Enforce usage of '.babelrc.js' at the project's root directory */
       babelrc: false,
-      ...babelConfig,
+      ...require(fromProject('.babelrc.js')),
       externalHelpers: true,
-      exclude: /node_modules/,
+      exclude: /node_modules[/\\](?!(svelte)|(@mamba))/,
     }),
     filesize(),
     copyStaticArtifacts(STATIC_ARTIFACTS)('example'),

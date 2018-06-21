@@ -17,10 +17,10 @@ const plugins = [
   cjs(),
   // eslint(),
   babel({
-    exclude: /node_modules/,
     /** Enforce usage of '.babelrc.js' at the project's root directory */
     babelrc: false,
     ...require('../../.babelrc.js'),
+    exclude: /node_modules[/\\](?!(svelte)|(@mamba))/,
   }),
   filesize(),
 ]
@@ -42,15 +42,6 @@ glob.sync(PKG.subModules || []).forEach(subModEntryRelPath => {
 configs.push({
   plugins,
 })
-
-/** The ESM bundle */
-if (PKG.module) {
-  configs.push({
-    output: PKG.module,
-    format: 'es',
-    plugins,
-  })
-}
 
 export default configs.map(config =>
   makeRollupConfig({

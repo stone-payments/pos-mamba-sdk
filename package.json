@@ -8,7 +8,6 @@
   "scripts": {
     "start": "bolt w @mamba/website start",
     "build": "bolt ws build",
-    "build:components": "bolt ws build --only-fs \"packages/components/**\"",
     "build:style": "bolt w @mamba/style build",
     "build:libs": "bolt ws build --only-fs \"packages/{utils,native}/**\"",
     "delete:modules": "rm -rf \"node_modules\" \"./**/node_modules\"",
