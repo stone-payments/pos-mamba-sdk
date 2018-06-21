@@ -17,6 +17,9 @@
     "build:dev": "rollup -c ../../../tools/rollup/config.component.build.js",
     "prepublishOnly": "npm run build"
   },
+  "devDependencies": {
+    "@mamba/styles": "^0.0.1"
+  },
   "peerDependencies": {
     "@mamba/native": "^0.0.1",
     "svelte-routing": "^0.4.2"

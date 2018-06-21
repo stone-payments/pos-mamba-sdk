@@ -1,6 +1,7 @@
 <svelte:window on:keyup="handleKeyUp(event)" />
 
 <div class="wrapper">
+  <div class="shadow"></div>
   <div class="pos">
     <div class="brightness" style="opacity: {brightnessOpacity};"></div>
     <div class="screen">
@@ -36,10 +37,10 @@
       }
     },
     computed: {
-      brightnessOpacity: ({ brightnessLevel }) => 1 - (brightnessLevel / 10),
+      brightnessOpacity: ({ brightnessLevel }) => 1 - brightnessLevel / 10,
     },
     oncreate() {
-      if(this.store) {
+      if (this.store) {
         /** Listen for brightness changes */
         this.store.on('change:brightness', ({ brightnessLevel }) => {
           this.set({ brightnessLevel })
@@ -118,9 +119,12 @@
       width: 100%;
       align-items: center;
       justify-content: center;
+      background-image: url(./assets/wood.jpg);
+      background-size: cover;
     }
 
-    .pos {
+    .pos,
+    .shadow {
       position: relative;
       z-index: 0;
       margin: 0 auto;
@@ -128,6 +132,30 @@
       height: 751px;
       background-image: url(./assets/POS.png);
       background-size: cover;
+    }
+
+    .shadow {
+      display: none;
+    }
+
+    @supports (filter: brightness(0)) {
+      .shadow {
+        display: block;
+        position: absolute;
+        z-index: 0;
+        filter: brightness(0);
+        opacity: 0.4;
+        animation: shadow .8s ease-out forwards;
+      }
+
+      @keyframes shadow {
+        from {
+          transform: translate(0, 0);
+        }
+        to {
+          transform: translate(15px, 15px);
+        }
+      }
     }
 
     .screen,
@@ -140,20 +168,25 @@
     }
 
     .screen {
+      overflow-x: hidden;
       overflow-y: auto;
+    }
+
+    .screen::-webkit-scrollbar {
+      display: none;
     }
 
     .brightness {
       background-color: #000;
       z-index: 100000;
       pointer-events: none;
-      transition: opacity .3s ease;
+      transition: opacity 0.3s ease;
     }
 
     /**
-     * Override the position: fixed to display content in the POS mockup.
-     * This may eventually brake.
-     */
+       * Override the position: fixed to display content in the POS mockup.
+       * This may eventually brake.
+       */
     .screen :global(.button.is-fixed),
     .screen :global(.dialog) {
       position: absolute !important;
