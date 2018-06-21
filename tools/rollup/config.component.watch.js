@@ -45,10 +45,11 @@ const config = {
     /** Compile svepte components and extract its css to <workspaceDir>/example/style.css */
     svelte(svelteConfig),
     babel({
-      exclude: 'node_modules/**',
       /** Enforce usage of '.babelrc.js' at the project's root directory */
       babelrc: false,
       ...babelConfig,
+      externalHelpers: true,
+      exclude: /node_modules/,
     }),
     filesize(),
     copyStaticArtifacts(STATIC_ARTIFACTS)('example'),

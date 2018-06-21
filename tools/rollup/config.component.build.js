@@ -35,10 +35,11 @@ const plugins = [
     },
   }),
   babel({
-    exclude: 'node_modules/**',
     /** Enforce usage of '.babelrc.js' at the project's root directory */
     babelrc: false,
     ...babelConfig,
+    externalHelpers: true,
+    exclude: /node_modules/,
   }),
   filesize(),
   copyStaticArtifacts(STATIC_ARTIFACTS)(fromDist()),
