@@ -4,7 +4,7 @@ import MambaStore from './MambaStore'
 export default initialData => {
   const store = new MambaStore(initialData)
 
-  store.on('lock', locked => {
+  store.on('meta:lock', locked => {
     if (locked) {
       console.log('Locking App')
       Keyboard.disableBackspace()

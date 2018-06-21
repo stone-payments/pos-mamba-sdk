@@ -63,7 +63,7 @@ export default class MambaStore extends Store {
 
   setTitle(title) {
     this.setDeep('__meta__.title', title)
-    this.fire('title', title)
+    this.fire('meta:title', title)
     document.title = title
   }
 }
