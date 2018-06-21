@@ -17,7 +17,7 @@ const plugins = [
   cjs(),
   // eslint(),
   babel({
-    exclude: 'node_modules/**',
+    exclude: /node_modules/,
     /** Enforce usage of '.babelrc.js' at the project's root directory */
     babelrc: false,
     ...require('../../.babelrc.js'),
