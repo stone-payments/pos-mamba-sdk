@@ -54,7 +54,7 @@
       })
 
       if (this.store) {
-        this.store.on('title', title => {
+        this.store.on('meta:title', title => {
           this.set({ title })
         })
       }
@@ -71,17 +71,17 @@
   }
 </script>
 
-<style type="text/scss">
-  @import '@mamba/styles/colors.scss';
+<style>
+  @import '@mamba/styles/colors.pcss';
 
-  $mb-appbar-item-horizontal-margin: 8px !default;
+  $height: 36px;
+  $item-horizontal-margin: 8px;
 
-  $mb-appbar-background-color: $white !default;
-  $mb-appbar-border-color: $grey-light !default;
+  $background-color: $white;
+  $border-color: $grey-light;
 
-  $mb-appbar-height: 36px !default;
-  $mb-appbar-font-size: 0.9rem !default;
-  $mb-appbar-font-color: $white !default;
+  $font-size: 0.9rem;
+  $font-color: $white;
 
   .appbar {
     width: 100%;
@@ -92,9 +92,9 @@
     padding: 0;
     margin: 0;
     color: inherit;
-    font-size: $mb-appbar-font-size;
+    font-size: $font-size;
     font-weight: 600;
-    line-height: $mb-appbar-height;
+    line-height: $height;
     text-align: center;
     text-transform: uppercase;
     white-space: nowrap;
@@ -104,14 +104,14 @@
   }
 
   .content {
-    padding-left: $mb-appbar-item-horizontal-margin;
-    padding-right: $mb-appbar-item-horizontal-margin;
-    min-height: $mb-appbar-height;
+    padding-left: $item-horizontal-margin;
+    padding-right: $item-horizontal-margin;
+    min-height: $height;
   }
 
   .icon {
     cursor: pointer;
-    height: $mb-appbar-height;
+    height: $height;
     width: 34px;
   }
 
@@ -127,13 +127,13 @@
 
   .icon-left {
     left: 0;
-    margin-left: $mb-appbar-item-horizontal-margin;
+    margin-left: $item-horizontal-margin;
   }
 
-  // .icon-right {
-  //   margin-left: initial;
-  //   margin-right: $mb-appbar-item-horizontal-margin;
-  //   right: 0;
-  //   mask-position: right, center;
-  // }
+  /*.icon-right {
+    margin-left: initial;
+    margin-right: $item-horizontal-margin;
+    right: 0;
+    mask-position: right, center;
+  }*/
 </style>

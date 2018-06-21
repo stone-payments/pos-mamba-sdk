@@ -17,9 +17,7 @@
   import { RoundIcon } from '@mamba/icon'
 
   const preventClosing = e => {
-    console.log('preventing?')
     if (Keyboard.getKeyName(e.keyCode) === 'close') {
-      console.log('yeeeees')
       e.preventDefault()
       return false
     }

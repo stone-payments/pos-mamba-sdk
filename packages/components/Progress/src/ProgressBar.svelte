@@ -29,8 +29,8 @@
   }
 </script>
 
-<style type="text/scss">
-  @import '@mamba/styles/colors.scss';
+<style>
+  @import '@mamba/styles/colors.pcss';
 
   .progress-bar {
     display: block;

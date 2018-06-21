@@ -128,8 +128,8 @@
       position: relative;
       z-index: 0;
       margin: 0 auto;
-      width: 342px;
-      height: 751px;
+      width: 347px;
+      height: 761px;
       background-image: url(./assets/POS.png);
       background-size: cover;
     }
@@ -143,7 +143,7 @@
         display: block;
         position: absolute;
         z-index: 0;
-        filter: brightness(0);
+        filter: brightness(0) blur(2px);
         opacity: 0.4;
         animation: shadow .8s ease-out forwards;
       }
@@ -161,13 +161,14 @@
     .screen,
     .brightness {
       position: absolute;
-      top: 225px;
-      left: 47.99px;
+      top: 231px;
+      left: 50px;
       width: 240px;
       height: 320px;
     }
 
     .screen {
+      background-color: #fff;
       overflow-x: hidden;
       overflow-y: auto;
     }
@@ -195,15 +196,15 @@
     button {
       position: absolute;
       width: 60px;
-      height: 29px;
+      height: 30px;
       border: 0;
       -webkit-appearance: none;
       cursor: pointer;
       background: none;
       border-radius: 8px;
       color: transparent;
-      font-size: 10px;
       font-weight: bold;
+      font-size: 18px;
     }
 
     button:hover {
@@ -211,96 +212,71 @@
       color: white;
       background-color: rgba(22, 22, 22, 0.8);
       border: 2px solid white;
-      font-size: 18px;
+    }
+
+    .shortcuts {
+      font-size: 10px;
     }
 
     .close {
-      bottom: 136px;
-      right: 49px;
+      right: 50px;
     }
 
     .back {
       bottom: 101px;
-      right: 49px;
+      right: 50px;
     }
 
     .enter {
-      height: 60px;
-      bottom: 34px;
-      right: 49px;
+      height: 64px;
+      right: 50px;
     }
 
     .key-1,
     .key-4,
     .key-7,
     .help {
-      right: 251px;
-    }
-
-    .key-1 {
-      bottom: 136px;
-    }
-
-    .key-4 {
-      bottom: 101px;
-    }
-
-    .key-7 {
-      bottom: 66px;
-    }
-
-    .help {
-      bottom: 32px;
+      right: 255px;
     }
 
     .key-2,
     .key-5,
     .key-8,
     .key-0 {
-      right: 184px;
-    }
-
-    .key-2 {
-      bottom: 136px;
-    }
-
-    .key-5 {
-      bottom: 101px;
-    }
-
-    .key-8 {
-      bottom: 66px;
-    }
-
-    .key-0 {
-      bottom: 32px;
+      right: 187px;
     }
 
     .key-3,
     .key-6,
     .key-9,
     .shortcuts {
-      right: 117px;
+      right: 119px;
     }
 
-    .key-3 {
-      bottom: 136px;
+    .key-1,
+    .key-2,
+    .key-3,
+    .close {
+      bottom: 138px;
     }
 
+    .key-4,
+    .key-5,
     .key-6 {
-      bottom: 101px;
+      bottom: 102px;
     }
 
+    .key-7,
+    .key-8,
     .key-9 {
-      bottom: 66px;
+      bottom: 67px;
     }
 
-    .shortcuts {
+    .key-0,
+    .shortcuts,
+    .help,
+    .enter {
       bottom: 32px;
-    }
-
-    .shortcuts:hover {
-      font-size: 10px;
     }
   }
 </style>

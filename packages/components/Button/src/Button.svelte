@@ -48,8 +48,8 @@
   }
 </script>
 
-<style type="text/scss">
-  @import '@mamba/styles/colors.scss';
+<style>
+  @import '@mamba/styles/colors.pcss';
 
   button {
     cursor: pointer;

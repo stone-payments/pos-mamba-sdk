@@ -38,7 +38,7 @@
 
         /** If there's a existant store, let's lock the app */
         if (this.store) {
-          this.store.fire('lock', true)
+          this.store.fire('meta:lock', true)
         }
 
         if (typeof duration !== 'undefined') {
@@ -54,14 +54,14 @@
 
         /** If there's a existant store, let's unlock the app */
         if (this.store) {
-          this.store.fire('lock', false)
+          this.store.fire('meta:lock', false)
         }
       },
     },
     ondestroy() {
       /** If the component is being destroyed and the dialog is still opened, let's unlock the app */
       if (this.get()._isOpen && this.store && this.store.get().__meta__.locked) {
-        this.store.fire('lock', false)
+        this.store.fire('meta:lock', false)
       }
     },
   }
