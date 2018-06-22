@@ -8,7 +8,7 @@
       <div class="version">{time}</div>
     </div>
   </div>
-  <div class="content">
+  <div class="content {$__meta__.locked ? '-locked' : ''}" ref:content>
     <slot></slot>
   </div>
 </div>
@@ -38,7 +38,7 @@
 
       if (this.store) {
         /** Listen for brightness changes */
-        this.store.on('pos:brightness', ({ brightnessLevel }) => {
+        this.store.on('pos:brightness', brightnessLevel => {
           this.set({ brightnessLevel })
         })
       }
@@ -69,6 +69,10 @@
       overflow-x: hidden;
       overflow-y: auto;
       flex: 0 1 auto;
+
+      &.-locked {
+        overflow: hidden;
+      }
     }
 
     .content::-webkit-scrollbar {
