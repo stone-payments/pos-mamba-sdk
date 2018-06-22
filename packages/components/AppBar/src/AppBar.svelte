@@ -91,6 +91,10 @@
   }
 
   .title {
+    max-width: 154px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     padding: 0;
     margin: 0;
     color: inherit;
@@ -119,17 +123,13 @@
 
   .icon-left {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: none;
-    mask-size: 1em;
-    mask-position: 0;
-    line-height: 1;
-  }
-
-  .icon-left {
+    top: 0;
     left: 0;
-    margin-left: $item-horizontal-margin;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding-left: $item-horizontal-margin;
+    padding-right: $item-horizontal-margin;
   }
 
   /*.icon-right {
