@@ -38,7 +38,7 @@
 
       if (this.store) {
         /** Listen for brightness changes */
-        this.store.on('change:brightness', ({ brightnessLevel }) => {
+        this.store.on('pos:brightness', ({ brightnessLevel }) => {
           this.set({ brightnessLevel })
         })
       }
