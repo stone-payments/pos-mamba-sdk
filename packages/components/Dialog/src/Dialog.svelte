@@ -19,7 +19,7 @@
     data() {
       return {
         _isOpen: false,
-        actions: null,
+        title: null,
         bgColor: '#e3e3e3',
         textColor: '#4a4a4a',
         align: 'center',
@@ -38,7 +38,7 @@
 
         /** If there's a existant store, let's lock the app */
         if (this.store) {
-          this.store.fire('meta:lock', true)
+          this.store.meta.lockApp(true)
         }
 
         if (typeof duration !== 'undefined') {
@@ -54,14 +54,14 @@
 
         /** If there's a existant store, let's unlock the app */
         if (this.store) {
-          this.store.fire('meta:lock', false)
+          this.store.meta.lockApp(false)
         }
       },
     },
     ondestroy() {
       /** If the component is being destroyed and the dialog is still opened, let's unlock the app */
       if (this.get()._isOpen && this.store && this.store.get().__meta__.locked) {
-        this.store.fire('meta:lock', false)
+        this.store.meta.lockApp(false)
       }
     },
   }

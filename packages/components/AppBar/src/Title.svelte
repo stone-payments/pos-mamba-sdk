@@ -10,7 +10,7 @@
         }
 
         if (this.options.data) {
-          this.store.setTitle(this.options.data.label)
+          this.store.meta.setTitle(this.options.data.label)
         }
       }
     },

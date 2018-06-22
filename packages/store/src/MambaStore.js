@@ -36,34 +36,6 @@ export default class MambaStore extends Store {
       })
     }
   }
-
-  /**
-   * Set a promise to a property and, when its resolved,
-   * set the same property to its resolved value
-   *
-   * Use transformers to modify the resolved data before setting it to the store.
-   * */
-  promisedSet(promiseProps, transformers) {
-    const sets = {}
-    for (const prop in promiseProps) {
-      sets[prop] = Promise.resolve(promiseProps[prop]).then(data => {
-        this.set({
-          [prop]:
-            typeof transformers[prop] === 'function'
-              ? transformers[prop](data)
-              : data,
-        })
-      })
-    }
-    this.set(sets)
-  }
-
-  setTitle(title) {
-    this.setDeep('__meta__.title', title)
-    this.fire('meta:title', title)
-    document.title = title
-  }
 }
-
 MambaStore.prototype.setDeep = setDeep
 MambaStore.prototype.getDeep = getDeep
