@@ -48,10 +48,12 @@
       const history = getHistory()
 
       /** Listen for route changes */
-      this.set({ location: history.location.pathname })
-      history.listen(location => {
-        this.set({ location: location.pathname })
-      })
+      if (history) {
+        this.set({ location: history.location.pathname })
+        history.listen(location => {
+          this.set({ location: location.pathname })
+        })
+      }
 
       if (this.store) {
         this.store.on('meta:title', title => {
@@ -131,9 +133,9 @@
   }
 
   /*.icon-right {
-    margin-left: initial;
-    margin-right: $item-horizontal-margin;
-    right: 0;
-    mask-position: right, center;
-  }*/
+      margin-left: initial;
+      margin-right: $item-horizontal-margin;
+      right: 0;
+      mask-position: right, center;
+    }*/
 </style>

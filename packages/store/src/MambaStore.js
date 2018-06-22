@@ -13,7 +13,7 @@ const APP_META_DATA = {
 }
 
 export default class MambaStore extends Store {
-  constructor(data) {
+  constructor(data = {}) {
     /** Get persisted data from localStorage if available */
     if (localStorage) {
       const persistedStore = localStorage.getItem(LOCAL_STORAGE_KEY)

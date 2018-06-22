@@ -31,7 +31,12 @@
 <AppBar leftIcon="X" rightIcon="X" title="Title"></AppBar>
 
 <script>
+  import MambaStore from '@mamba/store'
+
+  const store = MambaStore()
+
   export default {
+    store: () => store,
     components: {
       AppBar: '../src',
     },
