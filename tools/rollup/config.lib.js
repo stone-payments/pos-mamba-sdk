@@ -39,9 +39,11 @@ glob.sync(PKG.subModules || []).forEach(subModEntryRelPath => {
 })
 
 /** The default bundle for the package */
-configs.push({
-  plugins,
-})
+if (PKG.main) {
+  configs.push({
+    plugins,
+  })
+}
 
 export default configs.map(config =>
   makeRollupConfig({
