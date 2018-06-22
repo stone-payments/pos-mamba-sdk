@@ -1,10 +1,10 @@
-const { IS_TEST } = require('quickenv')
+const { IS_TEST, IS_DEV } = require('quickenv')
 
 const presets = [
   [
     '@babel/preset-env',
     {
-      useBuiltIns: 'usage',
+      useBuiltIns: false,
       loose: true,
       /** Only parse modules if testing. If not, let webpack handle it */
       modules: IS_TEST() ? 'commonjs' : false,

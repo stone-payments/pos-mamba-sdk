@@ -43,22 +43,19 @@ export default class MambaStore extends Store {
    *
    * Use transformers to modify the resolved data before setting it to the store.
    * */
-  setPromise(promiseProps, transformers) {
+  promisedSet(promiseProps, transformers) {
+    const sets = {}
     for (const prop in promiseProps) {
-      this.set({
-        [prop]: Promise.resolve(promiseProps[prop])
-          .then(data => {
-            if (typeof transformers[prop] === 'function') {
-              data = transformers[prop](data)
-            }
-            this.set({ [prop]: data })
-          })
-          .catch(e => {
-            console.error(`[MambaStore] Promise error: ${e}`)
-            this.set({ [prop]: null })
-          }),
+      sets[prop] = Promise.resolve(promiseProps[prop]).then(data => {
+        this.set({
+          [prop]:
+            typeof transformers[prop] === 'function'
+              ? transformers[prop](data)
+              : data,
+        })
       })
     }
+    this.set(sets)
   }
 
   setTitle(title) {
