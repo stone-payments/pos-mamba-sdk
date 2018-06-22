@@ -1,5 +1,3 @@
-<svelte:window on:keyup="handleKeyUp(event)" />
-
 <div class="wrapper">
   <div class="shadow"></div>
   <div class="pos">
@@ -11,34 +9,10 @@
 </div>
 
 <script>
-  import Keyboard from '@mamba/native/keyboard'
-
   export default {
     components: {
       Keypad: './Keypad.svelte',
       Screen: './Screen.svelte',
-    },
-    methods: {
-      /** Treat backspace as the 'back button' */
-      handleKeyUp({ keyCode }) {
-        if (
-          Keyboard.getKeyName(keyCode) === 'back' &&
-          document.activeElement.tagName !== 'INPUT' &&
-          (!this.store || (this.store && !this.store.get().__meta__.locked))
-        ) {
-          this.goBack()
-        }
-      },
-      async goBack() {
-        try {
-          const { getHistory } = await import('svelte-routing')
-          getHistory().goBack()
-        } catch (e) {
-          console.log(
-            '[@mamba/POS] Missing "svelte-routing" package. Cannot goBack(). ',
-          ) // eslint-disable-line
-        }
-      },
     },
   }
 </script>

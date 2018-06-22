@@ -1,4 +1,4 @@
-<svelte:window on:keyup="onKeyup(event)"/>
+<svelte:window on:keyup="onKeyup(event)" on:keydown="onKeydown(event)"/>
 
 <div class="app" use:links>
   <slot></slot>
@@ -6,26 +6,51 @@
 
 <script>
   import Keyboard from '@mamba/native/keyboard'
-  import { createHashHistory } from 'svelte-routing'
+  import { createHashHistory, getHistory } from 'svelte-routing'
   import links from 'svelte-routing/links'
 
   createHashHistory({
     basename: '/',
   })
 
+  const validBackCommand = keyName =>
+    keyName === 'back' &&
+    document.activeElement &&
+    document.activeElement.tagName !== 'INPUT'
+
   export default {
     actions: {
       links,
     },
     methods: {
+      goBack() {
+        const history = getHistory()
+
+        if (history.location.pathname !== '/') {
+          history.goBack()
+        }
+      },
+      /** Prevent default back button behaviour */
+      onKeydown(e) {
+        const keyName = Keyboard.getKeyName(e.keyCode)
+        if (validBackCommand(keyName)) {
+          e.preventDefault()
+        }
+      },
       onKeyup(e) {
+        const keyName = Keyboard.getKeyName(e.keyCode)
+
+        /** Handles back button */
+        if (validBackCommand(keyName)) {
+          e.preventDefault()
+          this.goBack()
+        }
+
         if (this.store) {
-          if (this.store.get().__meta__.shortcuts === false) {
+          if (this.store.meta.get('shortcuts') === false) {
             return
           }
         }
-
-        const keyName = Keyboard.getKeyName(e.keyCode)
 
         /** If the key is not mapped or is the 'close' key or an input is focused */
         if (!keyName || e.target.tagName === 'INPUT') {
@@ -48,9 +73,9 @@
           }
 
           /*
-            * Adapted from:
-            * https://stackoverflow.com/questions/15739263/phantomjs-click-an-element
-            */
+          * Adapted from:
+          * https://stackoverflow.com/questions/15739263/phantomjs-click-an-element
+          */
           const clickEvent = document.createEvent('MouseEvent')
           clickEvent.initMouseEvent(
             'click',

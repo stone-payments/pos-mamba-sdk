@@ -129,6 +129,7 @@
           'floppy',
           'heart',
           'help-circle',
+          'app-home',
           'home',
           'information',
           'lock-open',

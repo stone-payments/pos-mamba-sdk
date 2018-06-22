@@ -1,6 +1,6 @@
 <header class="appbar" {style}>
   <div class="content">
-    {#if showBackBtn}
+    {#if !isAtHome}
       <div class="icon-left" on:click="goback()">
         <Icon symbol="chevron-left" color={$__meta__.locked ? '#dbdbdb' : textColor} />
       </div>
@@ -10,15 +10,14 @@
       <div class="title">{title}</div>
     {/if}
 
-    <!-- {#if rightIcon}
-      <div class="icon-right" on:click="console.log('right-click')">
-        X
-      </div>
-    {/if} -->
+    <div class="icon-right" on:click="gohome()">
+      <Icon symbol={homeIcon} color={textColor}/>
+    </div>
   </div>
 </header>
 
 <script>
+  import App from '@mamba/native/app'
   import { getHistory } from 'svelte-routing'
 
   export default {
@@ -42,7 +41,8 @@
           `background-color:${bgColor}`,
         ].join(';')
       },
-      showBackBtn: ({ location }) => location !== '/',
+      isAtHome: ({ location }) => location === '/',
+      homeIcon: ({ isAtHome }) => isAtHome ? 'home' : 'app-home',
     },
     oncreate() {
       const history = getHistory()
@@ -62,6 +62,15 @@
       }
     },
     methods: {
+      gohome() {
+        const { isAtHome } = this.get()
+        if(isAtHome) {
+          App.close()
+        } else {
+          const history = getHistory()
+          history.push('/')
+        }
+      },
       goback() {
         if (this.store) {
           const { locked } = this.store.get()
@@ -121,10 +130,10 @@
     width: 34px;
   }
 
-  .icon-left {
+  .icon-left,
+  .icon-right {
     position: absolute;
     top: 0;
-    left: 0;
     display: flex;
     align-items: center;
     height: 100%;
@@ -132,10 +141,13 @@
     padding-right: $item-horizontal-margin;
   }
 
-  /*.icon-right {
-      margin-left: initial;
-      margin-right: $item-horizontal-margin;
-      right: 0;
-      mask-position: right, center;
-    }*/
+  .icon-left {
+    left: 0;
+  }
+
+  .icon-right {
+    padding-left: $item-horizontal-margin;
+    padding-right: $item-horizontal-margin;
+    right: 0;
+  }
 </style>

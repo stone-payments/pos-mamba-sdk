@@ -30,7 +30,7 @@
       const updateTimer = () => {
         const curDate = new Date()
         const minutes = String(curDate.getMinutes()).padStart(2, '0')
-        const hours = curDate.getHours()
+        const hours = String(curDate.getHours()).padStart(2, '0')
         this.set({ time: `${hours}:${minutes}` })
         return updateTimer
       }
