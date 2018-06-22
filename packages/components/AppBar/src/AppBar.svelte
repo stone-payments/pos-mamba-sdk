@@ -2,7 +2,7 @@
   <div class="content">
     {#if showBackBtn}
       <div class="icon-left" on:click="goback()">
-        <Icon symbol="chevron-left" color={$locked ? '#dbdbdb' : textColor} />
+        <Icon symbol="chevron-left" color={$__meta__.locked ? '#dbdbdb' : textColor} />
       </div>
     {/if}
 
@@ -87,7 +87,7 @@
 
   .appbar {
     width: 100%;
-    z-index: 1000;
+    z-index: 1002;
   }
 
   .title {
