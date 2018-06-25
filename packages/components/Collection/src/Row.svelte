@@ -1,6 +1,6 @@
 <!-- If there's a href defined, wrap the row with a link -->
 <div ref:row class="row">
-  <div ref:main {shortcut} on:click="handleClick({ event, href })">
+  <div ref:main on:click="handleClick({ event, href })">
     <div class="top {_hasController ? 'has-controller' : ''}">
       <div class="label">{label}</div>
       {#if _hasController}
@@ -64,6 +64,14 @@
           _hasExtraContent: !!this.options.slots.extra,
         })
       }
+
+      const { shortcut } = this.options.data
+      /**
+       * TODO: Refactor to pass as prop when undefined props are not rendered on the element
+       */
+      if (this.options.data.shortcut) {
+        this.refs.main.setAttribute('shortcut', shortcut)
+      }
     },
     methods: {
       handleClick({ event, href }) {
@@ -110,11 +118,6 @@
     background: #fff;
     color: #494949;
     border-bottom: 1px solid #f4f4f4;
-  }
-
-  .row ref:row {
-    padding-left: 0;
-    padding-right: 0;
   }
 
   .row ref:row:last-child {
