@@ -135,6 +135,8 @@
 
   .label {
     font-weight: bold;
+    word-wrap: break-word;
+    max-width: 80%;
   }
 
   /** TODO: is this breakable? */
