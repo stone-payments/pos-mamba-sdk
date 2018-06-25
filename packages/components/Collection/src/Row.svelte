@@ -1,22 +1,24 @@
 <!-- If there's a href defined, wrap the row with a link -->
 <div ref:row class="row">
   <div ref:main {shortcut} on:click="handleClick({ event, href })">
-    <div class="top">
+    <div class="top {_hasController ? 'has-controller' : ''}">
       <div class="label">{label}</div>
-      <div ref:controller>
-        {#if href}
-          <Icon symbol="chevron-right"/>
-        {:elseif hasCustomController}
-          <slot name="controller"></slot>
-        {/if}
-      </div>
+      {#if _hasController}
+        <div ref:controller>
+          {#if href}
+            <Icon symbol="chevron-right"/>
+          {:elseif _hasCustomController}
+            <slot name="controller"></slot>
+          {/if}
+        </div>
+      {/if}
     </div>
     {#if description}
       <p>{description}</p>
     {/if}
   </div>
 
-  {#if showExtra && hasExtraContent}
+  {#if showExtra && _hasExtraContent}
     <div class="extra">
       <slot name="extra"></slot>
     </div>
@@ -38,20 +40,28 @@
     },
     data() {
       return {
+        /** Boolean to display the extra content element */
         showExtra: false,
+        /** Row's keyboard shortcut */
         shortcut: undefined,
+        /** Define a link to another page */
         href: undefined,
+        /** Description below the row label */
         description: undefined,
-        hasCustomController: false,
-        hasExtraContent: false,
+        _hasCustomController: false,
+        _hasExtraContent: false,
       }
+    },
+    computed: {
+      _hasController: ({ href, _hasCustomController }) =>
+        !!(href || _hasCustomController),
     },
     oncreate() {
       const hasSlots = !!this.options.slots
       if (hasSlots) {
         this.set({
-          hasCustomController: !!this.options.slots.controller,
-          hasExtraContent: !!this.options.slots.extra,
+          _hasCustomController: !!this.options.slots.controller,
+          _hasExtraContent: !!this.options.slots.extra,
         })
       }
     },
@@ -62,12 +72,12 @@
           return getHistory().push(href)
         }
 
-        const { hasCustomController } = this.get()
+        const { _hasCustomController } = this.get()
         /**
          * If the row has a custom controller,
          * let's see if it has a [data-controller-triger] element.
          */
-        if (hasCustomController) {
+        if (_hasCustomController) {
           /** Prevent firing the event twice (because of event bubbling) */
           const hasNotClickedController = !findClosest(
             event.target,
@@ -122,6 +132,15 @@
     align-items: center;
   }
 
+  .label {
+    font-weight: bold;
+    word-wrap: break-word;
+
+    .top.has-controller & {
+      max-width: 80%;
+    }
+  }
+
   p {
     color: #8c8c8c;
     margin: 4px 0 0;
@@ -131,12 +150,6 @@
 
   ref:controller {
     line-height: 1;
-  }
-
-  .label {
-    font-weight: bold;
-    word-wrap: break-word;
-    max-width: 80%;
   }
 
   /** TODO: is this breakable? */
