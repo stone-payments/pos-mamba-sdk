@@ -1,11 +1,3 @@
-let isBackspaceEnabled = true
-const disableBackspace = event => {
-  if (event.keyCode === 8) {
-    event.preventDefault()
-    return false
-  }
-}
-
 const KEYMAP = Object.freeze({
   13: 'enter',
   8: 'back',
@@ -31,17 +23,11 @@ export default function(Keyboard) {
   Keyboard.isNumericKey = keyCode => !isNaN(parseFloat(KEYMAP[keyCode]))
   Keyboard.isActionKey = keyCode => !Keyboard.isNumericKey(keyCode)
 
+  Keyboard.isBackspaceEnabled = true
   Keyboard.disableBackspace = () => {
-    if (isBackspaceEnabled) {
-      window.addEventListener('keyup', disableBackspace)
-      isBackspaceEnabled = false
-    }
+    Keyboard.isBackspaceEnabled = false
   }
-
   Keyboard.enableBackspace = () => {
-    if (!isBackspaceEnabled) {
-      window.removeEventListener('keyup', disableBackspace)
-      isBackspaceEnabled = true
-    }
+    Keyboard.isBackspaceEnabled = true
   }
 }
