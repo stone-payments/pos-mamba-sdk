@@ -6,6 +6,12 @@ const rules = {
   'no-var': 'error',
   'comma-dangle': ['error', 'always-multiline'],
   'no-new': 'off',
+  camelcase: [
+    'error',
+    {
+      ignoreDestructuring: true,
+    },
+  ],
 }
 
 module.exports = {
