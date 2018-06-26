@@ -2,7 +2,7 @@
   <div class="content">
     {#if !isAtHome}
       <div class="icon-left" on:click="goback()">
-        <Icon symbol="chevron-left" color={$__meta__.locked ? '#dbdbdb' : textColor} />
+        <Icon symbol="chevron-left" color={isAppLocked ? '#dbdbdb' : textColor} />
       </div>
     {/if}
 
@@ -11,13 +11,12 @@
     {/if}
 
     <div class="icon-right" on:click="gohome()">
-      <Icon symbol={homeIcon} color={textColor}/>
+      <Icon symbol={homeIcon} color={isAppLocked ? '#dbdbdb' : textColor}/>
     </div>
   </div>
 </header>
 
 <script>
-  import App from '@mamba/native/app'
   import { getHistory } from 'svelte-routing'
 
   export default {
@@ -42,7 +41,8 @@
         ].join(';')
       },
       isAtHome: ({ location }) => location === '/',
-      homeIcon: ({ isAtHome }) => isAtHome ? 'home' : 'app-home',
+      homeIcon: ({ isAtHome }) => (isAtHome ? 'home' : 'app-home'),
+      isAppLocked: ({ $__meta__ }) => $__meta__.locked,
     },
     oncreate() {
       const history = getHistory()
@@ -55,34 +55,36 @@
         })
       }
 
+      /** Listen for app title changes */
       if (this.store) {
-        this.store.on('meta:title', title => {
-          this.set({ title })
-        })
+        this.store.on('meta:title', title => this.set({ title }))
       }
     },
     methods: {
       gohome() {
-        const { isAtHome } = this.get()
-        if(isAtHome) {
-          App.close()
-        } else {
-          const history = getHistory()
-          history.push('/')
+        if (this.store && this.store.meta.isAppLocked()) {
+          return
         }
+
+        const { isAtHome } = this.get()
+        if (isAtHome) {
+          return this.store.meta.closeApp()
+        }
+
+        getHistory().push('/')
       },
       goback() {
-        if (this.store) {
-          const { locked } = this.store.get()
-          if (locked) return
+        if (this.store && this.store.meta.isAppLocked()) {
+          return
         }
+
         getHistory().goBack()
       },
     },
   }
 </script>
 
-<style>
+<style type="text/postcss">
   @import '@mamba/styles/colors.pcss';
 
   $height: 36px;
@@ -112,7 +114,6 @@
     line-height: $height;
     text-align: center;
     text-transform: uppercase;
-    white-space: nowrap;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
