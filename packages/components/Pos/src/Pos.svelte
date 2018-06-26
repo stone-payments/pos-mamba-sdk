@@ -7,6 +7,7 @@
       <slot></slot>
     </Screen>
     <Keypad />
+    <Card/>
   </div>
 </div>
 
@@ -17,6 +18,7 @@
     components: {
       Keypad: './Keypad.svelte',
       Screen: './Screen.svelte',
+      Card: './CreditCard.svelte',
     },
     methods: {
       /** Treat backspace as the 'back button' */
@@ -47,18 +49,20 @@
   @media all and (min-width: 481px) {
     .wrapper {
       display: flex;
+      flex-wrap: wrap;
       height: 100vh;
       width: 100%;
       align-items: center;
       justify-content: center;
       background-image: url(./assets/wood.jpg);
       background-size: cover;
+      overflow: hidden;
     }
 
     .pos,
     .shadow {
       position: relative;
-      z-index: 0;
+      z-index: 2;
       margin: 0 auto;
       width: 347px;
       height: 761px;
