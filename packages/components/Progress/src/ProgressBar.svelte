@@ -2,7 +2,7 @@
   {#if typeof progress === undefined}
     <div class="progress"></div>
   {:else}
-    <div class="progress" style="width: {progress}"></div>
+    <div class="progress" style="width: {progress}%"></div>
   {/if}
 </div>
 
