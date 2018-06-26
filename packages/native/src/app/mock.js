@@ -41,11 +41,22 @@ export default function(App) {
     return false
   }
 
+  function listApps(appPath) {
+    return [{ name: 'app1', icon: '' }, { name: 'app2', icon: '' }]
+  }
+
+  function installApp(tarPath, destination) {
+    console.log(`tarPath: ${tarPath}`)
+    console.log(`destination: ${destination}`)
+  }
+
   Object.assign(App, {
     close,
     getAppKey,
     getProxyURL,
     isRunningOnDevice,
     isProxyEnabled,
+    listApps,
+    installApp,
   })
 }
