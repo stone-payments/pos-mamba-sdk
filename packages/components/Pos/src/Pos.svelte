@@ -58,6 +58,7 @@
         from {
           transform: translate(0, 0);
         }
+
         to {
           transform: translate(15px, 15px);
         }

@@ -50,9 +50,6 @@
       width: 20px;
       height: 20px;
       border-radius: 50%;
-    }
-
-    &::after {
       border: 0.2rem solid $unchecked-icon-border;
       background-color: $unchecked-icon-bg;
     }
@@ -71,6 +68,7 @@
     /** Disabled switch style */
     &[disabled="true"] {
       background-color: $disabled-bar-bg;
+
       &::after {
         border-color: $disabled-icon-border;
       }
