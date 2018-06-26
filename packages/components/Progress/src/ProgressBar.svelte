@@ -1,13 +1,10 @@
-{#if shape === 'circular'}
-{:else}
-  <div class="progress-bar {progressClass}" {style}>
-    {#if typeof progress === undefined}
-      <div class="progress"></div>
-    {:else}
-      <div class="progress" style="width: {progress}"></div>
-    {/if}
-  </div>
-{/if}
+<div class="progress-bar {progressClass}" {style}>
+  {#if typeof progress === undefined}
+    <div class="progress"></div>
+  {:else}
+    <div class="progress" style="width: {progress}%"></div>
+  {/if}
+</div>
 
 <script>
   export default {
@@ -16,7 +13,6 @@
         color: '#6ebf1a',
         height: '6px',
         progress: undefined,
-        shape: undefined,
       }
     },
     computed: {

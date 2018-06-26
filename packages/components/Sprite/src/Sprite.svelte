@@ -25,6 +25,10 @@
         this.start()
       }
     },
+    ondestroy() {
+      const { interval } = this.get()
+      clearInterval(interval)
+    },
     methods: {
       start() {
         const { spriteWidth, position } = this.get()
