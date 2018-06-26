@@ -6,9 +6,16 @@ const LOCAL_STORAGE_KEY = 'MambaStore'
 /** Initial data that overrides local storage */
 const APP_META_DATA = {
   __meta__: {
+    /** Default app title. Used internally by <AppBar/> */
     title: 'Mamba App',
+    /** Define if the user can change the current page (back and home) */
     locked: false,
+    /** Define if keyboard shortcuts are active */
     shortcuts: true,
+    /** Define if a confirmation dialog should appear when the app is closing */
+    askOnClose: false,
+    /** Custom callback to be fired before the app closes */
+    onCloseFn: null,
   },
 }
 
