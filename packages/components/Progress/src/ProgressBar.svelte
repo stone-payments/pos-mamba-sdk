@@ -42,7 +42,7 @@
   .progress {
     height: inherit;
     background-color: #000;
-    opacity: .3;
+    opacity: 0.3;
 
     .progress-bar.is-infinite & {
       transform: translateX(-100%);
@@ -56,5 +56,4 @@
       transform: translateX(125%);
     }
   }
-
 </style>

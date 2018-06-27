@@ -26,7 +26,10 @@ export default function(Printer) {
     if (config === undefined) config = {}
 
     Printer.currentPrinterDoneCallback = callback
-    Printer.printerDone.connect(this, Printer.printerDoneCallback)
+    Printer.printerDone.connect(
+      this,
+      Printer.printerDoneCallback,
+    )
     Printer.doPrint(element, config)
   }
 }
