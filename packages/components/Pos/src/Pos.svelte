@@ -5,8 +5,8 @@
       <slot></slot>
     </Screen>
     <Keypad />
-    <Card/>
   </div>
+  <Card/>
 </div>
 
 <script>
@@ -23,7 +23,6 @@
   @media all and (min-width: 481px) {
     .wrapper {
       display: flex;
-      flex-wrap: wrap;
       height: 100vh;
       width: 100%;
       align-items: center;
