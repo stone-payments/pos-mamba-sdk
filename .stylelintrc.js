@@ -1,31 +1,18 @@
 module.exports = {
   extends: 'stylelint-config-standard',
-  plugins: ['stylelint-scss'],
-  processors: [
-    [
-      '@mapbox/stylelint-processor-arbitrary-tags',
-      {
-        fileFilterRegex: [/\.(svelte|html)$/],
-      },
-    ],
-  ],
   rules: {
     'no-empty-source': null,
     'value-list-comma-newline-after': null,
     'declaration-colon-newline-after': null,
     'at-rule-no-unknown': null,
-    'scss/at-rule-no-unknown': true,
-    'selector-pseudo-class-no-unknown': [
-      true,
-      {
-        ignorePseudoClasses: ['global'],
-      },
-    ],
-    'selector-pseudo-element-no-unknown': [
-      true,
-      {
-        ignorePseudoElements: ['global'],
-      },
-    ],
+    /** Allow 'ref:*' selectors */
+    'selector-type-no-unknown': null,
+    'selector-pseudo-class-no-unknown': null,
+    /**
+     * Since stylelint reads all 'ref:*' as the same selector,
+     * this prevents it from complaining when multiple 'ref:*'
+     * are present on the same css
+     */
+    'no-descending-specificity': null,
   },
 }

@@ -1,56 +1,138 @@
-<svelte:window on:keyup="onKeyup(event)"/>
+<svelte:window on:keyup="onKeyup(event)" on:keydown="onKeydown(event)"/>
 
 <div class="app" use:links>
   <slot></slot>
 </div>
 
+<ConfirmationDialog ref:closeDialog on:positive="closeApp()">
+  Tem certeza que deseja fechar o app?
+</ConfirmationDialog>
+
 <script>
+  import App from '@mamba/native/app'
   import Keyboard from '@mamba/native/keyboard'
-  import { createHashHistory } from 'svelte-routing'
+  import { ConfirmationDialog } from '@mamba/dialog'
+  import { createHashHistory, getHistory } from 'svelte-routing'
   import links from 'svelte-routing/links'
 
-  createHashHistory({
-    basename: '/',
-  })
+  /** Check for a valid back command when 'back' is pressed */
+  const isValidBackCommand = (keyName, e) =>
+    keyName === 'back' && e.target.tagName !== 'INPUT'
+
+  /** Return if a certain shortcut key is valid */
+  const isInvalidShortcut = (keyName, e) =>
+    !keyName || e.target.tagName === 'INPUT'
+
+  /** Initialize the router hash history */
+  createHashHistory({ basename: '/' })
 
   export default {
-    actions: {
-      links,
-    },
-    methods: {
-      onKeyup(e) {
-        if (this.store) {
-          if (this.store.get().__meta__.shortcuts === false) {
-            return
-          }
+    actions: { links },
+    components: { ConfirmationDialog },
+    oncreate() {
+      if (this.store) {
+        /** If available, define the initial 'askOnClose' */
+        if (this.options.data) {
+          const { askOnClose } = this.options.data
+          this.store.meta.askOnClose(askOnClose)
         }
 
-        const keyName = Keyboard.getKeyName(e.keyCode)
+        /** Listen for the event to close the app */
+        this.store.on('meta:close', () => {
+          const { askOnClose, locked } = this.store.meta.get()
+          if (askOnClose) {
+            /** Only show the close confirmation dialog when the app is not locked */
+            if (!locked) {
+              this.refs.closeDialog.open()
+            }
+          } else {
+            this.closeApp()
+          }
+        })
+      }
+    },
+    methods: {
+      closeApp() {
+        if (this.store) {
+          const onClose = this.store.meta.get('onCloseFn')
+          if (typeof onClose === 'function') {
+            const maybePromise = onClose()
 
-        /** If the key is not mapped or is the 'close' key or an input is focused */
-        if (!keyName || e.target.tagName === 'INPUT') {
+            /** If promise returned, wait for it to be fullfilled or rejected */
+            if (maybePromise && typeof maybePromise.then === 'function') {
+              maybePromise.finally(App.close)
+              return
+            }
+          }
+        }
+        App.close()
+      },
+      goBack() {
+        const history = getHistory()
+
+        if (history.location.pathname !== '/') {
+          history.goBack()
+        }
+      },
+      /** Prevent default back button behaviour */
+      onKeydown(e) {
+        const keyName = Keyboard.getKeyName(e.keyCode)
+        if (isValidBackCommand(keyName, e)) {
+          e.preventDefault()
+        }
+      },
+      onKeyup(e) {
+        const keyName = Keyboard.getKeyName(e.keyCode)
+        const isShortcutsDisabled =
+          this.store && !this.store.meta.get('shortcuts')
+
+        /** If the key is not mapped or a input is focused, do nothing */
+        if (isInvalidShortcut(keyName, e)) {
           return
         }
 
+        /** Handles back button */
+        if (isValidBackCommand(keyName, e)) {
+          /** Guarantees that the 'back' button is enabled and app not locked */
+          if (
+            Keyboard.isBackspaceEnabled &&
+            (this.store && !this.store.meta.get('locked'))
+          ) {
+            e.preventDefault()
+            this.goBack()
+          }
+          return
+        }
+
+        /** Find the first element with shortcurt='keyName' */
         const shortcutEl = document.querySelector(`[shortcut='${keyName}']`)
 
-        /** If the key is 'enter', check if the shortcut element isn't already focused */
-        if (
-          shortcutEl &&
-          (keyName !== 'enter' || document.activeElement !== shortcutEl)
-        ) {
-          /**
-           * If a shortcut key was clicked and is a numeric one, prevent
-           * the keypress/input/keyup of being fired on a possible to be .focus() input
-           */
-          if (Keyboard.isNumericKey(e.keyCode)) {
+        /** If no shortcut element found */
+        if (!shortcutEl) {
+          /** Close the app if 'close' button clicked, and there's no button with 'shortcut="close"' */
+          if (keyName === 'close') {
             e.preventDefault()
+            if (this.store) {
+              this.store.fire('meta:close')
+            }
           }
+          return
+        }
 
-          /*
-            * Adapted from:
-            * https://stackoverflow.com/questions/15739263/phantomjs-click-an-element
-            */
+        /** If shortcuts are disabled, do nothing */
+        if (isShortcutsDisabled) {
+          return
+        }
+
+        /**
+         * If a shortcut element was found.
+         * If 'enter' was clicked, check if the shortcut element isn't already focused
+         */
+        if (keyName !== 'enter' || document.activeElement !== shortcutEl) {
+          /**
+           * Adapted from:
+           * https://stackoverflow.com/questions/15739263/phantomjs-click-an-element
+           */
           const clickEvent = document.createEvent('MouseEvent')
           clickEvent.initMouseEvent(
             'click',

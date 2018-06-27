@@ -14,6 +14,9 @@
     "build": "exit 0",
     "build:dev": "exit 0"
   },
+  "dependencies": {
+    "@mamba/dialog": "^1.0.0"
+  },
   "devDependencies": {
     "@mamba/styles": "^0.0.1"
   },

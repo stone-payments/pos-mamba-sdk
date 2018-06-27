@@ -9,16 +9,23 @@ export default initialData => {
     /** Set deep for meta data */
     set: (path = '', value) =>
       store.setDeep(`__meta__${path.length ? '.' + path : ''}`, value),
+
     /** Get deep for meta data */
     get: (path = '') =>
       store.getDeep(`__meta__${path.length ? '.' + path : ''}`),
-    /** Method for locking the app */
-    lockApp: shouldLock => {
-      store.fire('meta:lock', shouldLock)
-    },
+
+    /** Locking app related methods */
+    lockApp: shouldLock => store.fire('meta:lock', !!shouldLock),
+    isAppLocked: () => store.meta.get('locked'),
+
+    /** Closing app related methods */
+    closeApp: () => store.fire('meta:close'),
+    askOnClose: value => store.meta.set('askOnClose', !!value),
+    setOnClose: callback => store.meta.set('onCloseFn', callback),
+
     /** Method for propagating the app title */
     setTitle: title => {
-      store.setDeep('__meta__.title', title)
+      store.meta.set('title', title)
       store.fire('meta:title', title)
       document.title = title
     },

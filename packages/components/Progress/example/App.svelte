@@ -20,7 +20,25 @@
   <h1>Progress bar with defined progress <span>{'<ProgressBar progress="'}{fakeProgress}{'%"/>'}</span></h1>
 
   <div class="row">
-    <ProgressBar progress="{fakeProgress}%" height="8px" />
+    <ProgressBar progress="{fakeProgress}" height="8px" />
+  </div>
+
+  <h1>Circular Progress bar <span>{'<ProgressBar />'}</span></h1>
+
+  <div class="row">
+    <CircularProgress />
+  </div>
+
+  <h1>Circular Progress bar with custom speed <span>{'<ProgressBar speed="1..10"/>'}</span></h1>
+
+  <div class="row">
+    <CircularProgress speed="5"/>
+  </div>
+
+  <h1>Circular Progress bar defined progress<span>{'<ProgressBar circular progress="'}{fakeProgress}{'%"/>'}</span></h1>
+
+  <div class="row">
+    <CircularProgress progress="{fakeProgress}"/>
   </div>
 
 </div>
@@ -42,16 +60,17 @@
   }
 
   .row {
-    margin-bottom: 50px
+    margin-bottom: 50px;
   }
 </style>
 
 <script>
-  import { ProgressBar } from '../src'
+  import { ProgressBar, CircularProgress } from '../src'
 
   export default {
     components: {
       ProgressBar,
+      CircularProgress,
     },
     data() {
       return {
@@ -61,7 +80,7 @@
     oncreate() {
       setInterval(() => {
         let { fakeProgress } = this.get()
-        if(fakeProgress > 100) fakeProgress = -1
+        if(fakeProgress >= 100) fakeProgress = -1
         this.set({ fakeProgress: fakeProgress + 1 })
       }, 100)
     },

@@ -1,8 +1,8 @@
 <header class="appbar" {style}>
   <div class="content">
-    {#if showBackBtn}
+    {#if !isAtHome}
       <div class="icon-left" on:click="goback()">
-        <Icon symbol="chevron-left" color={$__meta__.locked ? '#dbdbdb' : textColor} />
+        <Icon symbol="chevron-left" color={isAppLocked ? '#dbdbdb' : textColor} />
       </div>
     {/if}
 
@@ -10,11 +10,9 @@
       <div class="title">{title}</div>
     {/if}
 
-    <!-- {#if rightIcon}
-      <div class="icon-right" on:click="console.log('right-click')">
-        X
-      </div>
-    {/if} -->
+    <div class="icon-right" on:click="gohome()">
+      <Icon symbol={homeIcon} color={isAppLocked ? '#dbdbdb' : textColor}/>
+    </div>
   </div>
 </header>
 
@@ -42,7 +40,9 @@
           `background-color:${bgColor}`,
         ].join(';')
       },
-      showBackBtn: ({ location }) => location !== '/',
+      isAtHome: ({ location }) => location === '/',
+      homeIcon: ({ isAtHome }) => (isAtHome ? 'home' : 'app-home'),
+      isAppLocked: ({ $__meta__ }) => $__meta__.locked,
     },
     oncreate() {
       const history = getHistory()
@@ -55,25 +55,36 @@
         })
       }
 
+      /** Listen for app title changes */
       if (this.store) {
-        this.store.on('meta:title', title => {
-          this.set({ title })
-        })
+        this.store.on('meta:title', title => this.set({ title }))
       }
     },
     methods: {
-      goback() {
-        if (this.store) {
-          const { locked } = this.store.get()
-          if (locked) return
+      gohome() {
+        if (this.store && this.store.meta.isAppLocked()) {
+          return
         }
+
+        const { isAtHome } = this.get()
+        if (isAtHome) {
+          return this.store.meta.closeApp()
+        }
+
+        getHistory().push('/')
+      },
+      goback() {
+        if (this.store && this.store.meta.isAppLocked()) {
+          return
+        }
+
         getHistory().goBack()
       },
     },
   }
 </script>
 
-<style>
+<style type="text/postcss">
   @import '@mamba/styles/colors.pcss';
 
   $height: 36px;
@@ -103,7 +114,6 @@
     line-height: $height;
     text-align: center;
     text-transform: uppercase;
-    white-space: nowrap;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -121,10 +131,10 @@
     width: 34px;
   }
 
-  .icon-left {
+  .icon-left,
+  .icon-right {
     position: absolute;
     top: 0;
-    left: 0;
     display: flex;
     align-items: center;
     height: 100%;
@@ -132,10 +142,13 @@
     padding-right: $item-horizontal-margin;
   }
 
-  /*.icon-right {
-      margin-left: initial;
-      margin-right: $item-horizontal-margin;
-      right: 0;
-      mask-position: right, center;
-    }*/
+  .icon-left {
+    left: 0;
+  }
+
+  .icon-right {
+    padding-left: $item-horizontal-margin;
+    padding-right: $item-horizontal-margin;
+    right: 0;
+  }
 </style>
