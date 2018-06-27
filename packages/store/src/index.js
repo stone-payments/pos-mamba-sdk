@@ -14,25 +14,29 @@ export default initialData => {
     get: (path = '') =>
       store.getDeep(`__meta__${path.length ? '.' + path : ''}`),
 
+    /** Encapsulate meta:event related calls */
+    on: (event, handler) => store.on(`meta:${event}`, handler),
+    fire: (event, value) => store.fire(`meta:${event}`, value),
+
     /** Locking app related methods */
-    lockApp: shouldLock => store.fire('meta:lock', !!shouldLock),
+    lockApp: shouldLock => store.meta.fire('lock', !!shouldLock),
     isAppLocked: () => store.meta.get('locked'),
 
     /** Closing app related methods */
-    closeApp: () => store.fire('meta:close'),
+    closeApp: () => store.meta.fire('close'),
     askOnClose: value => store.meta.set('askOnClose', !!value),
     setOnClose: callback => store.meta.set('onCloseFn', callback),
 
     /** Method for propagating the app title */
     setTitle: title => {
       store.meta.set('title', title)
-      store.fire('meta:title', title)
+      store.meta.fire('title', title)
       document.title = title
     },
   }
 
   /** Listener for locking the app (prevent backspace usage)  */
-  store.on('meta:lock', shouldLock => {
+  store.meta.on('lock', shouldLock => {
     if (shouldLock) {
       console.log('Locking App')
       Keyboard.disableBackspace()
