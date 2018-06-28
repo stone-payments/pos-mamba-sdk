@@ -38,7 +38,11 @@ export default function emitterFactory(namespace, timeout = 1500) {
   }
 
   SignalEmitter.signals = []
-  SignalEmitter.add = function(signalName, probability, transformer) {
+  SignalEmitter.add = function(
+    signalName,
+    probability = 1,
+    transformer = undefined,
+  ) {
     if (SignalEmitter.signals.indexOf(signalName) < 0) {
       SignalEmitter.signals.push([signalName, probability, transformer])
       namespace[signalName] = Signal(signalName)
