@@ -1,5 +1,4 @@
-<div class="card-wrapper">
-  <div class="credit-card" style={isInserted} on:click="toggleCard()"/>
+<div class="credit-card" style={isInserted} on:click="toggleCard()">
 </div>
 
 <script>
@@ -7,7 +6,6 @@
     data() {
       return {
         inserted: false,
-        cardEvent: undefined,
         cardInfo: {
           brand: 'Master',
           type: 'debit',
@@ -18,30 +16,28 @@
     },
     computed: {
       isInserted({ inserted }) {
-        return inserted ? 'top: 720px;' : 'top: 770px;'
+        return inserted ? 'top: 640px;' : '780px'
       },
     },
     methods: {
       toggleCard() {
         this.set({ inserted: !this.get().inserted })
-        document.dispatchEvent(this.get().cardEvent)
+        this.fire('oncardevent', this.get().cardInfo)
       },
     },
     oncreate() {
-      const cardInfo = this.get().cardInfo
-      this.set({
-        cardEvent: new CustomEvent('oncardevent', { detail: cardInfo }),
-      })
-      document.createEvent(this.get().cardEvent)
-      this.addEventListener('oncardevent', () => {
-        console.log('CARD EVENT')
-      })
+      this.on(
+        'oncardevent',
+        () =>
+          this.get().inserted
+            ? console.log('Cartão Inserido')
+            : console.log('Cartão Removido'),
+      )
     },
   }
 </script>
 
 <style>
-  .card-wrapper,
   .credit-card {
     display: none;
   }
@@ -49,21 +45,14 @@
   @media all and (min-width: 481px) {
     .credit-card {
       display: block;
-      position: relative;
+      position: absolute;
       width: 240px;
       height: 370px;
-      background-image: url('./assets/creditcard.png');
-    }
-    .card-wrapper{
-      display: block;
-      position: absolute;
-      align-self: center;
-      overflow: hidden;
+      left: 45px;
+      top: 780px;
       z-index: 1;
-      width: 240px;
-      height: 200px;
-      top: 770px;
-      background: none;
+      align-self: center;
+      background-image: url('./assets/creditcard.png');
     }
   }
 </style>
