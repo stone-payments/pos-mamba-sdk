@@ -1,12 +1,14 @@
 <div class="wrapper">
-  <div class="shadow"></div>
-  <div class="pos">
-    <Screen>
-      <slot></slot>
-    </Screen>
-    <Keypad />
+  <div class="container">
+    <div class="shadow"></div>
+    <div class="pos">
+      <Screen>
+        <slot></slot>
+      </Screen>
+      <Keypad />
+    </div>
+    <Card/>
   </div>
-  <Card/>
 </div>
 
 <script>
@@ -30,6 +32,11 @@
       background-image: url(./assets/wood.jpg);
       background-size: cover;
       overflow: hidden;
+    }
+
+    .container {
+      display: flex;
+      position: relative;
     }
 
     .pos,
