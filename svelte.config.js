@@ -6,9 +6,7 @@ module.exports = {
   legacy: true,
   preprocess: getPreprocessor({
     transformers: {
-      postcss: {
-        plugins: [require('autoprefixer')],
-      },
+      postcss: true,
     },
   }),
 }
