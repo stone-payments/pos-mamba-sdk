@@ -5,11 +5,11 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const StyleLintPlugin = require('stylelint-webpack-plugin')
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin')
 const SimpleProgressPlugin = require('webpack-simple-progress-plugin')
-
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const { IS_PROD, IS_WATCHING } = require('quickenv')
 const htmlTemplate = require('./helpers/htmlTemplate.js')
 const loaders = require('./helpers/loaders.js')
-
+const markdown = require('./helpers/markdown.js')
 const { fromWorkspace, fromProject } = require('../../tools/utils/paths')
 
 module.exports = {
@@ -36,7 +36,7 @@ module.exports = {
     /** Do not resolve symlinks */
     symlinks: false,
     mainFields: ['svelte', 'browser', 'module', 'main'],
-    extensions: ['.js', '.json', '.scss', '.css', '.html', '.svelte'],
+    extensions: ['.js', '.json', '.scss', '.css', '.html', '.svelte', '.md'],
     /** Make webpack also resolve modules from './src' */
     modules: [
       fromWorkspace('src'),
@@ -112,6 +112,8 @@ module.exports = {
           loaders.sass,
         ],
       },
+      /** Handle html generated markdown files */
+      { test: /\.md$/, use: [loaders.markdown] },
       /** Handle raw file imports (txt only for now) */
       { test: /\.(txt)$/, use: 'raw-loader' },
       /** Handle font imports */
@@ -121,6 +123,17 @@ module.exports = {
     ],
   },
   plugins: [
+    new CopyWebpackPlugin([
+      { from: './assets/', to: fromWorkspace('dist', 'assets') },
+      {
+        from: './docs/',
+        to: fromWorkspace('dist', 'docs'),
+        force: true,
+        transform(content, path) {
+          return Promise.resolve(markdown(content))
+        },
+      },
+    ]),
     new SimpleProgressPlugin(),
     !IS_WATCHING() &&
       new MiniCssExtractPlugin({

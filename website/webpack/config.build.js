@@ -4,7 +4,6 @@
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const { IS_PROD } = require('quickenv')
@@ -20,9 +19,6 @@ module.exports = merge(require('./config.base.js'), {
       verbose: false,
     }),
 
-    new CopyWebpackPlugin([
-      { from: './assets/', to: fromWorkspace('dist', 'assets') },
-    ]),
     /** Generate hashes based on module's relative path */
     IS_PROD() && new webpack.HashedModuleIdsPlugin(),
   ].filter(Boolean),

@@ -1,5 +1,10 @@
 export default [
-  { title: 'Getting Started', to: '/' },
+  {
+    title: 'Introduction',
+    to: '/',
+    submenu: [{ title: 'What is MAMBA?', to: '#mamba' }],
+  },
+  { title: 'Getting Started', to: '#getting-started' },
   {
     title: 'Native API',
     to: '/native',

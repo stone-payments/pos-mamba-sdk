@@ -1,5 +1,3 @@
-// @import '@mamba/core-styles/src/reset.scss';
-
 /* Shared / Config */
 @import 'shared/colors.css';
 @import 'shared/typography.css';
@@ -21,3 +19,4 @@
 
 /* Elements */
 @import 'elements/button.css';
+@import 'elements/code.css';

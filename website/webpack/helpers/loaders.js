@@ -99,4 +99,22 @@ module.exports = {
       ...require(fromProject('svelte.config.js')),
     },
   },
+  html: {
+    loader: 'html-loader',
+  },
+  markdownUrl: {
+    loader: 'url-loader',
+    options: {
+      outputPath: 'assets/',
+      name: './guides/[name].[ext]',
+    },
+  },
+  markdown: {
+    loader: 'markdown-loader',
+    options: {
+      highlight: function(code) {
+        return require('highlight.js').highlightAuto(code).value
+      },
+    },
+  },
 }

@@ -1,23 +1,12 @@
-<div class="route-icon">
-  <h1>Icon</h1>
-
-    <section class="component-icon">
-    
-  </section>
-
-  <section class="router-docs">
-
-  </section>
-</div>
+<IconExample />
 
 <script>
-  // import Icons from '@mamba/icons'
-
+  import IconExample from '@mamba/icon/example/App'
+  
   export default {
+    components: { IconExample },
     data () {
-      return {
-
-      }
+      return { }
     }
   }
 </script>
