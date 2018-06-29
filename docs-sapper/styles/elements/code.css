@@ -1,0 +1,57 @@
+@import 'prismjs/themes/prism.css';
+@import 'prismjs/plugins/line-numbers/prism-line-numbers.css';
+
+.code-block pre,
+.code-block code {
+  font-family: 'Source Code Pro', 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono',
+    'Roboto Mono', 'Ubuntu Mono', Menlo, Courier, monospace !important;
+}
+
+.code-block code {
+  position: relative;
+}
+
+pre code {
+  color: #333;
+  line-height: 19px;
+}
+
+code,
+pre {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 19px;
+  white-space: pre-line !important;
+}
+
+code[class*='language-'],
+pre[class*='language-'] {
+  text-shadow: none;
+}
+
+code .token.atrule,
+code .token.keyword,
+code .token.tag {
+  font-weight: 600;
+}
+
+code .token.keyword {
+  color: #6772e5;
+}
+
+code.language-url,
+code .token.function,
+code .token.url {
+  font-weight: 600;
+  color: #3297d3;
+}
+
+.line-numbers {
+  .line-numbers-rows {
+    border: none;
+
+    span::before {
+      color: #bec5ca;
+    }
+  }
+}

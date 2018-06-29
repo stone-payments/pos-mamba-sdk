@@ -1,0 +1,64 @@
+@import '@mamba/core-styles/src/reset.css';
+@import url('@mamba/core-styles/src/links.css');
+@import url('@mamba/core-styles/src/reset-spaces.css');
+@import url('@mamba/core-styles/src/tables.css');
+
+/** /styles/reset.css */
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+*::after,
+*::before,
+*:not(input),
+*:not(code) input[type='checkbox'],
+input[type='radio'] {
+  outline: none;
+}
+
+*:focus {
+  outline: none !important;
+}
+
+body,
+html {
+  height: 100%;
+  width: 100%;
+}
+
+small {
+  font-size: 12px;
+}
+
+var,
+address,
+dfn,
+cite {
+  font-style: italic;
+}
+
+abbr {
+  border-bottom: 1px #ccc dotted;
+  cursor: help;
+}
+
+article blockquote,
+article dl,
+article ol,
+article p,
+article table tbody,
+article ul {
+  font-size: 15px;
+  color: #373e42;
+  line-height: 26px;
+}
+
+a,
+button,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
