@@ -1,5 +1,5 @@
 <div class="printable">
-  <div ref:printableContent>
+  <div class="content" ref:printableContent>
     <slot></slot>
   </div>
 </div>
@@ -7,6 +7,7 @@
 {#if state === STATES.PRINTING}
   <PromisedDialog
     promise={printingPromise}
+    delay={0}
     bgColor="#fff"
     on:success="set({ state: STATES.SUCCESS })"
     on:failure="set({ state: STATES.FAILURE })"
@@ -31,7 +32,7 @@
 
 
 <script>
-  import Printer from '@mamba/native/printer'
+  import Printer from '@mamba/native/printer.js'
   import { PromisedDialog, ConfirmationDialog } from '@mamba/dialog'
 
   const STATES = Object.freeze({
@@ -69,15 +70,24 @@
         this.set({ state: STATES.IDLE, printingPromise: undefined })
       },
       print() {
-        const printingPromise = Printer.print(
-          this.refs.printableContent,
-          this.get().options,
-        )
+        const content = this.refs.printableContent
+        const { options } = this.get()
+        const printingPromise = Printer.print(content, options)
 
         this.set({
           state: STATES.PRINTING,
           printingPromise,
         })
+
+        if (process.env.NODE_ENV === 'development') {
+          printingPromise
+            .then(() => {
+              if (this.store) {
+                this.store.fire('pos:print', { content, options })
+              }
+            })
+            .catch(e => 0)
+        }
       },
     },
   }
@@ -85,10 +95,10 @@
 
 <style>
   .printable {
+    position: fixed;
     max-width: 384px;
-    overflow: hidden;
-    height: 0;
-    visibility: hidden;
+    left: -384px;
+    z-index: -1;
   }
 
   .printing-sprite {
@@ -98,6 +108,22 @@
     height: 110px;
     margin: auto;
     animation: printingAnimation 2s steps(65) infinite;
+  }
+
+  .content {
+    &,
+    :global(p) {
+      font-family: 'Roboto', Arial, sans-serif;
+      font-size: 20px;
+      line-height: 1.1;
+      -webkit-font-smoothing: none;
+    }
+
+    :global(img) {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
   }
 
   @keyframes printingAnimation {
