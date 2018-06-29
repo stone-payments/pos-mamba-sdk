@@ -4,6 +4,8 @@ const rules = {
   indent: ['error', 2, { SwitchCase: 1 }],
   'no-console': IS_PROD() ? ['error', { allow: ['warn', 'error'] }] : 'off',
   'no-var': 'error',
+  'no-sequences': 0,
+  'no-new': 0,
 }
 
 module.exports = {
@@ -28,6 +30,9 @@ module.exports = {
       jsx: false,
       modules: true,
     },
+  },
+  globals: {
+    cy: true,
   },
   rules: rules,
   overrides: [
