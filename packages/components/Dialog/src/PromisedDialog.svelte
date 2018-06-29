@@ -25,12 +25,16 @@
       if (changed.promise && promise && typeof promise.then === 'function') {
         promise
           .then(() => {
-            this.refs.dialog.close(delay)
-            this.fire('success')
+            setTimeout(() => {
+              this.refs.dialog.close()
+              this.fire('success')
+            }, parseFloat(delay))
           })
           .catch(e => {
-            this.refs.dialog.close(delay)
-            this.fire('failure', e)
+            setTimeout(() => {
+              this.refs.dialog.close()
+              this.fire('failure', e)
+            }, parseFloat(delay))
           })
         this.refs.dialog.open()
       }

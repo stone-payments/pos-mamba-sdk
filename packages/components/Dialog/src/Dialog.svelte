@@ -49,13 +49,14 @@
         if (typeof delay !== 'undefined') {
           return setTimeout(() => this.close(), parseFloat(delay))
         }
-        this.set({ _isOpen: false })
-        this.fire('close')
 
         /** If there's a existant store, let's unlock the app */
         if (this.store) {
           this.store.meta.lockApp(false)
         }
+
+        this.set({ _isOpen: false })
+        this.fire('close')
       },
     },
     ondestroy() {
