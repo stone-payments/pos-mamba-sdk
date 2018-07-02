@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "@mamba/code": "^1.0.0",
-    "@mamba/core-styles": "^0.0.1",
     "@mamba/icon": "^1.0.0",
     "compression": "^1.7.2",
     "dotenv": "^6.0.0",
@@ -27,7 +26,6 @@
     "serve-static": "^1.13.2"
   },
   "devDependencies": {
-    "caniuse-lite": "^1.0.30000856",
     "css-loader": "^0.28.11",
     "mini-css-extract-plugin": "^0.4.0",
     "mini-html-webpack-plugin": "^0.2.3",
@@ -43,9 +41,8 @@
     "prismjs": "^1.14.0",
     "style-loader": "^0.21.0",
     "stylelint-webpack-plugin": "^0.10.5",
-    "svelte": "^2.6.3",
+    "svelte": "^2.8.0",
     "svelte-loader": "^2.9.0",
-    "webpack": "^4.8.3",
-    "webpack-simple-progress-plugin": "^0.0.4"
+    "webpack": "^4.14.0"
   }
 }

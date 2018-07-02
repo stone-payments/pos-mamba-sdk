@@ -1,9 +1,10 @@
-@import '@mamba/core-styles/src/reset.css';
-@import url('@mamba/core-styles/src/links.css');
-@import url('@mamba/core-styles/src/reset-spaces.css');
-@import url('@mamba/core-styles/src/tables.css');
-
 /** /styles/reset.css */
+
+@import 'reset/reset.css';
+@import 'reset/links.css';
+@import 'reset/reset-spaces.css';
+@import 'reset/tables.css';
+
 *,
 *::after,
 *::before {
