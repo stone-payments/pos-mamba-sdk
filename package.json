@@ -27,7 +27,6 @@
       "packages/store",
       "packages/styles",
       "packages/components/*",
-      "website",
       "docs-sapper"
     ]
   },
