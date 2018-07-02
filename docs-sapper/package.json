@@ -17,7 +17,6 @@
     "@mamba/code": "^1.0.0",
     "@mamba/core-styles": "^0.0.1",
     "@mamba/icon": "^1.0.0",
-    "@mamba/styles-utils": "^0.0.1",
     "compression": "^1.7.2",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
