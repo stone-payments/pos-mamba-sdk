@@ -6,7 +6,9 @@ let Payment = window.Payment
 if (process.env.NODE_ENV !== 'production') {
   Payment = window.Payment = {}
   mock(Payment)
-} else {
+}
+
+if (process.env.NODE_ENV === 'production') {
   if (!Payment) {
     throw new Error("[@mamba/native] 'Payment' module not found")
   }

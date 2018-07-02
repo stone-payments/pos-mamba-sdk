@@ -54,7 +54,7 @@ export default class {
         gif.h = this._gif.offsetHeight
         console.log('set width and height to ', gif.w, gif.h)
 
-        document.addEventListener('keydown', preventDefault)
+        document.addEventListener('keyup', preventDefault)
 
         return true
       } else {
@@ -109,7 +109,7 @@ export default class {
   hide() {
     console.log('Gif: Hide gif')
     this._gif.style.display = 'none'
-    document.removeEventListener('keydown', preventDefault)
+    document.removeEventListener('keyup', preventDefault)
   }
 
   /**

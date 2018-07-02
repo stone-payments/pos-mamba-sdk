@@ -1,5 +1,5 @@
 import { basename, dirname } from 'path'
-import { getPkg } from 'quickenv'
+import { getPkg, IS_WATCHING } from 'quickenv'
 
 const PKG = getPkg()
 
@@ -30,9 +30,14 @@ export default function({
     dest: output,
     filename,
     name,
-    /** Use commonjs2 for smaller bundle sizes. */
     format,
     exports: 'named',
+  }
+
+  if (IS_WATCHING()) {
+    rest.watch = {
+      chokidar: false,
+    }
   }
 
   return {

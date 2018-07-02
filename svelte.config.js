@@ -9,4 +9,11 @@ module.exports = {
       postcss: true,
     },
   }),
+  //   onwarn(warning, handler) {
+  //     /** Prevent warning on autofocus attributes */
+  //     if (warning.code === 'a11y-autofocus') {
+  //       return
+  //     }
+  //     handler(warning)
+  //   },
 }

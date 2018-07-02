@@ -59,7 +59,10 @@ function link(options) {
       // the callback and the signal. Otherwise, call the callback passing an error
       if (options.realFunction.apply(this, arguments)) {
         callback = tempCallback
-        options.signal.connect(this, jobDoneCallback)
+        options.signal.connect(
+          this,
+          jobDoneCallback,
+        )
       } else {
         tempCallback.call(
           this,

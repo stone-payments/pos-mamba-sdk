@@ -6,7 +6,9 @@ let Printer = window.Printer
 if (process.env.NODE_ENV !== 'production') {
   Printer = window.Printer = {}
   mock(Printer)
-} else {
+}
+
+if (process.env.NODE_ENV === 'production') {
   if (!Printer) {
     throw new Error("[@mamba/native] 'Printer' module not found")
   }

@@ -253,7 +253,6 @@ export default function(System) {
     },
     Battery: {
       present: true,
-
       level: 50,
       status: System.BatteryStatus.DISCHARGE,
     },
@@ -262,35 +261,27 @@ export default function(System) {
     SerialNumber: '00000000',
   }
 
-  const KeyboardLight = {
-    enable() {
-      console.log('enabled keyboard light')
+  // TODO: Rename window.PowerManagement
+  let sleepDelay = 5
+  let sleepEnabled = false
+  const MIN_SLEEP_DELAY = 0
+  const MAX_SLEEP_DELAY = 10
+  const PowerManagement = {
+    isSleepEnabled: () => sleepEnabled,
+    getSleepDelay: () => sleepDelay,
+    toggleSleep() {
+      sleepEnabled = !sleepEnabled
+      console.log(`${sleepEnabled ? 'Enabled' : 'Disabled'} automatic sleep`)
     },
-    disable() {
-      console.log('disabled keyboard light')
+    decreaseSleepDelay() {
+      sleepDelay = Math.max(MIN_SLEEP_DELAY, sleepDelay - 1)
     },
-
-    isEnabled() {
-      return true
-    },
-  }
-
-  const Sound = {
-    enable() {
-      console.log('enabled keyboard sound')
-    },
-    disable() {
-      console.log('disabled keyboard sound')
-    },
-
-    isEnabled() {
-      return true
+    increaseSleepDelay() {
+      sleepDelay = Math.min(sleepDelay + 1, MAX_SLEEP_DELAY)
     },
   }
 
   Object.assign(System, {
-    Sound,
-    KeyboardLight,
     beep,
     hasEthernet,
     hasWifi,
@@ -302,5 +293,6 @@ export default function(System) {
     getBatteryStatus,
     getBatteryLevel,
     SimulatedConfig,
+    PowerManagement,
   })
 }

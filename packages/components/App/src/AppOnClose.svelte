@@ -1,0 +1,21 @@
+<script>
+  export default {
+    oncreate() {
+      if (this.store && this.options.data) {
+        const { ask, callback } = this.options.data
+
+        const { askOnClose, onCloseFn } = this.store.meta.get()
+        this.set({ prevAsk: askOnClose, prevFn: onCloseFn })
+
+        this.store.meta.askOnClose(ask)
+        this.store.meta.setOnClose(callback)
+      }
+    },
+    ondestroy() {
+      const { prevAsk, prevFn } = this.get()
+
+      this.store.meta.askOnClose(prevAsk)
+      this.store.meta.setOnClose(prevFn)
+    },
+  }
+</script>

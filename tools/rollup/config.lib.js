@@ -1,12 +1,13 @@
 import { basename, dirname } from 'path'
-import makeRollupConfig from './helpers/makeRollupConfig.js'
 import glob from 'globby'
 import resolve from 'rollup-plugin-node-resolve'
 import cjs from 'rollup-plugin-commonjs'
 import babel from 'rollup-plugin-babel'
 import filesize from 'rollup-plugin-filesize'
-import eslint from 'rollup-plugin-eslint'
+// import eslint from 'rollup-plugin-eslint'
 import { getPkg } from 'quickenv'
+import makeRollupConfig from './helpers/makeRollupConfig'
+import getExternals from './helpers/getExternals'
 
 const PKG = getPkg()
 
@@ -14,12 +15,12 @@ const PKG = getPkg()
 const plugins = [
   resolve(),
   cjs(),
-  eslint(),
+  // eslint(),
   babel({
-    exclude: 'node_modules/**',
     /** Enforce usage of '.babelrc.js' at the project's root directory */
     babelrc: false,
     ...require('../../.babelrc.js'),
+    exclude: /node_modules[/\\](?!(svelte)|(@mamba))/,
   }),
   filesize(),
 ]
@@ -30,31 +31,24 @@ const configs = []
 /** Bundles for package submodules */
 glob.sync(PKG.subModules || []).forEach(subModEntryRelPath => {
   const subModuleName = basename(dirname(subModEntryRelPath))
-  configs.push(
-    makeRollupConfig({
-      input: subModEntryRelPath,
-      output: `${subModuleName}.js`,
-      plugins,
-    }),
-  )
+  configs.push({
+    input: subModEntryRelPath,
+    output: `${subModuleName}.js`,
+    plugins,
+  })
 })
 
 /** The default bundle for the package */
-configs.push(
-  makeRollupConfig({
+if (PKG.main) {
+  configs.push({
     plugins,
-  }),
-)
-
-/** The ESM bundle */
-if (PKG.module) {
-  configs.push(
-    makeRollupConfig({
-      output: PKG.module,
-      format: 'es',
-      plugins,
-    }),
-  )
+  })
 }
 
-export default configs
+export default configs.map(config =>
+  makeRollupConfig({
+    ...config,
+    external: getExternals,
+    experimentalDynamicImport: true,
+  }),
+)

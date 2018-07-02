@@ -1,4 +1,4 @@
 export default function(System) {
-  System.KeyboardLight = window.KeyboardLight
-  System.Sound = window.Sound
+  // TODO: Rename window.PowerManagement
+  System.PowerManagement = window.PowerManagement
 }

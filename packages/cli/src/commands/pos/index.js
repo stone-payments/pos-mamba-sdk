@@ -28,6 +28,7 @@ module.exports = {
           },
         },
         ({ tty }) => {
+          shell.exec(`xcb kill-server`)
           shell.exec(`start_ssh.sh com:/dev/tty${tty}`)
         },
       )

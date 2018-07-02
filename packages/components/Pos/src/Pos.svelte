@@ -1,36 +1,23 @@
 <div class="wrapper">
+  <div class="shadow"></div>
   <div class="pos">
-    <div class="screen">
+    <Screen>
       <slot></slot>
-    </div>
-    <div class="actions">
-      <button class="back" on:click="goBack()"></button>
-    </div>
+    </Screen>
+    <Keypad />
   </div>
 </div>
 
 <script>
   export default {
-    methods: {
-      async goBack() {
-        try {
-          const { getHistory } = await import('svelte-routing')
-          getHistory().goBack()
-        } catch(e) {
-          console.log('[@mamba/POS] Missing "svelte-routing" package. Cannot goBack(). ') // eslint-disable-line
-        }
-      },
+    components: {
+      Keypad: './Keypad.svelte',
+      Screen: './Screen.svelte',
     },
   }
 </script>
 
 <style>
-  @media all and (max-width: 480px) {
-    .actions {
-      display: none;
-    }
-  }
-
   @media all and (min-width: 481px) {
     .wrapper {
       display: flex;
@@ -38,35 +25,44 @@
       width: 100%;
       align-items: center;
       justify-content: center;
+      background-image: url(./assets/wood.jpg);
+      background-size: cover;
     }
 
-    .pos {
+    .pos,
+    .shadow {
       position: relative;
+      z-index: 0;
       margin: 0 auto;
-      width: 261px;
-      height: 572px;
+      width: 347px;
+      height: 761px;
       background-image: url(./assets/POS.png);
+      background-size: cover;
     }
 
-    .screen {
-      position: absolute;
-      top: 172px;
-      left: 36px;
-      width: 183px;
-      height: 243px;
-      overflow-y: auto;
+    .shadow {
+      display: none;
     }
 
-    .back {
-      position: absolute;
-      bottom: 77px;
-      right: 35px;
-      width: 48px;
-      height: 22px;
-      border: 0;
-      appearance: none;
-      cursor: pointer;
-      background: transparent;
+    @supports (filter: brightness(0)) {
+      .shadow {
+        display: block;
+        position: absolute;
+        z-index: 0;
+        filter: brightness(0) blur(2px);
+        opacity: 0.4;
+        animation: shadow 0.8s ease-out forwards;
+      }
+
+      @keyframes shadow {
+        from {
+          transform: translate(0, 0);
+        }
+
+        to {
+          transform: translate(15px, 15px);
+        }
+      }
     }
   }
 </style>

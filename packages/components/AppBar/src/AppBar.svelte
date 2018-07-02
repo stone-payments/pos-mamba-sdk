@@ -1,8 +1,8 @@
-<header ref:navbar class="appbar">
+<header class="appbar" {style}>
   <div class="content">
-    {#if leftIcon}
-      <div class="icon-left" on:click="console.log('left-click')">
-        X
+    {#if !isAtHome}
+      <div class="icon-left" on:click="goback()">
+        <Icon symbol="chevron-left" color={isAppLocked ? '#dbdbdb' : textColor} />
       </div>
     {/if}
 
@@ -10,93 +10,145 @@
       <div class="title">{title}</div>
     {/if}
 
-    {#if rightIcon}
-      <div class="icon-right" on:click="console.log('right-click')">
-        X
-      </div>
-    {/if}
+    <div class="icon-right" on:click="gohome()">
+      <Icon symbol={homeIcon} color={isAppLocked ? '#dbdbdb' : textColor}/>
+    </div>
   </div>
 </header>
 
 <script>
+  import { getHistory } from 'svelte-routing'
+
   export default {
+    components: {
+      Icon: '@mamba/icon',
+    },
     data() {
       return {
-        position: 'static',
+        title: null,
+        location: undefined,
+        position: 'relative',
+        textColor: '#fff',
+        bgColor: '#4ebf1a',
       }
     },
+    computed: {
+      style({ bgColor, textColor, position }) {
+        return [
+          `position:${position}`,
+          `color:${textColor}`,
+          `background-color:${bgColor}`,
+        ].join(';')
+      },
+      isAtHome: ({ location }) => location === '/',
+      homeIcon: ({ isAtHome }) => (isAtHome ? 'home' : 'app-home'),
+      isAppLocked: ({ $__meta__ }) => $__meta__.locked,
+    },
     oncreate() {
-      const { color, position } = this.get()
-      const navBar = this.refs.navbar
+      const history = getHistory()
 
-      navBar.style.position = position
-      if (color) {
-        navBar.style.backgroundColor = color
+      /** Listen for route changes */
+      if (history) {
+        this.set({ location: history.location.pathname })
+        history.listen(location => {
+          this.set({ location: location.pathname })
+        })
       }
 
+      /** Listen for app title changes */
+      if (this.store) {
+        this.store.meta.on('title', title => this.set({ title }))
+      }
+    },
+    methods: {
+      gohome() {
+        if (this.store && this.store.meta.isAppLocked()) {
+          return
+        }
+
+        const { isAtHome } = this.get()
+        if (isAtHome) {
+          return this.store.meta.closeApp()
+        }
+
+        getHistory().push('/')
+      },
+      goback() {
+        if (this.store && this.store.meta.isAppLocked()) {
+          return
+        }
+
+        getHistory().goBack()
+      },
     },
   }
 </script>
 
-<style type="text/scss">
-  @import '@mamba/styles-utils/src/colors.scss';
-  @import '@mamba/styles-utils/src/appbar.scss';
+<style type="text/postcss">
+  @import '@mamba/styles/colors.pcss';
+
+  $height: 36px;
+  $item-horizontal-margin: 8px;
+
+  $background-color: $white;
+  $border-color: $grey-light;
+
+  $font-size: 0.9rem;
+  $font-color: $white;
 
   .appbar {
-    position: static;
-    background-color: $primary-color;
     width: 100%;
-    z-index: 1100;
+    z-index: 1002;
   }
 
   .title {
+    max-width: 154px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     padding: 0;
     margin: 0;
-    color: $mb-appbar-font-color;
-    font-size: $mb-appbar-font-size;
+    color: inherit;
+    font-size: $font-size;
     font-weight: 600;
-    line-height: $mb-appbar-height;
+    line-height: $height;
     text-align: center;
     text-transform: uppercase;
-    white-space: nowrap;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
   }
 
   .content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-left: $mb-appbar-item-horizontal-margin;
-    padding-right: $mb-appbar-item-horizontal-margin;
-    min-height: $mb-appbar-height;
-    color: $mb-appbar-font-color;
+    padding-left: $item-horizontal-margin;
+    padding-right: $item-horizontal-margin;
+    min-height: $height;
   }
 
   .icon {
     cursor: pointer;
-    height: $mb-appbar-height;
+    height: $height;
     width: 34px;
   }
 
   .icon-left,
   .icon-right {
     position: absolute;
-    background-color: #fff;
-    mask-size: 1em;
-    mask-position: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding-left: $item-horizontal-margin;
+    padding-right: $item-horizontal-margin;
   }
 
   .icon-left {
     left: 0;
-    margin-left: $mb-appbar-item-horizontal-margin;
   }
 
   .icon-right {
-    margin-left: initial;
-    margin-right: $mb-appbar-item-horizontal-margin;
+    padding-left: $item-horizontal-margin;
+    padding-right: $item-horizontal-margin;
     right: 0;
-    mask-position: right, center;
   }
 </style>

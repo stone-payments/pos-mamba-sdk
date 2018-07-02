@@ -1,72 +1,97 @@
-<button on:click="openDialog('defaultDialog')">
-  Open Default Dialog
-</button>
+<div class="container">
+  <h1>Default Dialog</h1>
+  <div class="row">
+    <button on:click="openDialog('defaultDialog', 2000)">
+      Open dialog
+    </button>
+  </div>
 
-<br>
+  <Dialog ref:defaultDialog>
+    Default dialog
+  </Dialog>
 
-<button on:click="openDialog('negativeDialog')">
-  Open dialog with no negative action
-</button>
+  <h1>PromisedDialog <span>{'<PromisedDialog promise="..." on:success on:failure/>'}</span></h1>
+  <div class="row">
+    <button on:click="refreshPromise()">
+      Initialize promise
+    </button>
+  </div>
 
-<br>
+  <PromisedDialog
+    {promise}
+    on:success="console.log('promise success', event)"
+    on:failure="console.log(event)"
+  >
+    {#await promise}
+      Loading....
+    {:then }
+      Success!!!
+    {:catch }
+      Something went wrong...
+    {/await}
+  </PromisedDialog>
 
-<button on:click="openDialog('disabledNegative')">
-  Open dialog with negative disabled
-</button>
+  <h1>Confirmation Dialog</h1>
+  <div class="row">
+    <button on:click="openDialog('confirmationDialog')">
+      Open dialog
+    </button>
+  </div>
 
-<br>
-
-<button on:click="openDialog('disabledPositive')">
-  Open dialog waith positive disabled
-</button>
-
-<br>
-
-<Dialog
-  isOpen={true}
-  ref:defaultDialog
-  title="Dialog Title"
-  on:close="console.log(event)"
->
-  Dialogo
-</Dialog>
-
-<Dialog
-  ref:negativeDialog
-  title="Dialog Title"
-  on:close="console.log(event)"
-  hideNegativeAction
->
-  Dialogo 2
-</Dialog>
-
-<Dialog
-  ref:disabledNegative
-  title="Dialog Title"
-  on:close="console.log(event)"
-  disableNegativeAction
->
-  Dialogo 3
-</Dialog>
-
-<Dialog
-  ref:disabledPositive
-  title="Dialog Title"
-  on:close="console.log(event)"
-  disablePositiveAction
->
-  Dialogo 3
-</Dialog>
+  <ConfirmationDialog ref:confirmationDialog isOpen={true} title="IMPRESSORA SEM PAPEL">
+    Tentar imprimir novamente?
+  </ConfirmationDialog>
+</div>
 
 <script>
+  import { Dialog, PromisedDialog, ConfirmationDialog } from '../src'
   export default {
     components: {
-      Dialog: '../src',
+      Dialog,
+      PromisedDialog,
+      ConfirmationDialog,
+      Sprite: '@mamba/sprite',
     },
     methods: {
-      openDialog(dialog) {
-        this.refs[dialog].open()
+      refreshPromise() {
+        this.set({
+          promise: new Promise((resolve, reject) =>
+            setTimeout(() => resolve(), 2000),
+          ),
+        })
+      },
+      openDialog(dialog, delay) {
+        this.refs[dialog].open(delay)
       },
     },
   }
 </script>
+
+<style>
+  :global(body) {
+    background-color: #ddd;
+  }
+
+  h1 {
+    word-break: break-all;
+  }
+
+  h1 span {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: monospace;
+  }
+
+  .container {
+    max-width: 80%;
+    width: 700px;
+    margin: 80px auto;
+  }
+
+  .row {
+    margin-bottom: 50px;
+  }
+</style>

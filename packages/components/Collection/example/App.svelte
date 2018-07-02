@@ -15,6 +15,26 @@
   </Row>
 </Collection>
 
+<Collection>
+  <Row label="HideYoKidsHideYoWiFi">
+    <div slot="controller">
+      <Icon symbol="wifi" color="green" level={2}/>
+    </div>
+    <p slot="description">
+      Conectado
+    </p>
+  </Row>
+  <Row label="HideYoKidsHideYoWiFi" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic maiores mollitia asperiores delectus, deleniti nobis fugiat quas eaque aspernatur atque ex voluptate modi fuga, iusto minus magni reprehenderit libero numquam.">
+    <div slot="controller">
+      <Icon symbol="wifi" color="green" level={0}/>
+    </div>
+  </Row>
+</Collection>
+
+<Collection>
+  <Row label="HideYoKidsHideYoWiFi" href="/" description="Lorem ipsum dolor sit amet consectetur adipisicing elit."/>
+</Collection>
+
 <script>
   import { Collection, Row } from '../src'
   import Icon from '@mamba/icon'

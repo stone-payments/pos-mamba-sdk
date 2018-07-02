@@ -6,7 +6,9 @@ let StatusBar = window.StatusBar
 if (process.env.NODE_ENV !== 'production') {
   StatusBar = window.StatusBar = {}
   mock(StatusBar)
-} else {
+}
+
+if (process.env.NODE_ENV === 'production') {
   if (!StatusBar) {
     throw new Error("[@mamba/native] 'StatusBar' module not found")
   }

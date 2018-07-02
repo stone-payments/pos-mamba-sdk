@@ -1,4 +1,4 @@
-const { IS_TEST } = require('quickenv')
+const { IS_TEST, IS_DEV } = require('quickenv')
 
 const presets = [
   [

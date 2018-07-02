@@ -34,7 +34,10 @@ export default function(Payment) {
         } catch (err) {
           console.log(err)
         }
-        Payment.paymentDone.connect(this, Payment.paymentDoneCallback)
+        Payment.paymentDone.connect(
+          this,
+          Payment.paymentDoneCallback,
+        )
         Payment.doPay(params)
       } else {
         let error = new Error(
@@ -63,7 +66,10 @@ export default function(Payment) {
     } catch (err) {
       console.log(err)
     }
-    Payment.cardEvent.connect(this, Payment.triggerEvent)
+    Payment.cardEvent.connect(
+      this,
+      Payment.triggerEvent,
+    )
   }
 
   Payment.disableCardEvent = function() {

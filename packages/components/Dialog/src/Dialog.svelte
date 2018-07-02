@@ -1,140 +1,108 @@
-<div class="container {isOpen ? 'is-active' : ''}">
-
-  <div class="modal">
-    <div class="content">
-      {#if title && title.length}
-        <h5 class="title">{title}</h5>
-      {/if}
-
-      <p class="message">
+{#if _isOpen}
+  <div class="dialog" {style}>
+    <div class="content -align-{align}">
+      <div class="message">
+        {#if title}
+          <div class="title">{title}</div>
+        {/if}
         <slot></slot>
-      </p>
-    </div>
-
-    <div class="actions {hideNegativeAction ? 'is-alert' : ''}">
-      {#if negativeAction && !hideNegativeAction}
-        <button
-          class="action -negative"
-          on:click="close(negativeAction)"
-          disabled={disableNegativeAction}
-        >
-          {negativeAction}
-        </button>
-      {/if}
-
-      {#if positiveAction}
-        <button
-          class="action -positive"
-          on:click="close(positiveAction)"
-          disabled={disablePositiveAction}
-        >
-          {positiveAction}
-        </button>
-      {/if}
-
+      </div>
+      <div class="extra">
+        <slot name="extra"></slot>
+      </div>
     </div>
   </div>
-</div>
+{/if}
 
 <script>
   export default {
     data() {
       return {
-        positiveAction: 'Ok',
-        negativeAction: 'Cancel',
-        hideNegativeAction: false,
-        disableNegativeAction: false,
-        disablePositiveAction: false,
-        isOpen: false,
+        _isOpen: false,
+        title: null,
+        bgColor: '#e3e3e3',
+        textColor: '#4a4a4a',
+        align: 'center',
+        type: 'timed',
       }
     },
+    computed: {
+      style({ bgColor, textColor }) {
+        return `background-color:${bgColor};color:${textColor}`
+      },
+    },
     methods: {
-      open() {
-        this.set({ isOpen: true })
-        document.body.classList.add('no-scroll')
+      open(duration) {
+        this.set({ _isOpen: true })
+        this.fire('open')
+
+        /** If there's a existant store, let's lock the app */
+        if (this.store) {
+          this.store.meta.lockApp(true)
+        }
+
+        if (typeof duration !== 'undefined') {
+          this.close(duration)
+        }
       },
-      close(action) {
-        this.set({ isOpen: false })
-        document.body.classList.remove('no-scroll')
-        this.fire('close', { action })
+      close(delay) {
+        if (typeof delay !== 'undefined') {
+          return setTimeout(() => this.close(), parseFloat(delay))
+        }
+        this.set({ _isOpen: false })
+        this.fire('close')
+
+        /** If there's a existant store, let's unlock the app */
+        if (this.store) {
+          this.store.meta.lockApp(false)
+        }
       },
+    },
+    ondestroy() {
+      /** If the component is being destroyed and the dialog is still opened, let's unlock the app */
+      if (this.get()._isOpen && this.store && this.store.get().__meta__.locked) {
+        this.store.meta.lockApp(false)
+      }
     },
   }
 </script>
 
-<style type="text/scss">
-  @import '@mamba/styles-utils/index.scss';
-
-  .container {
+<style>
+  .dialog {
     position: fixed;
+    z-index: 1001;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-
-    &:not(.is-active) {
-      display: none;
-    }
-  }
-
-  .modal {
-    max-width: 210px;
-    width: 80%;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    padding-bottom: 0;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    z-index: $dialog-z-index;
   }
 
   .content {
-    padding: 10px 15px 15px;
+    width: 90%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  .title {
-    font-size: 1.3em;
-    font-weight: bold;
-    line-height: 1.4em;
+  .content.-align-top {
+    margin-top: 15px;
+  }
+
+  .content.-align-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
   }
 
   .message {
-    color: $grey-dark;
+    font-size: 18px;
   }
 
-  .actions {
-    display: flex;
-    text-align: center;
-    border-top: 1px solid $grey-lighter;
-  }
-
-  .action {
-    display: block;
-    width: 50%;
-    min-width: 3em;
-    padding: 1em;
-    border: none;
-    color: $primary-color;
-    background: transparent;
+  .title {
+    font-size: 20px;
     font-weight: bold;
-    text-transform: uppercase;
-    appearance: none;
-
-    .actions.is-alert & {
-      width: 100%;
-    }
-
-    &.-positive {
-      background-color: $green;
-      color: $white;
-    }
-
-    &[disabled] {
-      color: $grey;
-      background-color: $grey-lighter;
-    }
+    margin-bottom: 5px;
   }
-
 </style>
