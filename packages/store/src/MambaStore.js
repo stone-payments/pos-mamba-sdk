@@ -16,6 +16,8 @@ const APP_META_DATA = {
     askOnClose: false,
     /** Custom callback to be fired before the app closes */
     onCloseFn: null,
+    /** Define the card current state */
+    cardInserted: false,
   },
 }
 
