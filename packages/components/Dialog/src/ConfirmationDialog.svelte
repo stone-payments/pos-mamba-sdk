@@ -49,7 +49,6 @@
     oncreate() {
       /** When the dialog opens, prevent 'closing' the app with the 'close' key */
       this.refs.dialog.on('open', () => {
-        console.log('dialog open')
         if (document.activeElement) {
           document.activeElement.blur()
         }
