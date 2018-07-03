@@ -43,10 +43,5 @@ export default initialData => {
     store.meta.set('locked', shouldLock)
   })
 
-  /* Listener for Card Insertion */
-  store.on('meta:cardInserted', () => {
-    store.meta.set('cardInserted', !store.meta.get('cardInserted'))
-  })
-
   return store
 }

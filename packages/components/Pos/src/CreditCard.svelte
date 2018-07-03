@@ -1,29 +1,24 @@
-<div class="credit-card" style={isInserted} on:click="toggleCard()">
-</div>
+<div class="credit-card {$__meta__.isCardInserted ? 'is-inserted' : ''}" on:click="toggleCard()"></div>
 
 <script>
   export default {
     data() {
       return {
-        inserted: false,
         cardInfo: {
           brand: 'Master',
           type: 'debit',
           pan: '52189300000000',
           cardholdername: 'JOHN CITIZEN',
         },
-        callback: undefined,
       }
-    },
-    computed: {
-      isInserted({ inserted }) {
-        return inserted ? 'top: 640px;' : '780px'
-      },
     },
     methods: {
       toggleCard() {
-        this.store.fire('meta:cardInserted')
-        this.set({'inserted': this.store.meta.get('cardInserted')})
+        if (this.store) {
+          const isCardInserted = this.store.meta.get('isCardInserted')
+          this.store.meta.set('isCardInserted', !isCardInserted)
+          this.store.meta.fire('card-toggle', !isCardInserted)
+        }
       },
     },
   }
@@ -43,8 +38,22 @@
       left: 45px;
       top: 780px;
       z-index: 1;
-      align-self: center;
-      background-image: url('./assets/creditcard.png');
+      background-image: url(./assets/creditcard.png);
+      cursor: pointer;
+      transition: transform 0.3s ease, filter 0.3s ease;
+      filter: drop-shadow(8px 8px 2px rgba(0, 0, 0, 0.5));
+
+      &:not(:hover):not(.is-inserted) {
+        filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+      }
+
+      &:hover {
+        transform: scale(1.04);
+      }
+
+      &.is-inserted {
+        transform: translateY(-180px);
+      }
     }
   }
 </style>

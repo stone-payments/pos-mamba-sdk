@@ -1,11 +1,13 @@
 <div class="wrapper">
   <div class="container">
-    <div class="shadow"></div>
-    <div class="pos">
-      <Screen>
-        <slot></slot>
-      </Screen>
-      <Keypad />
+    <div class="pos-wrapper">
+      <div class="shadow"></div>
+      <div class="pos">
+        <Screen>
+          <slot></slot>
+        </Screen>
+        <Keypad />
+      </div>
     </div>
     <Card/>
   </div>
