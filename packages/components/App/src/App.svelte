@@ -38,7 +38,7 @@
         }
 
         /** Listen for the event to close the app */
-        this.store.on('meta:close', () => {
+        this.store.meta.on('close', () => {
           const { askOnClose, locked } = this.store.meta.get()
           if (askOnClose) {
             /** Only show the close confirmation dialog when the app is not locked */
@@ -113,7 +113,7 @@
           if (keyName === 'close') {
             e.preventDefault()
             if (this.store) {
-              this.store.fire('meta:close')
+              this.store.meta.closeApp()
             }
           }
           return

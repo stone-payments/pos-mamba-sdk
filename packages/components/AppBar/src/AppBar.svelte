@@ -57,7 +57,7 @@
 
       /** Listen for app title changes */
       if (this.store) {
-        this.store.on('meta:title', title => this.set({ title }))
+        this.store.meta.on('title', title => this.set({ title }))
       }
     },
     methods: {
@@ -98,7 +98,6 @@
 
   .appbar {
     width: 100%;
-    z-index: 1002;
   }
 
   .title {

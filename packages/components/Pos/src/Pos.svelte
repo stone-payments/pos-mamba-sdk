@@ -3,6 +3,7 @@
     <div class="pos-wrapper">
       <div class="shadow"></div>
       <div class="pos">
+        <Printer />
         <Screen>
           <slot></slot>
         </Screen>
@@ -16,6 +17,7 @@
 <script>
   export default {
     components: {
+      Printer: './Printer.svelte',
       Keypad: './Keypad.svelte',
       Screen: './Screen.svelte',
       Card: './CreditCard.svelte',
@@ -64,16 +66,7 @@
         filter: brightness(0) blur(2px);
         opacity: 0.4;
         animation: shadow 0.8s ease-out forwards;
-      }
-
-      @keyframes shadow {
-        from {
-          transform: translate(0, 0);
-        }
-
-        to {
-          transform: translate(15px, 15px);
-        }
+        transform: translate(15px, 15px);
       }
     }
   }
