@@ -32,7 +32,6 @@ module.exports = {
   globals: {
     cy: true,
   },
-  rules: rules,
   overrides: [
     {
       files: ['**/__tests__/**/*.js', '**/*.test.js'],
