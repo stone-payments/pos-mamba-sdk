@@ -9,7 +9,7 @@ const getPaperWidth = () => 384
 const isPrinting = () => MockConfig.isPrinting
 
 /** 20% chance of failing */
-const failedPrinting = () => Math.random() < 0.2
+const failedPrinting = () => Math.random() <= 0
 
 export default function(Printer) {
   Printer.doPrint = SignalEmitter(Printer).add('printerDone')

@@ -111,12 +111,18 @@
   }
 
   .content {
+    padding-bottom: 10px;
+
     &,
     :global(p) {
       font-family: 'Roboto', Arial, sans-serif;
       font-size: 20px;
       line-height: 1.1;
       -webkit-font-smoothing: none;
+    }
+
+    :global(p) {
+      margin-bottom: 10px;
     }
 
     :global(img) {
