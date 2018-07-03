@@ -12,6 +12,7 @@
           pan: '52189300000000',
           cardholdername: 'JOHN CITIZEN',
         },
+        callback: undefined,
       }
     },
     computed: {
@@ -21,18 +22,9 @@
     },
     methods: {
       toggleCard() {
-        this.set({ inserted: !this.get().inserted })
-        this.fire('oncardevent', this.get().cardInfo)
+        this.store.fire('meta:cardInserted')
+        this.set({'inserted': this.store.meta.get('cardInserted')})
       },
-    },
-    oncreate() {
-      this.on(
-        'oncardevent',
-        () =>
-          this.get().inserted
-            ? console.log('Cartão Inserido')
-            : console.log('Cartão Removido'),
-      )
     },
   }
 </script>
