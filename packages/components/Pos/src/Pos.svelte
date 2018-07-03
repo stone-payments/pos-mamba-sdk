@@ -1,11 +1,16 @@
 <div class="wrapper">
-  <div class="shadow"></div>
-  <div class="pos">
-    <Printer />
-    <Screen>
-      <slot></slot>
-    </Screen>
-    <Keypad />
+  <div class="container">
+    <div class="pos-wrapper">
+      <div class="shadow"></div>
+      <div class="pos">
+        <Printer />
+        <Screen>
+          <slot></slot>
+        </Screen>
+        <Keypad />
+      </div>
+    </div>
+    <Card/>
   </div>
 </div>
 
@@ -15,6 +20,7 @@
       Printer: './Printer.svelte',
       Keypad: './Keypad.svelte',
       Screen: './Screen.svelte',
+      Card: './CreditCard.svelte',
     },
   }
 </script>
@@ -29,12 +35,18 @@
       justify-content: center;
       background-image: url(./assets/wood.jpg);
       background-size: cover;
+      overflow: hidden;
+    }
+
+    .container {
+      display: flex;
+      position: relative;
     }
 
     .pos,
     .shadow {
       position: relative;
-      z-index: 0;
+      z-index: 2;
       margin: 0 auto;
       width: 347px;
       height: 761px;
