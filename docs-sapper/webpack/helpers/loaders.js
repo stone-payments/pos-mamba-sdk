@@ -38,37 +38,19 @@ module.exports = {
     loader: 'postcss-loader',
     options: {
       ident: 'postcss',
-      plugins: () => [
+      plugins: [
         require('postcss-easy-import')(),
         require('postcss-advanced-variables')(),
-        // require('postcss-url')(),
         require('postcss-nested')(),
-        require('postcss-preset-env')(/* {
-          stage: 3,
+        require('postcss-preset-env')({
+          stage: 2,
           features: {
             'nesting-rules': true,
           },
-        } */),
-
-        // require('postcss-browser-reporter')(),
-        // require('postcss-reporter')(),
+        }),
+        require('autoprefixer')(),
       ],
-      sourceMap: true, // 'resolve-url-loader' requires this to be always true
-    },
-  },
-  sass: {
-    loader: 'sass-loader',
-    options: {
-      sourceMap: true, // 'resolve-url-loader' requires this to be always true
-    },
-  },
-  resolveUrl: {
-    loader: 'resolve-url-loader',
-    options: {
-      sourceMap: IS_DEV(),
-      keepQuery: true,
-      fail: true,
-      debug: IS_DEV(),
+      sourceMap: true,
     },
   },
   fonts: {
@@ -90,13 +72,6 @@ module.exports = {
   },
   html: {
     loader: 'html-loader',
-  },
-  markdownUrl: {
-    loader: 'url-loader',
-    options: {
-      outputPath: 'assets/',
-      name: './guides/[name].[ext]',
-    },
   },
   svelte: type => {
     const [server, client] = ['server', 'client']
