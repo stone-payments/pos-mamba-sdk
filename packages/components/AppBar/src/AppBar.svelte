@@ -98,7 +98,6 @@
 
   .appbar {
     width: 100%;
-    z-index: 1002;
   }
 
   .title {
