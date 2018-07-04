@@ -1,5 +1,6 @@
 module.exports = {
   extends: 'stylelint-config-standard',
+  ignoreFiles: './docs-sapper/**/*',
   rules: {
     'no-descending-specificity': null,
     'color-hex-case': null,
