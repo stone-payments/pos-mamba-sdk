@@ -1,9 +1,9 @@
 /** /styles/reset.css */
 
-@import 'reset/reset.css';
-@import 'reset/links.css';
-@import 'reset/reset-spaces.css';
-@import 'reset/tables.css';
+@import 'resets/normalize.css';
+@import 'resets/links.css';
+@import 'resets/reset-spaces.css';
+@import 'resets/tables.css';
 
 *,
 *::after,
