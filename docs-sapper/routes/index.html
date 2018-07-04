@@ -141,8 +141,7 @@
   }
 
   section :global(.code-block) :global(pre) {
-    padding: 12px 8px 12px 12px;
-    /* border-radius: 3px; */
+    padding: 12px 8px 12px 40px;
   }
 
   section :global(p), section :global(ul) {
@@ -226,7 +225,7 @@
 <script>
   export default {
     components: {
-      GuideContents: '../app/components/GuideContents.html'
+      GuideContents: '../app/components/GuideContents.html',
     },
 
     preload() {
@@ -275,7 +274,7 @@
       // wait for fonts to load...
       const timeouts = [
         setTimeout(onresize, 1000),
-        setTimeout(onresize, 5000)
+        setTimeout(onresize, 5000),
       ];
 
       this.on('destroy', () => {
@@ -287,6 +286,6 @@
 
       onresize();
       onscroll();
-    }
+    },
   };
 </script>

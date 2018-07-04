@@ -9,6 +9,29 @@
   {/each}
 </ul>
 
+<script>
+  export default {
+    data() {
+      return {
+        contents: [],
+      }
+    },
+
+    oncreate () {
+      const onhashchange = () => {
+        this.store.set({ activeGuideSection: window.location.hash.slice( 1 ) });
+      };
+
+      window.addEventListener( 'hashchange', onhashchange, false );
+      this.on( 'destroy', () => {
+        window.removeEventListener( 'hashchange', onhashchange, false );
+      });
+
+      onhashchange();
+    },
+  };
+</script>
+
 <style>
   .guide-toc {
     margin: 0;
@@ -31,35 +54,13 @@
   .subsection {
     display: block;
     font-weight: 500;
-    color:#727272;
+    color: #727272;
     font-size: 1em;
     margin: 0 0 0.15em 0;
   }
 
-  .section.active, .subsection.active {
+  .section.active,
+  .subsection.active {
     color: #aa1e1e;
   }
 </style>
-
-<script>
-  export default {
-    data() {
-      return {
-        contents: []
-      }
-    },
-
-    oncreate () {
-      const onhashchange = () => {
-        this.store.set({ activeGuideSection: window.location.hash.slice( 1 ) });
-      };
-
-      window.addEventListener( 'hashchange', onhashchange, false );
-      this.on( 'destroy', () => {
-        window.removeEventListener( 'hashchange', onhashchange, false );
-      });
-
-      onhashchange();
-    }
-  };
-</script>

@@ -14,7 +14,7 @@
   export default {
     components: { Sidebar, Main },
     actions: { 
-      links 
-    }
+      links, 
+    },
   }
 </script>

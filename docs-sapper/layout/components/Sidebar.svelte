@@ -29,8 +29,8 @@
   export default {
     data() {
       return {
-        navigation: Object.entries(navigation)
+        navigation: Object.entries(navigation),
       }
-    }
+    },
   }
 </script>

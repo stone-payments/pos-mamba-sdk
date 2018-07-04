@@ -10,6 +10,6 @@
       return {
         LogoImg,
       }
-    }
+    },
   }
 </script>
