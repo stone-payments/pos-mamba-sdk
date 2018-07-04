@@ -15,19 +15,21 @@
       return {
         text: '',
         language: 'javascript',
-        inline: false
+        inline: false,
       }
-    }
+    },
   }
 </script>
 
 <style>
 
-  .code-block, code {
+  .code-block,
+  code {
     background-color: rgb(244, 245, 247);
   }
 
-  :global(.code-block), :global(code) {
+  :global(.code-block),
+  :global(code) {
     border-radius: 3px;
     display: block;
     margin: 0 0 2px;
