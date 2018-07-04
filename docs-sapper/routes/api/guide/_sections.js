@@ -1,10 +1,19 @@
 import fs from 'fs'
 import path from 'path'
 import * as fleece from 'golden-fleece'
-import processMarkdown from '../_processMarkdown.js'
+import processMarkdown from '../_processMarkdown'
 import marked from 'marked'
-import Prism from 'prismjs'
+
+// import Prism from 'prismjs'
+// import cheerio from 'cheerio'
+
 import Code from '../../../node_modules/@mamba/code'
+
+const cheerio = require('cheerio')
+const Prism = require('prismjs')
+const classNameUtils = require('../_classNameUtils')
+const escape = require('../_escape')
+require('../_processLineNumbers')
 
 const escaped = {
   '"': '&quot;',
@@ -53,6 +62,12 @@ function getHash(str) {
   while (i--) hash = ((hash << 5) - hash) ^ str.charCodeAt(i)
   return (hash >>> 0).toString(36)
 }
+
+const cheerioOption = {
+  decodeEntities: false,
+}
+
+const SELECTOR = 'pre>code[class*="language-"]'
 
 export const demos = new Map()
 
@@ -105,13 +120,79 @@ export default function() {
 
         if (meta && meta.hidden) return ''
 
-        const codeData = {
-          text: Prism.highlight(source, Prism.languages[lang || 'markup']),
+        // Prism.highlight(source, Prism.languages[lang || 'markup']),
+        // Code highlight with Prism
+        const { html } = Code.render({
+          text: source,
+        })
+
+        // Load cheerio with Code component output
+        const $ = cheerio.load(html, cheerioOption)
+
+        // Select element with cheerio
+        const $elements = $(SELECTOR)
+
+        // Default options for Prism
+        const options = {
+          languages: ['markup', 'javascript', 'css'],
+          fontSize: 16,
         }
 
-        const { html } = Code.render(codeData)
+        // Import language support of every souce code block
+        if ($elements.length !== 0) {
+          options.languages.forEach(language =>
+            require(`prismjs/components/prism-${language}`),
+          )
+        }
 
-        return `<div class='${className}'>${prefix}${html}</div>`
+        // Apply Prism js to every source code
+        $elements.each(function(index, element) {
+          let $element = $(this)
+
+          let language = classNameUtils.getLanguageFromClassName(
+            $element.attr('class'),
+          )
+
+          let grammar = Prism.languages[language]
+
+          let code = $element.html()
+          // &amp; -> &
+          code = escape.amp(code)
+          // &lt; -> '<', &gt; -> '>'
+          code = escape.tag(code)
+
+          let env = {
+            $element: $element,
+            language: language,
+            grammar: grammar,
+            code: code,
+            options: options,
+          }
+
+          Prism.hooks.run('before-sanity-check', env)
+
+          if (!env.code || !env.grammar) {
+            if (env.code) {
+              env.element.textContent = env.code
+            }
+            Prism.hooks.run('complete', env)
+            return
+          }
+
+          Prism.hooks.run('before-highlight', env)
+
+          let highlightedCode = Prism.highlight(code, grammar)
+
+          env.highlightedCode = highlightedCode
+          Prism.hooks.run('before-insert', env)
+
+          $element.text(highlightedCode)
+
+          Prism.hooks.run('after-highlight', env)
+          Prism.hooks.run('complete', env)
+        })
+
+        return `<div class='${className}'>${prefix}${$.html()}</div>`
       }
 
       blockTypes.forEach(type => {
