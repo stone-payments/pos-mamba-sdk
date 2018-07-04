@@ -180,7 +180,6 @@
         max-height: 10px;
       }
 
-      .printer.is-printing &,
       .printer.is-printed & {
         max-height: 270px;
         box-shadow: 2px 0px 2px 1px rgba(0, 0, 0, 0.4);
@@ -198,10 +197,10 @@
       top: 0;
       left: 0;
       bottom: 0;
-      right: -17px;
+      right: -20px;
       overflow-y: scroll;
       z-index: 1;
-      padding: 20px 23px 15px 20px;
+      padding: 20px 21px 15px 20px;
       filter: contrast(300%) grayscale(100%) url('#remove-colors-alpha');
 
       &,
