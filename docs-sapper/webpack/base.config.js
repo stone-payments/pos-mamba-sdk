@@ -13,7 +13,6 @@ module.exports = function createWebpackConfig(type) {
       children: false,
     },
     resolve: {
-      /** Do not resolve symlinks */
       symlinks: true,
       mainFields: ['svelte', 'browser', 'module', 'main'],
       extensions: ['.js', '.json', '.css', '.pcss', '.html', '.svelte'],
@@ -26,11 +25,6 @@ module.exports = function createWebpackConfig(type) {
     },
     module: {
       rules: [
-        // {
-        //   test: /\.js?$/,
-        //   include: [/node_modules[\\/]svelte/],
-        //   use: [loaders.babel],
-        // },
         /** Run babel and eslint on projects src files only */
         {
           test: /\.js?$/,
@@ -46,12 +40,7 @@ module.exports = function createWebpackConfig(type) {
           test: /\.(css|pcss)$/,
           /** When importing from a style file, let's use package.json's 'style' field before the actual 'main' one */
           resolve: { mainFields: ['style', 'main'] },
-          use: [
-            loaders.styleLoader,
-            loaders.css,
-            loaders.resolveUrl,
-            loaders.postcss,
-          ],
+          use: [loaders.styleLoader, loaders.css, loaders.postcss],
         },
         /** Handle font imports */
         { test: /\.(eot|woff2?|otf|ttf)$/, use: [loaders.fonts] },
