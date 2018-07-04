@@ -1,4 +1,8 @@
-<div ref:printer class="printer {printerClass}" on:click="shred()">
+<div
+  ref:printer
+  class="printer {printerClass} {usingDithering ? 'has-dithering' : ''}"
+  on:click="shred()"
+>
   <div ref:paper class="paper">
     <div class="content">{@html content}</div>
   </div>
@@ -7,12 +11,14 @@
   <svg width="0" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1" style="display: block;">
       <defs>
           <filter id="remove-colors-alpha" x="0%" y="0%" width="100%" height="100%">
+            {#if !usingDithering}
               <feComponentTransfer>
                 <feFuncR type="discrete" tableValues="0.0 0.1"></feFuncR>
                 <feFuncG type="discrete" tableValues="0.0 1.0"></feFuncG>
                 <feFuncB type="discrete" tableValues="0.0 1.0"></feFuncB>
               </feComponentTransfer>
-              <feColorMatrix result="original" id="svgcolormatrix" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1 -1 -1 1 -0.04"></feColorMatrix>
+            {/if}
+            <feColorMatrix result="original" id="svgcolormatrix" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1 -1 -1 1 -0.04"></feColorMatrix>
           </filter>
       </defs>
   </svg>
@@ -57,6 +63,8 @@
     methods: {
       print(content, options) {
         const { state } = this.get()
+        this.set({ usingDithering: !!options.use_dithering })
+
         /** If there's already printed paper, shred it */
         const shouldShredFirst = state === STATES.PRINTED
         const getPrintPromise = () =>
