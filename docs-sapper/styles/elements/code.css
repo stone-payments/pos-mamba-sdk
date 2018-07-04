@@ -1,5 +1,5 @@
-@import 'prismjs/themes/prism.css';
-@import 'prismjs/plugins/line-numbers/prism-line-numbers.css';
+@import url('../../node_modules/prismjs/themes/prism.css');
+@import url('../../node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css');
 
 .code-block pre,
 .code-block code {
@@ -7,8 +7,13 @@
     'Roboto Mono', 'Ubuntu Mono', Menlo, Courier, monospace !important;
 }
 
+.code-block pre {
+  line-height: 1.6;
+}
+
 .code-block code {
   position: relative;
+  line-height: inherit;
 }
 
 pre code {
@@ -46,12 +51,11 @@ code .token.url {
   color: #3297d3;
 }
 
-.line-numbers {
-  .line-numbers-rows {
-    border: none;
+.line-numbers .line-numbers-rows {
+  border: none;
+  width: 3.5em;
+}
 
-    span::before {
-      color: #bec5ca;
-    }
-  }
+.line-numbers .line-numbers-rows span::before {
+  color: #bec5ca;
 }
