@@ -7,7 +7,7 @@ export default class Cookie {
    * Stores a key pair value using local storage
    * @param {string} key Key name
    * @param {string} value Value
-   * @memberOf Cookie
+   * @memberof Cookie
    */
 
   set(key, value) {
@@ -18,7 +18,7 @@ export default class Cookie {
   /**
    * Get a value by its key
    * @param {string} key Returns the value associated by its key or an empty string if not found.
-   * @memberOf Cookie
+   * @memberof Cookie
    */
 
   get(key) {
@@ -27,7 +27,7 @@ export default class Cookie {
 
   /**
    * Clear all the values at the local storage.
-   * @memberOf Cookie
+   * @memberof Cookie
    */
 
   clear() {
