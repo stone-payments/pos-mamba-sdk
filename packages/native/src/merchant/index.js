@@ -8,9 +8,6 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 if (process.env.NODE_ENV === 'production') {
-  if (!Merchant) {
-    throw new Error("[@mamba/native] 'Merchant' module not found")
-  }
 }
 
 export default Merchant
