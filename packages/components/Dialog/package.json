@@ -1,8 +1,6 @@
 {
   "name": "@mamba/dialog",
   "version": "1.0.0",
-  "main": "dist/dialog.js",
-  "style": "dist/style.css",
   "source": "src/index.js",
   "svelte": "src/index.js",
   "files": ["dist/", "src/"],
@@ -11,19 +9,17 @@
   "scripts": {
     "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w",
     "build":
-      "cross-env NODE_ENV=production rollup -c ../../../tools/rollup/config.component.build.js",
-    "build:dev": "rollup -c ../../../tools/rollup/config.component.build.js",
-    "prepublishOnly": "npm run build"
+      "exit 0",
+    "build:dev": "exit 0"
   },
   "devDependencies": {
-    "@mamba/core-styles": "^0.0.1",
     "@mamba/sprite": "^1.0.0"
   },
   "peerDependencies": {
-    "@mamba/styles-utils": "^0.0.1",
     "@mamba/native": "^0.0.1"
   },
   "dependencies": {
+    "@mamba/styles": "^0.0.1",
     "@mamba/icon": "^1.0.0"
   }
 }

@@ -25,10 +25,8 @@ export default function(Network) {
 
   /** Return the current wifi list */
   Network.getWifiList = function() {
-    console.log('get wifilist')
     return new Promise((resolve, reject) => {
       const onSuccess = () => {
-        console.log('get wifi SUCCESS')
         let data = Network.getLastWifiList()
         data = data.sort((a, b) => {
           if (a.connected || a.strength > b.strength) return -1
@@ -39,7 +37,6 @@ export default function(Network) {
       }
 
       const onFailure = () => {
-        console.log('get wifi FAILED')
         reject(new Error(3, Network.Errors[3]))
       }
 
@@ -49,7 +46,7 @@ export default function(Network) {
       ])
 
       // TODO: investigar porque retorna '' as vezes
-      setTimeout(() => Network.doGetWifiList())
+      setTimeout(Network.doGetWifiList)
     })
   }
 

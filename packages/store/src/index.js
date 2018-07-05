@@ -1,19 +1,11 @@
-import Keyboard from '@mamba/native/keyboard'
-import MambaStore from './MambaStore'
+import MambaStore from './MambaStore.js'
+import initAppMeta from './meta.js'
 
 export default initialData => {
   const store = new MambaStore(initialData)
 
-  store.on('lock', locked => {
-    if (locked) {
-      console.log('Locking App')
-      Keyboard.disableBackspace()
-    } else {
-      console.log('Unlocking App')
-      Keyboard.enableBackspace()
-    }
+  /** Store meta data utility helper */
+  initAppMeta(store)
 
-    store.setDeep('__meta__.locked', locked)
-  })
   return store
 }

@@ -1,2 +1,2 @@
 export { default } from './AppBar.svelte'
-export { default as Title } from './Title.svelte'
+export { default as AppBarTitle } from './AppBarTitle.svelte'

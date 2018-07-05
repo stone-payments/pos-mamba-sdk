@@ -1,18 +1,16 @@
 import mock from './mock.js'
-import extendNative from './native.js'
+import addSharedTo from './shared.js'
 
 let App = window.App
 
 if (process.env.NODE_ENV !== 'production') {
   App = window.App = {}
   mock(App)
+  addSharedTo(App)
 }
 
 if (process.env.NODE_ENV === 'production') {
-  if (!App) {
-    throw new Error("[@mamba/native] 'App' module not found")
-  }
-  extendNative(App)
+  addSharedTo(App)
 }
 
 export default App

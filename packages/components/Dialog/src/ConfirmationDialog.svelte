@@ -13,17 +13,7 @@
 </Dialog>
 
 <script>
-  import Keyboard from '@mamba/native/keyboard'
   import { RoundIcon } from '@mamba/icon'
-
-  const preventClosing = e => {
-    console.log('preventing?')
-    if (Keyboard.getKeyName(e.keyCode) === 'close') {
-      console.log('yeeeees')
-      e.preventDefault()
-      return false
-    }
-  }
 
   export default {
     components: {
@@ -59,28 +49,13 @@
     oncreate() {
       /** When the dialog opens, prevent 'closing' the app with the 'close' key */
       this.refs.dialog.on('open', () => {
-        console.log('dialog open')
         if (document.activeElement) {
           document.activeElement.blur()
         }
-        document.onkeyup = preventClosing
-      })
-
-      /** When the dialog closes or is destroyed, allow to close the app again */
-      this.refs.dialog.on('close', () => {
-        console.log('dialog close')
-        document.onkeyup = null
-      })
-      this.refs.dialog.on('destroy', () => {
-        console.log('dialog destroy')
-        document.onkeyup = null
       })
 
       /** Close the confirmation dialog when a positive/negative action is clicked */
-      this.on('negative', () => {
-        console.log('negative')
-        this.close()
-      })
+      this.on('negative', () => this.close())
       this.on('positive', () => this.close())
     },
   }

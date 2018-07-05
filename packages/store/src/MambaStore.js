@@ -6,14 +6,23 @@ const LOCAL_STORAGE_KEY = 'MambaStore'
 /** Initial data that overrides local storage */
 const APP_META_DATA = {
   __meta__: {
+    /** Default app title. Used internally by <AppBar/> */
     title: 'Mamba App',
+    /** Define if the user can change the current page (back and home) */
     locked: false,
+    /** Define if keyboard shortcuts are active */
     shortcuts: true,
+    /** Define if a confirmation dialog should appear when the app is closing */
+    askOnClose: false,
+    /** Custom callback to be fired before the app closes */
+    onCloseFn: null,
+    /** Define the card current state */
+    cardInserted: false,
   },
 }
 
 export default class MambaStore extends Store {
-  constructor(data) {
+  constructor(data = {}) {
     /** Get persisted data from localStorage if available */
     if (localStorage) {
       const persistedStore = localStorage.getItem(LOCAL_STORAGE_KEY)
@@ -36,37 +45,6 @@ export default class MambaStore extends Store {
       })
     }
   }
-
-  /**
-   * Set a promise to a property and, when its resolved,
-   * set the same property to its resolved value
-   *
-   * Use transformers to modify the resolved data before setting it to the store.
-   * */
-  setPromise(promiseProps, transformers) {
-    for (const prop in promiseProps) {
-      this.set({
-        [prop]: Promise.resolve(promiseProps[prop])
-          .then(data => {
-            if (typeof transformers[prop] === 'function') {
-              data = transformers[prop](data)
-            }
-            this.set({ [prop]: data })
-          })
-          .catch(e => {
-            console.error(`[MambaStore] Promise error: ${e}`)
-            this.set({ [prop]: null })
-          }),
-      })
-    }
-  }
-
-  setTitle(title) {
-    this.setDeep('__meta__.title', title)
-    this.fire('title', title)
-    document.title = title
-  }
 }
-
 MambaStore.prototype.setDeep = setDeep
 MambaStore.prototype.getDeep = getDeep

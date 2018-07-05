@@ -62,8 +62,8 @@
   }
 </script>
 
-<style type="text/scss">
-  @import '@mamba/styles-utils/index.scss';
+<style>
+  @import '@mamba/styles/colors.pcss';
 
   .container {
     position: fixed;
@@ -87,7 +87,7 @@
     padding-bottom: 0;
     transform: translate(-50%, -50%);
     background-color: #fff;
-    z-index: $dialog-z-index;
+    z-index: 1000;
   }
 
   .content {
@@ -116,7 +116,7 @@
     min-width: 3em;
     padding: 1em;
     border: none;
-    color: $primary-color;
+    color: $green;
     background: transparent;
     font-weight: bold;
     text-transform: uppercase;

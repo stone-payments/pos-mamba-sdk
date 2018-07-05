@@ -6,16 +6,14 @@ module.exports = {
   legacy: true,
   preprocess: getPreprocessor({
     transformers: {
-      postcss: {
-        plugins: [require('autoprefixer')],
-      },
+      postcss: true,
     },
   }),
-  onwarn(warning, handler) {
-    /** Prevent warning on autofocus attributes */
-    if (warning.code === 'a11y-autofocus') {
-      return
-    }
-    handler(warning)
-  },
+  //   onwarn(warning, handler) {
+  //     /** Prevent warning on autofocus attributes */
+  //     if (warning.code === 'a11y-autofocus') {
+  //       return
+  //     }
+  //     handler(warning)
+  //   },
 }

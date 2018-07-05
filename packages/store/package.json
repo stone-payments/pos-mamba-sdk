@@ -17,8 +17,7 @@
   "author": "",
   "license": "MIT",
   "peerDependencies": {
-    "svelte": "^2.7.0",
-    "@mamba/native": "^0.0.1"
+    "svelte": "^2.8.0"
   },
   "dependencies": {
     "svelte-extras": "^2.0.2"

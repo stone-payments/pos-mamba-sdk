@@ -1,4 +1,4 @@
-<div class="sprite" ref:sprite style="background-position: {position}px 0"></div>
+<div class="sprite" ref:sprite style="background-position: {_position}px 0"></div>
 
 <script>
   const FPS = 60
@@ -6,8 +6,8 @@
   export default {
     data() {
       return {
-        spriteWidth: null,
-        position: 0,
+        _spriteWidth: null,
+        _position: 0,
       }
     },
     oncreate() {
@@ -21,22 +21,26 @@
 
       image.src = src
       image.onload = () => {
-        this.set({ spriteWidth: image.width })
+        this.set({ _spriteWidth: image.width })
         this.start()
       }
     },
+    ondestroy() {
+      const { interval } = this.get()
+      clearInterval(interval)
+    },
     methods: {
       start() {
-        const { spriteWidth, position } = this.get()
-        const STEP = spriteWidth ? spriteWidth / FPS : 0
-        let positionAux = position
+        const { _spriteWidth, _position } = this.get()
+        const STEP = _spriteWidth ? _spriteWidth / FPS : 0
+        let _positionAux = _position
 
         const interval = setInterval(() => {
-          positionAux -= STEP
-          if (positionAux < -spriteWidth) {
-            positionAux = 0
+          _positionAux -= STEP
+          if (_positionAux < -_spriteWidth) {
+            _positionAux = 0
           }
-          this.set({ position: positionAux })
+          this.set({ _position: _positionAux })
         }, 1000 / FPS)
 
         this.set({ interval })
@@ -52,6 +56,6 @@
 
 <style>
   .sprite {
-    display: inline-block
+    display: inline-block;
   }
 </style>

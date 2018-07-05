@@ -2,7 +2,7 @@
   {#if typeof progress === undefined}
     <div class="progress"></div>
   {:else}
-    <div class="progress" style="width: {progress}"></div>
+    <div class="progress" style="width: {progress}%"></div>
   {/if}
 </div>
 
@@ -29,8 +29,8 @@
   }
 </script>
 
-<style type="text/scss">
-  @import '@mamba/styles-utils/index.scss';
+<style>
+  @import '@mamba/styles/colors.pcss';
 
   .progress-bar {
     display: block;
@@ -42,7 +42,7 @@
   .progress {
     height: inherit;
     background-color: #000;
-    opacity: .3;
+    opacity: 0.3;
 
     .progress-bar.is-infinite & {
       transform: translateX(-100%);
@@ -56,5 +56,4 @@
       transform: translateX(125%);
     }
   }
-
 </style>

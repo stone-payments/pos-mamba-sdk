@@ -1,8 +1,8 @@
 <header class="appbar" {style}>
   <div class="content">
-    {#if showBackBtn}
+    {#if !isAtHome}
       <div class="icon-left" on:click="goback()">
-        <Icon symbol="chevron-left" color={$locked ? '#dbdbdb' : textColor} />
+        <Icon symbol="chevron-left" color={isAppLocked ? '#dbdbdb' : textColor} />
       </div>
     {/if}
 
@@ -10,11 +10,9 @@
       <div class="title">{title}</div>
     {/if}
 
-    <!-- {#if rightIcon}
-      <div class="icon-right" on:click="console.log('right-click')">
-        X
-      </div>
-    {/if} -->
+    <div class="icon-right" on:click="gohome()">
+      <Icon symbol={homeIcon} color={isAppLocked ? '#dbdbdb' : textColor}/>
+    </div>
   </div>
 </header>
 
@@ -42,91 +40,114 @@
           `background-color:${bgColor}`,
         ].join(';')
       },
-      showBackBtn: ({ location }) => location !== '/',
+      isAtHome: ({ location }) => location === '/',
+      homeIcon: ({ isAtHome }) => (isAtHome ? 'home' : 'app-home'),
+      isAppLocked: ({ $__meta__ }) => $__meta__.locked,
     },
     oncreate() {
       const history = getHistory()
 
       /** Listen for route changes */
-      this.set({ location: history.location.pathname })
-      history.listen(location => {
-        this.set({ location: location.pathname })
-      })
-
-      if (this.store) {
-        this.store.on('title', title => {
-          this.set({ title })
+      if (history) {
+        this.set({ location: history.location.pathname })
+        history.listen(location => {
+          this.set({ location: location.pathname })
         })
       }
 
+      /** Listen for app title changes */
+      if (this.store) {
+        this.store.meta.on('title', title => this.set({ title }))
+      }
     },
     methods: {
-      goback() {
-        if (this.store) {
-          const { locked } = this.store.get()
-          if (locked) return
+      gohome() {
+        if (this.store && this.store.meta.isAppLocked()) {
+          return
         }
+
+        const { isAtHome } = this.get()
+        if (isAtHome) {
+          return this.store.meta.closeApp()
+        }
+
+        getHistory().push('/')
+      },
+      goback() {
+        if (this.store && this.store.meta.isAppLocked()) {
+          return
+        }
+
         getHistory().goBack()
       },
     },
   }
 </script>
 
-<style type="text/scss">
-  @import '@mamba/styles-utils/src/colors.scss';
-  @import '@mamba/styles-utils/src/appbar.scss';
+<style type="text/postcss">
+  @import '@mamba/styles/colors.pcss';
+
+  $height: 36px;
+  $item-horizontal-margin: 8px;
+
+  $background-color: $white;
+  $border-color: $grey-light;
+
+  $font-size: 0.9rem;
+  $font-color: $white;
 
   .appbar {
     width: 100%;
-    z-index: 1000;
   }
 
   .title {
+    max-width: 154px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     padding: 0;
     margin: 0;
     color: inherit;
-    font-size: $mb-appbar-font-size;
+    font-size: $font-size;
     font-weight: 600;
-    line-height: $mb-appbar-height;
+    line-height: $height;
     text-align: center;
     text-transform: uppercase;
-    white-space: nowrap;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
   }
 
   .content {
-    padding-left: $mb-appbar-item-horizontal-margin;
-    padding-right: $mb-appbar-item-horizontal-margin;
-    min-height: $mb-appbar-height;
+    padding-left: $item-horizontal-margin;
+    padding-right: $item-horizontal-margin;
+    min-height: $height;
   }
 
   .icon {
     cursor: pointer;
-    height: $mb-appbar-height;
+    height: $height;
     width: 34px;
   }
 
-  .icon-left {
+  .icon-left,
+  .icon-right {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: none;
-    mask-size: 1em;
-    mask-position: 0;
-    line-height: 1;
+    top: 0;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding-left: $item-horizontal-margin;
+    padding-right: $item-horizontal-margin;
   }
 
   .icon-left {
     left: 0;
-    margin-left: $mb-appbar-item-horizontal-margin;
   }
 
-  // .icon-right {
-  //   margin-left: initial;
-  //   margin-right: $mb-appbar-item-horizontal-margin;
-  //   right: 0;
-  //   mask-position: right, center;
-  // }
+  .icon-right {
+    padding-left: $item-horizontal-margin;
+    padding-right: $item-horizontal-margin;
+    right: 0;
+  }
 </style>
