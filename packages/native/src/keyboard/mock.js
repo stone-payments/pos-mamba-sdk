@@ -1,41 +1,10 @@
-let lightEnabled = true
-const Light = {
-  enable() {
-    console.log('enabled keyboard light')
-    lightEnabled = true
-  },
-  disable() {
-    console.log('disabled keyboard light')
-    lightEnabled = false
-  },
-  isEnabled() {
-    return lightEnabled
-  },
-}
-
-let soundEnabled = true
-const Sound = {
-  enable() {
-    console.log('enabled keyboard sound')
-    soundEnabled = false
-  },
-  disable() {
-    console.log('disabled keyboard sound')
-    soundEnabled = false
-  },
-
-  isEnabled() {
-    return soundEnabled
-  },
-}
-
 /**
  * KeyPress event handler that bypass only numbers
  * @ignore
  * @param  {function} event The KeyPress event
  */
 function filterLetters(event) {
-  const char = String.fromCharCode(event.keyCode || event.charCode)
+  const char = String.fromCharCode(event.keyCode)
 
   if ('1234567890'.indexOf(char) === -1) {
     event.preventDefault()
@@ -44,7 +13,7 @@ function filterLetters(event) {
 
 /**
  * Sets the keyboard to send only numbers. This will affect the whole application
- * @memberOf Keyboard
+ * @memberof Keyboard
  */
 function setKeyboardAsNumeric() {
   console.log('Keyboard is now numeric')
@@ -55,7 +24,7 @@ function setKeyboardAsNumeric() {
 /**
  * Sets the keyboard to send numbers, letters and symbols. This will
  * affect the whole application
- * @memberOf Keyboard
+ * @memberof Keyboard
  */
 function setKeyboardAsAlphanumeric() {
   console.log('Keyboard is now alphanumeric')
@@ -64,8 +33,6 @@ function setKeyboardAsAlphanumeric() {
 
 export default function(Keyboard) {
   Object.assign(Keyboard, {
-    Sound,
-    Light,
     setKeyboardAsNumeric,
     setKeyboardAsAlphanumeric,
   })
