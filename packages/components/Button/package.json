@@ -1,8 +1,6 @@
 {
   "name": "@mamba/button",
   "version": "1.0.0",
-  "main": "dist/button.js",
-  "style": "dist/style.css",
   "source": "src/index.js",
   "svelte": "src/index.js",
   "files": [
@@ -13,15 +11,13 @@
   "license": "Apache-2.0",
   "scripts": {
     "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w",
-    "build": "cross-env NODE_ENV=production rollup -c ../../../tools/rollup/config.component.build.js",
-    "build:dev": "rollup -c ../../../tools/rollup/config.component.build.js",
-    "prepublishOnly": "npm run build"
+    "build": "exit 0",
+    "build:dev": "exit 0"
   },
   "devDependencies": {
-    "@mamba/core-styles": "^0.0.1",
     "@mamba/icon": "^1.0.0"
   },
   "dependencies": {
-    "@mamba/styles-utils": "^0.0.1"
+    "@mamba/styles": "^0.0.1"
   }
 }

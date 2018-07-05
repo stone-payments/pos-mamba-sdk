@@ -94,7 +94,7 @@
   }
 
   .row {
-    margin-bottom: 50px
+    margin-bottom: 50px;
   }
 </style>
 
@@ -129,6 +129,7 @@
           'floppy',
           'heart',
           'help-circle',
+          'app-home',
           'home',
           'information',
           'lock-open',

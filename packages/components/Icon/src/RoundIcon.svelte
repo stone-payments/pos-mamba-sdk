@@ -9,6 +9,7 @@
     },
     data() {
       return {
+        iconAttrs: {},
         borderRadius: '50%',
         bgColor: '#4ebf1a',
         color: '#fff',

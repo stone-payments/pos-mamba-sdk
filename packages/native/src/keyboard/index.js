@@ -11,9 +11,6 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 if (process.env.NODE_ENV === 'production') {
-  if (!Keyboard) {
-    throw new Error("[@mamba/native] 'Keyboard' module not found")
-  }
   extendNative(Keyboard)
   addSharedTo(Keyboard)
 }

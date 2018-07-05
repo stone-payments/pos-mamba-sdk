@@ -2,6 +2,16 @@
   "editor.trimAutoWhitespace": true,
 
   "files.trimTrailingWhitespace": true,
+  "files.associations": {
+    "*.css": "postcss"
+  },
+
+  "emmet.includeLanguages": {
+    "postcss": "css"
+  },
+  "emmet.syntaxProfiles": {
+    "postcss": "css"
+  },
 
   "prettier.eslintIntegration": true,
   "prettier.stylelintIntegration": true,
@@ -12,5 +22,5 @@
     "javascriptreact",
     { "language": "html", "autoFix": true },
     { "language": "svelte", "autoFix": true }
-  ],
+  ]
 }
