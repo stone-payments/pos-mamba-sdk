@@ -3,11 +3,11 @@
 ## @mamba/native/cookie
 
 ```ts
-    class Cookie {
-        set(key: string, value: string): true
-        get(key: string): string
-        clear(): true
-    }
+class Cookie {
+  set(key: string, value: string): true
+  get(key: string): string
+  clear(): true
+}
 ```
 
 ## @mamba/native/keyboard
@@ -26,5 +26,13 @@ interface Keyboard {
   isBackspaceEnabled(): () => boolean
   disableBackspace: () => void
   enableBackspace: () => void
+}
+```
+
+## @mamba/native/merchant
+
+```ts
+interface Merchant {
+  getStoneCode: () => string
 }
 ```
