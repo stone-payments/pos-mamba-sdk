@@ -4,19 +4,19 @@
 
 ```ts
 interface System {
-  beep: (tone: Tones, duration: number) => void,
-  hasEthernet: () => boolean,
-  hasWifi: () => boolean,
-  hasGprs: () => boolean,
-  isBatteryPresent: () => boolean,
-  getPowerSupply: () => PowerSupply,
-  getTimeFromBoot: () => number,
-  getSerialNumber: () => string,
-  getBatteryStatus: () => BatteryStatus,
-  getBatteryLevel: () => number,
-  Tones: Tones,
-  PowerSupply: PowerSupply,
-  BatteryStatus: BatteryStatus,
+  beep: (tone: Tones, duration: number) => void
+  hasEthernet: () => boolean
+  hasWifi: () => boolean
+  hasGprs: () => boolean
+  isBatteryPresent: () => boolean
+  getPowerSupply: () => PowerSupply
+  getTimeFromBoot: () => number
+  getSerialNumber: () => string
+  getBatteryStatus: () => BatteryStatus
+  getBatteryLevel: () => number
+  Tones: Tones
+  PowerSupply: PowerSupply
+  BatteryStatus: BatteryStatus
 }
 
 enum Tones {
