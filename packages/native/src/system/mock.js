@@ -1,139 +1,88 @@
+/**
+ * Defines the default beep duration [ms]
+ * @ignore
+ * @type {number}
+ */
+const DEFAULT_BEEP_DURATION = 300
+
+/**
+ * Audio context for simulating POS beeps.
+ * Instantiated once by the {@link doBeep}
+ */
+let audioCtx
+
+/**
+ * Makes a beep sound
+ * @param  {number}   duration  Duration of the tone, in milliseconds
+ * @param  {number}   frequency Frequency of the tone, in Hz
+ * @param  {number}   volume    Volume of the tone. 1 is maximum value, 0 is the minimum (off)
+ * @param  {AudioType}   type   The wave type of the tone
+ * @param  {Function} callback  Callback to use on end of tone
+ */
+function doBeep(duration, frequency) {
+  if (typeof audioCtx === 'undefined') {
+    audioCtx = new window.AudioContext()
+  }
+
+  const oscillator = audioCtx.createOscillator()
+  const gainNode = audioCtx.createGain()
+
+  oscillator.connect(gainNode)
+  gainNode.connect(audioCtx.destination)
+
+  gainNode.gain.value = 1 // Volume
+  oscillator.frequency.value = frequency
+  oscillator.type = 'square'
+
+  oscillator.start()
+  setTimeout(() => oscillator.stop(), duration)
+}
+
 export default function(System) {
   /**
-   * The audio context
-   * @ignore
+   * Configurations that simulate the device state. Note that it's
+   * used to simulate the device on the browser. To access the real
+   * state on the device, use the apropriate methods exposed on the
+   * {@link System} object
+   * @name MockConfig
+   * @memberOf System
    * @type {object}
+   * @property {object}  Connections                    Connections configuration object
+   * @property {boolean} Connections.wifi               True if device has wifi
+   * @property {boolean} Connections.ethernet           True if device has ethernet
+   * @property {boolean} Connections.gprs               True if device has gprs
+   * @property {object}  Battery                        Battery configuration object
+   * @property {boolean} Battery.present                True if the battery is present
+   * @property {number} Battery.level                   The level of the battery (from 0 to 100)
+   * @property {System.BatteryStatus} Battery.status    The status of the battery
+   * @property {System.PowerSupply} PowerSupply         Defines the current power supply
+   * @property {number} TimeFromBoot                    The time from the boot until this moment [ms]
+   * @property {string} SerialNumber                    The serial number of the device
    */
-  const _audioCtx =
-    process.env.NODE_ENV !== 'test' && window.AudioContext
-      ? new window.AudioContext()
-      : {}
-
-  /**
-   * Defines the bad usage message
-   * @ignore
-   * @type {string}
-   */
-  const _BAD_USAGE = 'Bad Usage'
-
-  /**
-   * Defines the default beep duration [ms]
-   * @ignore
-   * @type {number}
-   */
-  const _DEFAULT_BEEP_DURATION = 300
-
-  /**
-   * Defines the interval to update the time from boot [ms]
-   * @ignore
-   * @type {number}
-   */
-  const _UPDATE_TIME_INTERVAL = 1000
-
-  /**
-   * Makes a beep sound
-   * @param  {number}   duration  Duration of the tone, in milliseconds
-   * @param  {number}   frequency Frequency of the tone, in Hz
-   * @param  {number}   volume    Volume of the tone. 1 is maximum value, 0 is the minimum (off)
-   * @param  {AudioType}   type   The wave type of the tone
-   * @param  {Function} callback  Callback to use on end of tone
-   */
-  function _doBeep(duration, frequency, volume, type, callback) {
-    const oscillator = _audioCtx.createOscillator()
-    const gainNode = _audioCtx.createGain()
-
-    oscillator.connect(gainNode)
-    gainNode.connect(_audioCtx.destination)
-
-    if (volume) {
-      gainNode.gain.value = volume
-    }
-    if (frequency) {
-      oscillator.frequency.value = frequency
-    }
-    if (type) {
-      oscillator.type = type
-    }
-    if (callback) {
-      oscillator.onended = callback
-    }
-
-    oscillator.start()
-    setTimeout(function() {
-      oscillator.stop()
-    }, duration || _DEFAULT_BEEP_DURATION)
+  /** Mock config */
+  const MockConfig = {
+    Connections: {
+      ethernet: true,
+      wifi: true,
+      gprs: false,
+    },
+    Battery: {
+      present: true,
+      level: 50,
+      status: System.BatteryStatus.DISCHARGE,
+    },
+    PowerSupply: System.PowerSupply.USB,
+    TimeFromBoot: 0,
+    SerialNumber: '00000000',
   }
 
   /**
-   * Gets the tone frequency according to the tone
-   * @param  {System.Tone} tone   The tone to get the Frequency
-   * @return {number}             The frequency in Hz
-   */
-  function _getToneFrequency(tone) {
-    if (tone === System.Tone.TONE1) {
-      return 1700
-    } else if (tone === System.Tone.TONE2) {
-      return 1850
-    } else if (tone === System.Tone.TONE3) {
-      return 2000
-    } else if (tone === System.Tone.TONE4) {
-      return 2100
-    } else if (tone === System.Tone.TONE5) {
-      return 2350
-    } else if (tone === System.Tone.TONE6) {
-      return 2700
-    } else if (tone === System.Tone.TONE7) {
-      return 2800
-    }
-  }
-
-  /**
-   * Sets an interval that updates the {@link System.SimulatedConfig.TimeFromBoot}
+   * Sets an interval that updates the {@link MockConfig.TimeFromBoot}
    * @returns {object} The interval object
    */
-  function _setTimeFromBootInterval() {
-    return setInterval(function() {
-      System.SimulatedConfig.TimeFromBoot += _UPDATE_TIME_INTERVAL
-    }, _UPDATE_TIME_INTERVAL)
-  }
-
-  /**
-   * Start the intervals and call the required functions
-   */
-  ;(function _init() {
-    _setTimeFromBootInterval()
-  })()
-
-  /**
-   * Performs a beep. Note that this function blocks the execution on the real device
-   * until it's finished. If {@link tone} and {@link duration} are both undefined, the default beep
-   * will be executed. If the {@link duration} is undefined, the default duration will be used
-   * @memberOf System
-   * @param  {System.Tone} tone         The tone of the beep
-   * @param  {number}      [duration=300]     The duration of the tone in milliseconds
-   */
-  function beep(tone, duration) {
-    if (
-      (tone === undefined && duration === undefined) ||
-      duration === undefined
-    ) {
-      tone = System.Tone.TONE1
-      duration = _DEFAULT_BEEP_DURATION
-    }
-
-    const toneFrequency = _getToneFrequency(tone)
-
-    if (
-      toneFrequency !== undefined &&
-      duration !== undefined &&
-      duration >= 1
-    ) {
-      console.log('Beep: tone = ' + tone + ', duration = ' + duration)
-      _doBeep(duration, toneFrequency, 1, 'square')
-    } else {
-      console.error('Beep: ' + _BAD_USAGE)
-    }
-  }
+  setInterval(() => {
+    MockConfig.TimeFromBoot += 1000
+  }, 1000)
 
   /**
    * Checks if the device has ethernet
@@ -141,7 +90,7 @@ export default function(System) {
    * @return {boolean} True if the device has ethernet
    */
   function hasEthernet() {
-    return System.SimulatedConfig.Connections.ethernet
+    return MockConfig.Connections.ethernet
   }
 
   /**
@@ -150,7 +99,7 @@ export default function(System) {
    * @return {boolean} True if the device has wifi
    */
   function hasWifi() {
-    return System.SimulatedConfig.Connections.wifi
+    return MockConfig.Connections.wifi
   }
 
   /**
@@ -159,7 +108,7 @@ export default function(System) {
    * @return {boolean} True if the device has gprs
    */
   function hasGprs() {
-    return System.SimulatedConfig.Connections.gprs
+    return MockConfig.Connections.gprs
   }
 
   /**
@@ -168,7 +117,7 @@ export default function(System) {
    * @return {boolean} True if the battery is present
    */
   function isBatteryPresent() {
-    return System.SimulatedConfig.Battery.present
+    return MockConfig.Battery.present
   }
 
   /**
@@ -177,7 +126,7 @@ export default function(System) {
    * @return {System.PowerSupply} The current power supply of the device
    */
   function getPowerSupply() {
-    return System.SimulatedConfig.PowerSupply
+    return MockConfig.PowerSupply
   }
 
   /**
@@ -186,7 +135,7 @@ export default function(System) {
    * @return {number} The time in milliseconds
    */
   function getTimeFromBoot() {
-    return System.SimulatedConfig.TimeFromBoot
+    return MockConfig.TimeFromBoot
   }
 
   /**
@@ -195,7 +144,7 @@ export default function(System) {
    * @return {string} The serial number
    */
   function getSerialNumber() {
-    return System.SimulatedConfig.SerialNumber
+    return MockConfig.SerialNumber
   }
 
   /**
@@ -204,7 +153,7 @@ export default function(System) {
    * @return {System.BatteryStatus} The status of the battery
    */
   function getBatteryStatus() {
-    return System.SimulatedConfig.Battery.status
+    return MockConfig.Battery.status
   }
 
   /**
@@ -222,63 +171,43 @@ export default function(System) {
    * @return {number} The level of the battery
    */
   function getBatteryLevel() {
-    return System.SimulatedConfig.Battery.level
+    return MockConfig.Battery.level
   }
 
   /**
-   * Configurations that simulate the device state. Note that it's
-   * used to simulate the device on the browser. To access the real
-   * state on the device, use the apropriate methods exposed on the
-   * {@link System} object
-   * @name SimulatedConfig
-   * @memberOf System
-   * @type {object}
-   * @property {object}  Connections                    Connections configuration object
-   * @property {boolean} Connections.wifi               True if device has wifi
-   * @property {boolean} Connections.ethernet           True if device has ethernet
-   * @property {boolean} Connections.gprs               True if device has gprs
-   * @property {object}  Battery                        Battery configuration object
-   * @property {boolean} Battery.present                True if the battery is present
-   * @property {number} Battery.level                   The level of the battery (from 0 to 100)
-   * @property {System.BatteryStatus} Battery.status    The status of the battery
-   * @property {System.PowerSupply} PowerSupply         Defines the current power supply
-   * @property {number} TimeFromBoot                    The time from the boot until this moment [ms]
-   * @property {string} SerialNumber                    The serial number of the device
+   * Gets the tone frequency according to the tone
+   * @param  {System.Tone} tone   The tone to get the Frequency
+   * @return {number}             The frequency in Hz
    */
-  const SimulatedConfig = {
-    Connections: {
-      ethernet: true,
-      wifi: true,
-      gprs: false,
-    },
-    Battery: {
-      present: true,
-      level: 50,
-      status: System.BatteryStatus.DISCHARGE,
-    },
-    PowerSupply: System.PowerSupply.USB,
-    TimeFromBoot: 0,
-    SerialNumber: '00000000',
+  function _getToneFrequency(tone) {
+    if (tone === System.Tone.TONE1) return 1700
+    if (tone === System.Tone.TONE2) return 1850
+    if (tone === System.Tone.TONE3) return 2000
+    if (tone === System.Tone.TONE4) return 2100
+    if (tone === System.Tone.TONE5) return 2350
+    if (tone === System.Tone.TONE6) return 2700
+    if (tone === System.Tone.TONE7) return 2800
   }
 
-  // TODO: Rename window.PowerManagement
-  let sleepDelay = 5
-  let sleepEnabled = false
-  const MIN_SLEEP_DELAY = 0
-  const MAX_SLEEP_DELAY = 10
-  const PowerManagement = {
-    isSleepEnabled: () => sleepEnabled,
-    getSleepDelay: () => sleepDelay,
-    toggleSleep() {
-      sleepEnabled = !sleepEnabled
-      console.log(`${sleepEnabled ? 'Enabled' : 'Disabled'} automatic sleep`)
-    },
-    decreaseSleepDelay() {
-      sleepDelay = Math.max(MIN_SLEEP_DELAY, sleepDelay - 1)
-    },
-    increaseSleepDelay() {
-      sleepDelay = Math.min(sleepDelay + 1, MAX_SLEEP_DELAY)
-    },
+  /**
+   * Performs a beep. Note that this function blocks the execution on the real device
+   * until it's finished. If {@link tone} and {@link duration} are both undefined, the default beep
+   * will be executed. If the {@link duration} is undefined, the default duration will be used
+   * @memberOf System
+   * @param  {System.Tone} tone         The tone of the beep
+   * @param  {number}      [duration=300]     The duration of the tone in milliseconds
+   */
+  function beep(tone = System.Tone.TONE1, duration = DEFAULT_BEEP_DURATION) {
+    const toneFrequency = _getToneFrequency(tone)
+
+    if (toneFrequency) {
+      console.log(`Beep: tone = ${tone}, duration = ${duration}`)
+      if (process.env.NODE_ENV !== 'test') {
+        doBeep(duration, toneFrequency)
+      }
+    } else {
+      console.error('Beep: Bad Usage')
+    }
   }
 
   Object.assign(System, {
@@ -292,7 +221,5 @@ export default function(System) {
     getSerialNumber,
     getBatteryStatus,
     getBatteryLevel,
-    SimulatedConfig,
-    PowerManagement,
   })
 }
