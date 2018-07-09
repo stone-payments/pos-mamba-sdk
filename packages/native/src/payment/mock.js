@@ -2,13 +2,13 @@ import SignalEmitter from '../SignalEmitter/index.js'
 import Signal from '../Signal/index.js'
 
 const MockConfig = {
-  paymentTime: 2000,
   amountPaid: -1,
+  installmentCount: 0,
   shouldFail: false,
+  cardHolderName: 'SPORTELLO/DOC',
   pan: '56497#####41578',
   type: 'CREDITO/DEBITO',
   authCode: '111111111',
-  installmentCount: 0,
   cardBrand: 'bandeiraTeste',
   atk: '11111111111111',
   itk: '11111111111111',
@@ -41,8 +41,7 @@ function failedPaying() {
  * @return {string} cardHolderName
  */
 function getCardHolderName() {
-  let cardHolderName = ''
-  return !failedPaying() ? cardHolderName : 'SPORTELLO/DOC'
+  return !failedPaying() ? '' : MockConfig.cardHolderName
 }
 
 /**

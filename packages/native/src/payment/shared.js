@@ -1,6 +1,13 @@
 import SignalHandler from '../SignalHandler'
 
 let isCardEventEnabled = false
+const triggerCardEvent = () => {
+  if (isCardEventEnabled) {
+    const event = document.createEvent('CustomEvent')
+    event.initCustomEvent('cardEvent', true, true)
+    document.dispatchEvent(event)
+  }
+}
 
 export default function(Payment) {
   const PaymentSignals = SignalHandler(Payment)
@@ -34,23 +41,15 @@ export default function(Payment) {
     Payment.doPay(params)
   }
 
-  Payment.triggerEvent = () => {
-    if (isCardEventEnabled) {
-      const event = document.createEvent('CustomEvent')
-      event.initCustomEvent('cardEvent', true, true)
-      document.dispatchEvent(event)
-    }
-  }
-
   Payment.enableCardEvent = () => {
     isCardEventEnabled = true
-    PaymentSignals.unique('cardEvent', Payment.triggerEvent)
+    PaymentSignals.unique('cardEvent', triggerCardEvent)
     Payment.doEnableCardEvent()
   }
 
   Payment.disableCardEvent = () => {
     isCardEventEnabled = false
-    PaymentSignals.off('cardEvent', Payment.triggerEvent)
+    PaymentSignals.off('cardEvent', triggerCardEvent)
     Payment.doDisableCardEvent()
   }
 }
