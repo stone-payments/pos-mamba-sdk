@@ -1,3 +1,6 @@
+/**
+ * KeyCode <-> KeyName dictionary
+ */
 const KEYMAP = Object.freeze({
   13: 'enter',
   8: 'back',
@@ -15,19 +18,84 @@ const KEYMAP = Object.freeze({
   56: '8',
   57: '9',
 })
+/**
+ * Get the key code relative to a specific key name
+ * @memberof Keyboard
+ * @param {string} keyName - Key name
+ * @returns {number} - Relative key code
+ */
+function getKeyCode(keyName) {
+  return Object.keys(KEYMAP).find(code => KEYMAP[code] === keyName)
+}
+
+/**
+ * Get the key name relative to a specific key code
+ * @memberof Keyboard
+ * @param {number} keyCode - Key code
+ * @returns {string} - Relative key name
+ */
+function getKeyName(keyCode) {
+  return KEYMAP[keyCode]
+}
+
+/**
+ * Check if a certain key is a numeric key
+ * @memberof Keyboard
+ * @param {number} keyCode - Key code
+ * @returns {boolean}
+ */
+function isNumericKey(keyCode) {
+  return !isNaN(parseFloat(KEYMAP[keyCode]))
+}
+
+/**
+ * Check if a certain key is an action key
+ * @memberof Keyboard
+ * @param {number} keyCode - Key code
+ * @returns {boolean}
+ */
+function isActionKey(keyCode) {
+  return !isNumericKey(keyCode)
+}
+
+/**
+ * Define if backspace button should be enabled
+ */
+let _isBackspaceEnabled = true
+
+/**
+ * Return if the backspace button is enabled
+ * @memberof Keyboard
+ * @returns {boolean}
+ */
+function isBackspaceEnabled() {
+  return _isBackspaceEnabled
+}
+
+/**
+ * Switch OFF the `isBackspaceEnabled` flag used by the front-end
+ * @memberof Keyboard
+ */
+function disableBackspace() {
+  _isBackspaceEnabled = false
+}
+
+/**
+ * Switch ON the `isBackspaceEnabled` flag used by the front-end
+ * @memberof Keyboard
+ */
+function enableBackspace() {
+  _isBackspaceEnabled = true
+}
 
 export default function(Keyboard) {
-  Keyboard.getKeyCode = keyName =>
-    Object.keys(KEYMAP).find(code => KEYMAP[code] === keyName)
-  Keyboard.getKeyName = keyCode => KEYMAP[keyCode]
-  Keyboard.isNumericKey = keyCode => !isNaN(parseFloat(KEYMAP[keyCode]))
-  Keyboard.isActionKey = keyCode => !Keyboard.isNumericKey(keyCode)
-
-  Keyboard.isBackspaceEnabled = true
-  Keyboard.disableBackspace = () => {
-    Keyboard.isBackspaceEnabled = false
-  }
-  Keyboard.enableBackspace = () => {
-    Keyboard.isBackspaceEnabled = true
-  }
+  Object.assign(Keyboard, {
+    getKeyCode,
+    getKeyName,
+    isNumericKey,
+    isActionKey,
+    isBackspaceEnabled,
+    disableBackspace,
+    enableBackspace,
+  })
 }
