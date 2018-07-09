@@ -20,7 +20,8 @@
         const isCardInserted = !this.get().isCardInserted
         this.set({ isCardInserted })
         if (isCardInserted) {
-          Payment.triggerEvent()
+          /** Fire the cardEvent signal. Simulates the back-end */
+          Payment.cardEvent()
         }
       },
     },
