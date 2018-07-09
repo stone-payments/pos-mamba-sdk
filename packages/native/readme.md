@@ -4,6 +4,6 @@
 
 ```ts
     interface Merchant {
-        getStoneCode: () => string,
+        getStoneCode: () => string
     }
 ```
