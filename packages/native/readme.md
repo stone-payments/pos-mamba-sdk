@@ -4,8 +4,8 @@
 
 ```ts
     class Cookie {
-        set: (key: string, value: string) => true,
-        get: (key:string) => string,
-        clear: () => true,
+        set: (key: string, value: string) => true
+        get: (key:string) => string
+        clear: () => true
     }
 ```
