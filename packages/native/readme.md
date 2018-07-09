@@ -3,7 +3,7 @@
 ## @mamba/native/merchant
 
 ```ts
-    interface Merchant {
-        getStoneCode: () => string
-    }
+interface Merchant {
+  getStoneCode: () => string
+}
 ```
