@@ -1,18 +1,18 @@
 import mock from './mock.js'
-import extendNative from './native.js'
+import addSharedTo from './shared.js'
 
 let Payment = window.Payment
 
+/** For development environment */
 if (process.env.NODE_ENV !== 'production') {
   Payment = window.Payment = {}
+  addSharedTo(Payment)
   mock(Payment)
 }
 
+/** For production environment */
 if (process.env.NODE_ENV === 'production') {
-  if (!Payment) {
-    throw new Error("[@mamba/native] 'Payment' module not found")
-  }
-  extendNative(Payment)
+  addSharedTo(Payment)
 }
 
 export default Payment
