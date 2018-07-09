@@ -44,8 +44,8 @@
     data() {
       return {
         content: '',
-        printed: false,
         state: STATES.IDLE,
+        usingDithering: false,
       }
     },
     computed: {
@@ -116,118 +116,117 @@
 <style type="text/postcss">
   $paper-color: #add8e6;
 
-  .printer {
-    display: none;
+  @media all and (max-width: 480px) {
+    .printer {
+      display: none;
+    }
   }
 
-  @media all and (min-width: 481px) {
-    .printer {
+  .printer {
+    width: 250px;
+    position: absolute;
+    left: 42px;
+    bottom: 584px;
+
+    &:not(.is-printed) {
+      pointer-events: none;
+    }
+
+    &::after {
+      content: '';
       display: block;
-      width: 250px;
       position: absolute;
-      left: 42px;
-      bottom: 584px;
+      z-index: 0;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 10px;
+      max-height: 10px;
+      background-color: $paper-color;
+      border-top: 1px dashed transparent;
+      transition: border-top-color 0.3s ease, max-height 0.3s ease;
+    }
 
-      &:not(.is-printed) {
-        pointer-events: none;
-      }
-
+    &.is-printed:hover {
       &::after {
-        content: '';
-        display: block;
-        position: absolute;
-        z-index: 0;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 10px;
-        max-height: 10px;
-        background-color: $paper-color;
-        border-top: 1px dashed transparent;
-        transition: border-top-color 0.3s ease, max-height 0.3s ease;
-      }
-
-      &.is-printed:hover {
-        &::after {
-          border-top-color: rgba(0, 0, 0, 0.6);
-        }
-      }
-
-      &.is-shredding,
-      &.is-waiting {
-        &::after {
-          box-shadow: 2px 0px 2px 1px rgba(0, 0, 0, 0.4);
-        }
-      }
-
-      &.is-idle {
-        &::after {
-          max-height: 0;
-          background-color: transparent;
-        }
+        border-top-color: rgba(0, 0, 0, 0.6);
       }
     }
 
-    .paper {
-      position: relative;
-      overflow: hidden;
-      height: 270px;
-      background-color: $paper-color;
-      cursor: pointer;
-      border-top-right-radius: 2px;
-      border-top-left-radius: 2px;
-      transition: transform 0.2s 0.3s ease, max-height 2s ease-in-out;
-      transform-origin: 0 100%;
-
-      .printer.is-idle & {
-        max-height: 0;
-      }
-
-      .printer.is-waiting & {
-        transition: none;
-        max-height: 10px;
-      }
-
-      .printer.is-printed & {
-        max-height: 270px;
+    &.is-shredding,
+    &.is-waiting {
+      &::after {
         box-shadow: 2px 0px 2px 1px rgba(0, 0, 0, 0.4);
       }
-
-      .printer.is-shredding & {
-        border-bottom: none;
-        transition: transform 1s ease;
-        transform: rotateZ(-8deg) translateY(-700px);
-      }
     }
 
-    .content {
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: -20px;
-      overflow-y: scroll;
-      z-index: 1;
-      padding: 20px 21px 15px 20px;
-      filter: contrast(300%) grayscale(100%) url('#remove-colors-alpha');
-
-      &,
-      :global(p) {
-        font-size: 11px;
-        font-family: 'Roboto', Arial, sans-serif;
-        line-height: 1.1;
-        -webkit-font-smoothing: none;
+    &.is-idle {
+      &::after {
+        max-height: 0;
+        background-color: transparent;
       }
+    }
+  }
 
-      :global(p) {
-        margin-bottom: 10px;
-      }
+  .paper {
+    position: relative;
+    overflow: hidden;
+    height: 270px;
+    background-color: $paper-color;
+    cursor: pointer;
+    border-top-right-radius: 2px;
+    border-top-left-radius: 2px;
+    transition: transform 0.2s 0.3s ease, max-height 2s ease-in-out;
+    transform-origin: 0 100%;
 
-      :global(img) {
-        display: block;
-        max-width: 100%;
-        height: auto;
-      }
+    .printer.is-idle & {
+      max-height: 0;
+    }
+
+    .printer.is-waiting & {
+      transition: none;
+      max-height: 10px;
+    }
+
+    .printer.is-printed & {
+      max-height: 270px;
+      box-shadow: 2px 0px 2px 1px rgba(0, 0, 0, 0.4);
+    }
+
+    .printer.is-shredding & {
+      border-bottom: none;
+      transition: transform 1s ease;
+      transform: rotateZ(-8deg) translateY(-700px);
+    }
+  }
+
+  .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: -20px;
+    overflow-y: scroll;
+    z-index: 1;
+    padding: 20px 21px 15px 20px;
+    filter: contrast(300%) grayscale(100%) url('#remove-colors-alpha');
+
+    &,
+    :global(p) {
+      font-size: 11px;
+      font-family: 'Roboto', Arial, sans-serif;
+      line-height: 1.1;
+      -webkit-font-smoothing: none;
+    }
+
+    :global(p) {
+      margin-bottom: 10px;
+    }
+
+    :global(img) {
+      display: block;
+      max-width: 100%;
+      height: auto;
     }
   }
 </style>

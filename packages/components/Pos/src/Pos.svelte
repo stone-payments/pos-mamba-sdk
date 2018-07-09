@@ -54,6 +54,10 @@
       background-size: cover;
     }
 
+    .pos {
+      user-select: none;
+    }
+
     .shadow {
       display: none;
     }
