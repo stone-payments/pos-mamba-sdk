@@ -15,13 +15,11 @@
   import { createHashHistory, getHistory } from 'svelte-routing'
   import links from 'svelte-routing/links'
 
-  /** Check for a valid back command when 'back' is pressed */
-  const isValidBackCommand = (keyName, e) =>
-    keyName === 'back' && e.target.tagName !== 'INPUT'
-
   /** Return if a certain shortcut key is valid */
-  const isInvalidShortcut = (keyName, e) =>
-    !keyName || e.target.tagName === 'INPUT'
+  const isValidShortcut = (keyName, e) =>
+    keyName &&
+    e.target.tagName !== 'INPUT' &&
+    document.activeElement.tagName !== 'INPUT'
 
   /** Initialize the router hash history */
   createHashHistory({ basename: '/' })
@@ -77,7 +75,7 @@
       /** Prevent default back button behaviour */
       onKeydown(e) {
         const keyName = Keyboard.getKeyName(e.keyCode)
-        if (isValidBackCommand(keyName, e)) {
+        if (keyName === 'back' && isValidShortcut(keyName, e)) {
           e.preventDefault()
         }
       },
@@ -87,15 +85,15 @@
           this.store && !this.store.meta.get('shortcuts')
 
         /** If the key is not mapped or a input is focused, do nothing */
-        if (isInvalidShortcut(keyName, e)) {
+        if (!isValidShortcut(keyName, e)) {
           return
         }
 
         /** Handles back button */
-        if (isValidBackCommand(keyName, e)) {
+        if (keyName === 'back') {
           /** Guarantees that the 'back' button is enabled and app not locked */
           if (
-            Keyboard.isBackspaceEnabled &&
+            Keyboard.isBackspaceEnabled() &&
             (this.store && !this.store.meta.get('locked'))
           ) {
             e.preventDefault()
