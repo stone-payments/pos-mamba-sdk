@@ -1,5 +1,5 @@
-const Prism = require('prismjs')
-const $ = require('cheerio')
+import Prism from 'prismjs'
+import $ from 'cheerio'
 
 const LINE_NUMBER = /\s*\bline-numbers\b\s*/
 
@@ -49,4 +49,5 @@ function lineNumber(env) {
 }
 
 Prism.hooks.add('complete', lineNumber)
-module.exports = lineNumber
+
+export default lineNumber

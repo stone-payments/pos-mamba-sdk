@@ -3,17 +3,11 @@ import path from 'path'
 import * as fleece from 'golden-fleece'
 import processMarkdown from '../_processMarkdown'
 import marked from 'marked'
-
-// import Prism from 'prismjs'
-// import cheerio from 'cheerio'
-
-import Code from '../../../node_modules/@mamba/code'
-
-const cheerio = require('cheerio')
-const Prism = require('prismjs')
-const classNameUtils = require('../_classNameUtils')
-const escape = require('../_escape')
-require('../_processLineNumbers')
+import cheerio from 'cheerio'
+import Prism from 'prismjs'
+import classNameUtils from '../_classNameUtils'
+import escape from '../_escape'
+import '../_processLineNumbers'
 
 const escaped = {
   '"': '&quot;',
@@ -120,11 +114,13 @@ export default function() {
 
         if (meta && meta.hidden) return ''
 
-        // Prism.highlight(source, Prism.languages[lang || 'markup']),
-        // Code highlight with Prism
-        const { html } = Code.render({
-          text: source,
-        })
+        // Start Code highlight with Prism
+
+        // Define proper language type from `lang` param
+        const properLanguage = (lang === 'js' ? 'javascript' : lang) || 'markup'
+
+        // Create a inline code tag
+        const html = `<pre class="code-block line-numbers language-${properLanguage}"><code class="language-${properLanguage}">${source}</code></pre>`
 
         // Load cheerio with Code component output
         const $ = cheerio.load(html, cheerioOption)
@@ -139,21 +135,27 @@ export default function() {
         }
 
         // Import language support of every souce code block
-        if ($elements.length !== 0) {
-          options.languages.forEach(language =>
-            require(`prismjs/components/prism-${language}`),
-          )
-        }
+        // if ($elements.length !== 0) {
+        //   options.languages.forEach(language =>
+        //     require(`prismjs/components/prism-${language}`),
+        //   )
+        // }
 
         // Apply Prism js to every source code
         $elements.each(function(index, element) {
           let $element = $(this)
+
+          let $parent = $element.parent()
 
           let language = classNameUtils.getLanguageFromClassName(
             $element.attr('class'),
           )
 
           let grammar = Prism.languages[language]
+
+          $parent
+            .addClass(`language-${language}`)
+            .css('font-size', options.fontSize + 'px')
 
           let code = $element.html()
           // &amp; -> &
