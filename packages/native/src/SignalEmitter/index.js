@@ -24,7 +24,7 @@ export default function emitterFactory(namespace, timeout = 1500) {
       const [signal, , transformer] = pickProbableSignal(SignalEmitter.signals)
       console.log(`Picked signal: ${signal}`)
 
-      namespace[signal].fire()
+      namespace[signal]()
 
       if (typeof transformer === 'function') {
         transformer(...args)

@@ -25,7 +25,6 @@ class SignalHandler {
 
   /** Disconnect a callback from a slot */
   off(signal, callback) {
-    console.log('olha o off')
     try {
       /** If no callback passed, disconnect all slots from the signal */
       if (typeof callback === 'undefined') {
