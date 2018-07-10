@@ -1,4 +1,4 @@
-import validateDates from '../utils/validateDate.js'
+import validateDates from './utils/validateDate.js'
 import getConsolidatedListReportData from './consolidatedReportList.js'
 import getDetailedReportListData from './detailedReportList.js'
 
