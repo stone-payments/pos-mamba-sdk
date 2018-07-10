@@ -1,6 +1,6 @@
-import validateDates from '../utils/validateDate.js'
+import validateDates from './utils/validateDate.js'
 
-import { link } from '../utils/bridge'
+import { link } from './utils/bridge'
 
 export default function(Transaction) {
   link({
