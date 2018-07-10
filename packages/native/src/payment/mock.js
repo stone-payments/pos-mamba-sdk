@@ -1,5 +1,5 @@
-import SignalEmitter from '../SignalEmitter/index.js'
-import Signal from '../Signal/index.js'
+import SignalEmitter from '../signal/emitter.js'
+import Signal from '../signal/index.js'
 
 const MockConfig = {
   amountPaid: -1,
