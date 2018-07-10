@@ -1,3 +1,6 @@
+export default function(signal) {
+  return new SignalHandler(signal)
+}
 class SignalHandler {
   constructor(namespace) {
     this.signals = {}
@@ -98,8 +101,4 @@ class SignalHandler {
       this.off(signal)
     })
   }
-}
-
-export default function(signal) {
-  return new SignalHandler(signal)
 }

@@ -1,5 +1,6 @@
 import { basename, dirname } from 'path'
 import glob from 'globby'
+import Case from 'case'
 import resolve from 'rollup-plugin-node-resolve'
 import cjs from 'rollup-plugin-commonjs'
 import babel from 'rollup-plugin-babel'
@@ -31,9 +32,16 @@ const configs = []
 /** Bundles for package submodules */
 glob.sync(PKG.subModules || []).forEach(subModEntryRelPath => {
   const subModuleName = basename(dirname(subModEntryRelPath))
+  let entryName = basename(subModEntryRelPath, '.js')
+
+  entryName =
+    entryName !== 'index'
+      ? Case.camel(`${subModuleName} ${entryName}`)
+      : subModuleName
+
   configs.push({
     input: subModEntryRelPath,
-    output: `${subModuleName}.js`,
+    output: `${entryName}.js`,
     plugins,
   })
 })
