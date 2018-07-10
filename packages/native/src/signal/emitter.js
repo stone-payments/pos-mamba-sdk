@@ -1,4 +1,4 @@
-import Signal from '../Signal/index.js'
+import Signal from './index.js'
 
 function pickProbableSignal(signals) {
   const winner = Math.random()

@@ -1,4 +1,4 @@
-import SignalHandler from '../SignalHandler'
+import SignalHandler from '../signal/handler.js'
 
 let isCardEventEnabled = false
 const triggerCardEvent = () => {

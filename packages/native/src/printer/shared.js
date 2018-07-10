@@ -1,4 +1,4 @@
-import SignalHandler from '../SignalHandler'
+import SignalHandler from '../signal/handler.js'
 
 export default function(Printer) {
   const PrinterSignals = SignalHandler(Printer)
