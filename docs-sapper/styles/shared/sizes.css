@@ -11,15 +11,15 @@
   --sidebar-width: 260px;
   --sidebar-position: sticky;
 
-  /* Logo */
-  --logo-container-top: 15px;
-  --logo-container-right: 64px;
-  --logo-container-size: 105px;
-  --logo-svg-height: 90px;
-
   /* Nav */
   --nav-hr-border-color: rgba(120, 134, 156, 0.08);
-  --nav-hr-border-width: 225px;
-  --nav-width: 170px;
-  --nav-top-position: 135px;
+  --nav-width: 150px;
+  --nav-hr-border-width: var(--nav-width);
+  --nav-top-position: 165px;
+
+  /* Logo */
+  --logo-container-top: 30px;
+  --logo-container-size: 105px;
+  --logo-container-right: calc(var(--nav-width) - var(--logo-container-size));
+  --logo-svg-height: 90px;
 }

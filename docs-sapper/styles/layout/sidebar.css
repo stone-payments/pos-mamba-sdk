@@ -63,7 +63,7 @@
     }
   }
 
-  nav &-border {
+  &-border {
     top: calc(var(--nav-top-position) - 1px);
     right: 0;
     width: var(--nav-hr-border-width);
@@ -107,6 +107,11 @@
       &:hover {
         opacity: 0.8;
       }
+
+      & > .active {
+        color: var(--primary) !important;
+        font-weight: 500;
+      }
     }
   }
 
@@ -117,8 +122,13 @@
     li {
       overflow: hidden;
 
-      &.active a {
-        color: #2d9428 !important;
+      &.active a,
+      a.active {
+        color: var(--primary) !important;
+        font-weight: 500;
+      }
+
+      & a:hover {
         font-weight: 500;
       }
 
@@ -130,6 +140,7 @@
         min-height: 28px;
         line-height: 20px;
         padding: 4px 0;
+        transition: all 0.3s ease-out;
       }
     }
   }
