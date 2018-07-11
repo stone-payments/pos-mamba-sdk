@@ -14,8 +14,8 @@ const renderApp = () => {
 
       fetch(`api/guide/contents`)
         .then(r => r.json())
-        .then(guideContents => {
-          store.set({ guideContents })
+        .then(guide_contents => {
+          store.set({ guide_contents })
         })
 
       window.store = store
