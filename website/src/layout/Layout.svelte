@@ -1,4 +1,4 @@
-<main class="Docs Grid" use:links>
+<main class="Docs Grid">
   <Sidebar />
   <Main>
     <slot></slot>
@@ -7,14 +7,10 @@
 </main>
 
 <script>
-  import links from 'svelte-routing/links'
   import Sidebar from './components/Sidebar'
   import Main from './components/Main'
 
   export default {
     components: { Sidebar, Main },
-    actions: { 
-      links 
-    }
   }
 </script>
