@@ -26,6 +26,10 @@ function unescape(str) {
   return String(str).replace(/&.+?;/g, match => unescaped[match] || match)
 }
 
+function replaceTag(tag) {
+  return escaped[tag] || tag
+}
+
 const blockTypes = 'blockquote html heading hr list listitem paragraph table tablerow tablecell'.split(
   ' ',
 )
@@ -121,7 +125,10 @@ export default function() {
           (lang === 'js' ? 'javascript' : lang) || 'markdown'
 
         // Create a inline code tag
-        const html = `<pre class="code-block line-numbers language-${properLanguage}"><code class="language-${properLanguage}">${source}</code></pre>`
+        const html = `<pre class="code-block line-numbers language-${properLanguage}"><code class="language-${properLanguage}">${source.replace(
+          /[&<>]/g,
+          replaceTag,
+        )}</code></pre>`
 
         // Load cheerio with Code component output
         const $ = cheerio.load(html, cheerioOption)
@@ -159,6 +166,7 @@ export default function() {
             .css('font-size', options.fontSize + 'px')
 
           let code = $element.html()
+
           // &amp; -> &
           code = escape.amp(code)
           // &lt; -> '<', &gt; -> '>'
