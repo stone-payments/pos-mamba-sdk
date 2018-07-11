@@ -51,7 +51,7 @@ code .token.url {
 code[class*='language-'],
 pre[class*='language-'] {
   font-family: Source Code Pro, monospace !important;
-  color: color-mod(#000c1d alpha(60%));
+  color: color-mod(#000c1d alpha(70%));
   font-weight: 600;
   font-size: 13px;
   line-height: 19px;

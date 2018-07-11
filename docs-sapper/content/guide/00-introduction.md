@@ -13,18 +13,28 @@ With it you can use web programming to develop applications using web technologi
 
 ## Getting started
 
-
-### 1. Installation
-
-```bash
-npm install mamba-web -g
-```
-
-### 2. Create a New Project
+### 1. Create a New Project
 
 ```bash
-mkdir mamba-demo && cd mamba-demo
-mamba-web cli template
+git clone https://github.com/stone-payments/pos-mamba-websdk-template.git <my-app>
+cd <my-app>
+```
+When that's done, install the project dependencies. It is recommended that you use Yarn for deterministic dependency management, but npm install will suffice.
+
+```bash
+yarn  # Install project dependencies (or `npm install`)
 ```
 
-### 3. Use @mamba Components
+### 3. Run project
+
+After completing the installation step, you're ready to start the project!
+
+```bash
+yarn start # Start the development environment
+```
+
+### 4. Using some Mamba components
+
+```bash
+yarn install @mamba/buttom
+```
