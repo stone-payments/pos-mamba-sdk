@@ -19,7 +19,7 @@ With it you can use web programming to develop applications using web technologi
 git clone https://github.com/stone-payments/pos-mamba-websdk-template.git <my-app>
 cd <my-app>
 ```
-When that's done, install the project dependencies. It is recommended that you use Yarn for deterministic dependency management, but npm install will suffice.
+When that's done, install the project dependencies. It is recommended that you use ```Yarn``` for deterministic dependency management, but ```npm install``` will suffice.
 
 ```bash
 yarn  # Install project dependencies (or `npm install`)
@@ -38,3 +38,7 @@ yarn start # Start the development environment
 ```bash
 yarn install @mamba/buttom
 ```
+
+### Compatibility
+
+Mamba was developed to run with Safari 5.1+ which is the browser version in the POS
