@@ -31,7 +31,7 @@ It may look something like:
 
 ### Per-package structure
 
-The structure leading to each package looks like this:
+The structure to each package(module) looks like this:
 
 ```markup
 └─ packages
@@ -47,4 +47,32 @@ The structure leading to each package looks like this:
       ├─ LICENSE ········ Package license
       ├─ .gitignore······ Git ignore for the package
       └─ package.json ··· NPM/Package configuration
+```
+
+
+#### `examples`
+
+The `examples` folder is where all the specific exemples for each package is located.
+
+```markup
+└─ packages
+  └─ components
+    └─ AppBar
+      └─ examples
+        ├─ App.svelte
+        └─ AnotherDemo.svelte
+```
+
+
+#### `docs`
+
+The `docs` folder is where all the specific documentation for each package is located.
+
+```markup
+└─ packages
+  └─ components
+    └─ AppBar
+      └─ docs
+        ├─ 01-intro.md
+        └─ 02-another.md
 ```
