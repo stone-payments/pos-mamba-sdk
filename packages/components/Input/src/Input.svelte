@@ -74,13 +74,13 @@
 
         if (autofocus) {
           this.focus()
-          this.refs.input.scrollIntoView()
+          this.refs.input.scrollIntoView(false)
         }
       }
     },
     onupdate({ changed, current }) {
       if (changed.errorMsg && current.errorMsg) {
-        this.refs.input.scrollIntoView()
+        this.refs.input.scrollIntoView(false)
       }
     },
     methods: {
