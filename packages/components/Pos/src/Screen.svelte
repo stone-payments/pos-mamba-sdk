@@ -71,7 +71,7 @@
       overflow-x: hidden;
       overflow-y: auto;
       flex: 0 1 auto;
-      user-select: all;
+      user-select: text;
 
       &.-locked {
         overflow: hidden;
