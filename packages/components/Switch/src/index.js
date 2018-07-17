@@ -1,1 +1,1 @@
-export { default, default as Switch } from './Switch.svelte'
+export { default, default as Switch } from './Switch.html'

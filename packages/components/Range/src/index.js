@@ -1,1 +1,1 @@
-export { default, default as Range } from './Range.svelte'
+export { default, default as Range } from './Range.html'
