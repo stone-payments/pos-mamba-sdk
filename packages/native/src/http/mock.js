@@ -1,4 +1,4 @@
-function send({ method = 'GET', url = '', data, headers }, callback) {
+function send({ method = 'GET', url = '', data, headers }) {
   return new Promise((resolve, reject) => {
     const xhttp = new window.XMLHttpRequest()
 
@@ -8,7 +8,7 @@ function send({ method = 'GET', url = '', data, headers }, callback) {
 
     xhttp.onerror = function() {
       reject(
-        new Error(undefined, {
+        new Error({
           status: this.status,
           msg: this.responseText,
         }),
@@ -18,7 +18,7 @@ function send({ method = 'GET', url = '', data, headers }, callback) {
     xhttp.onreadystatechange = function() {
       /** On success state code 4 */
       if (this.readyState === 4) {
-        resolve(this.responseText, undefined)
+        resolve(this.responseText)
       }
     }
 
