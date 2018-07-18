@@ -13,9 +13,7 @@
     on:failure="set({ state: STATES.FAILURE })"
   >
     <div class="printing-sprite"></div>
-    <div style="margin-top: 16px;">
-      Imprimindo
-    </div>
+    <div style="margin-top: 16px;">Imprimindo</div>
   </PromisedDialog>
 {/if}
 
@@ -29,7 +27,6 @@
     Tentar imprimir novamente?
   </ConfirmationDialog>
 {/if}
-
 
 <script>
   import Printer from '@mamba/native/printer.js';
@@ -115,7 +112,7 @@
 
     &,
     :global(p) {
-      font-family: 'Roboto', Arial, sans-serif;
+      font-family: 'Roboto', 'Arial', sans-serif;
       font-size: 20px;
       line-height: 1.1;
       -webkit-font-smoothing: none;

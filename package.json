@@ -14,9 +14,10 @@
     "link:packages": "bolt ws exec --only-fs \"packages/**\" -- yarn link",
     "lint": "npm run lint:js",
     "lint:js": "eslint \"*.js\" \"{tools,packages,website}/**/*.{js,html,svelte}\"",
+    "lint:css": "stylelint --custom-syntax \"postcss-html\" \"packages/**/*.{html,svelte,css,pcss}\"",
     "format": "npm run format:css; npm run format:js",
     "format:js": "prettier --write \"*.js\" \"{tools,packages,website}/**/*.js\" && eslint --fix \"*.js\" \"{tools,packages,website}/**/*.{js,html,svelte}\"",
-    "format:css": "prettier --write \"packages/**/*.{css,pcss}\" && stylelint --fix \"packages/**/*.{css,pcss}\"",
+    "format:css": "prettier --write \"packages/**/*.{css,pcss}\" && stylelint --fix --custom-syntax \"postcss-html\" \"packages/**/*.{html,svelte,css,pcss}\"",
     "test": "bolt ws test"
   },
   "bolt": {
@@ -40,6 +41,7 @@
   "lint-staged": {
     "*.{html,svelte}": [
       "eslint --fix",
+      "stylelint --fix --custom-syntax \"postcss-html\"",
       "git add"
     ],
     "*.js": [
@@ -49,7 +51,7 @@
     ],
     "*.{pcss,css}": [
       "prettier --write",
-      "stylelint --fix",
+      "stylelint --fix --custom-syntax \"postcss-html\"",
       "git add"
     ]
   },

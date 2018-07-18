@@ -8,8 +8,8 @@
 
   <button style={buttonStyle} on:click="decrement()">-</button>
 
-  <div class="track" style="background-color: {barColor}">
-    <div class="bar" style="width: {barWidth}%; background-color: {mainColor}"></div>
+  <div class="track" style="background-color: {barColor};">
+    <div class="bar" style="width: {barWidth}%; background-color: {mainColor};"></div>
   </div>
 
   <button style={buttonStyle} on:click="increment()">+</button>
@@ -109,7 +109,7 @@
   }
 
   button {
-    -webkit-appearance: none;
+    appearance: none;
     border: none;
     border-radius: 3px;
     color: #fff;

@@ -1,20 +1,19 @@
-<label class="input -{type}" style="background-color: {bgColor}; color: {textColor}" on:mousedown="onMousedown(event)">
+<label class="input -{type}" style="background-color: {bgColor}; color: {textColor};" on:mousedown="onMousedown(event)">
   {#if label}
   <span>{label}</span>
   {/if}
 
-  <input ref:input class="-{align}" type={visible ? 'text' : 'password'} style="color: {textColor}" {disabled} on:focus="onFocus()"
+  <input ref:input class="-{align}" type={visible ? 'text' : 'password'} style="color: {textColor};" {disabled} on:focus="onFocus()"
     on:blur="onBlur()" on:keyup="onKeyUp(event)" on:input="set({ value: this.value })" /> {#if type === 'password' && readable}
   <div class="type-toggle">
     <Icon symbol="{visible ? 'eye' : 'eye-off'}" />
   </div>
   {/if} {#if typeof validate === 'function' && !!errorMsg}
-  <div class="validation-msg" style="color: {errorColor}; border-color: {errorColor}">
+  <div class="validation-msg" style="color: {errorColor}; border-color: {errorColor};">
     {errorMsg}
   </div>
   {/if}
 </label>
-
 
 <script>
   import Keyboard from '@mamba/native/keyboard.js';
@@ -178,7 +177,7 @@
   input {
     width: 100%;
     background-color: transparent;
-    -webkit-appearance: none;
+    appearance: none;
     border: none;
     font-size: 30px;
     height: 36px;

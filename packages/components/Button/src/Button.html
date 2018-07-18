@@ -1,10 +1,4 @@
-<button
-  ref:button
-  class="button is-{size} {bottom ? 'is-fixed' : ''}"
-  {style}
-  {disabled}
-  on:click
->
+<button ref:button class="button is-{size} {bottom ? 'is-fixed' : ''}" {style} {disabled} on:click>
   <slot></slot>
 </button>
 
@@ -66,8 +60,11 @@
 
   button[disabled] {
     cursor: not-allowed;
+    /* stylelint-disable-next-line declaration-no-important */
     background-color: $grey-light !important;
+    /* stylelint-disable-next-line declaration-no-important */
     color: $grey !important;
+    /* stylelint-disable-next-line declaration-no-important */
     border: none !important;
   }
 
