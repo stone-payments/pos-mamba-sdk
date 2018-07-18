@@ -50,6 +50,9 @@ module.exports = {
     'value-list-comma-newline-after': null,
     'value-list-comma-newline-before': null,
 
+    /** Allow to specify a unit even for 'zero' values */
+    'length-zero-no-unit': null,
+
     /** Disallow #id selectors (bad practice) */
     'selector-max-id': 0,
 
@@ -72,8 +75,9 @@ module.exports = {
       },
     ],
 
-    /** Allow to specify a unit even for 'zero' values */
-    'length-zero-no-unit': null,
+    /** For inline styles (postcss-html doesn't allow to disable linting inline styles) */
+    'no-missing-end-of-source-newline': null,
+    'declaration-block-semicolon-newline-after': null,
 
     /** Svelte related */
 
