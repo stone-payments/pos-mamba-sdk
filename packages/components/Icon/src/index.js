@@ -1,2 +1,2 @@
-export { default, default as Icon } from './Icon.svelte'
-export { default as RoundIcon } from './RoundIcon.svelte'
+export { default, default as Icon } from './Icon.html'
+export { default as RoundIcon } from './RoundIcon.html'
