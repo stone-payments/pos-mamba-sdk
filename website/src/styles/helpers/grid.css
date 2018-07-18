@@ -1,0 +1,12 @@
+/* helpers/grid.css */
+
+/* Utility Class (UtilityName--modifierName) */
+
+/* Grid box */
+.Grid {
+  display: grid;
+
+  &-rightSpacer {
+    background: #fff;
+  }
+}

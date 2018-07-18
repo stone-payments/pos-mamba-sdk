@@ -1,0 +1,18 @@
+{
+  "name": "@mamba/code",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "style": "dist/style.css",
+  "source": "src/index.js",
+  "svelte": "src/index.js",
+  "files": [
+    "dist/",
+    "src/"
+  ],
+  "author": "Stone Payments - Mamba Team",
+  "license": "Apache-2.0",
+  "scripts": {},
+  "devDependencies": {},
+  "dependencies": {
+  }
+}

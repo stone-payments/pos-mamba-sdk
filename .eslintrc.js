@@ -27,6 +27,10 @@ module.exports = {
     'no-var': 'error',
     'comma-dangle': ['error', 'always-multiline'],
     'no-new': 'off',
+    'no-sequences': 'off',
+  },
+  globals: {
+    cy: true,
   },
   overrides: [
     {
