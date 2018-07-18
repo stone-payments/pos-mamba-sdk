@@ -36,7 +36,6 @@
     right: var(--logo-container-right);
 
     & a {
-      background: url('../assets/logo.svg') no-repeat;
       background-position: center center;
       background-size: contain;
       display: inline-block;
