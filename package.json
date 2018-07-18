@@ -12,10 +12,10 @@
     "build:libs": "bolt ws build --only-fs \"packages/{utils,native}/**\"",
     "delete:modules": "rm -rf \"node_modules\" \"./**/node_modules\"",
     "link:packages": "bolt ws exec --only-fs \"packages/**\" -- yarn link",
-    "lint": "npm run lint:js",
+    "lint": "yarn lint:css; yarn lint:js",
     "lint:js": "eslint \"*.js\" \"{tools,packages,website}/**/*.{js,html,svelte}\"",
     "lint:css": "stylelint --custom-syntax \"postcss-html\" \"packages/**/*.{html,svelte,css,pcss}\"",
-    "format": "npm run format:css; npm run format:js",
+    "format": "yarn format:css; yarn format:js",
     "format:js": "prettier --write \"*.js\" \"{tools,packages,website}/**/*.js\" && eslint --fix \"*.js\" \"{tools,packages,website}/**/*.{js,html,svelte}\"",
     "format:css": "prettier --write \"packages/**/*.{css,pcss}\" && stylelint --fix --custom-syntax \"postcss-html\" \"packages/**/*.{html,svelte,css,pcss}\"",
     "test": "bolt ws test"
@@ -27,8 +27,7 @@
       "packages/native",
       "packages/store",
       "packages/styles",
-      "packages/eslint-config",
-      "packages/stylelint-config",
+      "packages/configs",
       "packages/components/*",
       "website"
     ]
@@ -97,7 +96,6 @@
     "postcss-preset-env": "^5.1.0",
     "postcss-property-lookup": "^2.0.0",
     "postcss-reporter": "^5.0.0",
-    "postcss-scss": "^1.0.6",
     "postcss-syntax": "^0.31.0",
     "prettier": "^1.12.1",
     "quickenv": "^0.0.5",

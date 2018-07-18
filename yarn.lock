@@ -2280,7 +2280,7 @@ eslint@^4.1.1:
     table "4.0.2"
     text-table "~0.2.0"
 
-eslint@^5.0.0:
+eslint@^5.0.1:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/eslint/-/eslint-5.1.0.tgz#2ed611f1ce163c0fb99e1e0cda5af8f662dff645"
   dependencies:
@@ -5496,7 +5496,7 @@ postcss-sass@^0.3.0:
     gonzales-pe "4.2.3"
     postcss "6.0.22"
 
-postcss-scss@^1.0.2, postcss-scss@^1.0.5, postcss-scss@^1.0.6:
+postcss-scss@^1.0.2, postcss-scss@^1.0.5:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/postcss-scss/-/postcss-scss-1.0.6.tgz#ab903f3bb20161bc177896462293a53d4bff5f7a"
   dependencies:
@@ -6718,8 +6718,8 @@ svelte-extras@^2.0.2:
   resolved "https://registry.yarnpkg.com/svelte-extras/-/svelte-extras-2.0.2.tgz#2b7e2826b27c9bf3c12b745494f11be835dc7f69"
 
 svelte-preprocess@^2.1.4:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-2.2.1.tgz#7f9368a2b8cd52aabc2aea46356473823c63fc75"
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-2.2.2.tgz#e54b05e210bc86184cac913d0e9c11a422cb33f2"
   dependencies:
     postcss-load-config "^2.0.0"
     strip-indent "^2.0.0"
