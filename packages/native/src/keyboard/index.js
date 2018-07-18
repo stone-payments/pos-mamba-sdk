@@ -1,18 +1,21 @@
 import mock from './mock.js'
-import extendNative from './native.js'
 import addSharedTo from './shared.js'
 
 let Keyboard = window.Keyboard
 
+/** For development environment */
 if (process.env.NODE_ENV !== 'production') {
   Keyboard = window.Keyboard = {}
   mock(Keyboard)
   addSharedTo(Keyboard)
 }
 
+/** For production environment */
 if (process.env.NODE_ENV === 'production') {
-  extendNative(Keyboard)
   addSharedTo(Keyboard)
 }
+
+/** Remove the window Keyboard reference */
+// window.Keyboard = undefined
 
 export default Keyboard

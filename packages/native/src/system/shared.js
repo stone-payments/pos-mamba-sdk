@@ -1,7 +1,7 @@
 export default function(System) {
   /**
    * Definition of the possible tones. TONE1 has the lowest frequency, while TONE7 has the highest one
-   * @memberOf System
+   * @memberof System
    * @name Tone
    * @type {object}
    * @property {string} TONE1
@@ -24,7 +24,7 @@ export default function(System) {
 
   /**
    * Definition of the possible power supplies
-   * @memberOf System
+   * @memberof System
    * @name PowerSupply
    * @type {object}
    * @property {string} ADAPTER Powered by the adapter
@@ -39,7 +39,7 @@ export default function(System) {
 
   /**
    * Definition of the possible battery status
-   * @memberOf System
+   * @memberof System
    * @name BatteryStatus
    * @type {object}
    * @property {string} CHECK_NOT_SUPPORTED   The battery check is not supported on the device

@@ -47,8 +47,10 @@
 </script>
 
 <style>
-  .status-bar {
-    display: none;
+  @media all and (max-width: 480px) {
+    .status-bar {
+      display: none;
+    }
   }
 
   @media all and (min-width: 481px) {
@@ -69,6 +71,7 @@
       overflow-x: hidden;
       overflow-y: auto;
       flex: 0 1 auto;
+      user-select: text;
 
       &.-locked {
         overflow: hidden;

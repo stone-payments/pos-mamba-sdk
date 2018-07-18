@@ -9,6 +9,7 @@
 
   <input
     ref:input
+    class="-{align}"
     type={visible ? 'text' : 'password'}
     style="color: {textColor}"
     {disabled}
@@ -41,6 +42,7 @@
     },
     data() {
       return {
+        align: 'right',
         visible: true,
         value: '',
         validate: undefined,
@@ -74,13 +76,13 @@
 
         if (autofocus) {
           this.focus()
-          this.refs.input.scrollIntoView()
+          this.refs.input.scrollIntoView(false)
         }
       }
     },
     onupdate({ changed, current }) {
       if (changed.errorMsg && current.errorMsg) {
-        this.refs.input.scrollIntoView()
+        this.refs.input.scrollIntoView(false)
       }
     },
     methods: {
@@ -177,7 +179,7 @@
   }
 
   .input.-password input {
-    padding-right: 35px;
+    padding-right: 40px;
   }
 
   span {
@@ -198,6 +200,10 @@
     border-bottom: 1px dotted #dedede;
   }
 
+  input:not(.-left) {
+    text-align: right;
+  }
+
   input[type='text'] {
     font-size: 20px;
   }
@@ -205,7 +211,7 @@
   .type-toggle {
     position: absolute;
     right: 20px;
-    bottom: 10px;
+    bottom: 17px;
   }
 
   .validation-msg {

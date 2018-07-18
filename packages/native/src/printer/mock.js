@@ -1,4 +1,4 @@
-import SignalEmitter from '../SignalEmitter'
+import SignalEmitter from '../signal/emitter.js'
 
 const MockConfig = {
   should_fail: false,

@@ -3,11 +3,13 @@
   "version": "0.0.1",
   "description": "Native Mamba applications methods",
   "source": "src/index.js",
-  "subModules": ["src/*/index.js", "!src/utils"],
+  "subModules": [
+    "src/*/index.js",
+    "src/signal/*.js"
+  ],
   "scripts": {
     "start": "rollup -c ../../tools/rollup/config.lib.js -w",
-    "build":
-      "cross-env NODE_ENV=production rollup -c ../../tools/rollup/config.lib.js",
+    "build": "cross-env NODE_ENV=production rollup -c ../../tools/rollup/config.lib.js",
     "test": "jest -c ../../jest.config.js --no-cache",
     "prepublishOnly": "npm run build"
   },
