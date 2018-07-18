@@ -17,7 +17,7 @@ const KEYMAP = Object.freeze({
   55: '7',
   56: '8',
   57: '9',
-})
+});
 /**
  * Get the key code relative to a specific key name
  * @memberof Keyboard
@@ -25,7 +25,7 @@ const KEYMAP = Object.freeze({
  * @returns {number} - Relative key code
  */
 function getKeyCode(keyName) {
-  return Object.keys(KEYMAP).find(code => KEYMAP[code] === keyName)
+  return Object.keys(KEYMAP).find(code => KEYMAP[code] === keyName);
 }
 
 /**
@@ -35,7 +35,7 @@ function getKeyCode(keyName) {
  * @returns {string} - Relative key name
  */
 function getKeyName(keyCode) {
-  return KEYMAP[keyCode]
+  return KEYMAP[keyCode];
 }
 
 /**
@@ -45,7 +45,7 @@ function getKeyName(keyCode) {
  * @returns {boolean}
  */
 function isNumericKey(keyCode) {
-  return !isNaN(parseFloat(KEYMAP[keyCode]))
+  return !Number.isNaN(parseFloat(KEYMAP[keyCode]));
 }
 
 /**
@@ -55,13 +55,13 @@ function isNumericKey(keyCode) {
  * @returns {boolean}
  */
 function isActionKey(keyCode) {
-  return !isNumericKey(keyCode)
+  return !isNumericKey(keyCode);
 }
 
 /**
  * Define if backspace button should be enabled
  */
-let _isBackspaceEnabled = true
+let _isBackspaceEnabled = true;
 
 /**
  * Return if the backspace button is enabled
@@ -69,7 +69,7 @@ let _isBackspaceEnabled = true
  * @returns {boolean}
  */
 function isBackspaceEnabled() {
-  return _isBackspaceEnabled
+  return _isBackspaceEnabled;
 }
 
 /**
@@ -77,7 +77,7 @@ function isBackspaceEnabled() {
  * @memberof Keyboard
  */
 function disableBackspace() {
-  _isBackspaceEnabled = false
+  _isBackspaceEnabled = false;
 }
 
 /**
@@ -85,10 +85,10 @@ function disableBackspace() {
  * @memberof Keyboard
  */
 function enableBackspace() {
-  _isBackspaceEnabled = true
+  _isBackspaceEnabled = true;
 }
 
-export default function(Keyboard) {
+export default function (Keyboard) {
   Object.assign(Keyboard, {
     getKeyCode,
     getKeyName,
@@ -97,5 +97,5 @@ export default function(Keyboard) {
     isBackspaceEnabled,
     disableBackspace,
     enableBackspace,
-  })
+  });
 }

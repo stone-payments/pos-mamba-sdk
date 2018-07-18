@@ -30,40 +30,42 @@
         mainColor: '#3da10f',
         textColor: '#494949',
         barColor: '#000',
-      }
+      };
     },
     oncreate() {
       if (!this.options.data || typeof this.options.data.value === 'undefined') {
-        const { min, max } = this.get()
-        this.set({ value: (max + min) / 2 })
+        const { min, max } = this.get();
+        this.set({ value: (max + min) / 2 });
       }
     },
     computed: {
-      barWidth: ({ value, max, min, unit }) => {
+      barWidth: ({
+        value, max, min, unit,
+      }) => {
         if (unit === '%') {
-          return value / max * 100
+          return value / max * 100;
         }
-        return (value - min) / (max - min) * 100
+        return (value - min) / (max - min) * 100;
       },
       buttonStyle({ mainColor }) {
-        return `background-color: ${mainColor}`
+        return `background-color: ${mainColor}`;
       },
     },
     methods: {
       decrement() {
-        const { min, value, step } = this.get()
-        this.set({ value: Math.max(min, value - step) })
-        this.fire('decrement', { value })
-        this.fire('change', { value })
+        const { min, value, step } = this.get();
+        this.set({ value: Math.max(min, value - step) });
+        this.fire('decrement', { value });
+        this.fire('change', { value });
       },
       increment() {
-        const { max, value, step } = this.get()
-        this.set({ value: Math.min(max, value + step) })
-        this.fire('increment', { value })
-        this.fire('change', { value })
+        const { max, value, step } = this.get();
+        this.set({ value: Math.min(max, value + step) });
+        this.fire('increment', { value });
+        this.fire('change', { value });
       },
     },
-  }
+  };
 </script>
 
 <style>

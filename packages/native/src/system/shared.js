@@ -1,4 +1,4 @@
-export default function(System) {
+export default function (System) {
   /**
    * Definition of the possible tones. TONE1 has the lowest frequency, while TONE7 has the highest one
    * @memberof System
@@ -20,7 +20,7 @@ export default function(System) {
     TONE5: 'TONE5',
     TONE6: 'TONE6',
     TONE7: 'TONE7',
-  })
+  });
 
   /**
    * Definition of the possible power supplies
@@ -35,7 +35,7 @@ export default function(System) {
     ADAPTER: 'ADAPTER',
     BATTERY: 'BATTERY',
     USB: 'USB',
-  })
+  });
 
   /**
    * Definition of the possible battery status
@@ -54,5 +54,5 @@ export default function(System) {
     CHARGE_COMPLETE: 'CHARGE_COMPLETE',
     DISCHARGE: 'DISCHARGE',
     ABSENT: 'ABSENT',
-  })
+  });
 }

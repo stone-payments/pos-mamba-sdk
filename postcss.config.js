@@ -1,4 +1,4 @@
-const stylelint = require('stylelint')
+const stylelint = require('stylelint');
 
 module.exports = {
   plugins: [
@@ -17,4 +17,4 @@ module.exports = {
     require('postcss-nested'),
     require('postcss-reporter')({ clearReportedMessages: true }),
   ],
-}
+};

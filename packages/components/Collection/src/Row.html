@@ -26,12 +26,12 @@
 </div>
 
 <script>
-  import { getHistory } from 'svelte-routing'
+  import { getHistory } from 'svelte-routing';
 
   function findClosest(el, cb) {
-    if (!el || el.nodeType !== 1) return null
-    if (el && !cb(el)) return findClosest(el.parentNode, cb)
-    return el
+    if (!el || el.nodeType !== 1) return null;
+    if (el && !cb(el)) return findClosest(el.parentNode, cb);
+    return el;
   }
 
   export default {
@@ -50,37 +50,36 @@
         description: undefined,
         _hasCustomController: false,
         _hasExtraContent: false,
-      }
+      };
     },
     computed: {
-      _hasController: ({ href, _hasCustomController }) =>
-        !!(href || _hasCustomController),
+      _hasController: ({ href, _hasCustomController }) => !!(href || _hasCustomController),
     },
     oncreate() {
-      const hasSlots = !!this.options.slots
+      const hasSlots = !!this.options.slots;
       if (hasSlots) {
         this.set({
           _hasCustomController: !!this.options.slots.controller,
           _hasExtraContent: !!this.options.slots.extra,
-        })
+        });
       }
 
-      const { shortcut } = this.options.data
+      const { shortcut } = this.options.data;
       /**
        * TODO: Refactor to pass as prop when undefined props are not rendered on the element
        */
       if (this.options.data.shortcut) {
-        this.refs.main.setAttribute('shortcut', shortcut)
+        this.refs.main.setAttribute('shortcut', shortcut);
       }
     },
     methods: {
       handleClick({ event, href }) {
         /** If clicked on a "link" row, push the page to the router */
         if (href) {
-          return getHistory().push(href)
+          return getHistory().push(href);
         }
 
-        const { _hasCustomController } = this.get()
+        const { _hasCustomController } = this.get();
         /**
          * If the row has a custom controller,
          * let's see if it has a [data-controller-triger] element.
@@ -90,24 +89,26 @@
           const hasNotClickedController = !findClosest(
             event.target,
             el => el.getAttribute('slot') === 'controller',
-          )
+          );
           if (hasNotClickedController) {
             const triggerEl = this.refs.controller.querySelector(
               '[data-controller-trigger]',
-            )
+            );
             if (triggerEl) {
-              // ! We assume that the trigger is also the element method that triggers it (like click) */
-              triggerEl[triggerEl.dataset.controllerTrigger]()
-              return
+              /** ! We assume that the trigger is also
+               * the element method that triggers it (like click)
+               * */
+              triggerEl[triggerEl.dataset.controllerTrigger]();
+              return;
             }
           }
         }
 
         /** Fire the row's click event for listening parent components */
-        this.fire('click')
+        this.fire('click');
       },
     },
-  }
+  };
 </script>
 
 <style>

@@ -1,4 +1,4 @@
-const { IS_TEST, IS_DEV } = require('quickenv')
+const { IS_TEST, IS_DEV } = require('quickenv');
 
 const presets = [
   [
@@ -13,12 +13,12 @@ const presets = [
     },
   ],
   ['@babel/preset-stage-3', { loose: true }],
-]
+];
 
-const plugins = [['@babel/plugin-proposal-class-properties', { loose: true }]]
+const plugins = [['@babel/plugin-proposal-class-properties', { loose: true }]];
 
 module.exports = {
   sourceMaps: true,
   presets,
   plugins,
-}
+};

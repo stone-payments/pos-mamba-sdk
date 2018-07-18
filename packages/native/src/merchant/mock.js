@@ -1,8 +1,8 @@
 const MockConfig = {
   acquirerIssuedMerchantId: '123', // stone code
-}
+};
 
-export default function(Merchant) {
+export default function (Merchant) {
   /**
    * Get the stone code
    * @memberof Merchant
@@ -10,10 +10,10 @@ export default function(Merchant) {
    */
 
   function getStoneCode() {
-    return MockConfig.acquirerIssuedMerchantId
+    return MockConfig.acquirerIssuedMerchantId;
   }
 
   Object.assign(Merchant, {
     getStoneCode,
-  })
+  });
 }

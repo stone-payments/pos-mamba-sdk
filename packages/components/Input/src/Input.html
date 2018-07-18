@@ -1,40 +1,23 @@
-<label
-  class="input -{type}"
-  style="background-color: {bgColor}; color: {textColor}"
-  on:mousedown="onMousedown(event)"
->
+<label class="input -{type}" style="background-color: {bgColor}; color: {textColor}" on:mousedown="onMousedown(event)">
   {#if label}
-    <span>{label}</span>
+  <span>{label}</span>
   {/if}
 
-  <input
-    ref:input
-    class="-{align}"
-    type={visible ? 'text' : 'password'}
-    style="color: {textColor}"
-    {disabled}
-    on:focus="onFocus()"
-    on:blur="onBlur()"
-    on:keyup="onKeyUp(event)"
-    on:input="set({ value: this.value })"
-    />
-
-  {#if type === 'password' && readable}
-    <div class="type-toggle">
-      <Icon symbol="{visible ? 'eye' : 'eye-off'}" />
-    </div>
-  {/if}
-
-  {#if typeof validate === 'function' && !!errorMsg}
-    <div class="validation-msg" style="color: {errorColor}; border-color: {errorColor}">
-      {errorMsg}
-    </div>
+  <input ref:input class="-{align}" type={visible ? 'text' : 'password'} style="color: {textColor}" {disabled} on:focus="onFocus()"
+    on:blur="onBlur()" on:keyup="onKeyUp(event)" on:input="set({ value: this.value })" /> {#if type === 'password' && readable}
+  <div class="type-toggle">
+    <Icon symbol="{visible ? 'eye' : 'eye-off'}" />
+  </div>
+  {/if} {#if typeof validate === 'function' && !!errorMsg}
+  <div class="validation-msg" style="color: {errorColor}; border-color: {errorColor}">
+    {errorMsg}
+  </div>
   {/if}
 </label>
 
 
 <script>
-  import Keyboard from '@mamba/native/keyboard'
+  import Keyboard from '@mamba/native/keyboard.js';
 
   export default {
     components: {
@@ -56,117 +39,119 @@
         bgColor: '#fff',
         textColor: '#4a4a4a',
         errorColor: '#d50000',
-      }
+      };
     },
     oncreate() {
       if (this.options.data) {
-        const { type, maxlength, autofocus, value } = this.options.data
+        const {
+          type, maxlength, autofocus, value,
+        } = this.options.data;
 
         if (typeof maxlength !== 'undefined') {
-          this.refs.input.setAttribute('maxlength', parseInt(maxlength))
+          this.refs.input.setAttribute('maxlength', parseInt(maxlength, 10));
         }
 
         if (type === 'password') {
-          this.set({ visible: false })
+          this.set({ visible: false });
         }
 
         if (value) {
-          this.value(value)
+          this.value(value);
         }
 
         if (autofocus) {
-          this.focus()
-          this.refs.input.scrollIntoView(false)
+          this.focus();
+          this.refs.input.scrollIntoView(false);
         }
       }
     },
     onupdate({ changed, current }) {
       if (changed.errorMsg && current.errorMsg) {
-        this.refs.input.scrollIntoView(false)
+        this.refs.input.scrollIntoView(false);
       }
     },
     methods: {
       /** Prepend text to the input */
       prepend(value) {
-        this.refs.input.value = value + this.refs.input.value
+        this.refs.input.value = value + this.refs.input.value;
       },
       /** Append text to the input */
       append(value) {
-        this.refs.input.value += value
+        this.refs.input.value += value;
       },
       /** Set or get the input value */
       value(inputValue) {
-        const inputEl = this.refs.input
+        const inputEl = this.refs.input;
         if (inputValue != null) {
-          inputEl.value = inputValue
+          inputEl.value = inputValue;
         }
-        return inputEl.value
+        return inputEl.value;
       },
       focus() {
-        this.refs.input.focus()
+        this.refs.input.focus();
       },
       blur() {
-        this.refs.input.blur()
+        this.refs.input.blur();
       },
       // TODO: when 'visible' changes, it triggers a focus
       onFocus() {
-        const { alphanumeric } = this.get()
+        const { alphanumeric } = this.get();
         if (alphanumeric) {
-          Keyboard.setKeyboardAsAlphanumeric()
+          Keyboard.setKeyboardAsAlphanumeric();
         } else {
-          Keyboard.setKeyboardAsNumeric()
+          Keyboard.setKeyboardAsNumeric();
         }
       },
       onBlur() {
-        const { alphanumeric } = this.get()
+        const { alphanumeric } = this.get();
         if (alphanumeric) {
-          Keyboard.setKeyboardAsNumeric()
+          Keyboard.setKeyboardAsNumeric();
         }
       },
       onKeyUp(e) {
-        const key = Keyboard.getKeyName(e.keyCode)
-        this.fire('keyup')
+        const key = Keyboard.getKeyName(e.keyCode);
+        this.fire('keyup');
         if (key === 'enter') {
           if (this.validate()) {
-            this.fire('valid')
-            this.blur()
+            this.fire('valid');
+            this.blur();
           } else {
-            this.fire('invalid')
+            this.fire('invalid');
           }
-          this.fire('submit')
+          this.fire('submit');
         }
       },
       /** We use mousedown instead of click because it fires before the input's .focus() */
-      onMousedown(e) {
-        const { type, visible, readable } = this.get()
+      onMousedown() {
+        const { type, visible, readable } = this.get();
         /** Change password visibility only if element is focused */
         if (
-          type === 'password' &&
-          readable &&
-          document.activeElement === this.refs.input
+          type === 'password'
+        && readable
+        && document.activeElement === this.refs.input
         ) {
-          this.set({ visible: !visible })
-          setTimeout(() => this.refs.input.focus())
+          this.set({ visible: !visible });
+          setTimeout(() => this.refs.input.focus());
         }
       },
       validate() {
-        const { validate, value } = this.get()
+        const { validate, value } = this.get();
         /** If we have a validation function, execute it */
         if (typeof validate === 'function') {
-          const { valid, msg } = validate(value)
+          const { valid, msg } = validate(value);
           if (!valid) {
-            this.set({ errorMsg: msg })
+            this.set({ errorMsg: msg });
           } else {
-            this.set({ errorMsg: undefined })
+            this.set({ errorMsg: undefined });
           }
-          return valid
+          return valid;
         }
 
         /** If not, just return 'valid' */
-        return true
+        return true;
       },
     },
-  }
+  };
 </script>
 
 <style>

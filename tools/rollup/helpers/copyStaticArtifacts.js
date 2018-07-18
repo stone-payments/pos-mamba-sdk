@@ -1,17 +1,17 @@
-import { existsSync } from 'fs'
-import { resolve } from 'path'
-import copy from 'rollup-plugin-copy'
-const { fromSrc } = require('../utils/paths.js')
+import { existsSync } from 'fs';
+import { resolve } from 'path';
+import copy from 'rollup-plugin-copy';
+
+const { fromSrc } = require('../utils/paths.js');
 
 /** rollup-plugin-copy wrapper */
-export default staticArtifacts => distPath =>
-  copy({
-    verbose: true,
-    ...staticArtifacts.reduce((acc, artifactPath) => {
-      const srcPath = fromSrc(artifactPath)
-      if (existsSync(srcPath)) {
-        acc[fromSrc(artifactPath)] = resolve(distPath, artifactPath)
-      }
-      return acc
-    }, {}),
-  })
+export default staticArtifacts => distPath => copy({
+  verbose: true,
+  ...staticArtifacts.reduce((acc, artifactPath) => {
+    const srcPath = fromSrc(artifactPath);
+    if (existsSync(srcPath)) {
+      acc[fromSrc(artifactPath)] = resolve(distPath, artifactPath);
+    }
+    return acc;
+  }, {}),
+});

@@ -1,7 +1,7 @@
 <div class="credit-card {isCardInserted ? 'is-inserted' : ''}" on:click="toggleCard()"></div>
 
 <script>
-  import Payment from '@mamba/native/payment'
+  import Payment from '@mamba/native/payment.js';
 
   export default {
     data() {
@@ -13,19 +13,19 @@
           pan: '52189300000000',
           cardholdername: 'JOÃO ROCHA',
         },
-      }
+      };
     },
     methods: {
       toggleCard() {
-        const isCardInserted = !this.get().isCardInserted
-        this.set({ isCardInserted })
+        const isCardInserted = !this.get().isCardInserted;
+        this.set({ isCardInserted });
         if (isCardInserted) {
           /** Fire the cardEvent signal. Simulates the back-end */
-          Payment.cardEvent()
+          Payment.cardEvent();
         }
       },
     },
-  }
+  };
 </script>
 
 <style>

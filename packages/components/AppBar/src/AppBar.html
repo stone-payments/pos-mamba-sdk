@@ -17,7 +17,7 @@
 </header>
 
 <script>
-  import { getHistory } from 'svelte-routing'
+  import { getHistory } from 'svelte-routing';
 
   export default {
     components: {
@@ -30,7 +30,7 @@
         position: 'relative',
         textColor: '#fff',
         bgColor: '#4ebf1a',
-      }
+      };
     },
     computed: {
       style({ bgColor, textColor, position }) {
@@ -38,50 +38,50 @@
           `position:${position}`,
           `color:${textColor}`,
           `background-color:${bgColor}`,
-        ].join(';')
+        ].join(';');
       },
       isAtHome: ({ location }) => location === '/',
       homeIcon: ({ isAtHome }) => (isAtHome ? 'home' : 'app-home'),
       isAppLocked: ({ $__meta__ }) => $__meta__.locked,
     },
     oncreate() {
-      const history = getHistory()
+      const history = getHistory();
 
       /** Listen for route changes */
       if (history) {
-        this.set({ location: history.location.pathname })
-        history.listen(location => {
-          this.set({ location: location.pathname })
-        })
+        this.set({ location: history.location.pathname });
+        history.listen((location) => {
+          this.set({ location: location.pathname });
+        });
       }
 
       /** Listen for app title changes */
       if (this.store) {
-        this.store.meta.on('title', title => this.set({ title }))
+        this.store.meta.on('title', title => this.set({ title }));
       }
     },
     methods: {
       gohome() {
         if (this.store && this.store.meta.isAppLocked()) {
-          return
+          return;
         }
 
-        const { isAtHome } = this.get()
+        const { isAtHome } = this.get();
         if (isAtHome) {
-          return this.store.meta.closeApp()
+          return this.store.meta.closeApp();
         }
 
-        getHistory().push('/')
+        getHistory().push('/');
       },
       goback() {
         if (this.store && this.store.meta.isAppLocked()) {
-          return
+          return;
         }
 
-        getHistory().goBack()
+        getHistory().goBack();
       },
     },
-  }
+  };
 </script>
 
 <style type="text/postcss">

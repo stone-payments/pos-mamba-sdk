@@ -1,2 +1,2 @@
 // TODO: Make the screen brightness feature
-export { default } from './Pos.html'
+export { default } from './Pos.html';

@@ -1,0 +1,12 @@
+{
+  "name": "@mamba/stylelint-config",
+  "version": "1.0.0",
+  "description": "Stylelint config presets for use in mamba projects.",
+  "author": "Christian Kaisermann <christian.kaisermann@stone.com.br>",
+  "license": "Apache-2.0",
+  "keywords": [
+    "stylelint",
+    "mamba"
+  ],
+  "main": "index.js"
+}

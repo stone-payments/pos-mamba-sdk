@@ -17,17 +17,17 @@
 </div>
 
 <script>
-  import Keyboard from '@mamba/native/keyboard'
+  import Keyboard from '@mamba/native/keyboard.js';
 
   export default {
     methods: {
       dispatchKey({ event, keyName }) {
         /** Prevent the button from being focused */
-        event.preventDefault()
-        const focusedEl = document.activeElement
-        const isFocusedInput = focusedEl && focusedEl.tagName === 'INPUT'
+        event.preventDefault();
+        const focusedEl = document.activeElement;
+        const isFocusedInput = focusedEl && focusedEl.tagName === 'INPUT';
 
-        const code = Keyboard.getKeyCode(keyName)
+        const code = Keyboard.getKeyCode(keyName);
 
         /** If action button clicked */
         if (Keyboard.isActionKey(code)) {
@@ -35,16 +35,14 @@
           if (keyName === 'back') {
             /** If we're focusing on a <input> erase the last character */
             if (isFocusedInput) {
-              focusedEl.value = focusedEl.value.slice(0, -1)
-              focusedEl.dispatchEvent(new Event('input'))
+              focusedEl.value = focusedEl.value.slice(0, -1);
+              focusedEl.dispatchEvent(new Event('input'));
             }
           }
-        } else {
           /** If numeric button clicked */
-          if (isFocusedInput) {
-            focusedEl.value += keyName
-            focusedEl.dispatchEvent(new Event('input'))
-          }
+        } else if (isFocusedInput) {
+          focusedEl.value += keyName;
+          focusedEl.dispatchEvent(new Event('input'));
         }
 
         window.dispatchEvent(
@@ -52,10 +50,10 @@
             key: keyName,
             keyCode: code,
           }),
-        )
+        );
       },
     },
-  }
+  };
 </script>
 
 <style>

@@ -1,5 +1,5 @@
-import SignalEmitter from '../signal/emitter.js'
-import Signal from '../signal/index.js'
+import SignalEmitter from '../signal/emitter.js';
+import Signal from '../signal/index.js';
 
 const MockConfig = {
   amountPaid: -1,
@@ -13,9 +13,9 @@ const MockConfig = {
   atk: '11111111111111',
   itk: '11111111111111',
   orderId: '111111111',
-}
+};
 
-let _isPaying = false
+let _isPaying = false;
 
 /**
  * Returns true if is paying
@@ -23,7 +23,7 @@ let _isPaying = false
  * @return {boolean} True if is paying
  */
 function isPaying() {
-  return _isPaying
+  return _isPaying;
 }
 
 /**
@@ -31,7 +31,7 @@ function isPaying() {
  * @return {boolean} True if the last payment job has failed
  */
 function failedPaying() {
-  return MockConfig.shouldFail
+  return MockConfig.shouldFail;
 }
 
 /**
@@ -41,7 +41,7 @@ function failedPaying() {
  * @return {string} cardHolderName
  */
 function getCardHolderName() {
-  return !failedPaying() ? '' : MockConfig.cardHolderName
+  return !failedPaying() ? '' : MockConfig.cardHolderName;
 }
 
 /**
@@ -51,7 +51,7 @@ function getCardHolderName() {
  * @return {string} atk
  */
 function getAtk() {
-  return !failedPaying() ? '' : MockConfig.atk
+  return !failedPaying() ? '' : MockConfig.atk;
 }
 
 /**
@@ -61,7 +61,7 @@ function getAtk() {
  * @return {string} itk
  */
 function getItk() {
-  return !failedPaying() ? '' : MockConfig.itk
+  return !failedPaying() ? '' : MockConfig.itk;
 }
 
 /**
@@ -71,7 +71,7 @@ function getItk() {
  * @return {Date} authorizationDateTime
  */
 function getAuthorizationDateTime() {
-  return !failedPaying() ? '' : new Date()
+  return !failedPaying() ? '' : new Date();
 }
 
 /**
@@ -81,7 +81,7 @@ function getAuthorizationDateTime() {
  * @return {string} brand
  */
 function getBrand() {
-  return !failedPaying() ? '' : MockConfig.cardBrand
+  return !failedPaying() ? '' : MockConfig.cardBrand;
 }
 
 /**
@@ -91,8 +91,8 @@ function getBrand() {
  * @return {string} orderId
  */
 function getOrderId() {
-  let orderId = ''
-  return !failedPaying() ? orderId : MockConfig.orderId
+  const orderId = '';
+  return !failedPaying() ? orderId : MockConfig.orderId;
 }
 
 /**
@@ -102,7 +102,7 @@ function getOrderId() {
  * @return {string} authorizationCode
  */
 function getAuthorizationCode() {
-  return !failedPaying() ? '' : MockConfig.authCode
+  return !failedPaying() ? '' : MockConfig.authCode;
 }
 
 /**
@@ -112,7 +112,7 @@ function getAuthorizationCode() {
  * @return {int} installmentCount
  */
 function getInstallmentCount() {
-  return !failedPaying() ? 0 : MockConfig.installmentCount
+  return !failedPaying() ? 0 : MockConfig.installmentCount;
 }
 
 /**
@@ -122,7 +122,7 @@ function getInstallmentCount() {
  * @return {string} pan
  */
 function getPan() {
-  return !failedPaying() ? '' : MockConfig.pan
+  return !failedPaying() ? '' : MockConfig.pan;
 }
 
 /**
@@ -132,22 +132,22 @@ function getPan() {
  * @return {string} type
  */
 function getType() {
-  return !failedPaying() ? '' : MockConfig.type
+  return !failedPaying() ? '' : MockConfig.type;
 }
 
-export default function(Payment) {
+export default function (Payment) {
   Payment.doPay = SignalEmitter(Payment)
     .before(() => {
-      _isPaying = true
+      _isPaying = true;
     })
     .after(() => {
-      _isPaying = false
+      _isPaying = false;
     })
-    .add('paymentDone', 1)
+    .add('paymentDone', 1);
 
-  Payment.doEnableCardEvent = SignalEmitter(Payment)
-  Payment.doDisableCardEvent = SignalEmitter(Payment)
-  Payment.cardEvent = Signal()
+  Payment.doEnableCardEvent = SignalEmitter(Payment);
+  Payment.doDisableCardEvent = SignalEmitter(Payment);
+  Payment.cardEvent = Signal();
 
   Object.assign(Payment, {
     isPaying,
@@ -162,5 +162,5 @@ export default function(Payment) {
     getInstallmentCount,
     getPan,
     getType,
-  })
+  });
 }

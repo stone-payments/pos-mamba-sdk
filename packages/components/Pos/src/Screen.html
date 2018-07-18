@@ -20,7 +20,7 @@
         version: '2.1.0',
         brightnessLevel: 10,
         time: '00:00',
-      }
+      };
     },
     computed: {
       brightnessOpacity: ({ brightnessLevel }) => 1 - brightnessLevel / 10,
@@ -28,22 +28,22 @@
     oncreate() {
       /** Update the clock after each second */
       const updateTimer = () => {
-        const curDate = new Date()
-        const minutes = String(curDate.getMinutes()).padStart(2, '0')
-        const hours = String(curDate.getHours()).padStart(2, '0')
-        this.set({ time: `${hours}:${minutes}` })
-        return updateTimer
-      }
-      setInterval(updateTimer(), 1000)
+        const curDate = new Date();
+        const minutes = String(curDate.getMinutes()).padStart(2, '0');
+        const hours = String(curDate.getHours()).padStart(2, '0');
+        this.set({ time: `${hours}:${minutes}` });
+        return updateTimer;
+      };
+      setInterval(updateTimer(), 1000);
 
       if (this.store) {
         /** Listen for brightness changes */
-        this.store.on('pos:brightness', brightnessLevel => {
-          this.set({ brightnessLevel })
-        })
+        this.store.on('pos:brightness', (brightnessLevel) => {
+          this.set({ brightnessLevel });
+        });
       }
     },
-  }
+  };
 </script>
 
 <style>

@@ -1,8 +1,7 @@
-import { getPkg } from 'quickenv'
+import { getPkg } from 'quickenv';
 
-const PKG = getPkg()
+const PKG = getPkg();
 
-export default moduleId =>
-  Object.keys(PKG.peerDependencies || [])
-    .map(libName => libName)
-    .some(depName => new RegExp(`${depName}[\\/]`).test(moduleId))
+export default moduleId => Object.keys(PKG.peerDependencies || [])
+  .map(libName => libName)
+  .some(depName => new RegExp(`${depName}[\\/]`).test(moduleId));

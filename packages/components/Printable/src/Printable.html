@@ -32,15 +32,15 @@
 
 
 <script>
-  import Printer from '@mamba/native/printer.js'
-  import { PromisedDialog, ConfirmationDialog } from '@mamba/dialog'
+  import Printer from '@mamba/native/printer.js';
+  import { PromisedDialog, ConfirmationDialog } from '@mamba/dialog';
 
   const STATES = Object.freeze({
     IDLE: 0,
     PRINTING: 1,
     FAILURE: 2,
     SUCCESS: 3,
-  })
+  });
 
   export default {
     data() {
@@ -49,7 +49,7 @@
         state: STATES.IDLE,
         printingPromise: undefined,
         options: undefined,
-      }
+      };
     },
     components: {
       PromisedDialog,
@@ -58,39 +58,39 @@
     onupdate({ changed, current }) {
       if (changed.state) {
         if (current.state === STATES.FAILURE) {
-          this.fire('failure')
-          this.refs.failureDialog.open()
+          this.fire('failure');
+          this.refs.failureDialog.open();
         } else if (current.state === STATES.SUCCESS) {
-          this.fire('success')
+          this.fire('success');
         }
       }
     },
     methods: {
       reset() {
-        this.set({ state: STATES.IDLE, printingPromise: undefined })
+        this.set({ state: STATES.IDLE, printingPromise: undefined });
       },
       print() {
-        const content = this.refs.printableContent
-        const { options } = this.get()
-        const printingPromise = Printer.print(content, options)
+        const content = this.refs.printableContent;
+        const { options } = this.get();
+        const printingPromise = Printer.print(content, options);
 
         this.set({
           state: STATES.PRINTING,
           printingPromise,
-        })
+        });
 
         if (process.env.NODE_ENV === 'development') {
           printingPromise
             .then(() => {
               if (this.store) {
-                this.store.fire('pos:print', { content, options })
+                this.store.fire('pos:print', { content, options });
               }
             })
-            .catch(e => 0)
+            .catch(() => 0);
         }
       },
     },
-  }
+  };
 </script>
 
 <style>
