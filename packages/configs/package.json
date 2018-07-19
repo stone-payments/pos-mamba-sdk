@@ -8,11 +8,11 @@
     "eslint",
     "mamba"
   ],
-  "main": "index.js",
   "files": [
-    "jest.js",
-    "sdk.js",
-    "template.js"
+    "eslint/*",
+    "postcss/*",
+    "prettier/*",
+    "stylelint*"
   ],
   "peerDependencies": {
     "eslint": "^5.0.1",

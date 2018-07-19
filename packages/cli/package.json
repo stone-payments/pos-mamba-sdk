@@ -2,6 +2,7 @@
   "name": "@mamba/cli",
   "version": "0.0.1",
   "description": "Mamba CLI",
+  "author": "Christian Kaisermann <christian.kaisermann@stone.com.br>",
   "bin": {
     "mamba": "src/cli.js"
   },
