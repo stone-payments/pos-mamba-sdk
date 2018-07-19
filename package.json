@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "repository": "https://github.com/stone-payments/pos-mamba-web.git",
   "scripts": {
-    "start": "bolt w @mamba/website start",
+    "start": "bolt w @mamba/docssapper start",
     "build": "bolt ws build",
     "build:style": "bolt w @mamba/style build",
     "build:libs": "bolt ws build --only-fs \"packages/{utils,native}/**\"",
@@ -29,7 +29,7 @@
       "packages/styles",
       "packages/configs",
       "packages/components/*",
-      "website"
+      "docs-sapper"
     ]
   },
   "husky": {
@@ -66,6 +66,9 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^8.2.3",
     "babel-jest": "^22.4.3",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-prismjs": "^1.0.2",
+    "cheerio": "^1.0.0-rc.2",
     "case": "^1.5.5",
     "cross-env": "^5.1.5",
     "eslint": "^5.0.1",
@@ -78,11 +81,15 @@
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-promise": "^3.8.0",
     "globby": "^8.0.1",
+    "html-loader": "^0.5.5",
     "html-minifier": "^3.5.15",
     "husky": "^0.15.0-rc.13",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^22.4.3",
     "lint-staged": "^7.1.0",
+    "markdown-loader": "^3.0.0",
+    "mini-css-extract-plugin": "^0.4.0",
+    "mini-html-webpack-plugin": "^0.2.3",
     "ncp": "^2.0.0",
     "node-sass": "^4.9.0",
     "postcss": "^7.0.0",
@@ -123,8 +130,28 @@
     "svelte-extras": "^2.0.2",
     "svelte-preprocess": "^2.2.2",
     "svelte-routing": "^0.4.2",
+    "url-loader": "^1.0.1",
+    "webpack": "^4.14.0",
+    "webpack-merge": "^4.1.3",
     "xml-js": "^1.6.3",
     "yargonaut": "^1.1.2",
     "yargs": "^11.0.0"
+  },
+  "dependencies": {
+    "compression": "^1.7.2",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "golden-fleece": "^1.0.9",
+    "highlight.js": "^9.12.0",
+    "marked": "^0.4.0",
+    "polka": "^0.4.0",
+    "postcss-preset-env": "^5.1.0",
+    "prismjs": "^1.14.0",
+    "sapper": "^0.13.2",
+    "serve-static": "^1.13.2",
+    "sirv": "^0.1.2",
+    "source-code-pro": "^2.30.1",
+    "stylelint": "^9.3.0",
+    "stylelint-config-standard": "^18.2.0"
   }
 }
