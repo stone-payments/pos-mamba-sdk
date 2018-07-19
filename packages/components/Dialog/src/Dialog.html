@@ -42,12 +42,15 @@
         }
 
         if (typeof duration !== 'undefined') {
-          this.close(duration);
+          return this.close(duration);
         }
       },
       close(delay) {
         if (typeof delay !== 'undefined') {
-          return setTimeout(() => this.close(), parseFloat(delay));
+          return new Promise(resolve => setTimeout(() => {
+            this.close();
+            resolve();
+          }, parseFloat(delay)));
         }
 
         /** If there's a existant store, let's unlock the app */
