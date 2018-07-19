@@ -63,6 +63,11 @@
       display: flex;
       flex-flow: column;
       overflow: hidden;
+
+      /** Makes, in chrome, all fixed elements relative to the screen div */
+      @supports (-webkit-appearance: none) {
+        transform: translateZ(0);
+      }
     }
 
     .content {
