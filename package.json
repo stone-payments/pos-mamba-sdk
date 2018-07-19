@@ -125,5 +125,8 @@
     "xml-js": "^1.6.3",
     "yargonaut": "^1.1.2",
     "yargs": "^11.0.0"
+  },
+  "dependencies": {
+    "qrious": "^4.0.2"
   }
 }
