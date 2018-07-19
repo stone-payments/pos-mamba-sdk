@@ -1,1 +1,1 @@
-export { default, default as Input } from './Input.html'
+export { default, default as Input } from './Input.html';

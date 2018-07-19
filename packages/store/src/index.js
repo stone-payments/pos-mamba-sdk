@@ -1,11 +1,11 @@
-import MambaStore from './MambaStore.js'
-import initAppMeta from './meta.js'
+import MambaStore from './MambaStore.js';
+import initAppMeta from './meta.js';
 
-export default initialData => {
-  const store = new MambaStore(initialData)
+export default (initialData) => {
+  const store = new MambaStore(initialData);
 
   /** Store meta data utility helper */
-  initAppMeta(store)
+  initAppMeta(store);
 
-  return store
-}
+  return store;
+};

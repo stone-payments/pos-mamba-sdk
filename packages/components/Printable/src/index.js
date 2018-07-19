@@ -1,1 +1,1 @@
-export { default } from './Printable.html'
+export { default } from './Printable.html';

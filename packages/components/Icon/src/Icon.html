@@ -7,17 +7,17 @@
         size: 'normal',
         symbol: 'custom',
         level: undefined,
-      }
+      };
     },
     onstate({ current: { color, src } }) {
-      const iconEl = this.refs.icon
+      const iconEl = this.refs.icon;
 
       if (color) {
-        iconEl.style.backgroundColor = color
+        iconEl.style.backgroundColor = color;
       }
 
       if (src) {
-        iconEl.style.webkitMaskImage = `url(${src})`
+        iconEl.style.webkitMaskImage = `url(${src})`;
       }
     },
     computed: {
@@ -26,10 +26,10 @@
           symbol,
           size,
           level,
-        }
+        };
       },
     },
-  }
+  };
 </script>
 
 <style>

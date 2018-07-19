@@ -1,9 +1,9 @@
-import { basename, dirname } from 'path'
-import { getPkg, IS_WATCHING } from 'quickenv'
+import { basename, dirname } from 'path';
+import { getPkg, IS_WATCHING } from 'quickenv';
 
-const PKG = getPkg()
+const PKG = getPkg();
 
-export default function({
+export default function ({
   /** Input file relative path */
   input = PKG.source || 'src/index.js',
   /** Output file relative path */
@@ -12,15 +12,13 @@ export default function({
   ...rest
 } = {}) {
   /** Output filename */
-  const filename = basename(output)
+  const filename = basename(output);
 
   /** Output directory path */
-  const path = dirname(output)
+  const path = dirname(output);
 
   /** Module global variable name */
-  const name = filename
-    .replace(/\.[^/.]+$/, '')
-    .replace(/\b\w/g, l => l.toUpperCase())
+  const name = filename.replace(/\.[^/.]+$/, '').replace(/\b\w/g, l => l.toUpperCase());
 
   /** Rollup output property */
   output = {
@@ -32,17 +30,17 @@ export default function({
     name,
     format,
     exports: 'named',
-  }
+  };
 
   if (IS_WATCHING()) {
     rest.watch = {
       chokidar: false,
-    }
+    };
   }
 
   return {
     input,
     output,
     ...rest,
-  }
+  };
 }

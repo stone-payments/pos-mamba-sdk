@@ -1,1 +1,1 @@
-export default file => file.replace(/[/\\]/g, '/')
+export default file => file.replace(/[/\\]/g, '/');

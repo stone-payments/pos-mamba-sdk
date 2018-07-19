@@ -65,7 +65,7 @@
 </style>
 
 <script>
-  import { ProgressBar, CircularProgress } from '../src'
+  import { ProgressBar, CircularProgress } from '../src/index.js';
 
   export default {
     components: {
@@ -75,14 +75,14 @@
     data() {
       return {
         fakeProgress: 0,
-      }
+      };
     },
     oncreate() {
       setInterval(() => {
-        let { fakeProgress } = this.get()
-        if(fakeProgress >= 100) fakeProgress = -1
-        this.set({ fakeProgress: fakeProgress + 1 })
-      }, 100)
+        let { fakeProgress } = this.get();
+        if (fakeProgress >= 100) fakeProgress = -1;
+        this.set({ fakeProgress: fakeProgress + 1 });
+      }, 100);
     },
-  }
+  };
 </script>

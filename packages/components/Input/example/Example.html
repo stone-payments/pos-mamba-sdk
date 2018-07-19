@@ -89,20 +89,21 @@
     data() {
       return {
         validate(Input) {
-          const { value } = Input.get()
-          let error
-          let message
+          const { value } = Input.get();
+          let error;
+          let message;
 
-          if ((error = value !== '2')) {
-            message = 'Senha inválida'
+          if (value !== '2') {
+            error = true;
+            message = 'Senha inválida';
           }
 
           return {
             error,
             message,
-          }
+          };
         },
-      }
+      };
     },
-  }
+  };
 </script>
