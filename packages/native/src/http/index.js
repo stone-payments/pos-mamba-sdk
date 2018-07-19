@@ -4,7 +4,7 @@ import extendNative from './native.js'
 let Http = window.$Http
 
 if (process.env.NODE_ENV !== 'production') {
-  Http = window.Http = {}
+  Http = window.$Http = {}
   mock(Http)
 }
 
