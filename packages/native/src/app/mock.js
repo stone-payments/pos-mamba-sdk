@@ -16,11 +16,13 @@ function listApps() {
     {
       id: 1,
       name: 'app1',
+      defaultName: 'app1',
       icon: '',
     },
     {
       id: 2,
       name: 'app2',
+      defaultName: 'app2',
       icon: '',
     },
   ];
