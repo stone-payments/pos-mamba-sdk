@@ -35,6 +35,5 @@ function send({ method = 'GET', url = '', data, headers }) {
 }
 
 export default function(Http) {
-  console.log('aqui')
   Object.assign(Http, { send })
 }
