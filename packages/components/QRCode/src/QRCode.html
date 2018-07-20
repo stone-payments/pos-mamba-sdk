@@ -1,0 +1,70 @@
+<div class="qrcode">
+  {#if logo && size !== 'small'}
+    <img src={logo}  alt="" ref:logo/>
+  {/if}
+  <img class="qrimg" ref:qrimg alt="qr code"/>
+</div>
+
+<script>
+  import QR from 'qrious'
+
+  const SIZES = {
+    SMALL: 50,
+    MEDIUM: 150,
+    LARGE: 240,
+  }
+
+  export default {
+    data() {
+      return {
+        size: 'medium',
+        level: 'M',
+        foreground: 'black',
+        value: '',
+        logo: undefined,
+        __qr: {},
+      }
+    },
+    methods: {
+      createQr() {
+        const qr = new QR(this.getSpecs())
+        this.refs['qrimg'].setAttribute('src', qr.toDataURL('image/jpeg'))
+        this.set({ __qr: qr })
+      },
+      getSpecs() {
+        const specs = this.get()
+        return {
+          size: SIZES[String(specs['size']).toUpperCase()] || 140,
+          foreground: specs['foreground'],
+          value: specs['value'],
+          level: String(specs['level']).toUpperCase() || 'M',
+        }
+      },
+    },
+    oncreate() {
+      this.createQr()
+    },
+    onupdate() {
+      const qr = this.get()['__qr']
+      qr.set(this.getSpecs())
+      this.refs['qrimg'].setAttribute('src', qr.toDataURL('image/jpeg'))
+    },
+  }
+</script>
+
+
+<style>
+  .qrcode {
+    position: relative;
+    display: inline-block;
+  }
+  ref:logo {
+    position: absolute;
+    z-index: 1;
+    width: 25%;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+  }
+</style>
