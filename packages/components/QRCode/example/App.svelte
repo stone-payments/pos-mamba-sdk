@@ -7,11 +7,11 @@
   <div class="row">
     <QRCode value="http://stone.com.br/"/>
   </div>
-  <h1>...and Colors/Size<span>{'<QRCode color="yourcolorcss"></QRCode>'}</span></h1>
+  <h1>...and Colors/Size/Logo<span>{'<QRCode color="yourcolorcss" logo="logopath"></QRCode>'}</span></h1>
   <div class="row">
-    <QRCode size="small" foreground="blue"/>
-    <QRCode size="medium" foreground="red"/>
-    <QRCode size="large" foreground="green"/>
+    <QRCode size="small" logo="./assets/logo.png" foreground="blue" value="http://stone.com.br"/>
+    <QRCode size="medium" logo="./assets/logo.png" foreground="red" value="http://stone.com.br"/>
+    <QRCode size="large" logo="./assets/logo.png" foreground="purple" value="http://stone.com.br"/>
   </div>
   <h1>Error Rate Level<span>{'<QRCode value="OLA" level="H"></QRCode>'}</span></h1>
   <div class="row">
