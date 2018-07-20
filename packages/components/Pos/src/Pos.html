@@ -1,18 +1,25 @@
-<div class="wrapper">
-  <div class="container">
-    <div class="pos-wrapper">
-      <div class="shadow"></div>
-      <div class="pos">
-        <Printer />
-        <Screen>
-          <slot></slot>
-        </Screen>
-        <Keypad />
+{#if browserEngine === 'webkit'}
+  <div class="wrapper">
+    <div class="container">
+      <div class="pos-wrapper">
+        <div class="shadow"></div>
+        <div class="pos">
+          <Printer />
+          <Screen>
+            <slot></slot>
+          </Screen>
+          <Keypad />
+        </div>
       </div>
+      <Card/>
     </div>
-    <Card/>
   </div>
-</div>
+{:else}
+  <div class="engine-alert">
+    Para um rápido desenvolvimento mais fiel ao ambiente do Mamba, é recomendado o uso do <strong><a href="https://www.google.com/chrome/" target="_blank">Chrome</a></strong> como navegador.
+  </div>
+  <slot></slot>
+{/if}
 
 <script>
   export default {
@@ -21,6 +28,23 @@
       Keypad: './Keypad.html',
       Screen: './Screen.html',
       Card: './CreditCard.html',
+    },
+    data() {
+      return {
+        browserEngine: null,
+      }
+    },
+    oncreate() {
+      const browserEngine = /webkit/i.test(navigator.userAgent)
+        ? 'webkit'
+        : 'other'
+
+      /**
+       * Set the render engine to a body attribute
+       * to make our css a bit smarter since we depend heavily on webkit.
+       * */
+      document.body.setAttribute('engine', browserEngine)
+      this.set({ browserEngine })
     },
   }
 </script>
@@ -73,5 +97,33 @@
         transform: translate(15px, 15px);
       }
     }
+  }
+
+  .engine-alert {
+    position: fixed;
+    z-index: 100000;
+    width: 100%;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    padding: 10px 20px;
+    background-color: #bf4130;
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+    animation: 2s ease-in-out blink infinite;
+    pointer-events: none;
+
+    a {
+      text-decoration: underline;
+      color: #fff;
+      pointer-events: auto;
+    }
+  }
+
+  @keyframes blink {
+    0% { opacity: 0.1; }
+    50% { opacity: 0.8; }
+    100% { opacity: 0.1; }
   }
 </style>
