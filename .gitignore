@@ -11,6 +11,7 @@ yarn-error.log
 /packages/components/*/example/*
 !/packages/components/*/example/static/
 !/packages/components/*/example/Example.html
+!/packages/components/*/example/Example.svelte
 
 ## Directories
 log/
