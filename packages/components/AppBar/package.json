@@ -1,0 +1,20 @@
+{
+  "name": "@mamba/appbar",
+  "version": "1.0.0",
+  "source": "src/index.js",
+  "svelte": "src/index.js",
+  "files": ["dist/", "src/"],
+  "author": "Stone Payments - Mamba Team",
+  "license": "Apache-2.0",
+  "scripts": {
+    "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w",
+    "build": "exit 0",
+    "build:dev": "exit 0"
+  },
+  "peerDependencies": {
+    "svelte-routing": "^0.4.2",
+    "@mamba/icon": "^1.0.0",
+    "@mamba/store": "^0.0.1",
+    "@mamba/styles": "^0.0.1"
+  }
+}

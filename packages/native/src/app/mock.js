@@ -1,51 +1,42 @@
-export default function (App) {
-  // import MbDialog from '../components/mb-dialog/mb-dialog'
-  // import Mamba from '../api/mamba'
+/** Mock the 'doClose' invokable */
+function doClose() {
+  console.log('[@mamba/native/app] App closed')
+}
 
-  let dialog = { mount () {}, open () {}, close () {} } // Mock element for now
+function getAppKey() {
+  return '123456'
+}
 
-  window.addEventListener('load', function () {
-    dialog.mount(document.body)
-  })
+function isRunningOnDevice() {
+  return false
+}
 
-  /**
-   * Closes the application
-   * @memberOf App
-   * @param {boolean} showConfirmationDialog True to show a confirmation dialog asking the user if the app should close
-   */
-  function close (showConfirmationDialog = false) {
-    if (showConfirmationDialog) {
-      dialog.open(action => {
-        if (action === dialog.positiveAction) {
-          console.log('Application is closed. User was prompted')
-        }
-      })
-    } else {
-      console.log('Application is closed. User was not prompted')
-    }
-  }
+function listApps(appPath) {
+  return [{ id: 1, name: 'app1', icon: '' }, { id: 2, name: 'app2', icon: '' }]
+}
 
-  function getAppKey () {
-    return '123456'
-  }
+function downloadAndSave(tar, destination) {
+  console.log(`downloading tar: ${tar}`)
+  console.log(`saving in: ${destination}`)
+}
 
-  function getProxyURL (url) {
-    return url
-  }
+function installApp(tarPath, destination) {
+  console.log(`tarPath: ${tarPath}`)
+  console.log(`destination: ${destination}`)
+}
 
-  function isRunningOnDevice () {
-    return false
-  }
+function deleteApp(appId) {
+  console.log(`appId: ${appId}`)
+}
 
-  function isProxyEnabled () {
-    return false
-  }
-
+export default function(App) {
   Object.assign(App, {
-    close,
+    doClose,
     getAppKey,
-    getProxyURL,
     isRunningOnDevice,
-    isProxyEnabled,
+    listApps,
+    downloadAndSave,
+    installApp,
+    deleteApp,
   })
 }

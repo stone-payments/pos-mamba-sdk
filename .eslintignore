@@ -1,4 +1,9 @@
 node_modules/
 dist/
+/packages/components/*/example/*.js
 /packages/native/*.js
 /packages/utils/*.js
+/docs-sapper/.sapper
+/docs-sapper/app/manifest
+/docs-sapper/build
+/docs-sapper/export/

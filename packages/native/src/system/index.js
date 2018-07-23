@@ -3,15 +3,19 @@ import addSharedTo from './shared.js'
 
 let System = window.System
 
+/** For development environment */
 if (process.env.NODE_ENV !== 'production') {
   System = window.System = {}
   addSharedTo(System)
   mock(System)
-} else {
-  if (!System) {
-    throw new Error("[@mamba/native] 'System' module not found")
-  }
+}
+
+/** For production environment */
+if (process.env.NODE_ENV === 'production') {
   addSharedTo(System)
 }
+
+/** Remove the window System reference */
+// window.System = undefined
 
 export default System

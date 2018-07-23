@@ -8,6 +8,8 @@ import Payment from './payment'
 import Merchant from './merchant'
 import Transaction from './transaction'
 import Gif from './gif'
+import Network from './network'
+import Screen from './screen'
 
 export {
   System,
@@ -20,4 +22,6 @@ export {
   StatusBar,
   Gif,
   App,
+  Network,
+  Screen,
 }

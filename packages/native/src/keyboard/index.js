@@ -1,14 +1,21 @@
 import mock from './mock.js'
+import addSharedTo from './shared.js'
 
 let Keyboard = window.Keyboard
 
+/** For development environment */
 if (process.env.NODE_ENV !== 'production') {
   Keyboard = window.Keyboard = {}
   mock(Keyboard)
-} else {
-  if (!Keyboard) {
-    throw new Error("[@mamba/native] 'Keyboard' module not found")
-  }
+  addSharedTo(Keyboard)
 }
+
+/** For production environment */
+if (process.env.NODE_ENV === 'production') {
+  addSharedTo(Keyboard)
+}
+
+/** Remove the window Keyboard reference */
+// window.Keyboard = undefined
 
 export default Keyboard

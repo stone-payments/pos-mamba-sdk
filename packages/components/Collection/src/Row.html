@@ -1,0 +1,162 @@
+<!-- If there's a href defined, wrap the row with a link -->
+<div ref:row class="row">
+  <div ref:main on:click="handleClick({ event, href })">
+    <div class="top {_hasController ? 'has-controller' : ''}">
+      <div class="label">{label}</div>
+      {#if _hasController}
+        <div ref:controller>
+          {#if href}
+            <Icon symbol="chevron-right"/>
+          {:elseif _hasCustomController}
+            <slot name="controller"></slot>
+          {/if}
+        </div>
+      {/if}
+    </div>
+    {#if description}
+      <p>{description}</p>
+    {/if}
+  </div>
+
+  {#if showExtra && _hasExtraContent}
+    <div class="extra">
+      <slot name="extra"></slot>
+    </div>
+  {/if}
+</div>
+
+<script>
+  import { getHistory } from 'svelte-routing'
+
+  function findClosest(el, cb) {
+    if (!el || el.nodeType !== 1) return null
+    if (el && !cb(el)) return findClosest(el.parentNode, cb)
+    return el
+  }
+
+  export default {
+    components: {
+      Icon: '@mamba/icon',
+    },
+    data() {
+      return {
+        /** Boolean to display the extra content element */
+        showExtra: false,
+        /** Row's keyboard shortcut */
+        shortcut: undefined,
+        /** Define a link to another page */
+        href: undefined,
+        /** Description below the row label */
+        description: undefined,
+        _hasCustomController: false,
+        _hasExtraContent: false,
+      }
+    },
+    computed: {
+      _hasController: ({ href, _hasCustomController }) =>
+        !!(href || _hasCustomController),
+    },
+    oncreate() {
+      const hasSlots = !!this.options.slots
+      if (hasSlots) {
+        this.set({
+          _hasCustomController: !!this.options.slots.controller,
+          _hasExtraContent: !!this.options.slots.extra,
+        })
+      }
+
+      const { shortcut } = this.options.data
+      /**
+       * TODO: Refactor to pass as prop when undefined props are not rendered on the element
+       */
+      if (this.options.data.shortcut) {
+        this.refs.main.setAttribute('shortcut', shortcut)
+      }
+    },
+    methods: {
+      handleClick({ event, href }) {
+        /** If clicked on a "link" row, push the page to the router */
+        if (href) {
+          return getHistory().push(href)
+        }
+
+        const { _hasCustomController } = this.get()
+        /**
+         * If the row has a custom controller,
+         * let's see if it has a [data-controller-triger] element.
+         */
+        if (_hasCustomController) {
+          /** Prevent firing the event twice (because of event bubbling) */
+          const hasNotClickedController = !findClosest(
+            event.target,
+            el => el.getAttribute('slot') === 'controller',
+          )
+          if (hasNotClickedController) {
+            const triggerEl = this.refs.controller.querySelector(
+              '[data-controller-trigger]',
+            )
+            if (triggerEl) {
+              // ! We assume that the trigger is also the element method that triggers it (like click) */
+              triggerEl[triggerEl.dataset.controllerTrigger]()
+              return
+            }
+          }
+        }
+
+        /** Fire the row's click event for listening parent components */
+        this.fire('click')
+      },
+    },
+  }
+</script>
+
+<style>
+  .row {
+    display: block;
+    margin: 0;
+    line-height: 1.5rem;
+    background: #fff;
+    color: #494949;
+    border-bottom: 1px solid #f4f4f4;
+  }
+
+  .row ref:row:last-child {
+    border-bottom: none;
+  }
+
+  ref:main {
+    padding: 10px 20px;
+  }
+
+  .top {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .label {
+    font-weight: bold;
+    word-wrap: break-word;
+
+    .top.has-controller & {
+      max-width: 80%;
+    }
+  }
+
+  p {
+    color: #8c8c8c;
+    margin: 4px 0 0;
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  ref:controller {
+    line-height: 1;
+  }
+
+  /** TODO: is this breakable? */
+  .extra {
+    border-top: 1px dashed #eee;
+  }
+</style>

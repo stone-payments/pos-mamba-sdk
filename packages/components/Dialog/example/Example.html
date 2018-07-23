@@ -1,0 +1,97 @@
+<div class="container">
+  <h1>Default Dialog</h1>
+  <div class="row">
+    <button on:click="openDialog('defaultDialog', 2000)">
+      Open dialog
+    </button>
+  </div>
+
+  <Dialog ref:defaultDialog>
+    Default dialog
+  </Dialog>
+
+  <h1>PromisedDialog <span>{'<PromisedDialog promise="..." on:success on:failure/>'}</span></h1>
+  <div class="row">
+    <button on:click="refreshPromise()">
+      Initialize promise
+    </button>
+  </div>
+
+  <PromisedDialog
+    {promise}
+    on:success="console.log('promise success', event)"
+    on:failure="console.log(event)"
+  >
+    {#await promise}
+      Loading....
+    {:then }
+      Success!!!
+    {:catch }
+      Something went wrong...
+    {/await}
+  </PromisedDialog>
+
+  <h1>Confirmation Dialog</h1>
+  <div class="row">
+    <button on:click="openDialog('confirmationDialog')">
+      Open dialog
+    </button>
+  </div>
+
+  <ConfirmationDialog ref:confirmationDialog isOpen={true} title="IMPRESSORA SEM PAPEL">
+    Tentar imprimir novamente?
+  </ConfirmationDialog>
+</div>
+
+<script>
+  import { Dialog, PromisedDialog, ConfirmationDialog } from '../src'
+  export default {
+    components: {
+      Dialog,
+      PromisedDialog,
+      ConfirmationDialog,
+      Sprite: '@mamba/sprite',
+    },
+    methods: {
+      refreshPromise() {
+        this.set({
+          promise: new Promise((resolve, reject) =>
+            setTimeout(() => resolve(), 2000),
+          ),
+        })
+      },
+      openDialog(dialog, delay) {
+        this.refs[dialog].open(delay)
+      },
+    },
+  }
+</script>
+
+<style>
+  :global(body) {
+    background-color: #ddd;
+  }
+
+  h1 {
+    word-break: break-all;
+  }
+
+  h1 span {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: monospace;
+  }
+
+  .container {
+    max-width: 80%;
+    width: 700px;
+    margin: 80px auto;
+  }
+
+  .row {
+    margin-bottom: 50px;
+  }
+</style>

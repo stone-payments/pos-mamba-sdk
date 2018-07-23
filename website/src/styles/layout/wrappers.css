@@ -1,0 +1,21 @@
+.Content {
+  &-wrapper {
+    background: #fff;
+  }
+
+  &.Content {
+    width: var(--content-width);
+    padding-top: 33px;
+    padding-left: 32px;
+    position: relative;
+    overflow-x: visible;
+  }
+}
+
+.Docs {
+  width: 100%;
+  height: 100%;
+  grid-template-columns:
+    minmax(var(--sidebar-minwidth), calc(50% - var(--sidebar-width)))
+    var(--content-width) 1fr;
+}

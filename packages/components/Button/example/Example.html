@@ -1,0 +1,73 @@
+<div class="container">
+  <h1>Default button <span>{'<Button>Label</Button>'}</span></h1>
+  <div class="row">
+    <Button on:click="console.log(event)">Label</Button>
+  </div>
+
+  <h1>Disabled button <span>{'<Button disabled>Label</Button>'}</span></h1>
+  <div class="row">
+    <Button on:click="console.log(event)" disabled>Label</Button>
+  </div>
+
+  <h1>Small button <span>{'<Button size="small">Label</Button>'}</span></h1>
+  <div class="row">
+    <Button on:click="console.log(event)" size="small">Label</Button>
+  </div>
+
+  <h1>Large button <span>{'<Button size="large">Label</Button>'}</span></h1>
+  <div class="row">
+    <Button on:click="console.log(event)" size="large">Label</Button>
+  </div>
+
+  <h1>Custom width button <span>{'<Button width="80%">Label</Button>'}</span></h1>
+  <div class="row">
+    <Button on:click="console.log(event)" width="80%">Label</Button>
+  </div>
+
+  <h1>Custom colored button <span>{'<Button textColor="white" bgColor="black">Label</Button>'}</span></h1>
+  <div class="row">
+    <Button on:click="console.log(event)" textColor="white" bgColor="black">Label</Button>
+  </div>
+
+  <h1>Button with custom content <span>{'<Button>...</Button>'}</span></h1>
+  <div class="row">
+    <Button>
+      <Icon symbol="chevron-right" color="white"/>
+    </Button>
+  </div>
+</div>
+
+<style>
+  :global(body) {
+    background-color: #ddd;
+  }
+
+  h1 span {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: monospace;
+  }
+
+  .container {
+    max-width: 80%;
+    width: 700px;
+    margin: 80px auto;
+  }
+
+  .row {
+    margin-bottom: 50px;
+  }
+</style>
+
+<script>
+
+  export default {
+    components: {
+      Button: '../src',
+      Icon: '@mamba/icon',
+    },
+  }
+</script>

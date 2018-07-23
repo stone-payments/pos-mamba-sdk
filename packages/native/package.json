@@ -2,15 +2,15 @@
   "name": "@mamba/native",
   "version": "0.0.1",
   "description": "Native Mamba applications methods",
-  "main": "native.js",
-  "module": "native.esm.js",
   "source": "src/index.js",
-  "subModules": ["src/*/index.js", "!src/utils"],
-  "files": ["./*.js"],
+  "subModules": [
+    "src/*/index.js",
+    "src/signal/*.js"
+  ],
   "scripts": {
-    "watch": "rollup -c ../../tools/rollup/config.lib.js -w",
+    "start": "rollup -c ../../tools/rollup/config.lib.js -w",
     "build": "cross-env NODE_ENV=production rollup -c ../../tools/rollup/config.lib.js",
-    "test": "jest --config='../../jest.config.js'",
+    "test": "jest -c ../../jest.config.js --no-cache",
     "prepublishOnly": "npm run build"
   },
   "repository": {

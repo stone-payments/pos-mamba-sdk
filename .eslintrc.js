@@ -1,11 +1,4 @@
-const { IS_PROD } = require('./tools/consts.js')
-
-const rules = {
-  indent: ['error', 2, { SwitchCase: 1 }],
-  'no-console': IS_PROD ? ['error', { allow: ['warn', 'error'] }] : 0,
-  'space-before-function-paren': 2,
-  'no-var': 2,
-}
+const { IS_PROD } = require('quickenv')
 
 module.exports = {
   extends: [
@@ -14,32 +7,35 @@ module.exports = {
     'prettier/standard',
     'plugin:jest/recommended',
   ],
-  plugins: ['standard', 'prettier', 'jest'],
+  parser: 'babel-eslint',
+  plugins: ['standard', 'prettier', 'jest', 'html'],
+  settings: {
+    'html/html-extensions': ['.html', '.svelte'],
+  },
   env: {
     browser: true,
     node: true,
-    mocha: true,
     es6: true,
   },
   parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
-      modules: true,
-    },
+    ecmaVersion: 2018,
+  },
+  rules: {
+    indent: ['error', 2, { SwitchCase: 1 }],
+    camelcase: 'off',
+    'no-console': IS_PROD() ? ['error', { allow: ['warn', 'error'] }] : 'off',
+    'no-var': 'error',
+    'comma-dangle': ['error', 'always-multiline'],
+    'no-new': 'off',
+    'no-sequences': 'off',
   },
   globals: {
-    sleep: true,
+    cy: true,
   },
-  rules: rules,
   overrides: [
     {
-      files: ['**/__tests__/**/*.js'],
+      files: ['**/__tests__/**/*.js', '**/*.test.js'],
       env: { jest: true },
-    },
-    /** Allow native to use console methods */
-    {
-      files: ['packages/native/**/*.js'],
-      rules: Object.assign({}, rules, { 'no-console': 0 }),
     },
   ],
 }

@@ -1,34 +1,62 @@
 import { basename, dirname } from 'path'
-import makeRollupConfig from './makeRollupConfig.js'
 import glob from 'globby'
+import Case from 'case'
+import resolve from 'rollup-plugin-node-resolve'
+import cjs from 'rollup-plugin-commonjs'
+import babel from 'rollup-plugin-babel'
+import filesize from 'rollup-plugin-filesize'
+// import eslint from 'rollup-plugin-eslint'
+import { getPkg } from 'quickenv'
+import makeRollupConfig from './helpers/makeRollupConfig'
+import getExternals from './helpers/getExternals'
 
-const { PKG } = require('../consts.js')
+const PKG = getPkg()
+
+/** Common rollup plugins */
+const plugins = [
+  resolve(),
+  cjs(),
+  // eslint(),
+  babel({
+    /** Enforce usage of '.babelrc.js' at the project's root directory */
+    babelrc: false,
+    ...require('../../.babelrc.js'),
+    exclude: /node_modules[/\\](?!(svelte)|(@mamba))/,
+  }),
+  filesize(),
+]
 
 /** List of bundles to be generated */
-const bundles = []
+const configs = []
 
 /** Bundles for package submodules */
-glob.sync(PKG.subModules || []).map(subModEntryRelPath => {
+glob.sync(PKG.subModules || []).forEach(subModEntryRelPath => {
   const subModuleName = basename(dirname(subModEntryRelPath))
-  bundles.push(
-    makeRollupConfig({
-      input: subModEntryRelPath,
-      output: `${subModuleName}.js`,
-    }),
-  )
+  let entryName = basename(subModEntryRelPath, '.js')
+
+  entryName =
+    entryName !== 'index'
+      ? Case.camel(`${subModuleName} ${entryName}`)
+      : subModuleName
+
+  configs.push({
+    input: subModEntryRelPath,
+    output: `${entryName}.js`,
+    plugins,
+  })
 })
 
 /** The default bundle for the package */
-bundles.push(makeRollupConfig())
-
-/** The ESM bundle if  */
-if (PKG.module) {
-  bundles.push(
-    makeRollupConfig({
-      output: PKG.module,
-      format: 'es',
-    }),
-  )
+if (PKG.main) {
+  configs.push({
+    plugins,
+  })
 }
 
-export default bundles
+export default configs.map(config =>
+  makeRollupConfig({
+    ...config,
+    external: getExternals,
+    experimentalDynamicImport: true,
+  }),
+)
