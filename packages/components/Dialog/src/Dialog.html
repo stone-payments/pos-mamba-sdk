@@ -1,17 +1,17 @@
 {#if _isOpen}
-  <div class="dialog" {style}>
-    <div class="content -align-{align}">
-      <div class="message">
-        {#if title}
-          <div class="title">{title}</div>
-        {/if}
-        <slot></slot>
-      </div>
-      <div class="extra">
-        <slot name="extra"></slot>
-      </div>
+<div class="dialog" {style}>
+  <div class="content -align-{align}">
+    <div class="message">
+      {#if title}
+      <div class="title">{title}</div>
+      {/if}
+      <slot></slot>
+    </div>
+    <div class="extra">
+      <slot name="extra"></slot>
     </div>
   </div>
+</div>
 {/if}
 
 <script>
