@@ -12,12 +12,15 @@
     "eslint/*",
     "postcss/*",
     "prettier/*",
-    "stylelint*"
+    "stylelint/*",
+    "svelte/*"
   ],
   "peerDependencies": {
+    "postcss": "^7.0.0",
     "eslint": "^5.0.1",
     "stylelint": "^9.3.0",
-    "prettier": "^1.12.1"
+    "prettier": "^1.12.1",
+    "svelte-preprocess": "^2.2.2"
   },
   "dependencies": {
     "babel-eslint": "^8.2.3",
@@ -29,7 +32,6 @@
     "eslint-plugin-node": "^7.0.1",
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-promise": "^3.8.0",
-    "postcss": "^7.0.0",
     "postcss-advanced-variables": "^2.3.3",
     "postcss-atroot": "^0.1.3",
     "postcss-easy-import": "^3.0.0",

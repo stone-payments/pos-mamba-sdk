@@ -1,17 +1,17 @@
-import mock from './mock.js'
-import extendNative from './native.js'
+import mock from './mock.js';
+import extendNative from './native.js';
 
-let Http = window.$Http
+let Http = window.$Http;
 
 /** For development environment */
 if (process.env.NODE_ENV !== 'production') {
-  Http = window.$Http = {}
-  mock(Http)
+  Http = window.$Http = {};
+  mock(Http);
 }
 
 /** For production environment */
 if (process.env.NODE_ENV === 'production') {
-  extendNative(Http)
+  extendNative(Http);
 }
 
-export default Http
+export default Http;
