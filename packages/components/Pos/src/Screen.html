@@ -47,13 +47,13 @@
 </script>
 
 <style>
-  @media all and (max-width: 480px) {
-    .status-bar {
+  .status-bar {
+    @media (max-width: 480px) {
       display: none;
     }
   }
 
-  @media all and (min-width: 481px) {
+  @media (min-width: 481px) {
     .screen {
       position: absolute;
       top: 231px;
@@ -63,6 +63,11 @@
       display: flex;
       flex-flow: column;
       overflow: hidden;
+
+      /** Makes, in chrome, all fixed elements relative to the screen div */
+      @supports (-webkit-appearance: none) {
+        transform: translateZ(0);
+      }
     }
 
     .content {
@@ -108,11 +113,6 @@
       color: #fff;
       font-size: 12px;
       font-weight: bold;
-    }
-
-    .screen :global(.button.is-fixed),
-    .screen :global(.dialog) {
-      position: absolute !important;
     }
   }
 </style>
