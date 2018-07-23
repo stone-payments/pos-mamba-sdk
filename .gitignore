@@ -7,6 +7,12 @@ result.xml
 npm-debug.log
 yarn-error.log
 
+## Components examples
+/packages/components/*/example/*
+!/packages/components/*/example/static/
+!/packages/components/*/example/Example.html
+!/packages/components/*/example/Example.svelte
+
 ## Directories
 log/
 dist/
