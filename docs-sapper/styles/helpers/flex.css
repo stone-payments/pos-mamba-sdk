@@ -1,0 +1,36 @@
+/* helpers/flex.css */
+
+/* Utility Class (UtilityName--modifierName) */
+
+/* Flex box */
+.Flex {
+  &--flex {
+    display: flex;
+  }
+
+  &--grow {
+    flex-grow: 1;
+  }
+}
+
+/* Flex direction  */
+.Flex-direction {
+  &--column {
+    flex-direction: column;
+  }
+}
+
+/* Flex align  */
+.Flex-alignItems {
+  &--flexStart {
+    align-items: flex-start;
+  }
+
+  &--stretch {
+    align-items: stretch;
+  }
+
+  &--flexEnd {
+    align-items: flex-end;
+  }
+}

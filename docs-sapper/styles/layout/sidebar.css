@@ -1,0 +1,136 @@
+/* layout/navigation */
+
+.SideBar {
+  background: var(--sidebar-bg-color);
+  min-width: var(--sidebar-min-width);
+  position: var(--sidebar-position);
+  user-select: none;
+  top: 0;
+  z-index: 5;
+  width: 100%;
+  height: 100vh;
+
+  &::before,
+  &::after {
+    top: 0;
+    position: absolute;
+    content: '';
+  }
+
+  &::after {
+    right: 0;
+    width: 1px;
+    height: 100%;
+    background: rgba(18, 60, 83, 0.05);
+  }
+
+  &-logo,
+  &-border,
+  nav {
+    position: absolute;
+  }
+
+  &-logo {
+    padding-bottom: 20px;
+    top: var(--logo-container-top);
+    right: var(--logo-container-right);
+
+    & a {
+      background: url('../assets/logo.svg') no-repeat;
+      background-position: center center;
+      background-size: contain;
+      display: inline-block;
+      position: relative;
+      text-decoration: none;
+
+      & span {
+        color: rgba(46, 56, 47, 0.5);
+        position: absolute;
+        bottom: -15px;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 1.5;
+        left: 0;
+        right: 0;
+        letter-spacing: -0.5px;
+        font-variant: all-petite-caps;
+        text-align: center;
+        display: hidden;
+      }
+
+      width: var(--logo-container-size);
+      height: var(--logo-svg-height);
+    }
+  }
+
+  nav &-border {
+    top: calc(var(--nav-top-position) - 1px);
+    right: 0;
+    width: var(--nav-hr-border-width);
+    height: 1px;
+    background: var(--nav-hr-border-color);
+    opacity: 1;
+    transition: opacity 0.25s ease-in-out;
+    pointer-events: none;
+  }
+
+  nav {
+    bottom: 0;
+    right: 0;
+    width: var(--nav-width);
+    top: var(--nav-top-position);
+    overflow-y: auto;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    z-index: 1;
+    -webkit-overflow-scrolling: touch;
+
+    h1 a {
+      padding-left: 0;
+
+      &.selected {
+        color: var(--primary);
+        font-weight: 500;
+      }
+    }
+
+    h1,
+    h1 a {
+      display: block;
+      font-size: 15px;
+      font-weight: 500;
+      height: 36px;
+      line-height: 36px;
+      color: #0d2b3e;
+      transition: opacity 0.2s;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+
+  ul {
+    padding-left: 0;
+    overflow: hidden;
+
+    li {
+      overflow: hidden;
+
+      &.active a {
+        color: #2d9428 !important;
+        font-weight: 500;
+      }
+
+      a {
+        position: relative;
+        display: block;
+        font-size: 14px;
+        color: #4c555a;
+        min-height: 28px;
+        line-height: 20px;
+        padding: 4px 0;
+      }
+    }
+  }
+}

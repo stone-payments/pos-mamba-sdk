@@ -32,7 +32,7 @@ const config = {
     /** Virtual entry module to bootstrap the example app */
     virtual({
       __entry__: `import App from '${posixify(
-        fromWorkspace('example', 'App.svelte'),
+        fromWorkspace('example', 'Example.html'),
       )}'
         new App({ target: document.getElementById('root') })`,
     }),

@@ -1,0 +1,19 @@
+@custom-selector :--heading h1, h2, h3, h4, h5, h6;
+
+:root {
+  --font-text: system-ui;
+  --font-weight: 400;
+  --font-size: 62.5%;
+  --line-height: normal;
+}
+
+article :--heading {
+  margin: 0;
+  padding: 0;
+  color: #0d2b3e;
+}
+
+h1 {
+  font-size: 31px;
+  font-weight: 400;
+}

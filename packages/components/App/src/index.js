@@ -1,2 +1,2 @@
-export { default, default as App } from './App.svelte'
-export { default as AppOnClose } from './AppOnClose.svelte'
+export { default, default as App } from './App.html'
+export { default as AppOnClose } from './AppOnClose.html'
