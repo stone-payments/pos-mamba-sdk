@@ -1,26 +1,42 @@
 {
+  /** Allow to assign breakpoints to svelte templates */
+  "debug.allowBreakpointsEverywhere": true,
+
+  /** Normalize trailing whitespaces */
   "editor.trimAutoWhitespace": true,
-
   "files.trimTrailingWhitespace": true,
-  "files.associations": {
-    "*.css": "postcss"
-  },
 
-  "emmet.includeLanguages": {
-    "postcss": "css"
-  },
-  "emmet.syntaxProfiles": {
-    "postcss": "css"
-  },
-
+  /** Make prettier use eslint and stylelint */
   "prettier.eslintIntegration": true,
   "prettier.stylelintIntegration": true,
 
+  /** Disable vscode default linters */
+  "javascript.validate.enable": false,
+  "typescript.validate.enable": false,
+  "css.validate": false,
+  "html.validate.scripts": false,
+  "html.validate.styles": false,
+
+  /** Auto-fix on save */
   "eslint.autoFixOnSave": true,
+  /** Validate html/svelte files */
   "eslint.validate": [
     "javascript",
     "javascriptreact",
     { "language": "html", "autoFix": true },
     { "language": "svelte", "autoFix": true }
-  ]
+  ],
+
+  /** Associate css files to postcss language */
+  "files.associations": {
+    "*.css": "postcss"
+  },
+
+  /** Emmet completion in postcss context */
+  "emmet.includeLanguages": {
+    "postcss": "css"
+  },
+  "emmet.syntaxProfiles": {
+    "postcss": "css"
+  }
 }

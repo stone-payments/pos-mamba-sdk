@@ -1,0 +1,55 @@
+<div class="container">
+  <h1>Default QR Code<span>{'<QRCode></QRCode>'}</span></h1>
+  <div class="row">
+    <QRCode/>
+  </div>
+  <h1>Setting QRCode Value<span>{'<QRCode value="http://stone.com.br"></QRCode>'}</span></h1>
+  <div class="row">
+    <QRCode value="http://stone.com.br/"/>
+  </div>
+  <h1>...and Colors/Size/Logo<span>{'<QRCode color="yourcolorcss" logo="logopath"></QRCode>'}</span></h1>
+  <div class="row">
+    <QRCode size="small" logo="./static/logo.png" color="blue" value="http://stone.com.br"/>
+    <QRCode size="medium" logo="./static/logo.png" color="red" value="http://stone.com.br"/>
+    <QRCode size="large" logo="./static/logo.png" color="purple" value="http://stone.com.br"/>
+  </div>
+  <h1>Error Rate Level<span>{'<QRCode value="OLA" level="H"></QRCode>'}</span></h1>
+  <div class="row">
+    <QRCode value="OLA" level='H'/>
+  </div>
+</div>
+
+
+<style>
+  :global(body) {
+    background-color: #ddd;
+  }
+
+  h1 span {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: monospace;
+  }
+
+  .container {
+    max-width: 80%;
+  }
+
+  .row {
+    margin-bottom: 50px;
+  }
+
+</style>
+
+<script>
+
+  export default {
+    components: {
+      QRCode: '../src',
+    },
+  }
+
+</script>

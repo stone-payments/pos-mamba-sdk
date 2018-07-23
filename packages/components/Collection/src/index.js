@@ -1,2 +1,2 @@
-export { default, default as Collection } from './Collection.svelte'
-export { default as Row } from './Row.svelte'
+export { default, default as Collection } from './Collection.html'
+export { default as Row } from './Row.html'

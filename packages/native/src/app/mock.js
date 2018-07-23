@@ -11,10 +11,32 @@ function isRunningOnDevice() {
   return false
 }
 
+function listApps(appPath) {
+  return [{ id: 1, name: 'app1', icon: '' }, { id: 2, name: 'app2', icon: '' }]
+}
+
+function downloadAndSave(tar, destination) {
+  console.log(`downloading tar: ${tar}`)
+  console.log(`saving in: ${destination}`)
+}
+
+function installApp(tarPath, destination) {
+  console.log(`tarPath: ${tarPath}`)
+  console.log(`destination: ${destination}`)
+}
+
+function deleteApp(appId) {
+  console.log(`appId: ${appId}`)
+}
+
 export default function(App) {
   Object.assign(App, {
     doClose,
     getAppKey,
     isRunningOnDevice,
+    listApps,
+    downloadAndSave,
+    installApp,
+    deleteApp,
   })
 }

@@ -1,11 +1,7 @@
-const stylelint = require('stylelint')
-
 module.exports = {
   plugins: [
-    stylelint,
     require('postcss-easy-import')({
       extensions: ['.css', '.pcss'],
-      plugins: [stylelint],
     }),
     require('postcss-extend-rule'),
     require('postcss-advanced-variables'),

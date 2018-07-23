@@ -1,1 +1,1 @@
-export { default } from './Printable.svelte'
+export { default } from './Printable.html'
