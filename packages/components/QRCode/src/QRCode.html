@@ -6,17 +6,17 @@
 </div>
 
 <script>
-  import QR from 'qrious'
+  import QR from 'qrious';
 
   /** Possible QRCode sizes */
   const SIZES = {
     SMALL: 50,
     MEDIUM: 150,
     LARGE: 240,
-  }
+  };
 
   /** QR singleton to share between QRCode instances */
-  const qrEl = new QR()
+  const qrEl = new QR();
 
   export default {
     data() {
@@ -26,19 +26,22 @@
         color: 'black',
         value: '',
         logo: undefined,
-      }
+      };
     },
     onupdate({ current }) {
-      const { size, color, value, level } = current
+      const {
+        size, color, value, level,
+      } = current;
+
       qrEl.set({
         size: SIZES[String(size).toUpperCase()] || 140,
         foreground: color,
         value,
         level: String(level).toUpperCase() || 'M',
-      })
-      this.refs.qrImg.setAttribute('src', qrEl.toDataURL('image/jpeg'))
+      });
+      this.refs.qrImg.setAttribute('src', qrEl.toDataURL('image/jpeg'));
     },
-  }
+  };
 </script>
 
 <style>
