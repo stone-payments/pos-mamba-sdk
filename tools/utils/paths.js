@@ -12,13 +12,13 @@ const distPath = dirname(fromCwd(PKG.main ? PKG.main : 'dist/x'));
 const srcPath = dirname(fromCwd(PKG.source ? PKG.source : 'src/x'));
 
 /** The @mamba project path */
-exports.fromProject = (...args) => resolve(projectRoot, ...args);
+module.exports.fromProject = (...args) => resolve(projectRoot, ...args);
 
 /** Current project working directory */
-exports.fromWorkspace = fromCwd;
+module.exports.fromWorkspace = fromCwd;
 
 /** Current project 'dist' directory */
-exports.fromDist = (...args) => fromCwd(distPath, ...args);
+module.exports.fromDist = (...args) => fromCwd(distPath, ...args);
 
 /** Current project 'src' directory */
-exports.fromSrc = (...args) => fromCwd(srcPath, ...args);
+module.exports.fromSrc = (...args) => fromCwd(srcPath, ...args);
