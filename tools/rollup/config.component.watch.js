@@ -1,10 +1,7 @@
-/* eslint import/no-dynamic-require: 0 */
-
 import nodeResolve from 'rollup-plugin-node-resolve';
 import cjs from 'rollup-plugin-commonjs';
 import babel from 'rollup-plugin-babel';
 import filesize from 'rollup-plugin-filesize';
-// import eslint from 'rollup-plugin-eslint'
 import svelte from 'rollup-plugin-svelte';
 import serve from 'rollup-plugin-serve';
 import virtual from 'rollup-plugin-virtual';
@@ -19,9 +16,10 @@ import copyStaticArtifacts from './helpers/copyStaticArtifacts.js';
 
 const { fromWorkspace, fromProject } = require('../utils/paths.js');
 
+const babelConfig = require('../../.babelrc.js');
+const svelteConfig = require('../../svelte.config.js');
+
 const PKG = getPkg();
-const babelConfig = require(fromProject('.babelrc.js'));
-const svelteConfig = require(fromProject('svelte.config.js'));
 
 const STATIC_ARTIFACTS = ['assets'];
 
