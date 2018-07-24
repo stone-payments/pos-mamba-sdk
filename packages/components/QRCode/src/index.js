@@ -1,1 +1,1 @@
-export { default, default as QRCode } from './QRCode.html'
+export { default, default as QRCode } from './QRCode.html';
