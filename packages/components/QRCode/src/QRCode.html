@@ -16,7 +16,7 @@
   }
 
   /** QR singleton to share between QRCode instances */
-  let qrEl
+  const qrEl = new QR()
 
   export default {
     data() {
@@ -30,19 +30,12 @@
     },
     onupdate({ current }) {
       const { size, color, value, level } = current
-
-      /** Initialize the QR object singleton */
-      if (!qrEl) {
-        qrEl = new QR()
-      }
-
       qrEl.set({
         size: SIZES[String(size).toUpperCase()] || 140,
         foreground: color,
         value,
         level: String(level).toUpperCase() || 'M',
       })
-
       this.refs.qrImg.setAttribute('src', qrEl.toDataURL('image/jpeg'))
     },
   }
