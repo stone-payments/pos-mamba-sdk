@@ -6,8 +6,8 @@ export default class Cookie {
    * @memberof Cookie
    */
   set(key, value) {
-    localStorage.setItem(key, value)
-    return true
+    localStorage.setItem(key, value);
+    return true;
   }
 
   /**
@@ -16,7 +16,7 @@ export default class Cookie {
    * @memberof Cookie
    */
   get(key) {
-    return localStorage.getItem(key) || ''
+    return localStorage.getItem(key) || '';
   }
 
   /**
@@ -24,7 +24,7 @@ export default class Cookie {
    * @memberof Cookie
    */
   clear() {
-    localStorage.clear()
-    return true
+    localStorage.clear();
+    return true;
   }
 }

@@ -2,7 +2,7 @@
   {#if typeof progress === undefined}
     <div class="progress"></div>
   {:else}
-    <div class="progress" style="width: {progress}%"></div>
+    <div class="progress" style="width: {progress}%;"></div>
   {/if}
 </div>
 
@@ -13,20 +13,20 @@
         color: '#6ebf1a',
         height: '6px',
         progress: undefined,
-      }
+      };
     },
     computed: {
       progressClass({ progress }) {
-        return typeof progress === 'undefined' ? 'is-infinite' : ''
+        return typeof progress === 'undefined' ? 'is-infinite' : '';
       },
       style({ color, height }) {
         return [
           `background-color:${color}`,
           `height:${height}`,
-        ].join(';')
+        ].join(';');
       },
     },
-  }
+  };
 </script>
 
 <style>

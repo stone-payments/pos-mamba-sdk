@@ -2,9 +2,9 @@
 
 require('yargonaut')
   .helpStyle('green')
-  .errorsStyle('red')
+  .errorsStyle('red');
 
-const yargs = require('yargs')
+const yargs = require('yargs');
 
 yargs
   .usage('usage: $0 <namespace> <command>')
@@ -19,4 +19,4 @@ yargs
   .showHelpOnFail(true, 'Specify --help for available options')
 
   /** Init */
-  .parse()
+  .parse();

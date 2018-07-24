@@ -1,4 +1,4 @@
-const { fromWorkspace, fromProject } = require('./tools/utils/paths.js')
+const { fromWorkspace, fromProject } = require('./tools/utils/paths.js');
 
 module.exports = {
   rootDir: fromWorkspace(),
@@ -19,4 +19,4 @@ module.exports = {
   transform: {
     '^.+\\.jsx?$': fromProject('tools/jest/babelPreprocess.js'),
   },
-}
+};

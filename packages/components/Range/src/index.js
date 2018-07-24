@@ -1,1 +1,1 @@
-export { default, default as Range } from './Range.html'
+export { default, default as Range } from './Range.html';

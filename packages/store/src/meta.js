@@ -1,12 +1,12 @@
-export default store => {
+/* eslint prefer-template: 'off' */
+
+export default (store) => {
   store.meta = {
     /** Set deep for meta data */
-    set: (path = '', value) =>
-      store.setDeep(`__meta__${path.length ? '.' + path : ''}`, value),
+    set: (path = '', value) => store.setDeep(`__meta__${path.length ? '.' + path : ''}`, value),
 
     /** Get deep for meta data */
-    get: (path = '') =>
-      store.getDeep(`__meta__${path.length ? '.' + path : ''}`),
+    get: (path = '') => store.getDeep(`__meta__${path.length ? '.' + path : ''}`),
 
     /** Encapsulate meta:event related calls */
     on: (event, handler) => store.on(`meta:${event}`, handler),
@@ -22,10 +22,10 @@ export default store => {
     setOnClose: callback => store.meta.set('onCloseFn', callback),
 
     /** Method for propagating the app title */
-    setTitle: title => {
-      store.meta.set('title', title)
-      store.meta.fire('title', title)
-      document.title = title
+    setTitle: (title) => {
+      store.meta.set('title', title);
+      store.meta.fire('title', title);
+      document.title = title;
     },
-  }
-}
+  };
+};

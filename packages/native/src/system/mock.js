@@ -3,13 +3,13 @@
  * @ignore
  * @type {number}
  */
-const DEFAULT_BEEP_DURATION = 300
+const DEFAULT_BEEP_DURATION = 300;
 
 /**
  * Audio context for simulating POS beeps.
  * Instantiated once by the {@link doBeep}
  */
-let audioCtx
+let audioCtx;
 
 /**
  * Makes a beep sound
@@ -21,24 +21,24 @@ let audioCtx
  */
 function doBeep(duration, frequency) {
   if (typeof audioCtx === 'undefined') {
-    audioCtx = new window.AudioContext()
+    audioCtx = new window.AudioContext();
   }
 
-  const oscillator = audioCtx.createOscillator()
-  const gainNode = audioCtx.createGain()
+  const oscillator = audioCtx.createOscillator();
+  const gainNode = audioCtx.createGain();
 
-  oscillator.connect(gainNode)
-  gainNode.connect(audioCtx.destination)
+  oscillator.connect(gainNode);
+  gainNode.connect(audioCtx.destination);
 
-  gainNode.gain.value = 1 // Volume
-  oscillator.frequency.value = frequency
-  oscillator.type = 'square'
+  gainNode.gain.value = 1; // Volume
+  oscillator.frequency.value = frequency;
+  oscillator.type = 'square';
 
-  oscillator.start()
-  setTimeout(() => oscillator.stop(), duration)
+  oscillator.start();
+  setTimeout(() => oscillator.stop(), duration);
 }
 
-export default function(System) {
+export default function (System) {
   /**
    * Configurations that simulate the device state. Note that it's
    * used to simulate the device on the browser. To access the real
@@ -74,15 +74,15 @@ export default function(System) {
     PowerSupply: System.PowerSupply.USB,
     TimeFromBoot: 0,
     SerialNumber: '00000000',
-  }
+  };
 
   /**
    * Sets an interval that updates the {@link MockConfig.TimeFromBoot}
    * @returns {object} The interval object
    */
   setInterval(() => {
-    MockConfig.TimeFromBoot += 1000
-  }, 1000)
+    MockConfig.TimeFromBoot += 1000;
+  }, 1000);
 
   /**
    * Checks if the device has ethernet
@@ -90,7 +90,7 @@ export default function(System) {
    * @return {boolean} True if the device has ethernet
    */
   function hasEthernet() {
-    return MockConfig.Connections.ethernet
+    return MockConfig.Connections.ethernet;
   }
 
   /**
@@ -99,7 +99,7 @@ export default function(System) {
    * @return {boolean} True if the device has wifi
    */
   function hasWifi() {
-    return MockConfig.Connections.wifi
+    return MockConfig.Connections.wifi;
   }
 
   /**
@@ -108,7 +108,7 @@ export default function(System) {
    * @return {boolean} True if the device has gprs
    */
   function hasGprs() {
-    return MockConfig.Connections.gprs
+    return MockConfig.Connections.gprs;
   }
 
   /**
@@ -117,7 +117,7 @@ export default function(System) {
    * @return {boolean} True if the battery is present
    */
   function isBatteryPresent() {
-    return MockConfig.Battery.present
+    return MockConfig.Battery.present;
   }
 
   /**
@@ -126,7 +126,7 @@ export default function(System) {
    * @return {System.PowerSupply} The current power supply of the device
    */
   function getPowerSupply() {
-    return MockConfig.PowerSupply
+    return MockConfig.PowerSupply;
   }
 
   /**
@@ -135,7 +135,7 @@ export default function(System) {
    * @return {number} The time in milliseconds
    */
   function getTimeFromBoot() {
-    return MockConfig.TimeFromBoot
+    return MockConfig.TimeFromBoot;
   }
 
   /**
@@ -144,7 +144,7 @@ export default function(System) {
    * @return {string} The serial number
    */
   function getSerialNumber() {
-    return MockConfig.SerialNumber
+    return MockConfig.SerialNumber;
   }
 
   /**
@@ -153,7 +153,7 @@ export default function(System) {
    * @return {System.BatteryStatus} The status of the battery
    */
   function getBatteryStatus() {
-    return MockConfig.Battery.status
+    return MockConfig.Battery.status;
   }
 
   /**
@@ -171,7 +171,7 @@ export default function(System) {
    * @return {number} The level of the battery
    */
   function getBatteryLevel() {
-    return MockConfig.Battery.level
+    return MockConfig.Battery.level;
   }
 
   /**
@@ -179,14 +179,15 @@ export default function(System) {
    * @param  {System.Tone} tone   The tone to get the Frequency
    * @return {number}             The frequency in Hz
    */
-  function _getToneFrequency(tone) {
-    if (tone === System.Tone.TONE1) return 1700
-    if (tone === System.Tone.TONE2) return 1850
-    if (tone === System.Tone.TONE3) return 2000
-    if (tone === System.Tone.TONE4) return 2100
-    if (tone === System.Tone.TONE5) return 2350
-    if (tone === System.Tone.TONE6) return 2700
-    if (tone === System.Tone.TONE7) return 2800
+  function getToneFrequency(tone) {
+    if (tone === System.Tone.TONE1) return 1700;
+    if (tone === System.Tone.TONE2) return 1850;
+    if (tone === System.Tone.TONE3) return 2000;
+    if (tone === System.Tone.TONE4) return 2100;
+    if (tone === System.Tone.TONE5) return 2350;
+    if (tone === System.Tone.TONE6) return 2700;
+    if (tone === System.Tone.TONE7) return 2800;
+    return null;
   }
 
   /**
@@ -198,15 +199,15 @@ export default function(System) {
    * @param  {number}      [duration=300]     The duration of the tone in milliseconds
    */
   function beep(tone = System.Tone.TONE1, duration = DEFAULT_BEEP_DURATION) {
-    const toneFrequency = _getToneFrequency(tone)
+    const toneFrequency = getToneFrequency(tone);
 
     if (toneFrequency) {
-      console.log(`Beep: tone = ${tone}, duration = ${duration}`)
+      console.log(`Beep: tone = ${tone}, duration = ${duration}`);
       if (process.env.NODE_ENV !== 'test') {
-        doBeep(duration, toneFrequency)
+        doBeep(duration, toneFrequency);
       }
     } else {
-      console.error('Beep: Bad Usage')
+      console.error('Beep: Bad Usage');
     }
   }
 
@@ -221,5 +222,5 @@ export default function(System) {
     getSerialNumber,
     getBatteryStatus,
     getBatteryLevel,
-  })
+  });
 }

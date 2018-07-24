@@ -46,20 +46,20 @@
         disableNegativeAction: false,
         disablePositiveAction: false,
         isOpen: false,
-      }
+      };
     },
     methods: {
       open() {
-        this.set({ isOpen: true })
-        document.body.classList.add('no-scroll')
+        this.set({ isOpen: true });
+        document.body.classList.add('no-scroll');
       },
       close(action) {
-        this.set({ isOpen: false })
-        document.body.classList.remove('no-scroll')
-        this.fire('close', { action })
+        this.set({ isOpen: false });
+        document.body.classList.remove('no-scroll');
+        this.fire('close', { action });
       },
     },
-  }
+  };
 </script>
 
 <style>

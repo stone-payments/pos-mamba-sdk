@@ -1,41 +1,41 @@
-function send({ method = 'GET', url = '', data, headers }) {
+function send({
+  method = 'GET', url = '', data, headers,
+}) {
   return new Promise((resolve, reject) => {
-    const xhttp = new window.XMLHttpRequest()
+    const xhttp = new window.XMLHttpRequest();
 
-    xhttp.onprogress = function() {
-      console.log('Requesting...')
-    }
+    xhttp.onprogress = function onprogress() {
+      console.log('Requesting...');
+    };
 
-    xhttp.onerror = function() {
+    xhttp.onerror = function onerror() {
       reject(
         new Error({
           status: this.status,
           msg: this.responseText,
         }),
-      )
-    }
+      );
+    };
 
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function onreadystatechange() {
       /** On success state code 4 */
       if (this.readyState === 4) {
-        resolve(this.responseText)
+        resolve(this.responseText);
       }
-    }
+    };
 
-    xhttp.open(method, url, false)
+    xhttp.open(method, url, false);
 
     if (headers) {
-      for (const key in headers) {
-        xhttp.setRequestHeader(key, headers[key])
-      }
+      Object.keys(headers).forEach(key => xhttp.setRequestHeader(key, headers[key]));
     }
 
-    xhttp.send(data)
-  })
+    xhttp.send(data);
+  });
 }
 
-export default function(Http) {
+export default function (Http) {
   Object.assign(Http, {
     send,
-  })
+  });
 }

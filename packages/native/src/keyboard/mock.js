@@ -4,10 +4,10 @@
  * @param  {function} event The KeyPress event
  */
 function filterLetters(event) {
-  const char = String.fromCharCode(event.keyCode)
+  const char = String.fromCharCode(event.keyCode);
 
   if ('1234567890'.indexOf(char) === -1) {
-    event.preventDefault()
+    event.preventDefault();
   }
 }
 
@@ -16,9 +16,9 @@ function filterLetters(event) {
  * @memberof Keyboard
  */
 function setKeyboardAsNumeric() {
-  console.log('Keyboard is now numeric')
-  document.removeEventListener('keypress', filterLetters)
-  document.addEventListener('keypress', filterLetters)
+  console.log('Keyboard is now numeric');
+  document.removeEventListener('keypress', filterLetters);
+  document.addEventListener('keypress', filterLetters);
 }
 
 /**
@@ -27,13 +27,13 @@ function setKeyboardAsNumeric() {
  * @memberof Keyboard
  */
 function setKeyboardAsAlphanumeric() {
-  console.log('Keyboard is now alphanumeric')
-  document.removeEventListener('keypress', filterLetters)
+  console.log('Keyboard is now alphanumeric');
+  document.removeEventListener('keypress', filterLetters);
 }
 
-export default function(Keyboard) {
+export default function (Keyboard) {
   Object.assign(Keyboard, {
     setKeyboardAsNumeric,
     setKeyboardAsAlphanumeric,
-  })
+  });
 }

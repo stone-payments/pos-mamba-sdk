@@ -1,13 +1,14 @@
-import mock from './mock.js'
+import mock from './mock.js';
 
-let Merchant = window.MbMerchant
+let { MbMerchant: Merchant } = window;
 
 if (process.env.NODE_ENV !== 'production') {
-  Merchant = window.MbMerchant = {}
-  mock(Merchant)
+  Merchant = window.MbMerchant = {};
+  mock(Merchant);
 }
 
-if (process.env.NODE_ENV === 'production') {
-}
+/** Non-existent for n */
+// if (process.env.NODE_ENV === 'production') {
+// }
 
-export default Merchant
+export default Merchant;

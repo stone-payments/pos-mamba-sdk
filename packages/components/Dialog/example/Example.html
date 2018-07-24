@@ -44,7 +44,8 @@
 </div>
 
 <script>
-  import { Dialog, PromisedDialog, ConfirmationDialog } from '../src'
+  import { Dialog, PromisedDialog, ConfirmationDialog } from '../src/index.js';
+
   export default {
     components: {
       Dialog,
@@ -55,16 +56,14 @@
     methods: {
       refreshPromise() {
         this.set({
-          promise: new Promise((resolve, reject) =>
-            setTimeout(() => resolve(), 2000),
-          ),
-        })
+          promise: new Promise(resolve => setTimeout(() => resolve(), 2000)),
+        });
       },
       openDialog(dialog, delay) {
-        this.refs[dialog].open(delay)
+        this.refs[dialog].open(delay);
       },
     },
-  }
+  };
 </script>
 
 <style>

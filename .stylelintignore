@@ -1,2 +1,4 @@
 node_modules/
 dist/
+/packages/components/**/example/index.html
+/docs-sapper/**/*

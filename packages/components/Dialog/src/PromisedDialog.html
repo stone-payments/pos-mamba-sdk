@@ -11,14 +11,14 @@
       return {
         promise: null,
         delay: 2000,
-      }
+      };
     },
     computed: {
       _dialogProps(props) {
-        const tmp = Object.assign({}, props)
-        delete tmp.promise
-        delete tmp.delay
-        return tmp
+        const tmp = Object.assign({}, props);
+        delete tmp.promise;
+        delete tmp.delay;
+        return tmp;
       },
     },
     onstate({ changed, current: { promise, delay } }) {
@@ -26,18 +26,18 @@
         promise
           .then(() => {
             setTimeout(() => {
-              this.refs.dialog.close()
-              this.fire('success')
-            }, parseFloat(delay))
+              this.refs.dialog.close();
+              this.fire('success');
+            }, parseFloat(delay));
           })
-          .catch(e => {
+          .catch((e) => {
             setTimeout(() => {
-              this.refs.dialog.close()
-              this.fire('failure', e)
-            }, parseFloat(delay))
-          })
-        this.refs.dialog.open()
+              this.refs.dialog.close();
+              this.fire('failure', e);
+            }, parseFloat(delay));
+          });
+        this.refs.dialog.open();
       }
     },
-  }
+  };
 </script>

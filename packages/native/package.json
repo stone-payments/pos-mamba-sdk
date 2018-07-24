@@ -17,7 +17,7 @@
     "type": "git",
     "url": "git+https://github.com/stone-payments/pos-mamba-web.git"
   },
-  "author": "",
+  "author": "Christian Kaisermann <christian.kaisermann@stone.com.br>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/stone-payments/pos-mamba-web/issues"

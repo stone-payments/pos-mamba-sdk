@@ -26,19 +26,19 @@
 
 <script>
   const onceTransitionEnd = (el, cb) => {
-    const onTransitionEnd = e => {
-      cb(e)
-      el.removeEventListener('transitionend', onTransitionEnd)
-    }
-    el.addEventListener('transitionend', onTransitionEnd)
-  }
+    const onTransitionEnd = (e) => {
+      cb(e);
+      el.removeEventListener('transitionend', onTransitionEnd);
+    };
+    el.addEventListener('transitionend', onTransitionEnd);
+  };
 
   const STATES = Object.freeze({
     IDLE: 'idle',
     PRINTED: 'printed',
     SHREDDING: 'shredding',
     WAITING: 'waiting',
-  })
+  });
 
   export default {
     data() {
@@ -46,71 +46,68 @@
         content: '',
         state: STATES.IDLE,
         usingDithering: false,
-      }
+      };
     },
     computed: {
       printerClass({ state }) {
-        return `is-${state}`
+        return `is-${state}`;
       },
     },
     oncreate() {
       if (this.store) {
-        this.store.on('pos:print', ({ content, options }) =>
-          this.print(content, options),
-        )
+        this.store.on('pos:print', ({ content, options }) => this.print(content, options));
       }
     },
     methods: {
       print(content, options) {
-        const { state } = this.get()
-        this.set({ usingDithering: !!options.use_dithering })
+        const { state } = this.get();
+        this.set({ usingDithering: !!options.use_dithering });
 
         /** If there's already printed paper, shred it */
-        const shouldShredFirst = state === STATES.PRINTED
-        const getPrintPromise = () =>
-          new Promise((resolve, reject) => {
-            this.set({
-              state: STATES.PRINTED,
-              content: content.innerHTML,
-            })
-            /** Once it finishes printing animation */
-            onceTransitionEnd(this.refs.paper, () => {
-              this.set({ state: STATES.PRINTED })
-              /** Once it finishes the printed state animation */
-              onceTransitionEnd(this.refs.paper, resolve)
-            })
-          })
+        const shouldShredFirst = state === STATES.PRINTED;
+        const getPrintPromise = () => new Promise((resolve) => {
+          this.set({
+            state: STATES.PRINTED,
+            content: content.innerHTML,
+          });
+          /** Once it finishes printing animation */
+          onceTransitionEnd(this.refs.paper, () => {
+            this.set({ state: STATES.PRINTED });
+            /** Once it finishes the printed state animation */
+            onceTransitionEnd(this.refs.paper, resolve);
+          });
+        });
 
         if (shouldShredFirst) {
-          return this.shred().then(getPrintPromise)
+          return this.shred().then(getPrintPromise);
         }
 
-        return getPrintPromise()
+        return getPrintPromise();
       },
       /** Shred a already printed paper */
       shred() {
-        const { state } = this.get()
+        const { state } = this.get();
         /** Does the printer has any printed paper? */
-        const doesntHasPaper = state !== STATES.PRINTED
+        const doesntHasPaper = state !== STATES.PRINTED;
 
         /** If not, do nothing */
         if (doesntHasPaper) {
-          return
+          return;
         }
 
         /** If there's already printed paper, shred it */
-        return new Promise((resolve, reject) => {
-          this.set({ state: STATES.SHREDDING })
+        return new Promise((resolve) => {
+          this.set({ state: STATES.SHREDDING });
           /** Once it finishes shredding animation */
           onceTransitionEnd(this.refs.paper, () => {
-            this.set({ state: STATES.WAITING, content: '' })
+            this.set({ state: STATES.WAITING, content: '' });
             /** Once it finishes the "reset" animation */
-            setTimeout(resolve)
-          })
-        })
+            setTimeout(resolve);
+          });
+        });
       },
     },
-  }
+  };
 </script>
 
 <style type="text/postcss">
@@ -120,9 +117,7 @@
     @media (max-width: 480px) {
       display: none;
     }
-  }
 
-  .printer {
     width: 250px;
     position: absolute;
     left: 42px;
@@ -209,12 +204,12 @@
     overflow-y: scroll;
     z-index: 1;
     padding: 20px 21px 15px 20px;
-    filter: contrast(300%) grayscale(100%) url('#remove-colors-alpha');
+    filter: contrast(300%) grayscale(100%) url(#remove-colors-alpha);
 
     &,
     :global(p) {
       font-size: 11px;
-      font-family: 'Roboto', Arial, sans-serif;
+      font-family: 'Roboto', 'Arial', sans-serif;
       line-height: 1.1;
       -webkit-font-smoothing: none;
     }

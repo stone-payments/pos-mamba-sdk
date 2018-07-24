@@ -29,30 +29,7 @@
       Screen: './Screen.html',
       Card: './CreditCard.html',
     },
-    data() {
-      return {
-        browserEngine: null,
-      }
-    },
-    oncreate() {
-      const browserEngine =
-      /**
-       * Detect if we're running on a webkit environment.
-       * We check for `edge` because it fakes one.
-       */
-        'WebkitAppearance' in document.documentElement.style &&
-        !/edge/i.test(navigator.userAgent)
-          ? 'webkit'
-          : 'other'
-
-      /**
-       * Set the render engine to a body attribute
-       * to make our css a bit smarter since we depend heavily on webkit.
-       * */
-      document.body.setAttribute('engine', browserEngine)
-      this.set({ browserEngine })
-    },
-  }
+  };
 </script>
 
 <style>
@@ -128,9 +105,11 @@
     0% {
       opacity: 0.4;
     }
+
     50% {
       opacity: 0.9;
     }
+
     100% {
       opacity: 0.4;
     }
