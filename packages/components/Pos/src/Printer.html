@@ -68,7 +68,7 @@
         const getPrintPromise = () => new Promise((resolve) => {
           this.set({
             state: STATES.PRINTED,
-            content: content.innerHTML,
+            content: content.outerHTML,
           });
           /** Once it finishes printing animation */
           onceTransitionEnd(this.refs.paper, () => {
@@ -112,16 +112,26 @@
 
 <style type="text/postcss">
   $paper-color: #add8e6;
+  $paper-height: 370px;
+  $real-paper-width: calc(384px + 36px);
+  $mockup-paper-width: 250px;
+  $paper-scale: calc($mockup-paper-width / $real-paper-width);
 
   .printer {
-    @media (max-width: 480px) {
-      display: none;
-    }
-
-    width: 250px;
+    width: 420px;
     position: absolute;
     left: 42px;
     bottom: 584px;
+    /**
+      * Re-scale the printer to simulate the difference of density of pixels
+      * Magic scale number = (mockup printer width / real printer witdh) (250/384)
+      */
+    transform: scale(0.5952380952380952);
+    transform-origin: 0 100%;
+
+    @media (max-width: 480px) {
+      display: none;
+    }
 
     &:not(.is-printed) {
       pointer-events: none;
@@ -166,7 +176,7 @@
   .paper {
     position: relative;
     overflow: hidden;
-    height: 270px;
+    height: $paper-height;
     background-color: $paper-color;
     cursor: pointer;
     border-top-right-radius: 2px;
@@ -184,7 +194,7 @@
     }
 
     .printer.is-printed & {
-      max-height: 270px;
+      max-height: $paper-height;
       box-shadow: 2px 0px 2px 1px rgba(0, 0, 0, 0.4);
     }
 
@@ -205,23 +215,5 @@
     z-index: 1;
     padding: 20px 21px 15px 20px;
     filter: contrast(300%) grayscale(100%) url(#remove-colors-alpha);
-
-    &,
-    :global(p) {
-      font-size: 11px;
-      font-family: 'Roboto', 'Arial', sans-serif;
-      line-height: 1.1;
-      -webkit-font-smoothing: none;
-    }
-
-    :global(p) {
-      margin-bottom: 10px;
-    }
-
-    :global(img) {
-      display: block;
-      max-width: 100%;
-      height: auto;
-    }
   }
 </style>
