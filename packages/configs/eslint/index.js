@@ -1,3 +1,5 @@
+const { lineLength } = require('../shared.js');
+
 const IS_PROD = process.env.NODE_ENV === 'production';
 
 module.exports = {
@@ -18,7 +20,7 @@ module.exports = {
   rules: {
     'max-len': [
       'error',
-      100,
+      lineLength,
       2,
       {
         ignoreUrls: true,

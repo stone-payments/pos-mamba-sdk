@@ -35,13 +35,23 @@ module.exports = {
       console.info('Stopping MambaSystem');
       remoteExec(CMDS.stop);
     })
-    .command('start', 'start the MambaSystem', startOpts, ({ background }) => {
-      console.info('Starting MambaSystem');
-      remoteExec(getStartCMD(background));
-    })
-    .command('restart', 'restart the MambaSystem', startOpts, ({ background }) => {
-      console.info('Restarting MambaSystem');
-      remoteExec(CMDS.stop, getStartCMD(background));
-    }),
+    .command(
+      'start',
+      'start the MambaSystem',
+      startOpts,
+      ({ background }) => {
+        console.info('Starting MambaSystem');
+        remoteExec(getStartCMD(background));
+      },
+    )
+    .command(
+      'restart',
+      'restart the MambaSystem',
+      startOpts,
+      ({ background }) => {
+        console.info('Restarting MambaSystem');
+        remoteExec(CMDS.stop, getStartCMD(background));
+      },
+    ),
   // checkCommands(yargs, 2)
 };

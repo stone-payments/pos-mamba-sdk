@@ -18,7 +18,9 @@ class SignalHandler {
 
   isSlotFilled(signal, callback) {
     const callbackList = this.signals[signal];
-    return callbackList && callbackList.length && callbackList.indexOf(callback) > -1;
+    return (
+      callbackList && callbackList.length && callbackList.indexOf(callback) > -1
+    );
   }
 
   /** Disconnect a callback from a slot */
@@ -37,7 +39,9 @@ class SignalHandler {
           this.namespace[signal].disconnect(this.signals[signal][slotIndex]);
           this.signals[signal].splice(slotIndex, 1);
         } else if (process.env.NODE_ENV === 'development') {
-          console.warn('[SignalHandler] Tried to disconnect a non-connected callback.');
+          console.warn(
+            '[SignalHandler] Tried to disconnect a non-connected callback.',
+          );
         }
       }
     } catch (e) {
