@@ -6,8 +6,6 @@ O módulo Icon possui dois componentes: Icon e Round Icon. Ambos, facilitam na c
 imagens padrões já disponíveis em nossa SDK. Além das imagens, também é possível costumizar o estilo
 do ícone e utilizar uma imagem própria .
  
-## Exemplo
- 
 <!-- @example ./example/Example.Html -->
  
 ## Parâmetros
