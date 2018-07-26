@@ -26,7 +26,9 @@ export default function (Payment) {
     }
 
     if (params.amount <= 0) {
-      console.error('[@mamba/native/payment] BAD USAGE: Proposed amount must be greater than 0!');
+      console.error(
+        '[@mamba/native/payment] BAD USAGE: Proposed amount must be greater than 0!',
+      );
       return;
     }
 

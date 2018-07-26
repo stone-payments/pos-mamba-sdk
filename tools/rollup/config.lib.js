@@ -35,7 +35,9 @@ if (PKG.subModules && Array.isArray(PKG.subModules)) {
     const subModuleName = basename(dirname(subModEntryRelPath));
     let entryName = basename(subModEntryRelPath, '.js');
 
-    entryName = entryName !== 'index' ? Case.camel(`${subModuleName} ${entryName}`) : subModuleName;
+    entryName = entryName !== 'index'
+      ? Case.camel(`${subModuleName} ${entryName}`)
+      : subModuleName;
 
     configs.push({
       input: subModEntryRelPath,

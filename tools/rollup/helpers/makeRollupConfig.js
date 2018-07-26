@@ -18,7 +18,9 @@ export default function ({
   const path = dirname(output);
 
   /** Module global variable name */
-  const name = filename.replace(/\.[^/.]+$/, '').replace(/\b\w/g, l => l.toUpperCase());
+  const name = filename
+    .replace(/\.[^/.]+$/, '')
+    .replace(/\b\w/g, l => l.toUpperCase());
 
   /** Rollup output property */
   output = {

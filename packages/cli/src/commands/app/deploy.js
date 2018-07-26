@@ -22,15 +22,23 @@ module.exports = {
     const appSlug = `${appID}-${slugify(appName)}`;
 
     const REMOTE_APP_DIR = `${REMOTE_APPS_DIR}/${appSlug}.stone`;
-    const DIST_DIR = fromCwd(legacy ? 'ui/dist' : 'dist');
+    const DIST_DIR = fromCwd(legacy ? 'ui/dist' : 'bundle');
 
     console.log(`Deploying "${appSlug}" to "${REMOTE_APP_DIR}"`);
-    shell.exec(`rsync -zzaP ${!force ? '--checksum' : ''} --delete ${DIST_DIR}/ ${REMOTE_APP_DIR}`);
+    shell.exec(
+      `rsync -zzaP ${
+        !force ? '--checksum' : ''
+      } --delete ${DIST_DIR}/ ${REMOTE_APP_DIR}`,
+    );
 
     if (legacy) {
-      console.log(`Moving "manifest.xml" and "icon.bmp" to "${REMOTE_APP_DIR}/"`);
+      console.log(
+        `Moving "manifest.xml" and "icon.bmp" to "${REMOTE_APP_DIR}/"`,
+      );
 
-      const includes = ['manifest.xml', 'icon.bmp'].map(path => `--include="${path}"`).join(' ');
+      const includes = ['manifest.xml', 'icon.bmp']
+        .map(path => `--include="${path}"`)
+        .join(' ');
 
       shell.exec(
         `rsync -zzaPR ${

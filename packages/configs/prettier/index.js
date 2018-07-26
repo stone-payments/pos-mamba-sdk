@@ -1,6 +1,8 @@
+const { lineLength } = require('../shared.js');
+
 module.exports = {
   semi: true,
-  printWidth: 100,
+  printWidth: lineLength,
   trailingComma: 'all',
   bracketSpacing: true,
   jsxBracketSameLine: false,

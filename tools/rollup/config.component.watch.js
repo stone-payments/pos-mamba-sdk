@@ -33,7 +33,9 @@ const config = {
   plugins: [
     /** Virtual entry module to bootstrap the example app */
     virtual({
-      __entry__: `import App from '${posixify(fromWorkspace('example', 'Example.html'))}'
+      __entry__: `import App from '${posixify(
+        fromWorkspace('example', 'Example.html'),
+      )}'
         new App({ target: document.getElementById('root') })`,
     }),
     nodeResolve({
@@ -53,7 +55,12 @@ const config = {
     copyStaticArtifacts(STATIC_ARTIFACTS)('example'),
     /** Create an html template in the example directory */
     html({
-      template: fromProject('tools', 'rollup', 'helpers', 'componentExampleTemplate.html'),
+      template: fromProject(
+        'tools',
+        'rollup',
+        'helpers',
+        'componentExampleTemplate.html',
+      ),
     }),
     /** Create a server with '<workspaceDir>/example' as the root */
     serve({

@@ -46,7 +46,11 @@ export default function emitterFactory(namespace, timeout = 1500) {
     SignalEmitter.onAfter = callback;
     return SignalEmitter;
   };
-  SignalEmitter.add = function add(signalName, probability = 1, transformer = undefined) {
+  SignalEmitter.add = function add(
+    signalName,
+    probability = 1,
+    transformer = undefined,
+  ) {
     if (SignalEmitter.signals.indexOf(signalName) < 0) {
       SignalEmitter.signals.push([signalName, probability, transformer]);
       namespace[signalName] = Signal();

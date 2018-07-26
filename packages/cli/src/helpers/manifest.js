@@ -4,7 +4,9 @@ const { fromCwd } = require('quickenv');
 
 const hasMambaDir = existsSync(fromCwd('.mamba'));
 
-exports.manifestPath = hasMambaDir ? fromCwd('.mamba', 'manifest.xml') : fromCwd('manifest.xml');
+exports.manifestPath = hasMambaDir
+  ? fromCwd('.mamba', 'manifest.xml')
+  : fromCwd('manifest.xml');
 
 exports.hasManifest = existsSync(exports.manifestPath);
 
