@@ -8,7 +8,7 @@ do ícone e utilizar uma imagem própria .
  
 ## Exemplo
  
-<!-- Example.Html -->
+<!-- @example ./example/Example.Html -->
  
 ## Parâmetros
  
