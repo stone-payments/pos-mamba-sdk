@@ -1,5 +1,5 @@
 {
-  "name": "@mamba/store",
+  "name": "@mambasdk/store",
   "version": "0.0.1",
   "description": "Store for Svelte Mamba Applications",
   "main": "dist/store.js",
@@ -14,7 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/stone-payments/pos-mamba-web.git"
   },
-  "author": "Christian Kaisermann <christian.kaisermann@stone.com.br>",
+  "author": "Stone Payments - Mamba Team",
   "license": "MIT",
   "peerDependencies": {
     "svelte": "^2.8.0"

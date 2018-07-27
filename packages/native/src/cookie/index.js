@@ -8,7 +8,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 if (process.env.NODE_ENV === 'production') {
   if (!Cookie) {
-    throw new Error("[@mamba/native] 'Cookie' module not found");
+    throw new Error("[@mambasdk/native] 'Cookie' module not found");
   }
 }
 

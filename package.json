@@ -6,9 +6,9 @@
   "license": "Apache-2.0",
   "repository": "https://github.com/stone-payments/pos-mamba-web.git",
   "scripts": {
-    "start": "bolt w @mamba/docssapper start",
+    "start": "bolt w @mambasdk/docssapper start",
     "build": "bolt ws build",
-    "build:style": "bolt w @mamba/style build",
+    "build:style": "bolt w @mambasdk/style build",
     "build:libs": "bolt ws build --only-fs \"packages/{utils,native}/**\"",
     "delete:modules": "rm -rf \"node_modules\" \"./**/node_modules\"",
     "link:packages": "bolt ws exec --only-fs \"packages/**\" -- yarn link",

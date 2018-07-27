@@ -3,7 +3,7 @@ import Printer from '../printer.js';
 const sampleEl = document.createElement('DIV');
 sampleEl.innerHTML = '<h1>Sample Title</h1><p>Sample text</p>';
 
-describe('@mamba/native/Printer', () => {
+describe('@mambasdk/native/Printer', () => {
   it('global Printer module should exist', () => {
     expect(window.Printer).toBeTruthy();
   });

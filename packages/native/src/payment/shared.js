@@ -21,13 +21,13 @@ export default function (Payment) {
     }
 
     if (Payment.isPaying()) {
-      console.warn('[@mamba/native/payment] Payment is already in progress');
+      console.warn('[@mambasdk/native/payment] Payment is already in progress');
       return onPayCallback(0); // TODO: arguments.callee
     }
 
     if (params.amount <= 0) {
       console.error(
-        '[@mamba/native/payment] BAD USAGE: Proposed amount must be greater than 0!',
+        '[@mambasdk/native/payment] BAD USAGE: Proposed amount must be greater than 0!',
       );
       return;
     }

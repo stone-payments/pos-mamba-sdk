@@ -1,6 +1,6 @@
 {
-  "name": "@mamba/button",
-  "version": "1.0.0",
+  "name": "@mambasdk/button",
+  "version": "0.0.1",
   "source": "src/index.js",
   "svelte": "src/index.js",
   "files": [
@@ -15,9 +15,9 @@
     "build:dev": "exit 0"
   },
   "devDependencies": {
-    "@mamba/icon": "^1.0.0"
+    "@mambasdk/icon": "^0.0.1"
   },
   "dependencies": {
-    "@mamba/styles": "^0.0.1"
+    "@mambasdk/styles": "^0.0.1"
   }
 }

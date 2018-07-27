@@ -1,5 +1,5 @@
 {
-  "name": "@mamba/native",
+  "name": "@mambasdk/native",
   "version": "0.0.1",
   "description": "Native Mamba applications methods",
   "source": "src/index.js",
@@ -17,7 +17,7 @@
     "type": "git",
     "url": "git+https://github.com/stone-payments/pos-mamba-web.git"
   },
-  "author": "Christian Kaisermann <christian.kaisermann@stone.com.br>",
+  "author": "Stone Payments - Mamba Team",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/stone-payments/pos-mamba-web/issues"

@@ -1,6 +1,6 @@
 {
-  "name": "@mamba/icon",
-  "version": "1.0.0",
+  "name": "@mambasdk/icon",
+  "version": "0.0.1",
   "source": "src/index.js",
   "svelte": "src/index.js",
   "files": ["dist/", "src/"],
@@ -13,6 +13,6 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@mamba/styles": "^0.0.1"
+    "@mambasdk/styles": "^0.0.1"
   }
 }

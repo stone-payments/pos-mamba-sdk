@@ -1,8 +1,8 @@
 {
-  "name": "@mamba/styles",
+  "name": "@mambasdk/styles",
   "version": "0.0.1",
   "description": "Mamba core and reset styles",
-  "author": "Christian Kaisermann <christian.kaisermann@stone.com.br>",
+  "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
   "repository": "https://github.com/stone-payments/pos-mamba-web.git",
   "scripts": {
