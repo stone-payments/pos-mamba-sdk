@@ -1,19 +1,12 @@
 {
   "name": "@mambasdk/configs",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Tool config presets for use in mamba projects.",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
   "keywords": [
     "eslint",
     "mamba"
-  ],
-  "files": [
-    "eslint/*",
-    "postcss/*",
-    "prettier/*",
-    "stylelint/*",
-    "svelte/*"
   ],
   "peerDependencies": {
     "eslint": "^5.0.1",

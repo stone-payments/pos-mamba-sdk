@@ -18,7 +18,8 @@
     "format": "yarn format:css; yarn format:js",
     "format:js": "prettier --write \"*.js\" \"{tools,packages,website}/**/*.js\" && eslint --fix \"*.js\" \"{tools,packages,website}/**/*.{js,html,svelte}\"",
     "format:css": "prettier --write \"packages/**/*.{css,pcss}\" && stylelint --fix --custom-syntax \"postcss-html\" \"packages/**/*.{html,svelte,css,pcss}\"",
-    "test": "bolt ws test"
+    "test": "bolt ws test",
+    "postinstall": "bolt ws build"
   },
   "bolt": {
     "workspaces": [
