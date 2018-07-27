@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@laomao800/webpack-archive-plugin": "^2.0.0",
-    "@mambasdk/configs": "^0.0.1",
+    "@mambasdk/configs": "^0.0.4",
     "babel-loader": "^8.0.0-beta",
     "css-loader": "^1.0.0",
     "cssnano": "^4.0.4",
