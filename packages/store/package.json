@@ -2,6 +2,11 @@
   "name": "@mambasdk/store",
   "version": "0.0.1",
   "description": "Store for Svelte Mamba Applications",
+  "author": "Stone Payments - Mamba Team",
+  "contributors": [
+    "Christian Kaisermann <christian.kaisermann@stone.com.br>"
+  ],
+  "license": "Apache-2.0",
   "main": "dist/store.js",
   "source": "src/index.js",
   "scripts": {
@@ -10,12 +15,6 @@
     "test": "exit 0; jest -c ../../jest.config.js --no-cache",
     "prepublishOnly": "npm run build"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/stone-payments/pos-mamba-web.git"
-  },
-  "author": "Stone Payments - Mamba Team",
-  "license": "MIT",
   "peerDependencies": {
     "svelte": "^2.8.0"
   },
