@@ -14,8 +14,8 @@
   "scripts": {
     "start": "bolt w @mambasdk/docssapper start",
     "build": "bolt ws build",
-    "build:style": "bolt w @mambasdk/style build",
-    "build:libs": "bolt ws build --only-fs \"packages/{utils,native}/**\"",
+    "build:styles": "bolt w @mambasdk/styles build",
+    "build:libs": "bolt ws build --only-fs \"packages/{store,native}/**\"",
     "delete:modules": "rm -rf \"node_modules\" \"./**/node_modules\"",
     "link:packages": "bolt ws exec --only-fs \"packages/**\" -- yarn link",
     "lint": "yarn lint:css; yarn lint:js",
@@ -24,8 +24,7 @@
     "format": "yarn format:css; yarn format:js",
     "format:js": "prettier --write \"*.js\" \"{tools,packages,website}/**/*.js\" && eslint --fix \"*.js\" \"{tools,packages,website}/**/*.{js,html,svelte}\"",
     "format:css": "prettier --write \"packages/**/*.{css,pcss}\" && stylelint --fix --custom-syntax \"postcss-html\" \"packages/**/*.{html,svelte,css,pcss}\"",
-    "test": "bolt ws test",
-    "postinstall": "bolt ws build"
+    "test": "bolt ws test"
   },
   "bolt": {
     "workspaces": [

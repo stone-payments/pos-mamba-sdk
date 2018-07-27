@@ -49,7 +49,7 @@ const config = {
       babelrc: false,
       ...babelConfig,
       externalHelpers: true,
-      exclude: /node_modules[/\\](?!(svelte)|(@mamba))/,
+      exclude: /node_modules[/\\](?!(svelte)|(@mambasdk))/,
     }),
     filesize(),
     copyStaticArtifacts(STATIC_ARTIFACTS)('example'),
