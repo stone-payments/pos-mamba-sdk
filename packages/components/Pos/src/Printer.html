@@ -210,10 +210,15 @@
     top: 0;
     left: 0;
     bottom: 0;
-    right: -20px;
+    /* right: -20px; */
+    right: 0;
     overflow-y: scroll;
     z-index: 1;
     padding: 20px 21px 15px 20px;
     filter: contrast(300%) grayscale(100%) url(#remove-colors-alpha);
+  }
+
+  .content::-webkit-scrollbar {
+    display: none;
   }
 </style>
