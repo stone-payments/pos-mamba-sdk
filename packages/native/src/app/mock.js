@@ -1,6 +1,6 @@
 /** Mock the 'doClose' invokable */
 function doClose() {
-  console.log('[@mamba/native/app] App closed');
+  console.log('[@mambasdk/native/app] App closed');
 }
 
 function getAppKey() {

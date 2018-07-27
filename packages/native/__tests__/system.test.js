@@ -1,6 +1,6 @@
 import System from '../system.js';
 
-describe('@mamba/native/System', () => {
+describe('@mambasdk/native/System', () => {
   it('global System module should exist', () => {
     expect(window.System).toBeTruthy();
   });

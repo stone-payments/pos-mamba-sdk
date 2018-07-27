@@ -19,7 +19,7 @@ module.exports = {
   },
   rules: {
     'max-len': [
-      'error',
+      'warn',
       lineLength,
       2,
       {
@@ -77,7 +77,7 @@ module.exports = {
     'import/no-unresolved': [
       'error',
       {
-        ignore: ['.(?:svelte|html)$', '^(@mamba[\\/]|svelte-)'],
+        ignore: ['.(?:svelte|html)$', '^(@mambasdk[\\/]|svelte-)'],
       },
     ],
   },

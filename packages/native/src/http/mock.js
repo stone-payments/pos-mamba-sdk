@@ -27,7 +27,9 @@ function send({
     xhttp.open(method, url, false);
 
     if (headers) {
-      Object.keys(headers).forEach(key => xhttp.setRequestHeader(key, headers[key]));
+      Object.keys(headers).forEach((key) => {
+        xhttp.setRequestHeader(key, headers[key]);
+      });
     }
 
     xhttp.send(data);

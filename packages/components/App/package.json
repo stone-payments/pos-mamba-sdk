@@ -1,6 +1,6 @@
 {
-  "name": "@mamba/app",
-  "version": "1.0.0",
+  "name": "@mambasdk/app",
+  "version": "0.0.1",
   "source": "src/index.js",
   "svelte": "src/index.js",
   "files": [
@@ -15,13 +15,13 @@
     "build:dev": "exit 0"
   },
   "dependencies": {
-    "@mamba/dialog": "^1.0.0"
+    "@mambasdk/dialog": "^0.0.1"
   },
   "devDependencies": {
-    "@mamba/styles": "^0.0.1"
+    "@mambasdk/styles": "^0.0.1"
   },
   "peerDependencies": {
     "svelte-routing": "^0.4.2",
-    "@mamba/native": "^0.0.1"
+    "@mambasdk/native": "^0.0.1"
   }
 }

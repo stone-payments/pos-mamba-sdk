@@ -1,6 +1,6 @@
 {
-  "name": "@mamba/qrcode",
-  "version": "1.0.0",
+  "name": "@mambasdk/qrcode",
+  "version": "0.0.1",
   "source": "src/index.js",
   "svelte": "src/index.js",
   "files": [
@@ -15,7 +15,7 @@
     "build:dev": "exit 0"
   },
   "dependencies": {
-    "@mamba/styles": "^0.0.1",
+    "@mambasdk/styles": "^0.0.1",
     "qrious": "^4.0.2"
   }
 }

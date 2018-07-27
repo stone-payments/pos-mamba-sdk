@@ -1,6 +1,6 @@
 import Keyboard from '../keyboard.js';
 
-describe('@mamba/native/Keyboard', () => {
+describe('@mambasdk/native/Keyboard', () => {
   it('global Keyboard module should exist', () => {
     expect(window.Keyboard).toBeTruthy();
   });
