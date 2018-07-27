@@ -3,8 +3,10 @@
   "version": "0.0.1",
   "description": "Mamba core and reset styles",
   "author": "Stone Payments - Mamba Team",
+  "contributors": [
+    "Christian Kaisermann <christian.kaisermann@stone.com.br>"
+  ],
   "license": "Apache-2.0",
-  "repository": "https://github.com/stone-payments/pos-mamba-web.git",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "yarn build:pos && yarn run build:desktop",

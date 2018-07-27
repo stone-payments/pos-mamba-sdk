@@ -5,6 +5,10 @@
   "svelte": "src/index.js",
   "files": ["dist/", "src/"],
   "author": "Stone Payments - Mamba Team",
+  "contributors": [
+    "Christian Kaisermann <christian.kaisermann@stone.com.br>",
+    "Pedro Lancelloti Kaisermann <pedro.lancelloti@stone.com.br>"
+  ],
   "license": "Apache-2.0",
   "scripts": {
     "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w",
