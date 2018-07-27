@@ -1,29 +1,19 @@
 {
-  "name": "@mamba/webpack",
-  "version": "0.0.1",
-  "description": "Store for Svelte Mamba Applications",
-  "files": [
-    "helpers/**/*",
-    "config*.js"
+  "name": "@mambasdk/webpack",
+  "version": "0.0.2",
+  "description": "Webpack configs for Mamba Applications",
+  "author": "Stone Payments - Mamba Team",
+  "contributors": [
+    "Christian Kaisermann <christian.kaisermann@stone.com.br>"
   ],
-  "scripts": {
-    "start": "rollup -c ../../tools/rollup/config.lib.js -w",
-    "build": "cross-env NODE_ENV=production rollup -c ../../tools/rollup/config.lib.js",
-    "test": "exit 0; jest -c ../../jest.config.js --no-cache",
-    "prepublishOnly": "npm run build"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/stone-payments/pos-mamba-web.git"
-  },
-  "author": "Christian Kaisermann <christian.kaisermann@stone.com.br>",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "peerDependencies": {
-    "svelte": "^2.8.0"
+    "webpack": "^4.14.0",
+    "webpack-cli": "^3.0.8"
   },
   "dependencies": {
     "@laomao800/webpack-archive-plugin": "^2.0.0",
-    "@mamba/configs": "^1.0.0",
+    "@mambasdk/configs": "^0.0.1",
     "babel-loader": "^8.0.0-beta",
     "css-loader": "^1.0.0",
     "cssnano": "^4.0.4",
@@ -43,10 +33,8 @@
     "svelte-loader": "^2.9.1",
     "uglifyjs-webpack-plugin": "^1.2.7",
     "url-loader": "^1.0.1",
-    "webpack": "^4.12.0",
     "webpack-archive-plugin": "^3.0.0",
     "webpack-bundle-analyzer": "^2.13.1",
-    "webpack-cli": "^3.0.8",
     "webpack-dev-server": "^3.1.4",
     "webpack-merge": "^4.1.3",
     "webpack-sources": "^1.1.0"

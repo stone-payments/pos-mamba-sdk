@@ -2,10 +2,10 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { IS_DEV, IS_WATCHING } = require('quickenv');
 
 /** Read the project's .babelrc.js to enforce it in 'babel-loader' */
-const babelrc = require('@mamba/configs/babel/template.js');
+const babelrc = require('@mambasdk/configs/babel/index.js');
 
 /** Read the svelte config file from the project */
-const svelteConfig = require('@mamba/configs/svelte/index.js');
+const svelteConfig = require('@mambasdk/configs/svelte/index.js');
 
 module.exports = {
   babel: {
