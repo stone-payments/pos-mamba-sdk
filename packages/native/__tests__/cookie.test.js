@@ -1,6 +1,6 @@
 import Cookie from '../cookie.js';
 
-describe('@mamba/native/Cookie', () => {
+describe('@mambasdk/native/Cookie', () => {
   it('global Cookie module should exist', () => {
     expect(window.MbCookie).toBeTruthy();
   });

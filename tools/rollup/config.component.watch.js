@@ -69,14 +69,14 @@ const config = {
         './example',
         './',
         /**
-         * We add each @mamba/dependency src path to the server
+         * We add each @mambasdk/dependency src path to the server
          * since rollup doesn't have something like 'css-loader' to
          * automatically copy the required assets via css url().
          */
         ...Object.keys(PKG.dependencies || {})
           .concat(Object.keys(PKG.devDependencies || {}))
           .concat(Object.keys(PKG.peerDependencies || {}))
-          .filter(dep => dep.match(/@mamba/))
+          .filter(dep => dep.match(/@mambasdk/))
           .map(dep => fromWorkspace('node_modules', dep, 'src')),
       ],
     }),

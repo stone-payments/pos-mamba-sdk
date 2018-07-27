@@ -1,6 +1,6 @@
 import Payment from '../payment.js';
 
-describe('@mamba/native/Payment', () => {
+describe('@mambasdk/native/Payment', () => {
   it('global Payment module should exist', () => {
     expect(window.Payment).toBeTruthy();
   });

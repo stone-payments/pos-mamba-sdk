@@ -1,6 +1,6 @@
 import Merchant from '../merchant.js';
 
-describe('@mamba/native/Merchant', () => {
+describe('@mambasdk/native/Merchant', () => {
   it('global Merchant module should exist', () => {
     expect(window.MbMerchant).toBeTruthy();
   });

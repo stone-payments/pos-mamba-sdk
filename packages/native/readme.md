@@ -1,6 +1,6 @@
-# @mamba/native
+# @mambasdk/native
 
-## @mamba/native/system
+## @mambasdk/native/system
 
 ```ts
 interface System {
@@ -44,7 +44,7 @@ enum BatteryStatus {
 }
 ```
 
-## @mamba/native/payment
+## @mambasdk/native/payment
 
 ```ts
 interface Payment {
@@ -72,7 +72,7 @@ interface PaymentOptions {
 }
 ```
 
-## @mamba/native/cookie
+## @mambasdk/native/cookie
 
 ```ts
 class Cookie {
@@ -82,7 +82,7 @@ class Cookie {
 }
 ```
 
-## @mamba/native/keyboard
+## @mambasdk/native/keyboard
 
 ```ts
 interface Keyboard {
@@ -101,7 +101,7 @@ interface Keyboard {
 }
 ```
 
-## @mamba/native/merchant
+## @mambasdk/native/merchant
 
 ```ts
 interface Merchant {

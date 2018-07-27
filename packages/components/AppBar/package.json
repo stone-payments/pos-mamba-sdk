@@ -1,6 +1,6 @@
 {
-  "name": "@mamba/appbar",
-  "version": "1.0.0",
+  "name": "@mambasdk/appbar",
+  "version": "0.0.1",
   "source": "src/index.js",
   "svelte": "src/index.js",
   "files": ["dist/", "src/"],
@@ -13,8 +13,8 @@
   },
   "peerDependencies": {
     "svelte-routing": "^0.4.2",
-    "@mamba/icon": "^1.0.0",
-    "@mamba/store": "^0.0.1",
-    "@mamba/styles": "^0.0.1"
+    "@mambasdk/icon": "^0.0.1",
+    "@mambasdk/store": "^0.0.1",
+    "@mambasdk/styles": "^0.0.1"
   }
 }

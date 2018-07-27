@@ -1,6 +1,6 @@
 import App from '../app.js';
 
-describe('@mamba/native/App', () => {
+describe('@mambasdk/native/App', () => {
   it('global App module should exist', () => {
     expect(window.App).toBeTruthy();
   });

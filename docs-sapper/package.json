@@ -1,5 +1,6 @@
 {
-  "name": "@mamba/docssapper",
+  "name": "@mambasdk/docssapper",
+  "private": true,
   "description": "Docs and examples for Mamba Web",
   "version": "0.0.1",
   "author": "Stone Payments - Mamba Team",
@@ -14,7 +15,7 @@
     "test": "run-p --race dev cy:run"
   },
   "dependencies": {
-    "@mamba/icon": "^1.0.0",
+    "@mambasdk/icon": "^0.0.1",
     "compression": "^1.7.2",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
