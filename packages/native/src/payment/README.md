@@ -10,7 +10,7 @@ a transação.
 
 ```ts
 interface Payment {
-  pay: (params: PaymentOptions, onPayCallback: Function) => void;
+  pay: (params: PaymentOptions) => Promise;
   getAmountAuthorized: () => number;
   enableCardEvent: () => void;
   disableCardEvent: () => void;
@@ -34,16 +34,22 @@ interface PaymentOptions {
 }
 ```
 
-### Pay()
+### Pay(params)
 
-Abre o aplicativo de pagamentos passando os parâmetros de pagamento. Ao final executa o callback
-passado à função e retorna o valor efetivamente pago pelo usuário, caso a operação de
-pagamento não seja realizada, o valor retornado será 0.
+Abre o aplicativo de pagamentos passando os parâmetros de pagamento e retorna uma [`Promise`](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Promise).
 
 ```js
-import Payment from '@mambasdk/payment';
+import Payment from '@mambasdk/native/payment';
 
-Payment.pay({ amount: 500, editable_amount: false });
+Payment.pay({ amount: 500, editable_amount: false })
+  .then(() => {
+    console.log('Payment Done');
+  })
+  .catch(error => {
+    console.log(error);
+  });
+
+// Payment Done
 ```
 
 ### getAmountAuthorized()
@@ -51,7 +57,7 @@ Payment.pay({ amount: 500, editable_amount: false });
 Retorna o valor autorizado do pagamento ou 0 caso ocorra algum problema.
 
 ```js
-import Payment from '@mambasdk/payment';
+import Payment from '@mambasdk/native/payment';
 
 Payment.getAmountAuthorized(); // 500
 ```
@@ -61,7 +67,7 @@ Payment.getAmountAuthorized(); // 500
 `Desabilita` a leitura de cartões.
 
 ```js
-import Payment from '@mambasdk/payment';
+import Payment from '@mambasdk/native/payment';
 
 Payment.enableCardEvent(); // card event enabled
 ```
@@ -71,7 +77,7 @@ Payment.enableCardEvent(); // card event enabled
 `Habilita` a leitura de cartões.
 
 ```js
-import Payment from '@mambasdk/payment';
+import Payment from '@mambasdk/native/payment';
 
 Payment.disableCardEvent(); // card event disabled
 ```
@@ -81,7 +87,7 @@ Payment.disableCardEvent(); // card event disabled
 Retorna se está ocorrendo um pagamento no momento.
 
 ```js
-import Payment from '@mambasdk/payment';
+import Payment from '@mambasdk/native/payment';
 
 Payment.isPaying(); // true
 Payment.isPaying(); // false
@@ -92,16 +98,15 @@ Payment.isPaying(); // false
 Retorna se o último pagamento falhou.
 
 ```js
-import Payment from '@mambasdk/payment';
+import Payment from '@mambasdk/native/payment';
 
 Payment.failedPaying(); // true
-Payment.failedPaying(); // false
 ```
 
 ### getCardHolderName()
 
 ```js
-import Payment from '@mambasdk/payment';
+import Payment from '@mambasdk/native/payment';
 
 Payment.getCardHolderName(); // 'JAMES LEE'
 ```
@@ -111,7 +116,7 @@ Payment.getCardHolderName(); // 'JAMES LEE'
 Retorna o código único da transação gerado pelo autorizador da transação.
 
 ```js
-import Payment from '@mambasdk/payment';
+import Payment from '@mambasdk/native/payment';
 
 Payment.getAtk(); // '11111111111111'
 ```
@@ -121,7 +126,7 @@ Payment.getAtk(); // '11111111111111'
 Retorna o código único da transação gerado pelo POS.
 
 ```js
-import Payment from '@mambasdk/payment';
+import Payment from '@mambasdk/native/payment';
 
 Payment.getItk(); // '11111111111111'
 ```
@@ -131,7 +136,7 @@ Payment.getItk(); // '11111111111111'
 Retorna o horário da trasansação, caso ocorra falhas retorna uma linha vazia.
 
 ```js
-import Payment from '@mambasdk/payment';
+import Payment from '@mambasdk/native/payment';
 
 Payment.getAuthorizationDateTime(); // '2018-05-03:00:00:00.00'
 ```
@@ -141,7 +146,7 @@ Payment.getAuthorizationDateTime(); // '2018-05-03:00:00:00.00'
 Retorna a Bandeira da transação
 
 ```js
-import Payment from '@mambasdk/payment';
+import Payment from '@mambasdk/native/payment';
 
 Payment.getBrand(); // 'MASTER'
 ```
@@ -151,7 +156,7 @@ Payment.getBrand(); // 'MASTER'
 Retorna o id do pagamento, em caso de erros retorna uma `string` vazia.
 
 ```js
-import Payment from '@mambasdk/payment';
+import Payment from '@mambasdk/native/payment';
 
 Payment.getOrderId(); // '12356068'
 ```
@@ -161,7 +166,7 @@ Payment.getOrderId(); // '12356068'
 Retorna o código do autorizador. Caso a operação falhe, retorna uma `string` vazia.
 
 ```js
-import Payment from '@mambasdk/payment';
+import Payment from '@mambasdk/native/payment';
 
 Payment.getAuthorizationCode(); // '111111'
 ```
@@ -171,7 +176,7 @@ Payment.getAuthorizationCode(); // '111111'
 Retorna o número de parcelas do pagamento. Caso a operação falhe, retorna 0.
 
 ```js
-import Payment from '@mambasdk/payment';
+import Payment from '@mambasdk/native/payment';
 
 Payment.getAuthorizationCode(); // 0
 ```
@@ -182,7 +187,7 @@ Retorna o número da conta do cartão em que compra foi realizado. Caso a opera�
 `string` vazia.
 
 ```js
-import Payment from '@mambasdk/payment';
+import Payment from '@mambasdk/native/payment';
 
 Payment.getPan(); // '56497#####41578'
 ```
@@ -192,7 +197,7 @@ Payment.getPan(); // '56497#####41578'
 Retorna o tipo da transação `CREDITO` ou `DEBITO`.
 
 ```js
-import Payment from '@mambasdk/payment';
+import Payment from '@mambasdk/native/payment';
 
 Payment.getType(); // 'CREDITO'
 ```
