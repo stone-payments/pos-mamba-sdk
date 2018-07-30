@@ -4,7 +4,7 @@
 
 Este módulo da API Nativa é responsável por controlar a impressora da máquina.
 
-> Para impressões, é recomendado o uso do componente **@mamba/printable** ao invés de usar esta biblioteca diretamente.
+> Para impressões, é recomendado o uso do componente **@mambasdk/printable** ao invés de usar esta biblioteca diretamente.
 
 ## Interface
 
