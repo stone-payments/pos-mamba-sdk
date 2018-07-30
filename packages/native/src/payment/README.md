@@ -30,8 +30,8 @@ interface Payment {
 
 interface PaymentOptions {
   amount: number;
-  min_installments: number,
-  max_installments: number,
+  min_installments: number;
+  max_installments: number;
   editable_amount: boolean;
 }
 ```
