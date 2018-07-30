@@ -15,9 +15,6 @@ let audioCtx;
  * Makes a beep sound
  * @param  {number}   duration  Duration of the tone, in milliseconds
  * @param  {number}   frequency Frequency of the tone, in Hz
- * @param  {number}   volume    Volume of the tone. 1 is maximum value, 0 is the minimum (off)
- * @param  {AudioType}   type   The wave type of the tone
- * @param  {Function} callback  Callback to use on end of tone
  */
 function doBeep(duration, frequency) {
   if (typeof audioCtx === 'undefined') {
