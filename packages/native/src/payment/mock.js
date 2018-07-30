@@ -13,6 +13,7 @@ const MockConfig = {
   atk: '11111111111111',
   itk: '11111111111111',
   orderId: '111111111',
+  authorizedAmount: 0,
 };
 
 let _isPaying = false;
@@ -62,6 +63,16 @@ function getAtk() {
  */
 function getItk() {
   return !failedPaying() ? '' : MockConfig.itk;
+}
+
+/**
+ * Return the Authorized Amount in case of success
+ * Return 0 if payment failed
+ * @memberof Payment
+ * @return {number} amount
+ */
+function getAuthorizedAmount() {
+  return failedPaying() ? 0 : MockConfig.authorizedAmount;
 }
 
 /**
@@ -140,8 +151,9 @@ export default function (Payment) {
     .before(() => {
       _isPaying = true;
     })
-    .after(() => {
+    .after((params) => {
       _isPaying = false;
+      MockConfig.authorizedAmount = params.value;
     })
     .add('paymentDone', 1);
 
@@ -162,5 +174,6 @@ export default function (Payment) {
     getInstallmentCount,
     getPan,
     getType,
+    getAuthorizedAmount,
   });
 }
