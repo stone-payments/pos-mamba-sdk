@@ -1,4 +1,4 @@
-<div class="printable">
+<div class="printable" style="max-width: {_paperWidth};">
   <div class="content" ref:printableContent>
     <slot></slot>
   </div>
@@ -39,6 +39,9 @@
     SUCCESS: 3,
   });
 
+  /** Cache the POS paper width */
+  const PAPER_WIDTH = `${Printer.getPaperWidth()}px`;
+
   export default {
     data() {
       return {
@@ -46,6 +49,7 @@
         state: STATES.IDLE,
         printingPromise: undefined,
         options: {},
+        _paperWidth: PAPER_WIDTH,
       };
     },
     components: {
@@ -90,11 +94,11 @@
   };
 </script>
 
-<style>
+<style type="text/postcss">
   .printable {
     position: fixed;
-    max-width: 384px;
-    left: -384px;
+    /* max-width: 384px; */
+    left: -9999px;
     z-index: -1;
   }
 
