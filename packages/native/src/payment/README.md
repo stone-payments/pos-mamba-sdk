@@ -89,8 +89,7 @@ Retorna se está ocorrendo um pagamento no momento.
 ```js
 import Payment from '@mambasdk/native/payment';
 
-Payment.isPaying(); // true
-Payment.isPaying(); // false
+Payment.isPaying(); // true or false
 ```
 
 ### failedPayment()
@@ -100,7 +99,7 @@ Retorna se o último pagamento falhou.
 ```js
 import Payment from '@mambasdk/native/payment';
 
-Payment.failedPaying(); // true
+Payment.failedPaying(); // true or false
 ```
 
 ### getCardHolderName()
@@ -173,7 +172,7 @@ Payment.getAuthorizationCode(); // '111111'
 
 ### getInstallmentCount()
 
-Retorna o número de parcelas do pagamento. Caso a operação falhe, retorna 0.
+Retorna o número de parcelas do pagamento. Caso a operação falhe, retorna `0`.
 
 ```js
 import Payment from '@mambasdk/native/payment';
