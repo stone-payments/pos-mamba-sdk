@@ -30,18 +30,20 @@ interface Payment {
 
 interface PaymentOptions {
   amount: number;
+  min_installments: number;
+  max_installments: number;
   editable_amount: boolean;
 }
 ```
 
 ### Pay(params)
 
-Abre o aplicativo de pagamentos passando os parâmetros de pagamento e retorna uma [`Promise`](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Promise).
+Abre o aplicativo de pagamentos passando os parâmetros de pagamento (valor, número máximo e mínimo de parcelas e se pode ser editado) e retorna uma [`Promise`](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Promise).
 
 ```js
 import Payment from '@mambasdk/native/payment';
 
-Payment.pay({ amount: 500, editable_amount: false })
+Payment.pay({ amount: 500, editable_amount: false, min_installments: 1, max_installments: 3})
   .then(() => {
     console.log('Payment Done');
   })
@@ -64,7 +66,7 @@ Payment.getAmountAuthorized(); // 500
 
 ### enableCardEvent()
 
-`Desabilita` a leitura de cartões.
+**Habilita** a leitura de cartões.
 
 ```js
 import Payment from '@mambasdk/native/payment';
@@ -74,7 +76,7 @@ Payment.enableCardEvent(); // card event enabled
 
 ### disableCardEvent()
 
-`Habilita` a leitura de cartões.
+**Desabilita** a leitura de cartões.
 
 ```js
 import Payment from '@mambasdk/native/payment';
