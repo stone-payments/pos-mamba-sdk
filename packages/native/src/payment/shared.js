@@ -12,7 +12,7 @@ const triggerCardEvent = () => {
 export default function (Payment) {
   const PaymentSignals = SignalHandler(Payment);
 
-  Payment.pay = (params, onPayCallback) => {
+  Payment.pay = params => new Promise((resolve, reject) => {
     if (typeof params !== 'object') {
       params = {
         amount: params,
@@ -21,25 +21,18 @@ export default function (Payment) {
     }
 
     if (Payment.isPaying()) {
-      console.warn('[@mambasdk/native/payment] Payment is already in progress');
-      return onPayCallback(0); // TODO: arguments.callee
+      return reject(new Error('Payment is already in progress'));
     }
 
     if (params.amount <= 0) {
-      console.error(
-        '[@mambasdk/native/payment] BAD USAGE: Proposed amount must be greater than 0!',
+      return reject(
+        new Error('BAD USAGE: Proposed amount must be greater than 0!'),
       );
-      return;
     }
 
-    PaymentSignals.once('paymentDone', () => {
-      if (typeof onPayCallback === 'function') {
-        const amountPaid = Payment.getAmountAuthorized();
-        onPayCallback(amountPaid);
-      }
-    });
+    PaymentSignals.once('paymentDone', () => resolve(Payment.getAmountAuthorized()));
     Payment.doPay(params);
-  };
+  });
 
   Payment.enableCardEvent = () => {
     isCardEventEnabled = true;
