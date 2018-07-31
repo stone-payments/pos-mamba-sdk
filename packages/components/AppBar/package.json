@@ -1,12 +1,16 @@
 {
   "name": "@mambasdk/appbar",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "source": "src/index.js",
   "svelte": "src/index.js",
-  "files": ["dist/", "src/"],
+  "files": [
+    "dist/",
+    "src/"
+  ],
   "author": "Stone Payments - Mamba Team",
   "contributors": [
-    "Christian Kaisermann <christian.kaisermann@stone.com.br>"
+    "Christian Kaisermann <christian.kaisermann@stone.com.br>",
+    "Pedro Lancelloti <pedro.lancelloti@stone.com.br"
   ],
   "license": "Apache-2.0",
   "scripts": {
