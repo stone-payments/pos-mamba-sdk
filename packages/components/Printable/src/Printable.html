@@ -4,20 +4,20 @@
   </div>
 </div>
 
-{#if state === STATES.PRINTING}
+{#if _state === STATES.PRINTING}
   <PromisedDialog
-    promise={printingPromise}
+    promise={_printingPromise}
     delay={0}
     bgColor="#fff"
-    on:success="set({ state: STATES.SUCCESS })"
-    on:failure="set({ state: STATES.FAILURE })"
+    on:success="set({ _state: STATES.SUCCESS })"
+    on:failure="set({ _state: STATES.FAILURE })"
   >
     <div class="printing-sprite"></div>
     <div style="margin-top: 16px;">Imprimindo</div>
   </PromisedDialog>
 {/if}
 
-{#if state === STATES.FAILURE}
+{#if _state === STATES.FAILURE}
   <ConfirmationDialog
     ref:failureDialog
     title="IMPRESSORA SEM PAPEL"
@@ -45,11 +45,11 @@
   export default {
     data() {
       return {
-        STATES,
-        state: STATES.IDLE,
-        printingPromise: undefined,
-        options: {},
+        _state: STATES.IDLE,
+        _printingPromise: undefined,
         _paperWidth: PAPER_WIDTH,
+        STATES,
+        dithering: false,
       };
     },
     components: {
@@ -57,34 +57,37 @@
       ConfirmationDialog,
     },
     onupdate({ changed, current }) {
-      if (changed.state) {
-        if (current.state === STATES.FAILURE) {
+      if (changed._state) {
+        if (current._state === STATES.FAILURE) {
           this.fire('failure');
           this.refs.failureDialog.open();
-        } else if (current.state === STATES.SUCCESS) {
+        } else if (current._state === STATES.SUCCESS) {
           this.fire('success');
         }
       }
     },
     methods: {
       reset() {
-        this.set({ state: STATES.IDLE, printingPromise: undefined });
+        this.set({ _state: STATES.IDLE, _printingPromise: undefined });
       },
       print() {
         const content = this.refs.printableContent;
-        const { options } = this.get();
-        const printingPromise = Printer.print(content, options);
+        const { dithering } = this.get();
+        const printerOptions = {
+          use_dithering: dithering,
+        };
+        const _printingPromise = Printer.print(content, printerOptions);
 
         this.set({
-          state: STATES.PRINTING,
-          printingPromise,
+          _state: STATES.PRINTING,
+          _printingPromise,
         });
 
         if (process.env.NODE_ENV === 'development') {
-          printingPromise
+          _printingPromise
             .then(() => {
               if (this.store) {
-                this.store.fire('pos:print', { content, options });
+                this.store.fire('pos:print', { content, options: printerOptions });
               }
             })
             .catch(() => 0);
