@@ -2,7 +2,7 @@
 
 ## Descrição
 
-O módulo AppBar é composto por dois componentes: AppBar e AppBarTitle. Ambos servem para o controle e estilo da AppBar da aplicação.
+O módulo `AppBar` é composto por dois componentes: `AppBar` e `AppBarTitle`. Ambos servem para o controle e estilo da AppBar da aplicação.
 
 <!-- @example ./example/Example.html -->
 
@@ -10,8 +10,8 @@ O módulo AppBar é composto por dois componentes: AppBar e AppBarTitle. Ambos s
 
 | Parâmetro | Descrição           | Tipo            | Padrão    |
 |-----------|---------------------|-----------------|-----------|
-| title     | Título da AppBar    | string          | ''        |
-| textColor | Cor do Título       | string (hex)    | '#fff'    |
+| title     | Título da AppBar    | `string`          | `''`        |
+| textColor | Cor do Título       | `string` (hex)    | `'#fff'`    |
 | bgColor   | Cor de Fundo da AppbBar| string (hex) | '#4ebf1a' |
 
 
