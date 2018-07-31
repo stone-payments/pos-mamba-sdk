@@ -45,11 +45,11 @@
   export default {
     data() {
       return {
-        STATES,
-        options: {},
         _state: STATES.IDLE,
         _printingPromise: undefined,
         _paperWidth: PAPER_WIDTH,
+        STATES,
+        dithering: false,
       };
     },
     components: {
@@ -72,8 +72,11 @@
       },
       print() {
         const content = this.refs.printableContent;
-        const { options } = this.get();
-        const _printingPromise = Printer.print(content, options);
+        const { dithering } = this.get();
+        const printerOptions = {
+          use_dithering: dithering,
+        };
+        const _printingPromise = Printer.print(content, printerOptions);
 
         this.set({
           _state: STATES.PRINTING,
@@ -84,7 +87,7 @@
           _printingPromise
             .then(() => {
               if (this.store) {
-                this.store.fire('pos:print', { content, options });
+                this.store.fire('pos:print', { content, options: printerOptions });
               }
             })
             .catch(() => 0);

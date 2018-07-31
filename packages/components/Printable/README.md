@@ -6,17 +6,21 @@ O componente `@mambasdk/printable` encapsula o fluxo de impressão do POS, permi
 
 <!-- @example ./example/Example.Html -->
 
+```html
+<Printable>
+  <p>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+    <br>
+    Deleniti eveniet, neque voluptatibus maxime temporibus totam fugit?
+  </p>
+</Printable>
+```
+
 ## Parâmetros
 
 | Parâmetro | Descrição                                            | Tipo            | Padrão    |
 | :-------- | :--------------------------------------------------- | :-------------- | :-------- |
-| options | Opções que são enviadas ao método `.print()` do módulo `@mambasdk/printer` | `object` | `{}` |
-
-### Opções
-
-| Parâmetro | Descrição           | Tipo            | Padrão    |
-| :-------- | :------------------ | :-------------- | :-------- |
-| use_dithering | Define se deve ser aplicado um algoritmo de dithering na impressão. Use esta função somente para imprimir imagens, pois o dithering diminui a qualidade da impressão de texto | `boolean` | `false` |
+| dithering | Define se deve ser aplicado um algoritmo de dithering na impressão. Use esta função somente para imprimir imagens, pois o dithering diminui a qualidade da impressão de texto  | `boolean` | `false` |
 
 ## Métodos
 
@@ -25,7 +29,7 @@ O componente `@mambasdk/printable` encapsula o fluxo de impressão do POS, permi
 Envia o conteúdo do componente `printable` para impressão.
 
 ```html
-<Printable ref:printableContent options={ useDithering: true }>
+<Printable ref:printableContent dithering={true}>
   Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium esse possimus eaque harum, voluptatum optio hic. Dignissimos, molestias eligendi, cumque et eos iusto quasi mollitia fuga quam laudantium tempora aliquid?
 </Printable>
 
