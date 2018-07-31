@@ -26,21 +26,19 @@
     data() {
       return {
         title: null,
-        location: undefined,
-        position: 'relative',
+        _location: undefined,
         textColor: '#fff',
         bgColor: '#4ebf1a',
       };
     },
     computed: {
-      style({ bgColor, textColor, position }) {
+      style({ bgColor, textColor }) {
         return [
-          `position:${position}`,
           `color:${textColor}`,
           `background-color:${bgColor}`,
         ].join(';');
       },
-      isAtHome: ({ location }) => location === '/',
+      isAtHome: ({ _location }) => _location === '/',
       homeIcon: ({ isAtHome }) => (isAtHome ? 'home' : 'app-home'),
       isAppLocked: ({ $__meta__ }) => $__meta__.locked,
     },
@@ -49,9 +47,9 @@
 
       /** Listen for route changes */
       if (history) {
-        this.set({ location: history.location.pathname });
+        this.set({ _location: history.location.pathname });
         history.listen((location) => {
-          this.set({ location: location.pathname });
+          this.set({ _location: location.pathname });
         });
       }
 
@@ -98,6 +96,7 @@
 
   .appbar {
     width: 100%;
+    position: relative;
   }
 
   .title {
