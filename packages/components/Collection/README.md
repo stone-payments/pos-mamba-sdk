@@ -21,4 +21,4 @@ O módulo `Collection` é composto de dois componentes: `Collection` e `Row` que
 | href        | Link acionado quando clicado.     | `string`           | `undefined`   |
 | showExtra   | Mostra o conteúdo extra.          | `boolean`          | `false`       |
 | shortcut    | Atalho para click.                | `string` (keycode) | `undefined`   |
-| description | Texto Escrito na Linha.           | `string`           | `undefined`   |
+| description | Texto Descrição na Linha.         | `string`           | `undefined`   |
