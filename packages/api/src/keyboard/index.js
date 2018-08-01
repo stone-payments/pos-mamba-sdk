@@ -1,11 +1,10 @@
 import mock from './mock.js';
 import addSharedTo from './shared.js';
 
-let { Keyboard } = window;
+const Keyboard = window.Keyboard || {};
 
 /** For development environment */
 if (process.env.NODE_ENV !== 'production') {
-  Keyboard = window.Keyboard = {};
   mock(Keyboard);
   addSharedTo(Keyboard);
 }
@@ -15,7 +14,7 @@ if (process.env.NODE_ENV === 'production') {
   addSharedTo(Keyboard);
 }
 
-/** Remove the window Keyboard reference */
-// window.Keyboard = undefined
+/** Nullify the original exposed reference */
+window.Keyboard = null;
 
 export default Keyboard;

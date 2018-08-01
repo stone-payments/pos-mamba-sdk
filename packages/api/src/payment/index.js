@@ -1,11 +1,10 @@
 import mock from './mock.js';
 import addSharedTo from './shared.js';
 
-let { Payment } = window;
+const Payment = window.Payment || {};
 
 /** For development environment */
 if (process.env.NODE_ENV !== 'production') {
-  Payment = window.Payment = {};
   addSharedTo(Payment);
   mock(Payment);
 }
@@ -14,5 +13,8 @@ if (process.env.NODE_ENV !== 'production') {
 if (process.env.NODE_ENV === 'production') {
   addSharedTo(Payment);
 }
+
+/** Nullify the original exposed reference */
+window.Payment = null;
 
 export default Payment;

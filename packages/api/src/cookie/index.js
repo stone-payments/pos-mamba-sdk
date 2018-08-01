@@ -1,15 +1,12 @@
-import CookieMock from './mock.js';
+import mock from './mock.js';
 
-let Cookie = window.MbCookie;
+const Cookie = window.MbCookie || {};
 
 if (process.env.NODE_ENV !== 'production') {
-  Cookie = window.MbCookie = new CookieMock();
+  mock(Cookie);
 }
 
-if (process.env.NODE_ENV === 'production') {
-  if (!Cookie) {
-    throw new Error("[@mambasdk/api] 'Cookie' module not found");
-  }
-}
+/** Nullify the original exposed reference */
+window.MbCookie = null;
 
 export default Cookie;

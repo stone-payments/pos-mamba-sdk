@@ -1,10 +1,9 @@
 import mock from './mock.js';
 import addSharedTo from './shared.js';
 
-let { Printer } = window;
+const Printer = window.Printer || {};
 
 if (process.env.NODE_ENV !== 'production') {
-  Printer = window.Printer = {};
   mock(Printer);
   addSharedTo(Printer);
 }
@@ -12,5 +11,8 @@ if (process.env.NODE_ENV !== 'production') {
 if (process.env.NODE_ENV === 'production') {
   addSharedTo(Printer);
 }
+
+/** Nullify the original exposed reference */
+window.Printer = null;
 
 export default Printer;

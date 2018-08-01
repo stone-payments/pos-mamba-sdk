@@ -1,11 +1,10 @@
 import mock from './mock.js';
 import extendNative from './native.js';
 
-let Http = window.$Http;
+const Http = window.$Http || {};
 
 /** For development environment */
 if (process.env.NODE_ENV !== 'production') {
-  Http = window.$Http = {};
   mock(Http);
 }
 
@@ -13,5 +12,8 @@ if (process.env.NODE_ENV !== 'production') {
 if (process.env.NODE_ENV === 'production') {
   extendNative(Http);
 }
+
+/** Nullify the original exposed reference */
+window.$Http = null;
 
 export default Http;

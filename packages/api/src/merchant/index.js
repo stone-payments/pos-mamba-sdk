@@ -1,14 +1,12 @@
 import mock from './mock.js';
 
-let { MbMerchant: Merchant } = window;
+const Merchant = window.MbMerchant || {};
 
 if (process.env.NODE_ENV !== 'production') {
-  Merchant = window.MbMerchant = {};
   mock(Merchant);
 }
 
-/** Non-existent for n */
-// if (process.env.NODE_ENV === 'production') {
-// }
+/** Nullify the original exposed reference */
+window.MbMerchant = null;
 
 export default Merchant;

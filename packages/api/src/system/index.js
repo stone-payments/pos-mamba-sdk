@@ -1,11 +1,10 @@
 import mock from './mock.js';
 import addSharedTo from './shared.js';
 
-let { System } = window;
+const System = window.System || {};
 
 /** For development environment */
 if (process.env.NODE_ENV !== 'production') {
-  System = window.System = {};
   addSharedTo(System);
   mock(System);
 }
@@ -15,7 +14,7 @@ if (process.env.NODE_ENV === 'production') {
   addSharedTo(System);
 }
 
-/** Remove the window System reference */
-// window.System = undefined
+/** Nullify the original exposed reference */
+window.System = null;
 
 export default System;

@@ -1,10 +1,9 @@
 import mock from './mock.js';
 import addSharedTo from './shared.js';
 
-let { App } = window;
+const App = window.App || {};
 
 if (process.env.NODE_ENV !== 'production') {
-  App = window.App = {};
   mock(App);
   addSharedTo(App);
 }
@@ -12,5 +11,8 @@ if (process.env.NODE_ENV !== 'production') {
 if (process.env.NODE_ENV === 'production') {
   addSharedTo(App);
 }
+
+/** Nullify the original exposed reference */
+window.App = null;
 
 export default App;
