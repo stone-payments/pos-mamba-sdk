@@ -52,7 +52,8 @@
       };
     },
     computed: {
-      _hasController: ({ href, _hasCustomController }) => !!(href || _hasCustomController),
+      _hasController: ({ href, _hasCustomController }) =>
+        !!(href || _hasCustomController),
     },
     oncreate() {
       const hasSlots = !!this.options.slots;

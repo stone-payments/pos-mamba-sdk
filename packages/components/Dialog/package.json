@@ -1,9 +1,10 @@
 {
   "name": "@mambasdk/dialog",
   "version": "0.0.2",
-  "source": "src/index.js",
   "svelte": "src/index.js",
-  "files": ["dist/", "src/"],
+  "files": [
+    "src/"
+  ],
   "author": "Stone Payments - Mamba Team",
   "contributors": [
     "Christian Kaisermann <christian.kaisermann@stone.com.br>"
@@ -11,15 +12,11 @@
   "license": "Apache-2.0",
   "scripts": {
     "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w",
-    "build":
-      "exit 0",
+    "build": "exit 0",
     "build:dev": "exit 0"
   },
   "devDependencies": {
     "@mambasdk/sprite": "^0.0.1"
-  },
-  "peerDependencies": {
-    "@mambasdk/native": "^0.0.1"
   },
   "dependencies": {
     "@mambasdk/styles": "^0.0.1",

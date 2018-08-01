@@ -8,7 +8,9 @@
   ],
   "license": "Apache-2.0",
   "main": "dist/store.js",
-  "source": "src/index.js",
+  "build": {
+    "source": "src/index.js"
+  },
   "scripts": {
     "start": "rollup -c ../../tools/rollup/config.lib.js -w",
     "build": "cross-env NODE_ENV=production rollup -c ../../tools/rollup/config.lib.js",

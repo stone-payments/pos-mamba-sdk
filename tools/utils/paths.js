@@ -9,7 +9,7 @@ const PKG = getPkg();
 const distPath = dirname(fromCwd(PKG.main ? PKG.main : 'dist/x'));
 
 /** Project's src path */
-const srcPath = dirname(fromCwd(PKG.source ? PKG.source : 'src/x'));
+const srcPath = dirname(fromCwd((PKG.build && PKG.build.source) || 'src/x'));
 
 /** The @mamba project path */
 module.exports.fromProject = (...args) => resolve(projectRoot, ...args);

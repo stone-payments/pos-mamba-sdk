@@ -1,10 +1,8 @@
 {
   "name": "@mambasdk/app",
-  "version": "0.0.1",
-  "source": "src/index.js",
+  "version": "0.0.3",
   "svelte": "src/index.js",
   "files": [
-    "dist/",
     "src/"
   ],
   "author": "Stone Payments - Mamba Team",
@@ -18,13 +16,13 @@
     "build:dev": "exit 0"
   },
   "dependencies": {
-    "@mambasdk/dialog": "^0.0.1"
+    "@mambasdk/dialog": "^0.0.2"
   },
   "devDependencies": {
     "@mambasdk/styles": "^0.0.1"
   },
   "peerDependencies": {
     "svelte-routing": "^0.4.2",
-    "@mambasdk/native": "^0.0.1"
+    "@mambasdk/api": "^0.0.1"
   }
 }
