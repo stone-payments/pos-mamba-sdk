@@ -1,7 +1,7 @@
 {
-  "name": "mamba-web",
-  "version": "0.0.1",
-  "description": "Web related Mamba libraries",
+  "name": "mambasdk",
+  "version": "2.0.0-alpha.1",
+  "description": "SDK for developing in the Mamba web environment",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
     "Christian Kaisermann <christian.kaisermann@stone.com.br>",
