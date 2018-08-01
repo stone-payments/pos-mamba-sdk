@@ -9,7 +9,6 @@ const PKG = getPkg();
 const distPath = dirname(fromCwd(PKG.main ? PKG.main : 'dist/x'));
 
 /** Project's src path */
-console.log((PKG.build && PKG.build.source) || 'src/x');
 const srcPath = dirname(fromCwd((PKG.build && PKG.build.source) || 'src/x'));
 
 /** The @mamba project path */
