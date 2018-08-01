@@ -29,15 +29,28 @@ const plugins = [
 /** List of bundles to be generated */
 const configs = [];
 
-/** Bundles for package submodules */
-if (PKG.subModules && Array.isArray(PKG.subModules)) {
-  glob.sync(PKG.subModules).forEach((subModEntryRelPath) => {
-    const subModuleName = basename(dirname(subModEntryRelPath));
+/** Bundles for package with multiple entrypoints and outputs */
+if (PKG.build && PKG.build.source && Array.isArray(PKG.build.source)) {
+  glob.sync(PKG.build.source).forEach((subModEntryRelPath) => {
+    const submoduleDirname = basename(dirname(subModEntryRelPath));
     let entryName = basename(subModEntryRelPath, '.js');
 
-    entryName = entryName !== 'index'
-      ? Case.camel(`${subModuleName} ${entryName}`)
-      : subModuleName;
+    /**
+     * If a submodule file is a direct child of a 'src' directory,
+     * use the actual file name as the entry name.
+     *
+     * If the parent directory is not 'src' and the submodule
+     * entrypoint is named 'index.js', use the parent directory name as the entry name.
+     *
+     * If the parent directort is not 'src' and the submodule
+     * entrypoint is NOT named 'index.js', combine
+     * the parent directory name with entrypoint name.
+     */
+    entryName = submoduleDirname === 'src'
+      ? entryName
+      : entryName !== 'index'
+        ? Case.camel(`${submoduleDirname} ${entryName}`)
+        : submoduleDirname;
 
     configs.push({
       input: subModEntryRelPath,
@@ -45,17 +58,16 @@ if (PKG.subModules && Array.isArray(PKG.subModules)) {
       plugins,
     });
   });
-}
-
-/** The default bundle for the package */
-if (PKG.main) {
+} else if (PKG.main) {
+  /** If there's no multiple outputs and the main output is set, build it */
   configs.push({
     plugins,
   });
 }
 
-export default configs.map(config => makeRollupConfig({
-  ...config,
-  external: getExternals,
-  experimentalDynamicImport: true,
-}));
+export default configs.map(config =>
+  makeRollupConfig({
+    ...config,
+    external: getExternals,
+    experimentalDynamicImport: true,
+  }));

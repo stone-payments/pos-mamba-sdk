@@ -64,6 +64,12 @@ module.exports = {
     /** Allow ++ -- operators */
     'no-plusplus': 'off',
 
+    /** Allow nested ? ternary : expressions ? ... : ...  */
+    'no-nested-ternary': 'off',
+
+    /** Do not enforce linebreaks for arrow functions */
+    'implicit-arrow-linebreak': 'off',
+
     /** Enforce file extensions on 'import' statements */
     'import/extensions': [
       'error',

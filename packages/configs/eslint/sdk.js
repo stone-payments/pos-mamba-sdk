@@ -7,7 +7,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: 'packages/native/**/*.js',
+      files: 'packages/{api,bridges}/**/*.js',
       env: {
         browser: true,
         es6: true,

@@ -1,9 +1,10 @@
 {
   "name": "@mambasdk/range",
   "version": "0.0.1",
-  "source": "src/index.js",
   "svelte": "src/index.js",
-  "files": ["dist/", "src/"],
+  "files": [
+    "src/"
+  ],
   "author": "Stone Payments - Mamba Team",
   "contributors": [
     "Christian Kaisermann <christian.kaisermann@stone.com.br>"

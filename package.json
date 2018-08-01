@@ -30,7 +30,9 @@
     "workspaces": [
       "packages/cli",
       "packages/utils",
-      "packages/native",
+      "packages/signal",
+      "packages/api",
+      "packages/bridges",
       "packages/store",
       "packages/styles",
       "packages/configs",

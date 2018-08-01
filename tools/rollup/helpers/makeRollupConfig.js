@@ -5,12 +5,21 @@ const PKG = getPkg();
 
 export default function ({
   /** Input file relative path */
-  input = PKG.source || 'src/index.js',
+  input,
   /** Output file relative path */
   output = PKG.main,
   format = 'cjs',
   ...rest
 } = {}) {
+  /**
+   * If no input was defined, try to use the package.json's
+   * 'build.source' if it's a string. Otherwise, default to 'src/index.js'
+   * */
+  if (!input) {
+    input = PKG.build && typeof PKG.build.source === 'string'
+      ? PKG.build.source
+      : 'src/index.js';
+  }
   /** Output filename */
   const filename = basename(output);
 

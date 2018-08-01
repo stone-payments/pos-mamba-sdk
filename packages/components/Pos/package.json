@@ -1,10 +1,8 @@
 {
   "name": "@mambasdk/pos",
-  "version": "0.0.1",
-  "source": "src/index.js",
+  "version": "0.0.2",
   "svelte": "src/index.js",
   "files": [
-    "dist/",
     "src/"
   ],
   "author": "Stone Payments - Mamba Team",
@@ -22,6 +20,6 @@
     "@mambasdk/styles": "^0.0.1"
   },
   "peerDependencies": {
-    "@mambasdk/native": "^0.0.1"
+    "@mambasdk/api": "^0.0.1"
   }
 }
