@@ -15,6 +15,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 /** Nullify the original exposed reference */
-window.App = null;
+window.PaymentApp = null;
 
 export default PaymentApp;
