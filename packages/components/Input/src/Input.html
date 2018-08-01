@@ -1,17 +1,25 @@
-<label class="input -{type}" style="background-color: {bgColor}; color: {textColor};" on:mousedown="onMousedown(event)">
+<label class="input -{type} {readable ? "is-readable" : ''}" style="background-color: {bgColor}; color: {textColor};" on:mousedown="onMousedown(event)">
   {#if label}
-  <span>{label}</span>
+    <span>{label}</span>
   {/if}
 
-  <input ref:input class="-{align}" type={visible ? 'text' : 'password'} style="color: {textColor};" {disabled} on:focus="onFocus()"
-    on:blur="onBlur()" on:keyup="onKeyUp(event)" on:input="set({ value: this.value })" /> {#if type === 'password' && readable}
-  <div class="type-toggle">
-    <Icon symbol="{visible ? 'eye' : 'eye-off'}" />
-  </div>
-  {/if} {#if typeof validate === 'function' && !!errorMsg}
-  <div class="validation-msg" style="color: {errorColor}; border-color: {errorColor};">
-    {errorMsg}
-  </div>
+  <input
+    ref:input
+    class="-{align}" type={_visible ? 'text' : 'password'}
+    style="color: {textColor};" {disabled} on:focus="onFocus()"
+    on:blur="onBlur()" on:keyup="onKeyUp(event)" on:input="set({ value: this.value })"
+  />
+
+  {#if type === 'password' && readable}
+    <div class="type-toggle">
+      <Icon symbol="{_visible ? 'eye' : 'eye-off'}" />
+    </div>
+  {/if}
+
+  {#if typeof validate === 'function' && !!errorMsg}
+    <div class="validation-msg" style="color: {errorColor}; border-color: {errorColor};">
+      {errorMsg}
+    </div>
   {/if}
 </label>
 
@@ -25,7 +33,7 @@
     data() {
       return {
         align: 'right',
-        visible: true,
+        _visible: true,
         value: '',
         validate: undefined,
         errorMsg: undefined,
@@ -51,7 +59,7 @@
         }
 
         if (type === 'password') {
-          this.set({ visible: false });
+          this.set({ _visible: false });
         }
 
         if (value) {
@@ -92,7 +100,7 @@
       blur() {
         this.refs.input.blur();
       },
-      // TODO: when 'visible' changes, it triggers a focus
+      // TODO: when '_visible' changes, it triggers a focus
       onFocus() {
         const { alphanumeric } = this.get();
         if (alphanumeric) {
@@ -122,14 +130,14 @@
       },
       /** We use mousedown instead of click because it fires before the input's .focus() */
       onMousedown() {
-        const { type, visible, readable } = this.get();
+        const { type, _visible, readable } = this.get();
         /** Change password visibility only if element is focused */
         if (
           type === 'password'
         && readable
         && document.activeElement === this.refs.input
         ) {
-          this.set({ visible: !visible });
+          this.set({ _visible: !_visible });
           setTimeout(() => this.refs.input.focus());
         }
       },
@@ -162,7 +170,7 @@
     background-color: #fff;
   }
 
-  .input.-password input {
+  .input.is-readable input {
     padding-right: 40px;
   }
 
