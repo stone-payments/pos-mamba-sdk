@@ -11,14 +11,13 @@ O módulo `Collection` é composto de dois componentes: `Collection` e `Row` que
 
 | Parâmetro   | Descrição                         | Tipo               | Padrão        |
 |-------------|-----------------------------------|--------------------|---------------|
-| title       | Título da coleção.                | `string`           | `undefined`   |
-
+| title       | Título da coleção                 | `string`           | `undefined`   |
 
 <Row ...props />
 
 | Parâmetro   | Descrição                         | Tipo               | Padrão        |
 |-------------|-----------------------------------|--------------------|---------------|
-| href        | Link acionado quando clicado.     | `string`           | `undefined`   |
-| showExtra   | Mostra o conteúdo extra.          | `boolean`          | `false`       |
-| shortcut    | Atalho para click.                | `string` (keycode) | `undefined`   |
-| description | Texto Descrição na Linha.         | `string`           | `undefined`   |
+| href        | Link acionado quando a `<Row/>` é clicada  | `string`           | `undefined`   |
+| showExtra   | Mostra o conteúdo extra           | `boolean`          | `false`       |
+| shortcut    | Tecla de atalho para a ação da `<Row/>`: `0..9`,`enter`,`shortcuts`,`help` | `string` (keyname) | `undefined`   |
+| description | Texto de descrição abaixo do título          | `string`           | `undefined`   |
