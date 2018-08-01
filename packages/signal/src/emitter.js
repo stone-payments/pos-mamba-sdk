@@ -12,8 +12,15 @@ function pickProbableSignal(signals) {
   return null;
 }
 
-export default function emitterFactory(namespace, timeout = 1500) {
+export default function emitterFactory(
+  namespace,
+  execFn = undefined,
+  timeout = 1500,
+) {
   function SignalEmitter(...args) {
+    /** Execute the emitter actual code, if there's any */
+    if (typeof execFn === 'function') execFn(...args);
+
     /** If there's no signals to emit, do nothing */
     if (SignalEmitter.signals.length === 0) return;
 
