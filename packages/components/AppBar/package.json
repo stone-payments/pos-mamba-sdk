@@ -1,10 +1,8 @@
 {
   "name": "@mambasdk/appbar",
   "version": "0.0.2",
-  "source": "src/index.js",
   "svelte": "src/index.js",
   "files": [
-    "dist/",
     "src/"
   ],
   "author": "Stone Payments - Mamba Team",
