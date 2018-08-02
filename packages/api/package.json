@@ -1,11 +1,11 @@
 {
   "name": "@mambasdk/api",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "API for accessing Mamba features in a javascript environment",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
     "Christian Kaisermann <christian.kaisermann@stone.com.br>",
-    "Pedro Lancelloti Kaisermann <pedro.lancelloti@stone.com.br>"
+    "Pedro Lancelloti <pedro.lancelloti@stone.com.br>"
   ],
   "license": "Apache-2.0",
   "build": {
