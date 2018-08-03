@@ -1,5 +1,5 @@
 <header class="header">
-  Header 6
+  Header
 </header>
 
 <script>

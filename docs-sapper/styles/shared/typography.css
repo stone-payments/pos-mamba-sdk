@@ -17,3 +17,17 @@ h1 {
   font-size: 31px;
   font-weight: 400;
 }
+
+h2 {
+  font-size: 22px;
+  color: #0d2b3e;
+  font-weight: 500;
+  margin-top: -20px;
+  padding-top: 20px;
+}
+
+h3 {
+  font-size: 20px;
+  color: #0d2b3e;
+  font-weight: 500;
+}
