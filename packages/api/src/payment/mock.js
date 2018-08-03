@@ -1,4 +1,4 @@
-import Signal from '@mambasdk/signal/src/index.js';
+import Signal from '@mambasdk/signal/signal.js';
 
 const MockConfig = {
   amountPaid: -1,
@@ -145,8 +145,8 @@ function getType() {
   return !failedPaying() ? '' : MockConfig.type;
 }
 
-export default function (Payment) {
-  Payment.doPay = (params) => {
+export default function(Payment) {
+  Payment.doPay = params => {
     _isPaying = true;
 
     Payment.paymentDone();
