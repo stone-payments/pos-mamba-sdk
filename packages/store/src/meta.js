@@ -1,31 +1,52 @@
 /* eslint prefer-template: 'off' */
 
-export default (store) => {
-  store.meta = {
+/** Initial data that overrides local storage */
+export const INITIAL_META_DATA = {
+  __meta__: {
+    /** Default app title. Used internally by <AppBar/> */
+    title: 'Mamba App',
+    /** Define if the user can change the current page (back and home) */
+    locked: false,
+    /** Define if keyboard shortcuts are active */
+    shortcuts: true,
+    /** Define if a confirmation dialog should appear when the app is closing */
+    askOnClose: false,
+    /** Custom callback to be fired before the app closes */
+    onCloseFn: null,
+    /** Define the card current state */
+    cardInserted: false,
+  },
+};
+
+export default function createStoreMeta(store) {
+  const meta = {
     /** Set deep for meta data */
-    set: (path = '', value) => store.setDeep(`__meta__${path.length ? '.' + path : ''}`, value),
+    set: (path = '', value) =>
+      store.setDeep(`__meta__${path.length ? '.' + path : ''}`, value),
 
     /** Get deep for meta data */
-    get: (path = '') => store.getDeep(`__meta__${path.length ? '.' + path : ''}`),
+    get: (path = '') =>
+      store.getDeep(`__meta__${path.length ? '.' + path : ''}`),
 
     /** Encapsulate meta:event related calls */
     on: (event, handler) => store.on(`meta:${event}`, handler),
     fire: (event, value) => store.fire(`meta:${event}`, value),
 
     /** Locking app related methods */
-    lockApp: shouldLock => store.meta.set('locked', !!shouldLock),
-    isAppLocked: () => store.meta.get('locked'),
+    lockApp: shouldLock => meta.set('locked', !!shouldLock),
+    isAppLocked: () => meta.get('locked'),
 
     /** Closing app related methods */
-    closeApp: () => store.meta.fire('close'),
-    askOnClose: value => store.meta.set('askOnClose', !!value),
-    setOnClose: callback => store.meta.set('onCloseFn', callback),
+    closeApp: () => meta.fire('close'),
+    askOnClose: value => meta.set('askOnClose', !!value),
+    setOnClose: callback => meta.set('onCloseFn', callback),
 
     /** Method for propagating the app title */
-    setTitle: (title) => {
-      store.meta.set('title', title);
-      store.meta.fire('title', title);
+    setTitle: title => {
+      meta.set('title', title);
+      meta.fire('title', title);
       document.title = title;
     },
   };
-};
+  store.meta = meta;
+}

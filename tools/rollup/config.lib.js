@@ -31,7 +31,7 @@ const configs = [];
 
 /** Bundles for package with multiple entrypoints and outputs */
 if (PKG.build && PKG.build.source && Array.isArray(PKG.build.source)) {
-  glob.sync(PKG.build.source).forEach((subModEntryRelPath) => {
+  glob.sync(PKG.build.source).forEach(subModEntryRelPath => {
     const submoduleDirname = basename(dirname(subModEntryRelPath));
     let entryName = basename(subModEntryRelPath, '.js');
 
@@ -46,11 +46,12 @@ if (PKG.build && PKG.build.source && Array.isArray(PKG.build.source)) {
      * entrypoint is NOT named 'index.js', combine
      * the parent directory name with entrypoint name.
      */
-    entryName = submoduleDirname === 'src'
-      ? entryName
-      : entryName !== 'index'
-        ? Case.camel(`${submoduleDirname} ${entryName}`)
-        : submoduleDirname;
+    entryName =
+      submoduleDirname === 'src'
+        ? entryName
+        : entryName !== 'index'
+          ? Case.camel(`${submoduleDirname} ${entryName}`)
+          : submoduleDirname;
 
     configs.push({
       input: subModEntryRelPath,
@@ -70,4 +71,5 @@ export default configs.map(config =>
     ...config,
     external: getExternals,
     experimentalDynamicImport: true,
-  }));
+  }),
+);

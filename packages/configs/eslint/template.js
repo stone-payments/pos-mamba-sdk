@@ -10,12 +10,12 @@ module.exports = {
         'error',
         {
           props: true,
-          ignorePropertyModificationsFor: ['compilation', 'acc', 'accumulator'],
+          ignorePropertyModificationsFor: ['acc', 'accumulator'],
         },
       ],
       /** Allow to import dev and peer dependencies */
       'import/no-extraneous-dependencies': [
-        'error',
+        'warn',
         {
           devDependencies: true,
           peerDependencies: true,

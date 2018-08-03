@@ -25,8 +25,8 @@ module.exports = merge(require('./config.base.js'), {
         ],
       },
     }),
-    IS_PROD()
-      && new ArchivePlugin({
+    IS_PROD() &&
+      new ArchivePlugin({
         output: fromCwd(),
         filename: 'bundle',
         format: 'tar',

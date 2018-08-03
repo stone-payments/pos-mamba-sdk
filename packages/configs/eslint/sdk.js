@@ -29,7 +29,7 @@ module.exports = {
 
         /** Allow to import dev and peer dependencies */
         'import/no-extraneous-dependencies': [
-          'error',
+          'warn',
           {
             devDependencies: true,
             peerDependencies: true,

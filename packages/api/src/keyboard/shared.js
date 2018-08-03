@@ -88,7 +88,7 @@ function enableBackspace() {
   _isBackspaceEnabled = true;
 }
 
-export default function (Keyboard) {
+export default function(Keyboard) {
   Object.assign(Keyboard, {
     getKeyCode,
     getKeyName,
