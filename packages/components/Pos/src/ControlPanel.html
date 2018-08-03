@@ -1,0 +1,131 @@
+<div class="panel-wrapper">
+  <input type="checkbox" class="panel-checkbox" id="panel-toggler">
+  <label for="panel-toggler" class="panel-toggle">⚙</label>
+  <div class="panel">
+    <div class="section">
+      <div class="title">Impressora</div>
+      <ul class="controllers">
+        <li class="controller">
+          <span>Impressora sem papel?</span>
+          <Switch bind:checked="configs.printer.shouldFail" />
+        </li>
+        <li class="controller">
+          <span>Impressora sem papel?</span>
+          <Switch bind:checked="configs.printer.shouldFail" />
+        </li>
+      </ul>
+    </div>
+    <div class="section">
+      <div class="title">Impressora</div>
+      <ul class="controllers">
+        <li class="controller">
+          <span>Impressora sem papel?</span>
+          <Switch bind:checked="configs.printer.shouldFail" />
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  import Payment from '@mambasdk/api/payment.js';
+  import Printer from '@mambasdk/api/printer.js';
+
+  const browserConfigs = {
+    payment: Payment.browserConfig,
+    printer: Printer.browserConfig,
+  };
+
+  export default {
+    components: {
+      Switch: '@mambasdk/switch',
+    },
+    data() {
+      return {
+        visible: false,
+        configs: browserConfigs,
+        sections: [],
+      };
+    },
+  };
+</script>
+
+<style>
+  .panel-wrapper {
+    width: 100vh;
+    overflow: hidden;
+    color: #333;
+    user-select: none;
+  }
+
+  .panel-toggle {
+    position: fixed;
+    z-index: 9001;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
+    transition: transform 0.3s ease;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.4);
+
+    &:hover {
+      transform: scale(1.1) rotate(360deg);
+    }
+
+    &:active {
+      transform: scale(0.9);
+    }
+  }
+
+  .panel-checkbox {
+    display: none;
+  }
+
+  .panel {
+    position: fixed;
+    z-index: 9000;
+    top: 0;
+    right: -100%;
+    background-color: #fff;
+    width: 260px;
+    height: 100%;
+    padding: 60px 15px 30px;
+    opacity: 0;
+    transition: right 0.3s ease, opacity 0.5s ease;
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.4);
+
+    .panel-checkbox:checked ~ & {
+      right: 0;
+      opacity: 1;
+    }
+  }
+
+  .section {
+    & + .section {
+      margin-top: 25px;
+    }
+  }
+
+  .title {
+    font-weight: bold;
+    border-bottom: 1px dotted #ccc;
+    font-size: 18px;
+    line-height: 1;
+    padding-bottom: 5px;
+  }
+
+  .controller {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+</style>

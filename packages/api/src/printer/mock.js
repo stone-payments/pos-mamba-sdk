@@ -1,21 +1,22 @@
 import Signal from '@mambasdk/signal/signal.js';
 
-const MockConfig = {
-  shouldFail: false,
-  isPrinting: false,
-};
+export default function(Printer) {
+  const CONFIG = {
+    shouldFail: true,
+    isPrinting: false,
+  };
+  Printer.browserConfig = CONFIG;
 
-const getPaperWidth = () => 384;
-const isPrinting = () => MockConfig.isPrinting;
+  const getPaperWidth = () => 384;
+  const isPrinting = () => CONFIG.isPrinting;
+  const failedPrinting = () => CONFIG.shouldFail;
 
-/** 20% chance of failing */
-const failedPrinting = () => Math.random() <= 0;
-
-export default function (Printer) {
   Signal.register(Printer, ['printerDone']);
 
   Printer.doPrint = () => {
+    CONFIG.isPrinting = true;
     setTimeout(() => {
+      CONFIG.isPrinting = false;
       Printer.printerDone();
     }, 1500);
   };

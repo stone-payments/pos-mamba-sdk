@@ -19,6 +19,9 @@
   "devDependencies": {
     "@mambasdk/styles": "^0.0.1"
   },
+  "dependencies": {
+    "@mambasdk/switch": "^0.0.1"
+  },
   "peerDependencies": {
     "@mambasdk/api": "^0.0.5"
   }
