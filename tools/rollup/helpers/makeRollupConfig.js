@@ -3,7 +3,7 @@ import { getPkg, IS_WATCHING } from 'quickenv';
 
 const PKG = getPkg();
 
-export default function ({
+export default function({
   /** Input file relative path */
   input,
   /** Output file relative path */
@@ -16,9 +16,10 @@ export default function ({
    * 'build.source' if it's a string. Otherwise, default to 'src/index.js'
    * */
   if (!input) {
-    input = PKG.build && typeof PKG.build.source === 'string'
-      ? PKG.build.source
-      : 'src/index.js';
+    input =
+      PKG.build && typeof PKG.build.source === 'string'
+        ? PKG.build.source
+        : 'src/index.js';
   }
   /** Output filename */
   const filename = basename(output);

@@ -1,6 +1,6 @@
 import SignalHandler from '@mambasdk/signal/src/handler.js';
 
-export default function (Http) {
+export default function(Http) {
   const HttpSignals = SignalHandler(Http);
 
   Http.send = function send(configParams) {

@@ -2,7 +2,7 @@ const MockConfig = {
   acquirerIssuedMerchantId: '123', // stone code
 };
 
-export default function (Merchant) {
+export default function(Merchant) {
   /**
    * Get the stone code
    * @memberof Merchant

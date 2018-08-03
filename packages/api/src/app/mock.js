@@ -42,7 +42,7 @@ function deleteApp(appId) {
   console.log(`appId: ${appId}`);
 }
 
-export default function (App) {
+export default function(App) {
   Object.assign(App, {
     doClose,
     getAppKey,

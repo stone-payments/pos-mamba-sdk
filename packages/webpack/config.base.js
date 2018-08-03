@@ -58,7 +58,7 @@ module.exports = {
         include: [
           fromCwd('src'),
           /node_modules[\\/]svelte/,
-          /node_modules[\\/]@mambasdk/,
+          /node_modules[\\/]@mamba/,
         ],
         use: [loaders.babel, loaders.svelte, loaders.eslint],
       },
