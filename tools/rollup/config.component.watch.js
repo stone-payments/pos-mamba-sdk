@@ -84,6 +84,7 @@ const config = {
     livereload(),
     replace({
       'process.env.NODE_ENV': JSON.stringify('development'),
+      'process.env.APP_ENV': JSON.stringify('browser'),
     }),
   ],
 };

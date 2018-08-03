@@ -83,7 +83,7 @@
           _printingPromise,
         });
 
-        if (process.env.NODE_ENV === 'development') {
+        if (process.env.APP_ENV === 'browser') {
           _printingPromise
             .then(() => {
               if (this.store) {

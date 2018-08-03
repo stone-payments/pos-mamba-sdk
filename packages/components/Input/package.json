@@ -1,6 +1,6 @@
 {
   "name": "@mambasdk/input",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "svelte": "src/index.js",
   "files": [
     "src/"
@@ -20,6 +20,6 @@
   },
   "dependencies": {
     "@mambasdk/icon": "^0.0.1",
-    "@mambasdk/api": "^0.0.4"
+    "@mambasdk/api": "^0.0.5"
   }
 }
