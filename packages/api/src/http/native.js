@@ -1,4 +1,4 @@
-import SignalHandler from '@mambasdk/signal/src/handler.js';
+import SignalHandler from '@mambasdk/signal/handler.js';
 
 export default function(Http) {
   const HttpSignals = SignalHandler(Http);

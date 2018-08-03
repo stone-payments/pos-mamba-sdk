@@ -1,6 +1,6 @@
 {
   "name": "@mambasdk/api",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "API for accessing Mamba features in a javascript environment",
   "author": "Stone Payments - Mamba Team",
   "contributors": [

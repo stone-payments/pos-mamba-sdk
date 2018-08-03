@@ -1,4 +1,4 @@
-import SignalHandler from '@mambasdk/signal/src/handler.js';
+import SignalHandler from '@mambasdk/signal/handler.js';
 
 let isCardEventEnabled = false;
 const triggerCardEvent = () => {
