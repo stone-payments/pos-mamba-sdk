@@ -20,7 +20,7 @@ module.exports = {
       // ...recommended.rules,
       /** Allow to import from dev and peer dependencies */
       'import/no-extraneous-dependencies': [
-        'error',
+        'warn',
         {
           devDependencies: true,
           peerDependencies: true,
