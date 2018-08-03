@@ -1,6 +1,6 @@
 {
   "name": "@mambasdk/signal",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "QT Signal slot helpers",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -9,7 +9,8 @@
   "license": "Apache-2.0",
   "build": {
     "source": [
-      "src/*.js"
+      "src/handler.js",
+      "src/signal.js"
     ]
   },
   "scripts": {

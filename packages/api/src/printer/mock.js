@@ -11,11 +11,13 @@ const isPrinting = () => MockConfig.isPrinting;
 /** 20% chance of failing */
 const failedPrinting = () => Math.random() <= 0;
 
-export default function(Printer) {
+export default function (Printer) {
   Signal.register(Printer, ['printerDone']);
 
   Printer.doPrint = () => {
-    setTimeout(() => Printer.printerDone(), 1500);
+    setTimeout(() => {
+      Printer.printerDone();
+    }, 1500);
   };
 
   Object.assign(Printer, {
