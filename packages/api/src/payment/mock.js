@@ -1,4 +1,3 @@
-import SignalEmitter from '@mambasdk/signal/src/emitter.js';
 import Signal from '@mambasdk/signal/src/index.js';
 
 const MockConfig = {
@@ -147,19 +146,18 @@ function getType() {
 }
 
 export default function (Payment) {
-  Payment.doPay = SignalEmitter(Payment)
-    .before(() => {
-      _isPaying = true;
-    })
-    .after((params) => {
-      _isPaying = false;
-      MockConfig.authorizedAmount = params.value;
-    })
-    .add('paymentDone', 1);
+  Payment.doPay = (params) => {
+    _isPaying = true;
 
-  Payment.doEnableCardEvent = SignalEmitter(Payment);
-  Payment.doDisableCardEvent = SignalEmitter(Payment);
-  Payment.cardEvent = Signal();
+    Payment.paymentDone();
+
+    _isPaying = false;
+    MockConfig.authorizedAmount = params.value;
+  };
+
+  Signal.register(Payment, ['cardEvent']);
+  Payment.doEnableCardEvent = Signal.noop();
+  Payment.doDisableCardEvent = Signal.noop();
 
   Object.assign(Payment, {
     isPaying,
