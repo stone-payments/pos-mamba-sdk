@@ -1,4 +1,4 @@
-import SignalHandler from '@mambasdk/signal/src/handler.js';
+import SignalHandler from '@mambasdk/signal/handler.js';
 
 let isCardEventEnabled = false;
 const triggerCardEvent = () => {
@@ -9,7 +9,7 @@ const triggerCardEvent = () => {
   }
 };
 
-export default function (Payment) {
+export default function(Payment) {
   const PaymentSignals = SignalHandler(Payment);
 
   Payment.pay = params =>
@@ -32,7 +32,8 @@ export default function (Payment) {
       }
 
       PaymentSignals.once('paymentDone', () =>
-        resolve(Payment.getAmountAuthorized()));
+        resolve(Payment.getAmountAuthorized()),
+      );
       Payment.doPay(params);
     });
 

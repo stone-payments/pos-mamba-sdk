@@ -4,13 +4,13 @@ import addSharedTo from './shared.js';
 const Payment = window.Payment || {};
 
 /** For development environment */
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.APP_ENV !== 'pos') {
   addSharedTo(Payment);
   mock(Payment);
 }
 
 /** For production environment */
-if (process.env.NODE_ENV === 'production') {
+if (process.env.APP_ENV === 'pos') {
   addSharedTo(Payment);
 }
 

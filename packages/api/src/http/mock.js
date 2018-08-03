@@ -1,6 +1,4 @@
-function send({
-  method = 'GET', url = '', data, headers,
-}) {
+function send({ method = 'GET', url = '', data, headers }) {
   return new Promise((resolve, reject) => {
     const xhttp = new window.XMLHttpRequest();
 
@@ -27,7 +25,7 @@ function send({
     xhttp.open(method, url, false);
 
     if (headers) {
-      Object.keys(headers).forEach((key) => {
+      Object.keys(headers).forEach(key => {
         xhttp.setRequestHeader(key, headers[key]);
       });
     }
@@ -36,7 +34,7 @@ function send({
   });
 }
 
-export default function (Http) {
+export default function(Http) {
   Object.assign(Http, {
     send,
   });

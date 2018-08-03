@@ -1,6 +1,7 @@
 /**
  * Common webpack configuration
  */
+const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
@@ -11,6 +12,10 @@ const loaders = require('./helpers/loaders.js');
 const MambaFixesPlugin = require('./helpers/MambaFixesPlugin.js');
 
 const PKG = getPkg();
+
+/** Default ENV variables */
+if (!process.env.NODE_ENV) process.env.NODE_ENV = 'development';
+if (!process.env.APP_ENV) process.env.APP_ENV = 'browser';
 
 module.exports = {
   mode: IS_PROD() ? 'production' : 'development',
@@ -58,7 +63,7 @@ module.exports = {
         include: [
           fromCwd('src'),
           /node_modules[\\/]svelte/,
-          /node_modules[\\/]@mambasdk/,
+          /node_modules[\\/]@mamba/,
         ],
         use: [loaders.babel, loaders.svelte, loaders.eslint],
       },
@@ -106,6 +111,10 @@ module.exports = {
     new MiniHtmlWebpackPlugin({
       context: { title: 'Mamba Application' },
       template: htmlTemplate,
+    }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      'process.env.APP_ENV': JSON.stringify(process.env.APP_ENV),
     }),
   ],
   /** Minimal useful output log */

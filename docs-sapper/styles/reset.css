@@ -29,6 +29,17 @@ html {
   width: 100%;
 }
 
+body {
+  font-style: normal;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-font-feature-settings: 'pnum';
+  font-feature-settings: 'pnum';
+  font-variant-numeric: proportional-nums;
+}
+
 small {
   font-size: 12px;
 }

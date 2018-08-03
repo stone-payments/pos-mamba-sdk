@@ -8,7 +8,7 @@
 }
 
 .code-block pre {
-  line-height: 1.6;
+  line-height: 1;
 }
 
 .code-block code {
@@ -18,15 +18,12 @@
 
 pre code {
   color: #333;
-  line-height: 19px;
 }
 
 code,
 pre {
   font-size: 13px;
-  font-weight: 500;
-  line-height: 19px;
-  white-space: pre-line !important;
+  font-weight: 600;
 }
 
 code[class*='language-'],
@@ -51,11 +48,31 @@ code .token.url {
   color: #3297d3;
 }
 
+code[class*='language-'],
+pre[class*='language-'] {
+  font-family: Source Code Pro, monospace !important;
+  color: color-mod(#000c1d alpha(70%));
+  font-weight: 600;
+  font-size: 13px !important;
+  line-height: 19px;
+}
+
 .line-numbers .line-numbers-rows {
   border: none;
-  width: 3.5em;
+  width: 30px;
+  top: 1px;
+  left: -35px;
+  line-height: 19px;
 }
 
 .line-numbers .line-numbers-rows span::before {
   color: #bec5ca;
+}
+
+.line-numbers.language-bash .line-numbers-rows span::before {
+  content: '>';
+}
+
+.line-numbers.language-bash .line-numbers-rows span:first-child::before {
+  content: '$';
 }

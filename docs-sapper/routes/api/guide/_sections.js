@@ -26,6 +26,10 @@ function unescape(str) {
   return String(str).replace(/&.+?;/g, match => unescaped[match] || match)
 }
 
+function replaceTag(tag) {
+  return escaped[tag] || tag
+}
+
 const blockTypes = 'blockquote html heading hr list listitem paragraph table tablerow tablecell'.split(
   ' ',
 )
@@ -117,10 +121,14 @@ export default function() {
         // Start Code highlight with Prism
 
         // Define proper language type from `lang` param
-        const properLanguage = (lang === 'js' ? 'javascript' : lang) || 'markup'
+        const properLanguage =
+          (lang === 'js' ? 'javascript' : lang) || 'markdown'
 
         // Create a inline code tag
-        const html = `<pre class="code-block line-numbers language-${properLanguage}"><code class="language-${properLanguage}">${source}</code></pre>`
+        const html = `<pre class="code-block line-numbers language-${properLanguage}"><code class="language-${properLanguage}">${source.replace(
+          /[&<>]/g,
+          replaceTag,
+        )}</code></pre>`
 
         // Load cheerio with Code component output
         const $ = cheerio.load(html, cheerioOption)
@@ -130,16 +138,16 @@ export default function() {
 
         // Default options for Prism
         const options = {
-          languages: ['markup', 'javascript', 'css'],
+          languages: ['bash', 'markup', 'markdown', 'javascript', 'css'],
           fontSize: 16,
         }
 
         // Import language support of every souce code block
-        // if ($elements.length !== 0) {
-        //   options.languages.forEach(language =>
-        //     require(`prismjs/components/prism-${language}`),
-        //   )
-        // }
+        if ($elements.length !== 0) {
+          options.languages.forEach(language =>
+            require(`prismjs/components/prism-${language}`),
+          )
+        }
 
         // Apply Prism js to every source code
         $elements.each(function(index, element) {
@@ -158,6 +166,7 @@ export default function() {
             .css('font-size', options.fontSize + 'px')
 
           let code = $element.html()
+
           // &amp; -> &
           code = escape.amp(code)
           // &lt; -> '<', &gt; -> '>'
@@ -194,7 +203,7 @@ export default function() {
           Prism.hooks.run('complete', env)
         })
 
-        return `<div class='${className}'>${prefix}${$.html()}</div>`
+        return `<div class='${className} code-block-container'>${prefix}${$.html()}</div>`
       }
 
       blockTypes.forEach(type => {
@@ -241,7 +250,7 @@ export default function() {
       })
 
       const subsections = []
-      const pattern = /<h3 id="(.+?)">(.+?)<\/h3>/g
+      let pattern = /<h2 id="(.+?)">(.+?)<\/h2>/g
       let match
 
       while ((match = pattern.exec(html))) {
@@ -259,8 +268,12 @@ export default function() {
         subsections.push({ slug, title })
       }
 
+      let output = html.replace(/<h3 id=".+?">(\d\.).+?<\/h3>/g, (m, $1) => {
+        return m.replace($1, `<span class="counter">${$1}</span>`)
+      })
+
       return {
-        html: html.replace(/@@(\d+)/g, (m, id) => hashes[id] || m),
+        html: output.replace(/@@(\d+)/g, (m, id) => hashes[id] || m),
         metadata,
         subsections,
         slug: file.replace(/^\d+-/, '').replace(/\.md$/, ''),

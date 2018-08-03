@@ -22,6 +22,6 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@mambasdk/signal": "^0.0.1"
+    "@mambasdk/signal": "^0.0.3"
   }
 }

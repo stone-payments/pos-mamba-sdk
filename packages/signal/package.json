@@ -1,6 +1,6 @@
 {
   "name": "@mambasdk/signal",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "QT Signal slot helpers",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -9,9 +9,14 @@
   "license": "Apache-2.0",
   "build": {
     "source": [
-      "src/*.js"
+      "src/handler.js",
+      "src/signal.js"
     ]
   },
+  "files": [
+    "handler.js",
+    "signal.js"
+  ],
   "scripts": {
     "start": "rollup -c ../../tools/rollup/config.lib.js -w",
     "build": "cross-env NODE_ENV=production rollup -c ../../tools/rollup/config.lib.js",

@@ -1,6 +1,12 @@
-<Layout path={props.path}>
-	<svelte:component this={Page} {...props}/>
-</Layout>
+{#if props.path === "/"}
+  <div>
+    <svelte:component this={Page} {...props}/>
+  </div>
+{:else}
+  <Layout path={props.path}>
+    <svelte:component this={Page} {...props}/>
+  </Layout>
+{/if}
 
 <script>
 	import Layout from 'layout/Layout.svelte';

@@ -1,6 +1,6 @@
-import SignalHandler from '@mambasdk/signal/src/handler.js';
+import SignalHandler from '@mambasdk/signal/handler.js';
 
-export default function (Printer) {
+export default function(Printer) {
   const PrinterSignals = SignalHandler(Printer);
 
   Printer.print = (element, options = {}) =>

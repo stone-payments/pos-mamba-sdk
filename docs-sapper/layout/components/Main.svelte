@@ -6,7 +6,3 @@
     </pre>
   </article>
 </main>
-
-<script>
-  
-</script>
