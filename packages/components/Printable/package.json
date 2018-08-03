@@ -22,6 +22,6 @@
     "@mambasdk/dialog": "^0.0.2"
   },
   "peerDependencies": {
-    "@mambasdk/api": "^0.0.4"
+    "@mambasdk/api": "^0.0.5"
   }
 }

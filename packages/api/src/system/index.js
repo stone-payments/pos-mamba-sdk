@@ -4,13 +4,13 @@ import addSharedTo from './shared.js';
 const System = window.System || {};
 
 /** For development environment */
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.APP_ENV !== 'pos') {
   addSharedTo(System);
   mock(System);
 }
 
 /** For production environment */
-if (process.env.NODE_ENV === 'production') {
+if (process.env.APP_ENV === 'pos') {
   addSharedTo(System);
 }
 

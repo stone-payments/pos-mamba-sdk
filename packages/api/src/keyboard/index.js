@@ -4,13 +4,13 @@ import addSharedTo from './shared.js';
 const Keyboard = window.Keyboard || {};
 
 /** For development environment */
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.APP_ENV !== 'pos') {
   mock(Keyboard);
   addSharedTo(Keyboard);
 }
 
 /** For production environment */
-if (process.env.NODE_ENV === 'production') {
+if (process.env.APP_ENV === 'pos') {
   addSharedTo(Keyboard);
 }
 

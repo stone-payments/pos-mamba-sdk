@@ -23,6 +23,6 @@
   },
   "peerDependencies": {
     "svelte-routing": "^0.4.2",
-    "@mambasdk/api": "^0.0.4"
+    "@mambasdk/api": "^0.0.5"
   }
 }

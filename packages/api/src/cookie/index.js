@@ -2,7 +2,7 @@ import mock from './mock.js';
 
 const Cookie = window.MbCookie || {};
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.APP_ENV !== 'pos') {
   mock(Cookie);
 }
 
