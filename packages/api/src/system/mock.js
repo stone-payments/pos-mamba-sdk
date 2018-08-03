@@ -35,7 +35,7 @@ function doBeep(duration, frequency) {
   setTimeout(() => oscillator.stop(), duration);
 }
 
-export default function (System) {
+export default function(System) {
   /**
    * Configurations that simulate the device state. Note that it's
    * used to simulate the device on the browser. To access the real

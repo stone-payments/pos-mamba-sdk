@@ -4,9 +4,7 @@ const { minify: htmlMinifier } = require('html-minifier');
 const { generateCSSReferences, generateJSReferences } = MiniHtmlWebpackPlugin;
 const { IS_PROD } = require('quickenv');
 
-module.exports = ({
-  css, js, title, publicPath,
-}) => {
+module.exports = ({ css, js, title, publicPath }) => {
   const htmlTemplate = `<!DOCTYPE html>
         <html>
           <head>
@@ -22,13 +20,13 @@ module.exports = ({
 
   return IS_PROD()
     ? htmlMinifier(htmlTemplate, {
-      collapseWhitespace: true,
-      conservativeCollapse: true,
-      minifyCSS: true,
-      minifyJS: true,
-      keepClosingSlash: true,
-      preserveLineBreaks: false,
-      removeComments: true,
-    })
+        collapseWhitespace: true,
+        conservativeCollapse: true,
+        minifyCSS: true,
+        minifyJS: true,
+        keepClosingSlash: true,
+        preserveLineBreaks: false,
+        removeComments: true,
+      })
     : htmlTemplate;
 };

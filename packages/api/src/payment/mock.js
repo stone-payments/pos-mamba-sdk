@@ -146,12 +146,12 @@ function getType() {
   return !failedPaying() ? '' : MockConfig.type;
 }
 
-export default function (Payment) {
+export default function(Payment) {
   Payment.doPay = SignalEmitter(Payment)
     .before(() => {
       _isPaying = true;
     })
-    .after((params) => {
+    .after(params => {
       _isPaying = false;
       MockConfig.authorizedAmount = params.value;
     })

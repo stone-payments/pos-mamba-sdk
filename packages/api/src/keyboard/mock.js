@@ -31,7 +31,7 @@ function setKeyboardAsAlphanumeric() {
   document.removeEventListener('keypress', filterLetters);
 }
 
-export default function (Keyboard) {
+export default function(Keyboard) {
   Object.assign(Keyboard, {
     setKeyboardAsNumeric,
     setKeyboardAsAlphanumeric,

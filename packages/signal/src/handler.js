@@ -25,27 +25,23 @@ class SignalHandler {
 
   /** Disconnect a callback from a slot */
   off(signal, callback) {
-    try {
-      /** If no callback passed, disconnect all slots from the signal */
-      if (typeof callback === 'undefined') {
-        this.signals[signal].forEach((slotCallback) => {
-          this.namespace[signal].disconnect(slotCallback);
-        });
-        this.signals[signal] = [];
-      } else {
-        const slotIndex = this.signals[signal].indexOf(callback);
+    /** If no callback passed, disconnect all slots from the signal */
+    if (typeof callback === 'undefined') {
+      this.signals[signal].forEach(slotCallback => {
+        this.namespace[signal].disconnect(slotCallback);
+      });
+      this.signals[signal] = [];
+    } else {
+      const slotIndex = this.signals[signal].indexOf(callback);
 
-        if (slotIndex > -1) {
-          this.namespace[signal].disconnect(this.signals[signal][slotIndex]);
-          this.signals[signal].splice(slotIndex, 1);
-        } else if (process.env.NODE_ENV === 'development') {
-          console.warn(
-            '[SignalHandler] Tried to disconnect a non-connected callback.',
-          );
-        }
+      if (slotIndex > -1) {
+        this.namespace[signal].disconnect(this.signals[signal][slotIndex]);
+        this.signals[signal].splice(slotIndex, 1);
+      } else if (process.env.NODE_ENV === 'development') {
+        console.warn(
+          '[SignalHandler] Tried to disconnect a non-connected callback.',
+        );
       }
-    } catch (e) {
-      console.error(e);
     }
     return this;
   }
@@ -77,7 +73,7 @@ class SignalHandler {
       /** Wrap the signal callback to disconnect all slots once one of the signals are emitted */
       wrappedCallbacks[signal] = () => {
         callback();
-        Object.keys(wrappedCallbacks).forEach((signalName) => {
+        Object.keys(wrappedCallbacks).forEach(signalName => {
           console.log(`Removing '${signalName}'`);
           this.off(signalName, wrappedCallbacks[signalName]);
         });
@@ -91,13 +87,13 @@ class SignalHandler {
   }
 
   destroy() {
-    Object.keys(this.signals).forEach((signal) => {
+    Object.keys(this.signals).forEach(signal => {
       console.log(`Disconnecting all slots from '${signal}'`);
       this.off(signal);
     });
   }
 }
 
-export default function (signal) {
-  return new SignalHandler(signal);
+export default function(namespace) {
+  return new SignalHandler(namespace);
 }

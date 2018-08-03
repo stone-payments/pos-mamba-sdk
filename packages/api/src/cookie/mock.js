@@ -1,4 +1,4 @@
-export default function (Cookie) {
+export default function(Cookie) {
   Object.assign(Cookie, {
     /**
      * Stores a key pair value using local storage
