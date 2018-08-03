@@ -1,6 +1,6 @@
 {
   "name": "@mambasdk/app",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "svelte": "src/index.js",
   "files": [
     "src/"
