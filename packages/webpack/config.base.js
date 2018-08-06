@@ -28,7 +28,7 @@ if (!process.env.DEBUG) {
 
 const entry = {
   app: [
-    process.env.APP_ENV === 'browser' && '@mambasdk/os/index.js',
+    process.env.APP_ENV === 'browser' && '@mambasdk/pos/simulator/boot.js',
     /** Mamba style resetter/normalizer */
     '@mambasdk/styles/dist/pos.css',
     /** App entry point */
@@ -71,7 +71,7 @@ module.exports = {
     rules: [
       /** Run svelte component related loaders on  */
       {
-        test: /\.(html|svelte)$/,
+        test: /\.(htmlx?|svelte)$/,
         include: [
           fromCwd('src'),
           /node_modules[\\/]svelte/,
@@ -79,10 +79,10 @@ module.exports = {
         ],
         use: [loaders.babel, loaders.svelte, loaders.eslint],
       },
-      /** Make 'svelte' related js code and `@mambasdk/os` run through babel */
+      /** Make 'svelte' related js code run through babel */
       {
         test: /\.js?$/,
-        include: [/node_modules[\\/]svelte/, /@mambasdk\/os/],
+        include: [/node_modules[\\/]svelte/, /@mambasdk\/pos/],
         use: [loaders.babel],
       },
       /** Run babel and eslint on projects src files only */
