@@ -13,9 +13,29 @@ const MockConfig = {
   itk: '11111111111111',
   orderId: '111111111',
   authorizedAmount: 0,
+  cancelledAmount: 0,
+  shouldCancellationFail: false,
 };
 
 let _isPaying = false;
+
+/**
+ * Return if the cancellation failed
+ * @memberof Payment
+ * @return {boolean} True if cacellation failed.
+ */
+function failedCancellation() {
+  return MockConfig.shouldCancellationFail;
+}
+
+/**
+ * Return the cancelled amount
+ * @memberof Payment
+ * @return {number} the last cancelled amount transaction
+ */
+function getCancelledAmount() {
+  return failedCancellation() ? 0 : MockConfig.cancelledAmount;
+}
 
 /**
  * Returns true if is paying
@@ -146,18 +166,27 @@ function getType() {
 }
 
 export default function(Payment) {
+  Signal.register(Payment, ['cardEvent', 'cancellationDone', 'paymentDone']);
+  Payment.doEnableCardEvent = Signal.noop();
+  Payment.doDisableCardEvent = Signal.noop();
+
   Payment.doPay = params => {
     _isPaying = true;
 
-    Payment.paymentDone();
+    MockConfig.authorizedAmount = params.amount;
 
-    _isPaying = false;
-    MockConfig.authorizedAmount = params.value;
+    console.log(`doPay ${JSON.stringify(params)}`);
+
+    setTimeout(() => {
+      Payment.paymentDone();
+      _isPaying = false;
+    }, 2000);
   };
 
-  Signal.register(Payment, ['cardEvent']);
-  Payment.doEnableCardEvent = Signal.noop();
-  Payment.doDisableCardEvent = Signal.noop();
+  Payment.doCancellation = () => {
+    Payment.cancellationDone();
+    MockConfig.cancelledAmount = MockConfig.authorizedAmount;
+  };
 
   Object.assign(Payment, {
     isPaying,
@@ -173,5 +202,7 @@ export default function(Payment) {
     getPan,
     getType,
     getAuthorizedAmount,
+    getCancelledAmount,
+    failedCancellation,
   });
 }

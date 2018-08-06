@@ -32,9 +32,25 @@ export default function(Payment) {
       }
 
       PaymentSignals.once('paymentDone', () =>
-        resolve(Payment.getAmountAuthorized()),
+        resolve(Payment.getAuthorizedAmount()),
       );
       Payment.doPay(params);
+    });
+
+  Payment.cancel = atk =>
+    new Promise((resolve, reject) => {
+      if (typeof atk !== 'string') {
+        return reject(new Error('BAD USAGE: ATK must be a String.'));
+      }
+
+      PaymentSignals.once('cancellationDone', () => {
+        if (Payment.failedCancellation()) {
+          reject(new Error('Cancellation Failed.'));
+        } else {
+          resolve(Payment.getCancelledAmount());
+        }
+      });
+      Payment.doCancellation(atk);
     });
 
   Payment.enableCardEvent = () => {
