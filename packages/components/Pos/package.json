@@ -20,6 +20,6 @@
     "@mambasdk/styles": "^0.0.1"
   },
   "peerDependencies": {
-    "@mambasdk/api": "^0.0.5"
+    "@mambasdk/os": "^0.0.1"
   }
 }

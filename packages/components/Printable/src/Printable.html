@@ -29,7 +29,7 @@
 {/if}
 
 <script>
-  import Printer from '@mambasdk/api/printer.js';
+  import Printer from '@mambasdk/os/api/printer.js';
   import { PromisedDialog, ConfirmationDialog } from '@mambasdk/dialog';
 
   const STATES = Object.freeze({
@@ -82,16 +82,6 @@
           _state: STATES.PRINTING,
           _printingPromise,
         });
-
-        if (process.env.APP_ENV === 'browser') {
-          _printingPromise
-            .then(() => {
-              if (this.store) {
-                this.store.fire('pos:print', { content, options: printerOptions });
-              }
-            })
-            .catch(() => 0);
-        }
       },
     },
   };

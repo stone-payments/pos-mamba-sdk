@@ -1,12 +1,12 @@
 /**
  * Common webpack configuration
  */
-const webpack = require('webpack');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
 const { IS_PROD, getPkg, fromCwd } = require('quickenv');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const webpack = require('webpack');
 const htmlTemplate = require('./helpers/htmlTemplate.js');
 const loaders = require('./helpers/loaders.js');
 const MambaFixesPlugin = require('./helpers/MambaFixesPlugin.js');
@@ -14,22 +14,34 @@ const MambaFixesPlugin = require('./helpers/MambaFixesPlugin.js');
 const PKG = getPkg();
 
 /** Default ENV variables */
-if (!process.env.NODE_ENV) process.env.NODE_ENV = 'development';
-if (!process.env.APP_ENV) process.env.APP_ENV = 'browser';
+if (!process.env.NODE_ENV) {
+  process.env.NODE_ENV = 'development';
+}
+
+if (!process.env.APP_ENV) {
+  process.env.APP_ENV = 'browser';
+}
+
+if (!process.env.DEBUG) {
+  process.env.DEBUG = process.env.NODE_ENV === 'development';
+}
+
+const entry = {
+  app: [
+    process.env.APP_ENV === 'browser' && '@mambasdk/os/index.js',
+    /** Mamba style resetter/normalizer */
+    '@mambasdk/styles/dist/pos.css',
+    /** App entry point */
+    './index.js',
+  ].filter(Boolean),
+};
 
 module.exports = {
   mode: IS_PROD() ? 'production' : 'development',
   cache: true,
   target: 'web',
   context: fromCwd('src'),
-  entry: {
-    app: [
-      /** Mamba style resetter/normalizer */
-      '@mambasdk/styles/dist/pos.css',
-      /** App entry point */
-      './index.js',
-    ],
-  },
+  entry,
   output: {
     path: fromCwd('bundle'),
     publicPath: './',
@@ -67,10 +79,10 @@ module.exports = {
         ],
         use: [loaders.babel, loaders.svelte, loaders.eslint],
       },
-      /** Make 'svelte' related javascript code run through babel without linting */
+      /** Make 'svelte' related js code and `@mambasdk/os` run through babel */
       {
         test: /\.js?$/,
-        include: [/node_modules[\\/]svelte/],
+        include: [/node_modules[\\/]svelte/, /@mambasdk\/os/],
         use: [loaders.babel],
       },
       /** Run babel and eslint on projects src files only */
@@ -113,8 +125,12 @@ module.exports = {
       template: htmlTemplate,
     }),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      'process.env.APP_ENV': JSON.stringify(process.env.APP_ENV),
+      __NODE_ENV__: JSON.stringify(process.env.NODE_ENV),
+      __APP_ENV__: JSON.stringify(process.env.APP_ENV),
+      __DEV__: process.env === 'development',
+      __DEBUG__: process.env.DEBUG,
+      __POS__: process.env.APP_ENV === 'pos',
+      __BROWSER__: process.env.APP_ENV === 'browser',
     }),
   ],
   /** Minimal useful output log */

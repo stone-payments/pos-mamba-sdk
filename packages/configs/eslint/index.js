@@ -17,6 +17,14 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2018,
   },
+  globals: {
+    __APP_ENV__: true,
+    __NODE_ENV__: true,
+    __DEBUG__: true,
+    __BROWSER__: true,
+    __POS__: true,
+    __DEV__: true,
+  },
   rules: {
     // ! Code
     /** Allow to use new for side effects */

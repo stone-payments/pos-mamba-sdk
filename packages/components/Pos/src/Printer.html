@@ -25,8 +25,11 @@
 </div>
 
 <script>
+  import SignalListener from '@mambasdk/os/signal/listener.js';
+  import Printer from '@mambasdk/os/api/printer.js';
+
   const onceTransitionEnd = (el, cb) => {
-    const onTransitionEnd = (e) => {
+    const onTransitionEnd = e => {
       cb(e);
       el.removeEventListener('transitionend', onTransitionEnd);
     };
@@ -54,9 +57,10 @@
       },
     },
     oncreate() {
-      if (this.store) {
-        this.store.on('pos:print', ({ content, options }) => this.print(content, options));
-      }
+      const PrinterListener = SignalListener(Printer);
+      PrinterListener.on('browser:printing', (content, options) => {
+        this.print(content, options);
+      });
     },
     methods: {
       print(content, options) {
@@ -65,18 +69,19 @@
 
         /** If there's already printed paper, shred it */
         const shouldShredFirst = state === STATES.PRINTED;
-        const getPrintPromise = () => new Promise((resolve) => {
-          this.set({
-            state: STATES.PRINTED,
-            content: content.outerHTML,
+        const getPrintPromise = () =>
+          new Promise(resolve => {
+            this.set({
+              state: STATES.PRINTED,
+              content: content.outerHTML,
+            });
+            /** Once it finishes printing animation */
+            onceTransitionEnd(this.refs.paper, () => {
+              this.set({ state: STATES.PRINTED });
+              /** Once it finishes the printed state animation */
+              onceTransitionEnd(this.refs.paper, resolve);
+            });
           });
-          /** Once it finishes printing animation */
-          onceTransitionEnd(this.refs.paper, () => {
-            this.set({ state: STATES.PRINTED });
-            /** Once it finishes the printed state animation */
-            onceTransitionEnd(this.refs.paper, resolve);
-          });
-        });
 
         if (shouldShredFirst) {
           return this.shred().then(getPrintPromise);
@@ -96,7 +101,7 @@
         }
 
         /** If there's already printed paper, shred it */
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
           this.set({ state: STATES.SHREDDING });
           /** Once it finishes shredding animation */
           onceTransitionEnd(this.refs.paper, () => {
@@ -123,9 +128,9 @@
     left: 42px;
     bottom: 584px;
     /**
-      * Re-scale the printer to simulate the difference of density of pixels
-      * Magic scale number = (mockup printer width / real printer witdh) (250/384)
-      */
+                            * Re-scale the printer to simulate the difference of density of pixels
+                            * Magic scale number = (mockup printer width / real printer witdh) (250/384)
+                            */
     transform: scale(0.5952380952380952);
     transform-origin: 0 100%;
 
