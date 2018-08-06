@@ -1,6 +1,13 @@
 export default {
   _listening: {},
 
+  _isSlotFilled(signal, callback) {
+    const callbackList = this._listening[signal];
+    return (
+      callbackList && callbackList.length && callbackList.indexOf(callback) > -1
+    );
+  },
+
   /** Connect a callback to a slot */
   on(signal, callback) {
     if (typeof callback === 'function') {
@@ -11,13 +18,6 @@ export default {
       this[signal].connect(callback);
     }
     return this;
-  },
-
-  isSlotFilled(signal, callback) {
-    const callbackList = this._listening[signal];
-    return (
-      callbackList && callbackList.length && callbackList.indexOf(callback) > -1
-    );
   },
 
   /** Disconnect a callback from a slot */
@@ -45,7 +45,7 @@ export default {
 
   /** Allow only a unique callback on a specific slot */
   unique(signal, callback) {
-    if (this.isSlotFilled(signal, callback)) {
+    if (this._isSlotFilled(signal, callback)) {
       this.off(signal, callback);
     }
     return this.on(signal, callback);
@@ -65,7 +65,7 @@ export default {
       }
 
       /** If the signal's slot is already filled with a callback, disconnect it */
-      if (this.isSlotFilled(signal, callback)) {
+      if (this._isSlotFilled(signal, callback)) {
         this.off(signal, callback);
       }
 
