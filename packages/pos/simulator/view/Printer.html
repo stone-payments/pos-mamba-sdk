@@ -25,7 +25,7 @@
 </div>
 
 <script>
-  import Simulator from '../simulator/api.js';
+  import Simulator from '../api.js';
 
   const onceTransitionEnd = (el, cb) => {
     const onTransitionEnd = e => {
@@ -126,9 +126,9 @@
     left: 42px;
     bottom: 584px;
     /**
-                                                      * Re-scale the printer to simulate the difference of density of pixels
-                                                      * Magic scale number = (mockup printer width / real printer witdh) (250/384)
-                                                      */
+                                                        * Re-scale the printer to simulate the difference of density of pixels
+                                                        * Magic scale number = (mockup printer width / real printer witdh) (250/384)
+                                                        */
     transform: scale(0.5952380952380952);
     transform-origin: 0 100%;
 
