@@ -1,4 +1,4 @@
 import extendDriver from '../drivers/extend.js';
-import common from '../drivers/http/common.js';
+import wrappers from '../drivers/http/wrappers.js';
 
-export default extendDriver(window.$Http, [common]);
+export default extendDriver(window.$Http, [wrappers]);

@@ -1,4 +1,4 @@
 import extendDriver from '../drivers/extend.js';
-import common from '../drivers/printer/common.js';
+import wrappers from '../drivers/printer/wrappers.js';
 
-export default extendDriver(window.Printer, [common]);
+export default extendDriver(window.Printer, [wrappers]);

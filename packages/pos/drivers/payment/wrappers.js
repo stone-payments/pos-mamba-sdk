@@ -7,8 +7,8 @@ const triggerCardEvent = () => {
   }
 };
 
-export default function(Payment) {
-  Payment.pay = params =>
+export default function(driver) {
+  driver.pay = params =>
     new Promise((resolve, reject) => {
       if (typeof params !== 'object') {
         params = {
@@ -17,7 +17,7 @@ export default function(Payment) {
         };
       }
 
-      if (Payment.isPaying()) {
+      if (driver.isPaying()) {
         return reject(new Error('Payment is already in progress'));
       }
 
@@ -27,19 +27,19 @@ export default function(Payment) {
         );
       }
 
-      Payment.once('paymentDone', () => resolve(Payment.getAmountAuthorized()));
-      Payment.doPay(params);
+      driver.once('paymentDone', () => resolve(driver.getAmountAuthorized()));
+      driver.doPay(params);
     });
 
-  Payment.enableCardEvent = () => {
+  driver.enableCardEvent = () => {
     isCardEventEnabled = true;
-    Payment.unique('cardEvent', triggerCardEvent);
-    Payment.doEnableCardEvent();
+    driver.unique('cardEvent', triggerCardEvent);
+    driver.doEnableCardEvent();
   };
 
-  Payment.disableCardEvent = () => {
+  driver.disableCardEvent = () => {
     isCardEventEnabled = false;
-    Payment.off('cardEvent', triggerCardEvent);
-    Payment.doDisableCardEvent();
+    driver.off('cardEvent', triggerCardEvent);
+    driver.doDisableCardEvent();
   };
 }

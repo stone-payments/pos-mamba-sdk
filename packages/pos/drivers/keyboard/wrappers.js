@@ -88,8 +88,8 @@ function enableBackspace() {
   _isBackspaceEnabled = true;
 }
 
-export default function addSharedWrapper(Keyboard) {
-  Object.assign(Keyboard, {
+export default function addSharedWrapper(driver) {
+  Object.assign(driver, {
     getKeyCode,
     getKeyName,
     isNumericKey,
