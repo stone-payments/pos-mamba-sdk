@@ -1,3 +1,19 @@
+# Payment
+
+## Descrição
+
+O módulo de Payment da API Nativa expõe métodos de controle de pagamento e informações sobre
+o estado deste. Para execução do pagamento, a aplicação nativa de pagamentos será chamada para realizar
+a transação.
+
+## Interface
+
+```ts
+interface Payment {
+  pay: (params: PaymentOptions) => Promise;
+  getAmountAuthorized: () => number;
+  enableCardEvent: () => void;
+  disableCardEvent: () => void;
   isPaying: () => boolean;
   failedPaying: () => boolean;
   getCardHolderName: () => string;
@@ -29,7 +45,12 @@ Abre o aplicativo de pagamentos passando os parâmetros de pagamento (valor, nú
 ```js
 import Payment from '@mambasdk/api/payment.js';
 
-Payment.pay({ amount: 500, editable_amount: false, min_installments: 1, max_installments: 3})
+Payment.pay({
+  amount: 500,
+  editable_amount: false,
+  min_installments: 1,
+  max_installments: 3,
+})
   .then(() => {
     console.log('Payment Done');
   })
@@ -188,6 +209,7 @@ import Payment from '@mambasdk/api/payment.js';
 
 Payment.getType(); // 'CREDITO'
 ```
+
 ### cancel(atk)
 
 Cancela uma transação utilizando o atk desta.
@@ -196,12 +218,12 @@ Cancela uma transação utilizando o atk desta.
 import Payment from '@mambasdk/api/payment.js';
 
 Payment.cancel('000000')
-.then((amountCanceled) => {
-  console.log(amountCancelled);
- }) // 50
-.catch((error) => {
-  console.log(error);
-}) // 'Cancellation Failed.'
+  .then(amountCanceled => {
+    console.log(amountCancelled); // 50
+  })
+  .catch(error => {
+    console.log(error); // 'Cancellation Failed.'
+  });
 ```
 
 ### failedCancellation()
@@ -211,5 +233,5 @@ Retorna `true` caso o último cancelamento tenha falhado.
 ```js
 import Payment from '@mambasdk/api/payment.js';
 
-Payment.failedCancellation() // true or false
+Payment.failedCancellation(); // true or false
 ```
