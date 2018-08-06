@@ -19,10 +19,10 @@
     "delete:modules": "rm -rf \"node_modules\" \"./**/node_modules\"",
     "link:packages": "bolt ws exec --only-fs \"packages/**\" -- yarn link",
     "lint": "yarn lint:css; yarn lint:js",
-    "lint:js": "eslint \"*.js\" \"{tools,packages,website}/**/*.{js,html,svelte}\"",
+    "lint:js": "eslint \"*.js\" \"{tools,packages}/**/*.{js,html,svelte}\"",
     "lint:css": "stylelint --custom-syntax \"postcss-html\" \"packages/**/*.{html,svelte,css,pcss}\"",
     "format": "yarn format:css; yarn format:js",
-    "format:js": "prettier --write \"*.js\" \"{tools,packages,website}/**/*.js\" && eslint --fix \"*.js\" \"{tools,packages,website}/**/*.{js,html,svelte}\"",
+    "format:js": "prettier --write \"*.js\" \"{tools,packages}/**/*.js\" && eslint --fix \"*.js\" \"{tools,packages}/**/*.{js,html,svelte}\"",
     "format:css": "prettier --write \"packages/**/*.{css,pcss}\" && stylelint --fix --custom-syntax \"postcss-html\" \"packages/**/*.{html,svelte,css,pcss}\"",
     "test": "bolt ws test"
   },
@@ -37,8 +37,7 @@
       "packages/styles",
       "packages/configs",
       "packages/webpack",
-      "packages/components/*",
-      "docs-sapper"
+      "packages/components/*"
     ]
   },
   "husky": {
