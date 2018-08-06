@@ -33,7 +33,7 @@
 </label>
 
 <script>
-  import Keyboard from '@mambasdk/api/keyboard.js';
+  import Keyboard from '@mambasdk/pos/api/keyboard.js';
 
   export default {
     components: {
@@ -59,9 +59,7 @@
     },
     oncreate() {
       if (this.options.data) {
-        const {
-          type, maxlength, autofocus, value,
-        } = this.options.data;
+        const { type, maxlength, autofocus, value } = this.options.data;
 
         if (typeof maxlength !== 'undefined') {
           this.refs.input.setAttribute('maxlength', parseInt(maxlength, 10));
@@ -142,9 +140,9 @@
         const { type, _visible, readable } = this.get();
         /** Change password visibility only if element is focused */
         if (
-          type === 'password'
-        && readable
-        && document.activeElement === this.refs.input
+          type === 'password' &&
+          readable &&
+          document.activeElement === this.refs.input
         ) {
           this.set({ _visible: !_visible });
           setTimeout(() => this.refs.input.focus());

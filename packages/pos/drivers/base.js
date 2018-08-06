@@ -36,7 +36,7 @@ export default {
         this._listening[signal].splice(slotIndex, 1);
       } else if (__DEBUG__) {
         console.warn(
-          '[@mambasdk/pos/baseDriver] Tried to disconnect a non-connected callback.',
+          '[@mambasdk/pos/driver] Tried to disconnect a non-connected slot.',
         );
       }
     }
