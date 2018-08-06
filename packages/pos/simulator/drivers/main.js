@@ -1,3 +1,4 @@
+/** Main driver for handling the POS Simulation */
 import Signal from '../signal.js';
 
 const DATA = {};
