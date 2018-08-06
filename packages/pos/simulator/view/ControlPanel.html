@@ -7,20 +7,7 @@
       <ul class="controllers">
         <li class="controller">
           <span>Impressora sem papel?</span>
-          <Switch bind:checked="configs.printer.shouldFail" />
-        </li>
-        <li class="controller">
-          <span>Impressora sem papel?</span>
-          <Switch bind:checked="configs.printer.shouldFail" />
-        </li>
-      </ul>
-    </div>
-    <div class="section">
-      <div class="title">Impressora</div>
-      <ul class="controllers">
-        <li class="controller">
-          <span>Impressora sem papel?</span>
-          <Switch bind:checked="configs.printer.shouldFail" />
+          <Switch on:change="setConfig('printer.shouldFail', event.value)"/>
         </li>
       </ul>
     </div>
@@ -28,24 +15,24 @@
 </div>
 
 <script>
-  import Payment from '@mambasdk/api/payment.js';
-  import Printer from '@mambasdk/api/printer.js';
-
-  const browserConfigs = {
-    payment: Payment.browserConfig,
-    printer: Printer.browserConfig,
-  };
+  import Simulator from '../api.js';
 
   export default {
     components: {
       Switch: '@mambasdk/switch',
     },
     data() {
-      return {
-        visible: false,
-        configs: browserConfigs,
-        sections: [],
-      };
+      return Simulator.get();
+    },
+    oncreate() {
+      Simulator.on('settingsChanged', data => {
+        this.set({ ...data });
+      });
+    },
+    methods: {
+      setConfig(keyPath, value) {
+        Simulator.set(keyPath, value, false);
+      },
     },
   };
 </script>
@@ -76,11 +63,11 @@
     box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.4);
 
     &:hover {
-      transform: scale(1.1) rotate(360deg);
+      transform: scale(1.1) rotate(0);
     }
 
-    &:active {
-      transform: scale(0.9);
+    .panel-checkbox:checked ~ & {
+      transform: scale(1) rotate(360deg);
     }
   }
 
@@ -100,6 +87,8 @@
     opacity: 0;
     transition: right 0.3s ease, opacity 0.5s ease;
     box-shadow: -4px 0 15px rgba(0, 0, 0, 0.4);
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
 
     .panel-checkbox:checked ~ & {
       right: 0;

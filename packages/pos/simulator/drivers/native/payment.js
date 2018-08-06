@@ -17,9 +17,11 @@ const DEFAULT_SETTINGS = {
   authorizedAmount: 0,
 };
 
+const SIGNALS = ['cardEvent'];
+
 export default function setup(Payment) {
   Simulator.set('payment', DEFAULT_SETTINGS);
-  Signal.register(Payment, ['cardEvent']);
+  Signal.register(Payment, SIGNALS);
 
   Payment.doPay = params => {
     Simulator.set('payment._isPaying', true);

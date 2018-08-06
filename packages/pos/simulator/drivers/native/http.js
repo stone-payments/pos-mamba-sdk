@@ -1,7 +1,9 @@
 import Signal from '../../signal.js';
 
+const SIGNALS = ['requestFinished'];
+
 export default function(Http) {
-  Signal.register(Http, ['requestFinished']);
+  Signal.register(Http, SIGNALS);
 
   let _errorData = null;
   let _data = null;

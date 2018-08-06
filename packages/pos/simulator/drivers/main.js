@@ -3,8 +3,10 @@ import Signal from '../signal.js';
 
 const DATA = {};
 
+const SIGNALS = ['settingsChanged', 'print'];
+
 export default function setup(Simulator) {
-  Signal.register(Simulator, ['changeSettings', 'print']);
+  Signal.register(Simulator, SIGNALS);
 
   Simulator.get = keyPath => {
     if (keyPath === undefined) {
@@ -19,7 +21,7 @@ export default function setup(Simulator) {
     return value;
   };
 
-  Simulator.set = (keyPath, value) => {
+  Simulator.set = (keyPath, value, fireSignal = true) => {
     if (keyPath === undefined) {
       return;
     }
@@ -38,6 +40,9 @@ export default function setup(Simulator) {
       object = object[keys[i]];
     }
     object[lastKey] = value;
-    Simulator.changeSettings(DATA);
+
+    if (fireSignal) {
+      Simulator.settingsChanged(DATA);
+    }
   };
 }
