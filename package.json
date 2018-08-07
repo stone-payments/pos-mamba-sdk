@@ -12,17 +12,16 @@
   "license": "Apache-2.0",
   "repository": "https://github.com/stone-payments/pos-mamba-web.git",
   "scripts": {
-    "start": "bolt w @mambasdk/docssapper start",
     "build": "bolt ws build",
     "build:styles": "bolt w @mambasdk/styles build",
     "build:libs": "bolt ws build --only-fs \"packages/{store,api,bridges,signal}\"",
     "delete:modules": "rm -rf \"node_modules\" \"./**/node_modules\"",
     "link:packages": "bolt ws exec --only-fs \"packages/**\" -- yarn link",
     "lint": "yarn lint:css; yarn lint:js",
-    "lint:js": "eslint \"*.js\" \"{tools,packages,website}/**/*.{js,html,svelte}\"",
+    "lint:js": "eslint \"*.js\" \"{tools,packages}/**/*.{js,html,svelte}\"",
     "lint:css": "stylelint --custom-syntax \"postcss-html\" \"packages/**/*.{html,svelte,css,pcss}\"",
     "format": "yarn format:css; yarn format:js",
-    "format:js": "prettier --write \"*.js\" \"{tools,packages,website}/**/*.js\" && eslint --fix \"*.js\" \"{tools,packages,website}/**/*.{js,html,svelte}\"",
+    "format:js": "prettier --write \"*.js\" \"{tools,packages}/**/*.js\" && eslint --fix \"*.js\" \"{tools,packages}/**/*.{js,html,svelte}\"",
     "format:css": "prettier --write \"packages/**/*.{css,pcss}\" && stylelint --fix --custom-syntax \"postcss-html\" \"packages/**/*.{html,svelte,css,pcss}\"",
     "test": "bolt ws test"
   },
@@ -38,8 +37,7 @@
       "packages/styles",
       "packages/configs",
       "packages/webpack",
-      "packages/components/*",
-      "docs-sapper"
+      "packages/components/*"
     ]
   },
   "husky": {
@@ -77,11 +75,10 @@
     "babel-eslint": "^8.2.3",
     "babel-jest": "^22.4.3",
     "babel-loader": "^8.0.0-beta",
-    "babel-plugin-prismjs": "^1.0.2",
     "case": "^1.5.5",
-    "cheerio": "^1.0.0-rc.2",
     "cross-env": "^5.1.5",
     "css-loader": "^1.0.0",
+    "cssnano": "^4.0.4",
     "eslint": "^5.0.1",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-config-prettier": "^2.9.0",
@@ -107,8 +104,6 @@
     "mini-css-extract-plugin": "^0.4.0",
     "mini-html-webpack-plugin": "^0.2.3",
     "ncp": "^2.0.0",
-    "node-sass": "^4.9.0",
-    "npm-run-all": "^4.1.3",
     "optimize-css-assets-webpack-plugin": "^5.0.0",
     "postcss": "^7.0.0",
     "postcss-advanced-variables": "^2.3.3",
@@ -164,22 +159,7 @@
     "webpack-sources": "^1.1.0",
     "xml-js": "^1.6.3",
     "yargonaut": "^1.1.2",
-    "yargs": "^11.0.0"
-  },
-  "dependencies": {
-    "compression": "^1.7.2",
-    "cssnano": "^4.0.4",
-    "dotenv": "^6.0.0",
-    "express": "^4.16.3",
-    "golden-fleece": "^1.0.9",
-    "highlight.js": "^9.12.0",
-    "marked": "^0.4.0",
-    "polka": "^0.4.0",
-    "prismjs": "^1.14.0",
-    "qrious": "^4.0.2",
-    "sapper": "^0.13.2",
-    "serve-static": "^1.13.2",
-    "sirv": "^0.1.2",
-    "source-code-pro": "^2.30.1"
+    "yargs": "^11.0.0",
+    "qrious": "^4.0.2"
   }
 }
