@@ -1,4 +1,4 @@
-import Simulator from '../../api.js';
+import { Simulator } from '../../main.js';
 import systemEnums from '../../../drivers/system/enums.js';
 
 export const NAMESPACE = 'System';

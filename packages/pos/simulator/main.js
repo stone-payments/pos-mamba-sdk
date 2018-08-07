@@ -1,5 +1,6 @@
 import Signal from './signal.js';
 import * as mainDriver from './drivers/private/main.js';
+import extendDriver from '../drivers/extend.js';
 
 /**
  * Simulator main driver
@@ -12,4 +13,5 @@ export function createMainDriver() {
   /** Initialize the main simulator driver */
   Signal.register(Simulator, mainDriver.SIGNALS);
   mainDriver.setup(Simulator);
+  extendDriver(Simulator);
 }
