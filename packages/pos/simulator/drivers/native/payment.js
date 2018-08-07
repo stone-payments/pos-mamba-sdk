@@ -18,7 +18,7 @@ export const SETTINGS = {
   authorizedAmount: 0,
 };
 
-export const SIGNALS = ['cardEvent'];
+export const SIGNALS = ['cardEvent','paymentDone'];
 
 export function setup(Payment) {
   Payment.doPay = params => {
