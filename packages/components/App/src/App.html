@@ -9,16 +9,17 @@
 </ConfirmationDialog>
 
 <script>
-  import App from '@mambasdk/api/app.js';
-  import Keyboard from '@mambasdk/api/keyboard.js';
+  import App from '@mambasdk/pos/api/app.js';
+  import Keyboard from '@mambasdk/pos/api/keyboard.js';
   import { ConfirmationDialog } from '@mambasdk/dialog';
   import { createHashHistory, getHistory } from 'svelte-routing';
   import links from 'svelte-routing/links.js';
 
   /** Return if a certain shortcut key is valid */
-  const isValidShortcut = (keyName, e) => keyName
-  && e.target.tagName !== 'INPUT'
-  && document.activeElement.tagName !== 'INPUT';
+  const isValidShortcut = (keyName, e) =>
+    keyName &&
+    e.target.tagName !== 'INPUT' &&
+    document.activeElement.tagName !== 'INPUT';
 
   /** Initialize the router hash history */
   createHashHistory({ basename: '/' });
@@ -80,7 +81,8 @@
       },
       onKeyup(e) {
         const keyName = Keyboard.getKeyName(e.keyCode);
-        const isShortcutsDisabled = this.store && !this.store.meta.get('shortcuts');
+        const isShortcutsDisabled =
+          this.store && !this.store.meta.get('shortcuts');
 
         /** If the key is not mapped or a input is focused, do nothing */
         if (!isValidShortcut(keyName, e)) {
@@ -91,8 +93,8 @@
         if (keyName === 'back') {
           /** Guarantees that the 'back' button is enabled and app not locked */
           if (
-            Keyboard.isBackspaceEnabled()
-          && (this.store && !this.store.meta.get('locked'))
+            Keyboard.isBackspaceEnabled() &&
+            (this.store && !this.store.meta.get('locked'))
           ) {
             e.preventDefault();
             this.goBack();

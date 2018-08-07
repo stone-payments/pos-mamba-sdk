@@ -5,4 +5,3 @@ dist/
 /packages/bridges/*.js
 /packages/signal/*.js
 /packages/utils/*.js
-/docs-sapper/**
