@@ -1,27 +1,9 @@
 import Simulator from '../../api.js';
 import systemEnums from '../../../drivers/system/enums.js';
 
-/**
- * Configurations that simulate the device state. Note that it's
- * used to simulate the device on the browser. To access the real
- * state on the device, use the apropriate methods exposed on the
- * {@link System} object
- * @name CONFIG
- * @memberOf System
- * @type {object}
- * @property {object}  Connections                    Connections configuration object
- * @property {boolean} Connections.wifi               True if device has wifi
- * @property {boolean} Connections.ethernet           True if device has ethernet
- * @property {boolean} Connections.gprs               True if device has gprs
- * @property {object}  Battery                        Battery configuration object
- * @property {boolean} Battery.present                True if the battery is present
- * @property {number} Battery.level                   The level of the battery (from 0 to 100)
- * @property {System.BatteryStatus} Battery.status    The status of the battery
- * @property {System.PowerSupply} PowerSupply         Defines the current power supply
- * @property {number} TimeFromBoot                    The time from the boot until this moment [ms]
- * @property {string} SerialNumber                    The serial number of the device
- */
-const DEFAULT_SETTINGS = {
+export const NAMESPACE = 'System';
+
+export const SETTINGS = {
   Connections: {
     ethernet: true,
     wifi: true,
@@ -73,8 +55,7 @@ function doBeep(duration, frequency) {
   setTimeout(() => oscillator.stop(), duration);
 }
 
-export default function setup(System) {
-  Simulator.set('system', DEFAULT_SETTINGS);
+export function setup(System) {
   const localConfig = {
     TimeFromBoot: 0,
   };
@@ -92,35 +73,35 @@ export default function setup(System) {
    * @memberOf System
    * @return {boolean} True if the device has ethernet
    */
-  System.hasEthernet = () => Simulator.get('system.Connections.ethernet');
+  System.hasEthernet = () => Simulator.get('System.Connections.ethernet');
 
   /**
    * Checks if the device has wifi
    * @memberOf System
    * @return {boolean} True if the device has wifi
    */
-  System.hasWifi = () => Simulator.get('system.Connections.wifi');
+  System.hasWifi = () => Simulator.get('System.Connections.wifi');
 
   /**
    * Checks if the device has gprs
    * @memberOf System
    * @return {boolean} True if the device has gprs
    */
-  System.hasGprs = () => Simulator.get('system.Connections.gprs');
+  System.hasGprs = () => Simulator.get('System.Connections.gprs');
 
   /**
    * Checks if the battery is present
    * @memberOf System
    * @return {boolean} True if the battery is present
    */
-  System.isBatteryPresent = () => Simulator.get('system.Battery.present');
+  System.isBatteryPresent = () => Simulator.get('System.Battery.present');
 
   /**
    * Gets the decive current power supply
    * @memberOf System
    * @return {System.PowerSupply} The current power supply of the device
    */
-  System.getPowerSupply = () => Simulator.get('system.PowerSupply');
+  System.getPowerSupply = () => Simulator.get('System.PowerSupply');
 
   /**
    * Gets the time from the boot until this moment [ms]
@@ -134,14 +115,14 @@ export default function setup(System) {
    * @memberOf System
    * @return {string} The serial number
    */
-  System.getSerialNumber = () => Simulator.get('system.SerialNumber');
+  System.getSerialNumber = () => Simulator.get('System.SerialNumber');
 
   /**
    * Gets the status of the battery
    * @memberOf System
    * @return {System.BatteryStatus} The status of the battery
    */
-  System.getBatteryStatus = () => Simulator.get('system.Battery.status');
+  System.getBatteryStatus = () => Simulator.get('System.Battery.status');
 
   /**
    * Gets the level of the battery. Note that the level is discrete and it
@@ -157,7 +138,7 @@ export default function setup(System) {
    * @memberOf System
    * @return {number} The level of the battery
    */
-  System.getBatteryLevel = () => Simulator.get('system.Battery.level');
+  System.getBatteryLevel = () => Simulator.get('System.Battery.level');
 
   /**
    * Gets the tone frequency according to the tone

@@ -1,4 +1,6 @@
-export default function setup(App) {
+export const NAMESPACE = 'App';
+
+export function setup(App) {
   App.doClose = () => {
     console.log('[@mambasdk/api/app] App closed');
   };

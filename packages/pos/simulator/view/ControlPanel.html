@@ -7,7 +7,10 @@
       <ul class="controllers">
         <li class="controller">
           <span>Impressora sem papel?</span>
-          <Switch on:change="setConfig('printer.shouldFail', event.value)"/>
+          <Switch
+            checked={getConfig('Printer.shouldFail')}
+            on:change="setConfig('Printer.shouldFail', event.value)"
+          />
         </li>
       </ul>
     </div>
@@ -28,6 +31,9 @@
       Simulator.on('settingsChanged', data => {
         this.set({ ...data });
       });
+    },
+    helpers: {
+      getConfig: path => Simulator.get(path),
     },
     methods: {
       setConfig(keyPath, value) {

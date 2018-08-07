@@ -1,7 +1,8 @@
 import Simulator from '../../api.js';
-import Signal from '../../signal.js';
 
-const DEFAULT_SETTINGS = {
+export const NAMESPACE = 'Payment';
+
+export const SETTINGS = {
   _isPaying: false,
   amountPaid: -1,
   installmentCount: 0,
@@ -17,19 +18,16 @@ const DEFAULT_SETTINGS = {
   authorizedAmount: 0,
 };
 
-const SIGNALS = ['cardEvent'];
+export const SIGNALS = ['cardEvent'];
 
-export default function setup(Payment) {
-  Simulator.set('payment', DEFAULT_SETTINGS);
-  Signal.register(Payment, SIGNALS);
-
+export function setup(Payment) {
   Payment.doPay = params => {
-    Simulator.set('payment._isPaying', true);
+    Simulator.set('Payment._isPaying', true);
 
     Payment.paymentDone();
 
-    Simulator.set('payment._isPaying', false);
-    Simulator.set('payment.authorizedAmount', params.value);
+    Simulator.set('Payment._isPaying', false);
+    Simulator.set('Payment.authorizedAmount', params.value);
   };
 
   Payment.doEnableCardEvent = function noop() {};
@@ -40,13 +38,13 @@ export default function setup(Payment) {
    * @memberof Payment
    * @return {boolean} True if is paying
    */
-  Payment.isPaying = () => Simulator.get('payment._isPaying');
+  Payment.isPaying = () => Simulator.get('Payment._isPaying');
 
   /**
    * Returns true it the last payment job has failed
    * @return {boolean} True if the last payment job has failed
    */
-  Payment.failedPaying = () => Simulator.get('payment.shouldFail');
+  Payment.failedPaying = () => Simulator.get('Payment.shouldFail');
 
   /**
    * Get card holder name in case of payment success.
@@ -55,7 +53,7 @@ export default function setup(Payment) {
    * @return {string} cardHolderName
    */
   Payment.getCardHolderName = () =>
-    !Payment.failedPaying() ? '' : Simulator.get('payment.cardHolderName');
+    !Payment.failedPaying() ? '' : Simulator.get('Payment.cardHolderName');
 
   /**
    * Return the transaction ATK in case of payment success
@@ -64,7 +62,7 @@ export default function setup(Payment) {
    * @return {string} atk
    */
   Payment.getAtk = () =>
-    !Payment.failedPaying() ? '' : Simulator.get('payment.atk');
+    !Payment.failedPaying() ? '' : Simulator.get('Payment.atk');
 
   /**
    * Return the transaction ITK in case of payment success
@@ -73,7 +71,7 @@ export default function setup(Payment) {
    * @return {string} itk
    */
   Payment.getItk = () =>
-    !Payment.failedPaying() ? '' : Simulator.get('payment.itk');
+    !Payment.failedPaying() ? '' : Simulator.get('Payment.itk');
 
   /**
    * Return the Authorized Amount in case of success
@@ -82,7 +80,7 @@ export default function setup(Payment) {
    * @return {number} amount
    */
   Payment.getAuthorizedAmount = () =>
-    Payment.failedPaying() ? 0 : Simulator.get('payment.authorizedAmount');
+    Payment.failedPaying() ? 0 : Simulator.get('Payment.authorizedAmount');
 
   /**
    * Return the Authorization Date and Time in case of success
@@ -100,7 +98,7 @@ export default function setup(Payment) {
    * @return {string} brand
    */
   Payment.getBrand = () =>
-    !Payment.failedPaying() ? '' : Simulator.get('payment.cardBrand');
+    !Payment.failedPaying() ? '' : Simulator.get('Payment.cardBrand');
 
   /**
    * Return the order id in case of success
@@ -109,7 +107,7 @@ export default function setup(Payment) {
    * @return {string} orderId
    */
   Payment.getOrderId = () =>
-    !Payment.failedPaying() ? '' : Simulator.get('payment.orderId');
+    !Payment.failedPaying() ? '' : Simulator.get('Payment.orderId');
 
   /**
    * Return the authorization code in case of success
@@ -118,7 +116,7 @@ export default function setup(Payment) {
    * @return {string} authorizationCode
    */
   Payment.getAuthorizationCode = () =>
-    !Payment.failedPaying() ? '' : Simulator.get('payment.authCode');
+    !Payment.failedPaying() ? '' : Simulator.get('Payment.authCode');
 
   /**
    * Return the number of installments selected, in case of success
@@ -127,7 +125,7 @@ export default function setup(Payment) {
    * @return {int} installmentCount
    */
   Payment.getInstallmentCount = () =>
-    !Payment.failedPaying() ? 0 : Simulator.get('payment.installmentCount');
+    !Payment.failedPaying() ? 0 : Simulator.get('Payment.installmentCount');
 
   /**
    * Return the pan in case of success
@@ -136,7 +134,7 @@ export default function setup(Payment) {
    * @return {string} pan
    */
   Payment.getPan = () =>
-    !Payment.failedPaying() ? '' : Simulator.get('payment.pan');
+    !Payment.failedPaying() ? '' : Simulator.get('Payment.pan');
 
   /**
    * Return the type transaction in case of success
@@ -145,5 +143,5 @@ export default function setup(Payment) {
    * @return {string} type
    */
   Payment.getType = () =>
-    !Payment.failedPaying() ? '' : Simulator.get('payment.type');
+    !Payment.failedPaying() ? '' : Simulator.get('Payment.type');
 }

@@ -3,9 +3,11 @@ import Signal from '../signal.js';
 
 const DATA = {};
 
-const SIGNALS = ['settingsChanged', 'print'];
+export const NAMESPACE = 'Simulator';
 
-export default function setup(Simulator) {
+export const SIGNALS = ['settingsChanged', 'print'];
+
+export function setup(Simulator) {
   Signal.register(Simulator, SIGNALS);
 
   Simulator.get = keyPath => {

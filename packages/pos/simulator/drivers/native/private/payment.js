@@ -1,59 +1,61 @@
-import Signal from '../../../signal.js';
+import Simulator from '../../../api.js';
 
-export default function(Payment) {
-  Signal.register(Payment, [
-    'detectEntryMode',
-    'selectTransactionType', // Receives a (QVariantList transactionTypes);
-    'insertAmount',
-    'insertInstallmentTypeAndCount',
-    'prepareForPassword',
-    'askConfirmation',
-    'success',
-    'insertCvv',
-    'coreException', // Receives a (int error);
-    'onlineException', // Receives a (OnlineProcessor::Error error);
-    'authorizationError',
-    'finished',
-  ]);
+export const NAMESPACE = 'PaymentApp';
 
-  const config = {
-    amount: 0,
-    cvv: undefined,
+export const SIGNALS = [
+  'detectEntryMode',
+  'selectTransactionType', // Receives a (QVariantList transactionTypes);
+  'insertAmount',
+  'insertInstallmentTypeAndCount',
+  'prepareForPassword',
+  'askConfirmation',
+  'success',
+  'insertCvv',
+  'coreException', // Receives a (int error);
+  'onlineException', // Receives a (OnlineProcessor::Error error);
+  'authorizationError',
+  'finished',
+];
+
+export const SETTINGS = {
+  amount: 0,
+  cvv: undefined,
+};
+
+export function setup(PaymentApp) {
+  PaymentApp.startCardDetectedFlow = () => {
+    setTimeout(() => PaymentApp.insertAmount(), 1500);
   };
 
-  Payment.startCardDetectedFlow = () => {
-    setTimeout(() => Payment.insertAmount(), 1500);
-  };
-
-  Payment.setAmount = amount => {
+  PaymentApp.setAmount = amount => {
     setTimeout(() => {
       console.log('SET AMOUNT:', amount);
-      config.amount = amount;
-      Payment.insertCvv();
+      Simulator.set('PaymentApp.amount', amount);
+      PaymentApp.insertCvv();
     }, 1500);
   };
 
-  Payment.setCvv = cvv => {
+  PaymentApp.setCvv = cvv => {
     setTimeout(() => {
       console.log('SET CVV', cvv);
-      config.cvv = cvv;
-      Payment.finished({ msg: 'yay' });
+      Simulator.set('PaymentApp.cvv', cvv);
+      PaymentApp.finished({ msg: 'yay' });
     }, 1500);
   };
 
-  Payment.selectTransactionType = index => {
+  PaymentApp.selectTransactionType = index => {
     console.log('Transaction type:', index);
   };
 
-  Payment.setInstallmentTypeAndCount = installmentConfig => {
+  PaymentApp.setInstallmentTypeAndCount = installmentConfig => {
     console.dir(installmentConfig);
   };
 
-  Payment.abort = () => {
+  PaymentApp.abort = () => {
     console.log('Abort');
   };
 
-  Payment.readyForComplete = () => {
+  PaymentApp.readyForComplete = () => {
     console.log('Ready for complete');
   };
 }

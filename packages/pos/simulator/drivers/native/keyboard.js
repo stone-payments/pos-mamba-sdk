@@ -1,3 +1,5 @@
+export const NAMESPACE = 'Keyboard';
+
 /**
  * KeyPress event handler that bypass only numbers
  * @ignore
@@ -11,7 +13,7 @@ function filterLetters(event) {
   }
 }
 
-export default function setup(Keyboard) {
+export function setup(Keyboard) {
   /**
    * Sets the keyboard to send only numbers. This will affect the whole application
    * @memberof Keyboard

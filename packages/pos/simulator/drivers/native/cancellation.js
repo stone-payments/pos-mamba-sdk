@@ -1,24 +1,22 @@
-import Signal from '../../signal.js';
 import Simulator from '../../api.js';
 
-const DEFAULT_SETTINGS = {
+export const NAMESPACE = '$Cancellation';
+
+export const SETTINGS = {
   cancelledAmount: -1,
   shouldCancellationFail: false,
 };
 
-const SIGNALS = ['cancellationDone'];
+export const SIGNALS = ['cancellationDone'];
 
-export default function setup(Cancellation) {
-  Simulator.set('cancellation', DEFAULT_SETTINGS);
-  Signal.register(Cancellation, SIGNALS);
-
+export function setup(Cancellation) {
   /**
    * Return if the cancellation failed
    * @memberof Payment
    * @return {boolean} True if cacellation failed.
    */
   Cancellation.failedCancellation = () =>
-    Simulator.get('cancellation.shouldCancellationFail');
+    Simulator.get('Cancellation.shouldCancellationFail');
 
   /**
    * Return the cancelled amount
@@ -28,7 +26,7 @@ export default function setup(Cancellation) {
   Cancellation.getAmmount = () =>
     Cancellation.failedCancellation()
       ? 0
-      : Simulator.get('cancellation.cancelledAmount');
+      : Simulator.get('Cancellation.cancelledAmount');
 
   Cancellation.doCancellation = () => {
     Simulator.set(

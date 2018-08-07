@@ -1,10 +1,7 @@
-import Signal from '../../signal.js';
+export const NAMESPACE = '$Http';
+export const SIGNALS = ['requestFinished'];
 
-const SIGNALS = ['requestFinished'];
-
-export default function setup(Http) {
-  Signal.register(Http, SIGNALS);
-
+export function setup(Http) {
   let _errorData = null;
   let _data = null;
 

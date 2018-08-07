@@ -1,4 +1,6 @@
-export default function setup(Cookie) {
+export const NAMESPACE = 'MbCookie';
+
+export function setup(Cookie) {
   /**
    * Stores a key pair value using local storage
    * @param {string} key Key name
