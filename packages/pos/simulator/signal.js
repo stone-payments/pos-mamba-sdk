@@ -25,5 +25,3 @@ Signal.register = (namespace, signals) => {
     });
   }
 };
-
-Signal.noop = function noop() {};
