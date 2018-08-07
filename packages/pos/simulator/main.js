@@ -1,5 +1,5 @@
 import Signal from './signal.js';
-import * as mainDriver from './drivers/private/main.js';
+import * as mainDriver from './drivers/main.js';
 import extendDriver from '../drivers/extend.js';
 
 /**
