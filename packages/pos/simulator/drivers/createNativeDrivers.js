@@ -1,4 +1,4 @@
-import Simulator from '../api.js';
+import { Simulator } from '../main.js';
 import Signal from '../signal.js';
 
 import * as Printer from './native/printer.js';
