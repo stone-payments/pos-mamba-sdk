@@ -115,7 +115,7 @@
 
 <style type="text/postcss">
   $paper-color: #add8e6;
-  $paper-height: 370px;
+  $max-paper-height: 370px;
   $real-paper-width: calc(384px + 36px);
   $mockup-paper-width: 250px;
   $paper-scale: calc($mockup-paper-width / $real-paper-width);
@@ -126,9 +126,9 @@
     left: 42px;
     bottom: 584px;
     /**
-                                                        * Re-scale the printer to simulate the difference of density of pixels
-                                                        * Magic scale number = (mockup printer width / real printer witdh) (250/384)
-                                                        */
+            * Re-scale the printer to simulate the difference of density of pixels
+            * Magic scale number = (mockup printer width / real printer witdh) (250/384)
+            */
     transform: scale(0.5952380952380952);
     transform-origin: 0 100%;
 
@@ -179,7 +179,6 @@
   .paper {
     position: relative;
     overflow: hidden;
-    height: $paper-height;
     background-color: $paper-color;
     cursor: pointer;
     border-top-right-radius: 2px;
@@ -197,7 +196,7 @@
     }
 
     .printer.is-printed & {
-      max-height: $paper-height;
+      max-height: $max-paper-height;
       box-shadow: 2px 0px 2px 1px rgba(0, 0, 0, 0.4);
     }
 
@@ -209,12 +208,7 @@
   }
 
   .content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    /* right: -20px; */
-    right: 0;
+    position: relative;
     overflow-y: scroll;
     z-index: 1;
     padding: 20px 21px 15px 20px;
