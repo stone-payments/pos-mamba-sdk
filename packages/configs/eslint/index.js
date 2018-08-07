@@ -103,5 +103,7 @@ module.exports = {
         peerDependencies: true,
       },
     ],
+
+    'import/prefer-default-export': 'off',
   },
 };
