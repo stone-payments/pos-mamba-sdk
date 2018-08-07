@@ -88,7 +88,7 @@ function enableBackspace() {
   _isBackspaceEnabled = true;
 }
 
-export default function addSharedWrapper(driver) {
+export default function(driver) {
   Object.assign(driver, {
     getKeyCode,
     getKeyName,

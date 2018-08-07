@@ -1,4 +1,4 @@
-export default function setup(driver) {
+export default function(driver) {
   driver.cancel = atk =>
     new Promise((resolve, reject) => {
       if (typeof atk !== 'string') {
