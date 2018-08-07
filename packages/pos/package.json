@@ -1,6 +1,6 @@
 {
   "name": "@mambasdk/pos",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Mamba web environment wrapper and simulator",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -12,5 +12,8 @@
     "start": "exit 0; babel --watch --config-file ../configs/babel/sdk.js -d ./ src/",
     "build": "exit 0; babel --config-file ../configs/babel/sdk.js -d ./ src/",
     "prepublishOnly": "exit 0; npm run build"
+  },
+  "dependencies": {
+    "@mambasdk/switch": "^0.0.1"
   }
 }

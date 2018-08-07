@@ -1,6 +1,6 @@
 {
   "name": "@mambasdk/configs",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Tool config presets for use in mamba projects.",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
