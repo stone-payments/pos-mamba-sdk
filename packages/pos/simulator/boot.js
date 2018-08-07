@@ -57,7 +57,7 @@ function createNativeDrivers() {
     driverModule.setup(driver);
 
     /** Export it to the window */
-    global[driverRef] = driver;
+    window[driverRef] = driver;
 
     if (__DEBUG__) console.groupEnd();
   });
