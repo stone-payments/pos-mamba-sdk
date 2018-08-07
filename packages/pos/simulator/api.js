@@ -1,4 +1,4 @@
 import extendDriver from '../drivers/extend.js';
-import * as simulatorDriver from './drivers/main.js';
+import { Simulator } from './main.js';
 
-export default extendDriver({}, [simulatorDriver.setup]);
+export default extendDriver(Simulator);

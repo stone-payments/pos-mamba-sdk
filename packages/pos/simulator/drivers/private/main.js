@@ -1,15 +1,9 @@
-/** Main driver for handling the POS Simulation */
-import Signal from '../signal.js';
-
-const DATA = {};
-
-export const NAMESPACE = 'Simulator';
-
 export const SIGNALS = ['settingsChanged', 'print'];
 
-export function setup(Simulator) {
-  Signal.register(Simulator, SIGNALS);
+/** Main driver for handling the POS Simulation */
+const DATA = {};
 
+export function setup(Simulator) {
   Simulator.get = keyPath => {
     if (keyPath === undefined) {
       return DATA;

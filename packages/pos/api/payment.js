@@ -12,7 +12,8 @@ const {
   },
 } = window;
 
-export default extendDriver(window.Payment, [
+export default extendDriver(
+  window.Payment,
   paymentWrappers,
   {
     doCancellation,
@@ -21,4 +22,4 @@ export default extendDriver(window.Payment, [
     cancellationDone,
   },
   cancellationWrappers,
-]);
+);
