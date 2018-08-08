@@ -28,12 +28,11 @@ if (!process.env.DEBUG) {
 
 const entry = {
   app: [
-    process.env.APP_ENV === 'browser' && '@mambasdk/pos/simulator/boot.js',
     /** Mamba style resetter/normalizer */
     '@mambasdk/styles/dist/pos.css',
     /** App entry point */
-    './index.js',
-  ].filter(Boolean),
+    `./mamba/${process.env.APP_ENV === 'browser' ? 'browser' : 'pos'}`,
+  ],
 };
 
 module.exports = {
@@ -127,7 +126,7 @@ module.exports = {
     new webpack.DefinePlugin({
       __NODE_ENV__: JSON.stringify(process.env.NODE_ENV),
       __APP_ENV__: JSON.stringify(process.env.APP_ENV),
-      __DEV__: process.env === 'development',
+      __DEV__: process.env.NODE_ENV === 'development',
       __DEBUG__: process.env.DEBUG,
       __POS__: process.env.APP_ENV === 'pos',
       __BROWSER__: process.env.APP_ENV === 'browser',
