@@ -1,4 +1,5 @@
-import { Simulator } from '../../main.js';
+import { error, log } from '../../libs/utils.js';
+import { Simulator } from '../../libs/main.js';
 import systemEnums from '../../../drivers/system/enums.js';
 
 export const NAMESPACE = 'System';
@@ -170,13 +171,15 @@ export function setup(System) {
   ) => {
     const toneFrequency = this.getToneFrequency(tone);
 
-    if (toneFrequency) {
-      console.log(`Beep: tone = ${tone}, duration = ${duration}`);
-      if (process.env.NODE_ENV !== 'test') {
-        doBeep(duration, toneFrequency);
-      }
-    } else {
-      console.error('Beep: Bad Usage');
+    if (!toneFrequency) {
+      if (__DEBUG__) error('Beep: Bad Usage');
+      return;
+    }
+
+    if (__DEBUG__) log(`Beep: tone = ${tone}, duration = ${duration}`);
+
+    if (!__TEST__) {
+      doBeep(duration, toneFrequency);
     }
   };
 }

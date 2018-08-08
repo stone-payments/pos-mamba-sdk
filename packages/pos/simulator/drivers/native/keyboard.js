@@ -1,3 +1,5 @@
+import { log } from '../../libs/utils.js';
+
 export const NAMESPACE = 'Keyboard';
 
 /**
@@ -19,7 +21,7 @@ export function setup(Keyboard) {
    * @memberof Keyboard
    */
   Keyboard.setKeyboardAsNumeric = () => {
-    console.log('Keyboard is now numeric');
+    if (__DEBUG__) log('Keyboard is now numeric');
     document.removeEventListener('keypress', filterLetters);
     document.addEventListener('keypress', filterLetters);
   };
@@ -30,7 +32,7 @@ export function setup(Keyboard) {
    * @memberof Keyboard
    */
   Keyboard.setKeyboardAsAlphanumeric = () => {
-    console.log('Keyboard is now alphanumeric');
+    if (__DEBUG__) log('Keyboard is now alphanumeric');
     document.removeEventListener('keypress', filterLetters);
   };
 }

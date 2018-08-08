@@ -23,6 +23,8 @@ module.exports = {
     __DEBUG__: true,
     __BROWSER__: true,
     __POS__: true,
+    __PROD__: true,
+    __TEST__: true,
     __DEV__: true,
   },
   rules: {

@@ -1,4 +1,4 @@
-import { Simulator } from '../../main.js';
+import { Simulator } from '../../libs/main.js';
 
 export const NAMESPACE = 'Payment';
 
@@ -18,7 +18,7 @@ export const SETTINGS = {
   authorizedAmount: 0,
 };
 
-export const SIGNALS = ['cardEvent','paymentDone'];
+export const SIGNALS = ['cardEvent', 'paymentDone'];
 
 export function setup(Payment) {
   Payment.doPay = params => {

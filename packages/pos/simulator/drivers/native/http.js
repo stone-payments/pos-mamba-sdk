@@ -1,3 +1,5 @@
+import { log } from '../../libs/utils.js';
+
 export const NAMESPACE = '$Http';
 export const SIGNALS = ['requestFinished'];
 
@@ -11,9 +13,11 @@ export function setup(Http) {
   Http.doSend = function send({ method = 'GET', url = '', data, headers }) {
     const xhttp = new window.XMLHttpRequest();
 
-    xhttp.onprogress = function onprogress() {
-      console.log('Requesting...');
-    };
+    if (__DEBUG__) {
+      xhttp.onprogress = function onprogress() {
+        log('Requesting...');
+      };
+    }
 
     xhttp.onerror = function onerror() {
       _errorData = new Error({

@@ -1,4 +1,4 @@
-import { Simulator } from '../../main.js';
+import { Simulator } from '../../libs/main.js';
 
 export const NAMESPACE = '$Cancellation';
 

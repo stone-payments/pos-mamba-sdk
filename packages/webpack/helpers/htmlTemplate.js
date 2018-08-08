@@ -2,7 +2,6 @@ const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin');
 const { minify: htmlMinifier } = require('html-minifier');
 
 const { generateCSSReferences, generateJSReferences } = MiniHtmlWebpackPlugin;
-const { IS_PROD } = require('quickenv');
 
 module.exports = ({ css, js, title, publicPath }) => {
   const htmlTemplate = `<!DOCTYPE html>
@@ -12,12 +11,12 @@ module.exports = ({ css, js, title, publicPath }) => {
             <title>${title}</title>
             ${generateCSSReferences(css, publicPath)}
           </head>
-          <body>
+          <body id="app-root">
             ${generateJSReferences(js, publicPath)}
           </body>
         </html>`;
 
-  return IS_PROD()
+  return process.env.NODE_ENV === 'production'
     ? htmlMinifier(htmlTemplate, {
         collapseWhitespace: true,
         conservativeCollapse: true,

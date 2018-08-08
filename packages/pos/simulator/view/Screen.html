@@ -8,7 +8,11 @@
       <div class="version">{time}</div>
     </div>
   </div>
-  <div class="content {$__meta__.locked ? '-locked' : ''}" ref:content>
+  <div
+    id="app-root"
+    class="content {$__meta__.locked ? '-locked' : ''}"
+    ref:content
+  >
     <slot></slot>
   </div>
 </div>
@@ -38,7 +42,7 @@
 
       if (this.store) {
         /** Listen for brightness changes */
-        this.store.on('pos:brightness', (brightnessLevel) => {
+        this.store.on('pos:brightness', brightnessLevel => {
           this.set({ brightnessLevel });
         });
       }
@@ -113,13 +117,6 @@
       color: #fff;
       font-size: 12px;
       font-weight: bold;
-    }
-
-    .screen :global(.button.is-fixed),
-    .screen :global(.dialog) {
-      /* stylelint-disable */
-      position: absolute !important;
-      /* stylelint-enable */
     }
   }
 </style>
