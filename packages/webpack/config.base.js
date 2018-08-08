@@ -30,9 +30,11 @@ const entry = {
   app: [
     /** Mamba style resetter/normalizer */
     '@mambasdk/styles/dist/pos.css',
+    /** Load the simulator bootstrap */
+    process.env.APP_ENV !== 'pos' && './simulator.js',
     /** App entry point */
-    `./mamba/${process.env.APP_ENV === 'browser' ? 'browser' : 'pos'}`,
-  ],
+    './index.js',
+  ].filter(Boolean),
 };
 
 module.exports = {
@@ -123,6 +125,8 @@ module.exports = {
     new webpack.DefinePlugin({
       __NODE_ENV__: JSON.stringify(process.env.NODE_ENV),
       __APP_ENV__: JSON.stringify(process.env.APP_ENV),
+      __PROD__: process.env.NODE_ENV === 'production',
+      __TEST__: process.env.NODE_ENV === 'test',
       __DEV__: process.env.NODE_ENV === 'development',
       __DEBUG__: process.env.DEBUG,
       __POS__: process.env.APP_ENV === 'pos',

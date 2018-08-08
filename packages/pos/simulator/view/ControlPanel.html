@@ -18,7 +18,7 @@
 </div>
 
 <script>
-  import { Simulator } from '../main.js';
+  import { Simulator, log } from '../index.js';
 
   export default {
     components: {
@@ -37,8 +37,9 @@
     },
     methods: {
       setConfig(keyPath, value) {
-        if (__DEBUG__)
-          console.log(`[Mamba Simulator] Setting '${keyPath}' to '${value}'`);
+        if (__DEBUG__) {
+          log(`Setting '${keyPath}' to '${value}'`);
+        }
         Simulator.set(keyPath, value, false);
       },
     },

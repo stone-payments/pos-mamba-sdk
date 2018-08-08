@@ -1,6 +1,7 @@
 import Signal from './signal.js';
-import * as mainDriver from './drivers/main.js';
-import extendDriver from '../drivers/extend.js';
+import * as mainDriver from '../drivers/main.js';
+import extendDriver from '../../drivers/extend.js';
+import { LOG_PREFIX } from './utils.js';
 
 /**
  * Create the simulator main driver.
@@ -12,7 +13,7 @@ export const Simulator = extendDriver({}, mainDriver.setup, driver =>
 );
 
 export function attachDrivers(driverModules) {
-  if (__DEBUG__) console.groupCollapsed('[Mamba Simulator] Attaching drivers');
+  if (__DEBUG__) console.groupCollapsed(`${LOG_PREFIX} Attaching drivers`);
 
   Object.keys(driverModules).forEach(driverRef => {
     if (__DEBUG__) console.groupCollapsed(driverRef);

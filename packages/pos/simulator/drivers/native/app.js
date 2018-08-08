@@ -1,8 +1,10 @@
+import { log } from '../../libs/utils.js';
+
 export const NAMESPACE = 'App';
 
 export function setup(App) {
   App.doClose = () => {
-    console.log('[@mambasdk/api/app] App closed');
+    if (__DEV__) log('App closed');
   };
 
   App.getAppKey = () => '123456';
@@ -25,16 +27,20 @@ export function setup(App) {
   ];
 
   App.downloadAndSave = (tar, destination) => {
-    console.log(`downloading tar: ${tar}`);
-    console.log(`saving in: ${destination}`);
+    if (__DEBUG__) {
+      log(`downloading tar: ${tar}`);
+      log(`saving in: ${destination}`);
+    }
   };
 
   App.installApp = (tarPath, destination) => {
-    console.log(`tarPath: ${tarPath}`);
-    console.log(`destination: ${destination}`);
+    if (__DEBUG__) {
+      log(`tarPath: ${tarPath}`);
+      log(`destination: ${destination}`);
+    }
   };
 
   App.deleteApp = appId => {
-    console.log(`appId: ${appId}`);
+    if (__DEBUG__) log(`appId: ${appId}`);
   };
 }

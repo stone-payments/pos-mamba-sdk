@@ -19,7 +19,9 @@
   <div class="engine-alert">
     Para um rápido desenvolvimento mais fiel ao ambiente do Mamba, é recomendado o uso do <strong><a href="https://www.google.com/chrome/" target="_blank">Chrome</a></strong> como navegador.
   </div>
-  <slot></slot>
+  <div id="app-root">
+    <slot></slot>
+  </div>
 {/if}
 
 <script>
@@ -33,18 +35,25 @@
     },
     data() {
       return {
-        browserEngine: null,
+        browserEngine: 'webkit',
       };
     },
     oncreate() {
       /**
+       * Remove the 'app-root' id from the body, since
+       * its replaced by the 'app-root' inside the <Screen />
+       * */
+      document.body.removeAttribute('id');
+
+      /**
        * Detect if we're running on a webkit environment.
        * We check for `edge` because it fakes one.
        */
-      const browserEngine = 'WebkitAppearance' in document.documentElement.style
-      && !/edge/i.test(navigator.userAgent)
-        ? 'webkit'
-        : 'other';
+      const browserEngine =
+        'WebkitAppearance' in document.documentElement.style &&
+        !/edge/i.test(navigator.userAgent)
+          ? 'webkit'
+          : 'other';
 
       /**
        * Set the render engine to a body attribute
