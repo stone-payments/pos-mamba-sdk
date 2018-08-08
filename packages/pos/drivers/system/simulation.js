@@ -70,6 +70,14 @@ export function setup(System) {
   }, 1000);
 
   /**
+   * Returns on which network is connected
+   * @memberOf System
+   * @return {string} Wifi or 3G
+   */
+  System.getCurrentConnectionType = () =>
+    Simulator.get('System.Connections.net');
+
+  /**
    * Checks if the device has ethernet
    * @memberOf System
    * @return {boolean} True if the device has ethernet

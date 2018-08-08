@@ -61,6 +61,20 @@ System.beep(System.Tones.TONE3, 500) // Beep: tone = 2000, duration = 500
 System.beep(System.Tones.TONE7, 800) // Beep: tone = 2800, duration = 800
 ```
 
+### getCurrentConnectionType()
+
+Informa em qual rede o POS está conectado.
+
+```js
+import System from '@mambasdk/api/system.js'
+
+/** With wifi */
+System.getCurrentConnectionType(); // wifi
+
+/** Without 3G */
+System.getCurrentConnectionType(); // 3G
+```
+
 ### hasEthernet()
 
 Informa se o POS tem Conexão via Ethernet. Caso esteja em ambiente de desenvolvimento, retorna true.
