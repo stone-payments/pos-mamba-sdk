@@ -33,9 +33,9 @@ module.exports = {
     /** Disallow 'console.log' on production */
     'no-console': IS_PROD
       ? [
-          'error',
+          'warn',
           {
-            allow: ['warn', 'error'],
+            allow: ['info', 'warn', 'error'],
           },
         ]
       : 'off',

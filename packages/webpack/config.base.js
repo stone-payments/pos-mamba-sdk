@@ -71,17 +71,14 @@ module.exports = {
       /** Run svelte component related loaders on  */
       {
         test: /\.(htmlx?|svelte)$/,
-        include: [
-          fromCwd('src'),
-          /node_modules[\\/]svelte/,
-          /node_modules[\\/]@mamba/,
-        ],
+        exclude: [/node_modules[\\/].+[\\/]node_modules/],
         use: [loaders.babel, loaders.svelte, loaders.eslint],
       },
       /** Make 'svelte' related js code run through babel */
       {
         test: /\.js?$/,
         include: [/node_modules[\\/]svelte/, /@mambasdk\/pos/],
+        exclude: [/node_modules[\\/].+[\\/]node_modules/],
         use: [loaders.babel],
       },
       /** Run babel and eslint on projects src files only */
