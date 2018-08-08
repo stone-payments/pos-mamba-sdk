@@ -3,18 +3,13 @@ import * as mainDriver from './drivers/main.js';
 import extendDriver from '../drivers/extend.js';
 
 /**
- * Simulator main driver
+ * Create the simulator main driver.
  * Used to `get()` and `set()` dynamic configurations
  * and to fire signals for communicating with the simulator view.
  * */
-export const Simulator = {};
-
-export function createMainDriver() {
-  /** Initialize the main simulator driver */
-  Signal.register(Simulator, mainDriver.SIGNALS);
-  mainDriver.setup(Simulator);
-  extendDriver(Simulator);
-}
+export const Simulator = extendDriver({}, mainDriver.setup, driver =>
+  Signal.register(driver, mainDriver.SIGNALS),
+);
 
 export function attachDrivers(driverModules) {
   if (__DEBUG__) console.groupCollapsed('[Mamba Simulator] Attaching drivers');
@@ -44,6 +39,21 @@ export function attachDrivers(driverModules) {
 
     /** Setup the driver methods */
     driverModule.setup(driver);
+
+    if (__DEBUG__) {
+      console.log(
+        'Methods:',
+        Object.getOwnPropertyNames(driver).reduce((acc, p) => {
+          if (
+            typeof driver[p] === 'function' &&
+            (!driverModule.SIGNALS || !driverModule.SIGNALS.includes(p))
+          ) {
+            acc[p] = driver[p];
+          }
+          return acc;
+        }, {}),
+      );
+    }
 
     /** Export it to the window */
     window[driverRef] = driver;

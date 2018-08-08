@@ -1,4 +1,4 @@
-import { createMainDriver, attachDrivers } from './main.js';
+import { attachDrivers } from './main.js';
 
 import * as Printer from './drivers/native/printer.js';
 import * as App from './drivers/native/app.js';
@@ -11,9 +11,8 @@ import * as System from './drivers/native/system.js';
 import * as $Cancellation from './drivers/native/cancellation.js';
 import * as $Http from './drivers/native/http.js';
 
-if (__DEBUG__) console.info('[Mamba Simulator] Booting...');
+if (__DEBUG__) console.log('[Mamba Simulator] Booting...');
 
-createMainDriver();
 attachDrivers({
   Printer,
   App,
