@@ -1,6 +1,6 @@
 {
   "name": "@mambasdk/pos",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Mamba web environment wrapper and simulator",
   "author": "Stone Payments - Mamba Team",
   "contributors": [

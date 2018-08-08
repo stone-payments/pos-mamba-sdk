@@ -1,4 +1,4 @@
-import { log } from '../../libs/utils.js';
+import { log } from '../../simulator/libs/utils.js';
 
 export const NAMESPACE = '$Http';
 export const SIGNALS = ['requestFinished'];

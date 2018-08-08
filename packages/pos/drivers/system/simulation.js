@@ -1,6 +1,6 @@
-import { error, log } from '../../libs/utils.js';
-import { Simulator } from '../../libs/main.js';
-import systemEnums from '../../../drivers/system/enums.js';
+import { error, log } from '../../simulator/libs/utils.js';
+import { Simulator } from '../../simulator/libs/main.js';
+import systemEnums from './enums.js';
 
 export const NAMESPACE = 'System';
 

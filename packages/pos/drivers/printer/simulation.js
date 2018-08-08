@@ -1,4 +1,4 @@
-import { Simulator } from '../../libs/main.js';
+import { Simulator } from '../../simulator/libs/main.js';
 
 export const NAMESPACE = 'Printer';
 

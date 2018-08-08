@@ -1,6 +1,6 @@
 {
   "name": "@mambasdk/app",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "svelte": "src/index.js",
   "files": [
     "src/"
@@ -23,6 +23,6 @@
   },
   "peerDependencies": {
     "svelte-routing": "^0.4.2",
-    "@mambasdk/pos": "^0.0.9"
+    "@mambasdk/pos": "^0.0.10"
   }
 }

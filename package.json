@@ -13,8 +13,6 @@
   "repository": "https://github.com/stone-payments/pos-mamba-web.git",
   "scripts": {
     "build": "bolt ws build",
-    "build:styles": "bolt w @mambasdk/styles build",
-    "build:libs": "bolt ws build --only-fs \"packages/{store,api,bridges,signal}\"",
     "delete:modules": "rm -rf \"node_modules\" \"./**/node_modules\"",
     "link:packages": "bolt ws exec --only-fs \"packages/**\" -- yarn link",
     "lint": "yarn lint:css; yarn lint:js",

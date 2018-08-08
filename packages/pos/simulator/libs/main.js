@@ -1,5 +1,5 @@
 import Signal from './signal.js';
-import * as mainDriver from '../drivers/main.js';
+import * as mainDriver from './driver.js';
 import extendDriver from '../../drivers/extend.js';
 import { LOG_PREFIX } from './utils.js';
 
