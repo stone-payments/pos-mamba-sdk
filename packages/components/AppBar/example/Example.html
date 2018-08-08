@@ -1,0 +1,24 @@
+<h1>Default AppBar</h1>
+<br><br>
+<AppBar></AppBar>
+
+<h1>Colored AppBar</h1>
+<br><br>
+<AppBar bgColor="red" textColor="green" title="Colored"></AppBar>
+
+<h1>AppBar with title</h1>
+<br><br>
+<AppBar title="Lorem ipsum "></AppBar>
+
+<script>
+  import MambaStore from '@mambasdk/store';
+
+  const store = MambaStore();
+
+  export default {
+    store: () => store,
+    components: {
+      AppBar: '../src',
+    },
+  };
+</script>

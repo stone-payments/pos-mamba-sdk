@@ -1,0 +1,25 @@
+{
+  "name": "@mambasdk/appbar",
+  "version": "0.0.2",
+  "svelte": "src/index.js",
+  "files": [
+    "src/"
+  ],
+  "author": "Stone Payments - Mamba Team",
+  "contributors": [
+    "Christian Kaisermann <christian.kaisermann@stone.com.br>",
+    "Pedro Lancelloti <pedro.lancelloti@stone.com.br"
+  ],
+  "license": "Apache-2.0",
+  "scripts": {
+    "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w",
+    "build": "exit 0",
+    "build:dev": "exit 0"
+  },
+  "peerDependencies": {
+    "svelte-routing": "^0.4.2",
+    "@mambasdk/icon": "^0.0.1",
+    "@mambasdk/store": "^0.0.1",
+    "@mambasdk/styles": "^0.0.1"
+  }
+}

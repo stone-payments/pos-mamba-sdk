@@ -1,0 +1,137 @@
+<div class="printable" style="max-width: {_paperWidth};">
+  <div class="content" ref:printableContent>
+    <slot></slot>
+  </div>
+</div>
+
+{#if _state === STATES.PRINTING}
+  <PromisedDialog
+    promise={_printingPromise}
+    delay={0}
+    bgColor="#fff"
+    on:success="set({ _state: STATES.SUCCESS })"
+    on:failure="set({ _state: STATES.FAILURE })"
+  >
+    <div class="printing-sprite"></div>
+    <div style="margin-top: 16px;">Imprimindo</div>
+  </PromisedDialog>
+{/if}
+
+{#if _state === STATES.FAILURE}
+  <ConfirmationDialog
+    ref:failureDialog
+    title="IMPRESSORA SEM PAPEL"
+    on:positive="print()"
+    on:negative="reset()"
+  >
+    Tentar imprimir novamente?
+  </ConfirmationDialog>
+{/if}
+
+<script>
+  import Printer from '@mambasdk/pos/api/printer.js';
+  import { PromisedDialog, ConfirmationDialog } from '@mambasdk/dialog';
+
+  const STATES = Object.freeze({
+    IDLE: 0,
+    PRINTING: 1,
+    FAILURE: 2,
+    SUCCESS: 3,
+  });
+
+  /** Cache the POS paper width */
+  const PAPER_WIDTH = `${Printer.getPaperWidth()}px`;
+
+  export default {
+    data() {
+      return {
+        _state: STATES.IDLE,
+        _printingPromise: undefined,
+        _paperWidth: PAPER_WIDTH,
+        STATES,
+        dithering: false,
+      };
+    },
+    components: {
+      PromisedDialog,
+      ConfirmationDialog,
+    },
+    onupdate({ changed, current }) {
+      if (changed._state) {
+        if (current._state === STATES.FAILURE) {
+          this.fire('failure');
+          this.refs.failureDialog.open();
+        } else if (current._state === STATES.SUCCESS) {
+          this.fire('success');
+        }
+      }
+    },
+    methods: {
+      reset() {
+        this.set({ _state: STATES.IDLE, _printingPromise: undefined });
+      },
+      print() {
+        const content = this.refs.printableContent;
+        const { dithering } = this.get();
+        const printerOptions = {
+          use_dithering: dithering,
+        };
+        const _printingPromise = Printer.print(content, printerOptions);
+
+        this.set({
+          _state: STATES.PRINTING,
+          _printingPromise,
+        });
+      },
+    },
+  };
+</script>
+
+<style type="text/postcss">
+  .printable {
+    position: fixed;
+    left: -9999px;
+    z-index: -1;
+  }
+
+  .printing-sprite {
+    background-image: url(./assets/images/printing-sprite.png);
+    display: block;
+    width: 110px;
+    height: 110px;
+    margin: auto;
+    animation: printingAnimation 2s steps(65) infinite;
+  }
+
+  .content {
+    padding-bottom: 10px;
+
+    &,
+    :global(p) {
+      font-family: 'Roboto', 'Arial', sans-serif;
+      font-size: 20px;
+      line-height: 1.1;
+      -webkit-font-smoothing: none;
+    }
+
+    :global(p) {
+      margin-bottom: 10px;
+    }
+
+    :global(img) {
+      display: inline-block;
+      max-width: 100%;
+      height: auto;
+    }
+  }
+
+  @keyframes printingAnimation {
+    0% {
+      background-position-x: 7150px;
+    }
+
+    100% {
+      background-position-x: 0;
+    }
+  }
+</style>

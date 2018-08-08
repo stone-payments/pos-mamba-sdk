@@ -1,0 +1,41 @@
+<div class="container">
+  <h1>Default Barcode<span>{'<Barcode></Barcode>'}</span></h1>
+  <div class="row">
+    <Barcode data="435073851110001020000000042984311170" />
+    <Barcode data="999999999999999999999999999999999999" />
+  </div>
+</div>
+
+
+<style>
+  :global(body) {
+    background-color: #ddd;
+  }
+
+  h1 span {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: monospace;
+  }
+
+  .container {
+    max-width: 80%;
+  }
+
+  .row {
+    margin-bottom: 50px;
+  }
+
+</style>
+
+<script>
+
+  export default {
+    components: {
+      Barcode: '../src',
+    },
+  };
+</script>
