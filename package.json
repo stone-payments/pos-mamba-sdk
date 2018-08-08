@@ -120,6 +120,7 @@
     "postcss-syntax": "^0.31.0",
     "prettier": "^1.12.1",
     "progress-bar-webpack-plugin": "^1.11.0",
+    "qrious": "^4.0.2",
     "quickenv": "^0.0.5",
     "resolve-url-loader": "^2.3.0",
     "rimraf": "^2.6.2",
@@ -159,7 +160,6 @@
     "webpack-sources": "^1.1.0",
     "xml-js": "^1.6.3",
     "yargonaut": "^1.1.2",
-    "yargs": "^11.0.0",
-    "qrious": "^4.0.2"
+    "yargs": "^11.0.0"
   }
 }
