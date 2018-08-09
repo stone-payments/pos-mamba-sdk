@@ -10,8 +10,6 @@ O módulo `Range` pode ser usado para representar um intervalo de valores.
 
 ## Parâmetros
 
-`<ConfirmationDialog ...props />`
-
 | Parâmetro | Descrição                                     | Tipo              | Padrão      |
 | :-------- | :-------------------------------------------- | :---------------- | :---------- |
 | value     | Valor pré definido                            | `int`             | `50`        |
