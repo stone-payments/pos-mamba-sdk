@@ -6,7 +6,7 @@ O módulo `Switch` é usado para ativar uma das opções predefinidas.
 
 ## Exemplo
 
-<!-- Example.Html -->
+<!-- @example ./example/Example.Html -->
 
 ## Parâmetros
 
