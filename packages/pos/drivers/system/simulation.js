@@ -9,6 +9,7 @@ export const SETTINGS = {
     ethernet: true,
     wifi: true,
     gprs: false,
+    net: 'wifi',
   },
   Battery: {
     present: true,
