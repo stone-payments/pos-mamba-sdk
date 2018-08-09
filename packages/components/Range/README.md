@@ -6,9 +6,11 @@ O módulo `Range` pode ser usado para representar um intervalo de valores.
 
 ## Exemplo
 
-<!-- Example.Html -->
+<!-- @example ./example/Example.Html -->
 
 ## Parâmetros
+
+`<ConfirmationDialog ...props />`
 
 | Parâmetro | Descrição                                     | Tipo              | Padrão      |
 | :-------- | :-------------------------------------------- | :---------------- | :---------- |
