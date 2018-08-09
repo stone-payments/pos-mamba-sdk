@@ -1,4 +1,4 @@
-import { Simulator } from '../../simulator/libs/main.js';
+import { State } from '../../simulator/libs/main.js';
 
 export const NAMESPACE = 'MbMerchant';
 
@@ -13,5 +13,5 @@ export function setup(Merchant) {
    * @return {string} The stone code
    */
   Merchant.getStoneCode = () =>
-    Simulator.get('MbMerchant.acquirerIssuedMerchantId');
+    State.get('MbMerchant.acquirerIssuedMerchantId');
 }

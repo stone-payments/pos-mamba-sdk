@@ -3,8 +3,8 @@ export const SIGNALS = ['settingsChanged', 'print'];
 /** Main driver for handling the POS Simulation */
 const DATA = {};
 
-export function setup(Simulator) {
-  Simulator.get = keyPath => {
+export function setup(State) {
+  State.get = keyPath => {
     if (keyPath === undefined) {
       return DATA;
     }
@@ -17,7 +17,7 @@ export function setup(Simulator) {
     return value;
   };
 
-  Simulator.set = (keyPath, value, fireSignal = true) => {
+  State.set = (keyPath, value, fireSignal = true) => {
     if (keyPath === undefined) {
       return;
     }
@@ -38,7 +38,7 @@ export function setup(Simulator) {
     object[lastKey] = value;
 
     if (fireSignal) {
-      Simulator.settingsChanged(DATA);
+      State.settingsChanged(DATA);
     }
   };
 }

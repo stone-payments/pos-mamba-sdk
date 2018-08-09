@@ -1,4 +1,4 @@
-export const LOG_PREFIX = '[Mamba Simulator]';
+export const LOG_PREFIX = '[State Simulator]';
 
 export function log(...args) {
   console.log(LOG_PREFIX, ...args);
