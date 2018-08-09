@@ -8,7 +8,7 @@ Para casos de apenas uma exibição de mensagem durante um período de tempo, o 
 
 ## Parâmetros
 
-<Dialog ...props />
+`<Dialog ...props />`
 
 | Parâmetro   | Descrição                                              | Tipo            | Padrão     |
 |-------------|--------------------------------------------------------|-----------------|------------|
@@ -17,14 +17,14 @@ Para casos de apenas uma exibição de mensagem durante um período de tempo, o 
 | textColor   | Define a cor do texto do Modal                         | `boolean`       | `'#4a4a4a'`|
 | title       | Título do Modal                                        | `string`        | `undefined`|
 
-<ConfirmationDialog ...props />
+`<ConfirmationDialog ...props />`
 
 | Parâmetro     | Descrição                                              | Tipo            | Padrão       |
 |---------------|--------------------------------------------------------|-----------------|--------------|
 | negativeLabel | Texto no Botão de Confirmação Negativa                 | `string`        | `'Cancelar'` |
 | positiveLabel | Texto no Botão de Confirmação Positiva                 | `string`        | `'Confirmar'`|
 
-<PromisedDialog ...props />
+`<PromisedDialog ...props />`
 
 | Parâmetro   | Descrição                                               | Tipo            | Padrão     |
 |-------------|---------------------------------------------------------|-----------------|------------|
