@@ -29,7 +29,6 @@ const config = {
   input: '__entry__',
   output: 'example/bundle.js',
   format: 'umd',
-  experimentalDynamicImport: true,
   plugins: [
     /** Virtual entry module to bootstrap the example app */
     virtual({

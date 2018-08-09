@@ -21,7 +21,7 @@ const plugins = [
     /** Enforce usage of a single '.babelrc.js' located at the project's root directory */
     babelrc: false,
     ...babelConfig,
-    exclude: /node_modules[/\\](?!(svelte)|(@mamba))/,
+    exclude: /node_modules/,
   }),
   filesize(),
 ];
@@ -59,10 +59,18 @@ if (PKG.build && PKG.build.source && Array.isArray(PKG.build.source)) {
       plugins,
     });
   });
-} else if (PKG.main) {
-  /** If there's no multiple outputs and the main output is set, build it */
+}
+
+if (PKG.main) {
   configs.push({
     plugins,
+  });
+}
+
+if (PKG.module) {
+  configs.push({
+    output: PKG.module,
+    format: `es`,
   });
 }
 
@@ -70,6 +78,5 @@ export default configs.map(config =>
   makeRollupConfig({
     ...config,
     external: getExternals,
-    experimentalDynamicImport: true,
   }),
 );
