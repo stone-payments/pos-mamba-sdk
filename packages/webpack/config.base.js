@@ -4,9 +4,19 @@
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
-const { IS_PROD, getPkg, fromCwd } = require('quickenv');
+const { getPkg, fromCwd } = require('quickenv');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
+const {
+  BUNDLE_NAME,
+  IS_POS,
+  IS_BROWSER,
+  IS_DEV,
+  IS_PROD,
+  NODE_ENV,
+  APP_ENV,
+  IS_DEBUG,
+} = require('./helpers/consts.js');
 const htmlTemplate = require('./helpers/htmlTemplate.js');
 const loaders = require('./helpers/loaders.js');
 const MambaFixesPlugin = require('./helpers/MambaFixesPlugin.js');
@@ -18,39 +28,26 @@ const dependencyMap = Object.keys(PKG.dependencies).reduce((acc, libName) => {
   return acc;
 }, {});
 
-/** Default ENV variables */
-if (!process.env.NODE_ENV) {
-  process.env.NODE_ENV = 'development';
-}
-
-if (!process.env.APP_ENV) {
-  process.env.APP_ENV = 'browser';
-}
-
-if (!process.env.DEBUG) {
-  process.env.DEBUG = process.env.NODE_ENV === 'development';
-}
-
 /** App entry point */
 const entry = {
   app: [
     /** Mamba style resetter/normalizer */
     '@mambasdk/styles/dist/pos.css',
     /** Load the simulator bootstrap */
-    process.env.APP_ENV !== 'pos' && './simulator.js',
+    IS_BROWSER && './simulator.js',
     /** App entry point */
     './index.js',
   ].filter(Boolean),
 };
 
 module.exports = {
-  mode: IS_PROD() ? 'production' : 'development',
+  mode: IS_PROD ? 'production' : 'development',
   cache: true,
   target: 'web',
   context: fromCwd('src'),
   entry,
   output: {
-    path: fromCwd('bundle'),
+    path: fromCwd(BUNDLE_NAME),
     publicPath: './',
     filename: '[name].[hash:5].js',
     chunkFilename: '[name].[hash:5].js',
@@ -62,6 +59,9 @@ module.exports = {
     extensions: ['.js', '.json', '.pcss', '.css', '.html', '.htmlx', '.svelte'],
     /** Make webpack also resolve modules from './src' */
     modules: [fromCwd('src'), 'node_modules'],
+    alias: {
+      '@mambasdk': fromCwd('node_modules', '@mambasdk'),
+    },
   },
   module: {
     rules: [
@@ -118,14 +118,14 @@ module.exports = {
       template: htmlTemplate,
     }),
     new webpack.DefinePlugin({
-      __NODE_ENV__: JSON.stringify(process.env.NODE_ENV),
-      __APP_ENV__: JSON.stringify(process.env.APP_ENV),
-      __PROD__: process.env.NODE_ENV === 'production',
-      __TEST__: process.env.NODE_ENV === 'test',
-      __DEV__: process.env.NODE_ENV === 'development',
-      __DEBUG__: process.env.DEBUG,
-      __POS__: process.env.APP_ENV === 'pos',
-      __BROWSER__: process.env.APP_ENV === 'browser',
+      __NODE_ENV__: JSON.stringify(NODE_ENV),
+      __APP_ENV__: JSON.stringify(APP_ENV),
+      __PROD__: IS_PROD,
+      __TEST__: NODE_ENV === 'test',
+      __DEV__: IS_DEV,
+      __DEBUG__: IS_DEBUG,
+      __POS__: IS_POS,
+      __BROWSER__: IS_BROWSER,
     }),
   ],
   /** Minimal useful output log */

@@ -1,25 +1,25 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { IS_DEV, IS_WATCHING } = require('quickenv');
-
+const { IS_WATCHING } = require('quickenv');
 /** Read the template's .babelrc.js to enforce it in 'babel-loader' */
 const babelrc = require('@mambasdk/configs/babel/template.js');
-
 /** Read the svelte config file from the project */
 const svelteConfig = require('@mambasdk/configs/svelte/index.js');
+
+const { IS_DEV } = require('./consts.js');
 
 module.exports = {
   babel: {
     loader: 'babel-loader',
     options: {
       compact: false,
-      cacheDirectory: !process.env.DEBUG && IS_DEV(),
+      cacheDirectory: !process.env.DEBUG && IS_DEV,
       babelrc: false,
       ...babelrc,
     },
   },
   eslint: {
     loader: 'eslint-loader',
-    options: { emitWarning: IS_DEV() },
+    options: { emitWarning: IS_DEV },
   },
   /**
    * MiniCssExtractPlugin doesn't support HMR.
@@ -29,7 +29,7 @@ module.exports = {
   css: {
     loader: 'css-loader',
     options: {
-      sourceMap: IS_DEV(),
+      sourceMap: IS_DEV,
       /** Apply the two last loaders (resolve-url, postcss) to @imported url() css files */
       importLoaders: 2,
     },
@@ -50,10 +50,10 @@ module.exports = {
   resolveUrl: {
     loader: 'resolve-url-loader',
     options: {
-      sourceMap: IS_DEV(),
+      sourceMap: IS_DEV,
       keepQuery: true,
       fail: true,
-      debug: false, // IS_DEV(),
+      debug: false, // IS_DEV,
     },
   },
   fonts: {
@@ -76,7 +76,7 @@ module.exports = {
     loader: 'svelte-loader',
     options: {
       emitCss: true,
-      hotReload: IS_DEV(),
+      hotReload: IS_DEV,
       ...svelteConfig,
     },
   },

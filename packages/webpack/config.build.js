@@ -5,10 +5,9 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
-const ArchivePlugin = require('@laomao800/webpack-archive-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const cssProcessor = require('cssnano');
-const { IS_PROD, fromCwd } = require('quickenv');
+const { BUNDLE_NAME, IS_PROD } = require('./helpers/consts.js');
 
 module.exports = merge(require('./config.base.js'), {
   devtool: false,
@@ -16,36 +15,44 @@ module.exports = merge(require('./config.base.js'), {
   plugins: [
     new FileManagerPlugin({
       onStart: {
-        delete: ['./bundle', './bundle.tar.gz'],
+        delete: [`${BUNDLE_NAME}`, `./${BUNDLE_NAME}.tar.gz`],
       },
       onEnd: {
         copy: [
-          { source: './src/assets', destination: './bundle/assets' },
-          { source: '.mamba/{manifest.xml,*.so}', destination: './bundle/' },
+          { source: './src/assets', destination: `./${BUNDLE_NAME}/assets` },
+          {
+            source: './.mamba/{manifest.xml,*.so}',
+            destination: `./${BUNDLE_NAME}/`,
+          },
+        ],
+        archive: [
+          {
+            source: `./${BUNDLE_NAME}/`,
+            destination: `./${BUNDLE_NAME}.tar.gz`,
+            format: 'tar',
+            options: {
+              gzip: true,
+              gzipOptions: { level: 1 },
+              globOptions: { nomount: true },
+            },
+          },
         ],
       },
     }),
-    IS_PROD() &&
-      new ArchivePlugin({
-        output: fromCwd(),
-        filename: 'bundle',
-        format: 'tar',
-        pathPrefix: './',
-      }),
     /** Generate hashes based on module's relative path */
-    IS_PROD() && new webpack.HashedModuleIdsPlugin(),
+    IS_PROD && new webpack.HashedModuleIdsPlugin(),
   ].filter(Boolean),
   optimization: {
     /** If analyzing bundle, don't concatenate modules */
-    minimize: IS_PROD(),
+    minimize: IS_PROD,
     minimizer: [
       /** Minify the bundle's css */
       new OptimizeCSSAssetsPlugin({
         /** Default css processor is 'cssnano' */
         cssProcessor,
         cssProcessorOptions: {
-          core: IS_PROD(),
-          discardComments: IS_PROD(),
+          core: IS_PROD,
+          discardComments: IS_PROD,
           autoprefixer: false,
         },
       }),
