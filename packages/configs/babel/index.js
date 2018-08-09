@@ -7,8 +7,9 @@ module.exports = {
         loose: true,
         /** Only parse modules if testing. If not, let bundler handle it */
         modules: false,
-        debug: !!process.env.DEBUG,
+        debug: false,
         forceAllTransforms: true,
+        exclude: ['es6.string.anchor'],
       },
     ],
   ],
