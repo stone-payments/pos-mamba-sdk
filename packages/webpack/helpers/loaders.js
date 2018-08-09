@@ -12,7 +12,7 @@ module.exports = {
     loader: 'babel-loader',
     options: {
       compact: false,
-      cacheDirectory: IS_DEV(),
+      cacheDirectory: !process.env.DEBUG && IS_DEV(),
       babelrc: false,
       ...babelrc,
     },
@@ -59,7 +59,6 @@ module.exports = {
   fonts: {
     loader: 'url-loader',
     options: {
-      // TODO: Test if an inline font works on the POS
       limit: 1, // Copy font files instead of inserting them on the css
       outputPath: 'assets/',
       name: './fonts/[name].[ext]',

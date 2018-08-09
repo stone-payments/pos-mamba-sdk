@@ -12,6 +12,11 @@ const loaders = require('./helpers/loaders.js');
 const MambaFixesPlugin = require('./helpers/MambaFixesPlugin.js');
 
 const PKG = getPkg();
+/** Get a map of all the project's dependencies */
+const dependencyMap = Object.keys(PKG.dependencies).reduce((acc, libName) => {
+  acc[libName] = fromCwd('node_modules', libName);
+  return acc;
+}, {});
 
 /** Default ENV variables */
 if (!process.env.NODE_ENV) {
@@ -26,6 +31,7 @@ if (!process.env.DEBUG) {
   process.env.DEBUG = process.env.NODE_ENV === 'development';
 }
 
+/** App entry point */
 const entry = {
   app: [
     /** Mamba style resetter/normalizer */
@@ -53,20 +59,9 @@ module.exports = {
     /** Do not resolve symlinks */
     symlinks: false,
     mainFields: ['svelte', 'module', 'main'],
-    extensions: ['.js', '.json', '.pcss', '.css', '.html', '.svelte'],
+    extensions: ['.js', '.json', '.pcss', '.css', '.html', '.htmlx', '.svelte'],
     /** Make webpack also resolve modules from './src' */
     modules: [fromCwd('src'), 'node_modules'],
-    alias: {
-      /**
-       * Ensure we're always importing the main packages from this project's root.
-       * Fixes linked components using their own dependencies.
-       */
-      '@mambasdk': fromCwd('node_modules', '@mambasdk'),
-      ...Object.keys(PKG.dependencies).reduce((acc, libName) => {
-        acc[libName] = fromCwd('node_modules', libName);
-        return acc;
-      }, {}),
-    },
   },
   module: {
     rules: [
@@ -78,14 +73,14 @@ module.exports = {
       },
       /** Make 'svelte' related js code run through babel */
       {
-        test: /\.js?$/,
-        include: [/node_modules[\\/]svelte/, /@mambasdk\/pos/],
+        test: /\.js$/,
+        include: Object.values(dependencyMap),
         exclude: [/node_modules[\\/].+[\\/]node_modules/],
         use: [loaders.babel],
       },
       /** Run babel and eslint on projects src files only */
       {
-        test: /\.js?$/,
+        test: /\.js$/,
         include: [fromCwd('src')],
         use: [loaders.babel, loaders.eslint],
       },
