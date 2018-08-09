@@ -12,7 +12,7 @@ import * as System from '../../drivers/system/simulation.js';
 import * as $Cancellation from '../../drivers/cancellation/simulation.js';
 import * as $Http from '../../drivers/http/simulation.js';
 
-if (__DEBUG__) log('Loading mamba environment');
+if (__DEV__) log('Loading mamba environment');
 
 attachDrivers({
   Printer,

@@ -18,29 +18,29 @@
 </div>
 
 <script>
-  import { Simulator, log } from '../index.js';
+  import { State, log } from '../index.js';
 
   export default {
     components: {
       Switch: '@mambasdk/switch',
     },
     data() {
-      return Simulator.get();
+      return State.get();
     },
     oncreate() {
-      Simulator.on('settingsChanged', data => {
+      State.on('settingsChanged', data => {
         this.set({ ...data });
       });
     },
     helpers: {
-      getConfig: path => Simulator.get(path),
+      getConfig: path => State.get(path),
     },
     methods: {
       setConfig(keyPath, value) {
-        if (__DEBUG__) {
+        if (__DEV__) {
           log(`Setting '${keyPath}' to '${value}'`);
         }
-        Simulator.set(keyPath, value, false);
+        State.set(keyPath, value, false);
       },
     },
   };
