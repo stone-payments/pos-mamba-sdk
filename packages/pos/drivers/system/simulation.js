@@ -9,7 +9,7 @@ export const SETTINGS = {
     ethernet: true,
     wifi: true,
     gprs: false,
-    net: 'wifi',
+    currentType: 'wifi',
   },
   Battery: {
     present: true,
@@ -76,7 +76,7 @@ export function setup(System) {
    * @return {string} Wifi or 3G
    */
   System.getCurrentConnectionType = () =>
-    Simulator.get('System.Connections.net');
+    Simulator.get('System.Connections.currentType');
 
   /**
    * Checks if the device has ethernet
