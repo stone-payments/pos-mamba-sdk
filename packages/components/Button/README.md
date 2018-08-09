@@ -11,7 +11,7 @@ Além disso, os botões também podem ser acionados por um shortcut e executar m
 
 ## Parâmetros
 
-
+`<Button ...props />`
 | Parâmetro      | Descrição                               | Tipo            | Padrão    |
 | :------------- | :-------------------------------------- | :-------------- | :-------- |
 | bgColor        | Cor do botão                           | `string` (hex)    | `#4ebf1a` |
