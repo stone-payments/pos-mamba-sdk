@@ -33,10 +33,7 @@
     },
     computed: {
       style({ bgColor, textColor }) {
-        return [
-          `color:${textColor}`,
-          `background-color:${bgColor}`,
-        ].join(';');
+        return [`color:${textColor}`, `background-color:${bgColor}`].join(';');
       },
       isAtHome: ({ _location }) => _location === '/',
       homeIcon: ({ isAtHome }) => (isAtHome ? 'home' : 'app-home'),
@@ -48,7 +45,7 @@
       /** Listen for route changes */
       if (history) {
         this.set({ _location: history.location.pathname });
-        history.listen((location) => {
+        history.listen(location => {
           this.set({ _location: location.pathname });
         });
       }
