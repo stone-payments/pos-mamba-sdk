@@ -20,7 +20,6 @@ module.exports = {
   globals: {
     __APP_ENV__: true,
     __NODE_ENV__: true,
-    __DEBUG__: true,
     __BROWSER__: true,
     __POS__: true,
     __PROD__: true,
