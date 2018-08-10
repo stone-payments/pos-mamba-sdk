@@ -49,21 +49,23 @@
     }
   },
   "lint-staged": {
-    "*.{html,svelte}": [
-      "eslint --fix",
-      "stylelint --fix --custom-syntax \"postcss-html\"",
-      "git add"
-    ],
-    "*.js": [
-      "prettier --write",
-      "eslint --fix",
-      "git add"
-    ],
-    "*.{pcss,css}": [
-      "prettier --write",
-      "stylelint --fix --custom-syntax \"postcss-html\"",
-      "git add"
-    ]
+    "linters": {
+      "*.{html,svelte}": [
+        "eslint --fix",
+        "stylelint --fix --custom-syntax \"postcss-html\"",
+        "git add"
+      ],
+      "*.js": [
+        "prettier --write",
+        "eslint --fix",
+        "git add"
+      ],
+      "*.{pcss,css}": [
+        "prettier --write",
+        "stylelint --fix --custom-syntax \"postcss-html\"",
+        "git add"
+      ]
+    }
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-rc.1",
