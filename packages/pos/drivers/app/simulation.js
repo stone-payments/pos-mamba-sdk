@@ -2,6 +2,8 @@ import { log } from '../../simulator/libs/utils.js';
 
 export const NAMESPACE = 'App';
 
+export const SIGNALS = ['downloadFinish', 'downloadError'];
+
 export function setup(App) {
   App.doClose = () => {
     if (__DEV__) log('App closed');

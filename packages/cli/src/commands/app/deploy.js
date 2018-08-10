@@ -22,7 +22,7 @@ module.exports = {
     const appSlug = `${appID}-${slugify(appName)}`;
 
     const REMOTE_APP_DIR = `${REMOTE_APPS_DIR}/${appSlug}.stone`;
-    const DIST_DIR = fromCwd(legacy ? 'ui/dist' : 'bundle');
+    const DIST_DIR = fromCwd(legacy ? 'ui/dist' : 'bundle.pos');
 
     console.log(`Deploying "${appSlug}" to "${REMOTE_APP_DIR}"`);
     shell.exec(
