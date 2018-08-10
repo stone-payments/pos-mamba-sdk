@@ -21,6 +21,24 @@ const loaders = require('./helpers/loaders.js');
 const MambaFixesPlugin = require('./helpers/MambaFixesPlugin.js');
 
 const PKG = getPkg();
+/**
+ * Separate the app dependencies in two lists.
+ * Since we have to polyfill every dependency with @babel/preset-env,
+ * we must split our dependencies into module types for babel
+ * to correctly append the "import" or the "require" statement
+ * */
+// const ES_DEPS = [];
+// const CJS_DEPS = [];
+// Object.keys(PKG.dependencies).forEach(libName => {
+//   const path = fromCwd('node_modules', libName);
+//   const pkg = getPkg({ path });
+//   if (pkg.module || pkg['jsnext:main'] || pkg.esnext) {
+//     ES_DEPS.push(path);
+//   } else {
+//     CJS_DEPS.push(path);
+//   }
+// }, {});
+
 /** Get a map of all the project's dependencies */
 const dependencyMap = Object.keys(PKG.dependencies).reduce((acc, libName) => {
   acc[libName] = fromCwd('node_modules', libName);
@@ -101,7 +119,7 @@ module.exports = {
         use: [loaders.babelEsNext, loaders.eslint],
       },
       {
-        test: /\.(css|s[ac]ss)$/,
+        test: /\.(css|pcss)$/,
         /** When importing from a style file, let's
          * use package.json's 'style' field before
          * the actual 'main' one
@@ -112,7 +130,6 @@ module.exports = {
           loaders.css,
           loaders.postcss,
           loaders.resolveUrl,
-          // loaders.sass,
         ],
       },
       /** Handle font imports */
