@@ -9,6 +9,7 @@ export const SETTINGS = {
     ethernet: true,
     wifi: true,
     gprs: false,
+    currentType: 'wifi',
   },
   Battery: {
     present: true,
@@ -68,6 +69,14 @@ export function setup(System) {
   setInterval(() => {
     localConfig.TimeFromBoot += 1000;
   }, 1000);
+
+  /**
+   * Returns on which network is connected
+   * @memberOf System
+   * @return {string} Wifi or 3G
+   */
+  System.getCurrentConnectionType = () =>
+    Simulator.get('System.Connections.currentType');
 
   /**
    * Checks if the device has ethernet
