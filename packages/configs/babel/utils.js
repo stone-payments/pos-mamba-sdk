@@ -1,7 +1,7 @@
 module.exports = {
   extendPresetEnv(config, extendObj = {}) {
     /** Copy the passed config object */
-    const newConfig = { ...config };
+    const newConfig = JSON.parse(JSON.stringify(config));
 
     /** Find the @babel/preset-env config */
     const presetEnvIndex = newConfig.presets.findIndex(
