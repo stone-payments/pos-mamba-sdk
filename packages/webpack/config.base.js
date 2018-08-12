@@ -85,11 +85,12 @@ module.exports = {
        * */
       {
         test: /\.js$/,
+        include: [/node_modules/],
         exclude: [
-          /node_modules[\\/].+[\\/]node_modules/,
-          /core-js/,
-          /loader/,
-          ...es6Deps,
+          /node_modules[\\/].+[\\/]node_modules/, // exclude sub dependencies of linked packaged
+          /core-js/, // exclude babel polyfills
+          /loader|webpack/, // exclude webpack files from being parsed
+          ...es6Deps, // exclude es6 dependencies from being transpiled to cjs
         ],
         use: [loaders.babelCJS],
       },
