@@ -21,11 +21,19 @@ const loaders = require('./helpers/loaders.js');
 const MambaFixesPlugin = require('./helpers/MambaFixesPlugin.js');
 
 const PKG = getPkg();
-/** Get a map of all the project's dependencies */
-const dependencyMap = Object.keys(PKG.dependencies).reduce((acc, libName) => {
-  acc[libName] = fromCwd('node_modules', libName);
+
+/** Get what direct dependencies will be exported with es6
+ * to prevent babel from transforming it to commonjs
+ * TODO: See if @babel-preset/env can output require(polyfills)
+ * */
+const es6Deps = Object.keys(PKG.dependencies).reduce((acc, depName) => {
+  const path = fromCwd('node_modules', depName);
+  const pkg = getPkg({ path });
+  if (pkg.module || pkg['jsnext:main'] || pkg.esnext) {
+    acc.push(path);
+  }
   return acc;
-}, {});
+}, []);
 
 /** App entry point */
 const entry = {
@@ -77,24 +85,22 @@ module.exports = {
        * */
       {
         test: /\.js$/,
-        resolve: {
-          mainFields: ['main'],
-        },
-        include: Object.values(dependencyMap),
-        exclude: [/node_modules[\\/].+[\\/]node_modules/],
+        exclude: [
+          /node_modules[\\/].+[\\/]node_modules/,
+          /core-js/,
+          /loader/,
+          ...es6Deps,
+        ],
         use: [loaders.babelCJS],
       },
-      /** Run app ES6 dependencies through babel */
+      /** Run app ES6 dependencies through babel with { modules: false } */
       {
         test: /\.js$/,
-        resolve: {
-          mainFields: ['jsnext:main', 'esnext', 'module'],
-        },
-        include: Object.values(dependencyMap),
+        include: es6Deps,
         exclude: [/node_modules[\\/].+[\\/]node_modules/],
         use: [loaders.babelEsNext],
       },
-      /** Run babel and eslint on projects src files only */
+      /** Run babel and eslint on projects src files with { modules: false } */
       {
         test: /\.js$/,
         include: [fromCwd('src')],
