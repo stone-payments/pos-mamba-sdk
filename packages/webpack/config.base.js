@@ -22,7 +22,7 @@ const {
 } = require('./helpers/depTranspiling.js');
 const htmlTemplate = require('./helpers/htmlTemplate.js');
 const loaders = require('./helpers/loaders.js');
-const MambaFixesPlugin = require('./helpers/MambaFixesPlugin.js');
+const MambaFixesPlugin = require('./plugins/MambaFixesPlugin.js');
 
 /** App entry point */
 const entry = {
