@@ -12,7 +12,7 @@ const babelLoaderConfig = {
   loader: 'babel-loader',
   options: {
     compact: false,
-    cacheDirectory: false && IS_DEV,
+    cacheDirectory: IS_DEV,
     babelrc: false,
     ...babelrc,
   },

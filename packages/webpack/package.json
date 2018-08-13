@@ -1,6 +1,6 @@
 {
   "name": "@mambasdk/webpack",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "Webpack configs for Mamba Applications",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
