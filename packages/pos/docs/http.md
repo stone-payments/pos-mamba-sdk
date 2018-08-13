@@ -29,7 +29,11 @@ import Http from '@mambasdk/api/http.js'
 
 const myRequest = {
   url: "http://myapi.com/",
-  headers: ,
+  headers:{
+        "Content-Type": "application/json;charset=UTF-8",
+        "Cache-Control": "no-cache",
+        "authorization": "CDBDE4E6DC4E6AC1845606D0720BAFA557FA046347876CAA3986872AC1123852",
+  },
   method: "GET",
   data: JSON.stringify({title:"Test", body:"This is a Test."}),
   connect: "LAN",
