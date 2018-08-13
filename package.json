@@ -110,6 +110,7 @@
     "mini-html-webpack-plugin": "^0.2.3",
     "ncp": "^2.0.0",
     "optimize-css-assets-webpack-plugin": "^5.0.0",
+    "pkg-dir": "^3.0.0",
     "postcss": "^7.0.2",
     "postcss-advanced-variables": "^2.3.3",
     "postcss-atroot": "^0.1.3",
