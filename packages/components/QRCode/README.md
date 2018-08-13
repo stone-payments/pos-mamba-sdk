@@ -2,7 +2,7 @@
 
 ## Descrição
 
-O componente `QRCode` ajuda na criação de códigos `QR` e ainda permite estilizar-los com logos, cores e tamanhos.
+O componente `QRCode` ajuda na criação de códigos `QR` e ainda permite estiliza-los com logos, cores e tamanhos.
 
 ## Exemplo
 
