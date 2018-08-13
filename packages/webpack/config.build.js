@@ -17,16 +17,19 @@ module.exports = merge(require('./config.base.js'), {
     IS_POS && new MambaManifestPlugin(),
     new FileManagerPlugin({
       onStart: {
-        delete: [`${BUNDLE_NAME}`, `./${BUNDLE_NAME}.tar.gz`],
+        delete: [`./dist/${BUNDLE_NAME}`, `./dist/${BUNDLE_NAME}.tar.gz`],
       },
       onEnd: {
         copy: [
-          { source: './src/assets', destination: `./${BUNDLE_NAME}/assets` },
+          {
+            source: './src/assets',
+            destination: `./dist/${BUNDLE_NAME}/assets`,
+          },
         ],
         archive: [
           {
-            source: `./${BUNDLE_NAME}/`,
-            destination: `./${BUNDLE_NAME}.tar.gz`,
+            source: `./dist/${BUNDLE_NAME}/`,
+            destination: `./dist/${BUNDLE_NAME}.tar.gz`,
             format: 'zip',
             options: {
               gzip: true,

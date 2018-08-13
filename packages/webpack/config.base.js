@@ -43,7 +43,7 @@ module.exports = {
   context: fromCwd('src'),
   entry,
   output: {
-    path: fromCwd(BUNDLE_NAME),
+    path: fromCwd('dist', BUNDLE_NAME),
     publicPath: './',
     filename: '[name].[hash:5].js',
     chunkFilename: '[name].[hash:5].js',
