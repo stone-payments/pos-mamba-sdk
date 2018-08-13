@@ -2,7 +2,7 @@
 
 ## Descrição
 
-Esta API Nativa auxilia à realizar pedidos `Http` de `GET` e `POST`.
+Esta API Nativa auxilia à realizar pedidos `Http` de `GET` e `POST`, podendo optar por utilizar um proxy ou não.
 
 ## Interface
 
