@@ -61,14 +61,31 @@ module.exports = {
   },
   module: {
     rules: [
-      /** Run svelte component related loaders on  */
+      /**
+       * ! App modules
+       * */
       {
         test: /\.(htmlx?|svelte)$/,
-        exclude: [/node_modules[\\/].+[\\/]node_modules/],
+        include: [fromCwd('src')],
         use: [loaders.babelEsNext, loaders.svelte, loaders.eslint],
       },
+      {
+        test: /\.js$/,
+        include: [fromCwd('src')],
+        use: [loaders.babelEsNext, loaders.eslint],
+      },
       /**
-       * Run app COMMONJS dependencies through babel with module: 'commonjs'.
+       * ! Dependency modules
+       * */
+      /** On dependencies svelte files, run svelte compiler and babel */
+      {
+        test: /\.(htmlx?|svelte)$/,
+        include: [/node_modules/],
+        exclude: [/node_modules[\\/].+[\\/]node_modules/],
+        use: [loaders.babelEsNext, loaders.svelte],
+      },
+      /**
+       * * Run app COMMONJS dependencies through babel with module: 'commonjs'.
        * @babel/preset-env inserts es6 import if we don't pass "module: 'commonjs'",
        * resulting in mixed es6 and commonjs code.
        * */
@@ -87,12 +104,9 @@ module.exports = {
         },
         use: [loaders.babelEsNext],
       },
-      /** Run babel and eslint on projects src files with { modules: false } */
-      {
-        test: /\.js$/,
-        include: [fromCwd('src')],
-        use: [loaders.babelEsNext, loaders.eslint],
-      },
+      /**
+       * ! Generic files
+       */
       {
         test: /\.(css|pcss)$/,
         /** When importing from a style file, let's
