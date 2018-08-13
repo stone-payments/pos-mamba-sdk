@@ -6,7 +6,7 @@ module.exports = {
         useBuiltIns: false,
         loose: true,
         /** Only parse modules if testing. If not, let bundler handle it */
-        modules: false,
+        modules: process.env.NODE_ENV === 'test' ? 'commonjs' : false,
         debug: false,
         forceAllTransforms: true,
         exclude: [
@@ -25,10 +25,4 @@ module.exports = {
     /** Add class properties support */
     ['@babel/plugin-proposal-class-properties', { loose: true }],
   ],
-  env: {
-    test: {
-      /** Only for testing (NODE_ENV = 'test') in NodeJS, which needs CJS to work */
-      plugins: ['@babel/plugin-transform-modules-commonjs'],
-    },
-  },
 };

@@ -79,7 +79,7 @@ module.exports = {
         },
         use: [loaders.babelCJS],
       },
-      /** Run app ES6 dependencies through babel */
+      /** Run app ES6 dependencies through babel with { modules: false } */
       {
         test: {
           ...transpileIgnoreBaseCondition,
@@ -87,7 +87,7 @@ module.exports = {
         },
         use: [loaders.babelEsNext],
       },
-      /** Run babel and eslint on projects src files only */
+      /** Run babel and eslint on projects src files with { modules: false } */
       {
         test: /\.js$/,
         include: [fromCwd('src')],
