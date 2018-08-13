@@ -15,7 +15,7 @@ interface connectionOptions {
   url:string;
   method: string;
   data: string;
-  headers: HeaderOptios;
+  headers: HeaderOptions;
   connect: string
 }
 ```
