@@ -3,10 +3,10 @@
  */
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
-
-const { getPkg, fromCwd } = require('quickenv');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
+const { fromCwd } = require('quickenv');
+
 const {
   BUNDLE_NAME,
   IS_POS,
@@ -16,31 +16,20 @@ const {
   NODE_ENV,
   APP_ENV,
 } = require('./helpers/consts.js');
+const {
+  isModuleOfType,
+  transpileIgnoreBaseCondition,
+} = require('./helpers/depTranspiling.js');
 const htmlTemplate = require('./helpers/htmlTemplate.js');
 const loaders = require('./helpers/loaders.js');
 const MambaFixesPlugin = require('./helpers/MambaFixesPlugin.js');
-
-const PKG = getPkg();
-
-/** Get what direct dependencies will be exported with es6
- * to prevent babel from transforming it to commonjs
- * TODO: See if @babel-preset/env can output require(polyfills)
- * */
-const es6Deps = Object.keys(PKG.dependencies).reduce((acc, depName) => {
-  const path = fromCwd('node_modules', depName);
-  const pkg = getPkg({ path });
-  if (pkg.module || pkg['jsnext:main'] || pkg.esnext) {
-    acc.push(path);
-  }
-  return acc;
-}, []);
 
 /** App entry point */
 const entry = {
   app: [
     /** Mamba style resetter/normalizer */
     '@mambasdk/styles/dist/pos.css',
-    /** Load the simulator bootstrap */
+    /** Mamba simulator entry point */
     IS_BROWSER && './simulator.js',
     /** App entry point */
     './index.js',
@@ -62,7 +51,7 @@ module.exports = {
   resolve: {
     /** Do not resolve symlinks */
     symlinks: false,
-    mainFields: ['svelte', 'jsnext:main', 'esnext', 'module', 'main'],
+    mainFields: ['svelte', 'esnext', 'jsnext:main', 'module', 'main'],
     extensions: ['.js', '.json', '.pcss', '.css', '.html', '.htmlx', '.svelte'],
     /** Make webpack also resolve modules from './src' */
     modules: [fromCwd('src'), 'node_modules'],
@@ -84,21 +73,18 @@ module.exports = {
        * resulting in mixed es6 and commonjs code.
        * */
       {
-        test: /\.js$/,
-        include: [/node_modules/],
-        exclude: [
-          /node_modules[\\/].+[\\/]node_modules/, // exclude sub dependencies of linked packaged
-          /core-js/, // exclude babel polyfills
-          /loader|webpack/, // exclude webpack files from being parsed
-          ...es6Deps, // exclude es6 dependencies from being transpiled to cjs
-        ],
+        test: {
+          ...transpileIgnoreBaseCondition,
+          and: [isModuleOfType('cjs')],
+        },
         use: [loaders.babelCJS],
       },
       /** Run app ES6 dependencies through babel with { modules: false } */
       {
-        test: /\.js$/,
-        include: es6Deps,
-        exclude: [/node_modules[\\/].+[\\/]node_modules/],
+        test: {
+          ...transpileIgnoreBaseCondition,
+          and: [isModuleOfType('es')],
+        },
         use: [loaders.babelEsNext],
       },
       /** Run babel and eslint on projects src files with { modules: false } */
@@ -108,7 +94,7 @@ module.exports = {
         use: [loaders.babelEsNext, loaders.eslint],
       },
       {
-        test: /\.(css|s[ac]ss)$/,
+        test: /\.(css|pcss)$/,
         /** When importing from a style file, let's
          * use package.json's 'style' field before
          * the actual 'main' one
@@ -119,7 +105,6 @@ module.exports = {
           loaders.css,
           loaders.postcss,
           loaders.resolveUrl,
-          // loaders.sass,
         ],
       },
       /** Handle font imports */
