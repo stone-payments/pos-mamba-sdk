@@ -17,7 +17,7 @@ const {
   APP_ENV,
 } = require('./helpers/consts.js');
 const {
-  isModuleOfType,
+  isOfModuleType,
   transpileIgnoreBaseCondition,
 } = require('./helpers/depTranspiling.js');
 const htmlTemplate = require('./helpers/htmlTemplate.js');
@@ -75,7 +75,7 @@ module.exports = {
       {
         test: {
           ...transpileIgnoreBaseCondition,
-          and: [isModuleOfType('cjs')],
+          and: [isOfModuleType('cjs')],
         },
         use: [loaders.babelCJS],
       },
@@ -83,7 +83,7 @@ module.exports = {
       {
         test: {
           ...transpileIgnoreBaseCondition,
-          and: [isModuleOfType('es')],
+          and: [isOfModuleType('es')],
         },
         use: [loaders.babelEsNext],
       },

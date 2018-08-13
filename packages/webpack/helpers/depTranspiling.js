@@ -20,7 +20,7 @@ const transpileIgnoreBaseCondition = {
 const MODULE_TYPE_DICT = new Map();
 
 module.exports = {
-  isModuleOfType: depType => input => {
+  isOfModuleType: depType => input => {
     if (!MODULE_TYPE_DICT.has(input)) {
       const pkg = getPkg({ path: pkgDir.sync(input) });
       MODULE_TYPE_DICT.set(
