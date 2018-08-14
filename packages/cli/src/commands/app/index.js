@@ -1,3 +1,4 @@
+const { fromCwd } = require('quickenv');
 const { PKG } = require('../../consts.js');
 
 module.exports = {
@@ -10,9 +11,10 @@ module.exports = {
       );
       process.exit(1);
     }
+    process.env.PATH += fromCwd('node_modules', '.bin');
 
     return yargs.demand(2).commandDir('./', {
-      exclude: /index\.js/,
+      exclude: /(index|common|shared)\.js/,
     });
   },
 };

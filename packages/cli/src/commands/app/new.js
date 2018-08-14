@@ -9,10 +9,11 @@ const { removeDiacritics, hashString } = require('../../utils.js');
 
 const REPO = 'stone-payments/pos-mamba-app-template';
 
+/** Create a new mamba app directory */
 module.exports = {
-  command: 'create <target>',
+  command: 'new <targetDir>',
   desc: 'Create a new app directory',
-  handler({ target, force }) {
+  handler({ targetDir, force }) {
     inquirer
       .prompt([
         {
@@ -38,7 +39,7 @@ module.exports = {
       .then(({ name, version, description }) => {
         console.log(chalk.blue('Downloading template...'));
         const downloadCmd = shell.exec(
-          `npx degit ${REPO} ${target} ${force ? '-f' : ''}`,
+          `npx degit ${REPO} ${targetDir} ${force ? '-f' : ''}`,
           {
             silent: true,
           },
@@ -51,7 +52,7 @@ module.exports = {
 
         console.log(chalk.blue("Setupping 'package.json'"));
 
-        const pkgJson = getPkg({ path: target });
+        const pkgJson = getPkg({ path: targetDir });
         const normalizedName = Case.kebab(removeDiacritics(name));
         const date = new Date();
 
@@ -69,7 +70,7 @@ module.exports = {
         pkgJson.mamba.appName = name;
 
         writeFileSync(
-          fromCwd(target, 'package.json'),
+          fromCwd(targetDir, 'package.json'),
           JSON.stringify(pkgJson, null, 2),
         );
 
@@ -78,7 +79,7 @@ module.exports = {
   },
   builder: yargs =>
     yargs
-      .positional('target', {
+      .positional('targetDir', {
         describe: 'Directory to create the app',
         type: 'string',
       })
