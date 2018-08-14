@@ -6,8 +6,6 @@ O componente `Sprite` ajuda na criação de animações utilizando uma *SpriteSh
 
 ## Parâmetros
 
-<Sprite ...props />
-
 | Parâmetro   | Descrição                         | Tipo               | Padrão        |
 |-------------|-----------------------------------|--------------------|---------------|
 | src         | Caminho para a spritesheet       | `string`            | `undefined`   |

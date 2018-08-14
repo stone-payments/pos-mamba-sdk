@@ -1,10 +1,6 @@
 # Range
 
-## Descrição
-
 O módulo `Range` pode ser usado para representar um intervalo de valores.
-
-## Exemplo
 
 <!-- @example ./example/Example.Html -->
 

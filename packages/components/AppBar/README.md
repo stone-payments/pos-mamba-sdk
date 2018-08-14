@@ -1,10 +1,10 @@
 # AppBar
 
-## Descrição
-
 O módulo `AppBar` é composto por dois componentes: `AppBar` e `AppBarTitle`. Ambos servem para o controle e estilo da AppBar da aplicação.
 
 <!-- @example ./example/Example.html -->
+
+## Parâmetros
 
 <AppBar ...props/>
 
