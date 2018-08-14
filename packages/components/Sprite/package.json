@@ -1,6 +1,6 @@
 {
   "name": "@mambasdk/sprite",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "svelte": "src/index.js",
   "files": [
     "src/"
