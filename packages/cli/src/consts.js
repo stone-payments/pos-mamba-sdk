@@ -1,3 +1,7 @@
+const { getPkg } = require('quickenv');
+
+exports.PKG = getPkg();
+
 exports.REMOTE_HOST = 'POS';
 exports.REMOTE_MAINAPP_DIR = 'data/app/MAINAPP';
 exports.REMOTE_APPS_DIR = `${exports.REMOTE_HOST}:/${

@@ -1,12 +1,12 @@
-const { hasManifest } = require('../../helpers/manifest');
+const { PKG } = require('../../consts.js');
 
 module.exports = {
   command: 'app <command>',
   desc: 'Mamba apps related commands',
   builder: yargs => {
-    if (!hasManifest) {
+    if (PKG.mamba === 'undefined') {
       console.error(
-        `No "manifest.xml" found at "${process.cwd()}". Is this an mamba app directory?"`,
+        `No "mamba" property found at "${process.cwd()}/package.json". Is this an mamba app directory?"`,
       );
       process.exit(1);
     }
