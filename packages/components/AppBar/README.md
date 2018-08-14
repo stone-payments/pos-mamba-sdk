@@ -6,7 +6,7 @@ O módulo `AppBar` é composto por dois componentes: `AppBar` e `AppBarTitle`. A
 
 ## Parâmetros
 
-<AppBar ...props/>
+`<AppBar ...props/>`
 
 | Parâmetro | Descrição           | Tipo            | Padrão    |
 |-----------|---------------------|-----------------|-----------|
@@ -15,7 +15,7 @@ O módulo `AppBar` é composto por dois componentes: `AppBar` e `AppBarTitle`. A
 | bgColor   | Cor de Fundo da AppbBar| `string` (hex) | `'#4ebf1a'` |
 
 
-<AppBarTitle ...props/>
+`<AppBarTitle ...props/>`
 
 | Parâmetro | Descrição                    | Tipo            | Padrão    |
 |-----------|------------------------------|-----------------|-----------|
