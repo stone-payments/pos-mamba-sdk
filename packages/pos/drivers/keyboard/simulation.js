@@ -21,7 +21,7 @@ export function setup(Keyboard) {
    * @memberof Keyboard
    */
   Keyboard.setKeyboardAsNumeric = () => {
-    if (__DEBUG__) log('Keyboard is now numeric');
+    if (__DEV__) log('Keyboard is now numeric');
     document.removeEventListener('keypress', filterLetters);
     document.addEventListener('keypress', filterLetters);
   };
@@ -32,7 +32,7 @@ export function setup(Keyboard) {
    * @memberof Keyboard
    */
   Keyboard.setKeyboardAsAlphanumeric = () => {
-    if (__DEBUG__) log('Keyboard is now alphanumeric');
+    if (__DEV__) log('Keyboard is now alphanumeric');
     document.removeEventListener('keypress', filterLetters);
   };
 }

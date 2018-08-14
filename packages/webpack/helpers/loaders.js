@@ -2,20 +2,29 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { IS_WATCHING } = require('quickenv');
 /** Read the template's .babelrc.js to enforce it in 'babel-loader' */
 const babelrc = require('@mambasdk/configs/babel/template.js');
+const { extendPresetEnv } = require('@mambasdk/configs/babel/utils.js');
 /** Read the svelte config file from the project */
 const svelteConfig = require('@mambasdk/configs/svelte/index.js');
 
 const { IS_DEV } = require('./consts.js');
 
+const babelLoaderConfig = {
+  loader: 'babel-loader',
+  options: {
+    compact: false,
+    cacheDirectory: IS_DEV,
+    babelrc: false,
+    ...babelrc,
+  },
+};
+
 module.exports = {
-  babel: {
-    loader: 'babel-loader',
-    options: {
-      compact: false,
-      cacheDirectory: !process.env.DEBUG && IS_DEV,
-      babelrc: false,
-      ...babelrc,
-    },
+  babelEsNext: babelLoaderConfig,
+  babelCJS: {
+    ...babelLoaderConfig,
+    options: extendPresetEnv(babelLoaderConfig.options, {
+      modules: 'commonjs',
+    }),
   },
   eslint: {
     loader: 'eslint-loader',
@@ -41,12 +50,6 @@ module.exports = {
       sourceMap: true, // 'resolve-url-loader' requires this to be always true
     },
   },
-  // sass: {
-  //   loader: 'sass-loader',
-  //   options: {
-  //     sourceMap: true, // 'resolve-url-loader' requires this to be always true
-  //   },
-  // },
   resolveUrl: {
     loader: 'resolve-url-loader',
     options: {

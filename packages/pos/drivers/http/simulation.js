@@ -13,7 +13,7 @@ export function setup(Http) {
   Http.doSend = function send({ method = 'GET', url = '', data, headers }) {
     const xhttp = new window.XMLHttpRequest();
 
-    if (__DEBUG__) {
+    if (__DEV__) {
       xhttp.onprogress = function onprogress() {
         log('Requesting...');
       };

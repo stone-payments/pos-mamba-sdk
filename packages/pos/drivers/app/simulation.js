@@ -29,20 +29,20 @@ export function setup(App) {
   ];
 
   App.downloadAndSave = (tar, destination) => {
-    if (__DEBUG__) {
+    if (__DEV__) {
       log(`downloading tar: ${tar}`);
       log(`saving in: ${destination}`);
     }
   };
 
   App.installApp = (tarPath, destination) => {
-    if (__DEBUG__) {
+    if (__DEV__) {
       log(`tarPath: ${tarPath}`);
       log(`destination: ${destination}`);
     }
   };
 
   App.deleteApp = appId => {
-    if (__DEBUG__) log(`appId: ${appId}`);
+    if (__DEV__) log(`appId: ${appId}`);
   };
 }

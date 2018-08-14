@@ -34,7 +34,7 @@ export default {
       if (slotIndex > -1) {
         this[signal].disconnect(this._listening[signal][slotIndex]);
         this._listening[signal].splice(slotIndex, 1);
-      } else if (__DEBUG__) {
+      } else if (__DEV__) {
         console.warn(
           '[@mambasdk/pos/driver] Tried to disconnect a non-connected slot.',
         );
@@ -60,7 +60,7 @@ export default {
   race(entries) {
     const wrappedCallbacks = {};
     entries.forEach(([signal, callback]) => {
-      if (__DEBUG__) {
+      if (__DEV__) {
         console.log(`Connecting once '${signal}'`);
       }
 
@@ -73,7 +73,7 @@ export default {
       wrappedCallbacks[signal] = () => {
         callback();
         Object.keys(wrappedCallbacks).forEach(signalName => {
-          if (__DEBUG__) {
+          if (__DEV__) {
             console.log(`Removing '${signalName}'`);
           }
           this.off(signalName, wrappedCallbacks[signalName]);
@@ -89,7 +89,7 @@ export default {
 
   destroy() {
     Object.keys(this._listening).forEach(signal => {
-      if (__DEBUG__) {
+      if (__DEV__) {
         console.log(`Disconnecting all slots from '${signal}'`);
       }
       this.off(signal);
