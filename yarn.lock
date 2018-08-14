@@ -4358,7 +4358,7 @@ inquirer@^5.2.0:
     strip-ansi "^4.0.0"
     through "^2.3.6"
 
-inquirer@^6.0.0:
+inquirer@^6.0.0, inquirer@^6.1.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-6.1.0.tgz#8f65c7b31c498285f4ddf3b742ad8c487892040b"
   dependencies:
@@ -9927,12 +9927,6 @@ ws@^5.2.0:
 x-is-string@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/x-is-string/-/x-is-string-0.1.0.tgz#474b50865af3a49a9c4657f05acd145458f77d82"
-
-xml-js@^1.6.7:
-  version "1.6.7"
-  resolved "https://registry.yarnpkg.com/xml-js/-/xml-js-1.6.7.tgz#a99b40c18a16d3e06537b3ae026a27bd60ffe8ab"
-  dependencies:
-    sax "^1.2.4"
 
 xml-name-validator@^3.0.0:
   version "3.0.0"

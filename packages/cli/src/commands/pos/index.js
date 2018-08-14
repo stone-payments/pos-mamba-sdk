@@ -1,6 +1,6 @@
 const shell = require('shelljs');
-const { CMDS } = require('../../consts');
-const { remoteExec } = require('../../helpers/utils');
+const { CMDS } = require('../../consts.js');
+const { remoteExec } = require('../../utils.js');
 
 const getStartCMD = background => (background ? CMDS.startBg : CMDS.start);
 
@@ -54,5 +54,4 @@ module.exports = {
           remoteExec(CMDS.stop, getStartCMD(background));
         },
       ),
-  // checkCommands(yargs, 2)
 };
