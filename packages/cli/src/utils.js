@@ -1,4 +1,5 @@
 const shell = require('shelljs');
+const { fromCwd } = require('quickenv');
 const { REMOTE_MAINAPP_DIR } = require('./consts.js');
 
 exports.remoteExec = (...cmdList) => {
@@ -21,3 +22,6 @@ exports.hashString = str => {
   return hval >>> 0;
   /* eslint-enable */
 };
+
+exports.getWebpackConfigPath = id =>
+  fromCwd('node_modules', '@mambasdk', 'webpack', `config.${id}.js`);
