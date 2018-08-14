@@ -5,7 +5,7 @@ const inquirer = require('inquirer');
 const { fromCwd, getPkg } = require('quickenv');
 const chalk = require('chalk');
 
-const { removeDiacritics } = require('../../utils.js');
+const { removeDiacritics, hashString } = require('../../utils.js');
 
 const REPO = 'stone-payments/pos-mamba-app-template';
 
@@ -50,17 +50,23 @@ module.exports = {
         }
 
         console.log(chalk.blue("Setupping 'package.json'"));
+
         const pkgJson = getPkg({ path: target });
         const normalizedName = Case.kebab(removeDiacritics(name));
+        const date = new Date();
 
         pkgJson.name = normalizedName;
-        pkgJson.mamba.appName = name;
         pkgJson.version = version;
         pkgJson.description = description;
 
-        const date = new Date();
-        date.setSeconds(date.getSeconds(), 0);
         pkgJson.mamba.appCreationDate = date.toISOString();
+        pkgJson.mamba.id = parseInt(
+          hashString(normalizedName + date.toISOString() + description)
+            .toString()
+            .slice(0, 5),
+          10,
+        );
+        pkgJson.mamba.appName = name;
 
         writeFileSync(
           fromCwd(target, 'package.json'),
