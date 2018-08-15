@@ -21,7 +21,7 @@
         return tmp;
       },
     },
-    onstate({ changed, current: { promise, delay } }) {
+    onupdate({ changed, current: { promise, delay } }) {
       if (changed.promise && promise && typeof promise.then === 'function') {
         promise
           .then(() => {
@@ -30,7 +30,7 @@
               this.fire('success');
             }, parseFloat(delay));
           })
-          .catch((e) => {
+          .catch(e => {
             setTimeout(() => {
               this.refs.dialog.close();
               this.fire('failure', e);
