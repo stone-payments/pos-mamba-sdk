@@ -1,8 +1,6 @@
 const shell = require('shelljs');
 const { fromCwd } = require('quickenv');
-const { getManifest } = require('../../helpers/manifest');
-const { slugify } = require('../../helpers/utils');
-const { REMOTE_APPS_DIR } = require('../../consts');
+const { PKG, REMOTE_APPS_DIR } = require('../../../consts.js');
 
 module.exports = {
   command: 'deploy',
@@ -18,11 +16,11 @@ module.exports = {
     },
   },
   handler({ legacy, force }) {
-    const { displayedName: appName, id: appID } = getManifest();
-    const appSlug = `${appID}-${slugify(appName)}`;
+    const { id } = PKG.mamba;
+    const appSlug = `${id}-${PKG.name}`;
 
     const REMOTE_APP_DIR = `${REMOTE_APPS_DIR}/${appSlug}.stone`;
-    const DIST_DIR = fromCwd(legacy ? 'ui/dist' : 'bundle');
+    const DIST_DIR = fromCwd(legacy ? 'ui/dist' : 'dist/bundle.pos');
 
     console.log(`Deploying "${appSlug}" to "${REMOTE_APP_DIR}"`);
     shell.exec(

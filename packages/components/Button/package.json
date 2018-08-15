@@ -18,7 +18,7 @@
     "build:dev": "exit 0"
   },
   "devDependencies": {
-    "@mambasdk/icon": "^0.0.1"
+    "@mambasdk/icon": "^0.0.3"
   },
   "dependencies": {
     "@mambasdk/styles": "^0.0.1"

@@ -1,6 +1,6 @@
 {
   "name": "@mambasdk/app",
-  "version": "0.0.11",
+  "version": "0.0.15",
   "svelte": "src/index.js",
   "files": [
     "src/"
@@ -16,13 +16,13 @@
     "build:dev": "exit 0"
   },
   "dependencies": {
-    "@mambasdk/dialog": "^0.0.2"
+    "@mambasdk/dialog": "^0.0.4"
   },
   "devDependencies": {
     "@mambasdk/styles": "^0.0.1"
   },
   "peerDependencies": {
     "svelte-routing": "^0.4.2",
-    "@mambasdk/pos": "^0.0.10"
+    "@mambasdk/pos": "^0.0.12"
   }
 }

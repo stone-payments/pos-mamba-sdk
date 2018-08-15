@@ -7,29 +7,30 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const cssProcessor = require('cssnano');
-const { BUNDLE_NAME, IS_PROD } = require('./helpers/consts.js');
+const { BUNDLE_NAME, IS_PROD, IS_POS } = require('./helpers/consts.js');
+const MambaManifestPlugin = require('./plugins/MambaManifestPlugin.js');
 
 module.exports = merge(require('./config.base.js'), {
   devtool: false,
   node: false,
   plugins: [
+    IS_POS && new MambaManifestPlugin(),
     new FileManagerPlugin({
       onStart: {
-        delete: [`${BUNDLE_NAME}`, `./${BUNDLE_NAME}.tar.gz`],
+        delete: [`./dist/${BUNDLE_NAME}`, `./dist/${BUNDLE_NAME}.tar.gz`],
       },
       onEnd: {
         copy: [
-          { source: './src/assets', destination: `./${BUNDLE_NAME}/assets` },
           {
-            source: './.mamba/{manifest.xml,*.so}',
-            destination: `./${BUNDLE_NAME}/`,
+            source: './src/assets',
+            destination: `./dist/${BUNDLE_NAME}/assets`,
           },
         ],
         archive: [
           {
-            source: `./${BUNDLE_NAME}/`,
-            destination: `./${BUNDLE_NAME}.tar.gz`,
-            format: 'tar',
+            source: `./dist/${BUNDLE_NAME}/`,
+            destination: `./dist/${BUNDLE_NAME}.tar.gz`,
+            format: 'zip',
             options: {
               gzip: true,
               gzipOptions: { level: 1 },
@@ -43,7 +44,6 @@ module.exports = merge(require('./config.base.js'), {
     IS_PROD && new webpack.HashedModuleIdsPlugin(),
   ].filter(Boolean),
   optimization: {
-    /** If analyzing bundle, don't concatenate modules */
     minimize: IS_PROD,
     minimizer: [
       /** Minify the bundle's css */

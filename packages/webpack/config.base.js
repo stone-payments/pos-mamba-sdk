@@ -3,10 +3,10 @@
  */
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
-
-const { getPkg, fromCwd } = require('quickenv');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
+const { fromCwd } = require('quickenv');
+
 const {
   BUNDLE_NAME,
   IS_POS,
@@ -16,31 +16,20 @@ const {
   NODE_ENV,
   APP_ENV,
 } = require('./helpers/consts.js');
+const {
+  isOfModuleType,
+  transpileIgnoreBaseCondition,
+} = require('./helpers/depTranspiling.js');
 const htmlTemplate = require('./helpers/htmlTemplate.js');
 const loaders = require('./helpers/loaders.js');
-const MambaFixesPlugin = require('./helpers/MambaFixesPlugin.js');
-
-const PKG = getPkg();
-
-/** Get what direct dependencies will be exported with es6
- * to prevent babel from transforming it to commonjs
- * TODO: See if @babel-preset/env can output require(polyfills)
- * */
-const es6Deps = Object.keys(PKG.dependencies).reduce((acc, depName) => {
-  const path = fromCwd('node_modules', depName);
-  const pkg = getPkg({ path });
-  if (pkg.module || pkg['jsnext:main'] || pkg.esnext) {
-    acc.push(path);
-  }
-  return acc;
-}, []);
+const MambaFixesPlugin = require('./plugins/MambaFixesPlugin.js');
 
 /** App entry point */
 const entry = {
   app: [
     /** Mamba style resetter/normalizer */
     '@mambasdk/styles/dist/pos.css',
-    /** Load the simulator bootstrap */
+    /** Mamba simulator entry point */
     IS_BROWSER && './simulator.js',
     /** App entry point */
     './index.js',
@@ -54,7 +43,7 @@ module.exports = {
   context: fromCwd('src'),
   entry,
   output: {
-    path: fromCwd(BUNDLE_NAME),
+    path: fromCwd('dist', BUNDLE_NAME),
     publicPath: './',
     filename: '[name].[hash:5].js',
     chunkFilename: '[name].[hash:5].js',
@@ -62,53 +51,66 @@ module.exports = {
   resolve: {
     /** Do not resolve symlinks */
     symlinks: false,
-    mainFields: ['svelte', 'jsnext:main', 'esnext', 'module', 'main'],
+    enforceExtension: false,
+    mainFields: ['svelte', 'esnext', 'jsnext:main', 'module', 'main'],
     extensions: ['.js', '.json', '.pcss', '.css', '.html', '.htmlx', '.svelte'],
     /** Make webpack also resolve modules from './src' */
     modules: [fromCwd('src'), 'node_modules'],
     alias: {
       '@mambasdk': fromCwd('node_modules', '@mambasdk'),
+      'svelte-routing': fromCwd('node_modules', 'svelte-routing'),
     },
   },
   module: {
     rules: [
-      /** Run svelte component related loaders on  */
-      {
-        test: /\.(htmlx?|svelte)$/,
-        exclude: [/node_modules[\\/].+[\\/]node_modules/],
-        use: [loaders.babelEsNext, loaders.svelte, loaders.eslint],
-      },
       /**
-       * Run app COMMONJS dependencies through babel with module: 'commonjs'.
-       * @babel/preset-env inserts es6 import if we don't pass "module: 'commonjs'",
-       * resulting in mixed es6 and commonjs code.
+       * ! App modules
        * */
       {
-        test: /\.js$/,
-        include: [/node_modules/],
-        exclude: [
-          /node_modules[\\/].+[\\/]node_modules/, // exclude sub dependencies of linked packaged
-          /core-js/, // exclude babel polyfills
-          /loader|webpack/, // exclude webpack files from being parsed
-          ...es6Deps, // exclude es6 dependencies from being transpiled to cjs
-        ],
-        use: [loaders.babelCJS],
+        test: /\.(htmlx?|svelte)$/,
+        include: [fromCwd('src')],
+        use: [loaders.babelEsNext, loaders.svelte, loaders.eslint],
       },
-      /** Run app ES6 dependencies through babel with { modules: false } */
-      {
-        test: /\.js$/,
-        include: es6Deps,
-        exclude: [/node_modules[\\/].+[\\/]node_modules/],
-        use: [loaders.babelEsNext],
-      },
-      /** Run babel and eslint on projects src files with { modules: false } */
       {
         test: /\.js$/,
         include: [fromCwd('src')],
         use: [loaders.babelEsNext, loaders.eslint],
       },
+      /**
+       * ! Dependency modules
+       * */
+      /** On dependencies svelte files, run svelte compiler and babel */
       {
-        test: /\.(css|s[ac]ss)$/,
+        test: /\.(htmlx?|svelte)$/,
+        include: [/node_modules/],
+        exclude: [/node_modules[\\/].+[\\/]node_modules/],
+        use: [loaders.babelEsNext, loaders.svelte],
+      },
+      /**
+       * * Run app COMMONJS dependencies through babel with module: 'commonjs'.
+       * @babel/preset-env inserts es6 import if we don't pass "module: 'commonjs'",
+       * resulting in mixed es6 and commonjs code.
+       * */
+      {
+        test: {
+          ...transpileIgnoreBaseCondition,
+          and: [isOfModuleType('cjs')],
+        },
+        use: [loaders.babelCJS],
+      },
+      /** Run app ES6 dependencies through babel with { modules: false } */
+      {
+        test: {
+          ...transpileIgnoreBaseCondition,
+          and: [isOfModuleType('es')],
+        },
+        use: [loaders.babelEsNext],
+      },
+      /**
+       * ! Generic files
+       */
+      {
+        test: /\.(css|pcss)$/,
         /** When importing from a style file, let's
          * use package.json's 'style' field before
          * the actual 'main' one
@@ -119,7 +121,6 @@ module.exports = {
           loaders.css,
           loaders.postcss,
           loaders.resolveUrl,
-          // loaders.sass,
         ],
       },
       /** Handle font imports */

@@ -12,7 +12,7 @@ const babelLoaderConfig = {
   loader: 'babel-loader',
   options: {
     compact: false,
-    cacheDirectory: false && IS_DEV,
+    cacheDirectory: IS_DEV,
     babelrc: false,
     ...babelrc,
   },
@@ -62,6 +62,7 @@ module.exports = {
   fonts: {
     loader: 'url-loader',
     options: {
+      fallback: 'file-loader',
       limit: 1, // Copy font files instead of inserting them on the css
       outputPath: 'assets/',
       name: './fonts/[name].[ext]',
@@ -70,6 +71,7 @@ module.exports = {
   images: {
     loader: 'url-loader',
     options: {
+      fallback: 'file-loader',
       limit: 1,
       outputPath: 'assets/',
       name: './images/[name].[ext]',
