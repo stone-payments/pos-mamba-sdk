@@ -1,6 +1,6 @@
 {
   "name": "@mambasdk/dialog",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "svelte": "src/index.js",
   "files": [
     "src/"
@@ -20,6 +20,6 @@
   },
   "dependencies": {
     "@mambasdk/styles": "^0.0.1",
-    "@mambasdk/icon": "^0.0.1"
+    "@mambasdk/icon": "^0.0.3"
   }
 }

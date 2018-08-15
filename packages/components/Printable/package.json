@@ -1,6 +1,6 @@
 {
   "name": "@mambasdk/printable",
-  "version": "0.0.15",
+  "version": "0.0.17",
   "svelte": "src/index.js",
   "files": [
     "src/"
@@ -19,7 +19,7 @@
     "@mambasdk/styles": "^0.0.1"
   },
   "dependencies": {
-    "@mambasdk/dialog": "^0.0.2"
+    "@mambasdk/dialog": "^0.0.4"
   },
   "peerDependencies": {
     "@mambasdk/pos": "^0.0.12"
