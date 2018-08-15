@@ -1,6 +1,6 @@
 const shell = require('shelljs');
 const { fromCwd } = require('quickenv');
-const { PKG, REMOTE_APPS_DIR } = require('../../consts.js');
+const { PKG, REMOTE_APPS_DIR } = require('../../../consts.js');
 
 module.exports = {
   command: 'deploy',

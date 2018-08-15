@@ -129,7 +129,7 @@
     "prettier": "^1.14.2",
     "progress-bar-webpack-plugin": "^1.11.0",
     "qrious": "^4.0.2",
-    "quickenv": "^0.0.5",
+    "quickenv": "^0.0.6",
     "resolve-url-loader": "^2.3.0",
     "rimraf": "^2.6.2",
     "rollup-plugin-babel": "^4.0.0-beta.2",
