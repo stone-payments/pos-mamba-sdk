@@ -7,7 +7,7 @@ utilizados para representar a execução de um tarefa com etapas definidas ou n�
 
 ## Parâmetros
 
-`<ProgressBar ... props />`
+`<ProgressBar ...props />`
 
 | Parâmetro | Descrição           | Tipo            | Padrão    |
 | :-------- | :------------------ | :-------------- | :-------- |
