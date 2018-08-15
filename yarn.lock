@@ -7644,9 +7644,11 @@ quick-lru@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-1.1.0.tgz#4360b17c61136ad38078397ff11416e186dcfbb8"
 
-quickenv@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/quickenv/-/quickenv-0.0.5.tgz#78d1dcfe48b556819bfa7f6aab601c8589d1d4eb"
+quickenv@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/quickenv/-/quickenv-0.0.6.tgz#56af6b9db5e393a388cb3f00a127b7f18293feda"
+  dependencies:
+    find-up "^3.0.0"
 
 randomatic@^3.0.0:
   version "3.1.0"
