@@ -2,8 +2,8 @@ const { writeFileSync } = require('fs');
 const shell = require('shelljs');
 const Case = require('case');
 const inquirer = require('inquirer');
-const { fromCwd, getPkg } = require('quickenv');
 const chalk = require('chalk');
+const { fromCwd, getPkg } = require('quickenv');
 
 const { removeDiacritics, hashString } = require('../../../utils.js');
 
@@ -11,7 +11,7 @@ const REPO = 'stone-payments/pos-mamba-app-template';
 
 /** Create a new mamba app directory */
 module.exports = {
-  command: 'new <targetDir>',
+  command: 'app <targetDir>',
   desc: 'Create a new app directory',
   handler({ targetDir, force }) {
     targetDir = fromCwd(targetDir);

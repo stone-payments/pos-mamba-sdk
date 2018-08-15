@@ -7,6 +7,7 @@ utilizados para representar a execução de um tarefa com etapas definidas ou n�
 
 ## Parâmetros
 
+
 `<ProgressBar ...props />`
 
 | Parâmetro | Descrição           | Tipo            | Padrão    |
@@ -14,6 +15,7 @@ utilizados para representar a execução de um tarefa com etapas definidas ou n�
 | color     | Cor da barra        | `string` (hex)    | `#6ebf1a` |
 | height    | Espessura da barra  | `string` (px)     | `6px`     |
 | progress  | Porcentagem atual   | `string` (0 a 100)| `undefined` |
+
 
 `<ProgressCircle ...props />`
 
