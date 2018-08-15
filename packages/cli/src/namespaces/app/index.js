@@ -6,6 +6,13 @@ module.exports = {
   command: 'app <command>',
   desc: 'Mamba apps related commands',
   builder: yargs => {
+    if (PKG == null) {
+      console.error(
+        chalk.red(`No "package.json" found. Is this an mamba app directory?"`),
+      );
+      process.exit(1);
+    }
+
     if (typeof PKG.mamba === 'undefined') {
       console.error(
         chalk.red(
