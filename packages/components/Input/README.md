@@ -6,8 +6,6 @@ O componente `Input` contém funcionalidades de uma caixa de texto com estilos e
 
 ## Parâmetros
 
-<Input ...props />
-
 | Parâmetro   | Descrição                                                  | Tipo            | Padrão     |
 |-------------|------------------------------------------------------------|-----------------|------------|
 | align       | Alinha a entrada de acordo com paramêtro (`left`, `right`) | `string`        | `'right'`  |

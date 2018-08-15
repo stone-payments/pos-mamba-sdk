@@ -19,7 +19,7 @@ interface Cookie {
 Salva um cookie utilizando eo referencia por uma chave de acesso.
 
 ```js
-import Cookie from '@mambasdk/api/cookie.js'
+import Cookie from '@mambasdk/pos/api/cookie.js'
 
 const myData = [
   {
@@ -40,7 +40,7 @@ Cookie.set('users', JSON.stringify(myData))
 Retorna o valor armazenado na chave passada para o método.
 
 ```js
-import Cookie from '@mambasdk/api/cookie.js'
+import Cookie from '@mambasdk/pos/api/cookie.js'
 
 const myData = [
   {
@@ -66,7 +66,7 @@ savedData[1].idade // 22
 Limpa todos os dados armazenados pela aplicação.
 
 ```js
-import Cookie from '@mambasdk/api/cookie.js'
+import Cookie from '@mambasdk/pos/api/cookie.js'
 
 const myData = 'dados importantes'
 

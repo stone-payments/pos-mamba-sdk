@@ -53,7 +53,7 @@ enum BatteryStatus {
 Emite um beep sonoro pelo POS podendo especificar na entrada do método o tempo (ms) e a frequência sonora. No caso da frequência, está deve ser um dos 7 TONES `(TONE1, TONE2, ..., TONE7)`, caso esteja em ambiente de desenvolvimento um aviso será emitido no console. Se não específicado o tempo de beep e a frequência serão utilizados valores padrões `(System.Tones.TONE1, 300)`.
 
 ```js
-import System from '@mambasdk/api/system.js'
+import System from '@mambasdk/pos/api/system.js'
 
 /** Default beep */
 System.beep(); // Beep: tone = 1700, duration = 300
@@ -66,7 +66,7 @@ System.beep(System.Tones.TONE7, 800) // Beep: tone = 2800, duration = 800
 Informa em qual rede o POS está conectado.
 
 ```js
-import System from '@mambasdk/api/system.js'
+import System from '@mambasdk/pos/api/system.js'
 
 /** With wifi */
 System.getCurrentConnectionType(); // wifi
@@ -80,7 +80,7 @@ System.getCurrentConnectionType(); // 3G
 Informa se o POS tem Conexão via Ethernet. Caso esteja em ambiente de desenvolvimento, retorna true.
 
 ```js
-import System from '@mambasdk/api/system.js'
+import System from '@mambasdk/pos/api/system.js'
 
 /** With ethernet */
 System.hasEthernet(); // true
@@ -94,7 +94,7 @@ System.hasEthernet(); // false
 Informa se o POS tem Conexão via Wifi. Caso esteja em ambiente de desenvolvimento, retorna true.
 
 ```js
-import System from '@mambasdk/api/system.js'
+import System from '@mambasdk/pos/api/system.js'
 
 /** With wifi */
 System.hasWifi(); // true
@@ -108,7 +108,7 @@ System.hasWifi(); // false
 Informa se o POS tem Conexão via GPRS. Caso esteja em abiente de desenvolvimento, retorna false.
 
 ```js
-import System from '@mambasdk/api/system.js'
+import System from '@mambasdk/pos/api/system.js'
 
 /** With GPRS */
 System.hasGprs(); // true
@@ -122,7 +122,7 @@ System.hasGprs(); // false
 Informa se a bateria está conectada.
 
 ```js
-import System from '@mambasdk/api/system.js'
+import System from '@mambasdk/pos/api/system.js'
 
 /** With battery */
 System.isBatteryPresent(); // true
@@ -137,7 +137,7 @@ Retorna o tipo de fonte de energia na qual o POS está conectado no momento. Pod
 `ADAPTER`, `BATTERY`, `USB`. Em ambiente de desenvolvimento retorna `USB`.
 
 ```js
-import System from '@mambasdk/api/system.js'
+import System from '@mambasdk/pos/api/system.js'
 
 /** When connected to a power-supply */
 System.getPowerSupply(); // 'ADAPTER'
@@ -154,7 +154,7 @@ System.getPowerSupply(); // 'USB'
 Retorna em milissegundos o tempo desde a inicialização do sistema. Em ambiente de desenvolvimento retorna `0`.
 
 ```js
-import System from '@mambasdk/api/system.js'
+import System from '@mambasdk/pos/api/system.js'
 
 const timeUp = System.getTimeFromBoot() / 3600;
 console.log(`O Sistema está ligado à: ${timeUp} minutos.`) // O Sistema está ligado à $timeUp minutos
@@ -165,7 +165,7 @@ console.log(`O Sistema está ligado à: ${timeUp} minutos.`) // O Sistema está 
 Retorna uma string com o número de serial da máquina. No ambiente de desenvolvimento retorna `'00000'`.
 
 ```js
-import System from '@mambasdk/api/system.js'
+import System from '@mambasdk/pos/api/system.js'
 
 System.getSerialNumber(); // '12745'
 ```
@@ -175,7 +175,7 @@ System.getSerialNumber(); // '12745'
 Retorna um `JSON` com o estado atual da bateria.
 
 ```js
-import System from '@mambasdk/api/system.js'
+import System from '@mambasdk/pos/api/system.js'
 
 /** When the battery is being used without its power supply  */
 System.getBatteryStatus(); // {present: true, level: 50, status: DISCHARGE} -- padrão retornado em ambiente de desenvolvimento
@@ -198,7 +198,7 @@ System.getBatteryStatus(); // {present: false, level: 100, status: ABSENT}
 Retorna a porcentagem da carga da bateria do dispostivo.
 
 ```js
-import System from '@mambasdk/api/system.js'
+import System from '@mambasdk/pos/api/system.js'
 
 System.getBatteryLevel(); // 50
 ```

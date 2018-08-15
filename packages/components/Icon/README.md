@@ -1,7 +1,5 @@
 # Icon
 
-## Descrição
-
 O módulo Icon possui dois componentes: `Icon` e `RoundIcon`. Ambos, facilitam na criação de ícones com
 imagens padrões já disponíveis em nossa SDK. Além das imagens, também é possível costumizar o estilo
 do ícone e utilizar uma imagem própria .
@@ -10,7 +8,7 @@ do ícone e utilizar uma imagem própria .
 
 ## Parâmetros
 
-### Icon
+`<Icon ...props/>`
 
 | Parâmetro | Descrição                                            | Tipo            | Padrão    |
 | :-------- | :--------------------------------------------------- | :-------------- | :-------- |
@@ -19,7 +17,7 @@ do ícone e utilizar uma imagem própria .
 | symbol    | Nome do ícone                                       | `string`          | `6px`     |
 | level     | Pinta o ícone de acordo com o level (apenas wifi)   | `int` (0..3)      | `undefined` |
 
-### RoundIcon
+`<RoundIcon ...props/>`
 
 | Parâmetro | Descrição                                      | Tipo         | Padrão     |
 | :-------- | :--------------------------------------------- | :---------   | :--------- |

@@ -1,7 +1,5 @@
 # Barcode
 
-## Descrição
-
 O Componente `Barcode` permite de modo fácil criar códigos de barras e também permite estiliza-los.
 
 <!-- @example ./example/Example.html-->

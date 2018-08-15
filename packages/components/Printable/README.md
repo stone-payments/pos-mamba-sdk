@@ -1,7 +1,5 @@
 # Printable
 
-## Descrição
-
 O componente `@mambasdk/printable` encapsula o fluxo de impressão do POS, permitindo a impressão de qualquer conteúdo HTML estático .
 
 ## Parâmetros

@@ -1,6 +1,6 @@
 {
   "name": "@mambasdk/collection",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "svelte": "src/index.js",
   "files": [
     "src/"
