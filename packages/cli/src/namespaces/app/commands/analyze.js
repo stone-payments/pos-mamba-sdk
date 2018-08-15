@@ -1,7 +1,10 @@
 const chalk = require('chalk');
 const childProcess = require('child_process');
-const { getWebpackConfigPath } = require('../../utils.js');
-const { validateTarget, options } = require('./utils.js');
+const {
+  validateTarget,
+  cliArgs,
+  getWebpackConfigPath,
+} = require('../utils.js');
 
 /** Build the app for a specific environment */
 module.exports = {
@@ -21,6 +24,6 @@ module.exports = {
   },
   builder: yargs =>
     yargs.options({
-      target: options.target,
+      target: cliArgs.target,
     }),
 };

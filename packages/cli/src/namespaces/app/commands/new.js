@@ -5,7 +5,7 @@ const inquirer = require('inquirer');
 const { fromCwd, getPkg } = require('quickenv');
 const chalk = require('chalk');
 
-const { removeDiacritics, hashString } = require('../../utils.js');
+const { removeDiacritics, hashString } = require('../../../utils.js');
 
 const REPO = 'stone-payments/pos-mamba-app-template';
 
@@ -14,6 +14,7 @@ module.exports = {
   command: 'new <targetDir>',
   desc: 'Create a new app directory',
   handler({ targetDir, force }) {
+    targetDir = fromCwd(targetDir);
     inquirer
       .prompt([
         {
@@ -39,7 +40,7 @@ module.exports = {
       .then(({ name, version, description }) => {
         console.log(chalk.blue('Downloading template...'));
         const downloadCmd = shell.exec(
-          `npx degit ${REPO} ${targetDir} ${force ? '-f' : ''}`,
+          `npx degit ${REPO} "${targetDir}" ${force ? '-f' : ''}`,
           {
             silent: true,
           },
@@ -74,7 +75,11 @@ module.exports = {
           JSON.stringify(pkgJson, null, 2),
         );
 
-        console.log(chalk.green('App created'));
+        console.log(chalk.blue('Installing dependencies'));
+        shell.cd(targetDir);
+        shell.exec('npm i');
+
+        console.log(chalk.green(`App created at '${targetDir}'`));
       });
   },
   builder: yargs =>

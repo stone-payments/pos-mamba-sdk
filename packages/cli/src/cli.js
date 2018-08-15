@@ -6,8 +6,8 @@ require('yargonaut')
 
 const yargs = require('yargs');
 
-const appCmds = require('./commands/app/index.js');
-const posCmds = require('./commands/pos/index.js');
+const appCmds = require('./namespaces/app/index.js');
+const posCmds = require('./namespaces/pos/index.js');
 
 yargs
   .usage('usage: $0 <namespace> <command>')
