@@ -1,9 +1,10 @@
 {
   "name": "@mambasdk/progress",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "svelte": "src/index.js",
   "files": [
-    "src/"
+    "src/",
+    "example/"
   ],
   "author": "Stone Payments - Mamba Team",
   "contributors": [
