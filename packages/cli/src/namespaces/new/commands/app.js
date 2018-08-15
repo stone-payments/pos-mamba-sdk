@@ -39,6 +39,12 @@ module.exports = {
       ])
       .then(({ name, version, description }) => {
         console.log(chalk.blue('Downloading template...'));
+
+        /** Install degit if it's not installed yet */
+        // if (!shell.which('degit')) {
+        //   shell.exec('npm i -g degit');
+        // }
+
         const downloadCmd = shell.exec(
           `npx degit ${REPO} "${targetDir}" ${force ? '-f' : ''}`,
           {
