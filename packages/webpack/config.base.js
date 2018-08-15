@@ -51,12 +51,14 @@ module.exports = {
   resolve: {
     /** Do not resolve symlinks */
     symlinks: false,
+    enforceExtension: false,
     mainFields: ['svelte', 'esnext', 'jsnext:main', 'module', 'main'],
     extensions: ['.js', '.json', '.pcss', '.css', '.html', '.htmlx', '.svelte'],
     /** Make webpack also resolve modules from './src' */
     modules: [fromCwd('src'), 'node_modules'],
     alias: {
       '@mambasdk': fromCwd('node_modules', '@mambasdk'),
+      'svelte-routing': fromCwd('node_modules', 'svelte-routing'),
     },
   },
   module: {
