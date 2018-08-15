@@ -1,7 +1,6 @@
 <script>
   export default {
-    /** We use onstate to fire the event before things are rendered */
-    onstate({ previous }) {
+    onupdate({ previous }) {
       if (!previous) {
         if (!this.store) {
           throw new Error(

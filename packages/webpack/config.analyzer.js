@@ -5,7 +5,7 @@ const merge = require('webpack-merge');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = merge(require('./config.build.js'), {
-  stats: 'verbose',
+  stats: 'errors-only',
   devtool: false,
   plugins: [
     new BundleAnalyzerPlugin({

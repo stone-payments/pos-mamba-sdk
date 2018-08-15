@@ -1,6 +1,6 @@
 {
   "name": "@mambasdk/app",
-  "version": "0.0.13",
+  "version": "0.0.15",
   "svelte": "src/index.js",
   "files": [
     "src/"
@@ -16,7 +16,7 @@
     "build:dev": "exit 0"
   },
   "dependencies": {
-    "@mambasdk/dialog": "^0.0.2"
+    "@mambasdk/dialog": "^0.0.4"
   },
   "devDependencies": {
     "@mambasdk/styles": "^0.0.1"

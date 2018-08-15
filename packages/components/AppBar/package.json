@@ -1,6 +1,6 @@
 {
   "name": "@mambasdk/appbar",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "svelte": "src/index.js",
   "files": [
     "src/"
@@ -21,6 +21,6 @@
     "svelte-routing": "^0.4.2"
   },
   "dependencies": {
-    "@mambasdk/icon": "^0.0.1"
+    "@mambasdk/icon": "^0.0.3"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@mambasdk/icon",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "svelte": "src/index.js",
   "files": [
     "src/"
