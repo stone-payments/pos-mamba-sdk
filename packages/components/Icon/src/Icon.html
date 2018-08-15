@@ -9,7 +9,7 @@
         level: undefined,
       };
     },
-    onstate({ current: { color, src } }) {
+    onupdate({ current: { color, src } }) {
       const iconEl = this.refs.icon;
 
       if (color) {
