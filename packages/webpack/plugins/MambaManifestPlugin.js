@@ -5,8 +5,9 @@ const PKG = getPkg();
 
 const createXmlManifest = () => {
   const date = new Date();
-  /** Reset the msecs */
-  date.setSeconds(date.getSeconds(), 0);
+
+  /** Align the date with POS timezone */
+  date.setHours(date.getHours() - 3, date.getMinutes(), date.getSeconds(), 0);
 
   return xmlBuilder
     .create(
@@ -24,7 +25,7 @@ const createXmlManifest = () => {
             { '@Name': 'iconPath', '#text': PKG.mamba.iconPath },
             {
               '@Name': 'runOnUserSelection',
-              '#text': PKG.mamba.runOnUserSelection,
+              '#text': 'index.html',
             },
             {
               '@Name': 'appCreationDate',
