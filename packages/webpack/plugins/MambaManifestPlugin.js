@@ -9,6 +9,9 @@ const createXmlManifest = () => {
   /** Align the date with POS timezone */
   date.setHours(date.getHours() - 3, date.getMinutes(), date.getSeconds(), 0);
 
+  const isoDate = date.toISOString();
+  const formattedDate = isoDate.slice(0, isoDate.length - 5);
+
   return xmlBuilder
     .create(
       {
@@ -31,7 +34,7 @@ const createXmlManifest = () => {
               '@Name': 'appCreationDate',
               '#text': PKG.mamba.appCreationDate,
             },
-            { '@Name': 'appLastModificationDate', '#text': date.toISOString() },
+            { '@Name': 'appLastModificationDate', '#text': formattedDate },
             { '@Name': 'listInMainMenu', '#text': PKG.mamba.listInMainMenu },
             { '@Name': 'appType', '#text': PKG.mamba.appType },
             { '@Name': 'appTechnology', '#text': PKG.mamba.appTechnology },
