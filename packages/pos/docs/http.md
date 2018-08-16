@@ -12,7 +12,7 @@ interface Http {
 }
 
 interface connectionOptions {
-  url:string;
+  url: string;
   method: string;
   data: string;
   headers: HeaderOptions;
@@ -25,7 +25,7 @@ interface connectionOptions {
 Retorna uma `Promise` que espera pelo resultado do request. Para isso, a função recebe as especificações do request por meio de um objeto. Observe que neste objeto existe o parâmetro `connect` que especifica o tipo de conexão, que pode ser `LAN`(via proxy) ou `NET`(direto). Além deste, há também o method que pode ser `GET` ou `POST`, além dos outros parâmetros já conhecidos.
 
 ```js
-import Http from '@mambasdk/api/http.js'
+import Http from '@mambasdk/pos/api/http.js'
 
 const myRequest = {
   url: "http://myapi.com/",
