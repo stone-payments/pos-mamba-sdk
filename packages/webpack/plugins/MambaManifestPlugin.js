@@ -20,8 +20,8 @@ const createXmlManifest = () => {
           '@Version': '1.0',
           Member: [
             { '@Name': 'id', '#text': PKG.mamba.id },
-            { '@Name': 'appName', '#text': PKG.mamba.appName },
-            { '@Name': 'defaultName', '#text': PKG.mamba.appName }, // Deprecated
+            { '@Name': 'appName', '#text': PKG.name },
+            { '@Name': 'defaultName', '#text': PKG.name },
             { '@Name': 'displayedName', '#text': PKG.mamba.appName }, // Deprecated
             { '@Name': 'appVersion', '#text': PKG.version },
             { '@Name': 'appDescription', '#text': PKG.description },
