@@ -1,6 +1,6 @@
 {
   "name": "@mambasdk/webpack",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "description": "Webpack configs for Mamba Applications",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -27,7 +27,7 @@
     "pkg-dir": "^3.0.0",
     "postcss-loader": "^3.0.0",
     "progress-bar-webpack-plugin": "^1.11.0",
-    "quickenv": "^0.0.5",
+    "quickenv": "^0.0.6",
     "resolve-url-loader": "^2.3.0",
     "style-loader": "^0.22.1",
     "svelte-loader": "^2.10.1",
