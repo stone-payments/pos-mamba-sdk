@@ -21,7 +21,12 @@ export const INITIAL_META_DATA = {
 export default function createStoreMeta(store) {
   const meta = {
     /** Set deep for meta data */
-    set: (path = '', value) => store.setDeep(`__meta__.${path}`, value),
+    set: (path = '', value) => {
+      if (__DEV__) {
+        console.log(`[@mambasdk/store] Setting meta "${path}" to "${value}"`);
+      }
+      store.setDeep(`__meta__.${path}`, value);
+    },
 
     /** Get deep for meta data */
     get: (path = '') =>
