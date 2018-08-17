@@ -16,10 +16,10 @@
     "build:dev": "exit 0"
   },
   "devDependencies": {
-    "@mambasdk/sprite": "^0.0.1"
+    "@mambasdk/sprite": "^0.0.2"
   },
   "dependencies": {
     "@mambasdk/styles": "^0.0.1",
-    "@mambasdk/icon": "^0.0.3"
+    "@mambasdk/icon": "^0.0.4"
   }
 }

@@ -21,6 +21,6 @@
     "svelte-routing": "^0.4.2"
   },
   "dependencies": {
-    "@mambasdk/icon": "^0.0.3"
+    "@mambasdk/icon": "^0.0.4"
   }
 }

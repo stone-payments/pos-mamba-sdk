@@ -14,6 +14,6 @@
     "prepublishOnly": "exit 0; npm run build"
   },
   "dependencies": {
-    "@mambasdk/switch": "^0.0.1"
+    "@mambasdk/switch": "^0.0.2"
   }
 }

@@ -19,7 +19,7 @@
     "@mambasdk/styles": "^0.0.1"
   },
   "dependencies": {
-    "@mambasdk/icon": "^0.0.3"
+    "@mambasdk/icon": "^0.0.4"
   },
   "peerDependencies": {
     "@mambasdk/pos": "^0.0.12"
