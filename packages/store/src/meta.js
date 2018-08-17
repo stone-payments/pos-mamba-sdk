@@ -23,7 +23,7 @@ export default function createStoreMeta(store) {
     /** Set deep for meta data */
     set: (path = '', value) => {
       if (__DEV__) {
-        console.log(`[@mambasdk/store] Setting meta "${path}" to "${value}"`);
+        console.log(`[@mamba/store] Setting meta "${path}" to "${value}"`);
       }
       store.setDeep(`__meta__.${path}`, value);
     },

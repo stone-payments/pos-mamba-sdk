@@ -1,6 +1,6 @@
 {
-  "name": "@mambasdk/range",
-  "version": "0.0.2",
+  "name": "@mamba/range",
+  "version": "0.0.1",
   "svelte": "src/index.js",
   "files": [
     "src/"
@@ -17,6 +17,6 @@
     "build:dev": "exit 0"
   },
   "dependencies": {
-    "@mambasdk/styles": "^0.0.1"
+    "@mamba/styles": "^0.0.1"
   }
 }

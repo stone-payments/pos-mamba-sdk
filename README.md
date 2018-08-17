@@ -21,7 +21,7 @@ Make sure all dependencies have been installed before moving on:
 
 > [Bolt documentation](https://github.com/boltpkg/bolt/blob/master/README.md#commands)
 
-* `bolt w @mambasdk/<workspace> <npm-script>` - Run a npm script on a workspace. Examples:
-  * `bolt w @mambasdk/utils build` - Build the `@mambasdk/utils`;
-  * `bolt w @mambasdk/utils start` - Build while watching the `@mambasdk/utils`;
+* `bolt w @mamba/<workspace> <npm-script>` - Run a npm script on a workspace. Examples:
+  * `bolt w @mamba/utils build` - Build the `@mamba/utils`;
+  * `bolt w @mamba/utils start` - Build while watching the `@mamba/utils`;
 * `bolt ws <npm-script>` - Run a npm script on all workspaces.

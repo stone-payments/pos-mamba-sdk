@@ -24,4 +24,4 @@ exports.cliArgs = {
 };
 
 exports.getWebpackConfigPath = id =>
-  fromCwd('node_modules', '@mambasdk', 'webpack', `config.${id}.js`);
+  fromCwd('node_modules', '@mamba', 'webpack', `config.${id}.js`);

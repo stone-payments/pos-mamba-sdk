@@ -1,10 +1,10 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { IS_WATCHING } = require('quickenv');
 /** Read the template's .babelrc.js to enforce it in 'babel-loader' */
-const babelrc = require('@mambasdk/configs/babel/template.js');
-const { extendPresetEnv } = require('@mambasdk/configs/babel/utils.js');
+const babelrc = require('@mamba/configs/babel/template.js');
+const { extendPresetEnv } = require('@mamba/configs/babel/utils.js');
 /** Read the svelte config file from the project */
-const svelteConfig = require('@mambasdk/configs/svelte/index.js');
+const svelteConfig = require('@mamba/configs/svelte/index.js');
 
 const { IS_DEV } = require('./consts.js');
 

@@ -1,6 +1,6 @@
 {
-  "name": "@mambasdk/appbar",
-  "version": "0.0.7",
+  "name": "@mamba/appbar",
+  "version": "0.0.1",
   "svelte": "src/index.js",
   "files": [
     "src/"
@@ -17,11 +17,11 @@
     "build:dev": "exit 0"
   },
   "peerDependencies": {
-    "@mambasdk/styles": "^0.0.1",
+    "@mamba/styles": "^0.0.1",
     "svelte-routing": "^0.4.2"
   },
   "dependencies": {
-    "@mambasdk/icon": "^0.0.4",
-    "@mambasdk/store": "^0.0.3"
+    "@mamba/icon": "^0.0.1",
+    "@mamba/store": "^0.0.1"
   }
 }

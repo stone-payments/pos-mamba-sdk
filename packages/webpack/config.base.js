@@ -28,7 +28,7 @@ const MambaFixesPlugin = require('./plugins/MambaFixesPlugin.js');
 const entry = {
   app: [
     /** Mamba style resetter/normalizer */
-    '@mambasdk/styles/dist/pos.css',
+    '@mamba/styles/dist/pos.css',
     /** Mamba simulator entry point */
     IS_BROWSER && './simulator.js',
     /** App entry point */
@@ -57,7 +57,7 @@ module.exports = {
     /** Make webpack also resolve modules from './src' */
     modules: [fromCwd('src'), 'node_modules'],
     alias: {
-      '@mambasdk': fromCwd('node_modules', '@mambasdk'),
+      '@mamba': fromCwd('node_modules', '@mamba'),
       'svelte-routing': fromCwd('node_modules', 'svelte-routing'),
     },
   },
