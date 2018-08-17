@@ -2,7 +2,7 @@
   <div class="content">
     {#if !isAtHome}
       <div class="icon-left" on:click="goback()">
-        <Icon symbol="chevron-left" color={isAppLocked ? '#dbdbdb' : textColor} />
+        <Icon symbol="chevron-left" width="10px" color={isAppLocked ? '#dbdbdb' : textColor} />
       </div>
     {/if}
 
@@ -21,14 +21,14 @@
 
   export default {
     components: {
-      Icon: '@mambasdk/icon',
+      Icon: '@mamba/icon',
     },
     data() {
       return {
         _location: undefined,
         title: undefined,
-        textColor: '#fff',
-        bgColor: '#4ebf1a',
+        textColor: '#425963',
+        bgColor: '#f2f2f2',
       };
     },
     computed: {
@@ -80,7 +80,7 @@
 </script>
 
 <style type="text/postcss">
-  @import '@mambasdk/styles/colors.pcss';
+  @import '@mamba/styles/colors.pcss';
 
   $height: 36px;
   $item-horizontal-margin: 8px;
@@ -94,24 +94,27 @@
   .appbar {
     width: 100%;
     position: relative;
+    border-bottom: 2px solid #d0d0d0;
   }
 
   .title {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 0;
+    margin: 0;
     max-width: 154px;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
-    padding: 0;
-    margin: 0;
     color: inherit;
     font-size: $font-size;
     font-weight: 600;
-    line-height: $height;
+    line-height: 1;
     text-align: center;
     text-transform: uppercase;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    text-overflow: ellipsis;
+    user-select: none;
   }
 
   .content {
@@ -135,6 +138,7 @@
     height: 100%;
     padding-left: $item-horizontal-margin;
     padding-right: $item-horizontal-margin;
+    width: 40px;
   }
 
   .icon-left {

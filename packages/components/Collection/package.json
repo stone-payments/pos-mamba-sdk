@@ -1,6 +1,6 @@
 {
-  "name": "@mambasdk/collection",
-  "version": "0.0.6",
+  "name": "@mamba/collection",
+  "version": "0.0.1",
   "svelte": "src/index.js",
   "files": [
     "src/"
@@ -19,7 +19,7 @@
     "svelte-routing": "^0.4.2"
   },
   "dependencies": {
-    "@mambasdk/icon": "^0.0.3",
-    "@mambasdk/styles": "^0.0.1"
+    "@mamba/icon": "^0.0.1",
+    "@mamba/styles": "^0.0.1"
   }
 }

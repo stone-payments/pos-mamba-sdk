@@ -5,8 +5,12 @@ const PKG = getPkg();
 
 const createXmlManifest = () => {
   const date = new Date();
-  /** Reset the msecs */
-  date.setSeconds(date.getSeconds(), 0);
+
+  /** Align the date with POS timezone */
+  date.setHours(date.getHours() - 3, date.getMinutes(), date.getSeconds(), 0);
+
+  const isoDate = date.toISOString();
+  const formattedDate = isoDate.slice(0, isoDate.length - 5);
 
   return xmlBuilder
     .create(
@@ -16,21 +20,21 @@ const createXmlManifest = () => {
           '@Version': '1.0',
           Member: [
             { '@Name': 'id', '#text': PKG.mamba.id },
-            { '@Name': 'appName', '#text': PKG.mamba.appName },
-            { '@Name': 'defaultName', '#text': PKG.mamba.appName }, // Deprecated
+            { '@Name': 'appName', '#text': PKG.name },
+            { '@Name': 'defaultName', '#text': PKG.name },
             { '@Name': 'displayedName', '#text': PKG.mamba.appName }, // Deprecated
             { '@Name': 'appVersion', '#text': PKG.version },
             { '@Name': 'appDescription', '#text': PKG.description },
             { '@Name': 'iconPath', '#text': PKG.mamba.iconPath },
             {
               '@Name': 'runOnUserSelection',
-              '#text': PKG.mamba.runOnUserSelection,
+              '#text': 'index.html',
             },
             {
               '@Name': 'appCreationDate',
               '#text': PKG.mamba.appCreationDate,
             },
-            { '@Name': 'appLastModificationDate', '#text': date.toISOString() },
+            { '@Name': 'appLastModificationDate', '#text': formattedDate },
             { '@Name': 'listInMainMenu', '#text': PKG.mamba.listInMainMenu },
             { '@Name': 'appType', '#text': PKG.mamba.appType },
             { '@Name': 'appTechnology', '#text': PKG.mamba.appTechnology },

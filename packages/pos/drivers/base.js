@@ -36,7 +36,7 @@ export default {
         this._listening[signal].splice(slotIndex, 1);
       } else if (__DEV__) {
         console.warn(
-          '[@mambasdk/pos/driver] Tried to disconnect a non-connected slot.',
+          '[@mamba/pos/driver] Tried to disconnect a non-connected slot.',
         );
       }
     }

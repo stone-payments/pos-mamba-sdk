@@ -9,7 +9,6 @@ const transpileIgnoreBaseCondition = {
   exclude: [
     /node_modules[\\/].+[\\/]node_modules/, // exclude sub dependencies of linked packaged
     /core-js/, // exclude babel polyfills
-    /loader|webpack/, // exclude webpack files from being parsed
   ],
 };
 

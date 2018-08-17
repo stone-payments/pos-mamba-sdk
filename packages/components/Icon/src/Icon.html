@@ -1,4 +1,4 @@
-<div ref:icon class="icon" {...attrs} on:click></div>
+<div ref:icon class="icon" {style} {...attrs} on:click></div>
 
 <script>
   export default {
@@ -6,21 +6,24 @@
       return {
         size: 'normal',
         symbol: 'custom',
+        src: undefined,
+        color: undefined,
         level: undefined,
+        width: undefined,
+        height: undefined,
       };
     },
-    onupdate({ current: { color, src } }) {
-      const iconEl = this.refs.icon;
-
-      if (color) {
-        iconEl.style.backgroundColor = color;
-      }
-
-      if (src) {
-        iconEl.style.webkitMaskImage = `url(${src})`;
-      }
-    },
     computed: {
+      style({ src, color, width, height }) {
+        return [
+          color && `background-color: ${color}`,
+          src && `-webkit-mask-image: url(${src})`,
+          width && `width: ${width}`,
+          height && `height: ${height}`,
+        ]
+          .filter(Boolean)
+          .join(';');
+      },
       attrs({ symbol, size, level }) {
         return {
           symbol,
@@ -94,6 +97,7 @@
     background-color: #494949;
     mask-size: cover;
     mask-repeat: no-repeat;
+    mask-position: center;
   }
 
   [size='large'] {

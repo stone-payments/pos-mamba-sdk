@@ -1,6 +1,6 @@
 {
-  "name": "@mambasdk/dialog",
-  "version": "0.0.4",
+  "name": "@mamba/dialog",
+  "version": "0.0.1",
   "svelte": "src/index.js",
   "files": [
     "src/"
@@ -16,10 +16,10 @@
     "build:dev": "exit 0"
   },
   "devDependencies": {
-    "@mambasdk/sprite": "^0.0.1"
+    "@mamba/sprite": "^0.0.1"
   },
   "dependencies": {
-    "@mambasdk/styles": "^0.0.1",
-    "@mambasdk/icon": "^0.0.3"
+    "@mamba/styles": "^0.0.1",
+    "@mamba/icon": "^0.0.1"
   }
 }

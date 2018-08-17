@@ -1,6 +1,6 @@
 # Printable
 
-O componente `@mambasdk/printable` encapsula o fluxo de impressão do POS, permitindo a impressão de qualquer conteúdo HTML estático .
+O componente `@mamba/printable` encapsula o fluxo de impressão do POS, permitindo a impressão de qualquer conteúdo HTML estático .
 
 ## Parâmetros
 
@@ -25,7 +25,7 @@ Envia o conteúdo do componente `printable` para impressão.
 <script>
   export default {
     components: {
-      Printable: '@mambasdk/printable',
+      Printable: '@mamba/printable',
     },
   };
 </script>

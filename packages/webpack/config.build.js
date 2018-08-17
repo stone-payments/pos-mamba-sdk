@@ -30,7 +30,7 @@ module.exports = merge(require('./config.base.js'), {
           {
             source: `./dist/${BUNDLE_NAME}/`,
             destination: `./dist/${BUNDLE_NAME}.tar.gz`,
-            format: 'zip',
+            format: 'tar',
             options: {
               gzip: true,
               gzipOptions: { level: 1 },

@@ -63,13 +63,23 @@ module.exports = {
         const normalizedName = Case.kebab(removeDiacritics(name));
         const date = new Date();
 
+        date.setHours(
+          date.getHours() - 3,
+          date.getMinutes(),
+          date.getSeconds(),
+          0,
+        );
+
+        const isoDate = date.toISOString();
+        const formattedDate = isoDate.slice(0, isoDate.length - 5);
+
         pkgJson.name = normalizedName;
         pkgJson.version = version;
         pkgJson.description = description;
 
-        pkgJson.mamba.appCreationDate = date.toISOString();
+        pkgJson.mamba.appCreationDate = formattedDate;
         pkgJson.mamba.id = parseInt(
-          hashString(normalizedName + date.toISOString() + description)
+          hashString(normalizedName + formattedDate + description)
             .toString()
             .slice(0, 5),
           10,

@@ -1,4 +1,4 @@
-# @mambasdk/styles
+# @mamba/styles
 
 > Mamba style related package.
 

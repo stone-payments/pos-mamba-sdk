@@ -1,6 +1,6 @@
 {
-  "name": "@mambasdk/sprite",
-  "version": "0.0.2",
+  "name": "@mamba/sprite",
+  "version": "0.0.1",
   "svelte": "src/index.js",
   "files": [
     "src/"
@@ -16,6 +16,6 @@
     "build:dev": "exit 0"
   },
   "devDependencies": {
-    "@mambasdk/styles": "^0.0.1"
+    "@mamba/styles": "^0.0.1"
   }
 }

@@ -1,4 +1,4 @@
-# @mambasdk/cli
+# @mamba/cli
 
 > A CLI to help developing Mamba Applications
 

@@ -28,7 +28,7 @@ interface Keyboard {
 Define que a máquina irá digitar apenas números.
 
 ```js
-import Keyboard from'@mambasdk/pos/api/keyboard.js'
+import Keyboard from'@mamba/pos/api/keyboard.js'
 
 Keyboard.setKeyboardAsNumeric()
 ```
@@ -38,7 +38,7 @@ Keyboard.setKeyboardAsNumeric()
 Define que a máquina irá digitar caracteres alfanuméricos.
 
 ```js
-import Keyboard from '@mambasdk/pos/api/keyboard.js'
+import Keyboard from '@mamba/pos/api/keyboard.js'
 
 Keyboard.setKeyboardAsAlphanumeric()
 ```
@@ -48,7 +48,7 @@ Keyboard.setKeyboardAsAlphanumeric()
 Retorna o `código da tecla` referente a uma tecla da máquina.
 
 ```js
-import Keyboard from '@mambasdk/pos/api/keyboard.js'
+import Keyboard from '@mamba/pos/api/keyboard.js'
 
 Keyboard.getKeyCode('enter'); // 13
 Keyboard.getKeyCode('back'); // 8
@@ -65,7 +65,7 @@ Keyboard.getKeyCode('9'); // 57
 Retorna o `nome da tecla` referente ao código de uma tecla da máquina.
 
 ```js
-import Keyboard from '@mambasdk/pos/api/keyboard.js'
+import Keyboard from '@mamba/pos/api/keyboard.js'
 
 Keyboard.getKeyName(13); // 'enter'
 Keyboard.getKeyName(8); // 'back'
@@ -82,7 +82,7 @@ Keyboard.getKeyName(57); // '9'
 Retorna se uma tecla representa um número.
 
 ```js
-import Keyboard from '@mambasdk/pos/api/keyboard.js'
+import Keyboard from '@mamba/pos/api/keyboard.js'
 
 /** 13 = 'enter' */
 Keyboard.isNumericKey(13); // false
@@ -96,7 +96,7 @@ Keyboard.isNumericKey(57); // true
 Retorna se uma tecla representa uma ação.
 
 ```js
-import Keyboard from '@mambasdk/pos/api/keyboard.js'
+import Keyboard from '@mamba/pos/api/keyboard.js'
 
 /** 13 = 'enter' */
 Keyboard.isActionKey(13); // true
@@ -118,7 +118,7 @@ Desabilita o uso do botão de `voltar` no aplicativo em questão.
 Habilita o uso do botão de `voltar` no aplicativo em questão.
 
 ```js
-import Keyboard from '@mambasdk/pos/api/keyboard.js'
+import Keyboard from '@mamba/pos/api/keyboard.js'
 
 Keyboard.isBackspaceEnabled(); // true
 

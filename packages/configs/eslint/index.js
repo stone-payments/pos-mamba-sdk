@@ -93,7 +93,7 @@ module.exports = {
     'import/no-unresolved': [
       'error',
       {
-        ignore: ['.(?:svelte|html)$', '^(@mambasdk[\\/]|svelte-)'],
+        ignore: ['.(?:svelte|html)$', '^(@mamba[\\/]|svelte-)'],
       },
     ],
 
