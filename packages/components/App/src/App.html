@@ -72,10 +72,13 @@
           history.goBack();
         }
       },
-      /** Prevent default back button behaviour */
+      /** Prevent default back/enter button behaviour */
       onKeydown(e) {
         const keyName = Keyboard.getKeyName(e.keyCode);
-        if (keyName === 'back' && isValidShortcut(keyName, e)) {
+        if (
+          (keyName === 'back' || keyName === 'enter') &&
+          isValidShortcut(keyName, e)
+        ) {
           e.preventDefault();
         }
       },
