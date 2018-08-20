@@ -28,6 +28,7 @@ module.exports = {
       files: ['src/mamba/**/*.js'],
       rules: {
         'no-param-reassign': ['off'],
+        'no-console': ['off'],
       },
     },
   ],
