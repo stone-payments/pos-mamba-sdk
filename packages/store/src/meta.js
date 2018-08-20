@@ -3,8 +3,6 @@
 /** Initial data that overrides local storage */
 export const INITIAL_META_DATA = {
   __meta__: {
-    /** Default app title. Used internally by <AppBar/> */
-    title: 'Mamba App',
     /** Define if the user can change the current page (back and home) */
     locked: false,
     /** Define if keyboard shortcuts are active */
@@ -44,13 +42,7 @@ export default function createStoreMeta(store) {
     closeApp: () => meta.fire('close'),
     askOnClose: value => meta.set('askOnClose', !!value),
     setOnClose: callback => meta.set('onCloseFn', callback),
-
-    /** Method for propagating the app title */
-    setTitle: title => {
-      meta.set('title', title);
-      meta.fire('title', title);
-      document.title = title;
-    },
   };
+
   store.meta = meta;
 }
