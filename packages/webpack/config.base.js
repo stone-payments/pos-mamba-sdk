@@ -83,7 +83,10 @@ module.exports = {
       {
         test: /\.(htmlx?|svelte)$/,
         include: [/node_modules/],
-        exclude: [/node_modules[\\/].+[\\/]node_modules/],
+        /** When developing, parse linked packages svelte dependencies */
+        exclude: [IS_PROD && /node_modules[\\/].+[\\/]node_modules/].filter(
+          Boolean,
+        ),
         use: [loaders.babelEsNext, loaders.svelte],
       },
       /**

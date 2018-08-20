@@ -1,4 +1,12 @@
-<div ref:icon class="icon" {style} {...attrs} on:click></div>
+<div
+  ref:icon
+  class="icon"
+  {style}
+  {symbol}
+  {size}
+  {level}
+  on:click>
+</div>
 
 <script>
   export default {
@@ -23,13 +31,6 @@
         ]
           .filter(Boolean)
           .join(';');
-      },
-      attrs({ symbol, size, level }) {
-        return {
-          symbol,
-          size,
-          level,
-        };
       },
     },
   };
@@ -90,7 +91,7 @@
   }
 
   .icon {
-    display: block;
+    display: inline-block;
     width: 24px;
     height: 24px;
     background-color: #494949;

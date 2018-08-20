@@ -1,4 +1,4 @@
-<div class="round-icon" {size} style="background-color: {bgColor}; border-radius: {borderRadius};">
+<div class="round-icon" {size} {style}>
   <Icon {...iconAttrs} on:click/>
 </div>
 
@@ -16,10 +16,16 @@
         size: 'normal',
       };
     },
-    oncreate() {
-      const iconAttrs = Object.assign({}, this.get());
-      delete iconAttrs.bgColor;
-      this.set({ iconAttrs });
+    computed: {
+      style({ bgColor, borderRadius }) {
+        return [
+          bgColor && `background-color: ${bgColor};`,
+          borderRadius && `border-radius: ${borderRadius}`,
+        ]
+          .filter(Boolean)
+          .join(';');
+      },
+      iconAttrs: ({ bgColor, ...attrs }) => attrs,
     },
   };
 </script>
@@ -30,6 +36,7 @@
     padding: 15px;
     background-color: red;
     text-align: center;
+    line-height: 0;
   }
 
   [size='small'] {

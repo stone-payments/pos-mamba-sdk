@@ -3,13 +3,11 @@
     onupdate({ previous }) {
       if (!previous) {
         if (!this.store) {
-          throw new Error(
-            '[@mamba/appbar/title] No svelte store found. Cannot change appbar title.',
-          );
+          throw new Error('No svelte store found. Cannot propagate props.');
         }
 
         if (this.options.data) {
-          this.store.meta.setTitle(this.options.data.label);
+          this.store.fire('modifier:appbar', { ...this.options.data });
         }
       }
     },

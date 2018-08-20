@@ -39,6 +39,11 @@
       homeIcon: ({ isAtHome }) => (isAtHome ? 'home' : 'app-home'),
       isAppLocked: ({ $__meta__ }) => $__meta__.locked,
     },
+    onstate({ changed, current }) {
+      if (changed.title) {
+        document.title = current.title;
+      }
+    },
     oncreate() {
       const history = getHistory();
 
@@ -52,7 +57,7 @@
 
       /** Listen for app title changes */
       if (this.store) {
-        this.store.meta.on('title', title => this.set({ title }));
+        this.store.on('modifier:appbar', state => this.set(state));
       }
     },
     methods: {

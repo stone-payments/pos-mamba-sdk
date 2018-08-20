@@ -1,6 +1,6 @@
 {
   "name": "@mamba/input",
-  "version": "0.0.2-alpha.1",
+  "version": "0.0.2-alpha.2",
   "svelte": "src/index.js",
   "files": [
     "src/"
@@ -16,12 +16,12 @@
     "build:dev": "exit 0"
   },
   "devDependencies": {
-    "@mamba/styles": "^0.0.2-alpha.1"
+    "@mamba/styles": "^0.0.2-alpha.2"
   },
   "dependencies": {
-    "@mamba/icon": "^0.0.2-alpha.1"
+    "@mamba/icon": "^0.0.2-alpha.2"
   },
   "peerDependencies": {
-    "@mamba/pos": "^0.0.2-alpha.1"
+    "@mamba/pos": "^0.0.2-alpha.2"
   }
 }
