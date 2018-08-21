@@ -2,6 +2,7 @@
   class="input -{type} {readable ? 'is-readable' : ''}"
   style="background-color: {bgColor}; color: {textColor};"
   on:mousedown="_onMousedown(event)"
+  ref:container
 >
   {#if label}
     <span>{label}</span>
@@ -53,7 +54,7 @@
         autofocus: false,
         disabled: false,
         bgColor: '#fff',
-        textColor: '#4a4a4a',
+        textColor: '#757575',
         errorColor: '#d50000',
       };
     },
@@ -102,6 +103,7 @@
       // TODO: when '_visible' changes, it triggers a focus
       _onFocus() {
         const { alphanumeric } = this.get();
+        this.refs.container.classList.add('is-focused');
         if (alphanumeric) {
           Keyboard.setKeyboardAsAlphanumeric();
         } else {
@@ -110,13 +112,16 @@
       },
       _onBlur() {
         const { alphanumeric } = this.get();
+        this.refs.container.classList.remove('is-focused');
         if (alphanumeric) {
           Keyboard.setKeyboardAsNumeric();
         }
       },
       _onKeyUp(e) {
         const key = Keyboard.getKeyName(e.keyCode);
+
         this.fire('keyup');
+
         if (key === 'enter') {
           if (this.validate()) {
             this.fire('valid');
@@ -171,10 +176,16 @@
     width: 100%;
     padding: 10px 15px;
     background-color: #fff;
-  }
+    transition: 0.3s ease border-bottom;
+    border-bottom: 2px solid transparent;
 
-  .input.is-readable input {
-    padding-right: 40px;
+    &.is-readable input {
+      padding-right: 40px;
+    }
+
+    &.is-focused {
+      border-bottom-color: #4ebf1a;
+    }
   }
 
   span {
