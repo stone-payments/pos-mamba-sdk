@@ -1,8 +1,8 @@
 <header class="appbar" {style}>
   <div class="content">
-    {#if !isAtHome}
+    {#if !isAtHome && !isAppLocked}
       <div class="icon-left" on:click="goback()">
-        <Icon symbol="chevron-left" width="10px" color={isAppLocked ? '#dbdbdb' : textColor} />
+        <Icon symbol="chevron-left" width="10px" color={textColor} />
       </div>
     {/if}
 
@@ -10,9 +10,11 @@
       <div class="title">{title}</div>
     {/if}
 
-    <div class="icon-right" on:click="gohome()">
-      <Icon symbol={homeIcon} color={isAppLocked ? '#dbdbdb' : textColor}/>
-    </div>
+    {#if !isAppLocked}
+      <div class="icon-right" on:click="gohome()">
+        <Icon symbol={homeIcon} color={textColor}/>
+      </div>
+    {/if}
   </div>
 </header>
 
