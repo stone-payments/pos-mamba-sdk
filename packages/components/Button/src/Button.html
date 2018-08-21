@@ -18,12 +18,11 @@
         bgColor: '4ebf1a',
         /** Border color */
         borderColor: null,
+        width: null,
       };
     },
     computed: {
-      style({
-        textColor, bgColor, width, borderColor,
-      }) {
+      style({ textColor, bgColor, width, borderColor }) {
         return [
           textColor && `color:${textColor}`,
           bgColor && `background-color:${bgColor}`,
@@ -35,6 +34,9 @@
       },
     },
     methods: {
+      click() {
+        this.refs.button.click();
+      },
       focus() {
         this.refs.button.focus();
       },

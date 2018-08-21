@@ -5,7 +5,7 @@
       {#if _hasController}
         <div ref:controller>
           {#if href}
-            <Icon symbol="chevron-right"/>
+            <Icon symbol="chevron-right" width="10px" />
           {:elseif _hasCustomController}
             <slot name="controller"></slot>
           {/if}
@@ -118,7 +118,7 @@
     line-height: 1.5rem;
     background: #fff;
     color: #494949;
-    border-bottom: 1px solid #f4f4f4;
+    border-bottom: 1px solid #e3e6e7;
   }
 
   .row ref:row:last-child {

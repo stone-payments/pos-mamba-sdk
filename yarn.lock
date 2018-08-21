@@ -3554,12 +3554,12 @@ file-entry-cache@^2.0.0:
     flat-cache "^1.2.1"
     object-assign "^4.0.1"
 
-file-loader@^1.1.11:
-  version "1.1.11"
-  resolved "https://registry.yarnpkg.com/file-loader/-/file-loader-1.1.11.tgz#6fe886449b0f2a936e43cabaac0cdbfb369506f8"
+file-loader@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/file-loader/-/file-loader-2.0.0.tgz#39749c82f020b9e85901dcff98e8004e6401cfde"
   dependencies:
     loader-utils "^1.0.2"
-    schema-utils "^0.4.5"
+    schema-utils "^1.0.0"
 
 filemanager-webpack-plugin@^2.0.1:
   version "2.0.1"
@@ -5741,20 +5741,9 @@ markdown-escapes@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/markdown-escapes/-/markdown-escapes-1.0.2.tgz#e639cbde7b99c841c0bacc8a07982873b46d2122"
 
-markdown-loader@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/markdown-loader/-/markdown-loader-3.0.0.tgz#a36b65f66c9b4a22731b7d4824202ef972f23f11"
-  dependencies:
-    loader-utils "^1.1.0"
-    marked "^0.4.0"
-
 markdown-table@^1.1.0:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/markdown-table/-/markdown-table-1.1.2.tgz#c78db948fa879903a41bce522e3b96f801c63786"
-
-marked@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/marked/-/marked-0.4.0.tgz#9ad2c2a7a1791f10a852e0112f77b571dce10c66"
 
 math-random@^1.0.1:
   version "1.0.1"
@@ -9091,9 +9080,9 @@ svelte-loader@^2.10.1:
     loader-utils "^1.1.0"
     svelte-dev-helper "^1.1.7"
 
-svelte-preprocess@^2.2.3:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-2.2.3.tgz#e9bc001c108c2a805effc085d60f0a68c9e87695"
+svelte-preprocess@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-2.2.4.tgz#130ce0b0fd8850642177b11171f3fb34214d0001"
   dependencies:
     postcss-load-config "^2.0.0"
     strip-indent "^2.0.0"

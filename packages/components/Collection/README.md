@@ -16,6 +16,7 @@ O módulo `Collection` é composto de dois componentes: `Collection` e `Row` que
 
 | Parâmetro   | Descrição                         | Tipo               | Padrão        |
 |-------------|-----------------------------------|--------------------|---------------|
+| label        | Texto da linha  | `string`           | `''`   |
 | href        | Link acionado quando a `<Row/>` é clicada  | `string`           | `undefined`   |
 | showExtra   | Mostra o conteúdo extra           | `boolean`          | `false`       |
 | shortcut    | Tecla de atalho para a ação da `<Row/>`: `0..9`,`enter`,`shortcuts`,`help` | `string` (keyname) | `undefined`   |

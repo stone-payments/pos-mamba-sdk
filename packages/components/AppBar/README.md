@@ -13,6 +13,7 @@ O módulo `AppBar` é composto por dois componentes: `AppBar` e `AppBarModifier`
 | title     | Título da AppBar    | `string`          | `''`        |
 | textColor | Cor do Título       | `string` (hex)    | `'#fff'`    |
 | bgColor   | Cor de Fundo da AppbBar| `string` (hex) | `'#4ebf1a'` |
+| border   | Mostra a borda abaixo da `AppBar` | `boolean` | `true` |
 
 `<AppBarModifier ...props/>`
 
@@ -21,3 +22,4 @@ O módulo `AppBar` é composto por dois componentes: `AppBar` e `AppBarModifier`
 | title     | Título da AppBar    | `string`          | `''`        |
 | textColor | Cor do Título       | `string` (hex)    | `'#fff'`    |
 | bgColor   | Cor de Fundo da AppbBar| `string` (hex) | `'#4ebf1a'` |
+| border   | Mostra a borda abaixo da `AppBar` | `boolean` | `true` |

@@ -1,6 +1,6 @@
 {
   "name": "@mamba/configs",
-  "version": "0.0.2-alpha.2",
+  "version": "0.0.2-alpha.3",
   "description": "Tool config presets for use in mamba projects.",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -13,7 +13,7 @@
     "postcss": "^7.0.2",
     "prettier": "^1.14.2",
     "stylelint": "^9.5.0",
-    "svelte-preprocess": "^2.2.3"
+    "svelte-preprocess": "^2.2.4"
   },
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.0.0-rc.1",

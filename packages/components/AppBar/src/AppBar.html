@@ -1,8 +1,8 @@
 <header class="appbar" {style}>
   <div class="content">
-    {#if !isAtHome}
+    {#if !isAtHome && !isAppLocked}
       <div class="icon-left" on:click="goback()">
-        <Icon symbol="chevron-left" width="10px" color={isAppLocked ? '#dbdbdb' : textColor} />
+        <Icon symbol="chevron-left" width="10px" color={textColor} />
       </div>
     {/if}
 
@@ -10,9 +10,11 @@
       <div class="title">{title}</div>
     {/if}
 
-    <div class="icon-right" on:click="gohome()">
-      <Icon symbol={homeIcon} color={isAppLocked ? '#dbdbdb' : textColor}/>
-    </div>
+    {#if !isAppLocked}
+      <div class="icon-right" on:click="gohome()">
+        <Icon symbol={homeIcon} color={textColor}/>
+      </div>
+    {/if}
   </div>
 </header>
 
@@ -29,11 +31,18 @@
         title: undefined,
         textColor: '#425963',
         bgColor: '#f2f2f2',
+        border: true,
       };
     },
     computed: {
-      style({ bgColor, textColor }) {
-        return [`color:${textColor}`, `background-color:${bgColor}`].join(';');
+      style({ bgColor, textColor, border }) {
+        return [
+          `color:${textColor}`,
+          `background-color:${bgColor}`,
+          !border && `border-bottom: none;`,
+        ]
+          .filter(Boolean)
+          .join(';');
       },
       isAtHome: ({ _location }) => _location === '/',
       homeIcon: ({ isAtHome }) => (isAtHome ? 'home' : 'app-home'),
@@ -85,21 +94,17 @@
 </script>
 
 <style type="text/postcss">
-  @import '@mamba/styles/colors.pcss';
+  @import '@mamba/styles/theme.pcss';
 
-  $height: 36px;
   $item-horizontal-margin: 8px;
-
-  $background-color: $white;
-  $border-color: $grey-light;
-
-  $font-size: 0.9rem;
-  $font-color: $white;
 
   .appbar {
     width: 100%;
     position: relative;
+    z-index: $layer-appbar;
     border-bottom: 2px solid #d0d0d0;
+    height: $appbar-height;
+    overflow: hidden;
   }
 
   .title {
@@ -113,9 +118,9 @@
     white-space: nowrap;
     overflow: hidden;
     color: inherit;
-    font-size: $font-size;
+    font-size: 14px;
+    line-height: 13px;
     font-weight: 600;
-    line-height: 1;
     text-align: center;
     text-transform: uppercase;
     text-overflow: ellipsis;
@@ -125,13 +130,6 @@
   .content {
     padding-left: $item-horizontal-margin;
     padding-right: $item-horizontal-margin;
-    min-height: $height;
-  }
-
-  .icon {
-    cursor: pointer;
-    height: $height;
-    width: 34px;
   }
 
   .icon-left,
