@@ -17,7 +17,7 @@
     "css-loader": "^1.0.0",
     "cssnano": "^4.0.5",
     "eslint-loader": "^2.1.0",
-    "file-loader": "^1.1.11",
+    "file-loader": "^2.0.0",
     "filemanager-webpack-plugin": "^2.0.1",
     "html-minifier": "^3.5.20",
     "json-loader": "^0.5.7",
