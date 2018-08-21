@@ -96,14 +96,7 @@
 <style type="text/postcss">
   @import '@mamba/styles/theme.pcss';
 
-  $height: 36px;
   $item-horizontal-margin: 8px;
-
-  $background-color: $white;
-  $border-color: $grey-light;
-
-  $font-size: 0.9rem;
-  $font-color: $white;
 
   .appbar {
     width: 100%;
@@ -125,9 +118,9 @@
     white-space: nowrap;
     overflow: hidden;
     color: inherit;
-    font-size: $font-size;
+    font-size: 14px;
+    line-height: 13px;
     font-weight: 600;
-    line-height: 1;
     text-align: center;
     text-transform: uppercase;
     text-overflow: ellipsis;
@@ -137,13 +130,6 @@
   .content {
     padding-left: $item-horizontal-margin;
     padding-right: $item-horizontal-margin;
-    min-height: $height;
-  }
-
-  .icon {
-    cursor: pointer;
-    height: $height;
-    width: 34px;
   }
 
   .icon-left,
