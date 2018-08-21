@@ -29,11 +29,18 @@
         title: undefined,
         textColor: '#425963',
         bgColor: '#f2f2f2',
+        border: true,
       };
     },
     computed: {
-      style({ bgColor, textColor }) {
-        return [`color:${textColor}`, `background-color:${bgColor}`].join(';');
+      style({ bgColor, textColor, border }) {
+        return [
+          `color:${textColor}`,
+          `background-color:${bgColor}`,
+          !border && `border-bottom: none;`,
+        ]
+          .filter(Boolean)
+          .join(';');
       },
       isAtHome: ({ _location }) => _location === '/',
       homeIcon: ({ isAtHome }) => (isAtHome ? 'home' : 'app-home'),
