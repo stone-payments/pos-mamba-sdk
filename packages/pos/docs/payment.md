@@ -3,7 +3,7 @@
 ## Descrição
 
 O módulo de Payment da API Nativa expõe métodos de controle de pagamento e informações sobre
-o estado deste. Para execução do pagamento, a aplicação nativa de pagamentos será chamada para realizar
+o estado do mesmo. Para execução do pagamento, a aplicação nativa de pagamentos será chamada para realizar
 a transação.
 
 ## Interface
@@ -113,6 +113,8 @@ Payment.failedPaying(); // true or false
 
 ### getCardHolderName()
 
+Retorna o nome do portador do cartão inserido no leitor.
+
 ```js
 import Payment from '@mamba/pos/api/payment.js';
 
@@ -141,7 +143,7 @@ Payment.getItk(); // '11111111111111'
 
 ### getAuthorizationDateTime()
 
-Retorna o horário da trasansação, caso ocorra falhas retorna uma linha vazia.
+Retorna o horário da transação e, caso ocorra falha, retorna uma linha vazia.
 
 ```js
 import Payment from '@mamba/pos/api/payment.js';
@@ -151,7 +153,7 @@ Payment.getAuthorizationDateTime(); // '2018-05-03:00:00:00.00'
 
 ### getBrand()
 
-Retorna a Bandeira da transação
+Retorna a Bandeira da transação.
 
 ```js
 import Payment from '@mamba/pos/api/payment.js';
@@ -161,7 +163,7 @@ Payment.getBrand(); // 'MASTER'
 
 ### getOrderId()
 
-Retorna o id do pagamento, em caso de erros retorna uma `string` vazia.
+Retorna o id do pagamento e, em caso de erro, retorna uma `string` vazia.
 
 ```js
 import Payment from '@mamba/pos/api/payment.js';
@@ -191,7 +193,7 @@ Payment.getAuthorizationCode(); // 0
 
 ### getPan()
 
-Retorna o número da conta do cartão em que compra foi realizado. Caso a operação falhe, retorna uma
+Retorna o PAN (Permanent Account Number) mascarado do cartão em que compra foi realizado. Caso a operação falhe, retorna uma
 `string` vazia.
 
 ```js
@@ -212,7 +214,7 @@ Payment.getType(); // 'CREDITO'
 
 ### cancel(atk)
 
-Cancela uma transação utilizando o atk desta.
+Cancela uma transação utilizando o ATK desta.
 
 ```js
 import Payment from '@mamba/pos/api/payment.js';
