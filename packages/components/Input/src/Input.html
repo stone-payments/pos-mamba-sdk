@@ -1,7 +1,7 @@
 <label
   class="input -{type} {readable ? 'is-readable' : ''}"
   style="background-color: {bgColor}; color: {textColor};"
-  on:mousedown="onMousedown(event)"
+  on:mousedown="_onMousedown(event)"
 >
   {#if label}
     <span>{label}</span>
@@ -13,10 +13,10 @@
     type={_visible ? 'text' : 'password'}
     style="color: {textColor};"
     {disabled}
-    on:focus="onFocus()"
-    on:blur="onBlur()"
-    on:keyup="onKeyUp(event)"
-    on:input="set({ value: this.value })"
+    on:focus="_onFocus()"
+    on:blur="_onBlur()"
+    on:keyup="_onKeyUp(event)"
+    on:input="_onInput(event)"
   />
 
   {#if type === 'password' && readable}
@@ -87,19 +87,11 @@
     methods: {
       /** Prepend text to the input */
       prepend(value) {
-        this.refs.input.value = value + this.refs.input.value;
+        this.set({ value: value + this.get().value });
       },
       /** Append text to the input */
       append(value) {
-        this.refs.input.value += value;
-      },
-      /** Set or get the input value */
-      value(inputValue) {
-        const inputEl = this.refs.input;
-        if (inputValue != null) {
-          inputEl.value = inputValue;
-        }
-        return inputEl.value;
+        this.set({ value: this.get().value + value });
       },
       focus() {
         this.refs.input.focus();
@@ -108,7 +100,7 @@
         this.refs.input.blur();
       },
       // TODO: when '_visible' changes, it triggers a focus
-      onFocus() {
+      _onFocus() {
         const { alphanumeric } = this.get();
         if (alphanumeric) {
           Keyboard.setKeyboardAsAlphanumeric();
@@ -116,13 +108,13 @@
           Keyboard.setKeyboardAsNumeric();
         }
       },
-      onBlur() {
+      _onBlur() {
         const { alphanumeric } = this.get();
         if (alphanumeric) {
           Keyboard.setKeyboardAsNumeric();
         }
       },
-      onKeyUp(e) {
+      _onKeyUp(e) {
         const key = Keyboard.getKeyName(e.keyCode);
         this.fire('keyup');
         if (key === 'enter') {
@@ -135,8 +127,12 @@
           this.fire('submit');
         }
       },
+      _onInput(e) {
+        this.set({ value: this.refs.input.value });
+        this.fire('input', e);
+      },
       /** We use mousedown instead of click because it fires before the input's .focus() */
-      onMousedown() {
+      _onMousedown() {
         const { type, _visible, readable } = this.get();
         /** Change password visibility only if element is focused */
         if (
