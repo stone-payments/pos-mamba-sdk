@@ -12,10 +12,11 @@ Para casos de apenas uma exibição de mensagem durante um período de tempo, o 
 
 | Parâmetro   | Descrição                                              | Tipo            | Padrão     |
 |-------------|--------------------------------------------------------|-----------------|------------|
-| align       | Alinha o conteúdo do Modal. (`left`, `right`, `center`)| `string`        | `center`   |
-| bgColor     | Define a cor de fundo do Modal                         | `string`        | `'#e3e3e3'`|
-| textColor   | Define a cor do texto do Modal                         | `boolean`       | `'#4a4a4a'`|
-| title       | Título do Modal                                        | `string`        | `undefined`|
+| align       | Alinha o conteúdo do modal. (`left`, `right`, `center`)| `string`        | `center`   |
+| bgColor     | Define a cor de fundo do modal                         | `string`        | `'#e3e3e3'`|
+| textColor   | Define a cor do texto do modal                         | `boolean`       | `'#4a4a4a'`|
+| title       | Título do modal                                        | `string`        | `undefined`|
+| fullscreen  | Define se o modal ocupará a tela inteira               | `boolean`       | `false`    |
 
 `<ConfirmationDialog ...props />`
 
@@ -34,8 +35,9 @@ Para casos de apenas uma exibição de mensagem durante um período de tempo, o 
 ## Métodos
 
 ### open(duration)
+
 Abre o `Dialog` e o mantém aberto pelo tempo especificado.
 
 ### close(delay)
-Fecha o `Dialog` após o tempo especificado.
 
+Fecha o `Dialog` após o tempo especificado.

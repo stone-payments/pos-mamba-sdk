@@ -1,33 +1,43 @@
 {#if _isOpen}
-<div class="dialog" {style}>
-  <div class="content -align-{align}">
-    <div class="message">
-      {#if title}
-      <div class="title">{title}</div>
-      {/if}
-      <slot></slot>
-    </div>
-    <div class="extra">
-      <slot name="extra"></slot>
+  <div class={dialogClass} {style} >
+    <div class="content -align-{align}">
+      <div class="message">
+        {#if title}
+        <div class="title">{title}</div>
+        {/if}
+        <slot></slot>
+      </div>
+      <div class="extra">
+        <slot name="extra"></slot>
+      </div>
     </div>
   </div>
-</div>
 {/if}
 
 <script>
   export default {
     data() {
       return {
+        /** Dialog open state */
         _isOpen: false,
+        /** Should the dialog automatic lock the appw */
+        _autoAppLock: true,
         title: undefined,
         bgColor: '#e3e3e3',
-        textColor: '#4a4a4a',
+        textColor: '#353535',
         align: 'center',
       };
     },
     computed: {
       style({ bgColor, textColor }) {
-        return `background-color:${bgColor};color:${textColor}`;
+        return [`background-color:${bgColor}`, `color:${textColor}`]
+          .filter(Boolean)
+          .join(';');
+      },
+      dialogClass({ fullscreen }) {
+        return ['dialog', fullscreen && 'is-fullscreen']
+          .filter(Boolean)
+          .join(' ');
       },
     },
     methods: {
@@ -37,7 +47,11 @@
 
         /** If there's a existant store, let's lock the app */
         if (this.store) {
-          this.store.meta.lockApp(true);
+          if (this.store.meta.isAppLocked()) {
+            this.set({ _autoAppLock: false });
+          } else {
+            this.store.meta.lockApp(true);
+          }
         }
 
         if (typeof duration !== 'undefined') {
@@ -46,14 +60,16 @@
       },
       close(delay) {
         if (typeof delay !== 'undefined') {
-          return new Promise(resolve => setTimeout(() => {
-            this.close();
-            resolve();
-          }, parseFloat(delay)));
+          return new Promise(resolve =>
+            setTimeout(() => {
+              this.close();
+              resolve();
+            }, parseFloat(delay)),
+          );
         }
 
         /** If there's a existant store, let's unlock the app */
-        if (this.store) {
+        if (this.store && this.get()._autoAppLock) {
           this.store.meta.lockApp(false);
         }
 
@@ -62,8 +78,14 @@
       },
     },
     ondestroy() {
+      const { _isOpen, _autoAppLock } = this.get();
       /** If the component is being destroyed and the dialog is still opened, let's unlock the app */
-      if (this.get()._isOpen && this.store && this.store.get().__meta__.locked) {
+      if (
+        _isOpen &&
+        this.store &&
+        this.store.meta.isAppLocked() &&
+        _autoAppLock
+      ) {
         this.store.meta.lockApp(false);
       }
     },
@@ -71,13 +93,20 @@
 </script>
 
 <style>
+  @import '@mamba/styles/theme.pcss';
+
   .dialog {
     position: fixed;
-    z-index: 1001;
-    top: 0;
+    z-index: $layer-dialog;
+    top: $appbar-height;
     left: 0;
     width: 100%;
-    height: 100%;
+    bottom: 0;
+
+    &.is-fullscreen {
+      top: 0;
+      z-index: $layer-dialog-fullscreen;
+    }
   }
 
   .content {
@@ -104,8 +133,10 @@
   }
 
   .title {
-    font-size: 20px;
+    max-width: 80%;
+    margin: 0 auto 5px;
+    font-size: 23px;
+    line-height: 1.4;
     font-weight: bold;
-    margin-bottom: 5px;
   }
 </style>

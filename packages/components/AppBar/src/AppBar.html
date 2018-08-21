@@ -94,7 +94,7 @@
 </script>
 
 <style type="text/postcss">
-  @import '@mamba/styles/colors.pcss';
+  @import '@mamba/styles/theme.pcss';
 
   $height: 36px;
   $item-horizontal-margin: 8px;
@@ -108,7 +108,10 @@
   .appbar {
     width: 100%;
     position: relative;
+    z-index: $layer-appbar;
     border-bottom: 2px solid #d0d0d0;
+    height: $appbar-height;
+    overflow: hidden;
   }
 
   .title {
