@@ -2,7 +2,7 @@
 
 ## Descrição
 
-Esta API Nativa auxilia à realizar pedidos `Http` de `GET` e `POST`, podendo optar por utilizar um proxy ou não.
+Esta API Nativa auxilia a realizar pedidos `Http` de `GET` e `POST`, podendo optar por utilizar um proxy ou não.
 
 ## Interface
 
@@ -20,9 +20,9 @@ interface connectionOptions {
 }
 ```
 
-### send()
+### send(connectionOptions)
 
-Retorna uma `Promise` que espera pelo resultado do request. Para isso, a função recebe as especificações do request por meio de um objeto. Observe que neste objeto existe o parâmetro `connect` que especifica o tipo de conexão, que pode ser `LAN`(via proxy) ou `NET`(direto). Além deste, há também o method que pode ser `GET` ou `POST`, além dos outros parâmetros já conhecidos.
+Recebe as especificações do request por meio de um objeto e retorna uma [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) que espera pelo seu resultado. Observe que nesse objeto existe o parâmetro `connect`, que especifica o tipo de canal utilizado,e pode ser `LAN`(direto) ou `NET`(via proxy). Também existe o parâmetro `method`, que define o verbo http, e suporta apenas `GET` ou `POST`.
 
 ```js
 import Http from '@mambasdk/pos/api/http.js'
@@ -36,7 +36,7 @@ const myRequest = {
   },
   method: "GET",
   data: JSON.stringify({title:"Test", body:"This is a Test."}),
-  connect: "LAN",
+  connect: "NET",
 }
 
 
