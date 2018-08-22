@@ -48,7 +48,7 @@ enum BatteryStatus {
 }
 ```
 
-### beep()
+### beep(tone, duration)
 
 Emite um beep sonoro pelo POS, em que o tempo (milessegundos) e a frequência sonora podem ser especificados na entrada do método. No caso da frequência, ela deve ser um dos 7 TONES `(TONE1, TONE2, ..., TONE7)`e, caso esteja em ambiente de desenvolvimento, um aviso será emitido no console. Se não forem especificados o tempo de beep e a frequência, serão utilizados valores padrões `(System.Tones.TONE1, 300)`.
 
