@@ -5,6 +5,9 @@ module.exports = {
     },
     'postcss-extend-rule': {},
     'postcss-advanced-variables': {},
+    'postcss-calc': {
+      warnWhenCannotResolve: true,
+    },
     'postcss-preset-env': {
       stage: 2 /** Defaults postcss-preset-env to stage 2 */,
     },
