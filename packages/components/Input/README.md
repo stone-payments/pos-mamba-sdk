@@ -20,4 +20,5 @@ O componente `Input` contém funcionalidades de uma caixa de texto com estilos e
 | type        | Tipo de texto de entrada (`password`/`text`)               | `string`        | `text`     |
 | textColor   | Cor do Texto da Caixa de Entrada                           | `string` (hex)  | `'#4a4a4a'`|
 | value       | Valor de padrão de entrada                                 | `string`        | `false`    |
-| validate    | Adiciona um método de validação                            | `function`      | `undefined`|
+| validation  | Adiciona um método de validação                            | `function`      | `undefined`|
+| validateOn  | Define em que momento a validação ocorre (`input`/`submit`)| `string`        | `submit`   |
