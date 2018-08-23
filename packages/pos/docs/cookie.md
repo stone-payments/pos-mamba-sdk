@@ -2,7 +2,7 @@
 
 ## Descrição
 
-A API Nativa de cookies permite salvar informações persistentes de sua Aplicação, podendo ser recuperado mesmo após o POS ser reiniciado.
+A API Nativa de cookies permite salvar informações persistentes da sua Aplicação, que podem ser recuperadas mesmo após o POS ser reiniciado.
 
 ## Interface
 
@@ -14,9 +14,9 @@ interface Cookie {
 }
 ```
 
-### set()
+### set(key, value)
 
-Salva um cookie utilizando eo referencia por uma chave de acesso.
+Salva uma informação com uma estrutura de chave e valor (key : value), ou seja, é possível criar uma chave única e associá-la a um tipo de informação que deseja persistir no POS.
 
 ```js
 import Cookie from '@mamba/pos/api/cookie.js'
@@ -35,7 +35,7 @@ const myData = [
 Cookie.set('users', JSON.stringify(myData))
 ```
 
-### get()
+### get(key)
 
 Retorna o valor armazenado na chave passada para o método.
 
