@@ -6806,7 +6806,7 @@ postcss-attribute-case-insensitive@^3.0.1:
     postcss "^6.0.23"
     postcss-selector-parser "^4.0.0"
 
-postcss-calc@^6.0.0:
+postcss-calc@^6.0.0, postcss-calc@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/postcss-calc/-/postcss-calc-6.0.1.tgz#3d24171bbf6e7629d422a436ebfe6dd9511f4330"
   dependencies:
