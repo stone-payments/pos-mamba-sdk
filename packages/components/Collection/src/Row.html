@@ -111,8 +111,10 @@
   };
 </script>
 
-<style>
-  .row {
+<style type="text/postcss">
+  @import '@mamba/styles/theme.pcss';
+
+  ref:row {
     display: block;
     margin: 0;
     line-height: 1.5rem;
@@ -126,7 +128,7 @@
   }
 
   ref:main {
-    padding: 10px 20px;
+    padding: $row-padding;
   }
 
   .top {

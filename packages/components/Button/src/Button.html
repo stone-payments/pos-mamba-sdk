@@ -1,4 +1,10 @@
-<button ref:button class="button is-{size} {bottom ? 'is-fixed' : ''}" {style} {disabled} on:click>
+<button
+  ref:button
+  class="button is-{size} {bottom ? 'is-fixed' : ''}"
+  {style}
+  {disabled}
+  on:click
+>
   <slot></slot>
 </button>
 
@@ -52,7 +58,7 @@
   };
 </script>
 
-<style>
+<style type="text/postcss">
   @import '@mamba/styles/colors.pcss';
 
   button {
@@ -69,9 +75,9 @@
   button[disabled] {
     cursor: not-allowed;
     /* stylelint-disable-next-line declaration-no-important */
-    background-color: $grey-light !important;
+    background-color: $gray-light !important;
     /* stylelint-disable-next-line declaration-no-important */
-    color: $grey !important;
+    color: $gray !important;
     /* stylelint-disable-next-line declaration-no-important */
     border: none !important;
   }
