@@ -14,12 +14,7 @@
       };
     },
     computed: {
-      _dialogProps(props) {
-        const tmp = Object.assign({}, props);
-        delete tmp.promise;
-        delete tmp.delay;
-        return tmp;
-      },
+      _dialogProps: ({ promise, delay, ...props}) => props,
     },
     onupdate({ changed, current: { promise, delay } }) {
       if (changed.promise && promise && typeof promise.then === 'function') {

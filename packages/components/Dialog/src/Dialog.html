@@ -3,7 +3,7 @@
     <div class="content -align-{align}">
       <div class="message">
         {#if title}
-        <div class="title">{title}</div>
+          <div class="title">{title}</div>
         {/if}
         <slot></slot>
       </div>
@@ -130,7 +130,8 @@
   }
 
   .message {
-    font-size: 18px;
+    font-size: 16px;
+    line-height: 1.13;
   }
 
   .title {
