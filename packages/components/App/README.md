@@ -2,4 +2,5 @@
 
 ## Descrição
 
-O componente App é responsável por encapsular toda a aplicação. Sem ele sua aplicação perderá algumas funcionalidades básicas e por isto ele é **obrigatório**, porém pode ficar tranquilo pois ele já está incluso no template disponibilizado. Vale ressaltar também que este componente não deve ser utilizado em nenhum outro lugar da aplicação além do ponto de entrada.
+O componente App é responsável por encapsular toda a aplicação. Sem ele a aplicação perderá algumas funcionalidades básicas, o que o torna **obrigatório**.
+Por esse motivo, ele já está incluso no template disponibilizado no início do desenvolvimento. Vale ressaltar também, que este componente não deve ser utilizado em nenhum outro lugar da aplicação além do ponto de entrada.
