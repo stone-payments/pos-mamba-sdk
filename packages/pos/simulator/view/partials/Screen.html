@@ -50,9 +50,11 @@
   };
 </script>
 
-<style>
-  .status-bar {
-    @media (max-width: 480px) {
+<style type="text/postcss">
+  @import '@mamba/styles/theme.pcss';
+
+  @media (max-width: 480px) {
+    .status-bar {
       display: none;
     }
   }
@@ -71,7 +73,6 @@
 
     .content {
       height: 100%;
-      background-color: #fff;
       overflow-x: hidden;
       overflow-y: auto;
       flex: 0 1 auto;
