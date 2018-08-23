@@ -2,7 +2,7 @@
 
 ## Descrição
 
-Este módulo da API Nativa é responsável por expor métodos que entregram informações sobre o estado da máquina, como: tipo de conexão, informações da bateria, tempo passado desde de incialização do sistema e outros mais.
+Este módulo da API Nativa é responsável por expor métodos que fornecem informações sobre o estado da máquina, como: tipo de conexão, informações da bateria, tempo passado desde de inicialização do sistema e outros mais.
 
 ## Interface
 
@@ -48,9 +48,9 @@ enum BatteryStatus {
 }
 ```
 
-### beep()
+### beep(tone, duration)
 
-Emite um beep sonoro pelo POS podendo especificar na entrada do método o tempo (ms) e a frequência sonora. No caso da frequência, está deve ser um dos 7 TONES `(TONE1, TONE2, ..., TONE7)`, caso esteja em ambiente de desenvolvimento um aviso será emitido no console. Se não específicado o tempo de beep e a frequência serão utilizados valores padrões `(System.Tones.TONE1, 300)`.
+Emite um beep sonoro pelo POS, em que o tempo (milessegundos) e a frequência sonora podem ser especificados na entrada do método. No caso da frequência, ela deve ser um dos 7 TONES `(TONE1, TONE2, ..., TONE7)`e, caso esteja em ambiente de desenvolvimento, um aviso será emitido no console. Se não forem especificados o tempo de beep e a frequência, serão utilizados valores padrões `(System.Tones.TONE1, 300)`.
 
 ```js
 import System from '@mamba/pos/api/system.js'
@@ -105,7 +105,7 @@ System.hasWifi(); // false
 
 ### hasGprs()
 
-Informa se o POS tem Conexão via GPRS. Caso esteja em abiente de desenvolvimento, retorna false.
+Informa se o POS tem Conexão via GPRS. Caso esteja em ambiente de desenvolvimento, retorna false.
 
 ```js
 import System from '@mamba/pos/api/system.js'
@@ -195,7 +195,7 @@ System.getBatteryStatus(); // {present: false, level: 100, status: ABSENT}
 
 ### getBatteryLevel()
 
-Retorna a porcentagem da carga da bateria do dispostivo.
+Retorna a porcentagem da carga da bateria do dispositivo.
 
 ```js
 import System from '@mamba/pos/api/system.js'
