@@ -1,6 +1,6 @@
 # AppBar
 
-O módulo `AppBar` é composto por dois componentes: `AppBar` e `AppBarModifier`. Ambos servem para o controle e estilo da AppBar da aplicação.
+O módulo `AppBar` é composto por dois componentes: `AppBar` e `AppBarModifier`. O `AppBar` é a barra que fica localizada no canto superior da aplicação, ela pode ser estilizada utilizando seus `props` ou através do `AppBarModifier`, caso já tenha sido criada previamente. 
 
 <!-- @example ./example/Example.html -->
 
