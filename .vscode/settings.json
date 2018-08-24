@@ -17,6 +17,11 @@
   "html.validate.scripts": false,
   "html.validate.styles": false,
 
+  /** Disable svelte-vscode linters */
+  "svelte.plugin.css.enable": false,
+  "svelte.plugin.typescript.enable": false,
+  "svelte.plugin.html.format.enable": false,
+
   /** Auto-fix on save */
   "eslint.autoFixOnSave": true,
   /** Validate html/svelte files */

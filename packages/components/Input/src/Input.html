@@ -1,8 +1,8 @@
 <label
+  ref:container
   class="input -{type} {readable ? 'is-readable' : ''}"
   style="background-color: {bgColor}; color: {textColor};"
   on:mousedown="_onMousedown(event)"
-  ref:container
 >
   {#if label}
     <span>{label}</span>
@@ -12,10 +12,9 @@
     ref:input
     class="-{align}"
     type={_visible ? 'text' : 'password'}
-    style="color: {textColor};"
-    {disabled}
-    on:focus="_onFocus()"
-    on:blur="_onBlur()"
+    style="color: {textColor};" {disabled}
+    on:focus="_onFocus(event)"
+    on:blur="_onBlur(event)"
     on:keyup="_onKeyUp(event)"
     on:input="_onInput(event)"
   />
@@ -26,11 +25,12 @@
     </div>
   {/if}
 
-  {#if typeof validate === 'function' && !!errorMsg}
+  {#if !isValid && !!_errorMsg}
     <div class="validation-msg" style="color: {errorColor}; border-color: {errorColor};">
-      {errorMsg}
+      {_errorMsg}
     </div>
   {/if}
+
 </label>
 
 <script>
@@ -42,36 +42,41 @@
     },
     data() {
       return {
-        align: 'right',
-        _visible: true,
         value: '',
-        validate: undefined,
-        errorMsg: undefined,
         label: undefined,
-        type: 'text',
+        /** Behavior */
+        _visible: true,
         alphanumeric: false,
         readable: false,
+        /** Automatically focus the input */
         autofocus: false,
+        /** Force the to be focused */
+        forceFocus: false,
         disabled: false,
+        /** Style */
+        type: 'text',
+        align: 'right',
         bgColor: '#fff',
         textColor: '#757575',
         errorColor: '#d50000',
+        /** Validation */
+        validateOn: 'submit',
+        validation: undefined,
+        isValid: false,
+        _errorMsg: undefined,
       };
     },
     oncreate() {
       if (this.options.data) {
-        const { type, maxlength, autofocus, value } = this.options.data;
+        const { type, maxlength, autofocus } = this.options.data;
 
+        // TODO: remove when undefined prop is not printed
         if (typeof maxlength !== 'undefined') {
           this.refs.input.setAttribute('maxlength', parseInt(maxlength, 10));
         }
 
         if (type === 'password') {
           this.set({ _visible: false });
-        }
-
-        if (value) {
-          this.value(value);
         }
 
         if (autofocus) {
@@ -81,8 +86,15 @@
       }
     },
     onupdate({ changed, current }) {
-      if (changed.errorMsg && current.errorMsg) {
+      if (changed._errorMsg
+        && current._errorMsg
+        && current.validateOn === 'input'
+      ) {
         this.refs.input.scrollIntoView(false);
+      }
+
+      if(changed.value) {
+        this.refs.input.value = current.value;
       }
     },
     methods: {
@@ -110,8 +122,14 @@
           Keyboard.setKeyboardAsNumeric();
         }
       },
-      _onBlur() {
-        const { alphanumeric } = this.get();
+      _onBlur(e) {
+        const { alphanumeric, forceFocus } = this.get();
+        if(forceFocus) {
+          e.stopImmediatePropagation()
+          e.preventDefault()
+          this.focus()
+          return
+        }
         this.refs.container.classList.remove('is-focused');
         if (alphanumeric) {
           Keyboard.setKeyboardAsNumeric();
@@ -120,20 +138,40 @@
       _onKeyUp(e) {
         const key = Keyboard.getKeyName(e.keyCode);
 
-        this.fire('keyup');
+        this.fire('keyup', e);
 
         if (key === 'enter') {
-          if (this.validate()) {
-            this.fire('valid');
-            this.blur();
-          } else {
-            this.fire('invalid');
+          const { validateOn } = this.get()
+          if(validateOn === 'submit') {
+            const validationResult = this._getValidationResult();
+
+            this.set(validationResult);
+
+            if (validationResult.isValid) {
+              this.blur();
+            }
           }
+          this.fire(this.get().isValid ? 'submitValid' : 'submitInvalid');
           this.fire('submit');
         }
       },
       _onInput(e) {
-        this.set({ value: this.refs.input.value });
+        const { value } = this.refs.input;
+        const { validation, validateOn } = this.get();
+
+        if(validation) {
+          if (validateOn === 'input') {
+            const validationResult = (!value.length)
+              ? { isValid: false, _errorMsg: undefined }
+              : this._getValidationResult()
+
+            this.set({ value, ...validationResult });
+          } else {
+            this.set({ value, isValid: false, _errorMsg: undefined })
+          }
+        } else {
+          this.set({ value });
+        }
         this.fire('input', e);
       },
       /** We use mousedown instead of click because it fires before the input's .focus() */
@@ -149,27 +187,24 @@
           setTimeout(() => this.refs.input.focus());
         }
       },
-      validate() {
-        const { validate, value } = this.get();
-        /** If we have a validation function, execute it */
-        if (typeof validate === 'function') {
-          const { valid, msg } = validate(value);
-          if (!valid) {
-            this.set({ errorMsg: msg });
-          } else {
-            this.set({ errorMsg: undefined });
-          }
-          return valid;
+      _getValidationResult() {
+        const { value } = this.refs.input
+        const { validation } = this.get();
+
+        if (validation) {
+          const { msg: _errorMsg, isValid } = validation(value);
+          return { _errorMsg, isValid }
         }
 
-        /** If not, just return 'valid' */
-        return true;
+        return { _errorMsg: undefined, isValid: true }
       },
     },
   };
 </script>
 
-<style>
+<style type="text/postcss">
+  @import '@mamba/styles/theme.pcss';
+
   .input {
     position: relative;
     display: block;
@@ -177,14 +212,14 @@
     padding: 10px 15px;
     background-color: #fff;
     transition: 0.3s ease border-bottom;
-    border-bottom: 2px solid transparent;
+    border-bottom: 2px solid $input-border-color;
 
     &.is-readable input {
       padding-right: 40px;
     }
 
     &.is-focused {
-      border-bottom-color: #4ebf1a;
+      border-bottom-color: $input-focus-border-color;
     }
   }
 
@@ -203,7 +238,7 @@
     border: none;
     font-size: 30px;
     height: 36px;
-    border-bottom: 1px dotted #dedede;
+    /* border-bottom: 1px dotted #dedede; */
   }
 
   input:not(.-left) {

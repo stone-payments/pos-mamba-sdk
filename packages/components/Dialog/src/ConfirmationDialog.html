@@ -3,7 +3,7 @@
   <div slot="extra">
     <div class="actions">
       <div class="action" on:click="fire('negative')" shortcut="close">
-        <RoundIcon symbol="close" size="giant" borderRadius="15px" bgColor="#ff1a1a" />
+        <RoundIcon symbol="close" size="giant" borderRadius="15px" bgColor="#ef5152" />
       </div>
       <div class="action" on:click="fire('positive')" shortcut="enter">
         <RoundIcon symbol="check" size="giant" borderRadius="15px" bgColor="#4ebf1a" />
@@ -20,16 +20,8 @@
       RoundIcon,
       Dialog: './Dialog.html',
     },
-    data() {
-      return {
-        negativeLabel: 'Cancelar',
-        positiveLabel: 'Confirmar',
-      };
-    },
     computed: {
-      _dialogProps({ negativeLabel, positiveLabel, ...props }) {
-        return props;
-      },
+      _dialogProps: (props) => props,
     },
     methods: {
       open() {

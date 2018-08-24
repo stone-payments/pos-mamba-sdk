@@ -1,3 +1,5 @@
+import { log } from './utils.js';
+
 export const SIGNALS = ['settingsChanged', 'print'];
 
 /** Main driver for handling the POS Simulation */
@@ -24,6 +26,10 @@ export function setup(State) {
 
     const keys = keyPath.replace(/\[(\d+)\]/g, '.$1').split('.');
     const lastKey = keys.pop();
+
+    if (__DEV__) {
+      log(`"${keyPath}" = ${JSON.stringify(value)}`);
+    }
 
     // If not a nested keyPath
     if (keys[0] === undefined) {

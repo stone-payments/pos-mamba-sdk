@@ -47,6 +47,9 @@ module.exports = {
     /** Allow ++ -- operators */
     'no-plusplus': 'off',
 
+    /** Allow to reassign method parameters */
+    'no-param-reassign': 'off',
+
     /** Allow nested ? ternary : expressions ? ... : ...  */
     'no-nested-ternary': 'off',
 
