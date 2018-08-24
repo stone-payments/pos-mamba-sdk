@@ -11,7 +11,7 @@ export default class MambaStore extends Store {
       const persistedStore = localStorage.getItem(LOCAL_STORAGE_KEY);
       if (persistedStore != null) {
         /** Get persisted data */
-        data = Object.assign({}, JSON.parse(persistedStore));
+        data = Object.assign({}, JSON.parse(persistedStore), data);
       }
     }
 
