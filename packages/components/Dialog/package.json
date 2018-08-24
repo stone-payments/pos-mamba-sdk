@@ -1,6 +1,6 @@
 {
   "name": "@mamba/dialog",
-  "version": "0.0.2-alpha.4",
+  "version": "0.0.2-alpha.5",
   "svelte": "src/index.js",
   "files": [
     "src/"
@@ -16,10 +16,10 @@
     "build:dev": "exit 0"
   },
   "devDependencies": {
-    "@mamba/sprite": "^0.0.2-alpha.4"
+    "@mamba/sprite": "^0.0.2-alpha.5"
   },
   "dependencies": {
-    "@mamba/styles": "^0.0.2-alpha.4",
-    "@mamba/icon": "^0.0.2-alpha.4"
+    "@mamba/styles": "^0.0.2-alpha.5",
+    "@mamba/icon": "^0.0.2-alpha.5"
   }
 }
