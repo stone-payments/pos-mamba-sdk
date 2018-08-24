@@ -1,6 +1,6 @@
 {
   "name": "@mamba/barcode",
-  "version": "0.0.2-alpha.3",
+  "version": "0.0.2-alpha.4",
   "svelte": "src/index.js",
   "files": [
     "src/"
@@ -17,7 +17,7 @@
     "build:dev": "exit 0"
   },
   "dependencies": {
-    "@mamba/styles": "^0.0.2-alpha.3",
+    "@mamba/styles": "^0.0.2-alpha.4",
     "jsbarcode": "^3.9.0"
   }
 }
