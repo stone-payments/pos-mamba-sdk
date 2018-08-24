@@ -12,7 +12,7 @@ Para casos de apenas uma exibição de mensagem durante um período de tempo, o 
 
 | Parâmetro   | Descrição                                              | Tipo            | Padrão     |
 |-------------|--------------------------------------------------------|-----------------|------------|
-| align       | Alinha o conteúdo do modal. (`left`, `right`, `center`)| `string`        | `center`   |
+| align       | Alinhamento vertical do conteúdo (`top`, `center`)     | `string`        | `center`   |
 | bgColor     | Define a cor de fundo do modal                         | `string`        | `'#e3e3e3'`|
 | textColor   | Define a cor do texto do modal                         | `boolean`       | `'#4a4a4a'`|
 | title       | Título do modal                                        | `string`        | `undefined`|
