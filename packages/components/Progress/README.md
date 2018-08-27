@@ -1,7 +1,7 @@
 # Progress
 
 O módulo `Progress` é composto por dois componentes: `ProgressBar` e `CircleProgress`. Ambos podem ser
-utilizados para representar a execução de um tarefa com etapas definidas ou não.
+utilizados para representar a execução de uma tarefa, que pode ter etapas definidas ou não.
 
 <!-- @example ./example/Example.Html -->
 
