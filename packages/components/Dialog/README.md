@@ -1,8 +1,7 @@
 # Dialog
 
-O módulo `Dialog` é composto por 3 componentes: `Dialog`, `ConfirmationDialog` e `PromisedDialog`. Cada um desses componentes cria um modal próprio de tela cheia com suas especificações.
-Por exemplo: O `PromisedDialog` é exibido durante a excução de uma `Promise` e após sua conclusão fecha o modal, já o `ConfirmationDialog` exibe uma tela com dois botões que controlam o fluxo da aplicação.
-Para casos de apenas uma exibição de mensagem durante um período de tempo, o uso do `Dialog` é aconselhável.
+O módulo `Dialog` é composto por 3 componentes: `Dialog`, `ConfirmationDialog` e `PromisedDialog`. Cada um deles cria um modal próprio de tela cheia com suas especificações.
+O `PromisedDialog` é exibido durante a execução de uma `Promise` e após sua conclusão fecha o modal. Já o `ConfirmationDialog` exibe uma tela com dois botões que controlam o fluxo da aplicação. Para casos de apenas uma exibição de mensagem durante um período de tempo, o uso do `Dialog` é aconselhável.
 
 <!-- @example ./example/Example.html -->
 
@@ -36,8 +35,8 @@ Para casos de apenas uma exibição de mensagem durante um período de tempo, o 
 
 ### open(duration)
 
-Abre o `Dialog` e o mantém aberto pelo tempo especificado.
+Abre o `Dialog` e o mantém aberto pelo tempo (`duration` em milissegundos) especificado.
 
 ### close(delay)
 
-Fecha o `Dialog` após o tempo especificado.
+Fecha o `Dialog` após o tempo (`delay` em milissegundos) especificado.
