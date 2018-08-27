@@ -2,14 +2,16 @@ const pkgDir = require('pkg-dir');
 const { getPkg } = require('quickenv');
 const { readFileSync } = require('fs');
 
+const { IS_PROD } = require('./consts.js');
+
 /** Base webpack rule condition to ignore dependencies that shouldn't be transpiled */
 const transpileIgnoreBaseCondition = {
   test: /\.js$/,
   include: [/node_modules/],
   exclude: [
-    /node_modules[\\/].+[\\/]node_modules/, // exclude sub dependencies of linked packaged
+    IS_PROD && /node_modules[\\/].+[\\/]node_modules/, // exclude sub dependencies of linked packaged
     /core-js/, // exclude babel polyfills
-  ],
+  ].filter(Boolean),
 };
 
 /**
