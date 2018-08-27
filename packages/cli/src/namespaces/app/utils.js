@@ -21,6 +21,12 @@ exports.cliArgs = {
     alias: ['d'],
     default: false,
   },
+  simulator: {
+    description:
+      'Add the mamba simulator to the bundle (automatically added to target "browser")',
+    alias: ['s'],
+    default: false,
+  },
 };
 
 exports.getWebpackConfigPath = id =>
