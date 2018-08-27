@@ -11,5 +11,9 @@ export default function(driver, ...modifiers) {
       Object.assign(driver, modifier);
     }
   }
+
+  /** Remove undesired methods exported by the back-end */
+  delete driver.deleteLater;
+
   return driver;
 }
