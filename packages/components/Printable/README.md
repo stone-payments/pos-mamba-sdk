@@ -1,6 +1,6 @@
 # Printable
 
-O componente `@mamba/printable` encapsula o fluxo de impressão do POS, permitindo a impressão de qualquer conteúdo HTML estático .
+O componente `Printable` encapsula o fluxo de impressão do POS, permitindo a impressão de qualquer conteúdo HTML estático.
 
 ## Parâmetros
 
