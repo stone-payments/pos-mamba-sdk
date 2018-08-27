@@ -1,6 +1,6 @@
 # Switch
 
-O módulo `Switch` é usado para ativar uma opção predefinida.
+O módulo `Switch` é usado para ativar opções predefinida.
 
 <!-- @example ./example/Example.Html -->
 
