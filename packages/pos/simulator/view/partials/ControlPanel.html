@@ -37,7 +37,7 @@
     },
     methods: {
       setConfig(keyPath, value) {
-        if (__DEV__) {
+        if (__DEV__ && __BROWSER__) {
           log(`Setting '${keyPath}' to '${value}'`);
         }
         State.set(keyPath, value, false);
