@@ -1,8 +1,8 @@
 # Icon
 
-O módulo Icon possui dois componentes: `Icon` e `RoundIcon`. Ambos, facilitam na criação de ícones com
-imagens padrões já disponíveis em nossa SDK. Além das imagens, também é possível costumizar o estilo
-do ícone e utilizar uma imagem própria .
+O módulo Icon possui dois componentes: `Icon` e `RoundIcon`. Ambos facilitam a criação de ícones com
+imagens padrões já disponíveis em nossa SDK. Além das imagens, também é possível customizar o estilo
+do ícone e utilizar uma imagem própria.
 
 <!-- @example ./example/Example.Html -->
 
