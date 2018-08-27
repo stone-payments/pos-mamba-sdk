@@ -8,8 +8,8 @@ O componente `Input` contém funcionalidades de uma caixa de texto com estilos e
 
 | Parâmetro   | Descrição                                                  | Tipo            | Padrão     |
 |-------------|------------------------------------------------------------|-----------------|------------|
-| align       | Alinha a entrada de acordo com paramêtro (`left`, `right`) | `string`        | `'right'`  |
-| alphanumeric| Define o modo de entrada como alfanúmerico                 | `boolean`       | `false`    |
+| align       | Alinha a entrada de acordo com parâmetro (`left`, `right`) | `string`        | `'right'`  |
+| alphanumeric| Define o modo de entrada como alfanumérico                 | `boolean`       | `false`    |
 | autofocus   | Inicia o elemento com foco                                 | `boolean`       | `false`    |
 | bgColor     | Cor de Fundo da Caixa de Entrada                           | `string` (hex)  | `'#fff'`   |
 | disabled    | Desabilita a entrada de texto                              | `boolean`       | `false`    |
