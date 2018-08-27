@@ -1,6 +1,6 @@
 {
   "name": "@mamba/button",
-  "version": "0.0.2-alpha.5",
+  "version": "0.0.2-alpha.6",
   "svelte": "src/index.js",
   "files": [
     "dist/",
@@ -18,9 +18,9 @@
     "build:dev": "exit 0"
   },
   "devDependencies": {
-    "@mamba/icon": "^0.0.2-alpha.5"
+    "@mamba/icon": "^0.0.2-alpha.6"
   },
   "dependencies": {
-    "@mamba/styles": "^0.0.2-alpha.5"
+    "@mamba/styles": "^0.0.2-alpha.6"
   }
 }

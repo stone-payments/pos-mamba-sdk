@@ -125,9 +125,9 @@
       _onBlur(e) {
         const { alphanumeric, forceFocus } = this.get();
         if(forceFocus) {
-          e.stopImmediatePropagation()
-          e.preventDefault()
-          this.focus()
+          e.stopImmediatePropagation();
+          e.preventDefault();
+          setTimeout(() => this.focus());
           return
         }
         this.refs.container.classList.remove('is-focused');

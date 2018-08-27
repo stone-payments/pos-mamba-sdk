@@ -15,6 +15,7 @@ const {
   IS_PROD,
   NODE_ENV,
   APP_ENV,
+  ADD_MAMBA_SIMULATOR,
 } = require('./helpers/consts.js');
 const {
   isOfModuleType,
@@ -30,7 +31,7 @@ const entry = {
     /** Mamba style resetter/normalizer */
     '@mamba/styles/dist/pos.css',
     /** Mamba simulator entry point */
-    IS_BROWSER && './simulator.js',
+    ADD_MAMBA_SIMULATOR && './simulator.js',
     /** App entry point */
     './index.js',
   ].filter(Boolean),

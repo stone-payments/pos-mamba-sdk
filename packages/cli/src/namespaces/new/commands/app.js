@@ -38,7 +38,7 @@ module.exports = {
         },
       ])
       .then(({ name, version, description }) => {
-        console.log(chalk.blue('Downloading template...'));
+        console.log(chalk.cyan('Downloading template...'));
 
         /** Install degit if it's not installed yet */
         // if (!shell.which('degit')) {
@@ -57,7 +57,7 @@ module.exports = {
           process.exit(downloadCmd.code);
         }
 
-        console.log(chalk.blue("Setupping 'package.json'"));
+        console.log(chalk.cyan("Setupping 'package.json'"));
 
         const pkgJson = getPkg({ path: targetDir });
         const normalizedName = Case.kebab(removeDiacritics(name));
@@ -91,7 +91,7 @@ module.exports = {
           JSON.stringify(pkgJson, null, 2),
         );
 
-        console.log(chalk.blue('Installing dependencies'));
+        console.log(chalk.cyan('Installing dependencies'));
         shell.cd(targetDir);
         shell.exec('npm i');
 

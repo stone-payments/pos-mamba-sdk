@@ -27,7 +27,7 @@ export function setup(State) {
     const keys = keyPath.replace(/\[(\d+)\]/g, '.$1').split('.');
     const lastKey = keys.pop();
 
-    if (__DEV__) {
+    if (__DEV__ && __BROWSER__) {
       log(`"${keyPath}" = ${JSON.stringify(value)}`);
     }
 

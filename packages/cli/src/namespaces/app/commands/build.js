@@ -11,22 +11,29 @@ const {
 module.exports = {
   command: 'build',
   desc: 'Build the app',
-  handler({ target, development }) {
+  handler({ target, development, simulator }) {
     validateTarget(target);
 
     let cmd = ``;
     cmd = `cross-env `;
     cmd += `NODE_ENV=${development ? 'development' : 'production'} `;
     cmd += `APP_ENV=${target} `;
+    if (simulator || target === 'browser') {
+      cmd += 'MAMBA_SIMULATOR=true ';
+    }
     cmd += `webpack --config "${getWebpackConfigPath('build')}"`;
 
+    console.log(chalk.cyan(`Building app...`));
+    console.log(`  App target: ${chalk.yellow(target.toUpperCase())}`);
     console.log(
-      chalk.blue(
-        `Building for ${chalk.yellow(
-          development ? 'development' : 'production',
-        )} '${target.toUpperCase()}'`,
-      ),
+      `  Environment: ${chalk.yellow(
+        (development ? 'development' : 'production').toUpperCase(),
+      )}`,
     );
+
+    if (simulator || target === 'browser') {
+      console.log(chalk.yellow('  Adding the Mamba simulator to the bundle'));
+    }
 
     childProcess.execSync(cmd, { stdio: 'inherit' });
   },
@@ -34,5 +41,6 @@ module.exports = {
     yargs.options({
       target: cliArgs.target,
       development: cliArgs.development,
+      simulator: cliArgs.simulator,
     }),
 };

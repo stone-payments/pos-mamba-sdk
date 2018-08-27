@@ -37,12 +37,9 @@
 
         /** Listen for the event to close the app */
         this.store.meta.on('close', () => {
-          const { askOnClose, locked } = this.store.meta.get();
+          const { askOnClose } = this.store.meta.get();
           if (askOnClose) {
-            /** Only show the close confirmation dialog when the app is not locked */
-            if (!locked) {
-              this.refs.closeDialog.open();
-            }
+            this.refs.closeDialog.open();
           } else {
             this.closeApp();
           }
@@ -87,6 +84,19 @@
         const isShortcutsDisabled =
           this.store && !this.store.meta.get('shortcuts');
 
+        /**
+         * Close the app if 'close' button clicked,
+         * and there's no button with 'shortcut="close"'
+         * */
+        if (keyName === 'close' && !isShortcutsDisabled) {
+          e.preventDefault();
+          /** If no shortcut element found */
+          if (!document.querySelector(`[shortcut='close']`) && this.store) {
+            this.store.meta.closeApp();
+            return;
+          }
+        }
+
         /** If the key is not mapped or a input is focused, do nothing */
         if (!isValidShortcut(keyName, e)) {
           return;
@@ -106,26 +116,19 @@
         }
 
         /** Find the first element with shortcurt='keyName' */
-        const shortcutEl = document.querySelector(`[shortcut='${keyName}']`);
+        const shortcutEls = document.querySelectorAll(`[shortcut='${keyName}']`);
 
-        /** If no shortcut element found */
-        if (!shortcutEl) {
-          /** Close the app if 'close' button clicked,
-           * and there's no button with 'shortcut="close"'
-           * */
-          if (keyName === 'close') {
-            e.preventDefault();
-            if (this.store) {
-              this.store.meta.closeApp();
-            }
-          }
+        /** If shortcuts are disabled or no shortcut element found, do nothing */
+        if (isShortcutsDisabled || shortcutEls.length === 0) {
           return;
         }
 
-        /** If shortcuts are disabled, do nothing */
-        if (isShortcutsDisabled) {
-          return;
-        }
+        /**
+         * There can be only one element assigned to a shortcut.
+         * However, if there are more than one, use the last element.
+         * (Useful for multiple confirmation dialogs stacked)
+         */
+        const shortcutEl = shortcutEls[shortcutEls.length - 1];
 
         /**
          * If a shortcut element was found.

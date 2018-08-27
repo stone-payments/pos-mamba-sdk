@@ -19,7 +19,7 @@ module.exports = {
     cmd += `APP_ENV=${target} `;
     cmd += `webpack --config "${getWebpackConfigPath('analyzer')}"`;
 
-    console.log(chalk.blue(`Analyzing bundle for '${target.toUpperCase()}'`));
+    console.log(chalk.cyan(`Analyzing bundle for '${target.toUpperCase()}'`));
     childProcess.execSync(cmd, { stdio: 'inherit' });
   },
   builder: yargs =>

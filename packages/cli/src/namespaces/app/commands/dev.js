@@ -10,7 +10,7 @@ module.exports = {
     const cmd = `webpack-dev-server --config "${getWebpackConfigPath('dev')}"`;
 
     console.log(
-      chalk.blue(`Starting the development server at: http://localhost:8080`),
+      chalk.cyan(`Starting the development server at: http://localhost:8080`),
     );
     childProcess.execSync(cmd, { stdio: 'inherit' });
   },
