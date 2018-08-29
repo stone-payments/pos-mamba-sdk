@@ -5,13 +5,13 @@ export const NAMESPACE = 'Keyboard';
 /**
  * KeyPress event handler that bypass only numbers
  * @ignore
- * @param  {function} event The KeyPress event
+ * @param  {function} e The KeyPress event
  */
-function filterLetters(event) {
-  const char = String.fromCharCode(event.keyCode);
+function filterLetters(e) {
+  const char = String.fromCharCode(e.charCode || e.which || e.keyCode);
 
-  if ('1234567890'.indexOf(char) === -1) {
-    event.preventDefault();
+  if (/[a-zA-z]/.test(char)) {
+    e.preventDefault();
   }
 }
 

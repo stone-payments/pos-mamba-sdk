@@ -17,7 +17,7 @@
     "case": "^1.5.5",
     "chalk": "^2.4.1",
     "cross-env": "^5.2.0",
-    "inquirer": "^6.1.0",
+    "inquirer": "^6.2.0",
     "quickenv": "^0.0.6",
     "shelljs": "^0.8.2",
     "yargonaut": "^1.1.3",

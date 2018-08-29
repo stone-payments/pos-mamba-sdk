@@ -19,7 +19,7 @@
 </header>
 
 <script>
-  import { getHistory } from 'svelte-routing';
+  import Router from '@kaisermann/svelte-router';
 
   export default {
     components: {
@@ -54,40 +54,25 @@
       }
     },
     oncreate() {
-      const history = getHistory();
-
-      /** Listen for route changes */
-      if (history) {
-        this.set({ _location: history.location.pathname });
-        history.listen(location => {
-          this.set({ _location: location.pathname });
-        });
-      }
-
-      /** Listen for app title changes */
       if (this.store) {
+        /** Listen for route changes and appbar prop changes */
+        this.store.on('router:navigation', ctx =>
+          this.set({ _location: ctx.path })
+        );
         this.store.on('modifier:appbar', state => this.set(state));
       }
     },
     methods: {
       gohome() {
-        if (this.store && this.store.meta.isAppLocked()) {
-          return;
-        }
-
         const { isAtHome } = this.get();
         if (isAtHome) {
           return this.store.meta.closeApp();
         }
 
-        getHistory().push('/');
+        Router.go('/');
       },
       goback() {
-        if (this.store && this.store.meta.isAppLocked()) {
-          return;
-        }
-
-        getHistory().goBack();
+        Router.back();
       },
     },
   };
