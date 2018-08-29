@@ -22,7 +22,7 @@
     "@mamba/styles": "^0.0.2-alpha.6"
   },
   "peerDependencies": {
-    "svelte-routing": "^0.4.2",
-    "@mamba/pos": "^0.0.2-alpha.6"
+    "@mamba/pos": "^0.0.2-alpha.6",
+    "@kaisermann/svelte-router": "^0.0.3"
   }
 }
