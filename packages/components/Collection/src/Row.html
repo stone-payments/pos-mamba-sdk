@@ -25,7 +25,7 @@
 </div>
 
 <script>
-  import Router from '@kaisermann/svelte-router';
+  import { getHistory } from 'svelte-routing';
 
   function findClosest(el, cb) {
     if (!el || el.nodeType !== 1) return null;
@@ -76,7 +76,7 @@
       handleClick({ event, href }) {
         /** If clicked on a "link" row, push the page to the router */
         if (href) {
-          return Router.go(href);
+          return getHistory().push(href);
         }
 
         const { _hasCustomController } = this.get();

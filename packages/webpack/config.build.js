@@ -60,7 +60,7 @@ module.exports = merge(require('./config.base.js'), {
       new UglifyJsPlugin({
         cache: true, // Enables file caching
         parallel: true, // Use multiple CPUs if available,
-        sourceMap: true, // Enables sourcemap
+        sourceMap: true, // Enables sourcemap,
         uglifyOptions: {
           compress: {
             reduce_funcs: false,

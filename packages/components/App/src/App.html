@@ -1,6 +1,6 @@
 <svelte:window on:keyup="onKeyup(event)" on:keydown="onKeydown(event)"/>
 
-<div class="app">
+<div class="app" use:links>
   <slot></slot>
 </div>
 
@@ -9,10 +9,11 @@
 </ConfirmationDialog>
 
 <script>
-  import Router from '@kaisermann/svelte-router';
   import App from '@mamba/pos/api/app.js';
   import Keyboard from '@mamba/pos/api/keyboard.js';
   import { ConfirmationDialog } from '@mamba/dialog';
+  import { createHashHistory, getHistory } from 'svelte-routing';
+  import links from 'svelte-routing/links.js';
 
   /** Return if a certain shortcut key is valid */
   const isValidShortcut = (keyName, e) =>
@@ -20,7 +21,11 @@
     e.target.tagName !== 'INPUT' &&
     document.activeElement.tagName !== 'INPUT';
 
+  /** Initialize the router hash history */
+  createHashHistory({ basename: '/' });
+
   export default {
+    actions: { links },
     components: { ConfirmationDialog },
     oncreate() {
       if (this.store) {
@@ -58,8 +63,10 @@
         App.close();
       },
       goBack() {
-        if (Router.getCurrentPath() !== '/') {
-          Router.back();
+        const history = getHistory();
+
+        if (history.location.pathname !== '/') {
+          history.goBack();
         }
       },
       /** Prevent default back/enter button behaviour */
@@ -100,7 +107,7 @@
           /** Guarantees that the 'back' button is enabled and app not locked */
           if (
             Keyboard.isBackspaceEnabled() &&
-            !this.store.meta.isAppLocked()
+            (this.store && !this.store.meta.get('locked'))
           ) {
             e.preventDefault();
             this.goBack();
