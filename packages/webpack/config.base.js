@@ -59,7 +59,7 @@ module.exports = {
     modules: [fromCwd('src'), 'node_modules'],
     alias: {
       '@mamba': fromCwd('node_modules', '@mamba'),
-      'svelte-routing': fromCwd('node_modules', 'svelte-routing'),
+      page: fromCwd('node_modules', 'page'),
     },
   },
   module: {
