@@ -18,7 +18,7 @@
   },
   "peerDependencies": {
     "@mamba/styles": "^0.0.2-alpha.6",
-    "@kaisermann/svelte-router": "^0.0.3"
+    "svelte-routing": "^0.4.2"
   },
   "dependencies": {
     "@mamba/icon": "^0.0.2-alpha.6",

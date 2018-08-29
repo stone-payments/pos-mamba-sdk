@@ -127,8 +127,7 @@
         if(forceFocus) {
           e.stopImmediatePropagation();
           e.preventDefault();
-          /** onBlur can be fired just before a <Input/> destruction */
-          setTimeout(() => this.refs.input && this.focus());
+          setTimeout(() => this.focus());
           return
         }
         this.refs.container.classList.remove('is-focused');

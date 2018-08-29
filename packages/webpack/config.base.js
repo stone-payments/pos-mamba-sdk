@@ -59,8 +59,7 @@ module.exports = {
     modules: [fromCwd('src'), 'node_modules'],
     alias: {
       '@mamba': fromCwd('node_modules', '@mamba'),
-      svelte: fromCwd('node_modules', 'svelte'),
-      page: fromCwd('node_modules', 'page'),
+      'svelte-routing': fromCwd('node_modules', 'svelte-routing'),
     },
   },
   module: {
@@ -86,6 +85,9 @@ module.exports = {
         test: /\.(htmlx?|svelte)$/,
         include: [/node_modules/],
         /** When developing, parse linked packages svelte dependencies */
+        exclude: [IS_PROD && /node_modules[\\/].+[\\/]node_modules/].filter(
+          Boolean,
+        ),
         use: [loaders.babelEsNext, loaders.svelte],
       },
       /**
