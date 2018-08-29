@@ -1,5 +1,3 @@
-/* eslint prefer-template: 'off' */
-
 /** Initial data that overrides local storage */
 export const INITIAL_META_DATA = {
   __meta__: {
@@ -11,8 +9,6 @@ export const INITIAL_META_DATA = {
     askOnClose: false,
     /** Custom callback to be fired before the app closes */
     onCloseFn: null,
-    /** Define the card current state */
-    cardInserted: false,
   },
 };
 
@@ -28,7 +24,7 @@ export default function createStoreMeta(store) {
 
     /** Get deep for meta data */
     get: (path = '') =>
-      store.getDeep(`__meta__${path.length ? '.' + path : ''}`),
+      store.getDeep(`__meta__${path.length ? `.${path}` : ''}`),
 
     /** Encapsulate meta:event related calls */
     on: (event, handler) => store.on(`meta:${event}`, handler),

@@ -1,6 +1,6 @@
 {
   "name": "@mamba/appbar",
-  "version": "0.0.2-alpha.6",
+  "version": "0.0.2-alpha.7",
   "svelte": "src/index.js",
   "files": [
     "src/"
@@ -17,11 +17,11 @@
     "build:dev": "exit 0"
   },
   "peerDependencies": {
-    "@mamba/styles": "^0.0.2-alpha.6",
-    "svelte-routing": "^0.4.2"
+    "@mamba/styles": "^0.0.2-alpha.7",
+    "@kaisermann/svelte-router": "^0.0.3"
   },
   "dependencies": {
-    "@mamba/icon": "^0.0.2-alpha.6",
-    "@mamba/store": "^0.0.2-alpha.6"
+    "@mamba/icon": "^0.0.2-alpha.7",
+    "@mamba/store": "^0.0.2-alpha.7"
   }
 }
