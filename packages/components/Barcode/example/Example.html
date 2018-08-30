@@ -1,15 +1,8 @@
 <div class="container">
-  <h4>Padrão</h4>
+  <h1>Default Barcode<span>{'<Barcode></Barcode>'}</span></h1>
   <div class="row">
     <Barcode data="435073851110001020000000042984311170" />
-  </div>
-  <h4>Tamanho e Largura da Barra</h4>
-  <div class="row">
-    <Barcode data="999999999999999999999999999999999999" height="25" barWidth="0.8"/>
-  </div>
-  <h4>Sem Descrição</h4>
-  <div class="row">
-    <Barcode data="435073851110001020000000042984311170" displayValue={false}/>
+    <Barcode data="999999999999999999999999999999999999" />
   </div>
 </div>
 
@@ -19,10 +12,13 @@
     background-color: #ddd;
   }
 
-  h4 {
+  h1 span {
     display: inline-block;
     vertical-align: middle;
+    margin-left: 10px;
+    font-size: 14px;
     font-weight: bold;
+    font-family: monospace;
   }
 
   .container {
@@ -30,7 +26,7 @@
   }
 
   .row {
-    margin: 20px 0px 20px 0px;
+    margin-bottom: 50px;
   }
 
 </style>

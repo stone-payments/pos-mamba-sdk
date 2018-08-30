@@ -1,5 +1,5 @@
 <div class="container">
-  <h4>Padrão</h4>
+  <h1>Default sprite <span>{'<Sprite src="..." width="..." height="..."/>'}</span></h1>
   <div class="row">
     <Sprite ref:sprite src="./static/stone.png" width="70px"/>
   </div>
@@ -21,11 +21,13 @@
     background-color: #ddd;
   }
 
-  h4 {
+  h1 span {
     display: inline-block;
     vertical-align: middle;
+    margin-left: 10px;
     font-size: 14px;
     font-weight: bold;
+    font-family: monospace;
   }
 
   .container {
@@ -35,6 +37,6 @@
   }
 
   .row {
-    margin: 20px 0px 20px 0px;
+    margin-bottom: 50px;
   }
 </style>
