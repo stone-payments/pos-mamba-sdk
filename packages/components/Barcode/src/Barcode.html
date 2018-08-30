@@ -17,14 +17,13 @@
       return {
         barWidth: 1.5,
         height: 100,
-        fontSize: 16,
         data: '[NO-VALUE]',
         displayValue: true,
       };
     },
     oncreate() {
       const {
-        data, height, barWidth: width, fontSize,
+        data, height, barWidth: width,
       } = this.get();
 
       if (!reusableCanvas) {
@@ -34,7 +33,6 @@
       generateBarcode(reusableCanvas, data, {
         width: cssStrToNumber(width),
         height: cssStrToNumber(height),
-        fontSize: cssStrToNumber(fontSize),
         displayValue: false,
         margin: 0,
       });
