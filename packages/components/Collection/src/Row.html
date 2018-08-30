@@ -1,5 +1,5 @@
 <div ref:row class="row">
-  <div ref:main on:click="handleClick({ event, href })">
+  <div ref:main on:click="_handleClick({ event, href })">
     <div class="top {_hasController ? 'has-controller' : ''}">
       <div class="label">{label}</div>
       {#if _hasController}
@@ -73,7 +73,7 @@
       }
     },
     methods: {
-      handleClick({ event, href }) {
+      _handleClick({ event, href }) {
         /** If clicked on a "link" row, push the page to the router */
         if (href) {
           return getHistory().push(href);
