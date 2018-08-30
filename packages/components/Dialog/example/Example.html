@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>Default Dialog</h1>
+  <h4>Padrão</h4>
   <div class="row">
     <button on:click="openDialog('defaultDialog', 2000)">
       Open dialog
@@ -7,10 +7,10 @@
   </div>
 
   <Dialog ref:defaultDialog>
-    Default dialog
+    Dialog Padrão
   </Dialog>
 
-  <h1>PromisedDialog <span>{'<PromisedDialog promise="..." on:success on:failure/>'}</span></h1>
+  <h4>Com Promise </h4>
   <div class="row">
     <button on:click="refreshPromise()">
       Initialize promise
@@ -31,7 +31,7 @@
     {/await}
   </PromisedDialog>
 
-  <h1>Confirmation Dialog</h1>
+  <h4>Com confirmação</h4>
   <div class="row">
     <button on:click="openDialog('confirmationDialog')">
       Open dialog
@@ -70,17 +70,12 @@
     background-color: #ddd;
   }
 
-  h1 {
-    word-break: break-all;
-  }
-
-  h1 span {
+  h4 {
     display: inline-block;
     vertical-align: middle;
-    margin-left: 10px;
     font-size: 14px;
     font-weight: bold;
-    font-family: monospace;
+    word-break: break-all;
   }
 
   .container {
@@ -90,6 +85,6 @@
   }
 
   .row {
-    margin-bottom: 50px;
+    margin: 20px 0px 20px 0px;
   }
 </style>

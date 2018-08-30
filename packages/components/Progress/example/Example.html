@@ -1,41 +1,41 @@
 <div class="container">
-  <h1>Progress bar <span>{'<ProgressBar/>'}</span></h1>
+  <h4>Barra Padrão </h4>
 
   <div class="row">
     <ProgressBar />
   </div>
 
-  <h1>Progress bar with custom color <span>{'<ProgressBar color="#ddd"/>'}</span></h1>
+  <h4>Cor</h4>
 
   <div class="row">
     <ProgressBar color="#ddd" />
   </div>
 
-  <h1>Progress bar with custom height <span>{'<ProgressBar height="4px"/>'}</span></h1>
+  <h4>Altura</h4>
 
   <div class="row">
-    <ProgressBar height="4px" />
+    <ProgressBar height="12px" />
   </div>
 
-  <h1>Progress bar with defined progress <span>{'<ProgressBar progress="'}{fakeProgress}{'%"/>'}</span></h1>
+  <h4>Progressão Definida</h4>
 
   <div class="row">
     <ProgressBar progress="{fakeProgress}" height="8px" />
   </div>
 
-  <h1>Circular Progress bar <span>{'<ProgressBar />'}</span></h1>
+  <h4>Circular Padrão</h4>
 
   <div class="row">
     <CircularProgress />
   </div>
 
-  <h1>Circular Progress bar with custom speed <span>{'<ProgressBar speed="1..10"/>'}</span></h1>
+  <h4>Velocidade</h4>
 
   <div class="row">
     <CircularProgress speed="5"/>
   </div>
 
-  <h1>Circular Progress bar defined progress<span>{'<ProgressBar circular progress="'}{fakeProgress}{'%"/>'}</span></h1>
+  <h4>Progressão Definida</h4>
 
   <div class="row">
     <CircularProgress progress="{fakeProgress}"/>
@@ -44,13 +44,10 @@
 </div>
 
 <style>
-  h1 span {
+  h4 {
     display: inline-block;
     vertical-align: middle;
-    margin-left: 10px;
-    font-size: 14px;
     font-weight: bold;
-    font-family: monospace;
   }
 
   .container {
@@ -60,7 +57,8 @@
   }
 
   .row {
-    margin-bottom: 50px;
+    margin: 20px 0px 20px 0px;
+    width: 33.12567%;
   }
 </style>
 

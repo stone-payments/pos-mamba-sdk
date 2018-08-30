@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>Icons</h1>
+  <h4>Icons</h4>
 
   <div class="row">
     {#each icons as icon}
@@ -7,63 +7,36 @@
     {/each}
   </div>
 
-  <h1>Large icons <span>{'<Icon size="large" />'}</span></h1>
+  <h4>Tamanhos (small, large, giant)</h4>
 
   <div class="row">
-    {#each icons as icon}
-      <Icon symbol="{icon}" size="large" />
-    {/each}
+      <Icon symbol="lock-open"/>
+      <Icon symbol="alert" size="large" />
+      <Icon symbol="lock" size="giant" />
   </div>
 
-  <h1>Giant icons <span>{'<Icon size="giant" />'}</span></h1>
+  <h4>Redondos</h4>
 
   <div class="row">
-    {#each icons as icon}
-      <Icon symbol="{icon}" size="giant" />
-    {/each}
+      <RoundIcon symbol="signal-2g"/>
+      <RoundIcon symbol="signal-3g" size="large"/>
+      <RoundIcon symbol="signal-4g" size="giant"/>
   </div>
 
-  <h1>Rounded icons <span>{'<RoundIcon />'}</span></h1>
+  <h4>Coloridos</h4>
 
   <div class="row">
-    {#each icons as icon}
-      <RoundIcon symbol="{icon}"/>
-    {/each}
+      <RoundIcon symbol="alert" color="#95C93F" bgColor="#5C666A"/>
   </div>
 
-  <h1>Large rounded icons <span>{'<RoundIcon size="large" />'}</span></h1>
-
-  <div class="row">
-    {#each icons as icon}
-      <RoundIcon symbol="{icon}" size="large" />
-    {/each}
-  </div>
-
-  <h1>Giant rounded icons <span>{'<RoundIcon size="giant" />'}</span></h1>
-
-  <div class="row">
-    {#each icons as icon}
-      <RoundIcon symbol="{icon}" size="giant"/>
-    {/each}
-  </div>
-
-  <h1>Colored Icons <span>{'<Icon color="..." />'}</span></h1>
-
-  <div class="row">
-    {#each icons as icon}
-      <Icon symbol="{icon}" color="{getRandomColor()}" />
-      <RoundIcon symbol="{icon}" color="{getRandomColor()}" bgColor="{getRandomColor()}"/>
-    {/each}
-  </div>
-
-  <h1>Custom Icons <span>{'<Icon src="..." />'}</span></h1>
+  <h4>Customizados</h4>
 
   <div class="row">
     <Icon src="assets/icons/account.svg" />
     <RoundIcon src="assets/icons/account.svg" />
   </div>
 
-  <h1>Gradual Icons <span>{'<Icon symbol="..." level="number" />'}</span></h1>
+  <h4>Graduais</h4>
 
   <div class="row">
     <Icon symbol="wifi" level="0" />
@@ -78,13 +51,10 @@
 </div>
 
 <style>
-  h1 span {
+  h4 {
     display: inline-block;
     vertical-align: middle;
-    margin-left: 10px;
-    font-size: 14px;
     font-weight: bold;
-    font-family: monospace;
   }
 
   .container {
@@ -94,7 +64,8 @@
   }
 
   .row {
-    margin-bottom: 50px;
+    margin: 20px 0px 20px 0px;
+    width: 33.12567%;
   }
 </style>
 

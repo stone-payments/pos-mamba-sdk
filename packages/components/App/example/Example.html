@@ -1,34 +1,52 @@
-<App>
-  <div class="container">
-    <h1>@mamba/app</h1>
-    <div class="row">
-      <p>It is a obligatory component for all Svelte Mamba Apps</p>
-      <br>
-      <ul>
-        <li>It initializes the application router</li>
-        <li>It listens to keyboard strokes and dispatches a click event on elements with a <b>shortcut="keyName"</b> attribute</li>
-      </ul>
-    </div>
-    <button shortcut="enter" on:click="set({ counter: counter + 1 })">click me or press enter {counter}!</button>
+<div class="container">
+  <h4>Padrão</h4>
+  <div class="row">
+    <Button on:click="console.log(event)">Label</Button>
   </div>
-</App>
 
-<script>
-  export default {
-    components: {
-      App: '../src',
-    },
-    data() {
-      return {
-        counter: 0,
-      };
-    },
-  };
-</script>
+  <h4>Desativado</h4>
+  <div class="row">
+    <Button on:click="console.log(event)" disabled>Label</Button>
+  </div>
+
+  <h4>Pequeno</h4>
+  <div class="row">
+    <Button on:click="console.log(event)" size="small">Label</Button>
+  </div>
+
+  <h4>Grande</h4>
+  <div class="row">
+    <Button on:click="console.log(event)" size="large">Label</Button>
+  </div>
+
+  <h4>Largura Costumizada</h4>
+  <div class="row">
+    <Button on:click="console.log(event)" width="80%">Label</Button>
+  </div>
+
+  <h4>Colorido</h4>
+  <div class="row">
+    <Button on:click="console.log(event)" textColor="white" bgColor="yellow">Label</Button>
+  </div>
+
+  <h4>Conteúdo Costumizado</h4>
+  <div class="row">
+    <Button>
+      <Icon symbol="chevron-right" color="white"/>
+    </Button>
+  </div>
+</div>
 
 <style>
   :global(body) {
     background-color: #ddd;
+  }
+
+  h4 {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 14px;
+    font-weight: bold;
   }
 
   .container {
@@ -38,6 +56,16 @@
   }
 
   .row {
-    margin-bottom: 50px;
+    margin: 20px 0px 20px 0px;
   }
 </style>
+
+<script>
+
+  export default {
+    components: {
+      Button: '../src',
+      Icon: '@mamba/icon',
+    },
+  };
+</script>

@@ -1,34 +1,28 @@
 <div class="container">
 
-  <h1>Default switch <span>{'<Switch />'}</span></h1>
+  <h4>Padrão</h4>
   <div class="row">
     <Switch on:change="console.log(event)"/>
   </div>
 
-  <h1>Checked switch <span>{'<Switch checked />'}</span></h1>
+  <h4>Selecionado</h4>
   <div class="row">
     <Switch checked on:change="console.log(event)"/>
   </div>
 
-  <h1>Disabled switch <span>{'<Switch disabled />'}</span></h1>
+  <h4>Desativado</h4>
   <div class="row">
     <Switch disabled on:change="console.log(event)"/>
   </div>
 
-  <h1>Disabled checked switch <span>{'<Switch checked disabled />'}</span></h1>
-  <div class="row">
-    <Switch checked disabled on:change="console.log(event)"/>
-  </div>
 </div>
 
 <style>
-  h1 span {
+  h4 {
     display: inline-block;
     vertical-align: middle;
-    margin-left: 10px;
     font-size: 14px;
     font-weight: bold;
-    font-family: monospace;
   }
 
   .container {
@@ -38,7 +32,7 @@
   }
 
   .row {
-    margin-bottom: 50px;
+    margin: 20px 0px 20px 0px;
   }
 </style>
 
