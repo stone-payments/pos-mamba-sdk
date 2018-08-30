@@ -18,3 +18,14 @@ O módulo `Range` pode ser usado para representar um valor dentro de um interval
 | icon      | ícone que será apresentado ao lado do texto   | `string`          | `undefined` |
 | change    | lança um evento a cada alteração no range     | `function`        | `undefined` |
 | unit      | unidade de valor                              | `string` (%,x...) | `undefined` |
+
+
+## Métodos
+
+### increment()
+
+Aumenta em uma unidade do `Step` o valor atual do `Range`.
+
+### decrement()
+
+Diminui em uma unidade do `Step` o valor atual do `Range`.
