@@ -1,6 +1,6 @@
 import { log } from './utils.js';
 
-export const SIGNALS = ['settingsChanged', 'print'];
+export const SIGNALS = ['settingsChanged', 'print', 'toggleCard'];
 
 /** Main driver for handling the POS Simulation */
 const DATA = {};
