@@ -1,13 +1,13 @@
-export const NAMESPACE = 'MbCookie';
+export const NAMESPACE = 'MbStorage';
 
-export function setup(Cookie) {
+export function setup(Storage) {
   /**
    * Stores a key pair value using local storage
    * @param {string} key Key name
    * @param {string} value Value
-   * @memberof Cookie
+   * @memberof Storage
    */
-  Cookie.set = (key, value) => {
+  Storage.set = (key, value) => {
     localStorage.setItem(key, value);
     return true;
   };
@@ -15,15 +15,15 @@ export function setup(Cookie) {
   /**
    * Get a value by its key
    * @param {string} key Returns the value associated by its key or an empty string if not found.
-   * @memberof Cookie
+   * @memberof Storage
    */
-  Cookie.get = key => localStorage.getItem(key) || '';
+  Storage.get = key => localStorage.getItem(key) || '';
 
   /**
    * Clear all the values at the local storage.
-   * @memberof Cookie
+   * @memberof Storage
    */
-  Cookie.clear = () => {
+  Storage.clear = () => {
     localStorage.clear();
     return true;
   };
