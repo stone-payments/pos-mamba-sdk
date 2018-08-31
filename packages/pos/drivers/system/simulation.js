@@ -57,6 +57,17 @@ function doBeep(duration, frequency) {
   setTimeout(() => oscillator.stop(), duration);
 }
 
+function _getToneFrequency(tone, toneMap) {
+  if (tone === toneMap.TONE1) return 1700;
+  if (tone === toneMap.TONE2) return 1850;
+  if (tone === toneMap.TONE3) return 2000;
+  if (tone === toneMap.TONE4) return 2100;
+  if (tone === toneMap.TONE5) return 2350;
+  if (tone === toneMap.TONE6) return 2700;
+  if (tone === toneMap.TONE7) return 2800;
+  return null;
+}
+
 export function setup(System) {
   const localConfig = {
     TimeFromBoot: 0,
@@ -151,22 +162,6 @@ export function setup(System) {
   System.getBatteryLevel = () => State.get('System.Battery.level');
 
   /**
-   * Gets the tone frequency according to the tone
-   * @param  {System.Tone} tone   The tone to get the Frequency
-   * @return {number}             The frequency in Hz
-   */
-  System.getToneFrequency = tone => {
-    if (tone === System.Tone.TONE1) return 1700;
-    if (tone === System.Tone.TONE2) return 1850;
-    if (tone === System.Tone.TONE3) return 2000;
-    if (tone === System.Tone.TONE4) return 2100;
-    if (tone === System.Tone.TONE5) return 2350;
-    if (tone === System.Tone.TONE6) return 2700;
-    if (tone === System.Tone.TONE7) return 2800;
-    return null;
-  };
-
-  /**
    * Performs a beep. Note that this function blocks the execution on the real device
    * until it's finished. If {@link tone} and {@link duration} are both undefined, the default beep
    * will be executed. If the {@link duration} is undefined, the default duration will be used
@@ -178,7 +173,7 @@ export function setup(System) {
     tone = System.Tone.TONE1,
     duration = DEFAULT_BEEP_DURATION,
   ) => {
-    const toneFrequency = this.getToneFrequency(tone);
+    const toneFrequency = _getToneFrequency(tone, System.Tone);
 
     if (!toneFrequency) {
       if (__DEV__) error('Beep: Bad Usage');
@@ -187,7 +182,7 @@ export function setup(System) {
 
     if (__DEV__) log(`Beep: tone = ${tone}, duration = ${duration}`);
 
-    if (!__TEST__) {
+    if (!__TEST__ && typeof window.AudioContext !== 'undefined') {
       doBeep(duration, toneFrequency);
     }
   };
