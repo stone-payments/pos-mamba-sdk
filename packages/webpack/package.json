@@ -18,12 +18,12 @@
     "cssnano": "^4.1.0",
     "eslint-loader": "^2.1.0",
     "file-loader": "^2.0.0",
-    "filemanager-webpack-plugin": "^2.0.2",
+    "filemanager-webpack-plugin": "^2.0.4",
     "html-minifier": "^3.5.20",
     "json-loader": "^0.5.7",
     "mini-css-extract-plugin": "^0.4.2",
     "mini-html-webpack-plugin": "^0.2.3",
-    "optimize-css-assets-webpack-plugin": "^5.0.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
     "pkg-dir": "^3.0.0",
     "postcss-loader": "^3.0.0",
     "progress-bar-webpack-plugin": "^1.11.0",
@@ -37,9 +37,9 @@
     "webpack-archive-plugin": "^3.0.0",
     "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.6",
+    "webpack-dev-server": "^3.1.7",
     "webpack-merge": "^4.1.4",
-    "webpack-sources": "^1.1.0",
+    "webpack-sources": "^1.2.0",
     "xmlbuilder": "^10.0.0"
   }
 }

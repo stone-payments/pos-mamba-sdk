@@ -16,12 +16,12 @@
     "build": "exit 0",
     "build:dev": "exit 0"
   },
-  "peerDependencies": {
-    "@mamba/styles": "^0.0.2-alpha.7",
-    "@kaisermann/svelte-router": "^0.0.3"
-  },
   "dependencies": {
     "@mamba/icon": "^0.0.2-alpha.7",
     "@mamba/store": "^0.0.2-alpha.7"
+  },
+  "peerDependencies": {
+    "@mamba/styles": "^0.0.2-alpha.7",
+    "svelte-page": "^0.0.5"
   }
 }
