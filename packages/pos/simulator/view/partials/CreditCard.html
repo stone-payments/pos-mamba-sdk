@@ -1,7 +1,12 @@
-<div class="credit-card {isCardInserted ? 'is-inserted' : ''}" on:click="toggleCard()"></div>
+<div
+  class="credit-card"
+  class:is-inserted="isCardInserted"
+  on:click="toggleCard()"
+  ></div>
 
 <script>
   import Payment from '../../../api/payment.js';
+  import { State } from "../../libs/main.js";
 
   export default {
     data() {
@@ -19,9 +24,14 @@
       toggleCard() {
         const isCardInserted = !this.get().isCardInserted;
         this.set({ isCardInserted });
+
         if (isCardInserted) {
-          /** Fire the cardEvent signal. Simulates the back-end */
-          Payment.cardEvent();
+          setTimeout(() => {
+            Payment.cardEvent();
+            State.toggleCard(true);
+          }, 500);
+        } else {
+          State.toggleCard(false);
         }
       },
     },
