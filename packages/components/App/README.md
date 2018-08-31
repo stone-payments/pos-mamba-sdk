@@ -11,11 +11,11 @@ Por esse motivo, ele já está incluso no template disponibilizado no início do
 
 `import { Keystroke } from '@mamba/app';`
 
-O componente `Keystroke` associa um evento de tecla á uma tecla específica e o desassocia automaticamente quando é destruído.
+O componente `Keystroke` associa um evento de tecla á uma tecla específica e o desassocia automaticamente quando é destruído. Quando a tecla é apertada, o componente dispara um evento de `keystroke`.
 
 #### Parâmetros
 
-`<Keystroke ...props />`
+`<Keystroke ...props on:keystroke="..."/>`
 
 | Parâmetro   | Descrição                                              | Tipo            | Padrão     |
 |-------------|--------------------------------------------------------|-----------------|------------|
