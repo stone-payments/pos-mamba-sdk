@@ -1,5 +1,5 @@
-{#if _isOpen}
-  <div class={dialogClass} {style} >
+{#if isOpen}
+  <div class="dialog" class:is-fullscreen="fullscreen" {style}>
     <div class="content -align-{align}">
       <div class="message">
         {#if title}
@@ -19,7 +19,7 @@
     data() {
       return {
         /** Dialog open state */
-        _isOpen: false,
+        isOpen: false,
         /** Should the dialog automatic lock the appw */
         _autoAppLock: true,
         title: undefined,
@@ -35,18 +35,13 @@
           .filter(Boolean)
           .join(';');
       },
-      dialogClass({ fullscreen }) {
-        return ['dialog', fullscreen && 'is-fullscreen']
-          .filter(Boolean)
-          .join(' ');
-      },
     },
     methods: {
       open(duration) {
-        this.set({ _isOpen: true });
+        this.set({ isOpen: true });
         this.fire('open');
 
-        /** If there's a existant store, let's lock the app */
+        /** If there's a existing store, let's lock the app */
         if (this.store) {
           if (this.store.meta.isAppLocked()) {
             this.set({ _autoAppLock: false });
@@ -69,20 +64,20 @@
           );
         }
 
-        /** If there's a existant store, let's unlock the app */
+        /** If there's a existing store, let's unlock the app */
         if (this.store && this.get()._autoAppLock) {
           this.store.meta.lockApp(false);
         }
 
-        this.set({ _isOpen: false });
+        this.set({ isOpen: false });
         this.fire('close');
       },
     },
     ondestroy() {
-      const { _isOpen, _autoAppLock } = this.get();
+      const { isOpen, _autoAppLock } = this.get();
       /** If the component is being destroyed and the dialog is still opened, let's unlock the app */
       if (
-        _isOpen &&
+        isOpen &&
         this.store &&
         this.store.meta.isAppLocked() &&
         _autoAppLock
