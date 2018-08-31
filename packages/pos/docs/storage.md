@@ -2,7 +2,7 @@
 
 ## Descrição
 
-A API Nativa de storages permite salvar informações persistentes da sua Aplicação, que podem ser recuperadas mesmo após o POS ser reiniciado.
+A API Nativa de storage permite salvar informações persistentes da sua Aplicação, que podem ser recuperadas mesmo após o POS ser reiniciado.
 
 ## Interface
 
