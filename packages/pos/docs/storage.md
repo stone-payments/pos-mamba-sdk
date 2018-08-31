@@ -1,13 +1,13 @@
-# Cookie
+# Storage
 
 ## Descrição
 
-A API Nativa de cookies permite salvar informações persistentes da sua Aplicação, que podem ser recuperadas mesmo após o POS ser reiniciado.
+A API Nativa de storage permite salvar informações persistentes da sua Aplicação, que podem ser recuperadas mesmo após o POS ser reiniciado.
 
 ## Interface
 
 ```ts
-interface Cookie {
+interface Storage {
   set: (key: string, value: string) => boolean
   get: (key: string) => string
   clear: () => boolean
@@ -19,7 +19,7 @@ interface Cookie {
 Salva uma informação com uma estrutura de chave e valor (key : value), ou seja, é possível criar uma chave única e associá-la a um tipo de informação que deseja persistir no POS.
 
 ```js
-import Cookie from '@mamba/pos/api/cookie.js'
+import Storage from '@mamba/pos/api/storage.js'
 
 const myData = [
   {
@@ -32,7 +32,7 @@ const myData = [
   },
 ]
 
-Cookie.set('users', JSON.stringify(myData))
+Storage.set('users', JSON.stringify(myData))
 ```
 
 ### get(key)
@@ -40,7 +40,7 @@ Cookie.set('users', JSON.stringify(myData))
 Retorna o valor armazenado na chave passada para o método.
 
 ```js
-import Cookie from '@mamba/pos/api/cookie.js'
+import Storage from '@mamba/pos/api/storage.js'
 
 const myData = [
   {
@@ -53,9 +53,9 @@ const myData = [
   },
 ]
 
-Cookie.set('users', JSON.stringify(myData))
+Storage.set('users', JSON.stringify(myData))
 
-const savedData = Cookie.get('users')
+const savedData = Storage.get('users')
 
 savedData[0].name // Pedro
 savedData[1].idade // 22
@@ -66,13 +66,13 @@ savedData[1].idade // 22
 Limpa todos os dados armazenados pela aplicação.
 
 ```js
-import Cookie from '@mamba/pos/api/cookie.js'
+import Storage from '@mamba/pos/api/storage.js'
 
 const myData = 'dados importantes'
 
-Cookie.set('data', myData)
-Cookie.get('data') // 'dados importantes'
+Storage.set('data', myData)
+Storage.get('data') // 'dados importantes'
 
-Cookie.clear()
-Cookie.get('data') // ''
+Storage.clear()
+Storage.get('data') // ''
 ```

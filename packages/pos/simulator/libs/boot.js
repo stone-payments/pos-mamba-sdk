@@ -3,7 +3,7 @@ import { log } from './utils.js';
 
 import * as Printer from '../../drivers/printer/simulation.js';
 import * as App from '../../drivers/app/simulation.js';
-import * as MbCookie from '../../drivers/cookie/simulation.js';
+import * as Storage from '../../drivers/storage/simulation.js';
 import * as Keyboard from '../../drivers/keyboard/simulation.js';
 import * as MbMerchant from '../../drivers/merchant/simulation.js';
 import * as Payment from '../../drivers/payment/simulation.js';
@@ -18,7 +18,7 @@ if (__DEV__ && __BROWSER__) log('Loading mamba simulated environment');
 attachDrivers({
   Printer,
   App,
-  MbCookie,
+  Storage,
   Keyboard,
   MbMerchant,
   Payment,
