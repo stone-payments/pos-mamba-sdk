@@ -22,3 +22,22 @@ O componente `Input` contém funcionalidades de uma caixa de texto com estilos e
 | value       | Valor de padrão de entrada                                 | `string`        | `false`    |
 | validation  | Adiciona um método de validação                            | `function`      | `undefined`|
 | validateOn  | Define em que momento a validação ocorre (`input`/`submit`)| `string`        | `submit`   |
+
+## Métodos
+
+### prepend(value)
+
+Adiciona um valor fixo no ínicio do campo de digitação.
+
+### append(value)
+
+Adiciona um valor fixo no final do campo de digitação.
+
+### focus()
+
+Coloca o foco no componente de input.
+
+### blur()
+
+Desfoca o componente de input.
+

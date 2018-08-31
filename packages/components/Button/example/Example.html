@@ -1,40 +1,36 @@
 <div class="container">
-  <h1>Default button <span>{'<Button>Label</Button>'}</span></h1>
+  <h4>Padrão</h4>
   <div class="row">
     <Button on:click="console.log(event)">Label</Button>
   </div>
 
-  <h1>Disabled button <span>{'<Button disabled>Label</Button>'}</span></h1>
+  <h4>Desativado</h4>
   <div class="row">
     <Button on:click="console.log(event)" disabled>Label</Button>
   </div>
 
-  <h1>Small button <span>{'<Button size="small">Label</Button>'}</span></h1>
+  <h4>Tamanhos</h4>
   <div class="row">
-    <Button on:click="console.log(event)" size="small">Label</Button>
+    <div class="group">
+      <Button on:click="console.log(event)" size="small">Label</Button>
+      <Button on:click="console.log(event)">Label</Button>
+      <Button on:click="console.log(event)" size="large">Label</Button>
+    </div>
   </div>
 
-  <h1>Large button <span>{'<Button size="large">Label</Button>'}</span></h1>
+  <h4>Custom width button</h4>
   <div class="row">
-    <Button on:click="console.log(event)" size="large">Label</Button>
+    <Button on:click="console.log(event)" width="33%">Label</Button>
   </div>
 
-  <h1>Custom width button <span>{'<Button width="80%">Label</Button>'}</span></h1>
-  <div class="row">
-    <Button on:click="console.log(event)" width="80%">Label</Button>
-  </div>
-
-  <h1>Custom colored button <span>{'<Button textColor="white" bgColor="black">Label</Button>'}</span></h1>
+  <h4>Personalizado</h4>
   <div class="row">
     <Button on:click="console.log(event)" textColor="white" bgColor="black">Label</Button>
-  </div>
-
-  <h1>Button with custom content <span>{'<Button>...</Button>'}</span></h1>
-  <div class="row">
-    <Button>
+     <Button>
       <Icon symbol="chevron-right" color="white"/>
     </Button>
   </div>
+
 </div>
 
 <style>
@@ -42,13 +38,10 @@
     background-color: #ddd;
   }
 
-  h1 span {
+  h4 {
     display: inline-block;
     vertical-align: middle;
-    margin-left: 10px;
-    font-size: 14px;
     font-weight: bold;
-    font-family: monospace;
   }
 
   .container {
@@ -58,8 +51,9 @@
   }
 
   .row {
-    margin-bottom: 50px;
+    margin: 20px 0px 20px 0px;
   }
+
 </style>
 
 <script>

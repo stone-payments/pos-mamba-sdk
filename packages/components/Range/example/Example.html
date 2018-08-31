@@ -1,44 +1,41 @@
 <div class="container">
 
-  <h1>Default range <span>{'<Range />'}</span></h1>
+  <h4>Padrão</h4>
   <div class="row">
     <Range on:change="console.log(event)"/>
   </div>
 
-  <h1>Range with value <span>{'<Range value={75} step={5}/>'}</span></h1>
+  <h4>Valor</h4>
   <div class="row">
     <Range value={75} step={5} on:change="console.log(event)"/>
   </div>
 
-  <h1>Range with unit <span>{'<Range unit="m" />'}</span></h1>
+  <h4>Unidade</h4>
   <div class="row">
     <Range unit="m" on:change="console.log(event)"/>
   </div>
 
-  <h1>Custom range <span>{'<Range unit="" max={1000} min={-1000} step={500}/>'}</span></h1>
+  <h4>Mínimo, Máximo e Passo</h4>
   <div class="row">
     <Range unit="" max={1000} min={-1000} step={500} on:change="console.log(event)"/>
   </div>
 
-  <h1>Custom colored range <span>{'<Range mainColor="#888" textColor="#555" barColor="#fdd"/>'}</span></h1>
+  <h4>Colorido</h4>
   <div class="row">
     <Range mainColor="#888" textColor="#555" barColor="#fdd" on:change="console.log(event)"/>
   </div>
 
-  <h1>Range with image <span>{'<Range icon="pathToFile"/>'}</span></h1>
+  <h4>Com Imagem</h4>
   <div class="row">
     <Range icon="static/brightness.png" on:change="console.log(event)"/>
   </div>
 </div>
 
 <style>
-  h1 span {
+  h4 {
     display: inline-block;
     vertical-align: middle;
-    margin-left: 10px;
-    font-size: 14px;
     font-weight: bold;
-    font-family: monospace;
   }
 
   .container {
@@ -48,7 +45,8 @@
   }
 
   .row {
-    margin-bottom: 50px;
+    margin: 20px 0px 20px 0px;
+    width: 33.12567%;
   }
 </style>
 
