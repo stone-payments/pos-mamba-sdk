@@ -1,4 +1,4 @@
-export const NAMESPACE = 'MbStorage';
+export const NAMESPACE = 'MbCookie';
 
 export function setup(Storage) {
   /**
