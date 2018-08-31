@@ -5,6 +5,8 @@ export const NAMESPACE = 'App';
 export function setup(App) {
   App.doClose = () => {
     if (__DEV__) log('App closed');
+    const root = document.getElementById('app-root');
+    root.parentNode.removeChild(root);
   };
 
   App.getAppKey = () => '123456';
