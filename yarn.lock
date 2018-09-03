@@ -9084,9 +9084,9 @@ svelte-loader@^2.11.0:
     require-relative "^0.8.7"
     svelte-dev-helper "^1.1.9"
 
-svelte-page@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/svelte-page/-/svelte-page-0.0.5.tgz#4aa37278eea5b8179c18a95db6fecd320864bbd1"
+svelte-page@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/svelte-page/-/svelte-page-0.0.6.tgz#bc23d1385ba187203462187bb42a6af0e68f3d10"
   dependencies:
     page "^1.8.6"
 

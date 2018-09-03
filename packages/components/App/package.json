@@ -23,6 +23,6 @@
   },
   "peerDependencies": {
     "@mamba/pos": "^1.0.0-prealpha.1",
-    "svelte-page": "^0.0.5"
+    "svelte-page": "^0.0.6"
   }
 }

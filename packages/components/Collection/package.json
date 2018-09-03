@@ -16,7 +16,7 @@
     "build:dev": "exit 0"
   },
   "peerDependencies": {
-    "svelte-page": "^0.0.5"
+    "svelte-page": "^0.0.6"
   },
   "dependencies": {
     "@mamba/icon": "^1.0.0-prealpha.1",

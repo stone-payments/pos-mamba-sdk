@@ -1,5 +1,6 @@
 <Keystroke
   key="shortcuts"
+  active={keystrokeActive}
   on:keystroke="handleShortcutStroke(event)"
 />
 
@@ -32,10 +33,21 @@
     data() {
       return {
         panels: [],
+        keystrokeActive: true,
         ...State.get()
       };
     },
     oncreate() {
+      /**
+       * Disable the keystroke handler when
+       * there's a shortcut for the 'shortcuts' key
+       * */
+      this.store.on('router:navigation', () => {
+        this.set({
+          keystrokeActive: !document.querySelector('[shortcut="shortcuts"]')
+        })
+      })
+
       State.on('settingsChanged', data => {
         this.set({ ...data });
       });
