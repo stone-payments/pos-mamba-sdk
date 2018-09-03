@@ -1,31 +1,39 @@
+<Keystroke
+  key="shortcuts"
+  on:keystroke="handleShortcutStroke(event)"
+/>
+
 <div class="panel-wrapper">
-  <input type="checkbox" class="panel-checkbox" id="panel-toggler">
+  <input ref:toggle type="checkbox" class="panel-checkbox" id="panel-toggler">
   <label for="panel-toggler" class="panel-toggle">⚙</label>
   <div class="panel">
-    <div class="section">
-      <div class="title">Impressora</div>
-      <ul class="controllers">
-        <li class="controller">
-          <span>Impressora sem papel?</span>
-          <Switch
-            checked={getConfig('Printer.shouldFail')}
-            on:change="setConfig('Printer.shouldFail', event.value)"
+      {#each panels as [panel, data]}
+        <div class="section">
+          <svelte:component
+            this={panel}
+            {...data}
+            on:update="handlePanelUpdate(event)"
           />
-        </li>
-      </ul>
-    </div>
+        </div>
+      {/each}
   </div>
 </div>
 
 <script>
-  import { State, log } from '../../index.js';
+  import { Keystroke } from '@mamba/app';
+  import { State } from '../../index.js';
+
+  let lastKeypressTime = 0;
 
   export default {
     components: {
-      Switch: '@mamba/switch',
+      Keystroke
     },
     data() {
-      return State.get();
+      return {
+        panels: [],
+        ...State.get()
+      };
     },
     oncreate() {
       State.on('settingsChanged', data => {
@@ -36,12 +44,35 @@
       getConfig: path => State.get(path),
     },
     methods: {
-      setConfig(keyPath, value) {
-        if (__DEV__ && __BROWSER__) {
-          log(`Setting '${keyPath}' to '${value}'`);
+      handlePanelUpdate({ changed, current, previous }) {
+        if(previous) {
+          Object.keys(changed).forEach(key => {
+            if(changed[key] && key !== 'namespace') {
+              const value = current[key];
+              if(key.indexOf(`${current.namespace}.`) === -1) {
+                key = `${current.namespace}.${key}`;
+              }
+              State.set(key, value, false);
+            }
+          });
         }
-        State.set(keyPath, value, false);
       },
+      add(panelConstructor, initialData) {
+        const { panels } = this.get();
+
+        this.set({ panels: [
+          ...panels,
+          [panelConstructor, initialData]
+        ]});
+      },
+      handleShortcutStroke() {
+        const keypressTime = new Date();
+        /** Require double keypress */
+        if (keypressTime - lastKeypressTime <= 400) {
+          this.refs.toggle.checked = !this.refs.toggle.checked
+        }
+        lastKeypressTime = keypressTime;
+      }
     },
   };
 </script>
@@ -52,10 +83,6 @@
     overflow: hidden;
     color: #333;
     user-select: none;
-
-    @media (max-width: 480px) {
-      display: none;
-    }
   }
 
   .panel-toggle {
@@ -74,6 +101,10 @@
     font-size: 24px;
     transition: transform 0.3s ease;
     box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.2);
+
+    @media (max-width: 480px) {
+      display: none;
+    }
 
     &:hover {
       transform: scale(1.1) rotate(0);
@@ -98,14 +129,50 @@
     height: 100%;
     padding: 60px 15px 30px;
     opacity: 0;
-    transition: right 0.3s ease, opacity 0.5s ease;
-    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.4);
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.4);
+
+    @media (max-width: 480px) {
+      padding-top: 30px;
+      width: 220px;
+    }
+
+    @media (min-width: 481px) {
+      transition: right 0.3s ease, opacity 0.5s ease;
+    }
 
     .panel-checkbox:checked ~ & {
       right: 0;
       opacity: 1;
+    }
+
+    :global(.title) {
+      font-weight: bold;
+      border-bottom: 1px dotted #ccc;
+      font-size: 18px;
+      line-height: 1;
+      padding-bottom: 5px;
+    }
+
+    :global(.controller) {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+
+      @media (max-width: 480px) {
+        font-size: 12px;
+
+        :global(> span) {
+          max-width: 145px;
+        }
+      }
+
+      :global(> *) {
+        display: block;
+      }
     }
   }
 
@@ -113,21 +180,5 @@
     & + .section {
       margin-top: 25px;
     }
-  }
-
-  .title {
-    font-weight: bold;
-    border-bottom: 1px dotted #ccc;
-    font-size: 18px;
-    line-height: 1;
-    padding-bottom: 5px;
-  }
-
-  .controller {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
   }
 </style>

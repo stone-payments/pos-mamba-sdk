@@ -14,7 +14,7 @@
       <Card/>
     </div>
   </div>
-  <ControlPanel/>
+  <ControlPanel ref:controlPanel/>
 {:else}
   <div class="engine-alert">
     Para um rápido desenvolvimento mais fiel ao ambiente do State, é recomendado o uso do <strong><a href="https://www.google.com/chrome/" target="_blank">Chrome</a></strong> como navegador.
@@ -25,6 +25,9 @@
 {/if}
 
 <script>
+  import PrinterPanel from '../../drivers/printer/panel.html';
+  import * as PrinterSimulation from '../../drivers/printer/simulation.js';
+
   export default {
     components: {
       Printer: './partials/Printer.html',
@@ -61,7 +64,18 @@
        * */
       document.body.setAttribute('engine', _browserEngine);
       this.set({ _browserEngine });
+
+      this.createDriverPanel(PrinterSimulation, PrinterPanel);
     },
+    methods: {
+      createDriverPanel(driverSimulation, PanelConstructor) {
+        this.refs.controlPanel.add(PanelConstructor,
+        {
+            namespace: driverSimulation.NAMESPACE,
+            ...(driverSimulation.SETTINGS || {})
+        });
+      }
+    }
   };
 </script>
 

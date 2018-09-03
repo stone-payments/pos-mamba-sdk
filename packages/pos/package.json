@@ -14,6 +14,7 @@
     "prepublishOnly": "exit 0; npm run build"
   },
   "dependencies": {
+    "@mamba/app": "^1.0.0-prealpha.1",
     "@mamba/switch": "^1.0.0-prealpha.1"
   }
 }
