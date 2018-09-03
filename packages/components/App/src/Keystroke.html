@@ -4,14 +4,21 @@
   const register = { length: 0 }
   const keystrokeHandler = (e) => {
     const keyName = Keyboard.getKeyName(e.charCode || e.which || e.keyCode);
-    if(register[keyName]) {
-      e.preventDefault();
-      register[keyName].forEach(component => {
-        const { active } = component.get()
-        if(active) {
-          component.fire('keystroke', e);
-        }
-      });
+    const keyRegister = register[keyName];
+
+    if(keyRegister) {
+      /** Is there some active keystroke handler? */
+      if(keyRegister.some(component => component.get().active)) {
+        e.preventDefault();
+        e.stopImmediatePropagation(); // prevent the <App /> key up event from firing
+
+        keyRegister.forEach(component => {
+          const { active } = component.get()
+          if(active) {
+            component.fire('keystroke', e);
+          }
+        });
+      }
     }
   };
 

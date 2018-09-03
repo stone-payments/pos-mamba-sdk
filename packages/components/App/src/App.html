@@ -14,8 +14,6 @@
   import Keyboard from '@mamba/pos/api/keyboard.js';
   import { ConfirmationDialog } from '@mamba/dialog';
 
-  import Keystroke from './Keystroke.html';
-
   /** Return if a certain shortcut key is valid */
   const isValidShortcut = (keyName, e) =>
     keyName &&
@@ -76,13 +74,6 @@
       },
       onKeyup(e) {
         const keyName = Keyboard.getKeyName(e.charCode || e.which || e.keyCode);
-
-        /** If there's a manual keystroke handler, let it do its job */
-        if(Keystroke.register[keyName] &&
-          Keystroke.register[keyName].some(handler => handler.get().active)
-        ) {
-            return;
-        }
 
         const shortcutsEnabled =
           this.store && this.store.meta.get('shortcuts');
