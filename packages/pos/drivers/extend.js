@@ -2,7 +2,7 @@ import baseDriver from './base.js';
 
 /** Used to extend a driver with the base driver */
 export default function(driver, ...modifiers) {
-  driver = { ...driver, ...baseDriver };
+  Object.assign(driver, baseDriver);
 
   for (let i = modifiers.length; i--; ) {
     const modifier = modifiers[i];
@@ -12,8 +12,6 @@ export default function(driver, ...modifiers) {
       Object.assign(driver, modifier);
     }
   }
-
-  delete driver.deleteLater;
 
   return driver;
 }
