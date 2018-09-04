@@ -27,7 +27,7 @@ export function setup(Payment) {
     Payment.paymentDone();
 
     State.set('Payment._isPaying', false);
-    State.set('Payment.authorizedAmount', params.value);
+    State.set('Payment.authorizedAmount', params.amount);
   };
 
   Payment.doEnableCardEvent = function noop() {};
