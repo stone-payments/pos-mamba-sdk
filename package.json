@@ -1,6 +1,6 @@
 {
   "name": "mambasdk",
-  "version": "1.0.0-prealpha.1",
+  "version": "1.0.0-prealpha.2",
   "description": "SDK for developing in the Mamba web environment",
   "repository": "https://github.com/stone-payments/pos-mamba-web.git",
   "author": "Stone Payments - Mamba Team",
@@ -76,7 +76,7 @@
     "@babel/plugin-transform-modules-commonjs": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@gen/rollup-plugin-generate-html": "^0.1.1",
-    "svelte-page": "^0.0.5",
+    "svelte-page": "^0.0.6",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^9.0.0",
     "babel-jest": "^23.4.2",

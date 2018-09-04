@@ -22,7 +22,7 @@
     ref:failureDialog
     title="IMPRESSORA SEM PAPEL"
     on:positive="print()"
-    on:negative="reset()"
+    on:negative="fire('finish', false)"
   >
     Tentar imprimir novamente?
   </ConfirmationDialog>
@@ -59,17 +59,13 @@
     onupdate({ changed, current }) {
       if (changed._state) {
         if (current._state === STATES.FAILURE) {
-          this.fire('failure');
           this.refs.failureDialog.open();
         } else if (current._state === STATES.SUCCESS) {
-          this.fire('success');
+          this.fire('finish', true);
         }
       }
     },
     methods: {
-      reset() {
-        this.set({ _state: STATES.IDLE, _printingPromise: undefined });
-      },
       print() {
         const content = this.refs.printableContent;
         const { dithering } = this.get();

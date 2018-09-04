@@ -73,18 +73,20 @@
         }
       },
       onKeyup(e) {
-        const keyName = Keyboard.getKeyName(e.keyCode);
-        const isShortcutsDisabled =
-          this.store && !this.store.meta.get('shortcuts');
+        const keyName = Keyboard.getKeyName(e.charCode || e.which || e.keyCode);
+
+        const shortcutsEnabled =
+          this.store && this.store.meta.get('shortcuts');
 
         /**
          * Close the app if 'close' button clicked,
          * and there's no button with 'shortcut="close"'
          * */
-        if (keyName === 'close' && !isShortcutsDisabled) {
+        if (keyName === 'close') {
           e.preventDefault();
-          /** If no shortcut element found */
-          if (!document.querySelector(`[shortcut='close']`) && this.store) {
+          if(!shortcutsEnabled ||
+            (shortcutsEnabled && !document.querySelector(`[shortcut='close']`))
+          ) {
             this.store.meta.closeApp();
             return;
           }
@@ -112,7 +114,7 @@
         const shortcutEls = document.querySelectorAll(`[shortcut='${keyName}']`);
 
         /** If shortcuts are disabled or no shortcut element found, do nothing */
-        if (isShortcutsDisabled || shortcutEls.length === 0) {
+        if (!shortcutsEnabled || shortcutEls.length === 0) {
           return;
         }
 
@@ -161,7 +163,7 @@
   @import '@mamba/styles/theme.pcss';
 
   .app {
-    height: 100%;
+    min-height: 100%;
     background-color: $app-bg-color;
   }
 </style>
