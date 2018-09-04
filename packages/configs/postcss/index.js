@@ -14,6 +14,7 @@ module.exports = {
     'postcss-atroot': {},
     'postcss-property-lookup': {},
     'postcss-nested': {},
+    'css-mqpacker': {},
     'postcss-reporter': { clearReportedMessages: true },
   },
 };
