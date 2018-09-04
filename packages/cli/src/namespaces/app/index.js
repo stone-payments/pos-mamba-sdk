@@ -17,7 +17,7 @@ module.exports = {
       console.error(
         chalk.red(
           `No "mamba" property found at "${
-            PKG.filePath
+            PKG.rootDir
           }" Is this an mamba app directory?"`,
         ),
       );
