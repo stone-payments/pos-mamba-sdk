@@ -62,14 +62,17 @@
   @import '@mamba/styles/colors.pcss';
 
   button {
+    min-height: 38px;
+    /* padding: 10px 16px; */
+    padding: 0 16px;
+    vertical-align: middle;
+    color: #fff;
+    background-color: #4ebf1a;
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
     appearance: none;
     border: none;
-    background-color: #4ebf1a;
-    color: #fff;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 10px 16px;
   }
 
   button[disabled] {
@@ -90,12 +93,16 @@
 
   button.is-small {
     font-size: 14px;
-    padding: 5px 18px;
+    /* padding: 5px 18px; */
+    padding: 0 18px;
+    min-height: 26px;
   }
 
   button.is-large {
     font-size: 18px;
-    padding: 20px 36px;
+    /* padding: 20px 36px; */
+    padding: 0 36px;
+    min-height: 68px;
   }
 
   button.is-full {
