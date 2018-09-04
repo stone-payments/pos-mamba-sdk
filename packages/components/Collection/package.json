@@ -1,6 +1,6 @@
 {
   "name": "@mamba/collection",
-  "version": "1.0.0-prealpha.2",
+  "version": "1.0.0-prealpha.3",
   "svelte": "src/index.js",
   "files": [
     "src/"
@@ -19,7 +19,7 @@
     "svelte-page": "^0.0.6"
   },
   "dependencies": {
-    "@mamba/icon": "^1.0.0-prealpha.2",
-    "@mamba/styles": "^1.0.0-prealpha.2"
+    "@mamba/icon": "^1.0.0-prealpha.3",
+    "@mamba/styles": "^1.0.0-prealpha.3"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@mamba/qrcode",
-  "version": "1.0.0-prealpha.2",
+  "version": "1.0.0-prealpha.3",
   "svelte": "src/index.js",
   "files": [
     "src/"
@@ -17,7 +17,7 @@
     "build:dev": "exit 0"
   },
   "dependencies": {
-    "@mamba/styles": "^1.0.0-prealpha.2",
+    "@mamba/styles": "^1.0.0-prealpha.3",
     "qrious": "^4.0.2"
   }
 }
