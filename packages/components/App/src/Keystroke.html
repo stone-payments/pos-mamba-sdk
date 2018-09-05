@@ -1,7 +1,7 @@
 <script>
   import Keyboard from '@mamba/pos/api/keyboard.js';
 
-  const register = { length: 0 }
+  const register = { length: 0 };
   const keystrokeHandler = (e) => {
     const keyName = Keyboard.getKeyName(e.charCode || e.which || e.keyCode);
     const keyRegister = register[keyName];
@@ -13,7 +13,7 @@
         e.stopImmediatePropagation(); // prevent the <App /> key up event from firing
 
         keyRegister.forEach(component => {
-          const { active } = component.get()
+          const { active } = component.get();
           if(active) {
             component.fire('keystroke', e);
           }
@@ -32,15 +32,15 @@
     data() {
       return {
         key: null,
-        active: true
-      }
+        active: true,
+      };
     },
     oncreate() {
-      const { key } = this.get()
+      const { key } = this.get();
       if(key) {
         if(!register[key]) {
           if(__DEV__) {
-            console.log(`[@mamba/app/keystroke] Registering manual keystroke handler for "${key}"`)
+            console.log(`[@mamba/app/keystroke] Registering manual keystroke handler for "${key}"`);
           }
           register[key] = [];
 
@@ -53,12 +53,12 @@
       }
     },
     ondestroy() {
-      const { key } = this.get()
+      const { key } = this.get();
       const index = register[key].indexOf(this);
       if (index > -1) {
         register[key].splice(index, 1);
         if(__DEV__) {
-          console.log(`[@mamba/app/keystroke] Removing manual keystroke handler for "${key}"`)
+          console.log(`[@mamba/app/keystroke] Removing manual keystroke handler for "${key}"`);
         }
 
         if(register[key].length === 0) {
@@ -68,8 +68,8 @@
 
       /** Was the last key on the register, let's unlisten */
       if(--register.length === 0) {
-        unlisten()
+        unlisten();
       }
-    }
-  }
+    },
+  };
 </script>

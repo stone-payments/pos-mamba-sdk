@@ -28,13 +28,13 @@
 
   export default {
     components: {
-      Keystroke
+      Keystroke,
     },
     data() {
       return {
         panels: [],
         keystrokeActive: true,
-        ...State.get()
+        ...State.get(),
       };
     },
     oncreate() {
@@ -44,9 +44,9 @@
        * */
       this.store.on('router:navigation', () => {
         this.set({
-          keystrokeActive: !document.querySelector('[shortcut="shortcuts"]')
-        })
-      })
+          keystrokeActive: !document.querySelector('[shortcut="shortcuts"]'),
+        });
+      });
 
       State.on('settingsChanged', data => {
         this.set({ ...data });
@@ -74,17 +74,17 @@
 
         this.set({ panels: [
           ...panels,
-          [panelConstructor, initialData]
+          [panelConstructor, initialData],
         ]});
       },
       handleShortcutStroke() {
         const keypressTime = new Date();
         /** Require double keypress */
         if (keypressTime - lastKeypressTime <= 400) {
-          this.refs.toggle.checked = !this.refs.toggle.checked
+          this.refs.toggle.checked = !this.refs.toggle.checked;
         }
         lastKeypressTime = keypressTime;
-      }
+      },
     },
   };
 </script>

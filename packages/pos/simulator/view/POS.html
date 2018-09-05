@@ -71,12 +71,12 @@
     methods: {
       createDriverPanel(driverSimulation, PanelConstructor) {
         this.refs.controlPanel.add(PanelConstructor,
-        {
+          {
             namespace: driverSimulation.NAMESPACE,
-            ...(driverSimulation.SETTINGS || {})
-        });
-      }
-    }
+            ...(driverSimulation.SETTINGS || {}),
+          });
+      },
+    },
   };
 </script>
 

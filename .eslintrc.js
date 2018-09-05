@@ -1,4 +1,3 @@
-// TODO: Change path when packages are published
 module.exports = {
   extends: [
     './packages/configs/eslint/index.js',

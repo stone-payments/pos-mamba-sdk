@@ -26,7 +26,7 @@
       key: keyName,
       charCode: code,
       keyCode: code,
-      which: code
+      which: code,
     });
 
   export default {
@@ -37,7 +37,7 @@
         event.stopImmediatePropagation();
         const el = document.activeElement;
         const isInputOnFocus = el && el.tagName === 'INPUT';
-        const keyCode = Keyboard.getKeyCode(keyName)
+        const keyCode = Keyboard.getKeyCode(keyName);
 
         /** We have to handle input actions manually */
         if(isInputOnFocus) {
@@ -52,7 +52,7 @@
             !el.maxLength ||
             el.value.length + 1 <= el.maxLength
           ) {
-            el.value += keyName
+            el.value += keyName;
           }
         }
 

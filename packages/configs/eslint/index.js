@@ -34,11 +34,11 @@ module.exports = {
     /** Disallow 'console.log' on production */
     'no-console': IS_PROD
       ? [
-          'warn',
-          {
-            allow: ['info', 'warn', 'error'],
-          },
-        ]
+        'warn',
+        {
+          allow: ['info', 'warn', 'error'],
+        },
+      ]
       : 'off',
 
     /** Allow implicit return */
@@ -57,6 +57,7 @@ module.exports = {
     'class-methods-use-this': 'off',
 
     // ! Style
+
     /** Allow __variables__ with underscores */
     'no-underscore-dangle': 'off',
 
@@ -109,5 +110,55 @@ module.exports = {
     ],
 
     'import/prefer-default-export': 'off',
+
+    // ! eslint-config-prettier override
+
+    /** Require semicolons without enforcing */
+    semi: ['warn', 'always'],
+
+    quotes: [
+      'error',
+      'single',
+      { avoidEscape: true, allowTemplateLiterals: true },
+    ],
+
+    'comma-dangle': [
+      'error',
+      {
+        arrays: 'always-multiline',
+        objects: 'always-multiline',
+        imports: 'always-multiline',
+        exports: 'always-multiline',
+        functions: 'always-multiline',
+      },
+    ],
+
+    // this option sets a specific tab width for your code
+    // https://eslint.org/docs/rules/indent
+    indent: [
+      'error',
+      2,
+      {
+        SwitchCase: 1,
+        VariableDeclarator: 1,
+        outerIIFEBody: 1,
+        FunctionDeclaration: {
+          parameters: 1,
+          body: 1,
+        },
+        FunctionExpression: {
+          parameters: 1,
+          body: 1,
+        },
+        CallExpression: {
+          arguments: 1,
+        },
+        ArrayExpression: 1,
+        ObjectExpression: 1,
+        ImportDeclaration: 1,
+        flatTernaryExpressions: false,
+        ignoreComments: false,
+      },
+    ],
   },
 };

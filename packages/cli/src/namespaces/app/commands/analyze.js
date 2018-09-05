@@ -13,9 +13,9 @@ module.exports = {
   handler({ target }) {
     validateTarget(target);
 
-    let cmd = ``;
-    cmd = `cross-env `;
-    cmd += `NODE_ENV=production `;
+    let cmd = '';
+    cmd = 'cross-env ';
+    cmd += 'NODE_ENV=production ';
     cmd += `APP_ENV=${target} `;
     cmd += `webpack --config "${getWebpackConfigPath('analyzer')}"`;
 

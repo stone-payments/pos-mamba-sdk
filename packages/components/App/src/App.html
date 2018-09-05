@@ -85,7 +85,7 @@
         if (keyName === 'close') {
           e.preventDefault();
           if(!shortcutsEnabled ||
-            (shortcutsEnabled && !document.querySelector(`[shortcut='close']`))
+            (shortcutsEnabled && !document.querySelector('[shortcut="close"]'))
           ) {
             this.store.meta.closeApp();
             return;
