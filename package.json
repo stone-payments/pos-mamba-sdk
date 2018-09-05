@@ -22,10 +22,10 @@
     "link:packages": "bolt ws exec --only-fs \"packages/**\" -- yarn link",
     "lint": "yarn lint:css; yarn lint:js",
     "lint:js": "eslint \"*.js\" \"{tools,packages}/**/*.{js,html,svelte}\"",
-    "lint:css": "stylelint --custom-syntax \"postcss-html\" \"packages/**/*.{html,svelte,css,pcss}\"",
+    "lint:css": "stylelint \"packages/**/*.{html,svelte,css,pcss}\"",
     "format": "yarn format:css; yarn format:js",
     "format:js": "prettier --write \"*.js\" \"{tools,packages}/**/*.js\" && eslint --fix \"*.js\" \"{tools,packages}/**/*.{js,html,svelte}\"",
-    "format:css": "prettier --write \"packages/**/*.{css,pcss}\" && stylelint --fix --custom-syntax \"postcss-html\" \"packages/**/*.{html,svelte,css,pcss}\"",
+    "format:css": "prettier --write \"packages/**/*.{css,pcss}\" && stylelint --fix \"packages/**/*.{html,svelte,css,pcss}\"",
     "test": "bolt ws test"
   },
   "bolt": {
@@ -52,7 +52,7 @@
     "linters": {
       "*.{html,svelte}": [
         "eslint --fix",
-        "stylelint --fix --custom-syntax \"postcss-html\"",
+        "stylelint --fix",
         "git add"
       ],
       "*.js": [
@@ -62,7 +62,7 @@
       ],
       "*.{pcss,css}": [
         "prettier --write",
-        "stylelint --fix --custom-syntax \"postcss-html\"",
+        "stylelint --fix",
         "git add"
       ]
     }
