@@ -26,8 +26,10 @@ export default function(driver) {
    * @param {string} keyName - Key name
    * @returns {number} - Relative key code
    */
-  driver.getKeyCode = keyName =>
-    Object.keys(KEYMAP).find(code => KEYMAP[code] === keyName);
+  driver.getKeyCode = keyName => {
+    const keyCode = Object.keys(KEYMAP).find(code => KEYMAP[code] === keyName);
+    return keyCode ? Number.parseInt(keyCode, 10) : null;
+  };
 
   /**
    * Get the key name relative to a specific key code
