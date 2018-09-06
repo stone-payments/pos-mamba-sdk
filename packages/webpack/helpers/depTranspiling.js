@@ -8,7 +8,7 @@ const transpileIgnoreBaseCondition = {
   include: [/node_modules/],
   exclude: [
     /core-js/, // exclude babel polyfills
-  ].filter(Boolean),
+  ],
 };
 
 /**
