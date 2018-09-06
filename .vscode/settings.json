@@ -2,6 +2,9 @@
   /** Allow to assign breakpoints to svelte templates */
   "debug.allowBreakpointsEverywhere": true,
 
+  /** Enforce LF as line ending */
+  "files.eol": "\n",
+
   /** Normalize trailing whitespaces */
   "editor.trimAutoWhitespace": true,
   "files.trimTrailingWhitespace": true,
