@@ -1,6 +1,6 @@
 {
   "name": "@mamba/configs",
-  "version": "1.0.0-prealpha.3",
+  "version": "1.0.0-prealpha.4",
   "description": "Tool config presets for use in mamba projects.",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
