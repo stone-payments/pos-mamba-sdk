@@ -129,7 +129,7 @@
           e.preventDefault();
           /** onBlur can be fired just before a <Input/> destruction */
           setTimeout(() => this.refs.input && this.focus());
-          return
+          return;
         }
         this.refs.container.classList.remove('is-focused');
         if (alphanumeric) {
@@ -142,7 +142,7 @@
         this.fire('keyup', e);
 
         if (key === 'enter') {
-          const { validateOn } = this.get()
+          const { validateOn } = this.get();
           if(validateOn === 'submit') {
             const validationResult = this._getValidationResult();
 
@@ -164,11 +164,11 @@
           if (validateOn === 'input') {
             const validationResult = (!value.length)
               ? { isValid: false, _errorMsg: undefined }
-              : this._getValidationResult()
+              : this._getValidationResult();
 
             this.set({ value, ...validationResult });
           } else {
-            this.set({ value, isValid: false, _errorMsg: undefined })
+            this.set({ value, isValid: false, _errorMsg: undefined });
           }
         } else {
           this.set({ value });
@@ -189,15 +189,15 @@
         }
       },
       _getValidationResult() {
-        const { value } = this.refs.input
+        const { value } = this.refs.input;
         const { validation } = this.get();
 
         if (validation) {
           const { msg: _errorMsg, isValid } = validation(value);
-          return { _errorMsg, isValid }
+          return { _errorMsg, isValid };
         }
 
-        return { _errorMsg: undefined, isValid: true }
+        return { _errorMsg: undefined, isValid: true };
       },
     },
   };

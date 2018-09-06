@@ -8,7 +8,7 @@ module.exports = {
   builder: yargs => {
     if (PKG == null) {
       console.error(
-        chalk.red(`No "package.json" found. Is this an mamba app directory?"`),
+        chalk.red('No "package.json" found. Is this an mamba app directory?"'),
       );
       process.exit(1);
     }
@@ -26,7 +26,7 @@ module.exports = {
 
     /** Add the node_modules/.bin of the current app to the PATH env variable */
     process.env.PATH +=
-      (IS_WINDOWS ? ';' : `:`) + fromCwd('node_modules', '.bin');
+      (IS_WINDOWS ? ';' : ':') + fromCwd('node_modules', '.bin');
 
     return yargs.demand(2).commandDir('./commands');
   },

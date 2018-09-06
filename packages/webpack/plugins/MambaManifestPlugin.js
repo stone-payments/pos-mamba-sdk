@@ -3,6 +3,14 @@ const xmlBuilder = require('xmlbuilder');
 
 const PKG = getPkg();
 
+const ALIASED_FIELDS = [
+  'appName',
+  'appDescription',
+  'appVersion',
+  'runOnUserSelection',
+  'appLastModificationDate',
+];
+
 const createXmlManifest = () => {
   const date = new Date();
 
@@ -12,38 +20,33 @@ const createXmlManifest = () => {
   const isoDate = date.toISOString();
   const formattedDate = isoDate.slice(0, isoDate.length - 5);
 
+  const aliasedFields = [
+    { '@Name': 'appName', '#text': PKG.name },
+    { '@Name': 'defaultName', '#text': PKG.name },
+    { '@Name': 'displayedName', '#text': PKG.mamba.appName }, // Deprecated
+    { '@Name': 'appVersion', '#text': PKG.version },
+    { '@Name': 'appDescription', '#text': PKG.description },
+    {
+      '@Name': 'runOnUserSelection',
+      '#text': 'index.html',
+    },
+    { '@Name': 'appLastModificationDate', '#text': formattedDate },
+  ];
+
+  const nonAliasedFields = Object.keys(PKG.mamba).reduce((acc, key) => {
+    if (!ALIASED_FIELDS.includes(key)) {
+      acc.push({ '@Name': key, '#text': PKG.mamba[key] });
+    }
+    return acc;
+  }, []);
+
   return xmlBuilder
     .create(
       {
         MambaClass: {
           '@Type': 'Manifest',
           '@Version': '1.0',
-          Member: [
-            { '@Name': 'id', '#text': PKG.mamba.id },
-            { '@Name': 'appName', '#text': PKG.name },
-            { '@Name': 'defaultName', '#text': PKG.name },
-            { '@Name': 'displayedName', '#text': PKG.mamba.appName }, // Deprecated
-            { '@Name': 'appVersion', '#text': PKG.version },
-            { '@Name': 'appDescription', '#text': PKG.description },
-            { '@Name': 'iconPath', '#text': PKG.mamba.iconPath },
-            {
-              '@Name': 'runOnUserSelection',
-              '#text': 'index.html',
-            },
-            {
-              '@Name': 'appCreationDate',
-              '#text': PKG.mamba.appCreationDate,
-            },
-            { '@Name': 'appLastModificationDate', '#text': formattedDate },
-            { '@Name': 'listInMainMenu', '#text': PKG.mamba.listInMainMenu },
-            { '@Name': 'appType', '#text': PKG.mamba.appType },
-            { '@Name': 'appTechnology', '#text': PKG.mamba.appTechnology },
-            {
-              '@Name': 'appPasswordProtectionLevel',
-              '#text': PKG.mamba.appPasswordProtectionLevel,
-            },
-            { '@Name': 'appKey', '#text': PKG.mamba.appKey },
-          ],
+          Member: [...aliasedFields, ...nonAliasedFields],
         },
       },
       { headless: true },

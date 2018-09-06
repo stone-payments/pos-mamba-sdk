@@ -14,8 +14,8 @@ module.exports = {
   handler({ target, development, simulator }) {
     validateTarget(target);
 
-    let cmd = ``;
-    cmd = `cross-env `;
+    let cmd = '';
+    cmd = 'cross-env ';
     cmd += `NODE_ENV=${development ? 'development' : 'production'} `;
     cmd += `APP_ENV=${target} `;
     if (simulator || target === 'browser') {
@@ -23,7 +23,7 @@ module.exports = {
     }
     cmd += `webpack --config "${getWebpackConfigPath('build')}"`;
 
-    console.log(chalk.cyan(`Building app...`));
+    console.log(chalk.cyan('Building app...'));
     console.log(`  App target: ${chalk.yellow(target.toUpperCase())}`);
     console.log(
       `  Environment: ${chalk.yellow(

@@ -9,17 +9,18 @@
   "license": "Apache-2.0",
   "peerDependencies": {
     "@babel/core": "^7.0.0",
-    "eslint": "^5.4.0",
+    "eslint": "^5.5.0",
     "postcss": "^7.0.2",
     "prettier": "^1.14.2",
     "stylelint": "^9.5.0",
-    "svelte-preprocess": "^2.2.4"
+    "svelte-preprocess": "^2.3.1"
   },
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.0.0",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "babel-eslint": "^9.0.0",
+    "css-mqpacker": "^7.0.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-prettier": "^3.0.1",
     "eslint-plugin-html": "^4.0.5",

@@ -3,16 +3,11 @@
     "2gua.rainbow-brackets",
     "aaron-bond.better-comments",
     "dbaeumer.vscode-eslint",
+    "shinnn.stylelint",
     "editorconfig.editorconfig",
     "esbenp.prettier-vscode",
     "formulahendry.auto-close-tag",
-    /**
-     * The svelte-vscode extension is not used yet
-     * because it doesn't allow to disable the default script/styles
-     * validation/linters and show a LOT of false positive errors
-     * regarding the postcss syntax.
-     */
-    // "jamesbirtles.svelte-vscode",
+    "jamesbirtles.svelte-vscode",
     "msjsdiag.debugger-for-chrome",
     "ricard.postcss",
     "vincaslt.highlight-matching-tag"

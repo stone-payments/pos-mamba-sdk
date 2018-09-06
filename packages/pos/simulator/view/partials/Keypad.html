@@ -19,44 +19,55 @@
 <script>
   import Keyboard from '../../../api/keyboard.js';
 
+  const getKeyboardEvent = (event, code, keyName) =>
+    new KeyboardEvent(event, {
+      bubbles: true,
+      cancelable: true,
+      key: keyName,
+      charCode: code,
+      keyCode: code,
+      which: code,
+    });
+
   export default {
     methods: {
       dispatchKey({ event, keyName }) {
         /** Prevent the button from being focused */
         event.preventDefault();
-        const focusedEl = document.activeElement;
-        const isFocusedInput = focusedEl && focusedEl.tagName === 'INPUT';
+        event.stopImmediatePropagation();
+        const el = document.activeElement;
+        const isInputOnFocus = el && el.tagName === 'INPUT';
+        const keyCode = Keyboard.getKeyCode(keyName);
 
-        const code = Keyboard.getKeyCode(keyName);
-
+        /** We have to handle input actions manually */
+        if(isInputOnFocus) {
         /** If action button clicked */
-        if (Keyboard.isActionKey(code)) {
-          /** The actual 'back' is handled by that 'handleKeyUp' method */
-          if (keyName === 'back') {
-            /** If we're focusing on a <input> erase the last character */
-            if (isFocusedInput) {
-              focusedEl.value = focusedEl.value.slice(0, -1);
-              focusedEl.dispatchEvent(new Event('input'));
+          if (Keyboard.isActionKey(keyCode)){
+            /** The actual 'back' is handled by that 'handleKeyUp' method */
+            if (keyName === 'back') {
+              el.value = el.value.slice(0, -1);
             }
-          }
           /** If numeric button clicked */
-        } else if (isFocusedInput) {
-          focusedEl.value += keyName;
-          focusedEl.dispatchEvent(new Event('input'));
+          } else if(
+            !el.maxLength ||
+            el.value.length + 1 <= el.maxLength
+          ) {
+            el.value += keyName;
+          }
         }
 
-        window.dispatchEvent(
-          new KeyboardEvent('keyup', {
-            key: keyName,
-            keyCode: code,
-          }),
-        );
+        el.dispatchEvent(getKeyboardEvent('keydown', keyCode, keyName));
+        el.dispatchEvent(getKeyboardEvent('keypress', keyCode, keyName));
+        if(isInputOnFocus) {
+          el.dispatchEvent(getKeyboardEvent('input', keyCode, keyName));
+        }
+        el.dispatchEvent(getKeyboardEvent('keyup', keyCode, keyName));
       },
     },
   };
 </script>
 
-<style>
+<style type="text/postcss">
   .keypad {
     @media (max-width: 480px) {
       display: none;

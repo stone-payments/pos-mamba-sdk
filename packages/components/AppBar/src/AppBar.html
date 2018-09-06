@@ -39,7 +39,7 @@
         return [
           `color:${textColor}`,
           `background-color:${bgColor}`,
-          !border && `border-bottom: none;`,
+          !border && 'border-bottom: none;',
         ]
           .filter(Boolean)
           .join(';');
@@ -57,7 +57,7 @@
       if (this.store) {
         /** Listen for route changes and appbar prop changes */
         this.store.on('router:navigation', ctx =>
-          this.set({ _location: ctx.path })
+          this.set({ _location: ctx.path }),
         );
         this.store.on('modifier:appbar', state => this.set(state));
       }

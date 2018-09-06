@@ -71,16 +71,16 @@
     methods: {
       createDriverPanel(driverSimulation, PanelConstructor) {
         this.refs.controlPanel.add(PanelConstructor,
-        {
+          {
             namespace: driverSimulation.NAMESPACE,
-            ...(driverSimulation.SETTINGS || {})
-        });
-      }
-    }
+            ...(driverSimulation.SETTINGS || {}),
+          });
+      },
+    },
   };
 </script>
 
-<style>
+<style type="text/postcss">
   @media (min-width: 481px) {
     .wrapper {
       display: flex;

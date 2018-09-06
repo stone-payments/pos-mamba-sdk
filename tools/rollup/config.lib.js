@@ -70,7 +70,7 @@ if (PKG.main) {
 if (PKG.module) {
   configs.push({
     output: PKG.module,
-    format: `es`,
+    format: 'es',
   });
 }
 

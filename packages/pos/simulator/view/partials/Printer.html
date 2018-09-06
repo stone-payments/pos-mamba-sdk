@@ -18,6 +18,7 @@
             <feFuncB type="discrete" tableValues="0.0 1.0"></feFuncB>
           </feComponentTransfer>
         {/if}
+        <!-- Remove white -->
         <feColorMatrix result="original" id="svgcolormatrix" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1 -1 -1 1 -0.04"></feColorMatrix>
       </filter>
     </defs>
@@ -116,8 +117,8 @@
 <style type="text/postcss">
   $paper-color: #add8e6;
   $max-paper-height: 370px;
-  $real-paper-width: calc(384px + 36px);
-  $mockup-paper-width: 250px;
+  $real-paper-width: calc(384 + 36);
+  $mockup-paper-width: 250;
   $paper-scale: calc($mockup-paper-width / $real-paper-width);
 
   .printer {
@@ -126,10 +127,10 @@
     left: 42px;
     bottom: 584px;
     /**
-          * Re-scale the printer to simulate the difference of density of pixels
-          * Magic scale number = (mockup printer width / real printer witdh) (250/384)
-          */
-    transform: scale(0.5952380952380952);
+    * Re-scale the printer to simulate the difference of density of pixels
+    * Magic scale number = (mockup printer width / real printer witdh) (250/384)
+    */
+    transform: scale($paper-scale);
     transform-origin: 0 100%;
 
     @media (max-width: 480px) {

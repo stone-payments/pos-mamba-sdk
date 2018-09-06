@@ -18,13 +18,13 @@ module.exports = ({ css, js, title, publicPath }) => {
 
   return process.env.NODE_ENV === 'production'
     ? htmlMinifier(htmlTemplate, {
-        collapseWhitespace: true,
-        conservativeCollapse: true,
-        minifyCSS: true,
-        minifyJS: true,
-        keepClosingSlash: true,
-        preserveLineBreaks: false,
-        removeComments: true,
-      })
+      collapseWhitespace: true,
+      conservativeCollapse: true,
+      minifyCSS: true,
+      minifyJS: true,
+      keepClosingSlash: true,
+      preserveLineBreaks: false,
+      removeComments: true,
+    })
     : htmlTemplate;
 };
