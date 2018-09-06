@@ -79,7 +79,7 @@ export function setup(Payment) {
    * @memberof Payment
    * @return {number} amount
    */
-  Payment.getAuthorizedAmount = () =>
+  Payment.getAmountAuthorized = () =>
     Payment.failedPaying() ? 0 : State.get('Payment.authorizedAmount');
 
   /**
