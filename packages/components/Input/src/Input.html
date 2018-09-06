@@ -15,6 +15,7 @@
     class="align-{align}"
     type={_visible ? 'text' : 'password'}
     style="color: {textColor};" {disabled}
+    {readonly}
     on:focus="_onFocus(event)"
     on:blur="_onBlur(event)"
     on:keyup="_onKeyUp(event)"
@@ -37,6 +38,7 @@
 
 <script>
   import Keyboard from '@mamba/pos/api/keyboard.js';
+  import System from '@mamba/pos/api/system.js';
 
   export default {
     components: {
@@ -54,6 +56,7 @@
         autofocus: false,
         /** Force the to be focused */
         forceFocus: false,
+        readonly: false,
         disabled: false,
         isFocused: false,
         /** Style */
@@ -158,7 +161,14 @@
               this.blur();
             }
           }
-          this.fire(this.get().isValid ? 'submitValid' : 'submitInvalid');
+
+          const { isValid } = this.get();
+          if (!isValid) {
+            System.beep();
+            this.fire('submitInvalid');
+          } else {
+            this.fire('submitValid');
+          }
           this.fire('submit');
         }
       },
