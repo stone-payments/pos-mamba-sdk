@@ -2,7 +2,7 @@
   ref:container
   class="input type-{type}"
   class:is-readable="readable"
-  class:is-invalid="!isValid"
+  class:is-invalid="!isValid && !!_errorMsg"
   style="background-color: {bgColor}; color: {textColor};"
   on:mousedown="_onMousedown(event)"
 >
@@ -216,7 +216,7 @@
     position: relative;
     display: block;
     width: 100%;
-    padding: 10px 15px;
+    padding: 10px 15px 5px;
     background-color: #fff;
     transition: 0.3s ease border-bottom;
     border-bottom: 2px solid $input-border-color;
@@ -227,6 +227,10 @@
 
     &.is-focused {
       border-bottom-color: $input-focus-border-color;
+    }
+
+    &.is-invalid {
+      border-bottom-color: $input-invalid-border-color;
     }
   }
 
@@ -271,8 +275,9 @@
   }
 
   .validation-msg {
-    color: #d50000;
-    border-top: 2px solid;
+    text-align: right;
+    color: $input-error-color;
+    /* border-top: 2px solid; */
     padding-top: 5px;
     font-size: 12px;
   }
