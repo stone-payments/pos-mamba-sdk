@@ -27,7 +27,7 @@ export default function(driver) {
         );
       }
 
-      driver.once('paymentDone', () => resolve(driver.getAuthorizedAmount()));
+      driver.once('paymentDone', () => resolve(driver.getAmountAuthorized()));
       driver.doPay(params);
     });
 
