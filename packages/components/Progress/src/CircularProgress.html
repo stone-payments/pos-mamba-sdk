@@ -36,7 +36,7 @@
           if (progress > 100) {
             this.set({ progress: 0 });
           } else {
-            this.set({ progress: progress + 5 * speed / 10 });
+            this.set({ progress: progress + (5 * speed) / 10 });
           }
         }, 50);
         this.set({ interval });

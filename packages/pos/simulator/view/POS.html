@@ -70,11 +70,10 @@
     },
     methods: {
       createDriverPanel(driverSimulation, PanelConstructor) {
-        this.refs.controlPanel.add(PanelConstructor,
-          {
-            namespace: driverSimulation.NAMESPACE,
-            ...(driverSimulation.SETTINGS || {}),
-          });
+        this.refs.controlPanel.add(PanelConstructor, {
+          namespace: driverSimulation.NAMESPACE,
+          ...(driverSimulation.SETTINGS || {}),
+        });
       },
     },
   };
