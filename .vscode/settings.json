@@ -29,8 +29,7 @@
   "eslint.autoFixOnSave": true,
   /** Validate html/svelte files */
   "eslint.validate": [
-    "javascript",
-    "javascriptreact",
+    { "language": "javascript", "autoFix": true },
     { "language": "html", "autoFix": true },
     { "language": "svelte", "autoFix": true }
   ],
