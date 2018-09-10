@@ -4,7 +4,7 @@
 
 ## Requirements
 
-* [Node.js](http://nodejs.org/) >= 6.9.x
+* [Node.js](http://nodejs.org/) >= 8.11.3
 * POSTools
 
   > You must have the `.postools` installed and in your shell's `$PATH`
@@ -17,14 +17,16 @@
       Port 51000
       User MAINAPP
       IdentityFile ~/.ssh/id_rsa_pax
-   ```
+  ```
 
 ## Commands
 
 * `mamba app <command>`
-  * `mamba app deploy`
+  * `mamba app start`
+    Starts the development server at `localhost:8080`.
 
-    Deploys the current app to the POS. It uses the `manifest.xml` **ID** and **displayedName** to create the app directory.
+  * `mamba app build`
+    Builds the app for the POS.
 
 * `mamba pos <command>`
   * `mamba pos ssh-init [--tty Pos0]` - Initializes the POS SSH server
