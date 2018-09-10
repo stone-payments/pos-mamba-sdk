@@ -76,12 +76,7 @@
     ondestroy() {
       const { isOpen, _autoAppLock } = this.get();
       /** If the component is being destroyed and the dialog is still opened, let's unlock the app */
-      if (
-        isOpen &&
-        this.store &&
-        this.store.meta.isAppLocked() &&
-        _autoAppLock
-      ) {
+      if (isOpen && this.store && this.store.meta.isAppLocked() && _autoAppLock) {
         this.store.meta.lockApp(false);
       }
     },

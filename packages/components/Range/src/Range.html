@@ -39,13 +39,11 @@
       }
     },
     computed: {
-      barWidth: ({
-        value, max, min, unit,
-      }) => {
+      barWidth: ({ value, max, min, unit }) => {
         if (unit === '%') {
-          return value / max * 100;
+          return (value / max) * 100;
         }
-        return (value - min) / (max - min) * 100;
+        return ((value - min) / (max - min)) * 100;
       },
       buttonStyle({ mainColor }) {
         return `background-color: ${mainColor}`;
