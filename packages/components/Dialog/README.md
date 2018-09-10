@@ -23,6 +23,8 @@ O `PromisedDialog` é exibido durante a execução de uma `Promise` e após sua 
 |---------------|--------------------------------------------------------|-----------------|--------------|
 | negativeLabel | Texto no Botão de Confirmação Negativa                 | `string`        | `'Cancelar'` |
 | positiveLabel | Texto no Botão de Confirmação Positiva                 | `string`        | `'Confirmar'`|
+| isOpen        | Define se o modal vai estar aberto por padrão          | `boolean`       | `'false'`    |
+| title         | Título do modal                                        | `string`        | `undefined`  |
 
 `<PromisedDialog ...props />`
 
