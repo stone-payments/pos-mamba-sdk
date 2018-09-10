@@ -23,7 +23,7 @@
     on:failure="console.log(event)"
   >
     {#await promise}
-      Loading....
+      Loading...
     {:then }
       Success!!!
     {:catch }
@@ -38,7 +38,7 @@
     </button>
   </div>
 
-  <ConfirmationDialog ref:confirmationDialog isOpen={true} title="IMPRESSORA SEM PAPEL">
+  <ConfirmationDialog ref:confirmationDialog title="IMPRESSORA SEM PAPEL">
     Tentar imprimir novamente?
   </ConfirmationDialog>
 </div>
