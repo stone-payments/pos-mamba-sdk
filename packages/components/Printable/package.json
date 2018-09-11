@@ -1,6 +1,6 @@
 {
   "name": "@mamba/printable",
-  "version": "1.0.0-prealpha.4",
+  "version": "1.0.0-prealpha.5",
   "svelte": "src/index.js",
   "files": [
     "src/"
@@ -16,12 +16,12 @@
     "build:dev": "exit 0"
   },
   "devDependencies": {
-    "@mamba/styles": "^1.0.0-prealpha.4"
+    "@mamba/styles": "^1.0.0-prealpha.5"
   },
   "dependencies": {
-    "@mamba/dialog": "^1.0.0-prealpha.4"
+    "@mamba/dialog": "^1.0.0-prealpha.5"
   },
   "peerDependencies": {
-    "@mamba/pos": "^1.0.0-prealpha.4"
+    "@mamba/pos": "^1.0.0-prealpha.5"
   }
 }
