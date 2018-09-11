@@ -1,3 +1,5 @@
+<svelte:window on:keyup="_onKeyup(event)" />
+
 <div
   class="credit-card"
   class:is-inserted="isCardInserted"
@@ -33,6 +35,16 @@
         } else {
           State.toggleCard(false);
         }
+      },
+      _onKeyup(e) {
+        const keyCode = e.charCode || e.which || e.keyCode;
+        /** If input is focused or a key other than 'spacebar' clicked, do nothing */
+        if (document.activeElement.tagName === 'INPUT' || keyCode !== 32) {
+          return;
+        }
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        this.toggleCard();
       },
     },
   };
