@@ -7,7 +7,7 @@ A API Nativa `App` ajuda a administrar funções básicas de sua aplicação.
 ## Interface
 
 ```ts
-interface Http {
+interface App {
   doClose: () => void;
   getAppKey: () => string;
   isRunningOnDevice: () => boolean;
@@ -16,14 +16,14 @@ interface Http {
 ```
 
 
-### doClose()
+### close()
 
 Fecha a aplicação em andamento.
 
 ```js
 import App from '@mamba/pos/api/app.js'
 
-App.doClose()
+App.close()
 ```
 
 ### getAppKey()
@@ -38,7 +38,7 @@ App.getAppKey() // '124563'
 
 ### isRunningOnDevice()
 
-Retorna verdadeiro caso a apliação esteja rodando no `POS`.
+Retorna verdadeiro caso a aplicação esteja rodando no `POS`.
 
 
 ```js
