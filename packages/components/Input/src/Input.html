@@ -16,6 +16,7 @@
     type={_visible ? 'text' : 'password'}
     style="color: {textColor};" {disabled}
     {readonly}
+    on:keydown
     on:focus="_onFocus(event)"
     on:blur="_onBlur(event)"
     on:keyup="_onKeyUp(event)"
@@ -162,14 +163,14 @@
             }
           }
 
-          const { isValid } = this.get();
+          const { isValid, value } = this.get();
           if (!isValid) {
             System.beep();
             this.fire('submitInvalid');
           } else {
             this.fire('submitValid');
           }
-          this.fire('submit');
+          this.fire('submit', { isValid, value });
         }
       },
       _onInput(e) {
