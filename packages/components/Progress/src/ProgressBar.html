@@ -20,7 +20,10 @@
         return typeof progress === 'undefined' ? 'is-infinite' : '';
       },
       style({ color, height }) {
-        return [`background-color:${color}`, `height:${height}`].join(';');
+        return [
+          `background-color:${color}`,
+          `height:${height}`,
+        ].join(';');
       },
     },
   };

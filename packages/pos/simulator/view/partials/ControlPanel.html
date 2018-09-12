@@ -30,9 +30,6 @@
     components: {
       Keystroke,
     },
-    helpers: {
-      getConfig: path => State.get(path),
-    },
     data() {
       return {
         panels: [],
@@ -55,13 +52,16 @@
         this.set({ ...data });
       });
     },
+    helpers: {
+      getConfig: path => State.get(path),
+    },
     methods: {
       handlePanelUpdate({ changed, current, previous }) {
-        if (previous) {
+        if(previous) {
           Object.keys(changed).forEach(key => {
-            if (changed[key] && key !== 'namespace') {
+            if(changed[key] && key !== 'namespace') {
               const value = current[key];
-              if (key.indexOf(`${current.namespace}.`) === -1) {
+              if(key.indexOf(`${current.namespace}.`) === -1) {
                 key = `${current.namespace}.${key}`;
               }
               State.set(key, value, false);
@@ -72,9 +72,10 @@
       add(panelConstructor, initialData) {
         const { panels } = this.get();
 
-        this.set({
-          panels: [...panels, [panelConstructor, initialData]],
-        });
+        this.set({ panels: [
+          ...panels,
+          [panelConstructor, initialData],
+        ]});
       },
       handleShortcutStroke() {
         const keypressTime = new Date();

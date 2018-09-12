@@ -1,29 +1,20 @@
+const chalk = require('chalk');
 const { fromCwd } = require('quickenv');
-const childProcess = require('child_process');
 
-exports.runCmd = cmd => {
-  try {
-    childProcess.execSync(cmd, {
-      stdio: [process.stdin, process.stdout, process.stderr],
-    });
-  } catch (error) {
+exports.validateTarget = target => {
+  if (target !== 'pos' && target !== 'browser') {
+    console.error(chalk.red("Invalid target. Must be 'pos' or 'browser'"));
     process.exit(1);
   }
+  return true;
 };
 
 /** Reusable yargs options */
 exports.cliArgs = {
-  lintType: {
-    description: "The type of file to lint: 'css' or 'js'",
-    alias: ['t'],
-    default: undefined,
-    choices: ['css', 'js'],
-  },
   target: {
     description: "The target environment for the app: 'pos' or 'browser'",
     alias: ['t'],
     default: 'pos',
-    choices: ['browser', 'pos'],
   },
   development: {
     description: 'Build for development environment',

@@ -12,6 +12,7 @@ const MambaManifestPlugin = require('./plugins/MambaManifestPlugin.js');
 
 module.exports = merge(require('./config.base.js'), {
   devtool: false,
+  node: false,
   plugins: [
     IS_POS && new MambaManifestPlugin(),
     new FileManagerPlugin({
