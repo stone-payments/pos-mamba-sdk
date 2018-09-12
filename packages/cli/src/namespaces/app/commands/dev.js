@@ -1,6 +1,5 @@
-const childProcess = require('child_process');
 const chalk = require('chalk');
-const { getWebpackConfigPath } = require('../utils.js');
+const { getWebpackConfigPath, runCmd } = require('../utils.js');
 
 /** Start the webpack development server */
 module.exports = {
@@ -12,6 +11,6 @@ module.exports = {
     console.log(
       chalk.cyan('Starting the development server at: http://localhost:8080'),
     );
-    childProcess.execSync(cmd, { stdio: 'inherit' });
+    runCmd(cmd);
   },
 };
