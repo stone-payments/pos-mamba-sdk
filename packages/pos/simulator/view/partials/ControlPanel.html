@@ -30,6 +30,9 @@
     components: {
       Keystroke,
     },
+    helpers: {
+      getConfig: path => State.get(path),
+    },
     data() {
       return {
         panels: [],
@@ -51,9 +54,6 @@
       State.on('settingsChanged', data => {
         this.set({ ...data });
       });
-    },
-    helpers: {
-      getConfig: path => State.get(path),
     },
     methods: {
       handlePanelUpdate({ changed, current, previous }) {

@@ -43,6 +43,10 @@
   const PAPER_WIDTH = `${Printer.getPaperWidth()}px`;
 
   export default {
+    components: {
+      PromisedDialog,
+      ConfirmationDialog,
+    },
     data() {
       return {
         _state: STATES.IDLE,
@@ -51,10 +55,6 @@
         STATES,
         dithering: false,
       };
-    },
-    components: {
-      PromisedDialog,
-      ConfirmationDialog,
     },
     onupdate({ changed, current }) {
       if (changed._state) {

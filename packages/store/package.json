@@ -19,7 +19,7 @@
     "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
-    "svelte": "^2.13.2"
+    "svelte": "^2.13.4"
   },
   "dependencies": {
     "svelte-extras": "^2.0.2"
