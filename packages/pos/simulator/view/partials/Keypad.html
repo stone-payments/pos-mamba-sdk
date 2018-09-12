@@ -40,22 +40,25 @@
         const keyCode = Keyboard.getKeyCode(keyName);
 
         /** We have to handle input actions manually */
-        if (isInputOnFocus) {
-          /** If action button clicked */
-          if (Keyboard.isActionKey(keyCode)) {
+        if(isInputOnFocus) {
+        /** If action button clicked */
+          if (Keyboard.isActionKey(keyCode)){
             /** The actual 'back' is handled by that 'handleKeyUp' method */
             if (keyName === 'back') {
               el.value = el.value.slice(0, -1);
             }
-            /** If numeric button clicked */
-          } else if (!el.maxLength || el.value.length + 1 <= el.maxLength) {
+          /** If numeric button clicked */
+          } else if(
+            !el.maxLength ||
+            el.value.length + 1 <= el.maxLength
+          ) {
             el.value += keyName;
           }
         }
 
         el.dispatchEvent(getKeyboardEvent('keydown', keyCode, keyName));
         el.dispatchEvent(getKeyboardEvent('keypress', keyCode, keyName));
-        if (isInputOnFocus) {
+        if(isInputOnFocus) {
           el.dispatchEvent(getKeyboardEvent('input', keyCode, keyName));
         }
         el.dispatchEvent(getKeyboardEvent('keyup', keyCode, keyName));

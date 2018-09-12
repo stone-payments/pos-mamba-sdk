@@ -2,19 +2,19 @@
   import Keyboard from '@mamba/pos/api/keyboard.js';
 
   const register = { length: 0 };
-  const keystrokeHandler = e => {
+  const keystrokeHandler = (e) => {
     const keyName = Keyboard.getKeyName(e.charCode || e.which || e.keyCode);
     const keyRegister = register[keyName];
 
-    if (keyRegister) {
+    if(keyRegister) {
       /** Is there some active keystroke handler? */
-      if (keyRegister.some(component => component.get().active)) {
+      if(keyRegister.some(component => component.get().active)) {
         e.preventDefault();
         e.stopImmediatePropagation(); // prevent the <App /> key up event from firing
 
         keyRegister.forEach(component => {
           const { active } = component.get();
-          if (active) {
+          if(active) {
             component.fire('keystroke', e);
           }
         });
@@ -37,17 +37,15 @@
     },
     oncreate() {
       const { key } = this.get();
-      if (key) {
-        if (!register[key]) {
-          if (__DEV__) {
-            console.log(
-              `[@mamba/app/keystroke] Registering manual keystroke handler for "${key}"`,
-            );
+      if(key) {
+        if(!register[key]) {
+          if(__DEV__) {
+            console.log(`[@mamba/app/keystroke] Registering manual keystroke handler for "${key}"`);
           }
           register[key] = [];
 
           /** First key in the register, let's start listening */
-          if (++register.length === 1) {
+          if(++register.length === 1) {
             listen();
           }
         }
@@ -59,19 +57,17 @@
       const index = register[key].indexOf(this);
       if (index > -1) {
         register[key].splice(index, 1);
-        if (__DEV__) {
-          console.log(
-            `[@mamba/app/keystroke] Removing manual keystroke handler for "${key}"`,
-          );
+        if(__DEV__) {
+          console.log(`[@mamba/app/keystroke] Removing manual keystroke handler for "${key}"`);
         }
 
-        if (register[key].length === 0) {
+        if(register[key].length === 0) {
           delete register[key];
         }
       }
 
       /** Was the last key on the register, let's unlisten */
-      if (--register.length === 0) {
+      if(--register.length === 0) {
         unlisten();
       }
     },

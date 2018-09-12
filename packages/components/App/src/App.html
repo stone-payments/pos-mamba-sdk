@@ -75,7 +75,8 @@
       onKeyup(e) {
         const keyName = Keyboard.getKeyName(e.charCode || e.which || e.keyCode);
 
-        const shortcutsEnabled = this.store && this.store.meta.get('shortcuts');
+        const shortcutsEnabled =
+          this.store && this.store.meta.get('shortcuts');
 
         /**
          * Close the app if 'close' button clicked,
@@ -83,8 +84,7 @@
          * */
         if (keyName === 'close') {
           e.preventDefault();
-          if (
-            !shortcutsEnabled ||
+          if(!shortcutsEnabled ||
             (shortcutsEnabled && !document.querySelector('[shortcut="close"]'))
           ) {
             this.store.meta.closeApp();
@@ -100,7 +100,10 @@
         /** Handles back button */
         if (keyName === 'back') {
           /** Guarantees that the 'back' button is enabled and app not locked */
-          if (Keyboard.isBackspaceEnabled() && !this.store.meta.isAppLocked()) {
+          if (
+            Keyboard.isBackspaceEnabled() &&
+            !this.store.meta.isAppLocked()
+          ) {
             e.preventDefault();
             this.goBack();
           }

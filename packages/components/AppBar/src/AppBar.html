@@ -48,6 +48,11 @@
       homeIcon: ({ isAtHome }) => (isAtHome ? 'home' : 'app-home'),
       isAppLocked: ({ $__meta__ }) => $__meta__.locked,
     },
+    onstate({ changed, current }) {
+      if (changed.title) {
+        document.title = current.title;
+      }
+    },
     oncreate() {
       if (this.store) {
         /** Listen for route changes and appbar prop changes */
@@ -55,11 +60,6 @@
           this.set({ _location: ctx.path }),
         );
         this.store.on('modifier:appbar', state => this.set(state));
-      }
-    },
-    onstate({ changed, current }) {
-      if (changed.title) {
-        document.title = current.title;
       }
     },
     methods: {

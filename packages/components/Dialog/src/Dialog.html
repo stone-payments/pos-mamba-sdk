@@ -36,13 +36,6 @@
           .join(';');
       },
     },
-    ondestroy() {
-      const { isOpen, _autoAppLock } = this.get();
-      /** If the component is being destroyed and the dialog is still opened, let's unlock the app */
-      if (isOpen && this.store && this.store.meta.isAppLocked() && _autoAppLock) {
-        this.store.meta.lockApp(false);
-      }
-    },
     methods: {
       open(duration) {
         this.set({ isOpen: true });
@@ -79,6 +72,18 @@
         this.set({ isOpen: false });
         this.fire('close');
       },
+    },
+    ondestroy() {
+      const { isOpen, _autoAppLock } = this.get();
+      /** If the component is being destroyed and the dialog is still opened, let's unlock the app */
+      if (
+        isOpen &&
+        this.store &&
+        this.store.meta.isAppLocked() &&
+        _autoAppLock
+      ) {
+        this.store.meta.lockApp(false);
+      }
     },
   };
 </script>

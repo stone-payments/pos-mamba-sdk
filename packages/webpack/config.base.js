@@ -41,7 +41,6 @@ module.exports = {
   mode: IS_PROD ? 'production' : 'development',
   cache: true,
   target: 'web',
-  node: false,
   context: fromCwd('src'),
   entry,
   output: {
@@ -88,13 +87,6 @@ module.exports = {
         include: [/node_modules/],
         /** When developing, parse linked packages svelte dependencies */
         use: [loaders.babelEsNext, loaders.svelte],
-      },
-      /** Transpile .mjs dependencies as well */
-      {
-        test: /\.mjs$/,
-        include: [/node_modules/],
-        exclude: [/core-js/],
-        use: [loaders.babelEsNext],
       },
       /**
        * * Run app COMMONJS dependencies through babel with module: 'commonjs'.

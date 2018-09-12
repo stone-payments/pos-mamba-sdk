@@ -11,8 +11,6 @@ O componente `Input` contém funcionalidades de uma caixa de texto com estilos e
 | align       | Alinha a entrada de acordo com parâmetro (`left`, `right`) | `string`        | `'right'`  |
 | alphanumeric| Define o modo de entrada como alfanumérico                 | `boolean`       | `false`    |
 | autofocus   | Inicia o elemento com foco                                 | `boolean`       | `false`    |
-| forceFocus  | Força o foco no elemento de input                          | `boolean`       | `false`    |
-| isFocused   | Retorna se o input está focado ou não                      | `boolean`       | `false`    |
 | bgColor     | Cor de Fundo da Caixa de Entrada                           | `string` (hex)  | `'#fff'`   |
 | disabled    | Desabilita a entrada de texto                              | `boolean`       | `false`    |
 | errorMessage| Define uma mensagem de erro caso a validação falhe         | `boolean`       | `false`    |

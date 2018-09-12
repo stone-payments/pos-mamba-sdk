@@ -1,5 +1,7 @@
 module.exports = {
   rules: {
+    /** Allow to assign props to a native module */
+    'no-param-reassign': 'off',
     /** Allow to export overriden native objects */
     'import/no-mutable-exports': 'off',
   },

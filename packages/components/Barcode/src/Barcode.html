@@ -8,8 +8,7 @@
 <script>
   import generateBarcode from 'jsbarcode';
 
-  const cssStrToNumber = str =>
-    typeof str !== 'string' ? str : parseFloat(str.replace(/[^0-9.]*$/, ''));
+  const cssStrToNumber = str => (typeof str !== 'string' ? str : parseFloat(str.replace(/[^0-9.]*$/, '')));
 
   let reusableCanvas;
 
@@ -23,7 +22,9 @@
       };
     },
     oncreate() {
-      const { data, height, barWidth: width } = this.get();
+      const {
+        data, height, barWidth: width,
+      } = this.get();
 
       if (!reusableCanvas) {
         reusableCanvas = document.createElement('canvas');
