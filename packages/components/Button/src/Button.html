@@ -39,14 +39,6 @@
           .join(';');
       },
     },
-    methods: {
-      click() {
-        this.refs.button.click();
-      },
-      focus() {
-        this.refs.button.focus();
-      },
-    },
     oncreate() {
       if (this.options.data) {
         const { shortcut } = this.options.data;
@@ -54,6 +46,14 @@
           this.refs.button.setAttribute('shortcut', shortcut);
         }
       }
+    },
+    methods: {
+      click() {
+        this.refs.button.click();
+      },
+      focus() {
+        this.refs.button.focus();
+      },
     },
   };
 </script>

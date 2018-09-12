@@ -10,11 +10,6 @@
         speed: 10,
       };
     },
-    onupdate({ changed }) {
-      if (changed.progress) {
-        this._drawCircularProgress();
-      }
-    },
     oncreate() {
       const { data } = this.options;
       if (!data || typeof data.progress === 'undefined') {
@@ -25,6 +20,11 @@
     ondestroy() {
       const { interval } = this.get();
       clearInterval(interval);
+    },
+    onupdate({ changed }) {
+      if (changed.progress) {
+        this._drawCircularProgress();
+      }
     },
     methods: {
       start() {

@@ -32,12 +32,6 @@
         barColor: '#000',
       };
     },
-    oncreate() {
-      if (!this.options.data || typeof this.options.data.value === 'undefined') {
-        const { min, max } = this.get();
-        this.set({ value: (max + min) / 2 });
-      }
-    },
     computed: {
       barWidth: ({ value, max, min, unit }) => {
         if (unit === '%') {
@@ -48,6 +42,12 @@
       buttonStyle({ mainColor }) {
         return `background-color: ${mainColor}`;
       },
+    },
+    oncreate() {
+      if (!this.options.data || typeof this.options.data.value === 'undefined') {
+        const { min, max } = this.get();
+        this.set({ value: (max + min) / 2 });
+      }
     },
     methods: {
       decrement() {
