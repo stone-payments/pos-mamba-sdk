@@ -17,8 +17,6 @@ export function attachDrivers(driverModules) {
     console.groupCollapsed(`${LOG_PREFIX} Attaching drivers`);
 
   Object.keys(driverModules).forEach(driverRef => {
-    if (__DEV__ && __BROWSER__) console.groupCollapsed(driverRef);
-
     const driverModule = driverModules[driverRef];
     const driver = {};
 
@@ -26,6 +24,8 @@ export function attachDrivers(driverModules) {
     if (driverModule.NAMESPACE) {
       driverRef = driverModule.NAMESPACE;
     }
+
+    if (__DEV__ && __BROWSER__) console.groupCollapsed(driverRef);
 
     /** Set the simulator default settings for the driver */
     if (driverModule.SETTINGS) {

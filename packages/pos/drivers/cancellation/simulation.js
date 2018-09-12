@@ -1,6 +1,6 @@
 import { State } from '../../simulator/libs/main.js';
 
-export const NAMESPACE = '$Cancellation';
+export const NAMESPACE = 'Cancel';
 
 export const SETTINGS = {
   cancelledAmount: -1,
