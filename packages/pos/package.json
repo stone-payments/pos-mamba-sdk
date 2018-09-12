@@ -1,6 +1,6 @@
 {
   "name": "@mamba/pos",
-  "version": "1.0.0-prealpha.7",
+  "version": "1.0.0-prealpha.8",
   "description": "Mamba web environment wrapper and simulator",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -14,7 +14,7 @@
     "prepublishOnly": "exit 0; npm run build"
   },
   "dependencies": {
-    "@mamba/app": "^1.0.0-prealpha.7",
-    "@mamba/switch": "^1.0.0-prealpha.7"
+    "@mamba/app": "^1.0.0-prealpha.8",
+    "@mamba/switch": "^1.0.0-prealpha.8"
   }
 }
