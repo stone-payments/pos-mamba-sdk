@@ -4,8 +4,13 @@ const IS_PROD = process.env.NODE_ENV === 'production';
 
 module.exports = {
   root: true,
-  extends: ['airbnb-base', 'prettier', 'plugin:import/recommended'],
-  plugins: ['prettier', 'html', 'import'],
+  extends: [
+    'airbnb-base',
+    'prettier',
+    'plugin:import/recommended',
+    'plugin:@tivac/svelte/svelte',
+  ],
+  plugins: ['prettier', 'html', '@tivac/svelte', 'import'],
   settings: {
     'html/html-extensions': ['.html', '.svelte'],
   },
@@ -158,6 +163,38 @@ module.exports = {
         ImportDeclaration: 1,
         flatTernaryExpressions: false,
         ignoreComments: false,
+      },
+    ],
+
+    // ! Svelte eslint
+
+    /** We want to use onupdate */
+    '@tivac/svelte/onupdate': 'off',
+    '@tivac/svelte/onstate-this-refs': 'warn',
+    '@tivac/svelte/property-ordering': [
+      'warn',
+      {
+        order: [
+          'namespace',
+          'tag',
+          'immutable',
+          'components',
+          'store',
+          'setup',
+          'preload',
+          'helpers',
+          'data',
+          'computed',
+          'props',
+          'oncreate',
+          'ondestroy',
+          'onstate',
+          'onupdate',
+          'methods',
+          'actions',
+          'events',
+          'transitions',
+        ],
       },
     ],
   },
