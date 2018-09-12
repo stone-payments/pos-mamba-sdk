@@ -56,7 +56,7 @@
         /** Automatically focus the input */
         autofocus: false,
         /** Force the to be focused */
-        forceFocus: false,
+        forcefocus: false,
         readonly: false,
         disabled: false,
         isFocused: false,
@@ -132,8 +132,8 @@
         }
       },
       _onBlur(e) {
-        const { alphanumeric, forceFocus } = this.get();
-        if (forceFocus) {
+        const { alphanumeric, forcefocus } = this.get();
+        if (forcefocus) {
           e.stopImmediatePropagation();
           e.preventDefault();
           /** onBlur can be fired just before a <Input/> destruction */
@@ -152,13 +152,14 @@
         this.fire('keyup', e);
 
         if (key === 'enter') {
-          const { validateOn } = this.get();
+          const { validateOn, validation } = this.get();
           if (validateOn === 'submit') {
             const validationResult = this._getValidationResult();
 
             this.set(validationResult);
 
-            if (validationResult.isValid) {
+            /** Blur the input if a validation is present and the input is valid */
+            if (validation && validationResult.isValid) {
               this.blur();
             }
           }
@@ -166,11 +167,14 @@
           const { isValid, value } = this.get();
           if (!isValid) {
             System.beep();
-            this.fire('submitInvalid');
+            this.fire('submitInvalid', e);
           } else {
-            this.fire('submitValid');
+            this.fire('submitValid', e);
           }
-          this.fire('submit', { isValid, value });
+
+          e.isValid = isValid;
+          e.value = value;
+          this.fire('submit', e);
         }
       },
       _onInput(e) {
