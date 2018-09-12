@@ -1,6 +1,6 @@
 {
   "name": "@mamba/store",
-  "version": "1.0.0-prealpha.4",
+  "version": "1.0.0-prealpha.5",
   "description": "Store for Svelte Mamba Applications",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -19,7 +19,7 @@
     "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
-    "svelte": "^2.13.2"
+    "svelte": "^2.13.4"
   },
   "dependencies": {
     "svelte-extras": "^2.0.2"

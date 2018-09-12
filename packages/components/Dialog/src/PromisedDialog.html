@@ -14,7 +14,7 @@
       };
     },
     computed: {
-      _dialogProps: ({ promise, delay, ...props}) => props,
+      _dialogProps: ({ promise, delay, ...props }) => props,
     },
     onupdate({ changed, current: { promise, delay } }) {
       if (changed.promise && promise && typeof promise.then === 'function') {

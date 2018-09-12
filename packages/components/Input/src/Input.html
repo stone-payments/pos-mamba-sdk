@@ -1,6 +1,8 @@
 <label
   ref:container
-  class="input -{type} {readable ? 'is-readable' : ''}"
+  class="input type-{type}"
+  class:is-readable="readable"
+  class:is-invalid="!isValid && !!_errorMsg"
   style="background-color: {bgColor}; color: {textColor};"
   on:mousedown="_onMousedown(event)"
 >
@@ -10,9 +12,11 @@
 
   <input
     ref:input
-    class="-{align}"
+    class="align-{align}"
     type={_visible ? 'text' : 'password'}
     style="color: {textColor};" {disabled}
+    {readonly}
+    on:keydown
     on:focus="_onFocus(event)"
     on:blur="_onBlur(event)"
     on:keyup="_onKeyUp(event)"
@@ -35,6 +39,7 @@
 
 <script>
   import Keyboard from '@mamba/pos/api/keyboard.js';
+  import System from '@mamba/pos/api/system.js';
 
   export default {
     components: {
@@ -51,8 +56,10 @@
         /** Automatically focus the input */
         autofocus: false,
         /** Force the to be focused */
-        forceFocus: false,
+        forcefocus: false,
+        readonly: false,
         disabled: false,
+        isFocused: false,
         /** Style */
         type: 'text',
         align: 'right',
@@ -86,14 +93,15 @@
       }
     },
     onupdate({ changed, current }) {
-      if (changed._errorMsg
-        && current._errorMsg
-        && current.validateOn === 'input'
+      if (
+        changed._errorMsg &&
+        current._errorMsg &&
+        current.validateOn === 'input'
       ) {
         this.refs.input.scrollIntoView(false);
       }
 
-      if(changed.value) {
+      if (changed.value) {
         this.refs.input.value = current.value;
       }
     },
@@ -116,6 +124,7 @@
       _onFocus() {
         const { alphanumeric } = this.get();
         this.refs.container.classList.add('is-focused');
+        this.set({ isFocused: true });
         if (alphanumeric) {
           Keyboard.setKeyboardAsAlphanumeric();
         } else {
@@ -123,14 +132,15 @@
         }
       },
       _onBlur(e) {
-        const { alphanumeric, forceFocus } = this.get();
-        if(forceFocus) {
+        const { alphanumeric, forcefocus } = this.get();
+        if (forcefocus) {
           e.stopImmediatePropagation();
           e.preventDefault();
           /** onBlur can be fired just before a <Input/> destruction */
           setTimeout(() => this.refs.input && this.focus());
           return;
         }
+        this.set({ isFocused: false });
         this.refs.container.classList.remove('is-focused');
         if (alphanumeric) {
           Keyboard.setKeyboardAsNumeric();
@@ -142,27 +152,38 @@
         this.fire('keyup', e);
 
         if (key === 'enter') {
-          const { validateOn } = this.get();
-          if(validateOn === 'submit') {
+          const { validateOn, validation } = this.get();
+          if (validateOn === 'submit') {
             const validationResult = this._getValidationResult();
 
             this.set(validationResult);
 
-            if (validationResult.isValid) {
+            /** Blur the input if a validation is present and the input is valid */
+            if (validation && validationResult.isValid) {
               this.blur();
             }
           }
-          this.fire(this.get().isValid ? 'submitValid' : 'submitInvalid');
-          this.fire('submit');
+
+          const { isValid, value } = this.get();
+          if (!isValid) {
+            System.beep();
+            this.fire('submitInvalid', e);
+          } else {
+            this.fire('submitValid', e);
+          }
+
+          e.isValid = isValid;
+          e.value = value;
+          this.fire('submit', e);
         }
       },
       _onInput(e) {
         const { value } = this.refs.input;
         const { validation, validateOn } = this.get();
 
-        if(validation) {
+        if (validation) {
           if (validateOn === 'input') {
-            const validationResult = (!value.length)
+            const validationResult = !value.length
               ? { isValid: false, _errorMsg: undefined }
               : this._getValidationResult();
 
@@ -210,7 +231,7 @@
     position: relative;
     display: block;
     width: 100%;
-    padding: 10px 15px;
+    padding: 10px 15px 5px;
     background-color: #fff;
     transition: 0.3s ease border-bottom;
     border-bottom: 2px solid $input-border-color;
@@ -221,6 +242,10 @@
 
     &.is-focused {
       border-bottom-color: $input-focus-border-color;
+    }
+
+    &.is-invalid {
+      border-bottom-color: $input-invalid-border-color;
     }
   }
 
@@ -240,10 +265,18 @@
     font-size: 30px;
     height: 36px;
     /* border-bottom: 1px dotted #dedede; */
-  }
 
-  input:not(.-left) {
-    text-align: right;
+    &.align-right {
+      text-align: right;
+    }
+
+    &.align-left {
+      text-align: left;
+    }
+
+    &.align-center {
+      text-align: center;
+    }
   }
 
   input[type='text'] {
@@ -257,8 +290,9 @@
   }
 
   .validation-msg {
-    color: #d50000;
-    border-top: 2px solid;
+    text-align: right;
+    color: $input-error-color;
+    /* border-top: 2px solid; */
     padding-top: 5px;
     font-size: 12px;
   }

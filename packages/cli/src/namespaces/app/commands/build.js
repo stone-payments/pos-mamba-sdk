@@ -1,19 +1,12 @@
 const chalk = require('chalk');
-const childProcess = require('child_process');
 
-const {
-  validateTarget,
-  cliArgs,
-  getWebpackConfigPath,
-} = require('../utils.js');
+const { cliArgs, getWebpackConfigPath, runCmd } = require('../utils.js');
 
 /** Build the app for a specific environment */
 module.exports = {
   command: 'build',
   desc: 'Build the app',
   handler({ target, development, simulator }) {
-    validateTarget(target);
-
     let cmd = '';
     cmd = 'cross-env ';
     cmd += `NODE_ENV=${development ? 'development' : 'production'} `;
@@ -35,7 +28,7 @@ module.exports = {
       console.log(chalk.yellow('  Adding the Mamba simulator to the bundle'));
     }
 
-    childProcess.execSync(cmd, { stdio: 'inherit' });
+    runCmd(cmd);
   },
   builder: yargs =>
     yargs.options({

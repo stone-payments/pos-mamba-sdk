@@ -21,19 +21,7 @@
       Dialog: './Dialog.html',
     },
     computed: {
-      _dialogProps: (props) => props,
-    },
-    methods: {
-      open() {
-        if (this.refs.dialog) {
-          this.refs.dialog.open();
-        }
-      },
-      close() {
-        if (this.refs.dialog) {
-          this.refs.dialog.close();
-        }
-      },
+      _dialogProps: props => props,
     },
     oncreate() {
       /** When the dialog opens, prevent 'closing' the app with the 'close' key */
@@ -46,6 +34,18 @@
       /** Close the confirmation dialog when a positive/negative action is clicked */
       this.on('negative', () => this.close());
       this.on('positive', () => this.close());
+    },
+    methods: {
+      open() {
+        if (this.refs.dialog) {
+          this.refs.dialog.open();
+        }
+      },
+      close() {
+        if (this.refs.dialog) {
+          this.refs.dialog.close();
+        }
+      },
     },
   };
 </script>
