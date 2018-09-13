@@ -5,16 +5,6 @@ module.exports = {
   },
   overrides: [
     {
-      files: 'packages/{api,bridges}/**/*.js',
-      env: {
-        browser: true,
-        es6: true,
-      },
-      rules: {
-        'no-multi-assign': 'off',
-      },
-    },
-    {
       files: ['tools/**/*.js', '*.config.js', '*rc.js'],
       env: {
         browser: false,
