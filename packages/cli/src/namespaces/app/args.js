@@ -13,7 +13,7 @@ module.exports = {
     choices: ['browser', 'pos'],
   },
   development: {
-    description: 'Build for development environment',
+    description: 'Disable minification. Good for debugging',
     alias: ['d'],
     default: false,
   },
