@@ -1,6 +1,7 @@
 const shell = require('shelljs');
 const { CMDS } = require('../../consts.js');
 const { remoteExec } = require('../../utils.js');
+const { runCmd } = require('../app/utils.js');
 
 const getStartCMD = background => (background ? CMDS.startBg : CMDS.start);
 
@@ -53,5 +54,20 @@ module.exports = {
           console.info('Restarting MambaSystem');
           remoteExec(CMDS.stop, getStartCMD(background));
         },
-      ),
+      )
+      .command('build', 'Build MambaSystem', () => {
+        runCmd('cd $MAMBA; ./mambaBuildSystem.sh');
+      })
+      .command('deploy', 'Deploy MambaOS build to POS.', () => {
+        console.info('\nStarting MambaOS Deploy . . .');
+        runCmd('xcb kill-server');
+        runCmd('xcb start-server');
+        runCmd('xcb connect com:/dev/ttyPos0');
+        runCmd(
+          'xcb installer aup $MAMBA/PAX_S920_pkg/StoneMambaSystem_lib.aup',
+        );
+        runCmd('xcb installer aip $MAMBA/PAX_S920_pkg/StoneMambaSystem.aip');
+        runCmd('xcb installer aip $MAMBA/PAX_S920_pkg/StoneMambaLoader.aip');
+        console.info('\nSuccess: MambaOS Deploy Done.');
+      }),
 };
