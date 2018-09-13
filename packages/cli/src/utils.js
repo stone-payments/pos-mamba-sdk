@@ -3,6 +3,10 @@ const { fromCwd } = require('quickenv');
 const { REMOTE_MAINAPP_DIR } = require('./consts.js');
 
 exports.runCmd = cmd => {
+  if (Array.isArray(cmd)) {
+    cmd = cmd.join(';');
+  }
+
   try {
     childProcess.execSync(cmd, {
       stdio: [process.stdin, process.stdout, process.stderr],

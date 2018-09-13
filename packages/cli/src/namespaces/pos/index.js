@@ -52,5 +52,20 @@ module.exports = {
           console.info('Restarting MambaSystem');
           remoteExec(CMDS.stop, getStartCMD(background));
         },
-      ),
+      )
+      .command('build', 'Build MambaSystem', () => {
+        runCmd('cd $MAMBA; ./mambaBuildSystem.sh');
+      })
+      .command('deploy', 'Deploy MambaOS build to POS.', () => {
+        console.info('\nStarting MambaOS Deploy . . .');
+        runCmd([
+          'xcb kill-server',
+          'xcb start-server',
+          'xcb connect com:/dev/ttyPos0',
+          'xcb installer aup $MAMBA/PAX_S920_pkg/StoneMambaSystem_lib.aup',
+          'xcb installer aip $MAMBA/PAX_S920_pkg/StoneMambaSystem.aip',
+          'xcb installer aip $MAMBA/PAX_S920_pkg/StoneMambaLoader.aip',
+        ]);
+        console.info('\nSuccess: MambaOS Deploy Done.');
+      }),
 };
