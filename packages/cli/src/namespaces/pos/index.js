@@ -1,6 +1,5 @@
-const shell = require('shelljs');
 const { CMDS } = require('../../consts.js');
-const { remoteExec } = require('../../utils.js');
+const { runCmd, remoteExec } = require('../../utils.js');
 
 const getStartCMD = background => (background ? CMDS.startBg : CMDS.start);
 
@@ -28,8 +27,8 @@ module.exports = {
           },
         },
         ({ tty }) => {
-          shell.exec('xcb kill-server');
-          shell.exec(`start_ssh.sh com:/dev/tty${tty}`);
+          runCmd('xcb kill-server');
+          runCmd(`start_ssh.sh com:/dev/tty${tty}`);
         },
       )
       .command('stop', 'stop the MambaSystem', () => {

@@ -1,18 +1,5 @@
-const { fromCwd } = require('quickenv');
-const childProcess = require('child_process');
-
-exports.runCmd = cmd => {
-  try {
-    childProcess.execSync(cmd, {
-      stdio: [process.stdin, process.stdout, process.stderr],
-    });
-  } catch (error) {
-    process.exit(1);
-  }
-};
-
 /** Reusable yargs options */
-exports.cliArgs = {
+module.exports = {
   lintType: {
     description: "The type of file to lint: 'css' or 'js'",
     alias: ['t'],
@@ -37,6 +24,3 @@ exports.cliArgs = {
     default: false,
   },
 };
-
-exports.getWebpackConfigPath = id =>
-  fromCwd('node_modules', '@mamba', 'webpack', `config.${id}.js`);

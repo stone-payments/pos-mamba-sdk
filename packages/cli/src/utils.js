@@ -1,8 +1,19 @@
-const shell = require('shelljs');
+const childProcess = require('child_process');
+const { fromCwd } = require('quickenv');
 const { REMOTE_MAINAPP_DIR } = require('./consts.js');
 
+exports.runCmd = cmd => {
+  try {
+    childProcess.execSync(cmd, {
+      stdio: [process.stdin, process.stdout, process.stderr],
+    });
+  } catch (error) {
+    process.exit(1);
+  }
+};
+
 exports.remoteExec = (...cmdList) => {
-  shell.exec(`ssh POS 'cd ${REMOTE_MAINAPP_DIR}; ${cmdList.join(';')}'`);
+  exports.runCmd(`ssh POS 'cd ${REMOTE_MAINAPP_DIR}; ${cmdList.join(';')}'`);
 };
 
 exports.removeDiacritics = str =>
@@ -21,3 +32,6 @@ exports.hashString = str => {
   return hval >>> 0;
   /* eslint-enable */
 };
+
+exports.getWebpackConfigPath = id =>
+  fromCwd('node_modules', '@mamba', 'webpack', `config.${id}.js`);

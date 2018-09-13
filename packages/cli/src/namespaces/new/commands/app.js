@@ -1,11 +1,10 @@
 const { writeFileSync } = require('fs');
-const shell = require('shelljs');
 const Case = require('case');
 const inquirer = require('inquirer');
 const chalk = require('chalk');
 const { fromCwd, getPkg } = require('quickenv');
 
-const { removeDiacritics, hashString } = require('../../../utils.js');
+const { runCmd, removeDiacritics, hashString } = require('../../../utils.js');
 
 const REPO = 'stone-payments/pos-mamba-app-template';
 
@@ -40,22 +39,7 @@ module.exports = {
       .then(({ name, version, description }) => {
         console.log(chalk.cyan('Downloading template...'));
 
-        /** Install degit if it's not installed yet */
-        // if (!shell.which('degit')) {
-        //   shell.exec('npm i -g degit');
-        // }
-
-        const downloadCmd = shell.exec(
-          `npx degit ${REPO} "${targetDir}" ${force ? '-f' : ''}`,
-          {
-            silent: true,
-          },
-        );
-
-        if (downloadCmd.code !== 0) {
-          console.error(chalk.red(downloadCmd.stderr));
-          process.exit(downloadCmd.code);
-        }
+        runCmd(`npx degit ${REPO} "${targetDir}" ${force ? '-f' : ''}`);
 
         console.log(chalk.cyan("Setupping 'package.json'"));
 
@@ -92,8 +76,7 @@ module.exports = {
         );
 
         console.log(chalk.cyan('Installing dependencies'));
-        shell.cd(targetDir);
-        shell.exec('npm i');
+        runCmd(`cd ${targetDir}; npm i`);
 
         console.log(chalk.green(`App created at '${targetDir}'`));
       });
