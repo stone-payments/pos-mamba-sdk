@@ -1,6 +1,6 @@
 const chalk = require('chalk');
-
-const { cliArgs, getWebpackConfigPath, runCmd } = require('../utils.js');
+const { getWebpackConfigPath, runCmd } = require('../../../utils.js');
+const cliArgs = require('../args.js');
 
 /** Build the app for a specific environment */
 module.exports = {

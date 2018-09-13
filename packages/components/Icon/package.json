@@ -1,6 +1,6 @@
 {
   "name": "@mamba/icon",
-  "version": "1.0.0-prealpha.8",
+  "version": "1.0.0-prealpha.9",
   "svelte": "src/index.js",
   "files": [
     "src/"
@@ -17,6 +17,6 @@
     "build:dev": "exit 0"
   },
   "dependencies": {
-    "@mamba/styles": "^1.0.0-prealpha.8"
+    "@mamba/styles": "^1.0.0-prealpha.9"
   }
 }

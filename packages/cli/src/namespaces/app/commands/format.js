@@ -1,5 +1,6 @@
 const chalk = require('chalk');
-const { cliArgs, runCmd } = require('../utils.js');
+const { runCmd } = require('../../../utils.js');
+const cliArgs = require('../args.js');
 
 /** Build the app for a specific environment */
 module.exports = {

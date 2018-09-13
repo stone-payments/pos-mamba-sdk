@@ -170,10 +170,10 @@ export function setup(System) {
    * @param  {number}      [duration=300]     The duration of the tone in milliseconds
    */
   System.beep = (
-    tone = System.Tone.TONE1,
+    tone = System.Tones.TONE1,
     duration = DEFAULT_BEEP_DURATION,
   ) => {
-    const toneFrequency = _getToneFrequency(tone, System.Tone);
+    const toneFrequency = _getToneFrequency(tone, System.Tones);
 
     if (!toneFrequency) {
       if (__DEV__) error('Beep: Bad Usage');

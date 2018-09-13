@@ -1,5 +1,5 @@
 const chalk = require('chalk');
-const { getWebpackConfigPath, runCmd } = require('../utils.js');
+const { getWebpackConfigPath, runCmd } = require('../../../utils.js');
 
 /** Start the webpack development server */
 module.exports = {

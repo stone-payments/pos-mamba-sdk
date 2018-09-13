@@ -1,4 +1,4 @@
-const { runCmd } = require('../utils.js');
+const { runCmd } = require('../../../utils.js');
 
 /** Build the app for a specific environment */
 module.exports = {
