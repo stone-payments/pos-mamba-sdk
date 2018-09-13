@@ -8,7 +8,7 @@ A API Nativa `App` ajuda a administrar funções básicas de sua aplicação.
 
 ```ts
 interface App {
-  doClose: () => void;
+  close: () => void;
   getAppKey: () => string;
   isRunningOnDevice: () => boolean;
 }
