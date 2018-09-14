@@ -48,6 +48,12 @@
         this.set({ isOpen: true });
         this.fire('open');
 
+        /**
+         * Unfocus whatever is focused on the current page.
+         * ! This may not work properly if a <Input/> has forcefocus={true}
+         */
+        document.activeElement.blur();
+
         /** If there's a existing store, let's lock the app */
         if (this.store) {
           if (this.store.meta.isAppLocked()) {
