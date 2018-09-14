@@ -30,6 +30,7 @@ module.exports = {
     __PROD__: true,
     __TEST__: true,
     __DEV__: true,
+    __SIMULATOR__: true,
   },
   rules: {
     // ! Code

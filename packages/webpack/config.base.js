@@ -158,6 +158,7 @@ module.exports = {
       __TEST__: NODE_ENV === 'test',
       __DEV__: IS_DEV,
       __POS__: IS_POS,
+      __SIMULATOR__: ADD_MAMBA_SIMULATOR,
       __BROWSER__: IS_BROWSER,
     }),
   ],
