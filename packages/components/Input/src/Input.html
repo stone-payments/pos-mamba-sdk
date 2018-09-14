@@ -3,6 +3,7 @@
   class="input type-{type}"
   class:is-readable="readable"
   class:is-invalid="!isValid && !!_errorMsg"
+  class:is-focused="isFocused"
   style="background-color: {bgColor}; color: {textColor};"
   on:mousedown="_onMousedown(event)"
 >
@@ -101,6 +102,10 @@
         this.refs.input.scrollIntoView(false);
       }
 
+      if (changed.forcefocus && current.forcefocus && current.autofocus) {
+        this.focus();
+      }
+
       if (changed.value) {
         this.refs.input.value = current.value;
       }
@@ -123,7 +128,6 @@
       // TODO: when '_visible' changes, it triggers a focus
       _onFocus() {
         const { alphanumeric } = this.get();
-        this.refs.container.classList.add('is-focused');
         this.set({ isFocused: true });
         if (alphanumeric) {
           Keyboard.setKeyboardAsAlphanumeric();
@@ -141,7 +145,6 @@
           return;
         }
         this.set({ isFocused: false });
-        this.refs.container.classList.remove('is-focused');
         if (alphanumeric) {
           Keyboard.setKeyboardAsNumeric();
         }
