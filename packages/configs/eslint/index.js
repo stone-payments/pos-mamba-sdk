@@ -57,7 +57,7 @@ module.exports = {
     /** Allow __variables__ with underscores */
     'no-underscore-dangle': 'off',
 
-    /** Rule enforces consisten */
+    /** Allow both LF and CRLF line endings */
     'linebreak-style': 'off',
 
     /** Max line length */
