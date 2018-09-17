@@ -9,9 +9,6 @@
   "license": "Apache-2.0",
   "main": "src/index.js",
   "module": "src/index.js",
-  "build": {
-    "source": "src/index.js"
-  },
   "scripts": {
     "start": "exit 0; rollup -c ../../tools/rollup/config.lib.js -w",
     "build": "exit 0; cross-env NODE_ENV=production rollup -c ../../tools/rollup/config.lib.js",
