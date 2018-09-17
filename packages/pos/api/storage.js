@@ -1,3 +1,3 @@
 import extendDriver from '../drivers/extend.js';
 
-export default extendDriver(window.MbCookie);
+export default extendDriver(window.$Storage);

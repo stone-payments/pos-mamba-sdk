@@ -7,14 +7,11 @@
     "Christian Kaisermann <christian.kaisermann@stone.com.br>"
   ],
   "license": "Apache-2.0",
-  "main": "dist/store.js",
-  "module": "dist/store.m.js",
-  "build": {
-    "source": "src/index.js"
-  },
+  "main": "src/index.js",
+  "module": "src/index.js",
   "scripts": {
-    "start": "rollup -c ../../tools/rollup/config.lib.js -w",
-    "build": "cross-env NODE_ENV=production rollup -c ../../tools/rollup/config.lib.js",
+    "start": "exit 0; rollup -c ../../tools/rollup/config.lib.js -w",
+    "build": "exit 0; cross-env NODE_ENV=production rollup -c ../../tools/rollup/config.lib.js",
     "test": "exit 0; jest -c ../../jest.config.js --no-cache",
     "prepublishOnly": "npm run build"
   },

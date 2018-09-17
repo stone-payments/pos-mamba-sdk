@@ -1,6 +1,6 @@
 import { State } from '../../simulator/libs/main.js';
 
-export const NAMESPACE = 'Printer';
+export const NAMESPACE = '$Printer';
 
 export const SETTINGS = {
   shouldFail: false,
@@ -11,10 +11,10 @@ export const SETTINGS = {
 export const SIGNALS = ['printerDone'];
 
 export function setup(Printer) {
-  Printer.getPaperWidth = () => State.get('Printer.paperWidth');
-  Printer.isPrinting = () => State.get('Printer.isPrinting');
-  Printer.failedPrinting = () => State.get('Printer.shouldFail');
-  Printer.test = () => State.set('Printer.shouldFail', true);
+  Printer.getPaperWidth = () => State.get('$Printer.paperWidth');
+  Printer.isPrinting = () => State.get('$Printer.isPrinting');
+  Printer.failedPrinting = () => State.get('$Printer.shouldFail');
+  Printer.test = () => State.set('$Printer.shouldFail', true);
 
   Printer.doPrint = function doPrint(content, options) {
     setTimeout(() => {

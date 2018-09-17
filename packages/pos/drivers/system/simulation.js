@@ -2,7 +2,7 @@ import { error, log } from '../../simulator/libs/utils.js';
 import { State } from '../../simulator/libs/main.js';
 import systemEnums from './enums.js';
 
-export const NAMESPACE = 'System';
+export const NAMESPACE = '$System';
 
 export const SETTINGS = {
   Connections: {
@@ -87,42 +87,42 @@ export function setup(System) {
    * @return {string} Wifi or 3G
    */
   System.getCurrentConnectionType = () =>
-    State.get('System.Connections.currentType');
+    State.get('$System.Connections.currentType');
 
   /**
    * Checks if the device has ethernet
    * @memberOf System
    * @return {boolean} True if the device has ethernet
    */
-  System.hasEthernet = () => State.get('System.Connections.ethernet');
+  System.hasEthernet = () => State.get('$System.Connections.ethernet');
 
   /**
    * Checks if the device has wifi
    * @memberOf System
    * @return {boolean} True if the device has wifi
    */
-  System.hasWifi = () => State.get('System.Connections.wifi');
+  System.hasWifi = () => State.get('$System.Connections.wifi');
 
   /**
    * Checks if the device has gprs
    * @memberOf System
    * @return {boolean} True if the device has gprs
    */
-  System.hasGprs = () => State.get('System.Connections.gprs');
+  System.hasGprs = () => State.get('$System.Connections.gprs');
 
   /**
    * Checks if the battery is present
    * @memberOf System
    * @return {boolean} True if the battery is present
    */
-  System.isBatteryPresent = () => State.get('System.Battery.present');
+  System.isBatteryPresent = () => State.get('$System.Battery.present');
 
   /**
    * Gets the decive current power supply
    * @memberOf System
    * @return {System.PowerSupply} The current power supply of the device
    */
-  System.getPowerSupply = () => State.get('System.PowerSupply');
+  System.getPowerSupply = () => State.get('$System.PowerSupply');
 
   /**
    * Gets the time from the boot until this moment [ms]
@@ -136,14 +136,14 @@ export function setup(System) {
    * @memberOf System
    * @return {string} The serial number
    */
-  System.getSerialNumber = () => State.get('System.SerialNumber');
+  System.getSerialNumber = () => State.get('$System.SerialNumber');
 
   /**
    * Gets the status of the battery
    * @memberOf System
    * @return {System.BatteryStatus} The status of the battery
    */
-  System.getBatteryStatus = () => State.get('System.Battery.status');
+  System.getBatteryStatus = () => State.get('$System.Battery.status');
 
   /**
    * Gets the level of the battery. Note that the level is discrete and it
@@ -159,7 +159,7 @@ export function setup(System) {
    * @memberOf System
    * @return {number} The level of the battery
    */
-  System.getBatteryLevel = () => State.get('System.Battery.level');
+  System.getBatteryLevel = () => State.get('$System.Battery.level');
 
   /**
    * Performs a beep. Note that this function blocks the execution on the real device
