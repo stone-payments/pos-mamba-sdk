@@ -1,6 +1,6 @@
 {
   "name": "@mamba/app",
-  "version": "1.0.0-prealpha.10",
+  "version": "1.0.0-prealpha.11",
   "svelte": "src/index.js",
   "files": [
     "src/"
@@ -16,13 +16,13 @@
     "build:dev": "exit 0"
   },
   "dependencies": {
-    "@mamba/dialog": "^1.0.0-prealpha.10"
+    "@mamba/dialog": "^1.0.0-prealpha.11"
   },
   "devDependencies": {
-    "@mamba/styles": "^1.0.0-prealpha.10"
+    "@mamba/styles": "^1.0.0-prealpha.11"
   },
   "peerDependencies": {
-    "@mamba/pos": "^1.0.0-prealpha.10",
+    "@mamba/pos": "^1.0.0-prealpha.11",
     "svelte-page": "^0.1.0"
   }
 }
