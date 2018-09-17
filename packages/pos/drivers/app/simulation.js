@@ -1,6 +1,6 @@
 import { log } from '../../simulator/libs/utils.js';
 
-export const NAMESPACE = 'App';
+export const NAMESPACE = '$App';
 
 export const SIGNALS = ['opened', 'closed'];
 

@@ -1,6 +1,6 @@
 import { log } from '../../simulator/libs/utils.js';
 
-export const NAMESPACE = 'Keyboard';
+export const NAMESPACE = '$Keyboard';
 
 /**
  * KeyPress event handler that bypass only numbers
