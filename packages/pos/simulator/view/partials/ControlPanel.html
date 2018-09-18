@@ -143,6 +143,8 @@
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     box-shadow: -4px 0 15px rgba(0, 0, 0, 0.4);
+    overflow: auto;
+    overflow-x: hidden;
 
     @media (max-width: 480px) {
       padding-top: 30px;
@@ -172,6 +174,10 @@
       justify-content: space-between;
       padding: 10px 0;
       border-bottom: 1px solid #eee;
+
+      &.is-full {
+        display: block;
+      }
 
       @media (max-width: 480px) {
         font-size: 12px;
