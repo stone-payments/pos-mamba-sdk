@@ -25,7 +25,7 @@ interface connectionOptions {
 Recebe as especificações do request por meio de um objeto e retorna uma [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) que espera pelo seu resultado. Observe que nesse objeto existe o parâmetro `connect`, que especifica o tipo de canal utilizado, e pode ser `LAN`(direto) ou `NET`(via proxy). Também existe o parâmetro `method`, que define o verbo http, e suporta apenas `GET` ou `POST`.
 
 ```js
-import Http from '@mambasdk/pos/api/http.js'
+import Http from '@mamba/pos/api/http.js'
 
 const myRequest = {
   url: "http://myapi.com/",
