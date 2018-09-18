@@ -6,13 +6,21 @@
     <span class="value">{value}{unit}</span>
   </div>
 
-  <button style={buttonStyle} on:click="decrement()">-</button>
-
-  <div class="track" style="background-color: {barColor};">
-    <div class="bar" style="width: {barWidth}%; background-color: {mainColor};"></div>
-  </div>
-
-  <button style={buttonStyle} on:click="increment()">+</button>
+  <table>
+    <tr>
+      <td class="button-col">
+        <button style={buttonStyle} on:click="decrement()">-</button>
+      </td>
+      <td>
+        <div class="track" style="background-color: {barColor};">
+          <div class="bar" style="width: {barWidth}%; background-color: {mainColor};"></div>
+        </div>
+      </td>
+      <td class="button-col">
+        <button style={buttonStyle} on:click="increment()">+</button>
+      </td>
+    </tr>
+  </table>
 </div>
 
 <script>
@@ -72,7 +80,7 @@
     display: flex;
     align-items: center;
     width: 100%;
-    padding: 30px 15px 0;
+    padding-top: 30px;
   }
 
   .indicator {
@@ -94,11 +102,16 @@
     margin-right: 5px;
   }
 
+  td {
+    padding: 0;
+  }
+
   .track {
-    flex-grow: 1;
-    margin: 0 15px;
+    width: 100%;
     position: relative;
     background-color: #000;
+    padding: 0 15px;
+    background-clip: content-box;
   }
 
   .bar {
@@ -116,5 +129,11 @@
     width: 31px;
     height: 31px;
     line-height: 1;
+  }
+
+  .button-col {
+    width: 1%;
+    padding: 0;
+    white-space: nowrap;
   }
 </style>
