@@ -1,6 +1,6 @@
 const childProcess = require('child_process');
 const { fromCwd } = require('quickenv');
-const { REMOTE_MAINAPP_DIR } = require('./consts.js');
+const { REMOTE_MAINAPP_DIR, CMDS } = require('./consts.js');
 
 exports.runCmd = cmd => {
   if (Array.isArray(cmd)) {
@@ -17,7 +17,9 @@ exports.runCmd = cmd => {
 };
 
 exports.remoteExec = (...cmdList) => {
-  exports.runCmd(`ssh POS 'cd ${REMOTE_MAINAPP_DIR}; ${cmdList.join(';')}'`);
+  exports.runCmd(
+    `${CMDS.ssh} 'cd ${REMOTE_MAINAPP_DIR}; ${cmdList.join(';')}'`,
+  );
 };
 
 exports.removeDiacritics = str =>

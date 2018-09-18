@@ -17,6 +17,7 @@ exports.REMOTE_APPS_DIR = `${exports.REMOTE_HOST}:/${
 }/apps`;
 
 exports.CMDS = {
+  ssh: `ssh MAINAPP@127.0.0.1 -p 51000 -i ~/.ssh/id_rsa_pax`,
   stop: 'killall StoneMambaLoader StoneMambaSystem',
   start: './StoneMambaLoader',
   startBg: './StoneMambaLoader </dev/null &>/dev/null &',

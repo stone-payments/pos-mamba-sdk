@@ -9,6 +9,8 @@
 
   > You must have the `.postools` installed and in your shell's `$PATH`
 
+## Recommended
+
 * ssh `config` (`$HOME/.ssh/config`) file with a `POS` host
 
   ```text

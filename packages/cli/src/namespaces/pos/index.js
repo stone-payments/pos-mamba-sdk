@@ -18,7 +18,7 @@ module.exports = {
     yargs
       .demand(2)
       .command(
-        'ssh-init',
+        'start-ssh',
         'initializes the POS ssh server',
         {
           tty: {
