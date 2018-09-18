@@ -12,6 +12,5 @@ export function setup(Merchant) {
    * @memberof Merchant
    * @return {string} The stone code
    */
-  Merchant.getStoneCode = () =>
-    State.get('$MbMerchant.acquirerIssuedMerchantId');
+  Merchant.getStoneCode = () => State.get('$Merchant.acquirerIssuedMerchantId');
 }
