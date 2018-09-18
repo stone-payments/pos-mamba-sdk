@@ -1,38 +1,38 @@
 <Dialog ref:dialog {..._dialogProps} bind:isOpen>
   <slot></slot>
   <div slot="extra">
-      <table class="actions" class:has-labels="hasLabel">
-        <tr>
-          <td>
-            {#if hasLabel}
-              <button class="action" on:click="fire('negative')" shortcut="close">
-                {negativeLabel}
-              </button>
-            {:else}
-              <div class="action" on:click="fire('negative')" shortcut="close">
-                <RoundIcon symbol="close" size="giant" borderRadius="15px" bgColor="#ef5152" />
-              </div>
-            {/if}
-          </td>
-          <td class="spacer"></td>
-          <td>
-            {#if hasLabel}
-              <button
-                class="action"
-                style='color: #fff; background-color: {primaryColor}; border-color: {primaryColor};'
-                on:click="fire('positive')"
-                shortcut="enter"
-              >
-                {positiveLabel}
-              </button>
-            {:else}
-              <div class="action" on:click="fire('positive')" shortcut="enter">
-                <RoundIcon symbol="check" size="giant" borderRadius="15px" bgColor="#4ebf1a" />
-              </div>
-            {/if}
-          </td>
-        </tr>
-      </table>
+    <table class="actions" class:has-labels="hasLabel">
+      <tr>
+        <td>
+          {#if hasLabel}
+            <button class="action" on:click="fire('negative')" shortcut="close">
+              {negativeLabel}
+            </button>
+          {:else}
+            <div class="action" on:click="fire('negative')" shortcut="close">
+              <RoundIcon symbol="close" size="giant" borderRadius="15px" bgColor="#ef5152" />
+            </div>
+          {/if}
+        </td>
+        <td class="spacer"></td>
+        <td>
+          {#if hasLabel}
+            <button
+              class="action"
+              style='color: #fff; background-color: {primaryColor}; border-color: {primaryColor};'
+              on:click="fire('positive')"
+              shortcut="enter"
+            >
+              {positiveLabel}
+            </button>
+          {:else}
+            <div class="action" on:click="fire('positive')" shortcut="enter">
+              <RoundIcon symbol="check" size="giant" borderRadius="15px" bgColor="#4ebf1a" />
+            </div>
+          {/if}
+        </td>
+      </tr>
+    </table>
   </div>
 </Dialog>
 
@@ -83,7 +83,7 @@
 
 <style>
   .actions {
-    margin: 28px auto;
+    margin: 28px auto 0;
     table-layout: fixed;
 
     &.has-labels {
@@ -109,5 +109,9 @@
     .actions.has-labels & {
       width: 10px;
     }
+  }
+
+  button {
+    width: 100%;
   }
 </style>
