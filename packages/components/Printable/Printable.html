@@ -30,7 +30,6 @@
 
 <script>
   import Printer from '@mamba/pos/api/printer.js';
-  import { PromisedDialog, ConfirmationDialog } from '@mamba/dialog';
 
   const STATES = Object.freeze({
     IDLE: 0,
@@ -44,8 +43,8 @@
 
   export default {
     components: {
-      PromisedDialog,
-      ConfirmationDialog,
+      PromisedDialog: '@mamba/dialog/Promised.html',
+      ConfirmationDialog: '@mamba/dialog/Confirmation.html',
     },
     data() {
       return {

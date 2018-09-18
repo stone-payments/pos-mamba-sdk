@@ -12,8 +12,7 @@
   import Router from 'svelte-page';
   import App from '@mamba/pos/api/app.js';
   import Keyboard from '@mamba/pos/api/keyboard.js';
-  import { ConfirmationDialog } from '@mamba/dialog';
-  import Keystroke from './Keystroke.html';
+  import Keystroke from '@mamba/app/Keystroke.html';
 
   /** Return if a certain shortcut key is valid */
   const isValidShortcut = (keyName, e) =>
@@ -22,7 +21,9 @@
     document.activeElement.tagName !== 'INPUT';
 
   export default {
-    components: { ConfirmationDialog },
+    components: {
+      ConfirmationDialog: '@mamba/dialog/Confirmation.html',
+    },
     oncreate() {
       if (this.store) {
         /** If available, define the initial 'askOnClose' */

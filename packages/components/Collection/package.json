@@ -1,10 +1,7 @@
 {
   "name": "@mamba/collection",
   "version": "1.0.0-prealpha.11",
-  "svelte": "src/index.js",
-  "files": [
-    "src/"
-  ],
+  "svelte": "Collection.html",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
     "Christian Kaisermann <christian.kaisermann@stone.com.br>"
