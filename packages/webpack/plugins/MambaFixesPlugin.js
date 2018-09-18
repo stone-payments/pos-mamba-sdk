@@ -1,12 +1,22 @@
 const ConcatSource = require('webpack-sources/lib/ConcatSource');
 
-/** Fix <link> onload not being fired */
-const LINK_ONLOAD_FIX =
-  'var createLink=function(e){var n=document.createElement("link"),t=document.createElement("IMG");return t.onerror=function(){n.onload()},setTimeout(function(){t.src=n.href}),n};';
+const FIXES = {
+  /** Fix the classlist toggle missing the second argument */
+  CLASSLIST_TOGGLE_FIX: `DOMTokenList.prototype.toggle = function(token,force){
+    token += "";
+    var result = this.contains(token),
+      method = result ? force !== true && "remove" : force !== false && "add";
+    if (method) { this[method](token); }
+    return (force === true || force === false) ? force : !result;
+  };`,
 
-/** Polyfill the Function.prototype.bind */
-const FN_BIND_FIX =
-  'Function.prototype.bind||(Function.prototype.bind=function(t){if("function"!=typeof this)throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");var o=Array.prototype.slice.call(arguments,1),n=this,i=function(){},r=function(){return n.apply(this instanceof i&&t?this:t,o.concat(Array.prototype.slice.call(arguments)))};return this.prototype&&(i.prototype=this.prototype),r.prototype=new i,r});';
+  /** Fix <link> onload not being fired */
+  LINK_ONLOAD_FIX: `var createLink=function(e){var n=document.createElement("link"),t=document.createElement("IMG");return t.onerror=function(){n.onload()},setTimeout(function(){t.src=n.href}),n};`,
+
+  /** Polyfill the Function.prototype.bind */
+  FN_BIND_FIX:
+    'Function.prototype.bind||(Function.prototype.bind=function(t){if("function"!=typeof this)throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");var o=Array.prototype.slice.call(arguments,1),n=this,i=function(){},r=function(){return n.apply(this instanceof i&&t?this:t,o.concat(Array.prototype.slice.call(arguments)))};return this.prototype&&(i.prototype=this.prototype),r.prototype=new i,r});',
+};
 
 const PLUGIN_NAME = 'mamba-fixes-plugin';
 
@@ -52,8 +62,7 @@ module.exports = class MambaFixesPlugin {
 
           compilation.assets[runtimeFile] = new ConcatSource(
             ';(function(){\n',
-            LINK_ONLOAD_FIX,
-            FN_BIND_FIX,
+            Object.values(FIXES).join(''),
             '\n',
             runtimeCode,
             '\n})();',

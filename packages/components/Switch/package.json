@@ -1,10 +1,7 @@
 {
   "name": "@mamba/switch",
-  "version": "1.0.0-prealpha.4",
-  "svelte": "src/index.js",
-  "files": [
-    "src/"
-  ],
+  "version": "1.0.0-prealpha.12",
+  "svelte": "Switch.html",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
     "Christian Kaisermann <christian.kaisermann@stone.com.br>",
@@ -17,6 +14,6 @@
     "build:dev": "exit 0"
   },
   "devDependencies": {
-    "@mamba/styles": "^1.0.0-prealpha.4"
+    "@mamba/styles": "^1.0.0-prealpha.12"
   }
 }

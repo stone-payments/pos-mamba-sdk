@@ -1,0 +1,302 @@
+<label
+  ref:container
+  class="input type-{type}"
+  class:is-readable="readable"
+  class:is-invalid="!isValid && !!_errorMsg"
+  class:is-focused="isFocused"
+  style="background-color: {bgColor}; color: {textColor};"
+  on:mousedown="_onMousedown(event)"
+>
+  {#if label}
+    <span>{label}</span>
+  {/if}
+
+  <input
+    ref:input
+    class="align-{align}"
+    type={_visible ? 'text' : 'password'}
+    style="color: {textColor};" {disabled}
+    {readonly}
+    on:keydown
+    on:focus="_onFocus(event)"
+    on:blur="_onBlur(event)"
+    on:keyup="_onKeyUp(event)"
+    on:input="_onInput(event)"
+  />
+
+  {#if type === 'password' && readable}
+    <div class="type-toggle">
+      <Icon symbol="{_visible ? 'eye' : 'eye-off'}" />
+    </div>
+  {/if}
+
+  {#if !isValid && !!_errorMsg}
+    <div class="validation-msg" style="color: {errorColor};">
+      {_errorMsg}
+    </div>
+  {/if}
+
+</label>
+
+<script>
+  import Keyboard from '@mamba/pos/api/keyboard.js';
+  import System from '@mamba/pos/api/system.js';
+
+  export default {
+    components: {
+      Icon: '@mamba/icon',
+    },
+    data() {
+      return {
+        value: '',
+        label: undefined,
+        /** Behavior */
+        _visible: true,
+        alphanumeric: false,
+        readable: false,
+        /** Automatically focus the input */
+        autofocus: false,
+        /** Force the to be focused */
+        forcefocus: false,
+        readonly: false,
+        disabled: false,
+        isFocused: false,
+        /** Style */
+        type: 'text',
+        align: 'right',
+        bgColor: '#fff',
+        textColor: '#757575',
+        errorColor: '#d50000',
+        /** Validation */
+        validateOn: 'submit',
+        validation: undefined,
+        isValid: false,
+        _errorMsg: undefined,
+      };
+    },
+    oncreate() {
+      if (this.options.data) {
+        const { type, maxlength, autofocus } = this.options.data;
+
+        // TODO: remove when undefined prop is not printed
+        if (typeof maxlength !== 'undefined') {
+          this.refs.input.setAttribute('maxlength', parseInt(maxlength, 10));
+        }
+
+        if (type === 'password') {
+          this.set({ _visible: false });
+        }
+
+        if (autofocus) {
+          this.focus();
+          this.refs.input.scrollIntoView(false);
+        }
+      }
+    },
+    onupdate({ changed, current }) {
+      if (
+        changed._errorMsg &&
+        current._errorMsg &&
+        current.validateOn === 'input'
+      ) {
+        this.refs.input.scrollIntoView(false);
+      }
+
+      if (changed.forcefocus && current.forcefocus && current.autofocus) {
+        this.focus();
+      }
+
+      if (changed.value) {
+        this.refs.input.value = current.value;
+      }
+    },
+    methods: {
+      /** Prepend text to the input */
+      prepend(value) {
+        this.set({ value: value + this.get().value });
+      },
+      /** Append text to the input */
+      append(value) {
+        this.set({ value: this.get().value + value });
+      },
+      focus() {
+        this.refs.input.focus();
+      },
+      blur() {
+        this.refs.input.blur();
+      },
+      // TODO: when '_visible' changes, it triggers a focus
+      _onFocus() {
+        const { alphanumeric } = this.get();
+        this.set({ isFocused: true });
+        if (alphanumeric) {
+          Keyboard.setKeyboardAsAlphanumeric();
+        } else {
+          Keyboard.setKeyboardAsNumeric();
+        }
+      },
+      _onBlur(e) {
+        const { alphanumeric, forcefocus } = this.get();
+        if (forcefocus) {
+          e.stopImmediatePropagation();
+          e.preventDefault();
+          /** onBlur can be fired just before a <Input/> destruction */
+          setTimeout(() => this.refs.input && this.focus());
+          return;
+        }
+        this.set({ isFocused: false });
+        if (alphanumeric) {
+          Keyboard.setKeyboardAsNumeric();
+        }
+      },
+      _onKeyUp(e) {
+        const key = Keyboard.getKeyName(e.keyCode);
+
+        this.fire('keyup', e);
+
+        if (key === 'enter') {
+          const { validateOn, validation } = this.get();
+          if (validateOn === 'submit') {
+            const validationResult = this._getValidationResult();
+
+            this.set(validationResult);
+
+            /** Blur the input if a validation is present and the input is valid */
+            if (validation && validationResult.isValid) {
+              this.blur();
+            }
+          }
+
+          const { isValid, value } = this.get();
+          if (!isValid) {
+            System.beep();
+            this.fire('submitInvalid', e);
+          } else {
+            this.fire('submitValid', e);
+          }
+
+          e.isValid = isValid;
+          e.value = value;
+          this.fire('submit', e);
+        }
+      },
+      _onInput(e) {
+        const { value } = this.refs.input;
+        const { validation, validateOn } = this.get();
+
+        if (validation) {
+          if (validateOn === 'input') {
+            const validationResult = !value.length
+              ? { isValid: false, _errorMsg: undefined }
+              : this._getValidationResult();
+
+            this.set({ value, ...validationResult });
+          } else {
+            this.set({ value, isValid: false, _errorMsg: undefined });
+          }
+        } else {
+          this.set({ value });
+        }
+        this.fire('input', e);
+      },
+      /** We use mousedown instead of click because it fires before the input's .focus() */
+      _onMousedown() {
+        const { type, _visible, readable } = this.get();
+        /** Change password visibility only if element is focused */
+        if (
+          type === 'password' &&
+          readable &&
+          document.activeElement === this.refs.input
+        ) {
+          this.set({ _visible: !_visible });
+          setTimeout(() => this.refs.input.focus());
+        }
+      },
+      _getValidationResult() {
+        const { value } = this.refs.input;
+        const { validation } = this.get();
+
+        if (validation) {
+          const { msg: _errorMsg, isValid } = validation(value);
+          return { _errorMsg, isValid };
+        }
+
+        return { _errorMsg: undefined, isValid: true };
+      },
+    },
+  };
+</script>
+
+<style type="text/postcss">
+  @import '@mamba/styles/theme.pcss';
+
+  .input {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 10px 15px 5px;
+    background-color: #fff;
+    transition: 0.3s ease border-bottom;
+    border-bottom: 2px solid $input-border-color;
+
+    &.is-readable input {
+      padding-right: 40px;
+    }
+
+    &.is-focused {
+      border-bottom-color: $input-focus-border-color;
+    }
+
+    &.is-invalid {
+      border-bottom-color: $input-invalid-border-color;
+    }
+  }
+
+  span {
+    display: block;
+    width: block;
+    font-size: 14px;
+    font-weight: bold;
+    pointer-events: none;
+  }
+
+  input {
+    width: 100%;
+    background-color: transparent;
+    appearance: none;
+    border: none;
+    font-size: 30px;
+    height: 36px;
+    /* border-bottom: 1px dotted #dedede; */
+
+    &.align-right {
+      text-align: right;
+    }
+
+    &.align-left {
+      text-align: left;
+    }
+
+    &.align-center {
+      text-align: center;
+    }
+  }
+
+  input[type='text'] {
+    font-size: 20px;
+  }
+
+  .type-toggle {
+    position: absolute;
+    right: 20px;
+    bottom: 17px;
+  }
+
+  .validation-msg {
+    text-align: right;
+    color: $input-error-color;
+    /* border-top: 2px solid; */
+    padding-top: 5px;
+    font-size: 12px;
+  }
+</style>

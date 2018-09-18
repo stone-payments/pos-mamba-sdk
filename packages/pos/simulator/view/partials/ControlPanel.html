@@ -21,14 +21,16 @@
 </div>
 
 <script>
-  import { Keystroke } from '@mamba/app';
   import { State } from '../../index.js';
 
   let lastKeypressTime = 0;
 
   export default {
     components: {
-      Keystroke,
+      Keystroke: '@mamba/app/Keystroke.html',
+    },
+    helpers: {
+      getConfig: path => State.get(path),
     },
     data() {
       return {
@@ -52,16 +54,13 @@
         this.set({ ...data });
       });
     },
-    helpers: {
-      getConfig: path => State.get(path),
-    },
     methods: {
       handlePanelUpdate({ changed, current, previous }) {
-        if(previous) {
+        if (previous) {
           Object.keys(changed).forEach(key => {
-            if(changed[key] && key !== 'namespace') {
+            if (changed[key] && key !== 'namespace') {
               const value = current[key];
-              if(key.indexOf(`${current.namespace}.`) === -1) {
+              if (key.indexOf(`${current.namespace}.`) === -1) {
                 key = `${current.namespace}.${key}`;
               }
               State.set(key, value, false);
@@ -72,10 +71,9 @@
       add(panelConstructor, initialData) {
         const { panels } = this.get();
 
-        this.set({ panels: [
-          ...panels,
-          [panelConstructor, initialData],
-        ]});
+        this.set({
+          panels: [...panels, [panelConstructor, initialData]],
+        });
       },
       handleShortcutStroke() {
         const keypressTime = new Date();
@@ -144,6 +142,8 @@
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     box-shadow: -4px 0 15px rgba(0, 0, 0, 0.4);
+    overflow: auto;
+    overflow-x: hidden;
 
     @media (max-width: 480px) {
       padding-top: 30px;
@@ -173,6 +173,10 @@
       justify-content: space-between;
       padding: 10px 0;
       border-bottom: 1px solid #eee;
+
+      &.is-full {
+        display: block;
+      }
 
       @media (max-width: 480px) {
         font-size: 12px;

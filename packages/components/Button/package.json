@@ -1,11 +1,7 @@
 {
   "name": "@mamba/button",
-  "version": "1.0.0-prealpha.4",
-  "svelte": "src/index.js",
-  "files": [
-    "dist/",
-    "src/"
-  ],
+  "version": "1.0.0-prealpha.12",
+  "svelte": "Button.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
   "contributors": [
@@ -18,9 +14,9 @@
     "build:dev": "exit 0"
   },
   "devDependencies": {
-    "@mamba/icon": "^1.0.0-prealpha.4"
+    "@mamba/icon": "^1.0.0-prealpha.12"
   },
   "dependencies": {
-    "@mamba/styles": "^1.0.0-prealpha.4"
+    "@mamba/styles": "^1.0.0-prealpha.12"
   }
 }

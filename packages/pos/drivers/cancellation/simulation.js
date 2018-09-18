@@ -16,22 +16,22 @@ export function setup(Cancellation) {
    * @return {boolean} True if cacellation failed.
    */
   Cancellation.failedCancellation = () =>
-    State.get('Cancellation.shouldCancellationFail');
+    State.get('$Cancellation.shouldCancellationFail');
 
   /**
    * Return the cancelled amount
    * @memberof Payment
    * @return {number} the last cancelled amount transaction
    */
-  Cancellation.getAmmount = () =>
+  Cancellation.getAmount = () =>
     Cancellation.failedCancellation()
       ? 0
-      : State.get('Cancellation.cancelledAmount');
+      : State.get('$Cancellation.cancelledAmount');
 
   Cancellation.doCancellation = () => {
     State.set(
-      'cancellation.cancelledAmount',
-      State.get('payment.authorizedAmount'),
+      '$Cancellation.cancelledAmount',
+      State.get('$Payment.authorizedAmount'),
     );
     Cancellation.cancellationDone();
   };

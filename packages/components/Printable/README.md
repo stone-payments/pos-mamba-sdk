@@ -4,9 +4,9 @@ O componente `Printable` encapsula o fluxo de impressão do POS, permitindo a im
 
 ## Parâmetros
 
-| Parâmetro | Descrição                                            | Tipo            | Padrão    |
-| :-------- | :--------------------------------------------------- | :-------------- | :-------- |
-| dithering | Define se deve ser aplicado um algoritmo de dithering na impressão. Use esta função somente para imprimir imagens, pois o dithering diminui a qualidade da impressão de texto  | `boolean` | `false` |
+| Parâmetro                                         | Descrição                                            | Tipo            | Padrão    |
+| :------------------------------------------------ | :--------------------------------------------------- | :-------------- | :-------- |
+| [dithering](https://pt.wikipedia.org/wiki/Dither) | Define se deve ser aplicado um algoritmo de dithering na impressão. Use esta função somente para imprimir imagens, pois o dithering diminui a qualidade da impressão de texto  | `boolean` | `false` |
 
 ## Métodos
 

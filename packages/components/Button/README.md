@@ -17,13 +17,11 @@ Além disso, os botões também podem ser acionados por um shortcut e executar m
 | size           | Tamanho do botão (opções: `small`, `regular`, `large`, `full`)   | `string` | `regular`|
 | textColor      | Cor do texto no botão                  | `string` (hex)    | `#fff`    |
 
-
 ## Métodos
 
 ### click()
 
 Aciona o evento de clique do botão.
-
 
 ### focus()
 

@@ -1,6 +1,5 @@
-const shell = require('shelljs');
 const { CMDS } = require('../../consts.js');
-const { remoteExec } = require('../../utils.js');
+const { runCmd, remoteExec } = require('../../utils.js');
 
 const getStartCMD = background => (background ? CMDS.startBg : CMDS.start);
 
@@ -19,7 +18,7 @@ module.exports = {
     yargs
       .demand(2)
       .command(
-        'ssh-init',
+        'start-ssh',
         'initializes the POS ssh server',
         {
           tty: {
@@ -28,8 +27,8 @@ module.exports = {
           },
         },
         ({ tty }) => {
-          shell.exec('xcb kill-server');
-          shell.exec(`start_ssh.sh com:/dev/tty${tty}`);
+          runCmd('xcb kill-server');
+          runCmd(`start_ssh.sh com:/dev/tty${tty}`);
         },
       )
       .command('stop', 'stop the MambaSystem', () => {
@@ -53,5 +52,20 @@ module.exports = {
           console.info('Restarting MambaSystem');
           remoteExec(CMDS.stop, getStartCMD(background));
         },
-      ),
+      )
+      .command('build', 'Build MambaSystem', () => {
+        runCmd('cd $MAMBA; ./mambaBuildSystem.sh');
+      })
+      .command('deploy', 'Deploy MambaOS build to POS.', () => {
+        console.info('\nStarting MambaOS Deploy . . .');
+        runCmd([
+          'xcb kill-server',
+          'xcb start-server',
+          'xcb connect com:/dev/ttyPos0',
+          'xcb installer aup $MAMBA/PAX_S920_pkg/StoneMambaSystem_lib.aup',
+          'xcb installer aip $MAMBA/PAX_S920_pkg/StoneMambaSystem.aip',
+          'xcb installer aip $MAMBA/PAX_S920_pkg/StoneMambaLoader.aip',
+        ]);
+        console.info('\nSuccess: MambaOS Deploy Done.');
+      }),
 };

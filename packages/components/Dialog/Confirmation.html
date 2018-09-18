@@ -1,0 +1,118 @@
+<Dialog ref:dialog {..._dialogProps} bind:isOpen>
+  <slot></slot>
+  <div slot="extra">
+    <table class="actions" class:has-labels="hasLabel">
+      <tr>
+        <td>
+          {#if hasLabel}
+            <button class="action" on:click="fire('negative')" shortcut="close">
+              {negativeLabel}
+            </button>
+          {:else}
+            <div class="action" on:click="fire('negative')" shortcut="close">
+              <RoundIcon symbol="close" size="giant" borderRadius="15px" bgColor="#ef5152" />
+            </div>
+          {/if}
+        </td>
+        <td class="spacer"></td>
+        <td>
+          {#if hasLabel}
+            <button
+              class="action"
+              style='color: #fff; background-color: {primaryColor}; border-color: {primaryColor};'
+              on:click="fire('positive')"
+              shortcut="enter"
+            >
+              {positiveLabel}
+            </button>
+          {:else}
+            <div class="action" on:click="fire('positive')" shortcut="enter">
+              <RoundIcon symbol="check" size="giant" borderRadius="15px" bgColor="#4ebf1a" />
+            </div>
+          {/if}
+        </td>
+      </tr>
+    </table>
+  </div>
+</Dialog>
+
+<script>
+  export default {
+    components: {
+      RoundIcon: '@mamba/icon/Round.html',
+      Dialog: './Dialog.html',
+    },
+    data() {
+      return {
+        isOpen: false,
+        positiveLabel: null,
+        negativeLabel: null,
+        primaryColor: '#4fb341',
+      };
+    },
+    computed: {
+      _dialogProps: props => props,
+      hasLabel: ({ negativeLabel, positiveLabel }) =>
+        !!(negativeLabel || positiveLabel),
+    },
+    oncreate() {
+      /** When the dialog opens, prevent 'closing' the app with the 'close' key */
+      this.refs.dialog.on('open', () => {
+        if (document.activeElement) {
+          document.activeElement.blur();
+        }
+      });
+
+      /** Close the confirmation dialog when a positive/negative action is clicked */
+      this.on('negative', () => this.close());
+      this.on('positive', () => this.close());
+    },
+    methods: {
+      open() {
+        if (this.refs.dialog) {
+          this.refs.dialog.open();
+        }
+      },
+      close() {
+        if (this.refs.dialog) {
+          this.refs.dialog.close();
+        }
+      },
+    },
+  };
+</script>
+
+<style>
+  .actions {
+    margin: 28px auto 0;
+    table-layout: fixed;
+
+    &.has-labels {
+      width: 100%;
+    }
+  }
+
+  .action {
+    display: block;
+    background: transparent;
+
+    .actions.has-labels & {
+      border: 1px solid #425963;
+      border-radius: 3px;
+      padding: 10px 16px;
+      color: #425963;
+    }
+  }
+
+  .spacer {
+    width: 20px;
+
+    .actions.has-labels & {
+      width: 10px;
+    }
+  }
+
+  button {
+    width: 100%;
+  }
+</style>

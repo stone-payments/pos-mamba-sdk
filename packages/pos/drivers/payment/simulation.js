@@ -1,6 +1,6 @@
 import { State } from '../../simulator/libs/main.js';
 
-export const NAMESPACE = 'Payment';
+export const NAMESPACE = '$Payment';
 
 export const SETTINGS = {
   _isPaying: false,
@@ -22,12 +22,12 @@ export const SIGNALS = ['cardEvent', 'paymentDone'];
 
 export function setup(Payment) {
   Payment.doPay = params => {
-    State.set('Payment._isPaying', true);
+    State.set('$Payment._isPaying', true);
 
     Payment.paymentDone();
 
-    State.set('Payment._isPaying', false);
-    State.set('Payment.authorizedAmount', params.amount);
+    State.set('$Payment._isPaying', false);
+    State.set('$Payment.authorizedAmount', params.amount);
   };
 
   Payment.doEnableCardEvent = function noop() {};
@@ -38,13 +38,13 @@ export function setup(Payment) {
    * @memberof Payment
    * @return {boolean} True if is paying
    */
-  Payment.isPaying = () => State.get('Payment._isPaying');
+  Payment.isPaying = () => State.get('$Payment._isPaying');
 
   /**
    * Returns true it the last payment job has failed
    * @return {boolean} True if the last payment job has failed
    */
-  Payment.failedPaying = () => State.get('Payment.shouldFail');
+  Payment.failedPaying = () => State.get('$Payment.shouldFail');
 
   /**
    * Get card holder name in case of payment success.
@@ -53,7 +53,7 @@ export function setup(Payment) {
    * @return {string} cardHolderName
    */
   Payment.getCardHolderName = () =>
-    !Payment.failedPaying() ? '' : State.get('Payment.cardHolderName');
+    !Payment.failedPaying() ? '' : State.get('$Payment.cardHolderName');
 
   /**
    * Return the transaction ATK in case of payment success
@@ -62,7 +62,7 @@ export function setup(Payment) {
    * @return {string} atk
    */
   Payment.getAtk = () =>
-    !Payment.failedPaying() ? '' : State.get('Payment.atk');
+    !Payment.failedPaying() ? '' : State.get('$Payment.atk');
 
   /**
    * Return the transaction ITK in case of payment success
@@ -71,7 +71,7 @@ export function setup(Payment) {
    * @return {string} itk
    */
   Payment.getItk = () =>
-    !Payment.failedPaying() ? '' : State.get('Payment.itk');
+    !Payment.failedPaying() ? '' : State.get('$Payment.itk');
 
   /**
    * Return the Authorized Amount in case of success
@@ -80,7 +80,7 @@ export function setup(Payment) {
    * @return {number} amount
    */
   Payment.getAmountAuthorized = () =>
-    Payment.failedPaying() ? 0 : State.get('Payment.authorizedAmount');
+    Payment.failedPaying() ? 0 : State.get('$Payment.authorizedAmount');
 
   /**
    * Return the Authorization Date and Time in case of success
@@ -98,7 +98,7 @@ export function setup(Payment) {
    * @return {string} brand
    */
   Payment.getBrand = () =>
-    !Payment.failedPaying() ? '' : State.get('Payment.cardBrand');
+    !Payment.failedPaying() ? '' : State.get('$Payment.cardBrand');
 
   /**
    * Return the order id in case of success
@@ -107,7 +107,7 @@ export function setup(Payment) {
    * @return {string} orderId
    */
   Payment.getOrderId = () =>
-    !Payment.failedPaying() ? '' : State.get('Payment.orderId');
+    !Payment.failedPaying() ? '' : State.get('$Payment.orderId');
 
   /**
    * Return the authorization code in case of success
@@ -116,7 +116,7 @@ export function setup(Payment) {
    * @return {string} authorizationCode
    */
   Payment.getAuthorizationCode = () =>
-    !Payment.failedPaying() ? '' : State.get('Payment.authCode');
+    !Payment.failedPaying() ? '' : State.get('$Payment.authCode');
 
   /**
    * Return the number of installments selected, in case of success
@@ -125,7 +125,7 @@ export function setup(Payment) {
    * @return {int} installmentCount
    */
   Payment.getInstallmentCount = () =>
-    !Payment.failedPaying() ? 0 : State.get('Payment.installmentCount');
+    !Payment.failedPaying() ? 0 : State.get('$Payment.installmentCount');
 
   /**
    * Return the pan in case of success
@@ -134,7 +134,7 @@ export function setup(Payment) {
    * @return {string} pan
    */
   Payment.getPan = () =>
-    !Payment.failedPaying() ? '' : State.get('Payment.pan');
+    !Payment.failedPaying() ? '' : State.get('$Payment.pan');
 
   /**
    * Return the type transaction in case of success
@@ -143,5 +143,5 @@ export function setup(Payment) {
    * @return {string} type
    */
   Payment.getType = () =>
-    !Payment.failedPaying() ? '' : State.get('Payment.type');
+    !Payment.failedPaying() ? '' : State.get('$Payment.type');
 }

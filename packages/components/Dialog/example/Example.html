@@ -23,7 +23,7 @@
     on:failure="console.log(event)"
   >
     {#await promise}
-      Loading....
+      Loading...
     {:then }
       Success!!!
     {:catch }
@@ -38,19 +38,17 @@
     </button>
   </div>
 
-  <ConfirmationDialog ref:confirmationDialog isOpen={true} title="IMPRESSORA SEM PAPEL">
+  <ConfirmationDialog ref:confirmationDialog title="IMPRESSORA SEM PAPEL">
     Tentar imprimir novamente?
   </ConfirmationDialog>
 </div>
 
 <script>
-  import { Dialog, PromisedDialog, ConfirmationDialog } from '../src/index.js';
-
   export default {
     components: {
-      Dialog,
-      PromisedDialog,
-      ConfirmationDialog,
+      Dialog: '../Dialog.html',
+      ConfirmationDialog: '../Confirmation.html',
+      PromisedDialog: '../Promised.html',
     },
     methods: {
       refreshPromise() {

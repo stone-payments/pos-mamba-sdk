@@ -4,8 +4,13 @@ const IS_PROD = process.env.NODE_ENV === 'production';
 
 module.exports = {
   root: true,
-  extends: ['airbnb-base', 'prettier', 'plugin:import/recommended'],
-  plugins: ['html', 'import', 'prettier'],
+  extends: [
+    'airbnb-base',
+    'prettier',
+    'plugin:import/recommended',
+    'plugin:@tivac/svelte/svelte',
+  ],
+  plugins: ['prettier', 'html', '@tivac/svelte', 'import'],
   settings: {
     'html/html-extensions': ['.html', '.svelte'],
   },
@@ -25,6 +30,7 @@ module.exports = {
     __PROD__: true,
     __TEST__: true,
     __DEV__: true,
+    __SIMULATOR__: true,
   },
   rules: {
     // ! Code
@@ -60,6 +66,9 @@ module.exports = {
 
     /** Allow __variables__ with underscores */
     'no-underscore-dangle': 'off',
+
+    /** Allow both LF and CRLF line endings */
+    'linebreak-style': 'off',
 
     /** Max line length */
     'max-len': [
@@ -158,6 +167,38 @@ module.exports = {
         ImportDeclaration: 1,
         flatTernaryExpressions: false,
         ignoreComments: false,
+      },
+    ],
+
+    // ! Svelte eslint
+
+    /** We want to use onupdate */
+    '@tivac/svelte/onupdate': 'off',
+    '@tivac/svelte/onstate-this-refs': 'warn',
+    '@tivac/svelte/property-ordering': [
+      'warn',
+      {
+        order: [
+          'namespace',
+          'tag',
+          'immutable',
+          'components',
+          'store',
+          'setup',
+          'preload',
+          'helpers',
+          'data',
+          'computed',
+          'props',
+          'oncreate',
+          'ondestroy',
+          'onstate',
+          'onupdate',
+          'methods',
+          'actions',
+          'events',
+          'transitions',
+        ],
       },
     ],
   },

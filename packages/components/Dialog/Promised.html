@@ -1,0 +1,39 @@
+<Dialog ref:dialog {..._dialogProps} bind:isOpen>
+  <slot></slot>
+</Dialog>
+
+<script>
+  export default {
+    components: {
+      Dialog: './Dialog.html',
+    },
+    data() {
+      return {
+        isOpen: false,
+        promise: null,
+        delay: 2000,
+      };
+    },
+    computed: {
+      _dialogProps: ({ promise, delay, ...props }) => props,
+    },
+    onupdate({ changed, current: { promise, delay } }) {
+      if (changed.promise && promise && typeof promise.then === 'function') {
+        promise
+          .then(() => {
+            setTimeout(() => {
+              this.refs.dialog.close();
+              this.fire('success');
+            }, parseFloat(delay));
+          })
+          .catch(e => {
+            setTimeout(() => {
+              this.refs.dialog.close();
+              this.fire('failure', e);
+            }, parseFloat(delay));
+          });
+        this.refs.dialog.open();
+      }
+    },
+  };
+</script>

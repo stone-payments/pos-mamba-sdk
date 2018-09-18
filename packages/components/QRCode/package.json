@@ -1,10 +1,7 @@
 {
   "name": "@mamba/qrcode",
-  "version": "1.0.0-prealpha.4",
-  "svelte": "src/index.js",
-  "files": [
-    "src/"
-  ],
+  "version": "1.0.0-prealpha.12",
+  "svelte": "QRCode.html",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
     "Pedro Lancelloti <pedro.lancelloti@stone.com.br>",
@@ -17,7 +14,7 @@
     "build:dev": "exit 0"
   },
   "dependencies": {
-    "@mamba/styles": "^1.0.0-prealpha.4",
+    "@mamba/styles": "^1.0.0-prealpha.12",
     "qrious": "^4.0.2"
   }
 }

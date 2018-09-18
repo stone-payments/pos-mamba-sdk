@@ -1,0 +1,139 @@
+{#if isOpen}
+  <div class="dialog" class:is-fullscreen="fullscreen" {style}>
+    <div class="content -align-{align}">
+      <div class="message">
+        {#if title}
+          <div class="title">{title}</div>
+        {/if}
+        <slot></slot>
+      </div>
+      <div class="extra">
+        <slot name="extra"></slot>
+      </div>
+    </div>
+  </div>
+{/if}
+
+<script>
+  export default {
+    data() {
+      return {
+        /** Dialog open state */
+        isOpen: false,
+        /** Should the dialog automatic lock the appw */
+        _autoAppLock: true,
+        title: undefined,
+        bgColor: '#e3e3e3',
+        textColor: '#353535',
+        align: 'center',
+        fullscreen: false,
+      };
+    },
+    computed: {
+      style({ bgColor, textColor }) {
+        return [`background-color:${bgColor}`, `color:${textColor}`]
+          .filter(Boolean)
+          .join(';');
+      },
+    },
+    ondestroy() {
+      const { isOpen, _autoAppLock } = this.get();
+      /** If the component is being destroyed and the dialog is still opened, let's unlock the app */
+      if (isOpen && this.store && this.store.meta.isAppLocked() && _autoAppLock) {
+        this.store.meta.lockApp(false);
+      }
+    },
+    methods: {
+      open(duration) {
+        this.set({ isOpen: true });
+        this.fire('open');
+
+        /**
+         * Unfocus whatever is focused on the current page.
+         * ! This may not work properly if a <Input/> has forcefocus={true}
+         */
+        document.activeElement.blur();
+
+        /** If there's a existing store, let's lock the app */
+        if (this.store) {
+          if (this.store.meta.isAppLocked()) {
+            this.set({ _autoAppLock: false });
+          } else {
+            this.store.meta.lockApp(true);
+          }
+        }
+
+        if (typeof duration !== 'undefined') {
+          return this.close(duration);
+        }
+      },
+      close(delay) {
+        if (typeof delay !== 'undefined') {
+          return new Promise(resolve =>
+            setTimeout(() => {
+              this.close();
+              resolve();
+            }, parseFloat(delay)),
+          );
+        }
+
+        /** If there's a existing store, let's unlock the app */
+        if (this.store && this.get()._autoAppLock) {
+          this.store.meta.lockApp(false);
+        }
+
+        this.set({ isOpen: false });
+        this.fire('close');
+      },
+    },
+  };
+</script>
+
+<style type="text/postcss">
+  @import '@mamba/styles/theme.pcss';
+
+  .dialog {
+    position: fixed;
+    z-index: $layer-dialog;
+    top: $appbar-height;
+    left: 0;
+    width: 100%;
+    bottom: 0;
+
+    &.is-fullscreen {
+      top: 0;
+      z-index: $layer-dialog-fullscreen;
+    }
+  }
+
+  .content {
+    width: 90%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .content.-align-top {
+    margin-top: 15px;
+  }
+
+  .content.-align-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+  .message {
+    font-size: 16px;
+    line-height: 1.23;
+  }
+
+  .title {
+    max-width: 80%;
+    margin: 0 auto 5px;
+    font-size: 22px;
+    font-weight: bold;
+  }
+</style>

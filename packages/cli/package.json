@@ -1,6 +1,6 @@
 {
   "name": "@mamba/cli",
-  "version": "1.0.0-prealpha.4",
+  "version": "1.0.0-prealpha.12",
   "description": "Mamba CLI",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -19,8 +19,7 @@
     "cross-env": "^5.2.0",
     "inquirer": "^6.2.0",
     "quickenv": "^0.0.6",
-    "shelljs": "^0.8.2",
     "yargonaut": "^1.1.4",
-    "yargs": "^12.0.1"
+    "yargs": "^12.0.2"
   }
 }
