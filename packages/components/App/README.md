@@ -9,7 +9,7 @@ Por esse motivo, ele já está incluso no template disponibilizado no início do
 
 ### Keystroke
 
-`import { Keystroke } from '@mamba/app';`
+`import Keystroke from '@mamba/app/Keystroke.html';`
 
 O componente `Keystroke` associa um evento de tecla á uma tecla específica e o desassocia automaticamente quando é destruído. Quando a tecla é apertada, o componente dispara um evento de `keystroke`.
 

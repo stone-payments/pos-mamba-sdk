@@ -1,11 +1,7 @@
 {
   "name": "@mamba/progress",
   "version": "1.0.0-prealpha.11",
-  "svelte": "src/index.js",
-  "files": [
-    "src/",
-    "example/"
-  ],
+  "svelte": "ProgressBar.html",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
     "Christian Kaisermann <christian.kaisermann@stone.com.br>",

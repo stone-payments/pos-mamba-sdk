@@ -37,11 +37,9 @@
 </Dialog>
 
 <script>
-  import { RoundIcon } from '@mamba/icon';
-
   export default {
     components: {
-      RoundIcon,
+      RoundIcon: '@mamba/icon/Round.html',
       Dialog: './Dialog.html',
     },
     data() {
@@ -85,15 +83,17 @@
 
 <style>
   .actions {
-    margin: 28px 0 0;
-    width: 100%;
+    margin: 28px auto;
     table-layout: fixed;
+
+    &.has-labels {
+      width: 100%;
+    }
   }
 
   .action {
     display: block;
     background: transparent;
-    width: 100%;
 
     .actions.has-labels & {
       border: 1px solid #425963;
@@ -104,6 +104,10 @@
   }
 
   .spacer {
-    width: 10px;
+    width: 20px;
+
+    .actions.has-labels & {
+      width: 10px;
+    }
   }
 </style>

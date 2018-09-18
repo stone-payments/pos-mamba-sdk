@@ -1,6 +1,6 @@
 # Progress
 
-O módulo `Progress` é composto por dois componentes: `ProgressBar` e `CircleProgress`. Ambos podem ser
+O módulo `Progress` é composto por dois componentes: `ProgressBar` e `CircularProgress`. Ambos podem ser
 utilizados para representar a execução de uma tarefa, que pode ter etapas definidas ou não.
 
 <!-- @example ./example/Example.Html -->
@@ -17,7 +17,7 @@ utilizados para representar a execução de uma tarefa, que pode ter etapas defi
 | progress  | Porcentagem atual   | `string` (0 a 100)| `undefined` |
 
 
-`<ProgressCircle ...props />`
+`<CircularProgress ...props />`
 
 | Parâmetro | Descrição               | Tipo            | Padrão     |
 | :-------- | :---------------------- | :-------------- | :--------- |

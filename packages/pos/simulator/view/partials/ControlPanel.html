@@ -21,14 +21,13 @@
 </div>
 
 <script>
-  import { Keystroke } from '@mamba/app';
   import { State } from '../../index.js';
 
   let lastKeypressTime = 0;
 
   export default {
     components: {
-      Keystroke,
+      Keystroke: '@mamba/app/Keystroke.html',
     },
     helpers: {
       getConfig: path => State.get(path),

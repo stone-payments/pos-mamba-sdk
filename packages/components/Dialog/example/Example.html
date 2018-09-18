@@ -44,13 +44,11 @@
 </div>
 
 <script>
-  import { Dialog, PromisedDialog, ConfirmationDialog } from '../src/index.js';
-
   export default {
     components: {
-      Dialog,
-      PromisedDialog,
-      ConfirmationDialog,
+      Dialog: '../Dialog.html',
+      ConfirmationDialog: '../Confirmation.html',
+      PromisedDialog: '../Promised.html',
     },
     methods: {
       refreshPromise() {
