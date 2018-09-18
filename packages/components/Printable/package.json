@@ -1,6 +1,6 @@
 {
   "name": "@mamba/printable",
-  "version": "1.0.0-prealpha.11",
+  "version": "1.0.0-prealpha.12",
   "svelte": "Printable.html",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -13,12 +13,12 @@
     "build:dev": "exit 0"
   },
   "devDependencies": {
-    "@mamba/styles": "^1.0.0-prealpha.11"
+    "@mamba/styles": "^1.0.0-prealpha.12"
   },
   "dependencies": {
-    "@mamba/dialog": "^1.0.0-prealpha.11"
+    "@mamba/dialog": "^1.0.0-prealpha.12"
   },
   "peerDependencies": {
-    "@mamba/pos": "^1.0.0-prealpha.11"
+    "@mamba/pos": "^1.0.0-prealpha.12"
   }
 }
