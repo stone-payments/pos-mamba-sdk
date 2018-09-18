@@ -1,6 +1,6 @@
 {
   "name": "@mamba/app",
-  "version": "1.0.0-prealpha.11",
+  "version": "1.0.0-prealpha.12",
   "svelte": "App.html",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -13,13 +13,13 @@
     "build:dev": "exit 0"
   },
   "dependencies": {
-    "@mamba/dialog": "^1.0.0-prealpha.11"
+    "@mamba/dialog": "^1.0.0-prealpha.12"
   },
   "devDependencies": {
-    "@mamba/styles": "^1.0.0-prealpha.11"
+    "@mamba/styles": "^1.0.0-prealpha.12"
   },
   "peerDependencies": {
-    "@mamba/pos": "^1.0.0-prealpha.11",
+    "@mamba/pos": "^1.0.0-prealpha.12",
     "svelte-page": "^0.1.0"
   }
 }
