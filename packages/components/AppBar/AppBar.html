@@ -1,6 +1,6 @@
 <header class="appbar" {style}>
   <div class="content">
-    {#if !isAtHome && !_isNavigationLocked}
+    {#if !isAtHome && _isNavigationEnabled}
       <div class="icon-left" on:click="goback()">
         <Icon symbol="chevron-left" width="10px" color={textColor} />
       </div>
@@ -10,7 +10,7 @@
       <div class="title">{title}</div>
     {/if}
 
-    {#if !_isNavigationLocked}
+    {#if _isNavigationEnabled}
       <div class="icon-right" on:click="gohome()">
         <Icon symbol={homeIcon} color={textColor}/>
       </div>
@@ -28,7 +28,7 @@
     data() {
       return {
         _location: undefined,
-        _isNavigationLocked: false,
+        _isNavigationEnabled: false,
         title: undefined,
         textColor: '#425963',
         bgColor: '#f2f2f2',
@@ -55,7 +55,7 @@
       root.on('appbar:modify', state => this.set(state));
       root.on('router:navigation', ctx => this.set({ _location: ctx.path }));
       root.on('navigation:change', value => {
-        this.set({ _isNavigationLocked: value });
+        this.set({ _isNavigationEnabled: value });
       });
     },
     onstate({ changed, current }) {

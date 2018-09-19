@@ -34,12 +34,12 @@
 
       booleanFlags.forEach(flag => {
         root.on(`${flag}:enable`, () => {
-          this.set({ [flag]: false });
-          root.fire(`${flag}:change`, false);
-        });
-        root.on(`${flag}:disable`, () => {
           this.set({ [flag]: true });
           root.fire(`${flag}:change`, true);
+        });
+        root.on(`${flag}:disable`, () => {
+          this.set({ [flag]: false });
+          root.fire(`${flag}:change`, false);
         });
       });
 
