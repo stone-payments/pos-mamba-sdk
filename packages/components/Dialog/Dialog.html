@@ -44,7 +44,7 @@
         (this.root.meta && !this.root.meta.isNavigationEnabled()) &&
         _autoAppLock
       ) {
-        this.root.fire('navigation:unlock');
+        this.root.fire('navigation:disable');
       }
     },
     methods: {
@@ -61,7 +61,7 @@
         if (this.root.meta && this.root.meta.isNavigationEnabled()) {
           this.set({ _autoAppLock: false });
         } else {
-          this.root.fire('navigation:lock');
+          this.root.fire('navigation:disable');
         }
 
         if (typeof duration !== 'undefined') {
@@ -80,7 +80,7 @@
 
         /** Let's unlock the app */
         if (this.get()._autoAppLock) {
-          this.root.fire('navigation:unlock');
+          this.root.fire('navigation:disable');
         }
 
         this.set({ isOpen: false });

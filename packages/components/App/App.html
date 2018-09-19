@@ -19,7 +19,6 @@
   export default {
     data() {
       return {
-        askOnClose: false,
         navigation: true,
         shortcuts: true,
       };
@@ -27,10 +26,23 @@
     oncreate() {
       const { root } = this;
       root.meta = this;
-      root.on('navigation:lock', () => this.set({ navigation: false }));
-      root.on('navigation:unlock', () => this.set({ navigation: true }));
-      root.on('shortcuts:lock', () => this.set({ shortcuts: false }));
-      root.on('shortcuts:unlock', () => this.set({ shortcuts: true }));
+
+      /**
+       * Create flag:enable, flag:disable root events for boolean flags
+       * */
+      const booleanFlags = ['navigation', 'shortcuts'];
+
+      booleanFlags.forEach(flag => {
+        root.on(`${flag}:enable`, () => {
+          this.set({ [flag]: false });
+          root.fire(`${flag}:change`, false);
+        });
+        root.on(`${flag}:disable`, () => {
+          this.set({ [flag]: true });
+          root.fire(`${flag}:change`, true);
+        });
+      });
+
       root.on('close', () => {
         if (typeof root.onClose === 'function') {
           return root.onClose();

@@ -8,11 +8,7 @@
       <div class="version">{time}</div>
     </div>
   </div>
-  <div
-    id="app-root"
-    class="content {$__meta__.locked ? '-locked' : ''}"
-    ref:content
-  >
+  <div id="app-root" class="content" ref:content>
     <slot></slot>
   </div>
 </div>
@@ -91,10 +87,6 @@
       flex: 0 1 auto;
       user-select: text;
       filter: url(#pos-color-map);
-
-      &.-locked {
-        overflow: hidden;
-      }
 
       /** Makes, in chrome, all fixed elements relative to the screen div */
       @supports (-webkit-appearance: none) {
