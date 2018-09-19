@@ -39,8 +39,12 @@
     ondestroy() {
       const { isOpen, _autoAppLock } = this.get();
       /** If the component is being destroyed and the dialog is still opened, let's unlock the app */
-      if (isOpen && this.store && this.store.meta.isAppLocked() && _autoAppLock) {
-        this.store.meta.lockApp(false);
+      if (
+        isOpen &&
+        (this.root.meta && !this.root.meta.isNavigationEnabled()) &&
+        _autoAppLock
+      ) {
+        this.root.fire('navigation:unlock');
       }
     },
     methods: {
@@ -54,13 +58,10 @@
          */
         document.activeElement.blur();
 
-        /** If there's a existing store, let's lock the app */
-        if (this.store) {
-          if (this.store.meta.isAppLocked()) {
-            this.set({ _autoAppLock: false });
-          } else {
-            this.store.meta.lockApp(true);
-          }
+        if (this.root.meta && this.root.meta.isNavigationEnabled()) {
+          this.set({ _autoAppLock: false });
+        } else {
+          this.root.fire('navigation:lock');
         }
 
         if (typeof duration !== 'undefined') {
@@ -77,9 +78,9 @@
           );
         }
 
-        /** If there's a existing store, let's unlock the app */
-        if (this.store && this.get()._autoAppLock) {
-          this.store.meta.lockApp(false);
+        /** Let's unlock the app */
+        if (this.get()._autoAppLock) {
+          this.root.fire('navigation:unlock');
         }
 
         this.set({ isOpen: false });

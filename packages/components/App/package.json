@@ -12,14 +12,11 @@
     "build": "exit 0",
     "build:dev": "exit 0"
   },
-  "dependencies": {
-    "@mamba/dialog": "^1.0.0-prealpha.12"
-  },
   "devDependencies": {
     "@mamba/styles": "^1.0.0-prealpha.12"
   },
   "peerDependencies": {
     "@mamba/pos": "^1.0.0-prealpha.12",
-    "svelte-page": "^0.1.0"
+    "svelte-page": "^1.0.1"
   }
 }

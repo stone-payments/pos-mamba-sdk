@@ -55,7 +55,7 @@
 
       if (this.store) {
         /** Listen for brightness changes */
-        this.store.on('pos:brightness', brightnessLevel => {
+        this.store.on('simulator:brightness', brightnessLevel => {
           this.set({ brightnessLevel });
         });
       }
