@@ -1,5 +1,10 @@
 const { fromCwd } = require('quickenv');
-const { PKG, REMOTE_APPS_DIR } = require('../../../consts.js');
+const {
+  PKG,
+  REMOTE_APPS_DIR,
+  LOCAL_KEY,
+  REMOTE_PORT,
+} = require('../../../consts.js');
 const { runCmd } = require('../../../utils.js');
 
 module.exports = {
@@ -24,7 +29,7 @@ module.exports = {
 
     console.log(`Deploying "${appSlug}" to "${REMOTE_APP_DIR}"`);
     runCmd(
-      `rsync -zzaP ${
+      `rsync -zzaP -e "ssh -i ${LOCAL_KEY} -p ${REMOTE_PORT}" ${
         !force ? '--checksum' : ''
       } --delete ${DIST_DIR}/ ${REMOTE_APP_DIR}`,
     );
