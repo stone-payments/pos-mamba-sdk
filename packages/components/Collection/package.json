@@ -1,6 +1,6 @@
 {
   "name": "@mamba/collection",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-prealpha.13",
   "svelte": "Collection.html",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -16,7 +16,7 @@
     "svelte-page": "^1.0.1"
   },
   "dependencies": {
-    "@mamba/icon": "^1.0.0-alpha.1",
-    "@mamba/styles": "^1.0.0-alpha.1"
+    "@mamba/icon": "^1.0.0-prealpha.13",
+    "@mamba/styles": "^1.0.0-prealpha.13"
   }
 }
