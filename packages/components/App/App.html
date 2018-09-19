@@ -4,10 +4,6 @@
   <slot></slot>
 </div>
 
-<ConfirmationDialog ref:closeDialog on:positive="closeApp()">
-  Tem certeza que deseja fechar o app?
-</ConfirmationDialog>
-
 <script>
   import Router from 'svelte-page';
   import App from '@mamba/pos/api/app.js';
@@ -21,43 +17,30 @@
     document.activeElement.tagName !== 'INPUT';
 
   export default {
-    components: {
-      ConfirmationDialog: '@mamba/dialog/Confirmation.html',
+    data() {
+      return {
+        askOnClose: false,
+        navigation: true,
+        shortcuts: true,
+      };
     },
     oncreate() {
-      if (this.store) {
-        /** If available, define the initial 'askOnClose' */
-        if (this.options.data) {
-          const { askOnClose } = this.options.data;
-          this.store.meta.askOnClose(askOnClose);
-        }
-
-        /** Listen for the event to close the app */
-        this.store.meta.on('close', () => {
-          const { askOnClose } = this.store.meta.get();
-          if (askOnClose) {
-            this.refs.closeDialog.open();
-          } else {
-            this.closeApp();
-          }
-        });
-      }
-    },
-    methods: {
-      closeApp() {
-        if (this.store) {
-          const onClose = this.store.meta.get('onCloseFn');
-          if (typeof onClose === 'function') {
-            const maybePromise = onClose();
-
-            /** If promise returned, wait for it to be fullfilled or rejected */
-            if (maybePromise && typeof maybePromise.then === 'function') {
-              maybePromise.finally(App.close);
-              return;
-            }
-          }
+      const { root } = this;
+      root.meta = this;
+      root.on('navigation:lock', () => this.set({ navigation: false }));
+      root.on('navigation:unlock', () => this.set({ navigation: true }));
+      root.on('shortcuts:lock', () => this.set({ shortcuts: false }));
+      root.on('shortcuts:unlock', () => this.set({ shortcuts: true }));
+      root.on('close', () => {
+        if (typeof root.onClose === 'function') {
+          return root.onClose();
         }
         App.close();
+      });
+    },
+    methods: {
+      isNavigationEnabled() {
+        return this.get().navigation;
       },
       goBack() {
         if (Router.getCurrentPath() !== '/') {
@@ -80,7 +63,10 @@
         if (Keystroke.hasActiveHandler(keyName)) {
           return;
         }
-        const shortcutsEnabled = this.store && this.store.meta.get('shortcuts');
+        const {
+          shortcuts: shortcutsEnabled,
+          navigation: navigationEnabled,
+        } = this.get();
 
         /**
          * Close the app if 'close' button clicked,
@@ -92,7 +78,7 @@
             !shortcutsEnabled ||
             (shortcutsEnabled && !document.querySelector('[shortcut="close"]'))
           ) {
-            this.store.meta.closeApp();
+            this.root.fire('close');
             return;
           }
         }
@@ -104,8 +90,8 @@
 
         /** Handles back button */
         if (keyName === 'back') {
-          /** Guarantees that the 'back' button is enabled and app not locked */
-          if (Keyboard.isBackspaceEnabled() && !this.store.meta.isAppLocked()) {
+          /** Guarantees that the 'back' button is enabled and navigation is enabled */
+          if (Keyboard.isBackspaceEnabled() && navigationEnabled) {
             e.preventDefault();
             this.goBack();
           }

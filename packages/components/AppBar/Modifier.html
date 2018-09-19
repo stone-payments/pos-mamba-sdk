@@ -1,14 +1,8 @@
 <script>
   export default {
     onupdate({ previous }) {
-      if (!previous) {
-        if (!this.store) {
-          throw new Error('No svelte store found. Cannot propagate props.');
-        }
-
-        if (this.options.data) {
-          this.store.fire('modifier:appbar', { ...this.options.data });
-        }
+      if (!previous && this.options.data) {
+        this.root.fire('appbar:modify', { ...this.options.data });
       }
     },
   };
