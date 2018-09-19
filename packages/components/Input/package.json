@@ -1,6 +1,6 @@
 {
   "name": "@mamba/input",
-  "version": "1.0.0-prealpha.13",
+  "version": "1.0.0-rc.1",
   "svelte": "Input.html",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -13,12 +13,12 @@
     "build:dev": "exit 0"
   },
   "devDependencies": {
-    "@mamba/styles": "^1.0.0-prealpha.13"
+    "@mamba/styles": "^1.0.0-rc.1"
   },
   "dependencies": {
-    "@mamba/icon": "^1.0.0-prealpha.13"
+    "@mamba/icon": "^1.0.0-rc.1"
   },
   "peerDependencies": {
-    "@mamba/pos": "^1.0.0-prealpha.13"
+    "@mamba/pos": "^1.0.0-rc.1"
   }
 }

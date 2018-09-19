@@ -44,7 +44,7 @@
           .filter(Boolean)
           .join(';');
       },
-      isAtHomee: ({ _location }) => _location === '/',
+      isAtHome: ({ _location }) => _location === '/',
       homeIcon: ({ isAtHome }) => (isAtHome ? 'home' : 'app-home'),
       isAppLocked: ({ $__meta__ }) => $__meta__.locked,
     },

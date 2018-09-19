@@ -1,6 +1,6 @@
 {
   "name": "@mamba/qrcode",
-  "version": "1.0.0-prealpha.13",
+  "version": "1.0.0-rc.1",
   "svelte": "QRCode.html",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -14,7 +14,7 @@
     "build:dev": "exit 0"
   },
   "dependencies": {
-    "@mamba/styles": "^1.0.0-prealpha.13",
+    "@mamba/styles": "^1.0.0-rc.1",
     "qrious": "^4.0.2"
   }
 }
