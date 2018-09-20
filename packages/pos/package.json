@@ -1,6 +1,6 @@
 {
   "name": "@mamba/pos",
-  "version": "1.0.0-rc.3",
+  "version": "1.0.0-rc.4",
   "description": "Mamba web environment wrapper and simulator",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -12,7 +12,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@mamba/app": "^1.0.0-rc.3",
-    "@mamba/switch": "^1.0.0-rc.3"
+    "@mamba/app": "^1.0.0-rc.4",
+    "@mamba/switch": "^1.0.0-rc.4"
   }
 }
