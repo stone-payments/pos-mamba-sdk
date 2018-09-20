@@ -2,7 +2,15 @@ const childProcess = require('child_process');
 const { fromCwd } = require('quickenv');
 const { REMOTE_MAINAPP_DIR, CMDS } = require('./consts.js');
 
-exports.runCmd = (cmd, { exit = true, quiet = false }) => {
+exports.runCmd = (cmd, opts = {}) => {
+  opts = {
+    exit: true,
+    quiet: false,
+    ...opts,
+  };
+
+  const { exit, quiet } = opts;
+
   if (Array.isArray(cmd)) {
     cmd = cmd.join(';');
   }
