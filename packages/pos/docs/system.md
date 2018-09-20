@@ -13,6 +13,7 @@ interface System {
   hasWifi: () => boolean
   hasGprs: () => boolean
   isBatteryPresent: () => boolean
+  getCurrentConnectionType: () => string
   getPowerSupply: () => PowerSupply
   getTimeFromBoot: () => number
   getSerialNumber: () => string
@@ -59,20 +60,6 @@ import System from '@mamba/pos/api/system.js'
 System.beep(); // Beep: tone = 1700, duration = 300
 System.beep(System.Tones.TONE3, 500) // Beep: tone = 2000, duration = 500
 System.beep(System.Tones.TONE7, 800) // Beep: tone = 2800, duration = 800
-```
-
-### getCurrentConnectionType()
-
-Informa em qual rede o POS está conectado.
-
-```js
-import System from '@mamba/pos/api/system.js'
-
-/** With wifi */
-System.getCurrentConnectionType(); // wifi
-
-/** Without 3G */
-System.getCurrentConnectionType(); // 3G
 ```
 
 ### hasEthernet()
@@ -131,22 +118,18 @@ System.isBatteryPresent(); // true
 System.isBatteryPresent(); // false
 ```
 
-### getPowerSupply()
+### getCurrentConnectionType()
 
-Retorna o tipo de fonte de energia na qual o POS está conectado no momento. Podendo ser:
-`ADAPTER`, `BATTERY`, `USB`. Em ambiente de desenvolvimento retorna `USB`.
+Informa em qual rede o POS está conectado.
 
 ```js
 import System from '@mamba/pos/api/system.js'
 
-/** When connected to a power-supply */
-System.getPowerSupply(); // 'ADAPTER'
+/** With wifi */
+System.getCurrentConnectionType(); // wifi
 
-/** When using only the POS battery */
-System.getPowerSupply(); // 'BATTERY'
-
-/** When connected through an USB port */
-System.getPowerSupply(); // 'USB'
+/** Without 3G */
+System.getCurrentConnectionType(); // 3G
 ```
 
 ### getTimeFromBoot()
@@ -202,3 +185,45 @@ import System from '@mamba/pos/api/system.js'
 
 System.getBatteryLevel(); // 50
 ```
+
+### getPowerSupply()
+
+Retorna o tipo de fonte de energia na qual o POS está conectado no momento. Podendo ser:
+`ADAPTER`, `BATTERY`, `USB`. Em ambiente de desenvolvimento retorna `USB`.
+
+```js
+import System from '@mamba/pos/api/system.js'
+
+/** When connected to a power-supply */
+System.getPowerSupply(); // 'ADAPTER'
+
+/** When using only the POS battery */
+System.getPowerSupply(); // 'BATTERY'
+
+/** When connected through an USB port */
+System.getPowerSupply(); // 'USB'
+```
+
+### getBatteryStatus()
+
+Retorna o status da energia do POS. Podendo ser:
+`CHECK_NOT_SUPPORTED`, `IN_CHARGE`, `CHARGE_COMPLETE`,  `CHARGE_COMPLETE`, `DISCHARGE`, `ABSENT`. Em ambiente de desenvolvimento retorna `DISCHARGE`.
+
+```js
+import System from '@mamba/pos/api/system.js'
+
+/** When it is not possible to check */
+System.getBatteryStatus(); // 'CHECK_NOT_SUPPORTED'
+
+/** When battery is charging */
+System.getBatteryStatus(); // 'IN_CHARGE'
+
+/** When battery full */
+System.getBatteryStatus(); // 'CHARGE_COMPLETE'
+
+/** When battery is discharged */
+System.getBatteryStatus(); // 'DISCHARGE'
+
+/** When the battery is not connected */
+System.getBatteryStatus(); // 'ABSENT'
+```  
