@@ -19,7 +19,7 @@
     "svelte-page": "^1.0.1"
   },
   "peerDependencies": {
-    "@mamba/pos": "^1.0.0-rc.4",
+    "@mamba/pos": "^1.0.0-rc.5",
     "svelte-page": "^1.0.1"
   },
   "gitHead": "7118f44e933d2f656166a80822c0b3c1001e6a33"

@@ -18,10 +18,8 @@
     "packages/components/*",
     "packages/configs",
     "packages/pos",
-    "packages/signal",
     "packages/store",
     "packages/styles",
-    "packages/utils",
     "packages/webpack"
   ]
 }
