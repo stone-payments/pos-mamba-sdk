@@ -53,10 +53,22 @@
 
       /** Listen for route changes and appbar prop changes */
       root.on('appbar:modify', state => this.set(state));
-      root.on('router:navigation', ctx => this.set({ _location: ctx.path }));
-      root.on('navigation:change', value => {
-        this.set({ _isNavigationEnabled: value });
-      });
+
+      if (root.router) {
+        root.router.on('update', ({ changed, current }) => {
+          if (changed.context && current.context) {
+            this.set({ _location: current.context.path });
+          }
+        });
+      }
+
+      if (root.meta) {
+        root.meta.on('update', ({ changed, current }) => {
+          if (changed.navigation) {
+            this.set({ _isNavigationEnabled: current.navigation });
+          }
+        });
+      }
     },
     onstate({ changed, current }) {
       if (changed.title) {
