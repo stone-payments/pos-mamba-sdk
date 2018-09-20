@@ -1,6 +1,6 @@
 {
   "name": "@mamba/dialog",
-  "version": "1.0.0-rc.4",
+  "version": "1.0.0-rc.5",
   "svelte": "Dialog.html",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -14,11 +14,11 @@
     "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w"
   },
   "devDependencies": {
-    "@mamba/sprite": "^1.0.0-rc.4"
+    "@mamba/sprite": "^1.0.0-rc.5"
   },
   "dependencies": {
-    "@mamba/icon": "^1.0.0-rc.4",
-    "@mamba/styles": "^1.0.0-rc.4"
+    "@mamba/icon": "^1.0.0-rc.5",
+    "@mamba/styles": "^1.0.0-rc.5"
   },
   "gitHead": "7118f44e933d2f656166a80822c0b3c1001e6a33"
 }
