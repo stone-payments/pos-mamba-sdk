@@ -25,7 +25,6 @@
     },
     oncreate() {
       const { root } = this;
-      root.meta = this;
 
       /**
        * Create flag:enable, flag:disable root events for boolean flags
@@ -33,14 +32,8 @@
       const booleanFlags = ['navigation', 'shortcuts'];
 
       booleanFlags.forEach(flag => {
-        root.on(`${flag}:enable`, () => {
-          this.set({ [flag]: true });
-          root.fire(`${flag}:change`, true);
-        });
-        root.on(`${flag}:disable`, () => {
-          this.set({ [flag]: false });
-          root.fire(`${flag}:change`, false);
-        });
+        root.on(`${flag}:enable`, () => this.set({ [flag]: true }));
+        root.on(`${flag}:disable`, () => this.set({ [flag]: false }));
       });
 
       root.on('close', () => {
@@ -49,6 +42,24 @@
         }
         App.close();
       });
+
+      /**
+       * If not in the POS, we must execute the 'App.opened' signal
+       * when the application is first rendered.
+       */
+      if (__BROWSER__) {
+        const listener = root.on('update', ({ previous }) => {
+          if (!previous) {
+            App.opened();
+            listener.cancel();
+          }
+        });
+      }
+    },
+    onstate({ previous }) {
+      if (!previous) {
+        this.root.meta = this;
+      }
     },
     methods: {
       isNavigationEnabled() {
