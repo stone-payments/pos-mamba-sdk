@@ -8,10 +8,11 @@
     "Pedro Lancelloti Kaisermann <pedro.lancelloti@stone.com.br>"
   ],
   "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
-    "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w",
-    "build": "exit 0",
-    "build:dev": "exit 0"
+    "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w"
   },
   "dependencies": {
     "@mamba/styles": "^1.0.0-rc.3"
