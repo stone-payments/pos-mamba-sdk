@@ -13,6 +13,9 @@
   "scripts": {
     "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w"
   },
+  "devDependencies": {
+    "svelte-page": "^1.0.1"
+  },
   "peerDependencies": {
     "svelte-page": "^1.0.1"
   },

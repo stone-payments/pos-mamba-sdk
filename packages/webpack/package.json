@@ -10,6 +10,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "devDependencies": {
+    "@mamba/configs": "^1.0.0-rc.3",
+    "webpack": "^4.17.2",
+    "webpack-cli": "^3.0.8"
+  },
   "peerDependencies": {
     "@mamba/configs": "^1.0.0-rc.3",
     "webpack": "^4.17.2",

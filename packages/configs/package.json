@@ -10,6 +10,14 @@
   "publishConfig": {
     "access": "public"
   },
+  "devDependencies": {
+    "@babel/core": "^7.0.1",
+    "eslint": "^5.5.0",
+    "postcss": "^7.0.2",
+    "prettier": "^1.14.2",
+    "stylelint": "^9.5.0",
+    "svelte-preprocess": "^2.3.2"
+  },
   "peerDependencies": {
     "@babel/core": "^7.0.1",
     "eslint": "^5.5.0",

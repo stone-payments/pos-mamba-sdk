@@ -12,6 +12,9 @@
   },
   "main": "src/index.js",
   "module": "src/index.js",
+  "devDependencies": {
+    "svelte": "^2.13.4"
+  },
   "peerDependencies": {
     "svelte": "^2.13.4"
   },
