@@ -7,6 +7,9 @@
     "Christian Kaisermann <christian.kaisermann@stone.com.br>"
   ],
   "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "peerDependencies": {
     "@mamba/configs": "^1.0.0-rc.3",
     "webpack": "^4.17.2",

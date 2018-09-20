@@ -13,35 +13,16 @@
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 8.10.0",
-    "npm": ">= 5.6.0",
-    "yarn": ">= 1.7.0"
+    "npm": ">= 5.6.0"
   },
   "scripts": {
-    "build": "bolt ws build",
-    "delete:modules": "rm -rf \"node_modules\" \"./**/node_modules\"",
-    "link:packages": "bolt ws exec --only-fs \"packages/**\" -- yarn link",
-    "lint": "yarn lint:css; yarn lint:js",
+    "link:packages": "lerna exec npm link",
+    "lint": "npm run lint:css; npm run lint:js",
     "lint:js": "eslint \"*.js\" \"{tools,packages}/**/*.{js,html,svelte}\"",
     "lint:css": "stylelint \"packages/**/*.{html,svelte,css,pcss}\"",
-    "format": "yarn format:css; yarn format:js",
+    "format": "npm run format:css; npm run format:js",
     "format:js": "prettier --write \"*.js\" \"{tools,packages}/**/*.js\" && eslint --fix \"*.js\" \"{tools,packages}/**/*.{js,html,svelte}\"",
-    "format:css": "prettier --write \"packages/**/*.{css,pcss}\" && stylelint --fix \"packages/**/*.{html,svelte,css,pcss}\"",
-    "test": "bolt ws test"
-  },
-  "bolt": {
-    "workspaces": [
-      "packages/cli",
-      "packages/utils",
-      "packages/signal",
-      "packages/api",
-      "packages/pos",
-      "packages/bridges",
-      "packages/store",
-      "packages/styles",
-      "packages/configs",
-      "packages/webpack",
-      "packages/components/*"
-    ]
+    "format:css": "prettier --write \"packages/**/*.{css,pcss}\" && stylelint --fix \"packages/**/*.{html,svelte,css,pcss}\""
   },
   "husky": {
     "hooks": {
@@ -108,6 +89,8 @@
     "jest": "^23.6.0",
     "jsbarcode": "^3.11.0",
     "json-loader": "^0.5.7",
+    "lerna": "^3.4.0",
+    "lerna-wizard": "^1.0.9",
     "lint-staged": "^7.2.2",
     "mini-css-extract-plugin": "^0.4.2",
     "mini-html-webpack-plugin": "^0.2.3",

@@ -7,14 +7,11 @@
     "Christian Kaisermann <christian.kaisermann@stone.com.br>"
   ],
   "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "src/index.js",
   "module": "src/index.js",
-  "scripts": {
-    "start": "exit 0; rollup -c ../../tools/rollup/config.lib.js -w",
-    "build": "exit 0; cross-env NODE_ENV=production rollup -c ../../tools/rollup/config.lib.js",
-    "test": "exit 0; jest -c ../../jest.config.js --no-cache",
-    "prepublishOnly": "npm run build"
-  },
   "peerDependencies": {
     "svelte": "^2.13.4"
   },
