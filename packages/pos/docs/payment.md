@@ -35,12 +35,13 @@ interface PaymentOptions {
   min_installments: number;
   max_installments: number;
   editable_amount: boolean;
+  order_id: number;
 }
 ```
 
 ### pay(params)
 
-Abre o aplicativo de pagamentos passando os parâmetros de pagamento (valor, número máximo e mínimo de parcelas e se pode ser editado) e retorna uma [`Promise`](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Promise).
+Abre o aplicativo de pagamentos passando os parâmetros de pagamento (valor, pode ser editado, número máximo e mínimo de parcelas e um id para a transação) e retorna uma [`Promise`](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Promise).
 
 ```js
 import Payment from '@mamba/pos/api/payment.js';
@@ -50,6 +51,7 @@ Payment.pay({
   editable_amount: false,
   min_installments: 1,
   max_installments: 3,
+  order_id: 21,
 })
   .then(() => {
     console.log('Payment Done');
