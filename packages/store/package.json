@@ -17,5 +17,6 @@
   },
   "dependencies": {
     "svelte-extras": "^2.0.2"
-  }
+  },
+  "gitHead": "7118f44e933d2f656166a80822c0b3c1001e6a33"
 }

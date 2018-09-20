@@ -44,5 +44,6 @@
     "webpack-merge": "^4.1.4",
     "webpack-sources": "^1.2.0",
     "xmlbuilder": "^10.0.0"
-  }
+  },
+  "gitHead": "7118f44e933d2f656166a80822c0b3c1001e6a33"
 }

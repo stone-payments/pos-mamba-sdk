@@ -28,5 +28,6 @@
   },
   "dependencies": {
     "lerna": "^3.4.0"
-  }
+  },
+  "gitHead": "7118f44e933d2f656166a80822c0b3c1001e6a33"
 }

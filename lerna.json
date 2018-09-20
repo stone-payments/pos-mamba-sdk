@@ -14,8 +14,6 @@
     }
   },
   "packages": [
-    "packages/api",
-    "packages/bridges",
     "packages/cli",
     "packages/components/*",
     "packages/configs",

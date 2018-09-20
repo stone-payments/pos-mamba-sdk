@@ -21,5 +21,6 @@
   },
   "peerDependencies": {
     "@mamba/pos": "^1.0.0-rc.3"
-  }
+  },
+  "gitHead": "7118f44e933d2f656166a80822c0b3c1001e6a33"
 }
