@@ -1,6 +1,6 @@
 {
   "name": "@mamba/app",
-  "version": "1.0.0-rc.6",
+  "version": "1.0.0-rc.7",
   "svelte": "App.html",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -14,8 +14,8 @@
     "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w"
   },
   "devDependencies": {
-    "@mamba/pos": "^1.0.0-rc.6",
-    "@mamba/styles": "^1.0.0-rc.6",
+    "@mamba/pos": "^1.0.0-rc.7",
+    "@mamba/styles": "^1.0.0-rc.7",
     "svelte-page": "^1.0.1"
   },
   "peerDependencies": {
