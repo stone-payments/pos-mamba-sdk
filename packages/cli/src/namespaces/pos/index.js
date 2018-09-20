@@ -1,3 +1,4 @@
+const chalk = require('chalk');
 const { CMDS } = require('../../consts.js');
 const { runCmd, remoteExec } = require('../../utils.js');
 
@@ -53,6 +54,14 @@ module.exports = {
           remoteExec(CMDS.stop, getStartCMD(background));
         },
       )
+      .command('status', 'Check if the POS is connected through USB', () => {
+        const cmd = runCmd('ls /dev/ttyPos*', { exit: false, quiet: true });
+        if (cmd === 0) {
+          console.info(chalk.green('POS connected'));
+        } else {
+          console.error(chalk.red('POS not connected'));
+        }
+      })
       .command('build', 'Build MambaSystem', () => {
         runCmd('cd $MAMBA; ./mambaBuildSystem.sh');
       })

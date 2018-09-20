@@ -2,17 +2,25 @@ const childProcess = require('child_process');
 const { fromCwd } = require('quickenv');
 const { REMOTE_MAINAPP_DIR, CMDS } = require('./consts.js');
 
-exports.runCmd = cmd => {
+exports.runCmd = (cmd, { exit = true, quiet = false }) => {
   if (Array.isArray(cmd)) {
     cmd = cmd.join(';');
   }
 
   try {
     childProcess.execSync(cmd, {
-      stdio: [process.stdin, process.stdout, process.stderr],
+      stdio: [
+        process.stdin,
+        quiet ? null : process.stdout,
+        quiet ? null : process.stderr,
+      ],
     });
+    return 0;
   } catch (error) {
-    process.exit(1);
+    if (exit) {
+      process.exit(1);
+    }
+    return 1;
   }
 };
 
