@@ -32,9 +32,9 @@ const config = {
   plugins: [
     /** Virtual entry module to bootstrap the example app */
     virtual({
-      __entry__: `import App from '${posixify(
-        fromWorkspace('example', 'Example.html'),
-      )}'
+      __entry__: `
+      import '@mamba/pos/simulator/index.js';
+      import App from '${posixify(fromWorkspace('example', 'Example.html'))}'
         new App({ target: document.getElementById('root') })`,
     }),
     nodeResolve({
@@ -76,14 +76,21 @@ const config = {
           .concat(Object.keys(PKG.devDependencies || {}))
           .concat(Object.keys(PKG.peerDependencies || {}))
           .filter(dep => dep.match(/@mamba/))
-          .map(dep => fromWorkspace('node_modules', dep, 'src')),
+          .filter((v, i, a) => a.indexOf(v) === i)
+          .map(dep => fromWorkspace('node_modules', dep)),
       ],
     }),
     /** Reload the serve on file changes */
     livereload(),
     replace({
-      'process.env.NODE_ENV': JSON.stringify('development'),
-      'process.env.APP_ENV': JSON.stringify('browser'),
+      __NODE_ENV__: JSON.stringify(process.env.NODE_ENV),
+      __APP_ENV__: JSON.stringify(process.env.APP_ENV),
+      __PROD__: process.env.NODE_ENV === 'production',
+      __TEST__: process.env.NODE_ENV === 'test',
+      __DEV__: process.env.NODE_ENV === 'development',
+      __POS__: process.env.APP_ENV === 'POS',
+      __SIMULATOR__: process.env.MAMBA_SIMULATOR === true,
+      __BROWSER__: process.env.APP_ENV === 'browser',
     }),
   ],
 };
