@@ -76,7 +76,7 @@
         validation: undefined,
         isValid: false,
         _errorMsg: undefined,
-        /** Mask * */
+        /** Mask */
         mask: null,
         tokens: defaultTokens,
       };
@@ -194,10 +194,6 @@
       _onInput(e) {
         let { value } = this.refs.input;
         const { validation, validateOn, mask, tokens } = this.get();
-
-        if (!e.isTrusted) {
-          return;
-        }
 
         /** Mask handler */
         if (mask) {
