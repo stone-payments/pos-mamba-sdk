@@ -51,6 +51,7 @@
     },
     data() {
       return {
+        rawValue: '',
         value: '',
         placeholder: '',
         label: undefined,
@@ -193,6 +194,8 @@
       },
       _onInput(e) {
         let { value } = this.refs.input;
+        let rawValue = value;
+
         const { validation, validateOn, mask, tokens } = this.get();
 
         /** Mask handler */
@@ -203,13 +206,11 @@
 
           /* save the character just inserted */
           const digit = inputEl.value[position - 1];
-          const oldValue = value;
           value = masker(value, mask, true, tokens);
+          rawValue = masker(value, mask, false, tokens);
 
           /** Overwrite the input text with the masked value */
-          if (oldValue !== value) {
-            this.refs.input.value = value;
-          }
+          this.refs.input.value = value;
 
           /** If the digit was changed, increment position until find the digit again */
           while (
@@ -230,13 +231,15 @@
               ? { isValid: false, _errorMsg: undefined }
               : this._getValidationResult();
 
-            this.set({ value, ...validationResult });
+            this.set({ value, rawValue, ...validationResult });
           } else {
-            this.set({ value, isValid: false, _errorMsg: undefined });
+            /** If validation is on submit, reset the isValid and errorMsg */
+            this.set({ value, rawValue, isValid: false, _errorMsg: undefined });
           }
         } else {
-          this.set({ value });
+          this.set({ value, rawValue });
         }
+
         this.fire('input', e);
       },
       /** We use mousedown instead of click because it fires before the input's .focus() */
