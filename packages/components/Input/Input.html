@@ -17,6 +17,7 @@
     type={_visible ? 'text' : 'password'}
     style="color: {textColor};" {disabled}
     {readonly}
+    {placeholder}
     on:keydown
     on:focus="_onFocus(event)"
     on:blur="_onBlur(event)"
@@ -41,6 +42,8 @@
 <script>
   import Keyboard from '@mamba/pos/api/keyboard.js';
   import System from '@mamba/pos/api/system.js';
+  import masker from './libs/masker.js';
+  import defaultTokens from './libs/tokens.js';
 
   export default {
     components: {
@@ -49,6 +52,7 @@
     data() {
       return {
         value: '',
+        placeholder: '',
         label: undefined,
         /** Behavior */
         _visible: true,
@@ -72,6 +76,9 @@
         validation: undefined,
         isValid: false,
         _errorMsg: undefined,
+        /** Mask * */
+        mask: null,
+        tokens: defaultTokens,
       };
     },
     oncreate() {
@@ -124,6 +131,10 @@
       },
       blur() {
         this.refs.input.blur();
+      },
+      /** Invalidate the input with an optional error message */
+      invalidate(message) {
+        this.set({ isValid: false, _errorMsg: message });
       },
       // TODO: when '_visible' changes, it triggers a focus
       _onFocus() {
@@ -181,8 +192,41 @@
         }
       },
       _onInput(e) {
-        const { value } = this.refs.input;
-        const { validation, validateOn } = this.get();
+        let { value } = this.refs.input;
+        const { validation, validateOn, mask, tokens } = this.get();
+
+        if (!e.isTrusted) {
+          return;
+        }
+
+        /** Mask handler */
+        if (mask) {
+          const inputEl = this.refs.input;
+
+          let position = inputEl.selectionEnd;
+
+          /* save the character just inserted */
+          const digit = inputEl.value[position - 1];
+          const oldValue = value;
+          value = masker(value, mask, true, tokens);
+
+          /** Overwrite the input text with the masked value */
+          if (oldValue !== value) {
+            this.refs.input.value = value;
+          }
+
+          /** If the digit was changed, increment position until find the digit again */
+          while (
+            position < value.length &&
+            value.charAt(position - 1) !== digit
+          ) {
+            position++;
+          }
+
+          if (inputEl === document.activeElement) {
+            setTimeout(() => inputEl.setSelectionRange(position, position));
+          }
+        }
 
         if (validation) {
           if (validateOn === 'input') {
@@ -217,7 +261,7 @@
         const { validation } = this.get();
 
         if (validation) {
-          const { msg: _errorMsg, isValid } = validation(value);
+          const { msg: _errorMsg = null, isValid = true } = validation(value);
           return { _errorMsg, isValid };
         }
 
@@ -289,7 +333,7 @@
   .type-toggle {
     position: absolute;
     right: 20px;
-    bottom: 17px;
+    bottom: 12px;
   }
 
   .validation-msg {
