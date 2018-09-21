@@ -59,9 +59,9 @@ module.exports = {
     /** Make webpack also resolve modules from './src' */
     modules: [fromCwd('src'), 'node_modules'],
     alias: {
-      '@mamba': fromCwd('node_modules', '@mamba'),
-      svelte: fromCwd('node_modules', 'svelte'),
       page: fromCwd('node_modules', 'page'),
+      'core-js': fromCwd('node_modules', 'core-js'),
+      '@mamba/pos': fromCwd('node_modules', '@mamba', 'pos'),
     },
   },
   module: {
@@ -72,6 +72,7 @@ module.exports = {
       {
         test: /\.(htmlx?|svelte)$/,
         include: [fromCwd('src')],
+        exclude: [/node_modules/],
         use: [loaders.babelEsNext, loaders.svelte, loaders.eslint],
       },
       {
