@@ -2,9 +2,7 @@
   ref:icon
   class="icon"
   {style}
-  {symbol}
-  {size}
-  {level}
+  {..._props}
   on:click>
 </div>
 
@@ -22,6 +20,13 @@
       };
     },
     computed: {
+      _props({ symbol, size, level }) {
+        return {
+          symbol,
+          size,
+          level,
+        };
+      },
       style({ src, color, width, height }) {
         return [
           color && `background-color: ${color}`,
@@ -92,6 +97,7 @@
 
   .icon {
     display: inline-block;
+    vertical-align: middle;
     width: 24px;
     height: 24px;
     background-color: #494949;
