@@ -1,3 +1,4 @@
+const { relative } = require('path');
 const pkgDir = require('pkg-dir');
 const { getPkg } = require('quickenv');
 const { readFileSync } = require('fs');
@@ -22,7 +23,8 @@ module.exports = {
   transpileIgnoreBaseCondition,
   isOfModuleType: depType => input => {
     if (!(input in INPUT_MODULE_TYPE_CACHE)) {
-      const pkg = getPkg({ path: pkgDir.sync(input) });
+      const pkgDirectory = pkgDir.sync(input);
+      const pkg = getPkg({ path: pkgDirectory });
       let moduleType = 'cjs';
 
       /**
@@ -31,7 +33,8 @@ module.exports = {
        */
       if (pkg.module || pkg.esnext || pkg['jsnext:main'] || pkg.svelte) {
         moduleType = 'es';
-      } else if (!pkg.main) {
+        /** If no main file or the imported file is not the main file... */
+      } else if (!pkg.main || relative(pkgDirectory, input) !== pkg.main) {
         /**
          * If there's not a main property, let's read
          * the file content to assume a module type
