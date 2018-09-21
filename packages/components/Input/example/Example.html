@@ -39,9 +39,32 @@
   <div class="row">
     <Input
       type="password"
-      validate={validate}
-      on:valid="console.log('VALIDO')"
-      on:invalid="console.log('INVALIDO')"
+      validation={validate}
+      on:submitValid="console.log('VALIDO')"
+      on:submitInvalid="console.log('INVALIDO')"
+    />
+  </div>
+
+  <h4>Input com máscara</h4>
+  <div class="row">
+    <Input
+      label="CPF/CNPJ"
+      mask={['###.###.###-##', '##.###.###/####-##']}
+    />
+  </div>
+
+  <h4>Input com máscara customizada</h4>
+  <div class="row">
+    <Input
+      label="Cor hexadecimal"
+      alphanumeric
+      mask="FFFFFF"
+      tokens={{
+        F: {
+          pattern: /[0-9a-fA-F]/,
+          transform: v => v.toLocaleUpperCase()
+        }
+      }}
     />
   </div>
 </div>
@@ -76,19 +99,18 @@
     },
     data() {
       return {
-        validate(Input) {
-          const { value } = Input.get();
-          let error;
-          let message;
+        validate(value) {
+          let isValid;
+          let msg;
 
           if (value !== '2') {
-            error = true;
-            message = 'Senha inválida';
+            isValid = false;
+            msg = 'Senha inválida';
           }
 
           return {
-            error,
-            message,
+            isValid,
+            msg,
           };
         },
       };
