@@ -59,6 +59,9 @@
     onstate({ previous }) {
       if (!previous) {
         this.root.meta = this;
+        if (__DEV__ && __BROWSER__) {
+          window.MambaApp = this.root;
+        }
       }
     },
     methods: {

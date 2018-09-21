@@ -18,16 +18,12 @@
     "postbuild": "ncp src/assets dist/assets",
     "start": "npm run start:pos",
     "start:pos": "postcss ./pos.pcss -o ./dist/pos.css -w --verbose",
-    "start:desktop": "postcss ./desktop.pcss -o ./dist/desktop.css -w --verbose",
-    "test": "exit 0"
+    "start:desktop": "postcss ./desktop.pcss -o ./dist/desktop.css -w --verbose"
   },
   "devDependencies": {
     "ncp": "^2.0.0",
     "postcss-cli": "^6.0.0",
     "rimraf": "^2.6.2"
-  },
-  "dependencies": {
-    "lerna": "^3.4.0"
   },
   "gitHead": "91a8a4a8be4741a15249462cefda6e273f1613a3"
 }
