@@ -1,3 +1,6 @@
+/**
+ * This file is the boilerplate for the simulator core driver;
+ * */
 import { log } from './utils.js';
 
 export const SIGNALS = [

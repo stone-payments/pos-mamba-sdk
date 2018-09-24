@@ -1,3 +1,6 @@
+/**
+ * This file is a simulation of the QT Signal & Slot
+ * */
 export default function Signal() {
   const slots = [];
 

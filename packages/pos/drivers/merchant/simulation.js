@@ -1,4 +1,4 @@
-import { Core } from '../../simulator/libs/main.js';
+import { Core } from '../../simulator/index.js';
 
 export const NAMESPACE = '$Merchant';
 
