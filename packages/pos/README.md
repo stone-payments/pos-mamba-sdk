@@ -14,12 +14,11 @@ import '@mamba/pos/simulator/index.js';
 - However, you can also initialize the `digital POS` component, which will be the container for your `mamba app` when running on a browser. A `store` must be passed to the component.
 
 ```js
-import '@mamba/pos/simulator/index.js';
-import POS from '@mamba/pos/simulator/view.js';
+import * as Simulator '@mamba/pos/simulator/index.js';
 import store from './store.js';
 
-/** Initialize the digital POS component */
-new POS({ target: document.body, store });
+/** Initialize the Simulator POS */
+Simulator.getVirtualPOS(store);
 ```
 
 It's **obligatory** to include the entry file which starts the simulator **before** the app.

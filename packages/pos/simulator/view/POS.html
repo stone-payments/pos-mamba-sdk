@@ -4,14 +4,14 @@
       <div class="pos-wrapper">
         <div class="shadow"></div>
         <div class="pos">
-          <Printer />
-          <Screen>
+          <Printer ref:printer />
+          <Screen ref:screen bind:time bind:version>
             <slot></slot>
           </Screen>
-          <Keypad />
+          <Keypad ref:keypad />
         </div>
       </div>
-      <Card/>
+      <Card ref:card />
     </div>
   </div>
 {:else}
@@ -23,7 +23,7 @@
   </div>
 {/if}
 
-<ControlPanel ref:controlPanel/>
+<ControlPanel ref:controlPanel />
 
 <script>
   import PrinterPanel from '../../drivers/printer/panel.html';
@@ -40,6 +40,8 @@
     data() {
       return {
         _browserEngine: 'webkit',
+        version: '2.1.0',
+        time: '00:00',
       };
     },
     oncreate() {
@@ -67,6 +69,16 @@
       this.set({ _browserEngine });
 
       this.createDriverPanel(PrinterSimulation, PrinterPanel);
+
+      /** Update the clock after each second */
+      const updateTimer = () => {
+        const curDate = new Date();
+        const minutes = String(curDate.getMinutes()).padStart(2, '0');
+        const hours = String(curDate.getHours()).padStart(2, '0');
+        this.set({ time: `${hours}:${minutes}` });
+        return updateTimer;
+      };
+      setInterval(updateTimer(), 1000);
     },
     methods: {
       createDriverPanel(driverSimulation, PanelConstructor) {

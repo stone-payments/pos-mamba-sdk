@@ -42,26 +42,10 @@
         }
         App.close();
       });
-
-      /**
-       * If not in the POS, we must execute the 'App.opened' signal
-       * when the application is first rendered.
-       */
-      if (__BROWSER__) {
-        const listener = root.on('update', ({ previous }) => {
-          if (!previous) {
-            App.opened();
-            listener.cancel();
-          }
-        });
-      }
     },
     onstate({ previous }) {
       if (!previous) {
         this.root.meta = this;
-        if (__DEV__ && __BROWSER__) {
-          window.MambaApp = this.root;
-        }
       }
     },
     methods: {

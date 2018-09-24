@@ -1,4 +1,7 @@
-import { Core } from './main.js';
+/**
+ * This file contain utility methods used by the simulator.
+ */
+import { Core } from './boot.js';
 import Signal from './signal.js';
 
 export const LOG_PREFIX = '[Mamba Simulator]';
