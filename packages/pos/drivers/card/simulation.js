@@ -1,4 +1,4 @@
-import { State } from '../../simulator/libs/main.js';
+import { Core } from '../../simulator/libs/main.js';
 
 export const NAMESPACE = '$Card';
 
@@ -9,10 +9,10 @@ export const SETTINGS = {
 };
 
 export function setup(Card) {
-  Card.isCardInserted = () => State.get('$Card.isInserted');
+  Card.isCardInserted = () => Core.get('$Card.isInserted');
 
-  State.on('toggleCard', isInserted => {
-    State.set('$Card.isInserted', isInserted);
+  Core.on('toggleCard', isInserted => {
+    Core.set('$Card.isInserted', isInserted);
     if (isInserted) {
       Card.cardInserted();
     } else {

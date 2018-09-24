@@ -21,7 +21,7 @@
 </div>
 
 <script>
-  import { State } from '../../index.js';
+  import { Core } from '../../index.js';
 
   let lastKeypressTime = 0;
 
@@ -33,7 +33,7 @@
       return {
         panels: [],
         keystrokeActive: true,
-        ...State.get(),
+        ...Core.get(),
       };
     },
     oncreate() {
@@ -41,13 +41,14 @@
        * Disable the keystroke handler when
        * there's a shortcut for the 'shortcuts' key
        * */
-      this.store.on('router:navigation', () => {
-        this.set({
-          keystrokeActive: !document.querySelector('[shortcut="shortcuts"]'),
-        });
-      });
+      // TODO HOW TO DO THIS WITHOUT STORE
+      // this.store.on('router:navigation', () => {
+      //   this.set({
+      //     keystrokeActive: !document.querySelector('[shortcut="shortcuts"]'),
+      //   });
+      // });
 
-      State.on('settingsChanged', data => {
+      Core.on('settingsChanged', data => {
         this.set({ ...data });
       });
     },
@@ -57,10 +58,11 @@
           Object.keys(changed).forEach(key => {
             if (changed[key] && key !== 'namespace') {
               const value = current[key];
+              /** See if the prop name has already the namespace path */
               if (key.indexOf(`${current.namespace}.`) === -1) {
                 key = `${current.namespace}.${key}`;
               }
-              State.set(key, value, false);
+              Core.set(key, value, false);
             }
           });
         }
