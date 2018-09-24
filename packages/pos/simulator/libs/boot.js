@@ -1,5 +1,4 @@
-import { attachDrivers } from './main.js';
-import { log } from './utils.js';
+import { attachDrivers, log } from './utils.js';
 
 import * as Printer from '../../drivers/printer/simulation.js';
 import * as App from '../../drivers/app/simulation.js';
@@ -16,7 +15,7 @@ import * as Card from '../../drivers/card/simulation.js';
 
 if (__DEV__ && __BROWSER__) log('Loading mamba simulated environment');
 
-attachDrivers({
+attachDrivers([
   Printer,
   App,
   Storage,
@@ -27,4 +26,4 @@ attachDrivers({
   Http,
   Cancellation,
   Card,
-});
+]);
