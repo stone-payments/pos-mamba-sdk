@@ -1,6 +1,6 @@
 # Input
 
-O componente `Input` contém funcionalidades de uma caixa de texto com estilos e controles embutidos para facilitar o desenvolvimento.
+O componente `Input` e `MoneyInput` contém funcionalidades de uma caixa de texto com estilos e controles embutidos para facilitar o desenvolvimento.
 
 <!-- @example ./example/Example.html -->
 
@@ -19,12 +19,18 @@ O componente `Input` contém funcionalidades de uma caixa de texto com estilos e
 | errorColor  | Cor do Texto da Mensagem de Erro                           | `string` (hex)  | `#d5000`   |
 | label       | Título da Caixa de Entrada                                 | `string`        | `undefined`|
 | readable    | Possibilita esconder o texto de Entrada                    | `boolean`       | `false`    |
-| type        | Tipo de texto de entrada (`password`/`text`)               | `string`        | `'text'`     |
+| type        | Tipo de texto de entrada (`password`/`text`)               | `string`        | `'text'`   |
 | textColor   | Cor do Texto da Caixa de Entrada                           | `string` (hex)  | `'#4a4a4a'`|
 | value       | Valor de padrão de entrada                                 | `string`        | `false`    |
 | validation  | Adiciona um método de validação                            | `function`      | `undefined`|
 | validateOn  | Define em que momento a validação ocorre (`input`/`submit`)| `string`        | `'submit'` |
 | mask        | Define uma máscara para o texto                            | `string`        | `null`     |
+
+## Eventos
+ `<MoneyInput ...props />`
+| Nome     | Descrição                                                                                |
+|----------|------------------------------------------------------------------------------------------|
+| submit   | Retorna duas propriedades value(Valor em centavos) e formatted(Valor formatado na moeda) |
 
 ## Métodos
 
