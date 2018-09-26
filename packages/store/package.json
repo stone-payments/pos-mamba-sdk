@@ -1,6 +1,6 @@
 {
   "name": "@mamba/store",
-  "version": "1.0.0-rc.11",
+  "version": "1.0.0-rc.12",
   "description": "Store for Svelte Mamba Applications",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
