@@ -22,3 +22,10 @@ Fica escutando eventos de cartão, podendo ser definido no parâmetro `cardInser
   });
 
 ```
+
+## Eventos
+
+| Nome         | Descrição                                  |
+|--------------|--------------------------------------------|
+| cardInserted | Cartão inserido no POS, executa o callback |
+| cardRemoved  | Cartão removido do POS, executa o callback |
