@@ -15,10 +15,10 @@
   },
   "devDependencies": {
     "@mamba/pos": "^1.0.0-rc.11",
-    "svelte-page": "^1.2.1"
+    "svelte-page": "^1.2.2"
   },
   "peerDependencies": {
-    "svelte-page": "^1.2.1"
+    "svelte-page": "^1.2.2"
   },
   "dependencies": {
     "@mamba/icon": "^1.0.0-rc.11",

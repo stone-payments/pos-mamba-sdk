@@ -20,11 +20,11 @@
   },
   "peerDependencies": {
     "@mamba/styles": "^1.0.0-rc.11",
-    "svelte-page": "^1.2.1"
+    "svelte-page": "^1.2.2"
   },
   "devDependencies": {
     "@mamba/pos": "^1.0.0-rc.11",
     "@mamba/styles": "^1.0.0-rc.11",
-    "svelte-page": "^1.2.1"
+    "svelte-page": "^1.2.2"
   }
 }
