@@ -33,7 +33,7 @@ const config = {
     /** Virtual entry module to bootstrap the example app */
     virtual({
       __entry__: `
-      import '@mamba/pos/simulator/index.js';
+      import '${posixify('@mamba/pos/simulator/index.js')}';
       import App from '${posixify(fromWorkspace('example', 'Example.html'))}'
         new App({ target: document.getElementById('root') })`,
     }),

@@ -17,5 +17,8 @@
   "dependencies": {
     "@mamba/styles": "^1.0.0-rc.10"
   },
-  "gitHead": "7118f44e933d2f656166a80822c0b3c1001e6a33"
+  "gitHead": "7118f44e933d2f656166a80822c0b3c1001e6a33",
+  "devDependencies": {
+    "@mamba/pos": "^1.0.0-rc.10"
+  }
 }

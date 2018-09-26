@@ -144,7 +144,7 @@ module.exports = {
     ],
   },
   plugins: [
-    /** If no index.js present, use the default virtual one */
+    /** If no real 'src/index.js' present, use the default virtual one */
     !existsSync(fromCwd('src', 'index.js')) &&
       new VirtualModulesPlugin({
         /** ! Virtual entry point for the app */

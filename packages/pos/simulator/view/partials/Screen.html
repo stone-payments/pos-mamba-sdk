@@ -69,9 +69,11 @@
       flex: 0 1 auto;
       user-select: text;
       filter: url(#pos-color-map);
+    }
 
-      /** Makes, in chrome, all fixed elements relative to the screen div */
-      @supports (-webkit-appearance: none) {
+    /** Makes, in chrome, all fixed elements relative to the screen div */
+    @supports (-webkit-appearance: none) {
+      .content {
         transform: translateZ(0);
       }
     }

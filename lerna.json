@@ -3,8 +3,11 @@
   "command": {
     "publish": {
       "ignoreChanges": [
-        "example/**/*",
-        "*.md"
+        "*.md",
+        "*.json",
+        "*.txt",
+        "test/**",
+        "package.json"
       ]
     },
     "bootstrap": {

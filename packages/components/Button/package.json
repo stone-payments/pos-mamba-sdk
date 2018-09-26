@@ -15,7 +15,8 @@
     "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w"
   },
   "devDependencies": {
-    "@mamba/icon": "^1.0.0-rc.10"
+    "@mamba/icon": "^1.0.0-rc.10",
+    "@mamba/pos": "^1.0.0-rc.10"
   },
   "dependencies": {
     "@mamba/styles": "^1.0.0-rc.10"
