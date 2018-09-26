@@ -8,6 +8,7 @@ import virtual from 'rollup-plugin-virtual';
 import livereload from 'rollup-plugin-livereload';
 import html from '@gen/rollup-plugin-generate-html';
 import replace from 'rollup-plugin-replace';
+import alias from 'rollup-plugin-alias';
 import { getPkg } from 'quickenv';
 
 import posixify from './helpers/posixify.js';
@@ -30,6 +31,10 @@ const config = {
   output: 'example/bundle.js',
   format: 'umd',
   plugins: [
+    alias({
+      resolve: ['.html'],
+      [`${PKG.name}`]: fromWorkspace(),
+    }),
     /** Virtual entry module to bootstrap the example app */
     virtual({
       __entry__: `
