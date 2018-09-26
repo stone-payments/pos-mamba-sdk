@@ -4,6 +4,6 @@
  * automatically as a virtual module.
  */
 import { initApp } from '@mamba/pos/utils.js';
-import App from './App.html';
+import App from './index.html';
 
 export default initApp(App);
