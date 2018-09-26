@@ -1,7 +1,7 @@
 /**
  * Common webpack configuration
  */
-const { readFileSync } = require('fs');
+const { readFileSync, existsSync } = require('fs');
 const { resolve } = require('path');
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
@@ -144,12 +144,14 @@ module.exports = {
     ],
   },
   plugins: [
-    new VirtualModulesPlugin({
-      /** ! Virtual entry point for the app */
-      './index.js': readFileSync(
-        resolve(__dirname, 'helpers', 'appEntryPoint.js'),
-      ),
-    }),
+    /** If no index.js present, use the default virtual one */
+    !existsSync(fromCwd('src', 'index.js')) &&
+      new VirtualModulesPlugin({
+        /** ! Virtual entry point for the app */
+        './index.js': readFileSync(
+          resolve(__dirname, 'helpers', 'appEntryPoint.js'),
+        ),
+      }),
     /** Prepend the Function.prototype.bind() polyfill webpack's runtime code */
     new MambaFixesPlugin(),
     new ProgressBarPlugin(),
@@ -171,7 +173,7 @@ module.exports = {
       __SIMULATOR__: ADD_MAMBA_SIMULATOR,
       __BROWSER__: IS_BROWSER,
     }),
-  ],
+  ].filter(Boolean),
   /** Minimal useful output log */
   stats: {
     modules: false,
