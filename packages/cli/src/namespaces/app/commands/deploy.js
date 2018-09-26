@@ -1,6 +1,11 @@
-const shell = require('shelljs');
 const { fromCwd } = require('quickenv');
-const { PKG, REMOTE_APPS_DIR } = require('../../../consts.js');
+const {
+  PKG,
+  REMOTE_APPS_DIR,
+  LOCAL_KEY,
+  REMOTE_PORT,
+} = require('../../../consts.js');
+const { runCmd } = require('../../../utils.js');
 
 module.exports = {
   command: 'deploy',
@@ -23,8 +28,8 @@ module.exports = {
     const DIST_DIR = fromCwd(legacy ? 'ui/dist' : 'dist/bundle.pos');
 
     console.log(`Deploying "${appSlug}" to "${REMOTE_APP_DIR}"`);
-    shell.exec(
-      `rsync -zzaP ${
+    runCmd(
+      `rsync -zzaP -e "ssh -i ${LOCAL_KEY} -p ${REMOTE_PORT}" ${
         !force ? '--checksum' : ''
       } --delete ${DIST_DIR}/ ${REMOTE_APP_DIR}`,
     );
@@ -38,7 +43,7 @@ module.exports = {
         .map(path => `--include="${path}"`)
         .join(' ');
 
-      shell.exec(
+      runCmd(
         `rsync -zzaPR ${
           !force ? '--size-only' : ''
         } --delete ${includes} --exclude '**/*' . ${REMOTE_APP_DIR}/`,

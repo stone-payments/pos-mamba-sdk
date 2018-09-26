@@ -41,6 +41,7 @@ module.exports = {
   mode: IS_PROD ? 'production' : 'development',
   cache: true,
   target: 'web',
+  node: false,
   context: fromCwd('src'),
   entry,
   output: {
@@ -58,9 +59,9 @@ module.exports = {
     /** Make webpack also resolve modules from './src' */
     modules: [fromCwd('src'), 'node_modules'],
     alias: {
-      '@mamba': fromCwd('node_modules', '@mamba'),
-      svelte: fromCwd('node_modules', 'svelte'),
       page: fromCwd('node_modules', 'page'),
+      'core-js': fromCwd('node_modules', 'core-js'),
+      '@mamba/pos': fromCwd('node_modules', '@mamba', 'pos'),
     },
   },
   module: {
@@ -71,6 +72,7 @@ module.exports = {
       {
         test: /\.(htmlx?|svelte)$/,
         include: [fromCwd('src')],
+        exclude: [/node_modules/],
         use: [loaders.babelEsNext, loaders.svelte, loaders.eslint],
       },
       {
@@ -87,6 +89,13 @@ module.exports = {
         include: [/node_modules/],
         /** When developing, parse linked packages svelte dependencies */
         use: [loaders.babelEsNext, loaders.svelte],
+      },
+      /** Transpile .mjs dependencies as well */
+      {
+        test: /\.mjs$/,
+        include: [/node_modules/],
+        exclude: [/core-js/],
+        use: [loaders.babelEsNext],
       },
       /**
        * * Run app COMMONJS dependencies through babel with module: 'commonjs'.
@@ -150,6 +159,7 @@ module.exports = {
       __TEST__: NODE_ENV === 'test',
       __DEV__: IS_DEV,
       __POS__: IS_POS,
+      __SIMULATOR__: ADD_MAMBA_SIMULATOR,
       __BROWSER__: IS_BROWSER,
     }),
   ],

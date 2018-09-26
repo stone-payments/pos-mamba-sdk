@@ -1,0 +1,9 @@
+<script>
+  export default {
+    onupdate({ previous }) {
+      if (!previous && this.options.data) {
+        this.root.fire('appbar:modify', { ...this.options.data });
+      }
+    },
+  };
+</script>

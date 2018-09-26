@@ -1,27 +1,21 @@
 # Mamba Web
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/stone-payments/pos-mamba-sdk.svg)](https://greenkeeper.io/)
+
 ## Requirements
 
 Make sure all dependencies have been installed before moving on:
 
 * [Node.js](http://nodejs.org/) >= v8.11.3
-* [Yarn](https://yarnpkg.com/en/docs/install) >= v1.7
-* [Bolt](http://boltpkg.com/)
+* [Lerna](https://github.com/lerna/lerna) >= v3.0.0
 
 ### Commands
 
-* `bolt run start` - Start the project's main website dev server;
-* `bolt run build` - Build the all packages;
-* `bolt run lint` - Lint all style and script files;
-* `bolt run format` - Format all style and script files;
-* `bolt run link:packages` - Create a local link of every package for local developing;
-* `bolt ws build` - Execute the build script in all packages;
+* `npm run lint` - Lint all style and script files;
+* `npm run format` - Format all style and script files;
+* `npm run link:packages` - Create a local link of every package for local developing;
+* `lerna run build` - Execute the build script in all packages;
 
-#### Bolt specific
+## Useful
 
-> [Bolt documentation](https://github.com/boltpkg/bolt/blob/master/README.md#commands)
-
-* `bolt w @mamba/<workspace> <npm-script>` - Run a npm script on a workspace. Examples:
-  * `bolt w @mamba/utils build` - Build the `@mamba/utils`;
-  * `bolt w @mamba/utils start` - Build while watching the `@mamba/utils`;
-* `bolt ws <npm-script>` - Run a npm script on all workspaces.
+* [Lerna documentation](https://github.com/lerna/lerna#readme)

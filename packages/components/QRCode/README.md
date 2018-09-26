@@ -1,6 +1,6 @@
 # QRCode
 
-O componente `QRCode` ajuda na criação de códigos `QR` e ainda permite estiliza-los com logos, cores e tamanhos.
+O componente `QRCode` ajuda na criação de códigos `QR` e ainda permite estiliza-los com logos, cores e tamanhos. Fora essas opções, também há como controlar o [Error Level Rate](https://blog.qrstuff.com/2011/12/14/qr-code-error-correction), que serve para precaver erros caso o `QR` seja danificado.
 
 <!-- @example ./example/Example.html-->
 

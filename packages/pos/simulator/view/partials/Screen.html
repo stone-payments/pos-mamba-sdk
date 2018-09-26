@@ -8,11 +8,7 @@
       <div class="version">{time}</div>
     </div>
   </div>
-  <div
-    id="app-root"
-    class="content {$__meta__.locked ? '-locked' : ''}"
-    ref:content
-  >
+  <div id="app-root" class="content" ref:content>
     <slot></slot>
   </div>
 </div>
@@ -34,31 +30,13 @@
   export default {
     data() {
       return {
+        time: '00:00',
         version: '2.1.0',
         brightnessLevel: 10,
-        time: '00:00',
       };
     },
     computed: {
       brightnessOpacity: ({ brightnessLevel }) => 1 - brightnessLevel / 10,
-    },
-    oncreate() {
-      /** Update the clock after each second */
-      const updateTimer = () => {
-        const curDate = new Date();
-        const minutes = String(curDate.getMinutes()).padStart(2, '0');
-        const hours = String(curDate.getHours()).padStart(2, '0');
-        this.set({ time: `${hours}:${minutes}` });
-        return updateTimer;
-      };
-      setInterval(updateTimer(), 1000);
-
-      if (this.store) {
-        /** Listen for brightness changes */
-        this.store.on('pos:brightness', brightnessLevel => {
-          this.set({ brightnessLevel });
-        });
-      }
     },
   };
 </script>
@@ -91,10 +69,6 @@
       flex: 0 1 auto;
       user-select: text;
       filter: url(#pos-color-map);
-
-      &.-locked {
-        overflow: hidden;
-      }
 
       /** Makes, in chrome, all fixed elements relative to the screen div */
       @supports (-webkit-appearance: none) {

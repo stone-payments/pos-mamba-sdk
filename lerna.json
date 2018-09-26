@@ -1,0 +1,25 @@
+{
+  "version": "1.0.0-rc.10",
+  "command": {
+    "publish": {
+      "ignoreChanges": [
+        "example/**/*",
+        "*.md"
+      ]
+    },
+    "bootstrap": {
+      "npmClientArgs": [
+        "--no-package-lock"
+      ]
+    }
+  },
+  "packages": [
+    "packages/cli",
+    "packages/components/*",
+    "packages/configs",
+    "packages/pos",
+    "packages/store",
+    "packages/styles",
+    "packages/webpack"
+  ]
+}

@@ -1,45 +1,54 @@
 {
   "name": "@mamba/webpack",
-  "version": "1.0.0-prealpha.4",
+  "version": "1.0.0-rc.10",
   "description": "Webpack configs for Mamba Applications",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
     "Christian Kaisermann <christian.kaisermann@stone.com.br>"
   ],
   "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@mamba/configs": "^1.0.0-rc.10",
+    "webpack": "^4.19.1",
+    "webpack-cli": "^3.1.1"
+  },
   "peerDependencies": {
-    "@mamba/configs": "^1.0.0-prealpha.4",
-    "webpack": "^4.17.2",
-    "webpack-cli": "^3.0.8"
+    "@mamba/configs": "^1.0.0-rc.3",
+    "webpack": "^4.19.1",
+    "webpack-cli": "^3.1.1"
   },
   "dependencies": {
     "babel-loader": "^8.0.2",
     "css-loader": "^1.0.0",
-    "cssnano": "^4.1.0",
-    "eslint-loader": "^2.1.0",
+    "cssnano": "^4.1.1",
+    "eslint-loader": "^2.1.1",
     "file-loader": "^2.0.0",
-    "filemanager-webpack-plugin": "^2.0.4",
+    "filemanager-webpack-plugin": "^2.0.5",
     "html-minifier": "^3.5.20",
     "json-loader": "^0.5.7",
-    "mini-css-extract-plugin": "^0.4.2",
+    "mini-css-extract-plugin": "^0.4.3",
     "mini-html-webpack-plugin": "^0.2.3",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "pkg-dir": "^3.0.0",
     "postcss-loader": "^3.0.0",
     "progress-bar-webpack-plugin": "^1.11.0",
     "quickenv": "^0.0.6",
-    "resolve-url-loader": "^2.3.0",
+    "resolve-url-loader": "^3.0.0",
     "style-loader": "^0.23.0",
     "svelte-loader": "^2.11.0",
-    "uglifyjs-webpack-plugin": "^1.3.0",
+    "uglifyjs-webpack-plugin": "^2.0.1",
     "url-loader": "^1.1.1",
-    "webpack": "^4.17.2",
+    "webpack": "^4.18.0",
     "webpack-archive-plugin": "^3.0.0",
-    "webpack-bundle-analyzer": "^2.13.1",
-    "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.7",
+    "webpack-bundle-analyzer": "^3.0.2",
+    "webpack-cli": "^3.1.1",
+    "webpack-dev-server": "^3.1.9",
     "webpack-merge": "^4.1.4",
-    "webpack-sources": "^1.2.0",
+    "webpack-sources": "^1.3.0",
     "xmlbuilder": "^10.0.0"
-  }
+  },
+  "gitHead": "91a8a4a8be4741a15249462cefda6e273f1613a3"
 }

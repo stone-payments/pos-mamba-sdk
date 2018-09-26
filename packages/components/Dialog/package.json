@@ -1,25 +1,24 @@
 {
   "name": "@mamba/dialog",
-  "version": "1.0.0-prealpha.4",
-  "svelte": "src/index.js",
-  "files": [
-    "src/"
-  ],
+  "version": "1.0.0-rc.10",
+  "svelte": "Dialog.html",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
     "Christian Kaisermann <christian.kaisermann@stone.com.br>"
   ],
   "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
-    "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w",
-    "build": "exit 0",
-    "build:dev": "exit 0"
+    "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w"
   },
   "devDependencies": {
-    "@mamba/sprite": "^1.0.0-prealpha.4"
+    "@mamba/sprite": "^1.0.0-rc.10"
   },
   "dependencies": {
-    "@mamba/styles": "^1.0.0-prealpha.4",
-    "@mamba/icon": "^1.0.0-prealpha.4"
-  }
+    "@mamba/icon": "^1.0.0-rc.10",
+    "@mamba/styles": "^1.0.0-rc.10"
+  },
+  "gitHead": "7118f44e933d2f656166a80822c0b3c1001e6a33"
 }

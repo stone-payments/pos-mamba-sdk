@@ -1,6 +1,6 @@
 {
   "name": "@mamba/pos",
-  "version": "1.0.0-prealpha.4",
+  "version": "1.0.0-rc.10",
   "description": "Mamba web environment wrapper and simulator",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -8,13 +8,12 @@
     "Pedro Lancelloti Kaisermann <pedro.lancelloti@stone.com.br>"
   ],
   "license": "Apache-2.0",
-  "scripts": {
-    "start": "exit 0; babel --watch --config-file ../configs/babel/sdk.js -d ./ src/",
-    "build": "exit 0; babel --config-file ../configs/babel/sdk.js -d ./ src/",
-    "prepublishOnly": "exit 0; npm run build"
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
-    "@mamba/app": "^1.0.0-prealpha.4",
-    "@mamba/switch": "^1.0.0-prealpha.4"
-  }
+    "@mamba/app": "^1.0.0-rc.10",
+    "@mamba/switch": "^1.0.0-rc.10"
+  },
+  "gitHead": "7118f44e933d2f656166a80822c0b3c1001e6a33"
 }

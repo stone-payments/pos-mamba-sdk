@@ -72,13 +72,15 @@
 <script>
   export default {
     components: {
-      Icon: '../src',
-      RoundIcon: '../src/RoundIcon.html',
+      Icon: '../Icon.html',
+      RoundIcon: '../Round.html',
     },
     data() {
       return {
         getRandomColor() {
-          return `#${Math.floor(Math.random() * 0x1000000).toString(16).padStart(6, '0')}`;
+          return `#${Math.floor(Math.random() * 0x1000000)
+            .toString(16)
+            .padStart(6, '0')}`;
         },
         icons: [
           'account',

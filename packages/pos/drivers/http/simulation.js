@@ -1,6 +1,7 @@
 import { log } from '../../simulator/libs/utils.js';
 
 export const NAMESPACE = '$Http';
+
 export const SIGNALS = ['requestFinished'];
 
 export function setup(Http) {

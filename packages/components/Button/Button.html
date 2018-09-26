@@ -1,0 +1,111 @@
+<button
+  ref:button
+  class="button is-{size} {bottom ? 'is-fixed' : ''}"
+  {style}
+  {disabled}
+  on:click
+>
+  <slot></slot>
+</button>
+
+<script>
+  export default {
+    data() {
+      return {
+        /** Button size: regular | small | large | full */
+        size: 'regular',
+        /** Disable the button */
+        disabled: false,
+        /** Make the button fixed at the bottom of the screen */
+        bottom: false,
+        /** Text color */
+        textColor: '#fff',
+        /** Background color */
+        bgColor: '4ebf1a',
+        /** Border color */
+        borderColor: null,
+        width: null,
+      };
+    },
+    computed: {
+      style({ textColor, bgColor, width, borderColor }) {
+        return [
+          textColor && `color:${textColor}`,
+          bgColor && `background-color:${bgColor}`,
+          borderColor && `border: 2px solid ${borderColor}`,
+          width && `width:${width}`,
+        ]
+          .filter(Boolean)
+          .join(';');
+      },
+    },
+    oncreate() {
+      if (this.options.data) {
+        const { shortcut } = this.options.data;
+        if (typeof shortcut !== 'undefined') {
+          this.refs.button.setAttribute('shortcut', shortcut);
+        }
+      }
+    },
+    methods: {
+      click() {
+        this.refs.button.click();
+      },
+      focus() {
+        this.refs.button.focus();
+      },
+    },
+  };
+</script>
+
+<style type="text/postcss">
+  @import '@mamba/styles/colors.pcss';
+
+  button {
+    min-height: 38px;
+    /* padding: 10px 16px; */
+    padding: 0 16px;
+    vertical-align: middle;
+    color: #fff;
+    background-color: #4ebf1a;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    appearance: none;
+    border: none;
+  }
+
+  button[disabled] {
+    cursor: not-allowed;
+    /* stylelint-disable-next-line declaration-no-important */
+    background-color: $gray-light !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    color: $gray !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    border: none !important;
+  }
+
+  button.is-fixed {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+  }
+
+  button.is-small {
+    font-size: 14px;
+    /* padding: 5px 18px; */
+    padding: 0 18px;
+    min-height: 26px;
+  }
+
+  button.is-large {
+    font-size: 18px;
+    /* padding: 20px 36px; */
+    padding: 0 36px;
+    min-height: 68px;
+  }
+
+  button.is-full {
+    width: 100%;
+  }
+</style>

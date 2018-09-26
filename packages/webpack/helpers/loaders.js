@@ -55,7 +55,6 @@ module.exports = {
     options: {
       sourceMap: IS_DEV,
       keepQuery: true,
-      fail: true,
       debug: false, // IS_DEV,
     },
   },

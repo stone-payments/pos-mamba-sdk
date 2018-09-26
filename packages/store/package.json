@@ -1,27 +1,25 @@
 {
   "name": "@mamba/store",
-  "version": "1.0.0-prealpha.4",
+  "version": "1.0.0-rc.10",
   "description": "Store for Svelte Mamba Applications",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
     "Christian Kaisermann <christian.kaisermann@stone.com.br>"
   ],
   "license": "Apache-2.0",
-  "main": "dist/store.js",
-  "module": "dist/store.m.js",
-  "build": {
-    "source": "src/index.js"
+  "publishConfig": {
+    "access": "public"
   },
-  "scripts": {
-    "start": "rollup -c ../../tools/rollup/config.lib.js -w",
-    "build": "cross-env NODE_ENV=production rollup -c ../../tools/rollup/config.lib.js",
-    "test": "exit 0; jest -c ../../jest.config.js --no-cache",
-    "prepublishOnly": "npm run build"
+  "main": "src/index.js",
+  "module": "src/index.js",
+  "devDependencies": {
+    "svelte": "^2.13.4"
   },
   "peerDependencies": {
-    "svelte": "^2.13.2"
+    "svelte": "^2.13.4"
   },
   "dependencies": {
     "svelte-extras": "^2.0.2"
-  }
+  },
+  "gitHead": "91a8a4a8be4741a15249462cefda6e273f1613a3"
 }

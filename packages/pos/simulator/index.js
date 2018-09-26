@@ -1,9 +1,26 @@
-import './libs/boot.js';
-import { State, attachDrivers } from './libs/main.js';
+/**
+ * This file initializes every aspect of the simulator (logic and view).
+ * */
 
-export { State, attachDrivers };
-export { log, warn, error } from './libs/utils.js';
+/**
+ * This import order is **extremely** important since the POS.html needs all the
+ * default drivers already initialized.
+ */
+import { Core } from './libs/boot.js';
+import './libs/drivers.js';
+import './libs/events.js';
+import POS from './view/POS.html';
 
-if (__DEV__ && __BROWSER__) {
-  window.MambaSimulator = State;
-}
+/** Mamba Web simulator global object */
+export { Core };
+
+/** Simulator utility methods */
+export { log, warn, error, attachDrivers } from './libs/utils.js';
+
+/** Mamba Web simulator pos/hardware instance */
+export const getVirtualPOS = store => {
+  if (!Core.POS) {
+    Core.POS = new POS({ target: document.body, store });
+  }
+  return Core.POS;
+};

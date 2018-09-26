@@ -1,4 +1,4 @@
-import { State } from '../../simulator/libs/main.js';
+import { Core } from '../../simulator/index.js';
 
 export const NAMESPACE = '$Cancellation';
 
@@ -16,22 +16,22 @@ export function setup(Cancellation) {
    * @return {boolean} True if cacellation failed.
    */
   Cancellation.failedCancellation = () =>
-    State.get('Cancellation.shouldCancellationFail');
+    Core.get('$Cancellation.shouldCancellationFail');
 
   /**
    * Return the cancelled amount
    * @memberof Payment
    * @return {number} the last cancelled amount transaction
    */
-  Cancellation.getAmmount = () =>
+  Cancellation.getAmount = () =>
     Cancellation.failedCancellation()
       ? 0
-      : State.get('Cancellation.cancelledAmount');
+      : Core.get('$Cancellation.cancelledAmount');
 
   Cancellation.doCancellation = () => {
-    State.set(
-      'cancellation.cancelledAmount',
-      State.get('payment.authorizedAmount'),
+    Core.set(
+      '$Cancellation.cancelledAmount',
+      Core.get('$Payment.authorizedAmount'),
     );
     Cancellation.cancellationDone();
   };

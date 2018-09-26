@@ -1,0 +1,62 @@
+<!-- <SignalListener driver="" on:signal="" on:signal2="" -->
+
+<script>
+  export default {
+    data() {
+      return {
+        driver: null,
+        callbacks: {},
+      };
+    },
+    oncreate() {
+      if (!this.options.data) {
+        throw new Error(
+          '[@mamba/pos] SignalListener component must receive a "driver" props',
+        );
+      }
+
+      const { driver } = this.options.data;
+      const callbacks = {};
+
+      const { _handlers: eventHandlers } = this;
+      Object.keys(eventHandlers).forEach(event => {
+        /** Check if it's a svelte lifecycle handler */
+        if (
+          event === 'create' ||
+          event === 'destroy' ||
+          event === 'update' ||
+          event === 'state'
+        ) {
+          return;
+        }
+        const fn = e => this.fire(event, e);
+        callbacks[event] = fn;
+        driver.on(event, fn);
+      });
+
+      if (__DEV__) {
+        console.info(
+          `[@mamba/pos/signalListener] Connecting to: ${Object.keys(
+            callbacks,
+          ).join(', ')}`,
+        );
+      }
+
+      this.set({ callbacks });
+    },
+    ondestroy() {
+      const { driver, callbacks } = this.get();
+      Object.keys(callbacks).forEach(signal => {
+        driver.off(signal, callbacks[signal]);
+      });
+
+      if (__DEV__) {
+        console.info(
+          `[@mamba/pos/signalListener] Disconnecting from: ${Object.keys(
+            callbacks,
+          ).join(', ')}`,
+        );
+      }
+    },
+  };
+</script>
