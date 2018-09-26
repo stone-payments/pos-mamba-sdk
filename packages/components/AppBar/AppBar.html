@@ -19,8 +19,6 @@
 </header>
 
 <script>
-  import Router from 'svelte-page';
-
   export default {
     components: {
       Icon: '@mamba/icon',
@@ -82,10 +80,14 @@
           return this.root.fire('close');
         }
 
-        Router.go('/');
+        if (this.root.router) {
+          this.root.router.go('/');
+        }
       },
       goback() {
-        Router.back();
+        if (this.root.router) {
+          this.root.router.back();
+        }
       },
     },
   };

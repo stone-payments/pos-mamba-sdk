@@ -5,7 +5,6 @@
 </div>
 
 <script>
-  import Router from 'svelte-page';
   import App from '@mamba/pos/api/app.js';
   import Keyboard from '@mamba/pos/api/keyboard.js';
   import Keystroke from '@mamba/app/Keystroke.html';
@@ -53,8 +52,8 @@
         return this.get().navigation;
       },
       goBack() {
-        if (Router.getCurrentPath() !== '/') {
-          Router.back();
+        if (this.root.router && this.root.router.get().path !== '/') {
+          this.root.router.back();
         }
       },
       /** Prevent default back/enter button behaviour */
