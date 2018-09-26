@@ -59,7 +59,7 @@
     "@gen/rollup-plugin-generate-html": "^0.1.1",
     "@tivac/eslint-plugin-svelte": "^1.2.1",
     "babel-core": "^7.0.0-bridge.0",
-    "babel-eslint": "^9.0.0",
+    "babel-eslint": "^10.0.0",
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.2",
     "case": "^1.5.5",

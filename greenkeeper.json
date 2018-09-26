@@ -1,0 +1,29 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "package.json",
+        "packages/cli/package.json",
+        "packages/components/App/package.json",
+        "packages/components/AppBar/package.json",
+        "packages/components/Barcode/package.json",
+        "packages/components/Button/package.json",
+        "packages/components/Collection/package.json",
+        "packages/components/Dialog/package.json",
+        "packages/components/Icon/package.json",
+        "packages/components/Input/package.json",
+        "packages/components/Printable/package.json",
+        "packages/components/Progress/package.json",
+        "packages/components/QRCode/package.json",
+        "packages/components/Range/package.json",
+        "packages/components/Sprite/package.json",
+        "packages/components/Switch/package.json",
+        "packages/configs/package.json",
+        "packages/pos/package.json",
+        "packages/store/package.json",
+        "packages/styles/package.json",
+        "packages/webpack/package.json"
+      ]
+    }
+  }
+}
