@@ -27,7 +27,9 @@ O componente `Input` e `MoneyInput` contém funcionalidades de uma caixa de text
 | mask        | Define uma máscara para o texto                            | `string`        | `null`     |
 
 ## Eventos
+
  `<MoneyInput ...props />`
+ 
 | Nome     | Descrição                                                                                |
 |----------|------------------------------------------------------------------------------------------|
 | submit   | Retorna duas propriedades value(Valor em centavos) e formatted(Valor formatado na moeda) |
