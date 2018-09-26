@@ -102,7 +102,7 @@
         /** Handles back button */
         if (keyName === 'back') {
           /** Guarantees that the 'back' button is enabled and navigation is enabled */
-          if (Keyboard.isBackspaceEnabled() && this.isBackEnabled()) {
+          if (Keyboard.isBackspaceEnabled() && this.get().navigation.back) {
             e.preventDefault();
             this._goBack();
           }
