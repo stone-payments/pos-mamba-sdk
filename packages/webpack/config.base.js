@@ -1,9 +1,12 @@
 /**
  * Common webpack configuration
  */
+const { readFileSync } = require('fs');
+const { resolve } = require('path');
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const VirtualModulesPlugin = require('webpack-virtual-modules');
 const webpack = require('webpack');
 const { fromCwd } = require('quickenv');
 
@@ -32,7 +35,7 @@ const entry = {
     '@mamba/styles/dist/pos.css',
     /** Mamba simulator entry point */
     ADD_MAMBA_SIMULATOR && './simulator.js',
-    /** App entry point */
+    /** Virtual app entry point */
     './index.js',
   ].filter(Boolean),
 };
@@ -141,6 +144,12 @@ module.exports = {
     ],
   },
   plugins: [
+    new VirtualModulesPlugin({
+      /** ! Virtual entry point for the app */
+      './index.js': readFileSync(
+        resolve(__dirname, 'helpers', 'appEntryPoint.js'),
+      ),
+    }),
     /** Prepend the Function.prototype.bind() polyfill webpack's runtime code */
     new MambaFixesPlugin(),
     new ProgressBarPlugin(),
