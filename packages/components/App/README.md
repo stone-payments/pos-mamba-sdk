@@ -41,13 +41,17 @@ Por padrão, quando o usuário clicar no botão `close`/`x` o fluxo se inicia au
 
 Através do disparo de eventos no [componente raiz](https://svelte.technology/guide#component-root), o `App` controla meta informações de estado e fluxos do aplicativo:
 
-* Navegação da `AppBar` e da tecla de `back`:
-  * `this.root.fire('navigation:enable')`;
-  * `this.root.fire('navigation:disable')`;
+#### Navegação da `AppBar` e da tecla de `back`:
 
-* Atalhos de tecla automáticos (`shortcut="nomeDaTecla"`):
-  * `this.root.fire('shortcuts:enable')`;
-  * `this.root.fire('shortcuts:disable')`;
+`this.root.fire('navigation', boolean | { home, back })`;
+
+O evento `navigation` habilita/desabilita a navegação do app. Passa-se um parâmetro *booleano* ou um objeto composto por `back` e/ou `home` com um valor *booleano*.
+
+#### Atalhos de tecla automáticos (`shortcut="nomeDaTecla"`):
+
+`this.root.fire('shortcuts', boolean)`;
+
+O evento `shortcuts` habilita/desabilita os atalhos automáticos de teclado. Passa-se um parâmetro *booleano*.
 
 ## Sub componentes
 

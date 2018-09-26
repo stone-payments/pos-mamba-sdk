@@ -20,8 +20,8 @@
       return {
         /** Dialog open state */
         isOpen: false,
-        /** Should the dialog automatic lock the appw */
-        _autoAppLock: true,
+        /** Should the dialog automatic lock the app? */
+        _previousNavigationObj: null,
         title: undefined,
         bgColor: '#e3e3e3',
         textColor: '#353535',
@@ -37,14 +37,10 @@
       },
     },
     ondestroy() {
-      const { isOpen, _autoAppLock } = this.get();
+      const { isOpen, _previousNavigationObj } = this.get();
       /** If the component is being destroyed and the dialog is still opened, let's unlock the app */
-      if (
-        isOpen &&
-        (this.root.meta && !this.root.meta.isNavigationEnabled()) &&
-        _autoAppLock
-      ) {
-        this.root.fire('navigation:disable');
+      if (isOpen) {
+        this.root.fire('navigation', _previousNavigationObj);
       }
     },
     methods: {
@@ -58,11 +54,11 @@
          */
         document.activeElement.blur();
 
-        if (this.root.meta && this.root.meta.isNavigationEnabled()) {
-          this.set({ _autoAppLock: false });
-        } else {
-          this.root.fire('navigation:disable');
+        if (this.root.meta) {
+          this.set({ _previousNavigationObj: this.root.meta.get().navigation });
         }
+
+        this.root.fire('navigation', false);
 
         if (typeof duration !== 'undefined') {
           return this.close(duration);
@@ -79,9 +75,7 @@
         }
 
         /** Let's unlock the app */
-        if (this.get()._autoAppLock) {
-          this.root.fire('navigation:disable');
-        }
+        this.root.fire('navigation', this.get()._previousNavigationObj);
 
         this.set({ isOpen: false });
         this.fire('close');

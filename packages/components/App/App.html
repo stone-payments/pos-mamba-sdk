@@ -18,24 +18,27 @@
   export default {
     data() {
       return {
-        navigation: true,
+        navigation: { home: true, back: true },
         shortcuts: true,
       };
     },
     oncreate() {
       const { root } = this;
 
-      /**
-       * Create flag:enable, flag:disable root events for boolean flags
-       * */
-      const booleanFlags = ['navigation', 'shortcuts'];
-
-      booleanFlags.forEach(flag => {
-        root.on(`${flag}:enable`, () => this.set({ [flag]: true }));
-        root.on(`${flag}:disable`, () => this.set({ [flag]: false }));
+      root.on('navigation', (navigation = { home: true, back: true }) => {
+        if (typeof navigation === 'boolean') {
+          this.set({ navigation: { home: navigation, back: navigation } });
+        } else {
+          this.set({
+            navigation: Object.assign({}, this.get().navigation, navigation),
+          });
+        }
       });
 
+      root.on('shortcuts', value => this.set({ shortcuts: value }));
+
       root.on('close', () => {
+        /** Allow to override the default app close process */
         if (typeof root.onClose === 'function') {
           return root.onClose();
         }
@@ -43,18 +46,20 @@
       });
     },
     onstate({ previous }) {
+      /** Set a reference on the root component to the <App/> meta component */
       if (!previous) {
         this.root.meta = this;
       }
     },
     methods: {
-      isNavigationEnabled() {
-        return this.get().navigation;
-      },
-      goBack() {
+      _goBack() {
         if (this.root.router && this.root.router.get().path !== '/') {
           this.root.router.back();
         }
+      },
+      isNavigationEnabled() {
+        const { home, back } = this.get().navigation;
+        return home && back;
       },
       /** Prevent default back/enter button behaviour */
       onKeydown(e) {
@@ -72,10 +77,7 @@
         if (Keystroke.hasActiveHandler(keyName)) {
           return;
         }
-        const {
-          shortcuts: shortcutsEnabled,
-          navigation: navigationEnabled,
-        } = this.get();
+        const { shortcuts: shortcutsEnabled } = this.get();
 
         /**
          * Close the app if 'close' button clicked,
@@ -100,9 +102,9 @@
         /** Handles back button */
         if (keyName === 'back') {
           /** Guarantees that the 'back' button is enabled and navigation is enabled */
-          if (Keyboard.isBackspaceEnabled() && navigationEnabled) {
+          if (Keyboard.isBackspaceEnabled() && this.isBackEnabled()) {
             e.preventDefault();
-            this.goBack();
+            this._goBack();
           }
           return;
         }
