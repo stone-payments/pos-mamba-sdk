@@ -19,7 +19,7 @@
     "@mamba/store": "^1.0.0-rc.11"
   },
   "peerDependencies": {
-    "@mamba/styles": "^1.0.0-rc.5",
+    "@mamba/styles": "^1.0.0-rc.11",
     "svelte-page": "^1.2.1"
   },
   "devDependencies": {
