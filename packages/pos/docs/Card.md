@@ -7,11 +7,9 @@ Manipula o evento de cartão no POS.
 ## Interface
 
 ```ts
-interface Conect {
-  once: (param: propierts, callBack: function) => void
-
-  cardInserted: () => boolean
-  cardRemoved: () => boolean
+interface Connect {
+  once: (param: property, callBack: function) => void
+  
 }
 ```
 
@@ -25,17 +23,11 @@ Fica escutando eventos de cartão, podendo ser definido no par^metro `cardInsert
   Card.once('cardInserted', () => {
     console.log('Inserted card');
 
-    const cardInserted = Card.isCardInserted();
-    if (cardInserted)
-      console.log(`isCardInserted: ${cardInserted}`);
   });
 
   Card.once('cardRemoved', () => {
     console.log('Removed card');
 
-    const cardRemoved = Card.isCardRemoved();
-    if (cardRemoved)
-      console.log(`isCardRemoved: ${cardRemoved}`);
   });
 
 ```
