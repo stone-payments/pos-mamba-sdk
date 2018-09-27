@@ -70,6 +70,8 @@ module.exports = {
         );
         pkgJson.mamba.appName = name;
 
+        delete pkgJson.rootDir;
+
         writeFileSync(
           fromCwd(targetDir, 'package.json'),
           JSON.stringify(pkgJson, null, 2),
