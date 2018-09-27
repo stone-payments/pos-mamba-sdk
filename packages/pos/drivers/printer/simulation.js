@@ -23,7 +23,13 @@ export function setup(Printer) {
     setTimeout(() => {
       /** Fire the printing signal for the browser mamba simulation */
       if (!Printer.failedPrinting()) {
-        Core.print(content, options);
+        /**
+         * Take a snapshot of the element / clone the node for the virtual printer.
+         * If we don't clone it, if the <Printable/> is destroyed before the
+         * paper is printed, it will print nothing because the content element was
+         * destroyed.
+         * */
+        Core.print(content.cloneNode(true), options);
       }
       Core.set('$Printer.isPrinting', false);
       Printer.printerDone();
