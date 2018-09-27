@@ -7,14 +7,14 @@ module.exports = {
   command: 'lint',
   desc: 'Lint the app source with eslint and stylelint',
   handler({ type }) {
-    let cmd = '';
+    const cmd = [];
 
     if (!type || type === 'css') {
-      cmd += `stylelint "src/**/*.{html,svelte,css,pcss}";`;
+      cmd.push(`stylelint "src/**/*.{html,svelte,css,pcss}";`);
     }
 
     if (!type || type === 'js') {
-      cmd += `eslint "*.js" "{src,test,webpack}/**/*.{js,html,svelte}";`;
+      cmd.push(`eslint "*.js" "{src,test,webpack}/**/*.{js,html,svelte}";`);
     }
 
     runCmd(cmd);

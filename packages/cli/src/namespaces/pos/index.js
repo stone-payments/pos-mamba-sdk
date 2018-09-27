@@ -28,8 +28,7 @@ module.exports = {
           },
         },
         ({ tty }) => {
-          runCmd('xcb kill-server');
-          runCmd(`start_ssh.sh com:/dev/tty${tty}`);
+          runCmd(['xcb kill-server', `start_ssh.sh com:/dev/tty${tty}`]);
         },
       )
       .command('stop', 'stop the MambaSystem', () => {
@@ -63,7 +62,7 @@ module.exports = {
         }
       })
       .command('build', 'Build MambaSystem', () => {
-        runCmd('cd $MAMBA; ./mambaBuildSystem.sh');
+        runCmd(['cd $MAMBA', './mambaBuildSystem.sh']);
       })
       .command('deploy', 'Deploy MambaOS build to POS.', () => {
         console.info('\nStarting MambaOS Deploy . . .');
