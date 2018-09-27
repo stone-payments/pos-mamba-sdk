@@ -18,7 +18,8 @@
     "postbuild": "ncp src/assets dist/assets",
     "start": "npm run start:pos",
     "start:pos": "postcss ./pos.pcss -o ./dist/pos.css -w --verbose",
-    "start:desktop": "postcss ./desktop.pcss -o ./dist/desktop.css -w --verbose"
+    "start:desktop": "postcss ./desktop.pcss -o ./dist/desktop.css -w --verbose",
+    "prepublish": "npm run build"
   },
   "devDependencies": {
     "ncp": "^2.0.0",
