@@ -4,6 +4,15 @@
       "packages": [
         "package.json",
         "packages/cli/package.json",
+        "packages/configs/package.json",
+        "packages/pos/package.json",
+        "packages/store/package.json",
+        "packages/styles/package.json",
+        "packages/webpack/package.json"
+      ]
+    },
+    "components": {
+      "packages": [
         "packages/components/App/package.json",
         "packages/components/AppBar/package.json",
         "packages/components/Barcode/package.json",
@@ -17,12 +26,7 @@
         "packages/components/QRCode/package.json",
         "packages/components/Range/package.json",
         "packages/components/Sprite/package.json",
-        "packages/components/Switch/package.json",
-        "packages/configs/package.json",
-        "packages/pos/package.json",
-        "packages/store/package.json",
-        "packages/styles/package.json",
-        "packages/webpack/package.json"
+        "packages/components/Switch/package.json"
       ]
     }
   }

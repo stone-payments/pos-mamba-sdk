@@ -1,6 +1,5 @@
 {
   "name": "mamba-sdk",
-  "version": "1.0.0-rc.11",
   "description": "SDK for developing in the Mamba web environment",
   "repository": "https://github.com/stone-payments/pos-mamba-web.git",
   "author": "Stone Payments - Mamba Team",
@@ -23,7 +22,7 @@
     "format": "npm run format:css; npm run format:js",
     "format:js": "prettier --write \"*.js\" \"{tools,packages}/**/*.js\" && eslint --fix \"*.js\" \"{tools,packages}/**/*.{js,html,svelte}\"",
     "format:css": "prettier --write \"packages/**/*.{css,pcss}\" && stylelint --fix \"packages/**/*.{html,svelte,css,pcss}\"",
-    "postinstall": "lerna bootstrap"
+    "postinstall": "lerna bootstrap --hoist --no-ci"
   },
   "husky": {
     "hooks": {
@@ -51,7 +50,7 @@
   },
   "devDependencies": {
     "@gen/rollup-plugin-generate-html": "^0.1.1",
-    "@mamba/configs": "^1.0.0-rc.11",
+    "@mamba/configs": "file:packages/configs",
     "babel-core": "^6.26.3",
     "babel-jest": "^23.6.0",
     "case": "^1.5.5",
@@ -62,7 +61,6 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^23.6.0",
     "lerna": "^3.4.0",
-    "lerna-changelog": "^0.8.0",
     "lerna-wizard": "^1.0.9",
     "lint-staged": "^7.3.0",
     "postcss": "^7.0.3",

@@ -9,13 +9,11 @@
         "test/**",
         "package.json"
       ]
-    },
-    "bootstrap": {
-      "npmClientArgs": [
-        "--no-package-lock"
-      ]
     }
   },
+  "npmClientArgs": [
+    "--no-package-lock"
+  ],
   "packages": [
     "packages/cli",
     "packages/components/*",
