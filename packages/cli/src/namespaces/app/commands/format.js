@@ -7,14 +7,15 @@ module.exports = {
   command: 'format',
   desc: 'Format the app source with eslint and stylelint',
   handler({ type }) {
-    let cmd = '';
+    const cmd = [];
 
     if (!type || type === 'css') {
-      cmd += `stylelint --fix "src/**/*.{html,svelte,css,pcss}";`;
+      cmd.push(`stylelint --fix "src/**/*.{html,svelte,css,pcss}"`);
     }
 
     if (!type || type === 'js') {
-      cmd += `prettier --write *.js "{src,test,webpack}/**/*.js" && eslint --fix *.js "{src,test,webpack}/**/*.{js,html,svelte}";`;
+      cmd.push(`prettier --write *.js "{src,test,webpack}/**/*.js"`);
+      cmd.push(`eslint --fix *.js "{src,test,webpack}/**/*.{js,html,svelte}"`);
     }
 
     runCmd(cmd);

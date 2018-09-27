@@ -12,7 +12,7 @@ exports.runCmd = (cmd, opts = {}) => {
   const { exit, quiet } = opts;
 
   if (Array.isArray(cmd)) {
-    cmd = cmd.join(';');
+    cmd = cmd.join(process.platform === 'win32' ? ' && ' : ';');
   }
 
   try {

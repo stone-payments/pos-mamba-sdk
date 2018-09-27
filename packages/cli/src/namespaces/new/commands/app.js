@@ -76,7 +76,7 @@ module.exports = {
         );
 
         console.log(chalk.cyan('Installing dependencies'));
-        runCmd(`cd ${targetDir}; npm i`);
+        runCmd([`cd ${targetDir}`, `npm i`]);
 
         console.log(chalk.green(`App created at '${targetDir}'`));
       });
