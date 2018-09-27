@@ -43,8 +43,6 @@
     WAITING: 'waiting',
   });
 
-  let statePromise;
-
   export default {
     data() {
       return {
@@ -70,12 +68,11 @@
 
         const getPrintPromise = () =>
           new Promise(resolve => {
-            console.log('ok comecando a imprimir');
             this.set({
               state: STATES.PRINTED,
               content: content.outerHTML,
             });
-            console.log(content);
+
             /** Once it finishes printing animation */
             onceTransitionEnd(this.refs.paper, () => {
               this.set({ state: STATES.PRINTED });
@@ -107,7 +104,6 @@
           this.set({ state: STATES.SHREDDING });
           /** Once it finishes shredding animation */
           onceTransitionEnd(this.refs.paper, () => {
-            console.log('ok terminei de rasgar');
             this.set({ state: STATES.WAITING, content: '' });
             /** Once it finishes the "reset" animation */
             setTimeout(resolve);
@@ -130,10 +126,6 @@
     position: absolute;
     left: 42px;
     bottom: 584px;
-    /**
-                                                                  * Re-scale the printer to simulate the difference of density of pixels
-                                                                  * Magic scale number = (mockup printer width / real printer witdh) (250/384)
-                                                                  */
     transform: scale($paper-scale);
     transform-origin: 0 100%;
 
