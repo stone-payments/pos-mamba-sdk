@@ -14,6 +14,7 @@ O `PromisedDialog` é exibido durante a execução de uma `Promise` e após sua 
 | align       | Alinhamento vertical do conteúdo (`top`, `center`)     | `string`        | `center`   |
 | bgColor     | Define a cor de fundo do modal                         | `string`        | `'#e3e3e3'`|
 | textColor   | Define a cor do texto do modal                         | `boolean`       | `'#4a4a4a'`|
+| isOpen      | Define se o modal vai estar aberto por padrão          | `boolean`       | `'false'`  |
 | title       | Título do modal                                        | `string`        | `undefined`|
 | fullscreen  | Define se o modal ocupará a tela inteira               | `boolean`       | `false`    |
 
@@ -21,8 +22,10 @@ O `PromisedDialog` é exibido durante a execução de uma `Promise` e após sua 
 
 | Parâmetro     | Descrição                                              | Tipo            | Padrão       |
 |---------------|--------------------------------------------------------|-----------------|--------------|
-| negativeLabel | Texto no Botão de Confirmação Negativa                 | `string`        | `null`       |
-| positiveLabel | Texto no Botão de Confirmação Positiva                 | `string`        | `null`       |
+| negativeLabel | Texto no Botão de Confirmação Negativa                 | `string`        | `'Cancelar'` |
+| positiveLabel | Texto no Botão de Confirmação Positiva                 | `string`        | `'Confirmar'`|
+| isOpen        | Define se o modal vai estar aberto por padrão          | `boolean`       | `'false'`    |
+| title         | Título do modal                                        | `string`        | `undefined`  |
 
 `<PromisedDialog ...props />`
 
@@ -30,6 +33,17 @@ O `PromisedDialog` é exibido durante a execução de uma `Promise` e após sua 
 |-------------|---------------------------------------------------------|-----------------|------------|
 | delay       | Tempo de espera depois de executar a `Promise`          | `string`        | `'right'`  |
 | promise     | A `Promise` a ser executada                             | `boolean`       | `false`    |
+| isOpen      | Define se o modal vai estar aberto por padrão           | `boolean`       | `'false'`  |
+| title       | Título do modal                                         | `string`        | `undefined`|
+
+## Eventos
+
+`<ConfirmationDialog ...props />`
+
+| Nome     | Descrição                                                 |
+|----------|-----------------------------------------------------------|
+| nagative | Selecionando sair do dialogo ou botão vermelho do teclado |
+| positive | Selecionando aceitar do dialogo ou botão verde do teclado |
 
 ## Métodos
 
