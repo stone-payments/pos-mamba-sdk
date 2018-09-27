@@ -6,7 +6,7 @@ Manipula o evento de cartão no POS.
 
 ### once(param, callBack)
 
-Fica escutando eventos de cartão, podendo ser definido no parâmetro `cardInserted` para cartão inserido no POS e `cardRemoved` para cartão removido.
+Escuta apenas uma vez um evento de cartão, podendo ser  `cardInserted` para cartão inserido e `cardRemoved` para cartão removido.
 
 ```js
   import Card from '@mamba/pos/api/card.js';
