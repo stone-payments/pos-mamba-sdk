@@ -1,6 +1,6 @@
 {
   "name": "@mamba/switch",
-  "version": "1.0.0-rc.13",
+  "version": "1.0.0-rc.14",
   "svelte": "Switch.html",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -15,8 +15,8 @@
     "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w"
   },
   "devDependencies": {
-    "@mamba/pos": "^1.0.0-rc.13",
-    "@mamba/styles": "^1.0.0-rc.13"
+    "@mamba/pos": "^1.0.0-rc.14",
+    "@mamba/styles": "^1.0.0-rc.14"
   },
   "gitHead": "7118f44e933d2f656166a80822c0b3c1001e6a33"
 }
