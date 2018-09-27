@@ -28,15 +28,15 @@ Recebe as especificações do request por meio de um objeto e retorna uma [Promi
 import Http from '@mamba/pos/api/http.js'
 
 const myRequest = {
-  url: 'ttp://myapi.com/'
+  url: 'ttp://myapi.com/',
   headers:{
-        'ontent-Type' 'application/json;charset=UTF-8',
-        'ache-Control' 'no-cache',
-        'uthorization' 'CDBDE4E6DC4E6AC1845606D0720BAFA557FA046347876CAA3986872AC1123852'
+        'Content-Type':'application/json;charset=UTF-8',
+        'Cache-Control':'no-cache',
+        'Authorization':'CDBDE4E6DC4E6AC1845606D0720BAFA557FA046347876CAA3986872AC1123852'
   },
   method: 'GET',
   data: JSON.stringify({title:'Test', body:'This is a Test.'}),
-  connect: 'EV'
+  connect: 'DEV'
 }
 
 
