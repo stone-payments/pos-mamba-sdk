@@ -66,14 +66,13 @@
         const { state } = this.get();
         this.set({ usingDithering: !!options.use_dithering });
 
-        /** If there's already printed paper, shred it */
-        const shouldShredFirst = state === STATES.PRINTED;
         const getPrintPromise = () =>
           new Promise(resolve => {
             this.set({
               state: STATES.PRINTED,
               content: content.outerHTML,
             });
+
             /** Once it finishes printing animation */
             onceTransitionEnd(this.refs.paper, () => {
               this.set({ state: STATES.PRINTED });
@@ -82,7 +81,8 @@
             });
           });
 
-        if (shouldShredFirst) {
+        /** If there's already printed paper, shred it */
+        if (state === STATES.PRINTED) {
           return this.shred().then(getPrintPromise);
         }
 
@@ -96,7 +96,7 @@
 
         /** If not, do nothing */
         if (doesntHasPaper) {
-          return;
+          return Promise.resolve();
         }
 
         /** If there's already printed paper, shred it */
@@ -126,10 +126,6 @@
     position: absolute;
     left: 42px;
     bottom: 584px;
-    /**
-      * Re-scale the printer to simulate the difference of density of pixels
-      * Magic scale number = (mockup printer width / real printer witdh) (250/384)
-      */
     transform: scale($paper-scale);
     transform-origin: 0 100%;
 

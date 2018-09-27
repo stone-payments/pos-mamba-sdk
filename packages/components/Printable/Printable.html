@@ -48,10 +48,10 @@
     },
     data() {
       return {
+        STATES,
         _state: STATES.IDLE,
         _printingPromise: undefined,
         _paperWidth: PAPER_WIDTH,
-        STATES,
         dithering: false,
       };
     },
@@ -71,6 +71,7 @@
         const printerOptions = {
           use_dithering: dithering,
         };
+
         const _printingPromise = Printer.print(content, printerOptions);
 
         this.set({
