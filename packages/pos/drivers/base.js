@@ -133,8 +133,9 @@ export default () => {
 
       if (!groups[groupName]) {
         console.error(
-          `[@mamba/pos/driver] Destroying non existing group: '${groupName}'`,
+          `[@mamba/pos/driver] Trying to destroy non existing group: '${groupName}'`,
         );
+        return;
       }
       this.group(groupName);
 
