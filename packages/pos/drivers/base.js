@@ -127,10 +127,6 @@ export default () => {
 
     /** Destroy all signal listeners from a specified group */
     destroyGroup(groupName = 'default') {
-      if (__DEV__) {
-        console.log(`Destroying signal group: ${groupName}`);
-      }
-
       if (!groups[groupName]) {
         console.error(
           `[@mamba/pos/driver] Trying to destroy non existing group: '${groupName}'`,
@@ -139,12 +135,16 @@ export default () => {
       }
       this.group(groupName);
 
-      Object.keys(groups[groupName]).forEach(signal => {
-        if (__DEV__) {
-          console.log(`Disconnecting all slots from signal '${signal}'.`);
-        }
-        this.off(signal);
-      });
+      const groupSignals = Object.keys(groups[groupName]);
+      if (__DEV__) {
+        console.log(
+          `Destroying signal group: "${groupName}".\nDisconnecting slots from: "${groupSignals.join(
+            '", "',
+          )}"`,
+        );
+      }
+
+      groupSignals.forEach(signal => this.off(signal));
 
       this.endGroup();
     },
