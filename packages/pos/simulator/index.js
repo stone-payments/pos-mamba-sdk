@@ -18,9 +18,9 @@ export { Core };
 export { log, warn, error, attachDrivers } from './libs/utils.js';
 
 /** Mamba Web simulator pos/hardware instance */
-export const getVirtualPOS = store => {
+export const getVirtualPOS = () => {
   if (!Core.POS) {
-    Core.POS = new POS({ target: document.body, store });
+    Core.POS = new POS({ target: document.body });
   }
   return Core.POS;
 };
