@@ -6,4 +6,4 @@
 import { initApp } from '@mamba/pos/utils.js';
 import App from './index.html';
 
-export default initApp(App);
+initApp(App);

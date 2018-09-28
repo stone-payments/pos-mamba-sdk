@@ -3,19 +3,17 @@
  * This runs on the simulation AND the POS.
  */
 export const initApp = (
-  App,
-  store,
+  AppConstructor,
   target = document.getElementById('app-root'),
 ) => {
-  const appInstance = new App({ target, store });
-
   /**
    * If we're inside the simulator context,
-   * let it know that an app is opening
+   * let it know that an app should be opened
    * */
   if (__SIMULATOR__) {
-    window.MambaWeb.openApp(appInstance);
+    window.MambaWeb.openApp(AppConstructor, target);
+    return;
   }
 
-  return appInstance;
+  new AppConstructor({ target });
 };

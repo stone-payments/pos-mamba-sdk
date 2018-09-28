@@ -1,7 +1,7 @@
 /**
  * This file attaches all default simulated drivers
  * */
-import { attachDrivers } from './utils.js';
+import Core from './core/main.js';
 import * as Printer from '../../drivers/printer/simulation.js';
 import * as App from '../../drivers/app/simulation.js';
 import * as Storage from '../../drivers/storage/simulation.js';
@@ -15,7 +15,7 @@ import * as Http from '../../drivers/http/simulation.js';
 
 import * as Card from '../../drivers/card/simulation.js';
 
-attachDrivers([
+Core.attachDrivers([
   Printer,
   App,
   Storage,
