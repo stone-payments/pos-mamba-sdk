@@ -1,6 +1,6 @@
 const childProcess = require('child_process');
 const { fromCwd } = require('quickenv');
-const { REMOTE_MAINAPP_DIR, CMDS } = require('./consts.js');
+const { REMOTE_MAINAPP_DIR, CMDS, IS_WINDOWS } = require('./consts.js');
 
 exports.runCmd = (cmd, opts = {}) => {
   opts = {
@@ -12,7 +12,7 @@ exports.runCmd = (cmd, opts = {}) => {
   const { exit, quiet } = opts;
 
   if (Array.isArray(cmd)) {
-    cmd = cmd.join(process.platform === 'win32' ? ' && ' : ';');
+    cmd = cmd.join(IS_WINDOWS ? ' && ' : ';');
   }
 
   try {
