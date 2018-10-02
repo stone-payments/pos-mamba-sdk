@@ -10,11 +10,11 @@ module.exports = {
     const cmd = [];
 
     if (!type || type === 'css') {
-      cmd.push(`stylelint "src/**/*.{html,svelte,css,pcss}";`);
+      cmd.push(`stylelint "src/**/*.{html,svelte,css,pcss}"`);
     }
 
     if (!type || type === 'js') {
-      cmd.push(`eslint "*.js" "{src,test,webpack}/**/*.{js,html,svelte}";`);
+      cmd.push(`eslint "*.js" "{src,test,webpack}/**/*.{js,html,svelte}"`);
     }
 
     runCmd(cmd);
