@@ -1,6 +1,6 @@
 {
   "name": "@mamba/webpack",
-  "version": "1.0.0-rc.17",
+  "version": "1.0.0-rc.18",
   "description": "Webpack configs for Mamba Applications",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -11,7 +11,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@mamba/configs": "^1.0.0-rc.17",
+    "@mamba/configs": "^1.0.0-rc.18",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.1"
   },
