@@ -1,6 +1,6 @@
 {
   "name": "@mamba/input",
-  "version": "1.0.0-rc.18",
+  "version": "1.0.0-rc.19",
   "svelte": "Input.html",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -14,14 +14,14 @@
     "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w"
   },
   "devDependencies": {
-    "@mamba/pos": "^1.0.0-rc.18",
-    "@mamba/styles": "^1.0.0-rc.18"
+    "@mamba/pos": "^1.0.0-rc.19",
+    "@mamba/styles": "^1.0.0-rc.19"
   },
   "peerDependencies": {
     "@mamba/pos": "^1.0.0-rc.11"
   },
   "dependencies": {
-    "@mamba/icon": "^1.0.0-rc.18"
+    "@mamba/icon": "^1.0.0-rc.19"
   },
   "gitHead": "7118f44e933d2f656166a80822c0b3c1001e6a33"
 }
