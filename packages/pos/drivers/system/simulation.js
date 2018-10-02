@@ -86,8 +86,14 @@ export function setup(System) {
    * @memberOf System
    * @return {boolean} true or false
    */
-  System.changeAdapter = desiredAdapter =>
-    desiredAdapter !== undefined && desiredAdapter !== null;
+  System.changeAdapterTo = desiredAdapter => {
+    if (desiredAdapter !== 'mbb' && desiredAdapter !== 'wifi') {
+      return false;
+    }
+
+    Core.set('$System.Connections.currentType', desiredAdapter);
+    return true;
+  };
 
   /**
    * Returns on which network is connected
