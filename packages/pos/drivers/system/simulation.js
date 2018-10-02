@@ -82,6 +82,14 @@ export function setup(System) {
   }, 1000);
 
   /**
+   * Change adapter network wifi or 3g
+   * @memberOf System
+   * @return {boolean} true or false
+   */
+  System.changeAdapter = desiredAdapter =>
+    desiredAdapter !== undefined && desiredAdapter !== null;
+
+  /**
    * Returns on which network is connected
    * @memberOf System
    * @return {string} Wifi or 3G

@@ -19,6 +19,7 @@ interface System {
   getSerialNumber: () => string
   getBatteryStatus: () => BatteryStatus
   getBatteryLevel: () => number
+  changeAdapter: (desiredAdapter: string) => boolean
   Tones: Tones
   PowerSupply: PowerSupply
   BatteryStatus: BatteryStatus
@@ -226,4 +227,19 @@ System.getBatteryStatus(); // 'DISCHARGE'
 
 /** When the battery is not connected */
 System.getBatteryStatus(); // 'ABSENT'
-```  
+```
+
+### changeAdapter: (desiredAdapter: string)
+
+Faz a mudança do adapatador de rede do POS, 3G e WIFI. Mundando de adaptador corretamente é retornado `true` e `false` em caso de falha.
+
+```js
+import System from '@mamba/pos/api/system.js'
+
+/** Change to 3g */
+System.changeAdapter('3g');
+
+/** Change to wifi */
+System.changeAdapter('wifi');
+
+```
