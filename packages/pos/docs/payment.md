@@ -12,8 +12,6 @@ a transação.
 interface Payment {
   pay: (params: PaymentOptions) => Promise;
   getAmountAuthorized: () => number;
-  enableCardEvent: () => void;
-  disableCardEvent: () => void;
   isPaying: () => boolean;
   failedPaying: () => boolean;
   getCardHolderName: () => string;
@@ -71,26 +69,6 @@ Retorna o valor autorizado do pagamento ou 0 caso ocorra algum problema.
 import Payment from '@mamba/pos/api/payment.js';
 
 Payment.getAmountAuthorized(); // 500
-```
-
-### enableCardEvent()
-
-**Habilita** a leitura de cartões.
-
-```js
-import Payment from '@mamba/pos/api/payment.js';
-
-Payment.enableCardEvent(); // card event enabled
-```
-
-### disableCardEvent()
-
-**Desabilita** a leitura de cartões.
-
-```js
-import Payment from '@mamba/pos/api/payment.js';
-
-Payment.disableCardEvent(); // card event disabled
 ```
 
 ### isPaying()
