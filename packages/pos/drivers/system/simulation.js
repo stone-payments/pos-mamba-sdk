@@ -82,6 +82,20 @@ export function setup(System) {
   }, 1000);
 
   /**
+   * Change adapter network wifi or 3g
+   * @memberOf System
+   * @return {boolean} true or false
+   */
+  System.changeAdapterTo = desiredAdapter => {
+    if (desiredAdapter !== 'mbb' && desiredAdapter !== 'wifi') {
+      return false;
+    }
+
+    Core.set('$System.Connections.currentType', desiredAdapter);
+    return true;
+  };
+
+  /**
    * Returns on which network is connected
    * @memberOf System
    * @return {string} Wifi or 3G
