@@ -8,8 +8,8 @@ A API Nativa de storage permite salvar informações, representáveis em **strin
 
 ```ts
 interface Storage {
-  set: (key: string, value: any) => boolean
-  get: (key: string) => any
+  setItem: (key: string, value: any) => boolean
+  getItem: (key: string) => any
   clear: () => boolean
 }
 ```
@@ -32,7 +32,7 @@ const myData = [
   },
 ]
 
-Storage.set('users', myData)
+Storage.setItem('users', myData)
 ```
 
 ### get(key)
@@ -53,9 +53,9 @@ const myData = [
   },
 ]
 
-Storage.set('users', myData)
+Storage.setItem('users', myData)
 
-const savedData = Storage.get('users')
+const savedData = Storage.getItem('users')
 
 savedData[0].name // Pedro
 savedData[1].age // 22
@@ -70,9 +70,9 @@ import Storage from '@mamba/pos/api/storage.js'
 
 const myData = 'dados importantes'
 
-Storage.set('data', myData)
-Storage.get('data') // 'dados importantes'
+Storage.setItem('data', myData)
+Storage.getItem('data') // 'dados importantes'
 
 Storage.clear()
-Storage.get('data') // ''
+Storage.getItem('data') // ''
 ```
