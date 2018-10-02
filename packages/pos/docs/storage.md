@@ -2,14 +2,14 @@
 
 ## Descrição
 
-A API Nativa de storage permite salvar informações persistentes da sua Aplicação, que podem ser recuperadas mesmo após o POS ser reiniciado.
+A API Nativa de storage permite salvar informações, representáveis em **string**, persistentes da sua aplicação, que podem ser recuperadas mesmo após o POS ser reiniciado.
 
 ## Interface
 
 ```ts
 interface Storage {
-  set: (key: string, value: string) => boolean
-  get: (key: string) => string
+  set: (key: string, value: any) => boolean
+  get: (key: string) => any
   clear: () => boolean
 }
 ```
@@ -32,7 +32,7 @@ const myData = [
   },
 ]
 
-Storage.set('users', JSON.stringify(myData))
+Storage.set('users', myData)
 ```
 
 ### get(key)
@@ -53,7 +53,7 @@ const myData = [
   },
 ]
 
-Storage.set('users', JSON.stringify(myData))
+Storage.set('users', myData)
 
 const savedData = Storage.get('users')
 
