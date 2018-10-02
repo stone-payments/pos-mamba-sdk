@@ -23,12 +23,12 @@ import Storage from '@mamba/pos/api/storage.js'
 
 const myData = [
   {
-    nome: 'Pedro',
-    idade: 25,
+    name: 'Pedro',
+    age: 25,
   },
   {
-    nome: 'Marina',
-    idade: 22,
+    name: 'Marina',
+    age: 22,
   },
 ]
 
@@ -44,12 +44,12 @@ import Storage from '@mamba/pos/api/storage.js'
 
 const myData = [
   {
-    nome: 'Pedro',
-    idade: 25,
+    name: 'Pedro',
+    age: 25,
   },
   {
-    nome: 'Marina',
-    idade: 22,
+    name: 'Marina',
+    age: 22,
   },
 ]
 
@@ -58,7 +58,7 @@ Storage.set('users', JSON.stringify(myData))
 const savedData = Storage.get('users')
 
 savedData[0].name // Pedro
-savedData[1].idade // 22
+savedData[1].age // 22
 ```
 
 ### clear()
