@@ -1,6 +1,10 @@
 export default function(driver) {
   driver.changeAdapter = desiredAdapter => {
-    if (desiredAdapter.toUpperCase() === '3G') desiredAdapter = 'mbb';
+    desiredAdapter = desiredAdapter.toLowerCase();
+    if (desiredAdapter === '3g') {
+      desiredAdapter = 'mbb';
+    }
+
     return driver.changeAdapterTo(desiredAdapter);
   };
 }
