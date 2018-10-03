@@ -1,6 +1,16 @@
 export const NAMESPACE = '$Storage';
 
 export function setup(Storage) {
+  /* eslint-disable no-return-assign */
+  const STORAGE = window.localStorage || {
+    _data: {},
+    setItem: (id, val) => (STORAGE._data[id] = val.toString()),
+    getItem: id => STORAGE._data[id], // eslint-disable-line
+    removeItem: id => delete STORAGE._data[id],
+    clear: () => (STORAGE._data = {}), // eslint-disable-line
+  };
+  /* eslint-enable no-return-assign */
+
   /**
    * Stores a key pair value using local storage
    * @param {string} key Key name
@@ -8,7 +18,7 @@ export function setup(Storage) {
    * @memberof Storage
    */
   Storage.set = (key, value) => {
-    localStorage.setItem(key, value);
+    STORAGE.setItem(key, value);
     return true;
   };
 
@@ -17,14 +27,14 @@ export function setup(Storage) {
    * @param {string} key Returns the value associated by its key or an empty string if not found.
    * @memberof Storage
    */
-  Storage.get = key => localStorage.getItem(key) || '';
+  Storage.get = key => STORAGE.getItem(key) || '';
 
   /**
    * Clear all the values at the local storage.
    * @memberof Storage
    */
   Storage.clear = () => {
-    localStorage.clear();
+    STORAGE.clear();
     return true;
   };
 }

@@ -1,6 +1,6 @@
 {
   "name": "@mamba/webpack",
-  "version": "1.0.0-rc.15",
+  "version": "1.0.0-rc.19",
   "description": "Webpack configs for Mamba Applications",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -11,19 +11,19 @@
     "access": "public"
   },
   "devDependencies": {
-    "@mamba/configs": "^1.0.0-rc.15",
-    "webpack": "^4.19.1",
+    "@mamba/configs": "^1.0.0-rc.19",
+    "webpack": "^4.20.2",
     "webpack-cli": "^3.1.1"
   },
   "peerDependencies": {
     "@mamba/configs": "^1.0.0-rc.3",
-    "webpack": "^4.19.1",
+    "webpack": "^4.20.2",
     "webpack-cli": "^3.1.1"
   },
   "dependencies": {
-    "babel-loader": "^8.0.2",
+    "babel-loader": "^8.0.4",
     "css-loader": "^1.0.0",
-    "cssnano": "^4.1.1",
+    "cssnano": "^4.1.4",
     "eslint-loader": "^2.1.1",
     "file-loader": "^2.0.0",
     "filemanager-webpack-plugin": "^2.0.5",

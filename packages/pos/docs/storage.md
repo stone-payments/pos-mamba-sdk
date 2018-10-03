@@ -2,14 +2,14 @@
 
 ## Descrição
 
-A API Nativa de storage permite salvar informações persistentes da sua Aplicação, que podem ser recuperadas mesmo após o POS ser reiniciado.
+A API Nativa de storage permite salvar informações, representáveis em **string**, persistentes da sua aplicação, que podem ser recuperadas mesmo após o POS ser reiniciado.
 
 ## Interface
 
 ```ts
 interface Storage {
-  set: (key: string, value: string) => boolean
-  get: (key: string) => string
+  setItem: (key: string, value: any) => boolean
+  getItem: (key: string) => any
   clear: () => boolean
 }
 ```
@@ -23,16 +23,16 @@ import Storage from '@mamba/pos/api/storage.js'
 
 const myData = [
   {
-    nome: 'Pedro',
-    idade: 25,
+    name: 'Pedro',
+    age: 25,
   },
   {
-    nome: 'Marina',
-    idade: 22,
+    name: 'Marina',
+    age: 22,
   },
 ]
 
-Storage.set('users', JSON.stringify(myData))
+Storage.setItem('users', myData)
 ```
 
 ### get(key)
@@ -44,21 +44,21 @@ import Storage from '@mamba/pos/api/storage.js'
 
 const myData = [
   {
-    nome: 'Pedro',
-    idade: 25,
+    name: 'Pedro',
+    age: 25,
   },
   {
-    nome: 'Marina',
-    idade: 22,
+    name: 'Marina',
+    age: 22,
   },
 ]
 
-Storage.set('users', JSON.stringify(myData))
+Storage.setItem('users', myData)
 
-const savedData = Storage.get('users')
+const savedData = Storage.getItem('users')
 
 savedData[0].name // Pedro
-savedData[1].idade // 22
+savedData[1].age // 22
 ```
 
 ### clear()
@@ -70,9 +70,9 @@ import Storage from '@mamba/pos/api/storage.js'
 
 const myData = 'dados importantes'
 
-Storage.set('data', myData)
-Storage.get('data') // 'dados importantes'
+Storage.setItem('data', myData)
+Storage.getItem('data') // 'dados importantes'
 
 Storage.clear()
-Storage.get('data') // ''
+Storage.getItem('data') // ''
 ```

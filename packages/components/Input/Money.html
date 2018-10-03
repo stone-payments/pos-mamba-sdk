@@ -1,5 +1,5 @@
 <Input
-  ref:amount
+  ref:amountInput
   {..._inputProps}
   bind:value
   on:keyup
@@ -50,6 +50,12 @@
         prefix + formatMoney(parseFloat(rawValue) / 100) + suffix,
     },
     methods: {
+      focus() {
+        this.refs.amountInput.focus();
+      },
+      blur() {
+        this.refs.amountInput.blur();
+      },
       _onSubmit() {
         const { rawValue, value } = this.get();
         if (rawValue !== '0') {
@@ -59,7 +65,7 @@
         }
       },
       _onKeyup(e) {
-        if (this.refs.amount.refs.input.readOnly === true) {
+        if (this.refs.amountInput.refs.input.readOnly === true) {
           return;
         }
 

@@ -12,7 +12,7 @@ export function setup(Http) {
   Http.getData = () => _data;
 
   Http.doSend = function send({ method = 'GET', url = '', data, headers }) {
-    const xhttp = new window.XMLHttpRequest();
+    const xhttp = new XMLHttpRequest();
 
     if (__DEV__) {
       xhttp.onprogress = function onprogress() {
@@ -44,6 +44,6 @@ export function setup(Http) {
       });
     }
 
-    xhttp.send(data);
+    setTimeout(() => xhttp.send(data));
   };
 }

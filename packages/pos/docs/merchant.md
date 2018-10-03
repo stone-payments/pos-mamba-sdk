@@ -17,7 +17,7 @@ interface Merchant {
 Retorna o `Stone Code` do lojista.
 
 ```js
-import Merchant '@mamba/pos/api/merchant.js';
+import Merchant from '@mamba/pos/api/merchant.js';
 
 Merchant.getStoneCode(); // '123123123'
 ```
