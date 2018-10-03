@@ -6,14 +6,16 @@
  * This import order is **extremely** important since the POS.html needs all the
  * default drivers already initialized.
  */
-import Core from './libs/core/main.js';
-import './libs/drivers.js';
-import './libs/core/events.js';
+import Core from './plugins/core.js';
+import { attachDrivers } from './plugins/driverManager/index.js';
+import './plugins/appManager.js';
 import POS from './view/POS.html';
+
+Core.setBoot(true);
 
 /** Mamba Web simulator global object */
 export { Core };
-export const { attachDrivers } = Core;
+export { attachDrivers };
 
 /** Simulator utility methods */
 export { log, warn, error } from './libs/utils.js';

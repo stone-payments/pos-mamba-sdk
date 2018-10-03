@@ -8,7 +8,9 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const VirtualModulesPlugin = require('webpack-virtual-modules');
 const webpack = require('webpack');
-const { fromCwd } = require('quickenv');
+const { getPkg, fromCwd } = require('quickenv');
+
+const PKG = getPkg();
 
 const {
   BUNDLE_NAME,
@@ -28,6 +30,24 @@ const htmlTemplate = require('./helpers/htmlTemplate.js');
 const loaders = require('./helpers/loaders.js');
 const MambaFixesPlugin = require('./plugins/MambaFixesPlugin.js');
 
+/** Load the dynamic app entrypoint content (index.js) */
+let appEntrypoint = readFileSync(
+  resolve(__dirname, 'helpers', 'appEntryPoint.js'),
+).toString();
+
+/** If builiding for the browser, let's add the manifest info to the simulator */
+if (IS_BROWSER) {
+  appEntrypoint = appEntrypoint.replace(
+    '__manifest__',
+    JSON.stringify({
+      name: PKG.name,
+      description: PKG.description,
+      version: PKG.version,
+      ...PKG.mamba,
+    }),
+  );
+}
+
 /** App entry point */
 const entry = {
   app: [
@@ -35,7 +55,7 @@ const entry = {
     '@mamba/styles/dist/pos.css',
     /** Mamba simulator entry point */
     ADD_MAMBA_SIMULATOR && './simulator.js',
-    /** Virtual app entry point */
+    /** Virtual app entry point. Defined above. */
     './index.js',
   ].filter(Boolean),
 };
@@ -148,9 +168,7 @@ module.exports = {
     !existsSync(fromCwd('src', 'index.js')) &&
       new VirtualModulesPlugin({
         /** ! Virtual entry point for the app */
-        './index.js': readFileSync(
-          resolve(__dirname, 'helpers', 'appEntryPoint.js'),
-        ),
+        './index.js': appEntrypoint,
       }),
     /** Prepend the Function.prototype.bind() polyfill webpack's runtime code */
     new MambaFixesPlugin(),

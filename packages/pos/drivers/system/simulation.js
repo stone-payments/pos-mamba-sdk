@@ -1,5 +1,5 @@
 import { error, log } from '../../simulator/libs/utils.js';
-import Core from '../../simulator/libs/core/main.js';
+import Core from '../../simulator/plugins/core.js';
 import systemEnums from './enums.js';
 
 export const NAMESPACE = '$System';

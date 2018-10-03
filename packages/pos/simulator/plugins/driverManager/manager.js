@@ -1,65 +1,34 @@
-/**
- * This file is the boilerplate for the simulator core driver;
- * */
-import { LOG_PREFIX, log } from '../utils.js';
-import Signal from '../signal.js';
+import Core from '../core.js';
+import Signal from '../../libs/signal.js';
+import { LOG_PREFIX } from '../../libs/utils.js';
 import extendDriver from '../../../drivers/extend.js';
 
-const Core = extendDriver({});
+let externalDrivers = [];
+let looseDrivers = null;
 
-Signal.register(Core, [
-  'settingsChanged',
-  'print',
-  'toggleCard',
-  'openApp',
-  'closeApp',
+const DriverManager = extendDriver({});
+
+Signal.register(DriverManager, [
+  'externalDriversAttached', // (driverModules)
 ]);
 
-const DATA = {};
-
-Core.get = keyPath => {
-  if (keyPath === undefined) {
-    return DATA;
-  }
-
-  const keys = keyPath.replace(/\[(\d+)\]/g, '.$1').split('.');
-  let value = DATA[keys[0]];
-  for (let i = 1; i < keys.length; i++) {
-    value = value[keys[i]];
-  }
-  return value;
+DriverManager.getExternalDrivers = () => externalDrivers;
+DriverManager.getLooseDrivers = () => looseDrivers;
+DriverManager.clearLooseDrivers = () => {
+  looseDrivers = null;
 };
 
-Core.set = (keyPath, value, fireSignal = true) => {
-  if (keyPath === undefined) {
-    return;
-  }
-
-  const keys = keyPath.replace(/\[(\d+)\]/g, '.$1').split('.');
-  const lastKey = keys.pop();
-
-  if (__DEV__ && __BROWSER__) {
-    log(`"${keyPath}" = ${JSON.stringify(value)}`);
-  }
-
-  // If not a nested keyPath
-  if (keys[0] === undefined) {
-    DATA[lastKey] = value;
-    return;
-  }
-
-  let object = DATA[keys[0]];
-  for (let i = 1; i < keys.length; i++) {
-    object = object[keys[i]];
-  }
-  object[lastKey] = value;
-
-  if (fireSignal) {
-    Core.settingsChanged(DATA);
-  }
+/**
+ * Resets a driver state. We use JSON.parse/stringify to deep clone the state object
+ */
+DriverManager.resetDriverState = driverModule => {
+  Core.set(
+    driverModule.NAMESPACE,
+    JSON.parse(JSON.stringify(driverModule.SETTINGS)),
+  );
 };
 
-Core.attachDrivers = driverModules => {
+DriverManager.attachDrivers = driverModules => {
   if (__DEV__ && __BROWSER__)
     console.groupCollapsed(`${LOG_PREFIX} Attaching drivers`);
 
@@ -74,7 +43,7 @@ Core.attachDrivers = driverModules => {
       if (__DEV__ && __BROWSER__) {
         console.log('Default settings:', driverModule.SETTINGS);
       }
-      Core.set(driverRef, driverModule.SETTINGS);
+      DriverManager.resetDriverState(driverModule);
     }
 
     /** Register the driver signals */
@@ -128,9 +97,14 @@ Core.attachDrivers = driverModules => {
     if (__DEV__ && __BROWSER__) console.groupEnd();
   });
 
+  if (Core._booted) {
+    externalDrivers = [...externalDrivers, ...driverModules];
+    looseDrivers = driverModules;
+  }
+
   if (__DEV__ && __BROWSER__) console.groupEnd();
 };
 
-window.MambaWeb = window.MambaWeb || Core;
+Core.DriverManager = DriverManager;
 
-export default Core;
+export default DriverManager;

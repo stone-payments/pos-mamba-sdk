@@ -1,4 +1,4 @@
-import Core from '../../simulator/libs/core/main.js';
+import Core from '../../simulator/plugins/core.js';
 
 export const NAMESPACE = '$Cancellation';
 
