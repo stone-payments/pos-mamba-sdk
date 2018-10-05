@@ -28,7 +28,7 @@ Recebe as especificações do request por meio de um objeto e retorna uma [Promi
 import Http from '@mamba/pos/api/http.js'
 
 const myRequest = {
-  url: 'ttp://myapi.com/',
+  url: 'http://myapi.com/',
   headers:{
         'Content-Type':'application/json;charset=UTF-8',
         'Cache-Control':'no-cache',
