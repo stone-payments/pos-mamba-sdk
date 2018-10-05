@@ -31,6 +31,7 @@ module.exports = {
     __TEST__: true,
     __DEV__: true,
     __SIMULATOR__: true,
+    __MANIFEST__: true,
   },
   rules: {
     // ! Code

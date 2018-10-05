@@ -30,24 +30,6 @@ const htmlTemplate = require('./helpers/htmlTemplate.js');
 const loaders = require('./helpers/loaders.js');
 const MambaFixesPlugin = require('./plugins/MambaFixesPlugin.js');
 
-/** Load the dynamic app entrypoint content (index.js) */
-let appEntrypoint = readFileSync(
-  resolve(__dirname, 'helpers', 'appEntryPoint.js'),
-).toString();
-
-/** If builiding for the browser, let's add the manifest info to the simulator */
-if (IS_BROWSER) {
-  appEntrypoint = appEntrypoint.replace(
-    '__manifest__',
-    JSON.stringify({
-      name: PKG.name,
-      description: PKG.description,
-      version: PKG.version,
-      ...PKG.mamba,
-    }),
-  );
-}
-
 /** App entry point */
 const entry = {
   app: [
@@ -168,7 +150,9 @@ module.exports = {
     !existsSync(fromCwd('src', 'index.js')) &&
       new VirtualModulesPlugin({
         /** ! Virtual entry point for the app */
-        './index.js': appEntrypoint,
+        './index.js': readFileSync(
+          resolve(__dirname, 'helpers', 'appEntryPoint.js'),
+        ),
       }),
     /** Prepend the Function.prototype.bind() polyfill webpack's runtime code */
     new MambaFixesPlugin(),
@@ -190,6 +174,12 @@ module.exports = {
       __POS__: IS_POS,
       __SIMULATOR__: ADD_MAMBA_SIMULATOR,
       __BROWSER__: IS_BROWSER,
+      __MANIFEST__: JSON.stringify({
+        name: PKG.name,
+        description: PKG.description,
+        version: PKG.version,
+        ...PKG.mamba,
+      }),
     }),
   ].filter(Boolean),
   /** Minimal useful output log */
