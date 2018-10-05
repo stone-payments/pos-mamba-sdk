@@ -1,10 +1,10 @@
 export default function(driver) {
   driver.send = function send(configParams) {
     return new Promise((resolve, reject) => {
+      driver.once('requestFailed', () => {
+        return reject(driver.getError());
+      });
       driver.once('requestFinished', () => {
-        if (driver.getError()) {
-          return reject(driver.getError());
-        }
         resolve(driver.getData());
       });
 
