@@ -2,7 +2,7 @@ import { log } from '../../simulator/libs/utils.js';
 
 export const NAMESPACE = '$Http';
 
-export const SIGNALS = ['requestFinished'];
+export const SIGNALS = ['requestFinished', 'requestFailed'];
 
 export function setup(Http) {
   let _errorData = null;
@@ -25,7 +25,7 @@ export function setup(Http) {
         status: this.status,
         msg: this.responseText,
       });
-      Http.requestFinished();
+      Http.requestFailed();
     };
 
     xhttp.onreadystatechange = function onreadystatechange() {
