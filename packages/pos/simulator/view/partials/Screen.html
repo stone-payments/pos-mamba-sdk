@@ -64,8 +64,7 @@
 
     .content {
       height: 100%;
-      overflow-x: hidden;
-      overflow-y: auto;
+      overflow: hidden;
       flex: 0 1 auto;
       user-select: text;
       filter: url(#pos-color-map);
@@ -78,8 +77,11 @@
       }
     }
 
-    .content::-webkit-scrollbar {
+    /* Hide all scrollbars */
+    ::-webkit-scrollbar {
       display: none;
+      width: 0px;
+      background: transparent;
     }
 
     .brightness {
