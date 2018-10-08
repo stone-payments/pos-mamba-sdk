@@ -90,10 +90,14 @@
   .dialog {
     position: fixed;
     z-index: $layer-dialog;
-    top: $appbar-height;
+    top: 0;
     left: 0;
     width: 100%;
     bottom: 0;
+
+    :global(.app.has-appbar) & {
+      top: $appbar-height;
+    }
 
     &.is-fullscreen {
       top: 0;
