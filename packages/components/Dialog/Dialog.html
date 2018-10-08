@@ -115,8 +115,19 @@
     width: 100%;
     bottom: 0;
 
-    :global(.app.has-appbar) & {
-      padding-top: $appbar-height;
+    :global(.app.has-appbar) &:not(.is-fullscreen) {
+      top: $appbar-height;
+
+      &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: -$appbar-height;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: inherit;
+      }
     }
 
     &.is-fullscreen {
