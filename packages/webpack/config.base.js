@@ -32,7 +32,7 @@ const MambaFixesPlugin = require('./plugins/MambaFixesPlugin.js');
 const entry = {
   app: [
     /** Mamba style resetter/normalizer */
-    '@mamba/styles/dist/pos.css',
+    `@mamba/styles/dist/${IS_BROWSER ? 'desktop' : 'pos'}.css`,
     /** Mamba simulator entry point */
     ADD_MAMBA_SIMULATOR && './simulator.js',
     /** Virtual app entry point */
