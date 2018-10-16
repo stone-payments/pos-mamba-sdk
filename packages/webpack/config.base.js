@@ -8,19 +8,15 @@ const VirtualModulesPlugin = require('webpack-virtual-modules');
 const webpack = require('webpack');
 const { getPkg, fromCwd } = require('quickenv');
 
-const PKG = getPkg();
-
 const getVirtualFiles = require('./helpers/getVirtualFiles.js');
 const getEntrypoints = require('./helpers/getEntrypoints.js');
 const getHTMLTemplate = require('./helpers/getHTMLTemplate.js');
 const loaders = require('./helpers/loaders.js');
 const MambaFixesPlugin = require('./plugins/MambaFixesPlugin.js');
-
 const {
   isOfModuleType,
   transpileIgnoreBaseCondition,
 } = require('./helpers/depTranspiling.js');
-
 const {
   BUNDLE_NAME,
   IS_POS,
@@ -31,6 +27,8 @@ const {
   APP_ENV,
   ADD_MAMBA_SIMULATOR,
 } = require('./helpers/consts.js');
+
+const PKG = getPkg();
 
 module.exports = {
   mode: IS_PROD ? 'production' : 'development',
