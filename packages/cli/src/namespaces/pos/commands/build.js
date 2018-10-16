@@ -1,9 +1,14 @@
-const readline = require('readline');
+const {
+  runCmd,
+} = require('../../../utils.js');
 
-const versionInput = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+const config = require('../buildConfig.json');
+
+const params = config.platforms.pax;
+const qtPath = `$MAMBA/${params.qt_dir}`;
+const sysRoot = `$MAMBA/${params.sysroot}`;
+const qtMkConf = `$MAMBA/${params.mkspecs}`;
+const destDir = '$MAMBA/deploy';
 
 module.exports = {
   command: 'build',
@@ -24,18 +29,41 @@ module.exports = {
     debug,
     release,
   }) {
-    versionInput.question('Please, type your system version [x.x.x]:', (answer) => {
-      // check typed string
-      if (answer.matches(/\d\.\d\.\d/)) {
-        if (release) {
-          console.log('Bulding for release');
-        } else {
-          console.log('Building for production', debug);
-        }
-        console.log('Mamba OS Build Done!');
-      } else {
-        console.log('Build Failed: INVALID VERSION');
-      }
+    console.log('Building Mamba System');
+
+    // set compiler PATH
+    process.env.PATH += `:${process.env.MAMBA}/${params.toolchain}`;
+    // setup environment  variables
+    runCmd(['cd $MAMBA', `${qtPath}/bin/qmake -set QT_SYSROOT ${sysRoot}`]);
+    // build project
+    if (release) {
+      runCmd(['cd $MAMBA', `${qtPath}/bin/qmake MAMBA.pro -r -spec ${qtMkConf}`]);
+    } else {
+      runCmd(['cd $MAMBA', `${qtPath}/bin/qmake MAMBA.pro -r -spec ${qtMkConf} CONFIG+=debug`]);
+    }
+    runCmd(['cd $MAMBA', 'make clean', 'make -j$(nproc)']);
+
+    // Generate DB Files
+    console.log('Building Mamba Database');
+    runCmd(['cd $MAMBA/sys/db', './generateDb.sh']);
+
+    // Move files to destDir
+    runCmd(['cd $MAMBA', 'make install']);
+
+    // Copy Qt Files
+    runCmd(['cd $MAMBA',
+      `cp ${qtPath}/lib/*.so* ${destDir}/lib`,
+      `cp ${qtPath}/plugins ${destDir}`,
+      `cp ${qtPath}/imports ${destDir}`,
+    ], {
+      exit: false,
     });
+
+    // Copy 3dParty Libs
+    runCmd(['cd $MAMBA',
+      `cp $MAMBA/3rdParty/lib/PAX_S920/*.so* ${destDir}/lib`,
+    ]);
+
+    console.log('Mamba Build Done!');
   },
 };

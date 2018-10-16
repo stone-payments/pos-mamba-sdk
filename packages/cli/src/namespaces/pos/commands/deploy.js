@@ -34,9 +34,11 @@ module.exports = {
     qt,
   }) {
     // init connection
-    runCmd(['xcb kill-server', 'xcb start-server', 'xcb connect-server']);
+    runCmd(['cd $MAMBA', './mambaBuildSystem.sh --option 4']);
+    process.stdout.write('4\n');
+    runCmd(['xcb kill-server', 'xcb start-server', 'xcb connect com:/dev/ttyPos0']);
     if (system || all) {
-      console.info('System Deployment Started\n');
+      console.info('System Deployment Started');
       runCmd(['xcb installer aup $MAMBA/PAX_S920_pkg/StoneMambaSystem_lib.aup',
         'xcb installer aip $MAMBA/PAX_S920_pkg/StoneMambaSystem.aip',
       ]);

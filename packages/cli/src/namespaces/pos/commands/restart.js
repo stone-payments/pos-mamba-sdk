@@ -9,7 +9,7 @@ const {
 const getStartCMD = background => (background ? CMDS.startBg : CMDS.start);
 
 module.exports = {
-  command: '',
+  command: 'restart',
   description: 'restart the MambaSystem',
   builder: {
     background: {
@@ -18,7 +18,7 @@ module.exports = {
       alias: ['bg'],
     },
   },
-  handle({
+  handler({
     background,
   }) {
     console.info('Restarting MambaSystem');

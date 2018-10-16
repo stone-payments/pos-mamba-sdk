@@ -11,7 +11,7 @@ module.exports = {
       default: 'Pos0',
     },
   },
-  handle({
+  handler({
     tty,
   }) {
     runCmd(['xcb kill-server', `start_ssh.sh com:/dev/tty${tty}`]);
