@@ -9,7 +9,11 @@
     </div>
   </div>
   <div id="app-root" class="content" ref:content>
-    <slot></slot>
+    <!-- {#if showRestart}
+      <button on:click="restart()">RESTART</button>
+    {:else} -->
+      <slot></slot>
+    <!-- {/if} -->
   </div>
 </div>
 
@@ -27,16 +31,30 @@
 </svg>
 
 <script>
+  // import Core from '../../plugins/core.js';
+
   export default {
     data() {
       return {
         time: '00:00',
-        version: '2.1.0',
+        version: '2.4.0',
         brightnessLevel: 10,
+        showRestart: false,
       };
     },
     computed: {
       brightnessOpacity: ({ brightnessLevel }) => 1 - brightnessLevel / 10,
+    },
+    oncreate() {
+      // Core.on('app:closed', () => {
+      //   this.set({ showRestart: true });
+      // });
+    },
+    methods: {
+      restart() {
+        // this.set({ showRestart: false });
+        // Core.fire('app:open', Core.App.constructor, this.refs.content);
+      },
     },
   };
 </script>

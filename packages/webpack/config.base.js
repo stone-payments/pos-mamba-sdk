@@ -6,7 +6,9 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const VirtualModulesPlugin = require('webpack-virtual-modules');
 const webpack = require('webpack');
-const { fromCwd } = require('quickenv');
+const { getPkg, fromCwd } = require('quickenv');
+
+const PKG = getPkg();
 
 const getVirtualFiles = require('./helpers/getVirtualFiles.js');
 const getEntrypoints = require('./helpers/getEntrypoints.js');
@@ -156,6 +158,12 @@ module.exports = {
       __POS__: IS_POS,
       __SIMULATOR__: ADD_MAMBA_SIMULATOR,
       __BROWSER__: IS_BROWSER,
+      __MANIFEST__: JSON.stringify({
+        name: PKG.name,
+        description: PKG.description,
+        version: PKG.version,
+        ...PKG.mamba,
+      }),
     }),
   ].filter(Boolean),
   /** Minimal useful output log */

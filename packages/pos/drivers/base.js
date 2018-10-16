@@ -29,6 +29,10 @@ export default () => {
       return this;
     },
 
+    fire(signal, ...args) {
+      this[signal](...args);
+    },
+
     /** Connect a callback to a slot */
     on(signal, callback) {
       if (typeof callback === 'function') {
