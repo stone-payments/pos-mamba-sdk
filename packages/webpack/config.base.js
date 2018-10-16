@@ -8,7 +8,9 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const VirtualModulesPlugin = require('webpack-virtual-modules');
 const webpack = require('webpack');
-const { fromCwd } = require('quickenv');
+const { getPkg, fromCwd } = require('quickenv');
+
+const PKG = getPkg();
 
 const {
   BUNDLE_NAME,
@@ -35,7 +37,7 @@ const entry = {
     '@mamba/styles/dist/pos.css',
     /** Mamba simulator entry point */
     ADD_MAMBA_SIMULATOR && './simulator.js',
-    /** Virtual app entry point */
+    /** Virtual app entry point. Defined above. */
     './index.js',
   ].filter(Boolean),
 };
@@ -172,6 +174,12 @@ module.exports = {
       __POS__: IS_POS,
       __SIMULATOR__: ADD_MAMBA_SIMULATOR,
       __BROWSER__: IS_BROWSER,
+      __MANIFEST__: JSON.stringify({
+        name: PKG.name,
+        description: PKG.description,
+        version: PKG.version,
+        ...PKG.mamba,
+      }),
     }),
   ].filter(Boolean),
   /** Minimal useful output log */
