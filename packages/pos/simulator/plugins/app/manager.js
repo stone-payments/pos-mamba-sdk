@@ -1,11 +1,11 @@
-import Core from './core.js';
-import DriverManager from './driverManager/index.js';
-import Signal from '../libs/signal.js';
-import App from '../../api/app.js';
-import extendDriver from '../../drivers/extend.js';
-import { log, warn } from '../libs/utils.js';
+import DriverManager from '../driver/manager.js';
+import Signal from '../../libs/signal.js';
+import App from '../../../api/app.js';
+import extendDriver from '../../../drivers/extend.js';
+import { log, warn } from '../../libs/utils.js';
 
 const AppManager = extendDriver({});
+
 const Apps = new Map();
 let currentApp = null;
 
@@ -75,4 +75,4 @@ AppManager.restart = () => {
   AppManager.close();
 };
 
-Core.AppManager = AppManager;
+export default AppManager;

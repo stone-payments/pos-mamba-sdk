@@ -1,8 +1,6 @@
 /**
  * Common webpack configuration
  */
-const { readFileSync, existsSync } = require('fs');
-const { resolve } = require('path');
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -10,8 +8,15 @@ const VirtualModulesPlugin = require('webpack-virtual-modules');
 const webpack = require('webpack');
 const { getPkg, fromCwd } = require('quickenv');
 
-const PKG = getPkg();
-
+const getVirtualFiles = require('./helpers/getVirtualFiles.js');
+const getEntrypoints = require('./helpers/getEntrypoints.js');
+const getHTMLTemplate = require('./helpers/getHTMLTemplate.js');
+const loaders = require('./helpers/loaders.js');
+const MambaFixesPlugin = require('./plugins/MambaFixesPlugin.js');
+const {
+  isOfModuleType,
+  transpileIgnoreBaseCondition,
+} = require('./helpers/depTranspiling.js');
 const {
   BUNDLE_NAME,
   IS_POS,
@@ -22,25 +27,8 @@ const {
   APP_ENV,
   ADD_MAMBA_SIMULATOR,
 } = require('./helpers/consts.js');
-const {
-  isOfModuleType,
-  transpileIgnoreBaseCondition,
-} = require('./helpers/depTranspiling.js');
-const htmlTemplate = require('./helpers/htmlTemplate.js');
-const loaders = require('./helpers/loaders.js');
-const MambaFixesPlugin = require('./plugins/MambaFixesPlugin.js');
 
-/** App entry point */
-const entry = {
-  app: [
-    /** Mamba style resetter/normalizer */
-    '@mamba/styles/dist/pos.css',
-    /** Mamba simulator entry point */
-    ADD_MAMBA_SIMULATOR && './simulator.js',
-    /** Virtual app entry point. Defined above. */
-    './index.js',
-  ].filter(Boolean),
-};
+const PKG = getPkg();
 
 module.exports = {
   mode: IS_PROD ? 'production' : 'development',
@@ -48,7 +36,7 @@ module.exports = {
   target: 'web',
   node: false,
   context: fromCwd('src'),
-  entry,
+  entry: getEntrypoints(),
   output: {
     path: fromCwd('dist', BUNDLE_NAME),
     publicPath: './',
@@ -147,13 +135,7 @@ module.exports = {
   },
   plugins: [
     /** If no real 'src/index.js' present, use the default virtual one */
-    !existsSync(fromCwd('src', 'index.js')) &&
-      new VirtualModulesPlugin({
-        /** ! Virtual entry point for the app */
-        './index.js': readFileSync(
-          resolve(__dirname, 'helpers', 'appEntryPoint.js'),
-        ),
-      }),
+    new VirtualModulesPlugin(getVirtualFiles()),
     /** Prepend the Function.prototype.bind() polyfill webpack's runtime code */
     new MambaFixesPlugin(),
     new ProgressBarPlugin(),
@@ -163,7 +145,7 @@ module.exports = {
     }),
     new MiniHtmlWebpackPlugin({
       context: { title: 'Mamba Application' },
-      template: htmlTemplate,
+      template: getHTMLTemplate,
     }),
     new webpack.DefinePlugin({
       __NODE_ENV__: JSON.stringify(NODE_ENV),

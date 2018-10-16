@@ -1,6 +1,10 @@
 <svelte:window on:keyup="onKeyup(event)" on:keydown="onKeydown(event)"/>
 
-<div class="app">
+<div
+  class="app"
+  class:has-appbar="hasAppbar"
+  class:is-scrollable="scrollable"
+>
   <slot></slot>
 </div>
 
@@ -20,6 +24,8 @@
       return {
         navigation: { home: true, back: true },
         shortcuts: true,
+        scrollable: true,
+        hasAppbar: false,
       };
     },
     oncreate() {
@@ -162,9 +168,13 @@
   @import '@mamba/styles/theme.pcss';
 
   .app {
-    min-height: 100%;
+    height: 100%;
     background-color: $app-bg-color;
     overflow-x: hidden;
-    overflow: auto;
+    overflow-y: hidden;
+
+    &.is-scrollable {
+      overflow-y: auto;
+    }
   }
 </style>

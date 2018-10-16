@@ -4,7 +4,7 @@
   </div>
 </div>
 
-{#if _state === STATES.PRINTING}
+{#if _state === STATES.PRINTING && showPrintingDialog}
   <PromisedDialog
     promise={_printingPromise}
     delay={0}
@@ -53,6 +53,7 @@
         _printingPromise: undefined,
         _paperWidth: PAPER_WIDTH,
         dithering: false,
+        showPrintingDialog: true,
       };
     },
     onupdate({ changed, current }) {
@@ -78,6 +79,8 @@
           _state: STATES.PRINTING,
           _printingPromise,
         });
+
+        return _printingPromise;
       },
     },
   };

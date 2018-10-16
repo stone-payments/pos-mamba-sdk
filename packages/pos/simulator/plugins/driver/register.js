@@ -1,6 +1,7 @@
 /**
  * This file attaches all default simulated drivers
  * */
+import Core from '../../core.js';
 import DriverManager from './manager.js';
 import * as Printer from '../../../drivers/printer/simulation.js';
 import * as App from '../../../drivers/app/simulation.js';
@@ -26,5 +27,4 @@ DriverManager.attachDrivers([
   Card,
 ]);
 
-export default DriverManager;
-export const { attachDrivers } = DriverManager;
+Core.DriverManager = DriverManager;

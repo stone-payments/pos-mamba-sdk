@@ -1,5 +1,9 @@
 {#if isOpen}
-  <div class="dialog" class:is-fullscreen="fullscreen" {style}>
+  <div
+    class="dialog"
+    class:is-fullscreen="fullscreen"
+    {style}
+  >
     <div class="content -align-{align}">
       <div class="message">
         {#if title}
@@ -37,10 +41,9 @@
       },
     },
     ondestroy() {
-      const { isOpen, _previousNavigationObj } = this.get();
       /** If the component is being destroyed and the dialog is still opened, let's unlock the app */
-      if (isOpen) {
-        this.root.fire('navigation', _previousNavigationObj);
+      if (this.get().isOpen) {
+        this._close();
       }
     },
     methods: {
@@ -55,7 +58,14 @@
         document.activeElement.blur();
 
         if (this.root.meta) {
-          this.set({ _previousNavigationObj: this.root.meta.get().navigation });
+          const { scrollable, navigation } = this.root.meta.get();
+
+          /** Disable app scroll when opening a dialog */
+          if (scrollable) {
+            this.root.meta.set({ scrollable: false });
+          }
+
+          this.set({ _previousNavigationObj: navigation });
         }
 
         this.root.fire('navigation', false);
@@ -74,11 +84,21 @@
           );
         }
 
-        /** Let's unlock the app */
-        this.root.fire('navigation', this.get()._previousNavigationObj);
-
         this.set({ isOpen: false });
+        this._close();
         this.fire('close');
+      },
+      /** Private close method. Used on .close() and ondestroy() */
+      _close() {
+        const { _previousNavigationObj } = this.get();
+
+        /** Let's unlock the app */
+        this.root.fire('navigation', _previousNavigationObj);
+
+        /** Allow app to scroll again */
+        if (this.root.meta) {
+          this.root.meta.set({ scrollable: true });
+        }
       },
     },
   };
@@ -90,10 +110,25 @@
   .dialog {
     position: fixed;
     z-index: $layer-dialog;
-    top: $appbar-height;
+    top: 0;
     left: 0;
     width: 100%;
     bottom: 0;
+
+    :global(.app.has-appbar) &:not(.is-fullscreen) {
+      top: $appbar-height;
+
+      &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: -$appbar-height;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: inherit;
+      }
+    }
 
     &.is-fullscreen {
       top: 0;
