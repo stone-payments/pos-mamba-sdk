@@ -21,7 +21,7 @@
 </div>
 
 <script>
-  import { Core } from '../../index.js';
+  import Core from '../../../core.js';
 
   let lastKeypressTime = 0;
 
@@ -33,7 +33,7 @@
       return {
         panels: [],
         keystrokeActive: true,
-        ...Core.get(),
+        ...Core.Registry.get(),
       };
     },
     oncreate() {
@@ -48,7 +48,7 @@
       //   });
       // });
 
-      Core.on('settingsChanged', data => {
+      Core.Registry.on('settingsChanged', data => {
         this.set({ ...data });
       });
     },
@@ -62,7 +62,7 @@
               if (key.indexOf(`${current.namespace}.`) === -1) {
                 key = `${current.namespace}.${key}`;
               }
-              Core.set(key, value, false);
+              Core.Registry.set(key, value, false);
             }
           });
         }

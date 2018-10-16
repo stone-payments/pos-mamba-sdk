@@ -1,4 +1,4 @@
-import Core from '../core.js';
+import Registry from '../registry/manager.js';
 import Signal from '../../libs/signal.js';
 import { LOG_PREFIX } from '../../libs/utils.js';
 import extendDriver from '../../../drivers/extend.js';
@@ -22,7 +22,7 @@ DriverManager.clearLooseDrivers = () => {
  * Resets a driver state. We use JSON.parse/stringify to deep clone the state object
  */
 DriverManager.resetDriverState = driverModule => {
-  Core.set(
+  Registry.set(
     driverModule.NAMESPACE,
     JSON.parse(JSON.stringify(driverModule.SETTINGS)),
   );
@@ -97,14 +97,12 @@ DriverManager.attachDrivers = driverModules => {
     if (__DEV__ && __BROWSER__) console.groupEnd();
   });
 
-  if (Core._booted) {
+  if (Registry._booted) {
     externalDrivers = [...externalDrivers, ...driverModules];
     looseDrivers = driverModules;
   }
 
   if (__DEV__ && __BROWSER__) console.groupEnd();
 };
-
-Core.DriverManager = DriverManager;
 
 export default DriverManager;

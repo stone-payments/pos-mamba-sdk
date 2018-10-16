@@ -26,7 +26,7 @@
 </div>
 
 <script>
-  import { Core } from '../../index.js';
+  import Core from '../../../core.js';
 
   const onceTransitionEnd = (el, cb) => {
     const onTransitionEnd = e => {
@@ -36,8 +36,11 @@
     el.addEventListener('transitionend', onTransitionEnd);
   };
 
+  let shreddingPromise = null;
+
   const STATES = Object.freeze({
     IDLE: 'idle',
+    PRINTING: 'printing',
     PRINTED: 'printed',
     SHREDDING: 'shredding',
     WAITING: 'waiting',
@@ -57,8 +60,8 @@
       },
     },
     oncreate() {
-      Core.on('print', (content, options) => {
-        this.print(content, options);
+      Core.HardwareManager.on('startPrinting', (content, options) => {
+        this.print(content, options).then(Core.HardwareManager.endPrinting);
       });
     },
     methods: {
@@ -74,15 +77,11 @@
             });
 
             /** Once it finishes printing animation */
-            onceTransitionEnd(this.refs.paper, () => {
-              this.set({ state: STATES.PRINTED });
-              /** Once it finishes the printed state animation */
-              onceTransitionEnd(this.refs.paper, resolve);
-            });
+            onceTransitionEnd(this.refs.paper, resolve);
           });
 
         /** If there's already printed paper, shred it */
-        if (state === STATES.PRINTED) {
+        if (state === STATES.PRINTED || state === STATES.SHREDDING) {
           return this.shred().then(getPrintPromise);
         }
 
@@ -94,21 +93,31 @@
         /** Does the printer has any printed paper? */
         const doesntHasPaper = state !== STATES.PRINTED;
 
-        /** If not, do nothing */
+        /** If already shredding, return the current shredding promise */
+        if (state === STATES.SHREDDING) {
+          return shreddingPromise;
+        }
+
         if (doesntHasPaper) {
           return Promise.resolve();
         }
 
         /** If there's already printed paper, shred it */
-        return new Promise(resolve => {
+        shreddingPromise = new Promise(resolve => {
           this.set({ state: STATES.SHREDDING });
           /** Once it finishes shredding animation */
           onceTransitionEnd(this.refs.paper, () => {
-            this.set({ state: STATES.WAITING, content: '' });
+            this.set({
+              state: STATES.WAITING,
+              content: '',
+            });
+
             /** Once it finishes the "reset" animation */
             setTimeout(resolve);
           });
         });
+
+        return shreddingPromise;
       },
     },
   };

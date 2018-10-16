@@ -1,4 +1,4 @@
-import Core from '../../simulator/plugins/core.js';
+import Core from '../../simulator/core.js';
 
 export const NAMESPACE = '$App';
 

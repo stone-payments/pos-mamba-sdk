@@ -1,4 +1,4 @@
-import Core from '../../simulator/plugins/core.js';
+import Core from '../../simulator/core.js';
 
 export const NAMESPACE = '$Merchant';
 
@@ -12,5 +12,6 @@ export function setup(Merchant) {
    * @memberof Merchant
    * @return {string} The stone code
    */
-  Merchant.getStoneCode = () => Core.get('$Merchant.acquirerIssuedMerchantId');
+  Merchant.getStoneCode = () =>
+    Core.Registry.get('$Merchant.acquirerIssuedMerchantId');
 }

@@ -1,4 +1,4 @@
-import Core from '../../simulator/plugins/core.js';
+import Core from '../../simulator/core.js';
 
 export const NAMESPACE = '$Payment';
 
@@ -22,12 +22,12 @@ export const SIGNALS = ['cardEvent', 'paymentDone'];
 
 export function setup(Payment) {
   Payment.doPay = params => {
-    Core.set('$Payment._isPaying', true);
+    Core.Registry.set('$Payment._isPaying', true);
 
     Payment.paymentDone();
 
-    Core.set('$Payment._isPaying', false);
-    Core.set('$Payment.authorizedAmount', params.amount);
+    Core.Registry.set('$Payment._isPaying', false);
+    Core.Registry.set('$Payment.authorizedAmount', params.amount);
   };
 
   Payment.doEnableCardEvent = function noop() {};
@@ -38,13 +38,13 @@ export function setup(Payment) {
    * @memberof Payment
    * @return {boolean} True if is paying
    */
-  Payment.isPaying = () => Core.get('$Payment._isPaying');
+  Payment.isPaying = () => Core.Registry.get('$Payment._isPaying');
 
   /**
    * Returns true it the last payment job has failed
    * @return {boolean} True if the last payment job has failed
    */
-  Payment.failedPaying = () => Core.get('$Payment.shouldFail');
+  Payment.failedPaying = () => Core.Registry.get('$Payment.shouldFail');
 
   /**
    * Get card holder name in case of payment success.
@@ -53,7 +53,7 @@ export function setup(Payment) {
    * @return {string} cardHolderName
    */
   Payment.getCardHolderName = () =>
-    !Payment.failedPaying() ? '' : Core.get('$Payment.cardHolderName');
+    !Payment.failedPaying() ? '' : Core.Registry.get('$Payment.cardHolderName');
 
   /**
    * Return the transaction ATK in case of payment success
@@ -62,7 +62,7 @@ export function setup(Payment) {
    * @return {string} atk
    */
   Payment.getAtk = () =>
-    !Payment.failedPaying() ? '' : Core.get('$Payment.atk');
+    !Payment.failedPaying() ? '' : Core.Registry.get('$Payment.atk');
 
   /**
    * Return the transaction ITK in case of payment success
@@ -71,7 +71,7 @@ export function setup(Payment) {
    * @return {string} itk
    */
   Payment.getItk = () =>
-    !Payment.failedPaying() ? '' : Core.get('$Payment.itk');
+    !Payment.failedPaying() ? '' : Core.Registry.get('$Payment.itk');
 
   /**
    * Return the Authorized Amount in case of success
@@ -80,7 +80,7 @@ export function setup(Payment) {
    * @return {number} amount
    */
   Payment.getAmountAuthorized = () =>
-    Payment.failedPaying() ? 0 : Core.get('$Payment.authorizedAmount');
+    Payment.failedPaying() ? 0 : Core.Registry.get('$Payment.authorizedAmount');
 
   /**
    * Return the Authorization Date and Time in case of success
@@ -98,7 +98,7 @@ export function setup(Payment) {
    * @return {string} brand
    */
   Payment.getBrand = () =>
-    !Payment.failedPaying() ? '' : Core.get('$Payment.cardBrand');
+    !Payment.failedPaying() ? '' : Core.Registry.get('$Payment.cardBrand');
 
   /**
    * Return the order id in case of success
@@ -107,7 +107,7 @@ export function setup(Payment) {
    * @return {string} orderId
    */
   Payment.getOrderId = () =>
-    !Payment.failedPaying() ? '' : Core.get('$Payment.orderId');
+    !Payment.failedPaying() ? '' : Core.Registry.get('$Payment.orderId');
 
   /**
    * Return the authorization code in case of success
@@ -116,7 +116,7 @@ export function setup(Payment) {
    * @return {string} authorizationCode
    */
   Payment.getAuthorizationCode = () =>
-    !Payment.failedPaying() ? '' : Core.get('$Payment.authCode');
+    !Payment.failedPaying() ? '' : Core.Registry.get('$Payment.authCode');
 
   /**
    * Return the number of installments selected, in case of success
@@ -125,7 +125,9 @@ export function setup(Payment) {
    * @return {int} installmentCount
    */
   Payment.getInstallmentCount = () =>
-    !Payment.failedPaying() ? 0 : Core.get('$Payment.installmentCount');
+    !Payment.failedPaying()
+      ? 0
+      : Core.Registry.get('$Payment.installmentCount');
 
   /**
    * Return the pan in case of success
@@ -134,7 +136,7 @@ export function setup(Payment) {
    * @return {string} pan
    */
   Payment.getPan = () =>
-    !Payment.failedPaying() ? '' : Core.get('$Payment.pan');
+    !Payment.failedPaying() ? '' : Core.Registry.get('$Payment.pan');
 
   /**
    * Return the type transaction in case of success
@@ -143,5 +145,5 @@ export function setup(Payment) {
    * @return {string} type
    */
   Payment.getType = () =>
-    !Payment.failedPaying() ? '' : Core.get('$Payment.type');
+    !Payment.failedPaying() ? '' : Core.Registry.get('$Payment.type');
 }
