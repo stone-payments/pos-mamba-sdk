@@ -9,8 +9,7 @@
     promise={_printingPromise}
     delay={0}
     bgColor="#fff"
-    on:success="set({ _state: STATES.SUCCESS })"
-    on:failure="set({ _state: STATES.FAILURE })"
+    fullscreen
   >
     <div class="printing-sprite"></div>
     <div style="margin-top: 16px;">Imprimindo</div>
@@ -23,6 +22,7 @@
     title="IMPRESSORA SEM PAPEL"
     on:positive="print()"
     on:negative="fire('finish', false)"
+    fullscreen
   >
     Tentar imprimir novamente?
   </ConfirmationDialog>
@@ -73,14 +73,19 @@
           use_dithering: dithering,
         };
 
-        const _printingPromise = Printer.print(content, printerOptions);
+        const _printingPromise = Printer.print(content, printerOptions)
+          .then(() => this.set({ _state: STATES.SUCCESS }))
+          .catch(() => this.set({ _state: STATES.FAILURE }));
 
-        this.set({
-          _state: STATES.PRINTING,
-          _printingPromise,
+        this.set({ _state: STATES.PRINTING, _printingPromise });
+
+        /** We return a promise that resolves ONLY when the 'finish' event is fired */
+        return new Promise(res => {
+          const listener = this.on('finish', hasSucceeded => {
+            listener.cancel();
+            res(hasSucceeded);
+          });
         });
-
-        return _printingPromise;
       },
     },
   };
