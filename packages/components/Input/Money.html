@@ -74,7 +74,11 @@
         const keyName = Keyboard.getKeyName(e.keyCode);
 
         if (Keyboard.isNumericKey(e.keyCode)) {
-          rawValue += keyName;
+          if (rawValue === '0') {
+            rawValue = keyName;
+          } else {
+            rawValue += keyName;
+          }
 
           /** If the value is above the limit, do nothing */
           if (parseFloat(rawValue) / 100 > this.get().limit) {
