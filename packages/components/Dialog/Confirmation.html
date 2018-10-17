@@ -69,14 +69,10 @@
     },
     methods: {
       open() {
-        if (this.refs.dialog) {
-          this.refs.dialog.open();
-        }
+        return this.refs.dialog.open();
       },
       close() {
-        if (this.refs.dialog) {
-          this.refs.dialog.close();
-        }
+        return this.refs.dialog.close();
       },
     },
   };

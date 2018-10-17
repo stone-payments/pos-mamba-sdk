@@ -73,6 +73,8 @@
         if (typeof duration !== 'undefined') {
           return this.close(duration);
         }
+
+        return Promise.resolve();
       },
       close(delay) {
         if (typeof delay !== 'undefined') {
@@ -87,6 +89,8 @@
         this.set({ isOpen: false });
         this._close();
         this.fire('close');
+
+        return Promise.resolve();
       },
       /** Private close method. Used on .close() and ondestroy() */
       _close() {
