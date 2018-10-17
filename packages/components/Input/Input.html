@@ -180,6 +180,9 @@
           }
 
           const { isValid, value } = this.get();
+
+          e.value = value;
+
           if (!isValid) {
             System.beep();
             this.fire('submitInvalid', e);
@@ -188,7 +191,6 @@
           }
 
           e.isValid = isValid;
-          e.value = value;
           this.fire('submit', e);
         }
       },
