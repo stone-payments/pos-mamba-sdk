@@ -59,11 +59,6 @@ module.exports = {
       exit: false,
     });
 
-    // Copy 3dParty Libs
-    runCmd(['cd $MAMBA',
-      `cp $MAMBA/3rdParty/lib/PAX_S920/*.so* ${destDir}/lib`,
-    ]);
-
     console.log('Mamba Build Done!');
   },
 };
