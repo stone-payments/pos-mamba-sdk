@@ -70,6 +70,11 @@
         this.refs.main.setAttribute('shortcut', shortcut);
       }
     },
+    onupdate({ changed, current }) {
+      if (changed.showExtra) {
+        this.fire(current.showExtra ? 'showExtra' : 'hideExtra');
+      }
+    },
     methods: {
       _handleClick({ event, href }) {
         /** If clicked on a "link" row, push the page to the router */
