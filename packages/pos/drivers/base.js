@@ -102,9 +102,9 @@ export default () => {
     race(entries) {
       const wrappedCallbacks = {};
       entries.forEach(([signal, callback]) => {
-        if (__DEV__) {
-          console.log(`Connecting once '${signal}'`);
-        }
+        // if (__DEV__) {
+        //   console.log(`Connecting once '${signal}'`);
+        // }
 
         /** If the signal's slot is already filled with a callback, disconnect it */
         if (isSlotFilled(signal, callback)) {
@@ -115,9 +115,9 @@ export default () => {
         wrappedCallbacks[signal] = () => {
           callback();
           Object.keys(wrappedCallbacks).forEach(signalName => {
-            if (__DEV__) {
-              console.log(`Removing '${signalName}'`);
-            }
+            // if (__DEV__) {
+            //   console.log(`Removing '${signalName}'`);
+            // }
             this.off(signalName, wrappedCallbacks[signalName]);
           });
         };
