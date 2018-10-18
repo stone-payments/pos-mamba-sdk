@@ -66,11 +66,12 @@
       }
     },
     methods: {
-      print() {
+      print(o) {
         const content = this.refs.printableContent;
         const { dithering } = this.get();
         const printerOptions = {
           use_dithering: dithering,
+          ...o,
         };
 
         const _printingPromise = Printer.print(content, printerOptions);

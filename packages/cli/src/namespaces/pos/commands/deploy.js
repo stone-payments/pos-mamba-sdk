@@ -45,7 +45,11 @@ module.exports = {
     }
     if (loader || all) {
       console.info('Loader Deployment Started\n');
+<<<<<<< HEAD
       runCmd(['xcb installer aip $MAMBA/PAX_S920_pkg/StoneMambaLoader.aip']);
+=======
+      runCmd(['cb installer aip $MAMBA/PAX_S920_pkg/StoneMambaLoader.aip']);
+>>>>>>> 944c72f561a2bf213845ec2be859248979d34bb5
     }
     if (qt || all) {
       runCmd(['xcb installer aup $MAMBA/PAX_S920_pkg/StoneMambaSystem_Qt.aup']);
