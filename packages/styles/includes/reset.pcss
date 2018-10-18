@@ -87,7 +87,6 @@ video {
   vertical-align: baseline;
 }
 
-/* HTML5 display-role reset for older browsers */
 article,
 aside,
 details,
@@ -104,6 +103,14 @@ section {
 
 body {
   line-height: 1;
+}
+
+small {
+  font-size: 12px;
+}
+
+a {
+  text-decoration: none;
 }
 
 ol,
@@ -129,7 +136,52 @@ table {
   border-spacing: 0;
 }
 
-/** Specific for the Mamba webkit */
+b,
+strong {
+  font-weight: bolder;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15;
+}
+
+button,
+input {
+  overflow: visible;
+}
+
+button,
+select {
+  text-transform: none;
+}
+
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+  appearance: button;
+}
+
+textarea {
+  overflow: auto;
+}
+
+[type='checkbox'],
+[type='radio'] {
+  padding: 0;
+}
+
+[hidden] {
+  display: none;
+}
+
+/** Mamba webkit specific */
 input,
 textarea,
 keygen,
