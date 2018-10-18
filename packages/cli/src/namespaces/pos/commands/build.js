@@ -10,7 +10,7 @@ const destDir = '$MAMBA/deploy';
 
 module.exports = {
   command: 'build',
-  desc: 'Build MambaOS using the flags release (-r) or debug (-d)',
+  desc: 'Build MambaOS. Defaults to debug mode',
   builder: {
     release: {
       description: 'Build for release propose, logs are disabled.',
