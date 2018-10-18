@@ -9,8 +9,16 @@ module.exports = {
   handler({ target, development, simulator }) {
     let cmd = '';
     cmd = 'cross-env ';
-    cmd += `NODE_ENV=${development ? 'development' : 'production'} `;
+    cmd += `NODE_ENV=${
+      typeof development !== 'undefined' ? 'development' : 'production'
+    } `;
     cmd += `APP_ENV=${target} `;
+
+    /** If development flag has a numeric value */
+    if (Number.isInteger(development) && development > 0) {
+      cmd += `DEBUG_LVL=${development} `;
+    }
+
     if (simulator || target === 'browser') {
       cmd += 'MAMBA_SIMULATOR=true ';
     }
@@ -23,6 +31,10 @@ module.exports = {
         (development ? 'development' : 'production').toUpperCase(),
       )}`,
     );
+
+    if (Number.isInteger(development) && development > 0) {
+      console.log(`  Debug Level: ${chalk.yellow(development)}`);
+    }
 
     if (simulator || target === 'browser') {
       console.log(chalk.yellow('  Adding the Mamba simulator to the bundle'));
