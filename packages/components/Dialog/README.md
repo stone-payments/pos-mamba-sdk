@@ -38,19 +38,44 @@ O `PromisedDialog` é exibido durante a execução de uma `Promise` e após sua 
 
 ## Eventos
 
+`<Dialog ...props />`
+
+| Nome     | Descrição                                                            | Tipo              |
+|----------|----------------------------------------------------------------------|-------------------|
+| open     | Especifique uma função que será chamada quando o dialogo for exibido | `function`        |
+| close    | Especifique uma função que será chamada quando o dialogo fechar      | `function`        |
+
+
+`<PromisedDialog ...props />`
+
+| Nome     | Descrição                                                                                                            | Tipo              |
+|----------|----------------------------------------------------------------------------------------------------------------------|-------------------|
+| success  | Especifique uma função que será chamada quando a Promise do dialogo for de sucesso(`.then`)                          | `function()`      |
+| failure  | Especifique uma função que será chamada quando a Promise do dialogo for de falha(`.catch`). Recebe o erro da promise | `function(error)` |
+
+
 `<ConfirmationDialog ...props />`
 
-| Nome     | Descrição                                                 |
-|----------|-----------------------------------------------------------|
-| nagative | Selecionando sair do dialogo ou botão vermelho do teclado |
-| positive | Selecionando aceitar do dialogo ou botão verde do teclado |
+| Nome     | Descrição                                                                                                        | Tipo         |
+|----------|------------------------------------------------------------------------------------------------------------------|------------- |
+| nagative | Especifique uma função que será chamada quando o dialogo receber a ação negativa ou do botão vermelho do teclado | `function()` |
+| positive | Especifique uma função que será chamada quando o dialogo receber a ação negativa ou do botão verde do teclado    | `function()` |
 
 ## Métodos
 
-### open(duration)
+### Dialog.open(duration)
 
 Abre o `Dialog` e o mantém aberto pelo tempo (`duration` em milissegundos) especificado.
 
-### close(delay)
+### Dialog.close(delay)
 
 Fecha o `Dialog` após o tempo (`delay` em milissegundos) especificado.
+
+
+### ConfirmationDialog.open()
+
+Abre o `ConfirmationDialog`.
+
+### ConfirmationDialog.close()
+
+Fecha o `ConfirmationDialog`.

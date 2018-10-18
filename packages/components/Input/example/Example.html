@@ -2,7 +2,7 @@
 
   <h4>Padrão </h4>
   <div class="row">
-    <Input />
+    <Input on:submit="console.log(event.isValid)" />
   </div>
 
   <h4>Alfanúmerico</h4>
@@ -12,7 +12,7 @@
 
   <h4>Autofocado</h4>
   <div class="row">
-    <Input autofocus/>
+    <Input autofocus />
   </div>
 
   <h4>Senha</h4>
@@ -40,8 +40,8 @@
     <Input
       type="password"
       validation={validate}
-      on:submitValid="console.log('VALIDO')"
-      on:submitInvalid="console.log('INVALIDO')"
+      on:submitValid="console.log('VALIDO', event.isValid)"
+      on:submitInvalid="console.log('INVALIDO', event.isValid)"
     />
   </div>
 
@@ -70,7 +70,7 @@
 
   <h4>Input de dinheiro</h4>
   <div class="row">
-    <MoneyInput label="DINHEIRO" />
+    <MoneyInput label="DINHEIRO" on:submit="console.log(event.value)" />
   </div>
 </div>
 
@@ -105,6 +105,12 @@
     },
     data() {
       return {
+        validateTrue(value) {
+          return {
+            isValid: true,
+            msg: 'Valid',
+          };
+        },
         validate(value) {
           let isValid;
           let msg;
