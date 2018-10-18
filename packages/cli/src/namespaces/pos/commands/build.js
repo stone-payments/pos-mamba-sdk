@@ -35,12 +35,9 @@ module.exports = {
     process.env.PATH += `:${process.env.MAMBA}/${params.toolchain}`;
     // setup environment  variables
     runCmd(['cd $MAMBA', `${qtPath}/bin/qmake -set QT_SYSROOT ${sysRoot}`]);
+
     // build project
-    if (release) {
-      runCmd(['cd $MAMBA', `${qtPath}/bin/qmake MAMBA.pro -r -spec ${qtMkConf}`]);
-    } else {
-      runCmd(['cd $MAMBA', `${qtPath}/bin/qmake MAMBA.pro -r -spec ${qtMkConf} CONFIG+=debug`]);
-    }
+    runCmd(['cd $MAMBA', `${qtPath}/bin/qmake MAMBA.pro -r -spec ${qtMkConf} ${release ? '': 'CONFIG+=debug'}`]);
     runCmd(['cd $MAMBA', 'make clean', 'make -j$(nproc)']);
 
     // Generate DB Files
