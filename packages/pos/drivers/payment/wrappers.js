@@ -32,18 +32,22 @@ export default function(driver) {
     });
 
   driver.enableCardEvent = () => {
-    console.warn(
-      '[@mamba/pos/api/payment] The "enableCardEvent()" method is deprecated. Please use "Card.on(\'cardInserted\', function(){...})"',
-    );
+    if (__DEV__) {
+      console.warn(
+        '[@mamba/pos/api/payment] The "enableCardEvent()" method is deprecated. Please use "Card.on(\'cardInserted\', function(){...})"',
+      );
+    }
     isCardEventEnabled = true;
     driver.unique('cardEvent', triggerCardEvent);
     driver.doEnableCardEvent();
   };
 
   driver.disableCardEvent = () => {
-    console.warn(
-      '[@mamba/pos/api/payment] The "disableCardEvent()" method is deprecated. Please use "Card.off(\'cardInserted\')"',
-    );
+    if (__DEV__) {
+      console.warn(
+        '[@mamba/pos/api/payment] The "disableCardEvent()" method is deprecated. Please use "Card.off(\'cardInserted\')"',
+      );
+    }
     isCardEventEnabled = false;
     driver.off('cardEvent', triggerCardEvent);
     driver.doDisableCardEvent();
