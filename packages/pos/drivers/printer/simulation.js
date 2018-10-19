@@ -18,6 +18,10 @@ export function setup(Printer) {
   Printer.failedPrinting = () => Core.Registry.get('$Printer.panel.shouldFail');
 
   Printer.doPrint = function doPrint(content, options) {
+    if (options.print_to_paper === false) {
+      return Printer.printerDone();
+    }
+
     Core.Registry.set('$Printer.isPrinting', true);
 
     /** Fire the printing signal for the browser mamba simulation */
