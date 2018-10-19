@@ -13,7 +13,7 @@ import Input from '@mamba/input';
 #### MoneyInput
 
 ```js
-import MoneyInput from '@mamba/input/Money';
+import MoneyInput from '@mamba/input/Money.html';
 ```
 
 <!-- @example ./example/Example.html -->

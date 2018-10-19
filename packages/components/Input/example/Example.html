@@ -40,8 +40,8 @@
     <Input
       type="password"
       validation={validate}
-      on:submitValid="console.log('VALIDO', event.isValid)"
-      on:submitInvalid="console.log('INVALIDO', event.isValid)"
+      on:submitValid="console.log('VALIDO')"
+      on:submitInvalid="console.log('INVALIDO')"
     />
   </div>
 
@@ -105,12 +105,6 @@
     },
     data() {
       return {
-        validateTrue(value) {
-          return {
-            isValid: true,
-            msg: 'Valid',
-          };
-        },
         validate(value) {
           let isValid;
           let msg;
