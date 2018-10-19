@@ -27,7 +27,14 @@ export default function(driver) {
         );
       }
 
-      driver.once('paymentDone', () => resolve(driver.getAmountAuthorized()));
+      driver.once('paymentDone', e => {
+        if (driver.failedPaying()) {
+          reject(e);
+        } else {
+          resolve(driver.getAmountAuthorized());
+        }
+      });
+
       driver.doPay(params);
     });
 

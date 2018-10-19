@@ -179,19 +179,17 @@
             }
           }
 
-          const { isValid, value } = this.get();
-
-          e.value = value;
+          const { isValid, rawValue, value } = this.get();
+          const submitObj = { isValid, rawValue, value };
 
           if (!isValid) {
             System.beep();
-            this.fire('submitInvalid', e);
+            this.fire('submitInvalid', submitObj);
           } else {
-            this.fire('submitValid', e);
+            this.fire('submitValid', submitObj);
           }
 
-          e.isValid = isValid;
-          this.fire('submit', e);
+          this.fire('submit', submitObj);
         }
       },
       _onInput(e) {
