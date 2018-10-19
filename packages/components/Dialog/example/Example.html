@@ -6,7 +6,10 @@
     </button>
   </div>
 
-  <Dialog ref:defaultDialog>
+  <Dialog ref:defaultDialog
+    on:open="console.log('on:open')"
+    on:close="console.log('on:close')"
+  >
     Dialog Padrão
   </Dialog>
 
@@ -38,7 +41,11 @@
     </button>
   </div>
 
-  <ConfirmationDialog ref:confirmationDialog title="IMPRESSORA SEM PAPEL">
+  <ConfirmationDialog ref:confirmationDialog 
+  title="IMPRESSORA SEM PAPEL"
+  on:negative="console.log('on:negative')"
+  on:positive="console.log('on:positive')"
+  >
     Tentar imprimir novamente?
   </ConfirmationDialog>
 </div>

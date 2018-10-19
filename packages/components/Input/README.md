@@ -2,6 +2,20 @@
 
 O componente `Input` e `MoneyInput` contém funcionalidades de uma caixa de texto com estilos e controles embutidos para facilitar o desenvolvimento.
 
+## Como utilizar
+
+#### Input padrão
+
+```js
+import Input from '@mamba/input';
+```
+
+#### MoneyInput
+
+```js
+import MoneyInput from '@mamba/input/Money.html';
+```
+
 <!-- @example ./example/Example.html -->
 
 ## Parâmetros
@@ -26,13 +40,23 @@ O componente `Input` e `MoneyInput` contém funcionalidades de uma caixa de text
 | validateOn  | Define em que momento a validação ocorre (`input`/`submit`)| `string`        | `'submit'` |
 | mask        | Define uma máscara para o texto                            | `string`        | `null`     |
 
+
 ## Eventos
 
- `<MoneyInput ...props />`
+`<Input ...props />`
  
-| Nome     | Descrição                                                                                |
-|----------|------------------------------------------------------------------------------------------|
-| submit   | Retorna duas propriedades value(Valor em centavos) e formatted(Valor formatado na moeda) |
+| Nome          | Descrição                                                                                                                                        | Tipo              |
+|---------------|--------------------------------------------------------------------------------------------------------------------------------------------------|-------------------|
+| submit        | Especifique uma função para receber o evento com mais duas propriedades value(_valor do campo_) e isValid(*Boleano da propriedade `validation`*) | `function(event)` |
+| submitValid   | Especifique uma função que irá ser chamada somente quando o campo for __inválido__ no momento do `submit`                                        | `function(event)` |
+| submitInvalid | Especifique uma função que irá ser chamada somente quando o campo for __válido__ no momento do `submit`                                          | `function(event)` |
+
+
+`<MoneyInput ...props />`
+ 
+| Nome     | Descrição                                                                                 | Tipo              |
+|----------|-------------------------------------------------------------------------------------------|-------------------|
+| submit   | Retorna duas propriedades value(Valor em centavos) e formatted(Valor formatado na moeda)  | `function(event)` |
 
 ## Métodos
 
