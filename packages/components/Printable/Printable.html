@@ -54,6 +54,7 @@
         _paperWidth: PAPER_WIDTH,
         dithering: false,
         showPrintingDialog: true,
+        id: null,
       };
     },
     onupdate({ changed, current }) {
@@ -66,13 +67,19 @@
       }
     },
     methods: {
-      print(o) {
+      print(printerOptions) {
+        const { dithering, id } = this.get();
         const content = this.refs.printableContent;
-        const { dithering } = this.get();
-        const printerOptions = {
-          use_dithering: dithering,
-          ...o,
-        };
+
+        /** Default printing parameters */
+        printerOptions = Object.assign(
+          {
+            use_dithering: dithering,
+            print_to_paper: true,
+            reprint_id: id,
+          },
+          printerOptions,
+        );
 
         const _printingPromise = Printer.print(content, printerOptions)
           .then(() => this.set({ _state: STATES.SUCCESS }))
