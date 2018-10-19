@@ -43,7 +43,7 @@
           .filter(Boolean)
           .join(';');
       },
-      _isAtHome: ({ _location }) => _location === '/',
+      _isAtHome: ({ _location }) => _location === '/' || !_location,
       _showBack: ({ _isAtHome, _isNavigationEnabled }) =>
         !_isAtHome && _isNavigationEnabled.back,
       _showHome: ({ _isNavigationEnabled }) => _isNavigationEnabled.home,
