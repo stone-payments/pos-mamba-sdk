@@ -19,6 +19,7 @@ const {
 } = require('./helpers/depTranspiling.js');
 const {
   BUNDLE_NAME,
+  DEBUG_LVL,
   IS_POS,
   IS_BROWSER,
   IS_DEV,
@@ -153,6 +154,7 @@ module.exports = {
       __PROD__: IS_PROD,
       __TEST__: NODE_ENV === 'test',
       __DEV__: IS_DEV,
+      __DEBUG_LVL__: DEBUG_LVL,
       __POS__: IS_POS,
       __SIMULATOR__: ADD_MAMBA_SIMULATOR,
       __BROWSER__: IS_BROWSER,

@@ -1,6 +1,6 @@
 {
   "name": "@mamba/styles",
-  "version": "1.0.0-rc.21",
+  "version": "1.0.0-rc.22",
   "description": "Mamba core and reset styles",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -15,7 +15,7 @@
     "build": "npm run build:pos && npm run build:desktop",
     "build:pos": "postcss ./pos.pcss -o ./dist/pos.css --verbose",
     "build:desktop": "postcss ./desktop.pcss -o ./dist/desktop.css --verbose",
-    "postbuild": "ncp src/assets dist/assets",
+    "postbuild": "ncp ./assets dist/assets",
     "start": "npm run start:pos",
     "start:pos": "postcss ./pos.pcss -o ./dist/pos.css -w --verbose",
     "start:desktop": "postcss ./desktop.pcss -o ./dist/desktop.css -w --verbose",

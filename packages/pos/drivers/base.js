@@ -102,7 +102,7 @@ export default () => {
     race(entries) {
       const wrappedCallbacks = {};
       entries.forEach(([signal, callback]) => {
-        if (__DEV__) {
+        if (__DEBUG_LVL__ === 2) {
           console.log(`Connecting once '${signal}'`);
         }
 
@@ -115,7 +115,7 @@ export default () => {
         wrappedCallbacks[signal] = () => {
           callback();
           Object.keys(wrappedCallbacks).forEach(signalName => {
-            if (__DEV__) {
+            if (__DEBUG_LVL__ === 2) {
               console.log(`Removing '${signalName}'`);
             }
             this.off(signalName, wrappedCallbacks[signalName]);

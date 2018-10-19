@@ -30,6 +30,7 @@ module.exports = {
     __PROD__: true,
     __TEST__: true,
     __DEV__: true,
+    __DEBUG_LVL__: true,
     __SIMULATOR__: true,
     __MANIFEST__: true,
   },

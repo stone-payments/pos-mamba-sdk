@@ -39,8 +39,6 @@
       return {
         /** Boolean to display the extra content element */
         showExtra: false,
-        /** Row's keyboard shortcut */
-        shortcut: undefined,
         /** Define a link to another page */
         href: undefined,
         /** Description below the row label */
@@ -68,6 +66,11 @@
        */
       if (this.options.data.shortcut) {
         this.refs.main.setAttribute('shortcut', shortcut);
+      }
+    },
+    onupdate({ changed, current }) {
+      if (changed.showExtra) {
+        this.fire(current.showExtra ? 'showExtra' : 'hideExtra');
       }
     },
     methods: {
