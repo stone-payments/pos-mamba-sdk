@@ -29,18 +29,18 @@ DriverManager.resetDriverState = driverModule => {
 };
 
 DriverManager.attachDrivers = driverModules => {
-  if (__DEV__ && __BROWSER__)
+  if (__DEBUG_LVL__ >= 1 && __BROWSER__)
     console.groupCollapsed(`${LOG_PREFIX} Attaching drivers`);
 
   driverModules.forEach(driverModule => {
     const driver = {};
     const driverRef = driverModule.NAMESPACE;
 
-    if (__DEV__ && __BROWSER__) console.groupCollapsed(driverRef);
+    if (__DEBUG_LVL__ >= 1 && __BROWSER__) console.groupCollapsed(driverRef);
 
     /** Set the simulator default settings for the driver */
     if (driverModule.SETTINGS) {
-      if (__DEV__ && __BROWSER__) {
+      if (__DEBUG_LVL__ >= 1 && __BROWSER__) {
         console.log('Default settings:', driverModule.SETTINGS);
       }
       DriverManager.resetDriverState(driverModule);
@@ -48,14 +48,15 @@ DriverManager.attachDrivers = driverModules => {
 
     /** Register the driver signals */
     if (driverModule.SIGNALS) {
-      if (__DEV__ && __BROWSER__) console.log('Signals:', driverModule.SIGNALS);
+      if (__DEBUG_LVL__ >= 1 && __BROWSER__)
+        console.log('Signals:', driverModule.SIGNALS);
       Signal.register(driver, driverModule.SIGNALS);
     }
 
     /** Setup the driver methods */
     driverModule.setup(driver);
 
-    if (__DEV__ && __BROWSER__) {
+    if (__DEBUG_LVL__ >= 1 && __BROWSER__) {
       /** List all methods from the driver */
       console.log(
         'Methods:',
@@ -94,7 +95,7 @@ DriverManager.attachDrivers = driverModules => {
 
     window[driverRef] = driver;
 
-    if (__DEV__ && __BROWSER__) console.groupEnd();
+    if (__DEBUG_LVL__ >= 1 && __BROWSER__) console.groupEnd();
   });
 
   if (Registry._booted) {
@@ -102,7 +103,7 @@ DriverManager.attachDrivers = driverModules => {
     looseDrivers = driverModules;
   }
 
-  if (__DEV__ && __BROWSER__) console.groupEnd();
+  if (__DEBUG_LVL__ >= 1 && __BROWSER__) console.groupEnd();
 };
 
 export default DriverManager;

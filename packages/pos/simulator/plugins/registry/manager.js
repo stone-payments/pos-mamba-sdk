@@ -38,7 +38,7 @@ RegistryManager.set = (keyPath, value, fireSignal = true) => {
   const keys = keyPath.replace(/\[(\d+)\]/g, '.$1').split('.');
   const lastKey = keys.pop();
 
-  if (__DEV__ && __BROWSER__) {
+  if (__DEBUG_LVL__ >= 2 && __BROWSER__) {
     log(`"${keyPath}" = ${JSON.stringify(value)}`);
   }
 

@@ -40,7 +40,7 @@
       const { key } = this.get();
       if (key) {
         if (!register[key]) {
-          if (__DEV__) {
+          if (__DEBUG_LVL__ >= 1) {
             console.log(
               `[@mamba/app/keystroke] Registering manual keystroke handler for "${key}"`,
             );
@@ -60,7 +60,7 @@
       const index = register[key].indexOf(this);
       if (index > -1) {
         register[key].splice(index, 1);
-        if (__DEV__) {
+        if (__DEBUG_LVL__ >= 1) {
           console.log(
             `[@mamba/app/keystroke] Removing manual keystroke handler for "${key}"`,
           );
