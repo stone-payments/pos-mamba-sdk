@@ -9,6 +9,6 @@ export default function(driver) {
         }
       });
 
-      setTimeout(() => driver.doPrint(content, options));
+      driver.doPrint(content, options);
     });
 }
