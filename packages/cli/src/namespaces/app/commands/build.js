@@ -10,7 +10,10 @@ module.exports = {
     let cmd = '';
     cmd = 'cross-env ';
     cmd += `NODE_ENV=${
-      typeof development !== 'undefined' ? 'development' : 'production'
+      development === true ||
+      (typeof development === 'number' && development > 0)
+        ? 'development'
+        : 'production'
     } `;
     cmd += `APP_ENV=${target} `;
 
