@@ -5,6 +5,7 @@ const {
 const config = require('../buildConfig.json');
 
 const params = config.platforms.pax;
+const apps = config.apps;
 const qtPath = `$MAMBA/${params.qt_dir}`;
 const sysRoot = `$MAMBA/${params.sysroot}`;
 const qtMkConf = `$MAMBA/${params.mkspecs}`;
@@ -90,7 +91,10 @@ module.exports = {
       },
     );
 
-    /** Move Static Files to Deploy Folder */
+    /** Copy Config File */
+    runCmd([`cp -r $MAMBA/kernel/MAMBA_PAYMENT_NEW/config/ ${destDir}`]);
+
+    /** Copy Static Files to Deploy Folder */
     runCmd([
       `cp -Ru $MAMBA/res ${destDir}/`,
       `cp -Ru $MAMBA/sys/certs ${destDir}/sys`,
@@ -98,6 +102,33 @@ module.exports = {
     ]);
 
     /** Move Apps to Deploy Folder */
+    runCmd([`mkdir ${destDir}/apps`], {
+      exit: false,
+    });
+    apps.forEach(app => {
+      runCmd(
+        [
+          'cd $MAMBA',
+          `mkdir ${destDir}/apps/${app.dest}`,
+          `cp -R apps/native${app.dist}/* ${destDir}/apps/${app.dest}`,
+        ], {
+          exit: false,
+        });
+
+      if (app.icon) {
+        runCmd([`cp $MAMBA/apps/native${app.icon} ${destDir}/apps/${app.dest}`]);
+      }
+
+      if (app.manifest) {
+        runCmd([`cp $MAMBA/apps/native${app.manifest} ${destDir}/apps/${app.dest}`]);
+      }
+
+      if (app.lib) {
+        runCmd([`cp $MAMBA/apps/native${app.lib} ${destDir}/apps/${app.dest}`]);
+      }
+
+    });
+
 
 
     console.log('Mamba Build Done!');
