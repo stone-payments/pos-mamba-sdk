@@ -14,25 +14,25 @@ module.exports = {
   command: 'build',
   desc: 'Build MambaOS. Defaults to debug mode',
   builder: {
-    release: {
-      description: 'Build for release propose, logs are disabled.',
+    production: {
+      description: 'Build for release pourpose, logs are disabled.',
       default: false,
-      alias: ['r'],
+      alias: ['p', 'production'],
     },
     lib: {
       description: 'Build only the .pro file at the path passed.',
       type: 'string',
       default: 'MAMBA.pro',
-      alias: ['l', '--lib'],
+      alias: ['l', 'lib'],
     },
     clean: {
       description: 'Clears before building.',
       default: false,
-      alias: ['--clean'],
+      alias: ['clean'],
     },
   },
   handler({
-    release,
+    production,
     lib,
     clean,
   }) {
@@ -47,34 +47,58 @@ module.exports = {
     runCmd([
       'cd $MAMBA',
       `${qtPath}/bin/qmake ${lib} -r -spec ${qtMkConf} ${
-        release ? '' : 'CONFIG+=debug'
+        production ? '' : 'CONFIG+=debug'
       }`,
     ]);
 
     if (clean) {
+      /** Make Clean */
       runCmd(['cd $MAMBA', 'make clean', 'make -j$(nproc)']);
+
+      /** Generate DB Files and Copying Files */
+      console.log('Building Mamba Database');
+      runCmd(['cd $MAMBA/sys/db',
+        './generateDb.sh',
+        `mkdir ${destDir}/sys && mkdir ${destDir}/sys/db && mkdir ${destDir}/sys/db/scripts`,
+        `cp -Ru $MAMBA/sys/db/*.db ${destDir}/sys/db/`,
+        `cp -Ru $MAMBA/sys/db/data/stats/stats.sql ${destDir}/sys/db/scripts`,
+        `cp -Ru $MAMBA/sys/db/data/system/system.sql ${destDir}/sys/db/scripts`,
+        `cp -Ru $MAMBA/sys/db/data/transac/transac.sql ${destDir}/sys/db/scripts`,
+      ]);
+
     } else {
       runCmd(['cd $MAMBA', 'make -j$(nproc)']);
     }
 
-    /** Generate DB Files */
-    console.log('Building Mamba Database');
-    runCmd(['cd $MAMBA/sys/db', './generateDb.sh']);
 
     /** Move files to destDir */
     runCmd(['cd $MAMBA', 'make install']);
 
-    /** Copy Qt Files */
+    /** Copy Qt and Mamba Lib Files */
     runCmd(
       [
         'cd $MAMBA',
-        `cp ${qtPath}/lib/*.so* ${destDir}/lib`,
-        `cp ${qtPath}/plugins ${destDir}`,
-        `cp ${qtPath}/imports ${destDir}`,
+        `cp -Ru builds/PAX_S920/* ${destDir}`,
+        `cp -Ru builds/PAX_S920/lib/* ${destDir}/lib`,
+        `cp -Ru ${qtPath}/lib/*.so* ${destDir}/lib`,
+        `cp -Ru ${qtPath}/plugins ${destDir}`,
+        `cp -Ru ${qtPath}/imports ${destDir}`,
+        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/usr/lib/*.so ${destDir}/lib`,
+        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libsqlite3* ${destDir}/lib/`,
       ], {
         exit: false,
       },
     );
+
+    /** Move Static Files to Deploy Folder */
+    runCmd([
+      `cp -Ru $MAMBA/res ${destDir}/`,
+      `cp -Ru $MAMBA/sys/certs ${destDir}/sys`,
+      `cp -Ru $MAMBA/sys/PAX_S920/* ${destDir}/sys`,
+    ]);
+
+    /** Move Apps to Deploy Folder */
+
 
     console.log('Mamba Build Done!');
   },
