@@ -60,7 +60,7 @@ module.exports = {
       console.log('Building Mamba Database');
       runCmd(['cd $MAMBA/sys/db',
         './generateDb.sh',
-        `mkdir ${destDir}/sys && mkdir ${destDir}/sys/db && mkdir ${destDir}/sys/db/scripts`,
+        `mkdir -p ${destDir}/sys && mkdir ${destDir}/sys/db && mkdir ${destDir}/sys/db/scripts`,
         `cp -Ru $MAMBA/sys/db/*.db ${destDir}/sys/db/`,
         `cp -Ru $MAMBA/sys/db/data/stats/stats.sql ${destDir}/sys/db/scripts`,
         `cp -Ru $MAMBA/sys/db/data/system/system.sql ${destDir}/sys/db/scripts`,
@@ -98,10 +98,18 @@ module.exports = {
 
     /** Copy Static Files to Deploy Folder */
     runCmd([
-      `cp -Ru $MAMBA/res ${destDir}/`,
+      `mkdir -p ${destDir}`,
+      `cp -u $MAMBA/res/images/1x/* ${destDir}/res`,
+      `cp -Ru $MAMBA/res/images/2x/* ${destDir}/res`,
+      `cp -Ru $MAMBA/res/images/receipts/* ${destDir}/res`,
+      `cp -Ru $MAMBA/res/images/statusbar ${destDir}/res`,
+      `cp -Ru $MAMBA/res/images/statusbar/* ${destDir}/res`,
+      `cp -Ru $MAMBA/res/fonts ${destDir}/lib`,
       `cp -Ru $MAMBA/sys/certs ${destDir}/sys`,
       `cp -Ru $MAMBA/sys/PAX_S920/* ${destDir}/sys`,
-    ]);
+    ], {
+      exit: false,
+    });
 
     /** Move Apps to Deploy Folder */
     runCmd([`mkdir ${destDir}/apps`], {
@@ -111,7 +119,7 @@ module.exports = {
       runCmd(
         [
           'cd $MAMBA',
-          `mkdir ${destDir}/apps/${app.dest}`,
+          `mkdir -p ${destDir}/apps/${app.dest}`,
           `cp -Ru apps/native${app.dist}/* ${destDir}/apps/${app.dest}`,
         ], {
           exit: false,
