@@ -85,13 +85,6 @@
 
         const _printingPromise = Printer.print(content, printerOptions);
 
-        /**
-         * If we don't use the printingDialog,
-         * let's update the state with the printing promise resolution.
-         *
-         * Obs: for showPrintingDialog=true this logic is encapsulated inside the
-         * <PromiseDialog on:success and on:failure/>
-         * */
         if (printerOptions.print_to_paper === false) {
           /** If virtual printing (save printable img only), dispatch the finish event */
           return Promise.resolve().then(() => {
@@ -99,6 +92,13 @@
           });
         }
 
+        /**
+         * If we don't use the printingDialog,
+         * let's update the state with the printing promise resolution.
+         *
+         * Obs: for showPrintingDialog=true this logic is encapsulated inside the
+         * <PromiseDialog on:success and on:failure/>
+         * */
         if (!showPrintingDialog) {
           _printingPromise
             .then(() => this.set({ _state: STATES.SUCCESS }))
