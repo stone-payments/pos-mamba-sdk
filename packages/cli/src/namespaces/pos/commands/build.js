@@ -86,6 +86,8 @@ module.exports = {
         `cp -Ru ${qtPath}/imports ${destDir}`,
         `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/usr/lib/*.so ${destDir}/lib`,
         `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libsqlite3* ${destDir}/lib/`,
+        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libqjson* ${destDir}/lib/`,
+        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libstdc++* ${destDir}/lib/`,
       ], {
         exit: false,
       },
@@ -110,21 +112,21 @@ module.exports = {
         [
           'cd $MAMBA',
           `mkdir ${destDir}/apps/${app.dest}`,
-          `cp -R apps/native${app.dist}/* ${destDir}/apps/${app.dest}`,
+          `cp -Ru apps/native${app.dist}/* ${destDir}/apps/${app.dest}`,
         ], {
           exit: false,
         });
 
       if (app.icon) {
-        runCmd([`cp $MAMBA/apps/native${app.icon} ${destDir}/apps/${app.dest}`]);
+        runCmd([`cp -u $MAMBA/apps/native${app.icon} ${destDir}/apps/${app.dest}`]);
       }
 
       if (app.manifest) {
-        runCmd([`cp $MAMBA/apps/native${app.manifest} ${destDir}/apps/${app.dest}`]);
+        runCmd([`cp -u $MAMBA/apps/native${app.manifest} ${destDir}/apps/${app.dest}`]);
       }
 
       if (app.lib) {
-        runCmd([`cp $MAMBA/apps/native${app.lib} ${destDir}/apps/${app.dest}`]);
+        runCmd([`cp -u $MAMBA/apps/native${app.lib} ${destDir}/apps/${app.dest}`]);
       }
 
     });
