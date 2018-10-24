@@ -56,6 +56,11 @@ module.exports = {
       /** Make Clean */
       runCmd(['cd $MAMBA', 'make clean', 'make -j$(nproc)']);
 
+      /** Clears deploy dir */
+      runCmd(['cd $MAMBA', 'rm -rf deploy/*'], {
+        exit: false,
+      });
+
       /** Generate DB Files and Copying Files */
       console.log('Building Mamba Database');
       runCmd(['cd $MAMBA/sys/db',
@@ -67,10 +72,6 @@ module.exports = {
         `cp -Ru $MAMBA/sys/db/data/transac/transac.sql ${destDir}/sys/db/scripts`,
       ]);
 
-      /** Clears deploy dir */
-      runCmd(['cd $MAMBA', 'rm -rf deploy/*'], {
-        exit: false,
-      });
 
     } else {
       runCmd(['cd $MAMBA', 'make -j$(nproc)']);
