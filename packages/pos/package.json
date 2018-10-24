@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@mamba/app": "^1.0.0-rc.24",
+    "@mamba/button": "^1.0.0-rc.24",
+    "@mamba/icon": "^1.0.0-rc.24",
     "@mamba/styles": "^1.0.0-rc.24",
     "@mamba/switch": "^1.0.0-rc.24"
   },

@@ -11,8 +11,8 @@ let currentApp = null;
 
 Signal.register(AppManager, ['opened', 'closed']);
 
-AppManager.getLoaded = () => Apps;
-AppManager.getCurrent = () => currentApp;
+AppManager.getInstalledApps = () => Apps;
+AppManager.getCurrentApp = () => currentApp;
 
 AppManager.register = (AppConstructor, manifest) => {
   if (!Apps.has(AppConstructor)) {

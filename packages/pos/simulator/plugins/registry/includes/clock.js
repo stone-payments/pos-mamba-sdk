@@ -2,8 +2,8 @@ export default Registry => {
   const initDate = new Date();
 
   Registry._clock = {
-    hours: initDate.getHours(),
-    minutes: initDate.getMinutes(),
+    hours: String(initDate.getHours()).padStart(2, '0'),
+    minutes: String(initDate.getMinutes()).padStart(2, '0'),
   };
 
   Registry.getCurrentTime = () => Registry._clock;

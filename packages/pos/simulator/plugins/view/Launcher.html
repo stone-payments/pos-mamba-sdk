@@ -1,20 +1,55 @@
-<div class="lock-screen">
-  <time>{time}</time>
-  <div class="merchant">TESTE - Bandeiras VAN</div>
-  <div class="actions"></div>
-</div>
+<div class="launcher">
+  {#if STATE === STATES.LOCKSCREEN}
+    <div class="lock-screen">
+      <time>{time}</time>
+      <div class="merchant">TESTE - Bandeiras VAN</div>
+      <div class="actions"></div>
 
-<div ref:approot id="app-r2oot"></div>
+      <Button size="full" bottom on:click="gotoHome()" shortcut="enter">
+        <Icon symbol="home" color="#fff"/>
+      </Button>
+    </div>
+
+    <Keystroke key="enter" on:keystroke="gotoHome()" />
+  {/if}
+
+  {#if STATE === STATES.HOME}
+    <div class="home">
+      <h1>SOU A HOME</h1>
+      <Button size="full" bottom on:click="openApp()">
+        ABRIR
+      </Button>
+    </div>
+  {/if}
+
+  {#if STATE === STATES.APP}
+    <div ref:approot id="app-root"></div>
+  {/if}
+</div>
 
 
 <script>
+  import AppManager from '../app/manager.js';
   import Registry from '../registry/manager.js';
 
   const { hours: initHours, minutes: initMinutes } = Registry.getCurrentTime();
+  const STATES = {
+    LOCKSCREEN: 0,
+    HOME: 1,
+  };
 
   export default {
+    components: {
+      Button: '@mamba/button',
+      Icon: '@mamba/icon',
+      Keystroke: '@mamba/app/Keystroke.html',
+    },
+    helpers: {
+      STATES,
+    },
     data() {
       return {
+        STATE: STATES.LOCKSCREEN,
         time: `${initHours}:${initMinutes}`,
       };
     },
@@ -24,16 +59,59 @@
         this.set({ time: `${newHours}:${newMinutes}` });
       });
     },
+    onupdate({ changed, current }) {
+      if (changed.STATE) {
+        if (current.STATE === STATES.APP) {
+          const appObj = AppManager.getInstalledApps()
+            .values()
+            .next().value;
+          AppManager.open(appObj.constructor, this.refs.approot);
+          AppManager.once('closed', () => {
+            this.set({ STATE: STATES.LOCKSCREEN });
+          });
+        }
+      }
+    },
+    methods: {
+      gotoHome() {
+        this.set({ STATE: STATES.HOME });
+      },
+      openApp() {
+        this.set({ STATE: STATES.APP });
+      },
+    },
   };
 </script>
 
 <style>
+  @import '@mamba/styles/colors.pcss';
+
   ref:approot {
     height: 100%;
   }
 
-  .lock-screen {
+  .launcher {
     height: 100%;
     background-color: #fff;
+  }
+
+  .lock-screen {
+    text-align: center;
+    overflow: hidden;
+    padding: 0 10px;
+  }
+
+  time {
+    color: $gray;
+    display: block;
+    margin-top: 35px;
+    font-size: 64px;
+  }
+
+  .merchant {
+    color: $black;
+    line-height: 1.2;
+    font-size: 22px;
+    margin: 8px 0 20px;
   }
 </style>
