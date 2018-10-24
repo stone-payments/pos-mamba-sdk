@@ -6,17 +6,42 @@ import Signal from '../../libs/signal.js';
 import extendDriver from '../../../drivers/extend.js';
 
 const RegistryManager = extendDriver({
+  _version: '2.5.0',
+  _clock: { hours: null, min: null },
   _booted: false,
   _data: {},
 });
 
-Signal.register(RegistryManager, ['settingsChanged']);
+Signal.register(RegistryManager, ['settingsChanged', 'clock']);
 
+/** System */
 RegistryManager.setBoot = isBooted => {
-  if (RegistryManager._booted) return;
+  if (RegistryManager._booted) {
+    return;
+  }
   RegistryManager._booted = isBooted;
 };
 
+RegistryManager.getVersion = () => RegistryManager._version;
+
+/** Time */
+setInterval(
+  (function timer() {
+    const curDate = new Date();
+    const minutes = String(curDate.getMinutes()).padStart(2, '0');
+    const hours = String(curDate.getHours()).padStart(2, '0');
+
+    RegistryManager._clock = { hours, minutes };
+    RegistryManager.clock(hours, minutes);
+
+    return timer;
+  })(),
+  1000,
+);
+
+RegistryManager.getCurrentTime = () => RegistryManager._clock;
+
+/** Data */
 RegistryManager.get = keyPath => {
   if (keyPath === undefined) {
     return RegistryManager._data;

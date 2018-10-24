@@ -5,15 +5,11 @@
       <div class="version">{version}</div>
     </div>
     <div>
-      <div class="version">{time}</div>
+      <div class="time">{time}</div>
     </div>
   </div>
-  <div id="app-root" class="content" ref:content>
-    <!-- {#if showRestart}
-      <button on:click="restart()">RESTART</button>
-    {:else} -->
-      <slot></slot>
-    <!-- {/if} -->
+  <div class="content">
+    <slot></slot>
   </div>
 </div>
 
@@ -31,35 +27,36 @@
 </svg>
 
 <script>
-  // import Core from '../../plugins/core.js';
+  import Registry from '../../registry/manager.js';
+
+  const { hours: initHours, minutes: initMinutes } = Registry.getCurrentTime();
 
   export default {
     data() {
       return {
-        time: '00:00',
-        version: '2.4.0',
         brightnessLevel: 10,
-        showRestart: false,
+        version: Registry.getVersion(),
+        time: `${initHours}:${initMinutes}`,
       };
     },
     computed: {
       brightnessOpacity: ({ brightnessLevel }) => 1 - brightnessLevel / 10,
     },
     oncreate() {
-      // Core.on('app:closed', () => {
-      //   this.set({ showRestart: true });
-      // });
-    },
-    methods: {
-      restart() {
-        // this.set({ showRestart: false });
-        // Core.fire('app:open', Core.App.constructor, this.refs.content);
-      },
+      /** Update the clock after each second */
+      Registry.on('clock', (newHours, newMinutes) => {
+        this.set({ time: `${newHours}:${newMinutes}` });
+      });
     },
   };
 </script>
 
 <style type="text/postcss">
+  .screen,
+  .content {
+    height: 100%;
+  }
+
   @media (max-width: 480px) {
     .status-bar {
       display: none;
