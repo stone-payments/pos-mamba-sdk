@@ -136,19 +136,19 @@
       "dist": "/newsApp/ui/dist/",
       "icon": "/newsApp/icon.bmp",
       "manifest": "/newsApp/manifest.xml",
-      "dest": "11-news.stone"
+      "dest": "12-news.stone"
     },
     {
       "dist": "/ravApp/ui/dist/",
       "icon": "/ravApp/icon.bmp",
       "manifest": "/ravApp/manifest.xml",
-      "dest": "11-rav.stone"
+      "dest": "13-rav.stone"
     },
     {
       "icon": "/closureApp/icon.bmp",
       "dist": "/closureApp/ui/dist/",
       "manifest": "/closureApp/manifest.xml",
-      "dest": "11-closure.stone"
+      "dest": "14-closure.stone"
     }
   ]
 }

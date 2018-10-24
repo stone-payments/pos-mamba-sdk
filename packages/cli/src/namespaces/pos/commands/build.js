@@ -21,7 +21,7 @@ module.exports = {
       alias: ['p', 'production'],
     },
     lib: {
-      description: 'Build only the .pro file at the path passed.',
+      description: 'Build only the .pro file at the path specified.',
       type: 'string',
       default: 'MAMBA.pro',
       alias: ['l', 'lib'],
@@ -67,13 +67,17 @@ module.exports = {
         `cp -Ru $MAMBA/sys/db/data/transac/transac.sql ${destDir}/sys/db/scripts`,
       ]);
 
+      /** Clears deploy dir */
+      runCmd(['cd $MAMBA', 'rm -rf deploy/*'], {
+        exit: false,
+      });
+
     } else {
       runCmd(['cd $MAMBA', 'make -j$(nproc)']);
     }
 
-
     /** Move files to destDir */
-    runCmd(['cd $MAMBA', 'make install']);
+    runCmd(['cd $MAMBA', 'make install', 'mkdir -p  deploy']);
 
     /** Copy Qt and Mamba Lib Files */
     runCmd(
@@ -84,10 +88,19 @@ module.exports = {
         `cp -Ru ${qtPath}/lib/*.so* ${destDir}/lib`,
         `cp -Ru ${qtPath}/plugins ${destDir}`,
         `cp -Ru ${qtPath}/imports ${destDir}`,
-        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/usr/lib/*.so ${destDir}/lib`,
-        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libsqlite3* ${destDir}/lib/`,
-        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libqjson* ${destDir}/lib/`,
+        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/usr/lib/libssl.so ${destDir}/lib`,
+        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libsqlite3.so* ${destDir}/lib/`,
+        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libqjson.so* ${destDir}/lib/`,
+        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libqjs.so* ${destDir}/lib/`,
         `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libstdc++* ${destDir}/lib/`,
+        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libF_EMV_LIB_v651.so* ${destDir}/lib/`,
+        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libD_PUBLIC_LIB_v103.so* ${destDir}/lib/`,
+        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libF_ENTRY_LIB_v551_01.so* ${destDir}/lib/`,
+        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libD_DEVICE_LIB_v603_01.so* ${destDir}/lib/`,
+        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libD_MC_LIB_v450.so* ${destDir}/lib/`,
+        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libD_WAVE_LIB_v305.so* ${destDir}/lib/`,
+        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libF_AE_LIB_v250_02.so* ${destDir}/lib/`,
+        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libD_DPAS_LIB_v101.so* ${destDir}/lib/`,
       ], {
         exit: false,
       },
@@ -98,7 +111,8 @@ module.exports = {
 
     /** Copy Static Files to Deploy Folder */
     runCmd([
-      `mkdir -p ${destDir}`,
+      `mkdir -p ${destDir}/res`,
+      `mkdir -p ${destDir}/res/merchant`,
       `cp -u $MAMBA/res/images/1x/* ${destDir}/res`,
       `cp -Ru $MAMBA/res/images/2x/* ${destDir}/res`,
       `cp -Ru $MAMBA/res/images/receipts/* ${destDir}/res`,
