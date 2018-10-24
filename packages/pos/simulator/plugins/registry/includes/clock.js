@@ -1,15 +1,16 @@
 export default Registry => {
   const initDate = new Date();
 
-  Registry._clock = {
+  const time = {
     hours: String(initDate.getHours()).padStart(2, '0'),
     minutes: String(initDate.getMinutes()).padStart(2, '0'),
   };
 
-  Registry.getCurrentTime = () => Registry._clock;
+  Registry.getCurrentTime = () => time;
 
   const timer = () => {
-    let { hours, minutes } = Registry.getCurrentTime();
+    let hours = Number.parseInt(time.hours, 10);
+    let minutes = Number.parseInt(time.minutes, 10);
 
     minutes++;
     if (minutes === 60) {
@@ -20,10 +21,10 @@ export default Registry => {
       minutes = 0;
     }
 
-    Registry.clock(
-      String(hours).padStart(2, '0'),
-      String(minutes).padStart(2, '0'),
-    );
+    time.minutes = String(hours).padStart(2, '0');
+    time.hours = String(hours).padStart(2, '0');
+
+    Registry.clock(time.hours, time.minutes);
 
     return timer;
   };
