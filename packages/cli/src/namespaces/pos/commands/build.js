@@ -1,3 +1,6 @@
+const readline = require('readline');
+const fs = require('fs');
+
 const {
   runCmd,
 } = require('../../../utils.js');
@@ -151,11 +154,37 @@ module.exports = {
       if (app.lib) {
         runCmd([`cp -u $MAMBA/apps/native${app.lib} ${destDir}/apps/${app.dest}`]);
       }
-
     });
 
+    /** Ask for App Version */
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
 
+    rl.question('\nPlease, type Mamba System Version [x.x.x]:\n', (answer) => {
+      // console.log(typeof answer);
+      let version = '1.0.0';
+      if (answer.match(/\d\.\d\.\d/)) {
+        version = answer;
+      }
 
-    console.log('Mamba Build Done!');
+      let content = '[app]\n';
+      content += `name=StoneMambaLoader\n`;
+      content += 'bin=StoneMambaLoader\n';
+      content += 'artwork=\n';
+      content += 'desc= Mamba System Application\n';
+      content += 'vender=PAX\n';
+      content += `version=${version}`;
+      fs.writeFile(`${process.env.MAMBA}/deploy/appinfo`, content, 'UTF-8', (error) => {
+        if (error) {
+          console.log(error);
+          console.log('appinfo file could not be written.');
+        }
+      });
+      console.log('Mamba Build Done!');
+      rl.close();
+    });
+
   },
 };
