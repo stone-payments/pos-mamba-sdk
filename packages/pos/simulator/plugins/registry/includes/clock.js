@@ -21,10 +21,10 @@ export default Registry => {
       minutes = 0;
     }
 
-    time.minutes = String(hours).padStart(2, '0');
     time.hours = String(hours).padStart(2, '0');
+    time.minutes = String(minutes).padStart(2, '0');
 
-    Registry.clock(time.hours, time.minutes);
+    Registry.fire('clock', time.hours, time.minutes);
 
     return timer;
   };

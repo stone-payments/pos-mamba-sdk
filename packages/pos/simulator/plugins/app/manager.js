@@ -9,12 +9,12 @@ const AppManager = extendDriver({});
 const Apps = new Map();
 let currentApp = null;
 
-Signal.register(AppManager, ['opened', 'closed']);
+Signal.register(AppManager, ['willOpen', 'opened', 'willClose', 'closed']);
 
 AppManager.getInstalledApps = () => Apps;
 AppManager.getCurrentApp = () => currentApp;
 
-AppManager.register = (AppConstructor, manifest) => {
+AppManager.installApp = (AppConstructor, manifest) => {
   if (!Apps.has(AppConstructor)) {
     const appMetaObj = {
       constructor: AppConstructor,
@@ -32,27 +32,38 @@ AppManager.register = (AppConstructor, manifest) => {
 };
 
 AppManager.open = (AppConstructor, target) => {
-  AppConstructor = AppConstructor || currentApp.constructor;
-  target = target || currentApp.target;
+  AppConstructor = AppConstructor || (currentApp && currentApp.constructor);
+  target = target || (currentApp && currentApp.target);
 
   /** First time opening an app */
   const appMetaObj = Apps.get(AppConstructor);
 
+  AppManager.fire('willOpen');
+
   if (__DEV__) log(`Opening App: ${appMetaObj.manifest.appName}`);
+
+  if (!target) {
+    if (__DEV__) {
+      console.warn('App target root element not found.');
+    }
+    return;
+  }
 
   appMetaObj.instance = new AppConstructor({ target });
   appMetaObj.target = target;
 
   currentApp = appMetaObj;
 
-  App.opened();
+  App.fire('opened');
   AppManager.fire('opened');
 };
 
 AppManager.close = () => {
+  AppManager.fire('willClose');
+
   if (__DEV__) log('Closing App');
 
-  App.closed();
+  App.fire('closed');
 
   if (currentApp.instance) {
     currentApp.instance.destroy();

@@ -18,7 +18,7 @@ const target = document.getElementById('app-root');
 if (__BROWSER__) {
   const { AppManager } = window.MambaWeb;
   /** __MANIFEST__ is replaced with the current app's manifest */
-  AppManager.register(App, __MANIFEST__);
+  AppManager.installApp(App, __MANIFEST__);
   AppManager.open(App, target);
 } else {
   new App({ target });

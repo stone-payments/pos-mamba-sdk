@@ -20,6 +20,8 @@
         ABRIR
       </Button>
     </div>
+    <Keystroke key="back" on:keystroke="gotoLockscreen()" />
+    <Keystroke key="close" on:keystroke="gotoLockscreen()" />
   {/if}
 
   {#if STATE === STATES.APP}
@@ -67,12 +69,16 @@
             .next().value;
           AppManager.open(appObj.constructor, this.refs.approot);
           AppManager.once('closed', () => {
+            window.history.pushState(null, null, '/');
             this.set({ STATE: STATES.LOCKSCREEN });
           });
         }
       }
     },
     methods: {
+      gotoLockscreen() {
+        this.set({ STATE: STATES.LOCKSCREEN });
+      },
       gotoHome() {
         this.set({ STATE: STATES.HOME });
       },
