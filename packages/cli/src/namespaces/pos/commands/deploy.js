@@ -15,7 +15,7 @@ module.exports = {
   handler() {
     // init connection
     console.log('Moving files to POS...');
-    runCmd([`rsync -azzvPH -e "ssh -i ${LOCAL_KEY} -p ${REMOTE_PORT}" $MAMBA/deploy/ ${REMOTE_HOST}:/${REMOTE_MAINAPP_DIR}`]);
+    runCmd([`rsync -zaP -e "ssh -i ${LOCAL_KEY} -p ${REMOTE_PORT}" $MAMBA/deploy/ ${REMOTE_HOST}:/${REMOTE_MAINAPP_DIR} --checksum`]);
 
     console.info('\nSuccess! Deployment done.');
   },

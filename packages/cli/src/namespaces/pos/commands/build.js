@@ -1,5 +1,7 @@
 const readline = require('readline');
 const fs = require('fs');
+const EOL = require('os').EOL;
+
 
 const {
   runCmd,
@@ -169,13 +171,13 @@ module.exports = {
         version = answer;
       }
 
-      let content = '[app]\n';
-      content += `name=StoneMambaLoader\n`;
-      content += 'bin=StoneMambaLoader\n';
-      content += 'artwork=\n';
-      content += 'desc= Mamba System Application\n';
-      content += 'vender=PAX\n';
-      content += `version=${version}`;
+      let content = `[app]${EOL}`;
+      content += `name=StoneMambaLoader${EOL}`;
+      content += `bin=StoneMambaLoader${EOL}`;
+      content += `artwork=${EOL}`;
+      content += `desc= Mamba System Application${EOL}`;
+      content += `vender=PAX${EOL}`;
+      content += `version=${version}${EOL}`;
       fs.writeFile(`${process.env.MAMBA}/deploy/appinfo`, content, 'UTF-8', (error) => {
         if (error) {
           console.log(error);
