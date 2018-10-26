@@ -1,41 +1,11 @@
-const childProcess = require('child_process');
 const { fromCwd } = require('quickenv');
-const { REMOTE_MAINAPP_DIR, CMDS, IS_WINDOWS } = require('./consts.js');
+const { REMOTE_MAINAPP_DIR, CMDS } = require('./consts.js');
+const shell = require('./shell.js');
 
-exports.runCmd = (cmd, opts = {}) => {
-  opts = {
-    exit: true,
-    quiet: false,
-    ...opts,
-  };
-
-  const { exit, quiet } = opts;
-
-  if (Array.isArray(cmd)) {
-    cmd = cmd.join(IS_WINDOWS ? ' && ' : ';');
-  }
-
-  try {
-    childProcess.execSync(cmd, {
-      stdio: [
-        process.stdin,
-        quiet ? null : process.stdout,
-        quiet ? null : process.stderr,
-      ],
-    });
-    return 0;
-  } catch (error) {
-    if (exit) {
-      process.exit(1);
-    }
-    return 1;
-  }
-};
+exports.shell = shell;
 
 exports.remoteExec = (...cmdList) => {
-  exports.runCmd(
-    `${CMDS.ssh} 'cd ${REMOTE_MAINAPP_DIR}; ${cmdList.join(';')}'`,
-  );
+  exports.shell(`${CMDS.ssh} 'cd ${REMOTE_MAINAPP_DIR}; ${cmdList.join(';')}'`);
 };
 
 exports.removeDiacritics = str =>

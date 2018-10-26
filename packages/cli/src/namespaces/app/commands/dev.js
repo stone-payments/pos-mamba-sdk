@@ -1,5 +1,5 @@
 const chalk = require('chalk');
-const { getWebpackConfigPath, runCmd } = require('../../../utils.js');
+const { getWebpackConfigPath, shell } = require('../../../utils.js');
 
 /** Start the webpack development server */
 module.exports = {
@@ -23,7 +23,7 @@ module.exports = {
         `Starting the development server at: http://localhost:${port}`,
       ),
     );
-    runCmd(cmd);
+    shell(cmd);
   },
   builder: yargs =>
     yargs.options({

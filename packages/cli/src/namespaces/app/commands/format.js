@@ -1,5 +1,5 @@
 const chalk = require('chalk');
-const { runCmd } = require('../../../utils.js');
+const { shell } = require('../../../utils.js');
 const cliArgs = require('../args.js');
 
 /** Build the app for a specific environment */
@@ -18,7 +18,7 @@ module.exports = {
       cmd.push(`eslint --fix *.js "{src,test,webpack}/**/*.{js,html,svelte}"`);
     }
 
-    runCmd(cmd);
+    shell(cmd);
 
     console.log(chalk.green('App format done'));
   },

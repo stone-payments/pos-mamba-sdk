@@ -1,13 +1,11 @@
 const chalk = require('chalk');
-const {
-  runCmd,
-} = require('../../../utils.js');
+const { shell } = require('../../../utils.js');
 
 module.exports = {
   command: 'status',
   description: 'Check if POS is connected at USB port.',
   handler() {
-    const cmd = runCmd('ls /dev/ttyPos*', {
+    const cmd = shell('ls /dev/ttyPos*', {
       exit: false,
       quiet: true,
     });

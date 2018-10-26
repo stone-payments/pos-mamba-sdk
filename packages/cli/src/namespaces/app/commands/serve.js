@@ -1,4 +1,4 @@
-const { runCmd } = require('../../../utils.js');
+const { shell } = require('../../../utils.js');
 
 /** Build the app for a specific environment */
 module.exports = {
@@ -6,6 +6,6 @@ module.exports = {
   desc: 'Start a local http server to deploy the app through the Develop app',
   handler() {
     const cmd = 'http-server "dist/" --cors="*"';
-    runCmd(cmd);
+    shell(cmd);
   },
 };

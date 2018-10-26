@@ -5,7 +5,7 @@ const {
   LOCAL_KEY,
   REMOTE_PORT,
 } = require('../../../consts.js');
-const { runCmd } = require('../../../utils.js');
+const { shell } = require('../../../utils.js');
 
 module.exports = {
   command: 'deploy',
@@ -28,7 +28,7 @@ module.exports = {
     const DIST_DIR = fromCwd(legacy ? 'ui/dist' : 'dist/bundle.pos');
 
     console.log(`Deploying "${appSlug}" to "${REMOTE_APP_DIR}"`);
-    runCmd(
+    shell(
       `rsync -zzaP -e "ssh -i ${LOCAL_KEY} -p ${REMOTE_PORT}" ${
         !force ? '--checksum' : ''
       } --delete ${DIST_DIR}/ ${REMOTE_APP_DIR}`,
@@ -43,7 +43,7 @@ module.exports = {
         .map(path => `--include="${path}"`)
         .join(' ');
 
-      runCmd(
+      shell(
         `rsync -zzaPR ${
           !force ? '--size-only' : ''
         } --delete ${includes} --exclude '**/*' . ${REMOTE_APP_DIR}/`,

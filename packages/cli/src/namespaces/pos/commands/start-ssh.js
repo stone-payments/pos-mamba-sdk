@@ -1,6 +1,4 @@
-const {
-  runCmd,
-} = require('../../../utils.js');
+const { shell } = require('../../../utils.js');
 
 module.exports = {
   command: 'start-ssh',
@@ -11,9 +9,7 @@ module.exports = {
       default: 'Pos0',
     },
   },
-  handler({
-    tty,
-  }) {
-    runCmd(['xcb kill-server', `start_ssh.sh com:/dev/tty${tty}`]);
+  handler({ tty }) {
+    shell(['xcb kill-server', `start_ssh.sh com:/dev/tty${tty}`]);
   },
 };

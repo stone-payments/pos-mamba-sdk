@@ -1,5 +1,5 @@
 const chalk = require('chalk');
-const { getWebpackConfigPath, runCmd } = require('../../../utils.js');
+const { getWebpackConfigPath, shell } = require('../../../utils.js');
 const cliArgs = require('../args.js');
 
 /** Build the app for a specific environment */
@@ -43,7 +43,7 @@ module.exports = {
       console.log(chalk.yellow('  Adding the Mamba simulator to the bundle'));
     }
 
-    runCmd(cmd);
+    shell(cmd);
   },
   builder: yargs =>
     yargs.options({

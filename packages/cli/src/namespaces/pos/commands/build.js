@@ -1,192 +1,210 @@
 const readline = require('readline');
-const fs = require('fs');
-const EOL = require('os').EOL;
+const { writeFile } = require('fs');
+const { EOL } = require('os');
+const { resolve } = require('path');
 
-
-const {
-  runCmd,
-} = require('../../../utils.js');
+const { shell } = require('../../../utils.js');
 
 const config = require('../buildConfig.json');
 
-const params = config.platforms.pax;
-const apps = config.apps;
-const qtPath = `$MAMBA/${params.qt_dir}`;
-const sysRoot = `$MAMBA/${params.sysroot}`;
-const qtMkConf = `$MAMBA/${params.mkspecs}`;
-const destDir = '$MAMBA/deploy';
+const platformParams = config.platforms.pax;
+const { apps } = config;
+
+const MAMBA_DIR = process.env.MAMBA;
+const fromMamba = (...paths) => resolve(MAMBA_DIR, ...paths);
+
+const QT_DIR = fromMamba(platformParams.qt_dir);
+const SYS_ROOT_DIR = fromMamba(platformParams.sysroot);
+const QT_MK_CONF_DIR = fromMamba(platformParams.mkspecs);
+const DIST_DIR = fromMamba('deploy');
+
+const SRC_APP_DIR = fromMamba('apps', 'native');
+const SRC_DB_DIR = fromMamba('sys', 'db');
+
+const DIST_LIB_DIR = fromMamba(DIST_DIR, 'lib');
+const DIST_APP_DIR = resolve(DIST_DIR, 'apps');
+const DIST_DB_DIR = resolve(DIST_DIR, 'sys', 'db');
+const DIST_DB_SCRIPTS_DIR = resolve(DIST_DB_DIR, 'scripts');
 
 module.exports = {
   command: 'build',
   desc: 'Build MambaOS. Defaults to debug mode',
   builder: {
     production: {
-      description: 'Build for release pourpose, logs are disabled.',
+      description: 'Build for release purpose, logs are disabled.',
       default: false,
-      alias: ['p', 'production'],
+      alias: ['p'],
     },
     lib: {
-      description: 'Build only the .pro file at the path specified.',
+      description: 'Build only the .pro file at the specified path.',
       type: 'string',
       default: 'MAMBA.pro',
-      alias: ['l', 'lib'],
+      alias: ['l'],
+    },
+    vendor: {
+      description: 'POS manufacturer',
+      type: 'string',
+      alias: 'v',
+      default: 'PAX',
+    },
+    model: {
+      description: 'POS model name',
+      type: 'string',
+      default: 'S920',
     },
     clean: {
-      description: 'Clears before building.',
+      description: 'Make a clean build',
       default: false,
-      alias: ['clean'],
     },
   },
-  handler({
-    production,
-    lib,
-    clean,
-  }) {
+  // eslint-disable-next-line
+  handler({ production, lib, clean, vendor, model }) {
     console.log('Building Mamba System');
 
     /** Set compiler PATH */
-    process.env.PATH += `:${process.env.MAMBA}/${params.toolchain}`;
-    /** setup environment  variables */
-    runCmd(['cd $MAMBA', `${qtPath}/bin/qmake -set QT_SYSROOT ${sysRoot}`]);
+    process.env.PATH += `:${fromMamba(platformParams.toolchain)}`;
 
-    /** Build project */
-    runCmd([
-      'cd $MAMBA',
-      `${qtPath}/bin/qmake ${lib} -r -spec ${qtMkConf} ${
+    shell.cd(MAMBA_DIR);
+
+    shell(`mkdir -p ${DIST_DIR}`);
+
+    /** Setup environment variables and build project */
+    shell([
+      `${QT_DIR}/bin/qmake -set QT_SYSROOT ${SYS_ROOT_DIR}`,
+      `${QT_DIR}/bin/qmake ${lib} -r -spec ${QT_MK_CONF_DIR} ${
         production ? '' : 'CONFIG+=debug'
       }`,
+      clean && 'make clean',
+      'make -j$(nproc)',
     ]);
 
+    /** Generate DB Files and copy it's files to the dist directory */
     if (clean) {
-      /** Make Clean */
-      runCmd(['cd $MAMBA', 'make clean', 'make -j$(nproc)']);
-
-      /** Clears deploy dir */
-      runCmd(['cd $MAMBA', 'rm -rf deploy/*'], {
-        exit: false,
-      });
-
-      /** Generate DB Files and Copying Files */
       console.log('Building Mamba Database');
-      runCmd(['cd $MAMBA/sys/db',
-        './generateDb.sh',
-        `mkdir -p ${destDir}/sys && mkdir ${destDir}/sys/db && mkdir ${destDir}/sys/db/scripts`,
-        `cp -Ru $MAMBA/sys/db/*.db ${destDir}/sys/db/`,
-        `cp -Ru $MAMBA/sys/db/data/stats/stats.sql ${destDir}/sys/db/scripts`,
-        `cp -Ru $MAMBA/sys/db/data/system/system.sql ${destDir}/sys/db/scripts`,
-        `cp -Ru $MAMBA/sys/db/data/transac/transac.sql ${destDir}/sys/db/scripts`,
-      ]);
 
+      shell(`mkdir -p ${DIST_DB_SCRIPTS_DIR}`);
 
-    } else {
-      runCmd(['cd $MAMBA', 'make -j$(nproc)']);
+      shell('./generateDb.sh', {
+        quiet: true,
+        cwd: SRC_DB_DIR,
+      }); // todo: flags
+
+      shell.rsync('sys/db/*.db', `${DIST_DB_DIR}/`);
+
+      shell.rsync(
+        'sys/db/data/{stats/stats,system/system,transac/transac}.sql',
+        `${DIST_DB_SCRIPTS_DIR}/`,
+      );
     }
 
-    /** Move files to destDir */
-    runCmd(['cd $MAMBA', 'make install', 'mkdir -p  deploy']);
+    /** Move files to dist dir */
+    shell('make install', { quiet: true });
 
     /** Copy Qt and Mamba Lib Files */
-    runCmd(
-      [
-        'cd $MAMBA',
-        `cp -Ru builds/PAX_S920/* ${destDir}`,
-        `cp -Ru builds/PAX_S920/lib/* ${destDir}/lib`,
-        `cp -Ru ${qtPath}/lib/*.so* ${destDir}/lib`,
-        `cp -Ru ${qtPath}/plugins ${destDir}`,
-        `cp -Ru ${qtPath}/imports ${destDir}`,
-        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/usr/lib/libssl.so ${destDir}/lib`,
-        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libsqlite3.so* ${destDir}/lib/`,
-        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libqjson.so* ${destDir}/lib/`,
-        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libqjs.so* ${destDir}/lib/`,
-        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libstdc++* ${destDir}/lib/`,
-        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libF_EMV_LIB_v651.so* ${destDir}/lib/`,
-        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libD_PUBLIC_LIB_v103.so* ${destDir}/lib/`,
-        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libF_ENTRY_LIB_v551_01.so* ${destDir}/lib/`,
-        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libD_DEVICE_LIB_v603_01.so* ${destDir}/lib/`,
-        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libD_MC_LIB_v450.so* ${destDir}/lib/`,
-        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libD_WAVE_LIB_v305.so* ${destDir}/lib/`,
-        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libF_AE_LIB_v250_02.so* ${destDir}/lib/`,
-        `cp -Ru $MAMBA/sdk/linux/PAX/S920/sysroot/lib/libD_DPAS_LIB_v101.so* ${destDir}/lib/`,
-      ], {
-        exit: false,
-      },
+    const libFiles = [
+      [`builds/${platformParams.name}/*`, DIST_DIR],
+      [`${QT_DIR}/{plugins,imports}`, DIST_DIR],
+      [`${QT_DIR}/lib/*.so*`, DIST_LIB_DIR],
+      [`builds/${platformParams.name}/lib/*`, DIST_LIB_DIR],
+      [`sdk/linux/${vendor}/${model}/sysroot/usr/lib/libssl.so`, DIST_LIB_DIR],
+      [`sdk/linux/${vendor}/${model}/sysroot/lib/libsqlite3.so*`, DIST_LIB_DIR],
+      [`sdk/linux/${vendor}/${model}/sysroot/lib/libqjson.so*`, DIST_LIB_DIR],
+      [`sdk/linux/${vendor}/${model}/sysroot/lib/libqjs.so*`, DIST_LIB_DIR],
+      [`sdk/linux/${vendor}/${model}/sysroot/lib/libstdc++*`, DIST_LIB_DIR],
+      [`sdk/linux/${vendor}/${model}/sysroot/lib/libF*`, DIST_LIB_DIR],
+      [`sdk/linux/${vendor}/${model}/sysroot/lib/libD*`, DIST_LIB_DIR],
+    ];
+
+    libFiles.forEach(([src, tgt]) =>
+      shell.rsync(src, `${tgt}/`, { checksum: true }),
     );
 
     /** Copy Config File */
-    runCmd([`cp -r $MAMBA/kernel/MAMBA_PAYMENT_NEW/config/ ${destDir}`]);
+    shell.rsync('kernel/MAMBA_PAYMENT_NEW/config', `${DIST_DIR}/`);
 
-    /** Copy Static Files to Deploy Folder */
-    runCmd([
-      `mkdir -p ${destDir}/res`,
-      `mkdir -p ${destDir}/res/merchant`,
-      `cp -u $MAMBA/res/images/1x/* ${destDir}/res`,
-      `cp -Ru $MAMBA/res/images/2x/* ${destDir}/res`,
-      `cp -Ru $MAMBA/res/images/receipts/* ${destDir}/res`,
-      `cp -Ru $MAMBA/res/images/statusbar ${destDir}/res`,
-      `cp -Ru $MAMBA/res/images/statusbar/* ${destDir}/res`,
-      `cp -Ru $MAMBA/res/fonts ${destDir}/lib`,
-      `cp -Ru $MAMBA/sys/certs ${destDir}/sys`,
-      `cp -Ru $MAMBA/sys/PAX_S920/* ${destDir}/sys`,
-    ], {
-      exit: false,
-    });
+    /** Copy Static Files to dist directory */
+    shell(`mkdir -p ${DIST_DIR}/res/merchants`);
 
-    /** Move Apps to Deploy Folder */
-    runCmd([`mkdir ${destDir}/apps`], {
-      exit: false,
-    });
-    apps.forEach(app => {
-      runCmd(
-        [
-          'cd $MAMBA',
-          `mkdir -p ${destDir}/apps/${app.dest}`,
-          `cp -Ru apps/native${app.dist}/* ${destDir}/apps/${app.dest}`,
-        ], {
-          exit: false,
+    const staticFiles = [
+      [`res/fonts`, `${DIST_LIB_DIR}`],
+      [`res/style.*`, `${DIST_DIR}/res`],
+      [`res/images/{1x,2x,receipts,statusbar}/*`, `${DIST_DIR}/res`],
+      [`sys/certs`, `${DIST_DIR}/sys`],
+      [`sys/${vendor}_${model}/*`, `${DIST_DIR}/sys`],
+    ];
+
+    staticFiles.forEach(([src, tgt]) =>
+      shell.rsync(src, `${tgt}/`, { checksum: true }),
+    );
+
+    /** Move Apps to dist dir */
+    shell(`mkdir -p ${DIST_APP_DIR}`, { exit: false });
+
+    apps.forEach(appInfo => {
+      const { dist, icon, manifest, lib: appLib } = appInfo;
+      let { srcDir, remoteDir } = appInfo;
+
+      srcDir = resolve(SRC_APP_DIR, srcDir);
+      remoteDir = resolve(DIST_APP_DIR, remoteDir);
+
+      shell(`mkdir -p ${remoteDir}`);
+
+      shell.rsync(resolve(srcDir, dist, '*'), `${remoteDir}/`, {
+        exit: false,
+        checksum: true,
+      });
+
+      if (icon) {
+        shell.rsync(resolve(srcDir, icon), `${remoteDir}/`, { checksum: true });
+      }
+
+      if (manifest) {
+        shell.rsync(resolve(srcDir, manifest), `${remoteDir}/`, {
+          checksum: true,
         });
-
-      if (app.icon) {
-        runCmd([`cp -u $MAMBA/apps/native${app.icon} ${destDir}/apps/${app.dest}`]);
       }
 
-      if (app.manifest) {
-        runCmd([`cp -u $MAMBA/apps/native${app.manifest} ${destDir}/apps/${app.dest}`]);
-      }
-
-      if (app.lib) {
-        runCmd([`cp -u $MAMBA/apps/native${app.lib} ${destDir}/apps/${app.dest}`]);
+      if (appLib) {
+        shell.rsync(resolve(srcDir, appLib), `${remoteDir}/`, {
+          checksum: true,
+        });
       }
     });
 
-    /** Ask for App Version */
+    /** Ask for Mamba version */
     const rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout,
     });
 
-    rl.question('\nPlease, type Mamba System Version [x.x.x]:\n', (answer) => {
-      // console.log(typeof answer);
-      let version = '1.0.0';
-      if (answer.match(/\d\.\d\.\d/)) {
-        version = answer;
-      }
+    rl.question('\nPlease, type Mamba System Version [x.x.x]:\n', answer => {
+      const mambaVersion = answer.match(/\d\.\d\.\d/) ? answer : '1.0.0';
 
-      let content = `[app]${EOL}`;
-      content += `name=StoneMambaLoader${EOL}`;
-      content += `bin=StoneMambaLoader${EOL}`;
-      content += `artwork=${EOL}`;
-      content += `desc= Mamba System Application${EOL}`;
-      content += `vender=PAX${EOL}`;
-      content += `version=${version}${EOL}`;
-      fs.writeFile(`${process.env.MAMBA}/deploy/appinfo`, content, 'UTF-8', (error) => {
-        if (error) {
-          console.log(error);
-          console.log('appinfo file could not be written.');
-        }
-      });
+      const APP_INFO_CONTENT = [
+        `[app]`,
+        `name=StoneMambaLoader`,
+        `bin=StoneMambaLoader`,
+        `artwork=`,
+        `desc=Mamba System Application`,
+        `vender=PAX`,
+        `version=${mambaVersion}`,
+      ].join(EOL);
+
+      writeFile(
+        resolve(DIST_DIR, 'appinfo'),
+        APP_INFO_CONTENT + EOL,
+        'UTF-8',
+        error => {
+          if (error) {
+            console.log(error);
+            console.log('Appinfo file could not be written.');
+          }
+        },
+      );
+
       console.log('Mamba Build Done!');
+
       rl.close();
     });
-
   },
 };

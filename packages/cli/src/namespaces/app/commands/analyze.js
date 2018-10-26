@@ -1,5 +1,5 @@
 const chalk = require('chalk');
-const { getWebpackConfigPath, runCmd } = require('../../../utils.js');
+const { getWebpackConfigPath, shell } = require('../../../utils.js');
 const cliArgs = require('../args.js');
 
 /** Build the app for a specific environment */
@@ -14,7 +14,7 @@ module.exports = {
     cmd += `webpack --config "${getWebpackConfigPath('analyzer')}"`;
 
     console.log(chalk.cyan(`Analyzing bundle for '${target.toUpperCase()}'`));
-    runCmd(cmd);
+    shell(cmd);
   },
   builder: yargs =>
     yargs.options({
