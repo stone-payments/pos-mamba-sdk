@@ -63,7 +63,7 @@
     "jest": "^23.6.0",
     "lerna": "^3.4.3",
     "lerna-wizard": "^1.0.9",
-    "lint-staged": "^7.3.0",
+    "lint-staged": "^8.0.0",
     "postcss": "^7.0.5",
     "prettier": "^1.14.3",
     "quickenv": "^0.0.6",
