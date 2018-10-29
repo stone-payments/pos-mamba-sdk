@@ -2,10 +2,14 @@ const childProcess = require('child_process');
 const { homedir } = require('os');
 const { IS_WINDOWS } = require('./consts.js');
 
+const GLOBAL_OPTIONS = {
+  exit: true,
+  quiet: false,
+};
+
 const shell = (cmd, opts = {}) => {
   opts = {
-    exit: true,
-    quiet: false,
+    ...GLOBAL_OPTIONS,
     cwd: process.cwd(),
     ...opts,
   };
@@ -59,6 +63,10 @@ shell.rsync = (src, tgt, opts = {}) => {
   delete opts.checksum;
 
   return shell(cmd, opts);
+};
+
+shell.setGlobal = opts => {
+  Object.assign(GLOBAL_OPTIONS, opts);
 };
 
 module.exports = shell;
