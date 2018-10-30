@@ -62,10 +62,13 @@
           document.activeElement.blur();
         }
       });
-
-      /** Close the confirmation dialog when a positive/negative action is clicked */
-      this.on('negative', () => this.close());
-      this.on('positive', () => this.close());
+    },
+    onstate({ previous }) {
+      if (!previous) {
+        /** Close the confirmation dialog when a positive/negative action is clicked */
+        this.on('negative', () => this.close());
+        this.on('positive', () => this.close());
+      }
     },
     methods: {
       open() {
