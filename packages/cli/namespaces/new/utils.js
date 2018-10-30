@@ -1,13 +1,3 @@
-const { fromCwd } = require('quickenv');
-const { REMOTE_MAINAPP_DIR, CMDS } = require('./consts.js');
-const shell = require('./shell.js');
-
-exports.shell = shell;
-
-exports.remoteExec = (...cmdList) => {
-  exports.shell(`${CMDS.ssh} 'cd ${REMOTE_MAINAPP_DIR}; ${cmdList.join(';')}'`);
-};
-
 exports.removeDiacritics = str =>
   str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
@@ -24,6 +14,3 @@ exports.hashString = str => {
   return hval >>> 0;
   /* eslint-enable */
 };
-
-exports.getWebpackConfigPath = id =>
-  fromCwd('node_modules', '@mamba', 'webpack', `config.${id}.js`);

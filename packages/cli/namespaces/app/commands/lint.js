@@ -1,5 +1,5 @@
 const chalk = require('chalk');
-const { shell } = require('../../../utils.js');
+const shell = require('../../../libs/shell.js');
 const cliArgs = require('../args.js');
 
 /** Build the app for a specific environment */
@@ -7,17 +7,17 @@ module.exports = {
   command: 'lint',
   desc: 'Lint the app source with eslint and stylelint',
   handler({ type }) {
-    const cmd = [];
+    const cmds = [];
 
     if (!type || type === 'css') {
-      cmd.push(`stylelint "src/**/*.{html,svelte,css,pcss}"`);
+      cmds.push(`stylelint "src/**/*.{html,svelte,css,pcss}"`);
     }
 
     if (!type || type === 'js') {
-      cmd.push(`eslint "*.js" "{src,test,webpack}/**/*.{js,html,svelte}"`);
+      cmds.push(`eslint "*.js" "{src,test,webpack}/**/*.{js,html,svelte}"`);
     }
 
-    shell(cmd);
+    shell(cmds);
 
     console.log(chalk.green('App lint done'));
   },

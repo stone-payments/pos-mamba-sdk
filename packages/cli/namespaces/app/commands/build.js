@@ -1,5 +1,6 @@
 const chalk = require('chalk');
-const { getWebpackConfigPath, shell } = require('../../../utils.js');
+const { getWebpackConfigPath } = require('../utils.js');
+const shell = require('../../../libs/shell.js');
 const cliArgs = require('../args.js');
 
 /** Build the app for a specific environment */
@@ -7,25 +8,23 @@ module.exports = {
   command: 'build',
   desc: 'Build the app',
   handler({ target, development, simulator }) {
-    let cmd = '';
-    cmd = 'cross-env ';
-    cmd += `NODE_ENV=${
+    const IS_DEV =
       development === true ||
-      (typeof development === 'number' && development > 0)
-        ? 'development'
-        : 'production'
-    } `;
-    cmd += `APP_ENV=${target} `;
+      (typeof development === 'number' && development > 0);
+    const IS_DEBUG = Number.isInteger(development) && development > 0;
+    const ADD_SIMULATOR = simulator || target === 'browser';
 
-    /** If development flag has a numeric value */
-    if (Number.isInteger(development) && development > 0) {
-      cmd += `DEBUG_LVL=${development} `;
-    }
-
-    if (simulator || target === 'browser') {
-      cmd += 'MAMBA_SIMULATOR=true ';
-    }
-    cmd += `webpack --config "${getWebpackConfigPath('build')}"`;
+    const cmd = [
+      'cross-env',
+      `NODE_ENV=${IS_DEV ? 'development' : 'production'}`,
+      `APP_ENV=${target}`,
+      /** If development flag has a numeric value */
+      IS_DEBUG && `DEBUG_LVL=${development}`,
+      ADD_SIMULATOR && 'MAMBA_SIMULATOR=true',
+      `webpack --config "${getWebpackConfigPath('build')}"`,
+    ]
+      .filter(Boolean)
+      .join(' ');
 
     console.log(chalk.cyan('Building app...'));
     console.log(`  App target: ${chalk.yellow(target.toUpperCase())}`);
@@ -35,11 +34,11 @@ module.exports = {
       )}`,
     );
 
-    if (Number.isInteger(development) && development > 0) {
+    if (IS_DEBUG) {
       console.log(`  Debug Level: ${chalk.yellow(development)}`);
     }
 
-    if (simulator || target === 'browser') {
+    if (ADD_SIMULATOR) {
       console.log(chalk.yellow('  Adding the Mamba simulator to the bundle'));
     }
 

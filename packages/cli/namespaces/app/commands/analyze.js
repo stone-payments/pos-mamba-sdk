@@ -1,5 +1,6 @@
 const chalk = require('chalk');
-const { getWebpackConfigPath, shell } = require('../../../utils.js');
+const { getWebpackConfigPath } = require('../utils.js');
+const shell = require('../../../libs/shell.js');
 const cliArgs = require('../args.js');
 
 /** Build the app for a specific environment */
@@ -7,11 +8,12 @@ module.exports = {
   command: 'analyze',
   desc: 'Analyze the app bundle',
   handler({ target }) {
-    let cmd = '';
-    cmd = 'cross-env ';
-    cmd += 'NODE_ENV=production ';
-    cmd += `APP_ENV=${target} `;
-    cmd += `webpack --config "${getWebpackConfigPath('analyzer')}"`;
+    const cmd = [
+      'cross-env',
+      'NODE_ENV=production',
+      `APP_ENV=${target}`,
+      `webpack --config "${getWebpackConfigPath('analyzer')}"`,
+    ].join(' ');
 
     console.log(chalk.cyan(`Analyzing bundle for '${target.toUpperCase()}'`));
     shell(cmd);

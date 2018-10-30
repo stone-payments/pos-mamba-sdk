@@ -1,6 +1,5 @@
 const childProcess = require('child_process');
 const { homedir } = require('os');
-const { IS_WINDOWS } = require('./consts.js');
 
 const GLOBAL_OPTIONS = {
   exit: true,
@@ -17,7 +16,7 @@ const shell = (cmd, opts = {}) => {
   const { exit, quiet } = opts;
 
   if (Array.isArray(cmd)) {
-    cmd = cmd.filter(Boolean).join(IS_WINDOWS ? ' && ' : ';');
+    cmd = cmd.filter(Boolean).join(process.platform === 'win32' ? ' && ' : ';');
   }
 
   try {
