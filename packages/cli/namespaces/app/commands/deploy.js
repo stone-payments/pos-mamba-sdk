@@ -1,5 +1,5 @@
 const { fromCwd, getPkg } = require('quickenv');
-const shell = require('../../../libs/shell.js');
+const shell = require('../../../lib/shell.js');
 
 const PKG = getPkg();
 

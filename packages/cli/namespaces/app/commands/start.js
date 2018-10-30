@@ -1,6 +1,6 @@
 const chalk = require('chalk');
 const { getWebpackConfigPath } = require('../utils.js');
-const shell = require('../../../libs/shell.js');
+const shell = require('../../../lib/shell.js');
 
 /** Start the webpack development server */
 module.exports = {

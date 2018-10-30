@@ -5,7 +5,7 @@ const chalk = require('chalk');
 const { fromCwd, getPkg } = require('quickenv');
 
 const { removeDiacritics, hashString } = require('../utils.js');
-const shell = require('../../../libs/shell.js');
+const shell = require('../../../lib/shell.js');
 
 const REPO = 'stone-payments/pos-mamba-app-template';
 

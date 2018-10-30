@@ -1,6 +1,6 @@
 const chalk = require('chalk');
 const cliArgs = require('../args.js');
-const shell = require('../../../libs/shell.js');
+const shell = require('../../../lib/shell.js');
 
 /** Build the app for a specific environment */
 module.exports = {
