@@ -16,11 +16,11 @@ function loadCommand(moduleName) {
   }
 }
 
-const getPackagesFrom = (path, cond) => {
+const getPackagesFrom = (path, includedStr) => {
   if (existsSync(path)) {
     return readdirSync(path).filter(f => {
       const fullPath = resolve(path, f);
-      return statSync(fullPath).isDirectory() && cond(fullPath);
+      return statSync(fullPath).isDirectory() && fullPath.includes(includedStr);
     });
   }
   return [];
@@ -37,8 +37,8 @@ const externalPlugins = pkgListPaths.reduce((acc, pkgListPath) => {
   const orgPluginPath = resolve(pkgListPath, '@mamba');
   return [
     ...acc,
-    ...getPackagesFrom(pkgListPath, path => path.includes('mamba-cli-plugin-')),
-    ...getPackagesFrom(orgPluginPath, path => path.includes('cli-plugin-')).map(
+    ...getPackagesFrom(pkgListPath, 'mamba-cli-plugin-'),
+    ...getPackagesFrom(orgPluginPath, 'cli-plugin-').map(
       pkg => `@mamba/${pkg}`,
     ),
   ];
