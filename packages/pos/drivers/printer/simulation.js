@@ -37,6 +37,11 @@ export function setup(Printer) {
         Core.Registry.set('$Printer.isPrinting', false);
         Printer.printerDone();
       });
+
+      /** Fire endPrinting if no Virtual POS found */
+      if (!Core.POS || window.innerWidth <= 480) {
+        setTimeout(Core.HardwareManager.endPrinting, 1000);
+      }
       return;
     }
 
