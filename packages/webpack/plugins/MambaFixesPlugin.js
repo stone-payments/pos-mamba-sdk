@@ -10,6 +10,20 @@ const FIXES = {
     return (force === true || force === false) ? force : !result;
   };`,
 
+  /** Polyfill for the href.port returning 0 instead of '' (empty string) */
+  URL_FIX: `if(typeof window.URL === 'object'){
+    window.URL = function URL(href) {
+      var anc = document.createElement('a');
+      anc.href = href;
+      return {
+        protocol: anc.protocol || 'file:',
+        hostname: anc.hostname || '',
+        port: anc.port === '0' ? '' : anc.port
+      };
+    };
+  };
+  `,
+
   /** Fix <link> onload not being fired */
   LINK_ONLOAD_FIX: `var createLink=function(e){var n=document.createElement("link"),t=document.createElement("IMG");return t.onerror=function(){n.onload()},setTimeout(function(){t.src=n.href}),n};`,
 
