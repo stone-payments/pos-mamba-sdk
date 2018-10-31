@@ -1,5 +1,7 @@
 const ConcatSource = require('webpack-sources/lib/ConcatSource');
 
+// TODO: Remove these fixes when webkit is updated
+
 const FIXES = {
   /** Fix the classlist toggle missing the second argument */
   CLASSLIST_TOGGLE_FIX: `DOMTokenList.prototype.toggle = function(token,force){

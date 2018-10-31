@@ -1,11 +1,7 @@
-const { fromCwd } = require('quickenv');
-const {
-  PKG,
-  REMOTE_APPS_DIR,
-  LOCAL_KEY,
-  REMOTE_PORT,
-} = require('../../../consts.js');
-const { runCmd } = require('../../../utils.js');
+const { fromCwd, getPkg } = require('quickenv');
+const shell = require('../../../lib/shell.js');
+
+const PKG = getPkg();
 
 module.exports = {
   command: 'deploy',
@@ -24,12 +20,12 @@ module.exports = {
     const { id } = PKG.mamba;
     const appSlug = `${id}-${PKG.name}`;
 
-    const REMOTE_APP_DIR = `${REMOTE_APPS_DIR}/${appSlug}.stone`;
+    const REMOTE_APP_DIR = `POS:/data/app/MAINAPP/apps/${appSlug}.stone`;
     const DIST_DIR = fromCwd(legacy ? 'ui/dist' : 'dist/bundle.pos');
 
     console.log(`Deploying "${appSlug}" to "${REMOTE_APP_DIR}"`);
-    runCmd(
-      `rsync -zzaP -e "ssh -i ${LOCAL_KEY} -p ${REMOTE_PORT}" ${
+    shell(
+      `rsync -zzaP ${
         !force ? '--checksum' : ''
       } --delete ${DIST_DIR}/ ${REMOTE_APP_DIR}`,
     );
@@ -43,7 +39,7 @@ module.exports = {
         .map(path => `--include="${path}"`)
         .join(' ');
 
-      runCmd(
+      shell(
         `rsync -zzaPR ${
           !force ? '--size-only' : ''
         } --delete ${includes} --exclude '**/*' . ${REMOTE_APP_DIR}/`,
