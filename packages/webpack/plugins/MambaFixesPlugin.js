@@ -13,7 +13,7 @@ const FIXES = {
   };`,
 
   /** Polyfill for the href.port returning 0 instead of '' (empty string) */
-  URL_FIX: `if(typeof window.URL === 'object'){
+  URL_FIX: `if(typeof window.URL !== 'function'){
     window.URL = function URL(href) {
       var anc = document.createElement('a');
       anc.href = href;
