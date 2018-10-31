@@ -5,9 +5,7 @@
         <div class="shadow"></div>
         <div class="pos">
           <Printer ref:printer />
-          <Screen ref:screen bind:time bind:version>
-            <slot></slot>
-          </Screen>
+          <Screen ref:screen bind:time bind:version />
           <Keypad ref:keypad />
         </div>
       </div>
@@ -65,7 +63,8 @@
        * Set the render engine to a body attribute
        * to make our css a bit smarter since we depend heavily on webkit.
        * */
-      document.body.setAttribute('engine', _browserEngine);
+      document.documentElement.setAttribute('engine', _browserEngine);
+      document.documentElement.setAttribute('virtual-pos', '');
       this.set({ _browserEngine });
 
       this.createDriverPanel(PrinterSimulation, PrinterPanel);
@@ -92,6 +91,22 @@
 </script>
 
 <style type="text/postcss">
+  @media (max-width: 480px) {
+    :global(html[virtual-pos] body),
+    .wrapper,
+    .container,
+    .pos-wrapper,
+    .pos {
+      height: 100%;
+    }
+
+    /* stylelint-disable-next-line */
+    :global(#app-root),
+    :global(body) {
+      min-height: 100%;
+    }
+  }
+
   @media (min-width: 481px) {
     .wrapper {
       display: flex;

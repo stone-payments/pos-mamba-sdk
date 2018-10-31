@@ -8,12 +8,8 @@
       <div class="version">{time}</div>
     </div>
   </div>
-  <div id="app-root" class="content" ref:content>
-    <!-- {#if showRestart}
-      <button on:click="restart()">RESTART</button>
-    {:else} -->
-      <slot></slot>
-    <!-- {/if} -->
+  <div class="content">
+    <div id="app-root"></div>
   </div>
 </div>
 
@@ -31,42 +27,44 @@
 </svg>
 
 <script>
-  // import Core from '../../plugins/core.js';
-
   export default {
     data() {
       return {
         time: '00:00',
-        version: '2.4.0',
+        version: '2.5.0',
         brightnessLevel: 10,
-        showRestart: false,
       };
     },
     computed: {
       brightnessOpacity: ({ brightnessLevel }) => 1 - brightnessLevel / 10,
     },
-    oncreate() {
-      // Core.on('app:closed', () => {
-      //   this.set({ showRestart: true });
-      // });
-    },
-    methods: {
-      restart() {
-        // this.set({ showRestart: false });
-        // Core.fire('app:open', Core.App.constructor, this.refs.content);
-      },
-    },
   };
 </script>
 
 <style type="text/postcss">
+  @import '@mamba/styles/theme.pcss';
+
   @media (max-width: 480px) {
     .status-bar {
       display: none;
     }
+
+    :global(body) {
+      background-color: $app-bg-color;
+    }
+
+    .screen {
+      height: 100%;
+    }
   }
 
   @media (min-width: 481px) {
+    /* stylelint-disable-next-line */
+    #app-root {
+      height: 100%;
+      overflow: auto;
+    }
+
     .screen {
       position: absolute;
       top: 231px;
@@ -80,10 +78,10 @@
 
     .content {
       height: 100%;
-      overflow: hidden;
       flex: 0 1 auto;
-      user-select: text;
+      overflow: hidden;
       filter: url(#pos-color-map);
+      user-select: text;
     }
 
     /** Makes, in chrome, all fixed elements relative to the screen div */
@@ -104,14 +102,13 @@
     /* For now, must set the tag 'layout.css.scrollbar-width.enabled' to 'true' in 'about:config' */
     /* https://developer.mozilla.org/en-US/docs/Web/CSS/scrollbar-width#Browser_Compatibility */
     @supports (scrollbar-width: none) {
-      .content :global(*) {
-        &,
-        &::before,
-        &::after {
-          /* stylelint-disable-next-line */
-          scrollbar-width: none;
-        }
+      /* stylelint-disable */
+      #app-root,
+      #app-root::before,
+      #app-root::after {
+        scrollbar-width: none;
       }
+      /* stylelint-enable */
     }
 
     .brightness {
