@@ -1,6 +1,6 @@
 {
   "name": "@mamba/configs",
-  "version": "1.0.0-rc.24",
+  "version": "1.0.0-rc.26",
   "description": "Tool config presets for use in mamba projects.",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -38,7 +38,7 @@
     "eslint-plugin-html": "^4.0.6",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jest": "^21.25.1",
-    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-node": "^8.0.0",
     "eslint-plugin-prettier": "^3.0.0",
     "eslint-plugin-promise": "^4.0.1",
     "postcss-advanced-variables": "^2.3.3",

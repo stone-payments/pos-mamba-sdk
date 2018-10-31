@@ -96,6 +96,7 @@ const config = {
       __POS__: process.env.APP_ENV === 'POS',
       __SIMULATOR__: process.env.MAMBA_SIMULATOR === true,
       __BROWSER__: process.env.APP_ENV === 'browser',
+      __DEBUG_LVL__: 2,
     }),
   ],
 };

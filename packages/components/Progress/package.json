@@ -1,6 +1,6 @@
 {
   "name": "@mamba/progress",
-  "version": "1.0.0-rc.24",
+  "version": "1.0.0-rc.26",
   "svelte": "ProgressBar.html",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -15,10 +15,10 @@
     "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w"
   },
   "dependencies": {
-    "@mamba/styles": "^1.0.0-rc.24"
+    "@mamba/styles": "^1.0.0-rc.26"
   },
   "gitHead": "7118f44e933d2f656166a80822c0b3c1001e6a33",
   "devDependencies": {
-    "@mamba/pos": "^1.0.0-rc.24"
+    "@mamba/pos": "^1.0.0-rc.26"
   }
 }

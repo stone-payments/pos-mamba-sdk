@@ -1,6 +1,7 @@
-const { fromCwd } = require('quickenv');
+const { fromCwd, getPkg } = require('quickenv');
 const chalk = require('chalk');
-const { PKG, IS_WINDOWS } = require('../../consts.js');
+
+const PKG = getPkg();
 
 module.exports = {
   command: 'app <command>',
@@ -12,6 +13,7 @@ module.exports = {
       );
       process.exit(1);
     }
+    process.chdir(PKG.rootDir);
 
     if (typeof PKG.mamba === 'undefined') {
       console.error(
@@ -26,7 +28,8 @@ module.exports = {
 
     /** Add the node_modules/.bin of the current app to the PATH env variable */
     process.env.PATH +=
-      (IS_WINDOWS ? ';' : ':') + fromCwd('node_modules', '.bin');
+      (process.platform === 'win32' ? ';' : ':') +
+      fromCwd('node_modules', '.bin');
 
     return yargs.demand(2).commandDir('./commands');
   },

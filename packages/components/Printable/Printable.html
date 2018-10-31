@@ -71,7 +71,7 @@
     methods: {
       print(printerOptions) {
         const { dithering, id, showPrintingDialog } = this.get();
-        const content = this.refs.printableContent;
+        const contentEl = this.refs.printableContent;
 
         /** Default printing parameters */
         printerOptions = Object.assign(
@@ -83,7 +83,14 @@
           printerOptions,
         );
 
-        const _printingPromise = Printer.print(content, printerOptions);
+        const _printingPromise = Printer.print(contentEl, printerOptions);
+
+        if (printerOptions.print_to_paper === false) {
+          /** If virtual printing (save printable img only), dispatch the finish event */
+          return Promise.resolve().then(() => {
+            this.fire('finish', true);
+          });
+        }
 
         /**
          * If we don't use the printingDialog,
@@ -92,14 +99,8 @@
          * Obs: for showPrintingDialog=true this logic is encapsulated inside the
          * <PromiseDialog on:success and on:failure/>
          * */
-        if (printerOptions.print_to_paper === false) {
-          /** If virtual printing (save printable img only), dispatch the finish event */
-          return Promise.resolve().then(() => {
-            this.fire('finish', true);
-          });
-        }
-
         if (!showPrintingDialog) {
+          this.set({ _state: STATES.PRINTING });
           _printingPromise
             .then(() => this.set({ _state: STATES.SUCCESS }))
             .catch(() => this.set({ _state: STATES.FAILURE }));

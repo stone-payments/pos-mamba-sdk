@@ -1,29 +1,30 @@
 const chalk = require('chalk');
-const { getWebpackConfigPath, runCmd } = require('../../../utils.js');
+const { getWebpackConfigPath } = require('../utils.js');
+const shell = require('../../../lib/shell.js');
 
 /** Start the webpack development server */
 module.exports = {
-  command: ['dev', 'start'],
+  command: 'start',
   desc: 'Start the development server',
   handler({ debug, port }) {
-    let cmd = '';
-    cmd = 'cross-env ';
-
-    /** If development flag has a numeric value */
-    if (Number.isInteger(debug)) {
-      cmd += `DEBUG_LVL=${debug} `;
-    }
-
-    cmd += `webpack-dev-server --port ${port} --config "${getWebpackConfigPath(
-      'dev',
-    )}"`;
+    const webpackConfigPath = getWebpackConfigPath('dev');
 
     console.log(
       chalk.cyan(
         `Starting the development server at: http://localhost:${port}`,
       ),
     );
-    runCmd(cmd);
+
+    const cmd = [
+      'cross-env',
+      /** If development flag has a numeric value */
+      Number.isInteger(debug) && `DEBUG_LVL=${debug}`,
+      `webpack-dev-server --port ${port} --config "${webpackConfigPath}"`,
+    ]
+      .filter(Boolean)
+      .join(' ');
+
+    shell(cmd);
   },
   builder: yargs =>
     yargs.options({
