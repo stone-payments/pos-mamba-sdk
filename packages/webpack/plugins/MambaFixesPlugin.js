@@ -1,5 +1,7 @@
 const ConcatSource = require('webpack-sources/lib/ConcatSource');
 
+// TODO: Remove these fixes when webkit is updated
+
 const FIXES = {
   /** Fix the classlist toggle missing the second argument */
   CLASSLIST_TOGGLE_FIX: `DOMTokenList.prototype.toggle = function(token,force){
@@ -8,6 +10,17 @@ const FIXES = {
       method = result ? force !== true && "remove" : force !== false && "add";
     if (method) { this[method](token); }
     return (force === true || force === false) ? force : !result;
+  };`,
+
+  /** Polyfill for the href.port returning 0 instead of '' (empty string) */
+  URL_FIX: `window.URL = function URL(href) {
+    var anc = document.createElement('a');
+    anc.href = href;
+    return {
+      protocol: anc.protocol || 'file:',
+      hostname: anc.hostname || '',
+      port: parseInt(anc.port, 10) || ''
+    };
   };`,
 
   /** Fix <link> onload not being fired */
