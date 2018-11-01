@@ -2,13 +2,14 @@ const { fromWorkspace, fromProject } = require('./tools/utils/paths.js');
 
 module.exports = {
   rootDir: fromWorkspace(),
-  collectCoverageFrom: [fromWorkspace('**/*.test.js')],
+  collectCoverage: true,
+  collectCoverageFrom: ['**/*.{html,htmlx,svelte}', '!**/node_modules/**'],
   testMatch: [fromWorkspace('**/*.test.js')],
-  moduleFileExtensions: ['js', 'jsx'],
+  moduleFileExtensions: ['js'],
   moduleDirectories: [
     fromProject('node_modules'),
     fromWorkspace('node_modules'),
-    fromWorkspace('src'),
+    fromWorkspace(),
   ],
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': fromProject(
@@ -17,6 +18,7 @@ module.exports = {
     '\\.(s[ac]?|c)ss$': 'identity-obj-proxy',
   },
   transform: {
-    '^.+\\.jsx?$': fromProject('tools/jest/babelPreprocess.js'),
+    '^.+\\.js?$': fromProject('tools/jest/babelPreprocess.js'),
+    '^.+\\.(htmlx?|svelte)$': fromProject('tools/jest/svelteTransformer.js'),
   },
 };
