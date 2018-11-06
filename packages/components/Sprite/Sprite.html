@@ -8,10 +8,14 @@
       return {
         _spriteWidth: null,
         _position: 0,
+        _interval: null,
+        src: null,
+        width: 0,
+        height: 0,
       };
     },
     oncreate() {
-      const { src, width, height } = this.options.data;
+      const { src, width, height } = this.get();
       const { sprite } = this.refs;
       const image = new Image();
 
@@ -19,23 +23,27 @@
       sprite.style.width = width;
       sprite.style.height = height || width;
 
-      image.src = src;
       image.onload = () => {
         this.set({ _spriteWidth: image.width });
         this.start();
       };
+      image.src = src;
     },
     ondestroy() {
-      const { interval } = this.get();
-      clearInterval(interval);
+      /* istanbul ignore next */
+      const { _interval } = this.get();
+      /* istanbul ignore next */
+      clearInterval(_interval);
     },
     methods: {
       start() {
         const { _spriteWidth, _position } = this.get();
+        /* istanbul ignore next */
         const STEP = _spriteWidth ? _spriteWidth / FPS : 0;
         let positionAux = _position;
 
-        const interval = setInterval(() => {
+        /* istanbul ignore next */
+        const _interval = setInterval(() => {
           positionAux -= STEP;
           if (positionAux < -_spriteWidth) {
             positionAux = 0;
@@ -43,12 +51,12 @@
           this.set({ _position: positionAux });
         }, 1000 / FPS);
 
-        this.set({ interval });
+        this.set({ _interval });
       },
       stop() {
-        const { interval } = this.get();
-        clearInterval(interval);
-        this.set({ interval: null });
+        const { _interval } = this.get();
+        clearInterval(_interval);
+        this.set({ _interval: null });
       },
     },
   };
