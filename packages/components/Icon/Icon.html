@@ -30,6 +30,7 @@
       style({ src, color, width, height }) {
         return [
           color && `background-color: ${color}`,
+          /* istanbul ignore next */
           src && `-webkit-mask-image: url(${src})`,
           width && `width: ${width}`,
           height && `height: ${height}`,

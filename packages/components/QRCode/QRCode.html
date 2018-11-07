@@ -31,6 +31,7 @@
     onupdate({ current }) {
       const { size, color, value, level } = current;
 
+      /* istanbul ignore next */
       qrEl.set({
         size: SIZES[String(size).toUpperCase()] || 140,
         foreground: color,
