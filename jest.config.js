@@ -23,7 +23,10 @@ module.exports = {
     },
   },
   testMatch: [fromWorkspace('**/*.test.js')],
-  setupFiles: [fromProject('tools/jest/setup/simulator.js')],
+  setupFiles: [
+    fromProject('tools/jest/setup/simulator.js'),
+    'jest-canvas-mock',
+  ],
   moduleFileExtensions: ['js'],
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': fromProject(
