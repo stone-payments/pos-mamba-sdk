@@ -65,6 +65,7 @@
     "husky": "^1.1.2",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^23.6.0",
+    "jest-canvas-mock": "^1.1.0",
     "lerna": "^3.4.3",
     "lerna-wizard": "^1.0.9",
     "lint-staged": "^8.0.4",

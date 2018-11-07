@@ -21,4 +21,5 @@ module.exports = {
     '^.+\\.js?$': fromProject('tools/jest/babelPreprocess.js'),
     '^.+\\.(htmlx?|svelte)$': fromProject('tools/jest/svelteTransformer.js'),
   },
+  setupFiles: ['jest-canvas-mock'],
 };
