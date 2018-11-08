@@ -5,37 +5,31 @@ const target = document.body;
 let component;
 
 const newInstance = data => {
+  if (component) {
+    component.destroy();
+  }
   component = new Printable({ target, data });
   return component;
 };
 
-afterEach(() => {
-  if (component) component.destroy();
-});
+newInstance();
 
 it('should be able to print its content', () => {
-  newInstance();
-
   expect(typeof component.print).toBe('function');
 });
 
-it('print() should return a promise', () => {
-  newInstance();
-
-  expect(typeof component.print().then).toBe('function');
-});
-
 it('print() promise should resolve at the same time as the "finish" event', () => {
-  newInstance();
+  const printingPromise = component.print();
+
+  expect(typeof printingPromise.then).toBe('function');
 
   return Promise.all([
     new Promise(res => component.on('finish', res)),
-    component.print(),
+    printingPromise,
   ]);
 });
 
 it('should display a printing dialog', () => {
-  newInstance();
   component.print();
 
   return new Promise(res => {
@@ -60,18 +54,14 @@ it('should not display the printing dialog when `showPrintingDialog: false`', ()
   });
 });
 
-it('should return a resolved promise when `print({ print_to_paper: false })` and fire "finish"', () => {
-  newInstance();
-
-  return Promise.all([
+it('should return a resolved promise when `print({ print_to_paper: false })` and fire "finish"', () =>
+  Promise.all([
     new Promise(res => component.on('finish', res)),
     component.print({ print_to_paper: false }),
-  ]);
-});
+  ]));
 
 it('should display a retry dialog in case of a printing error', () => {
   Simulator.Registry.set('$Printer.panel.shouldFail', true);
-  newInstance();
   component.print();
 
   return new Promise(res => {
@@ -79,19 +69,17 @@ it('should display a retry dialog in case of a printing error', () => {
       if (component.refs.failureDialog) {
         res();
       }
-    }, 1000);
+    });
   });
 });
 
 it('should dispatch a "finish" event in case of not wanting to retry printing', () => {
-  Simulator.Registry.set('$Printer.panel.shouldFail', true);
-  newInstance();
   component.print();
 
   return new Promise(res => {
     component.on('finish', res);
     setTimeout(() => {
-      document.body.querySelector('[shortcut="close"]').click();
-    }, 1000);
+      component.options.target.querySelector('[shortcut="close"]').click();
+    });
   });
 });

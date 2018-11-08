@@ -33,14 +33,14 @@ module.exports = {
       'tools/jest/__mocks__/fileMock.js',
     ),
     '\\.(s[ac]?|c)ss$': 'identity-obj-proxy',
-    /** "resolvine" from the "svelte" field of a component package.json */
+    /** act as a resolver for the "svelte" field of a component package.json */
     ...getDirs(componentsPath).reduce((acc, dirName) => {
       const pkg = getPkg({
         path: resolve(componentsPath, dirName),
         traverse: false,
       });
 
-      const mainFile = pkg.svelte || `${dirName}.html`;
+      const mainFile = pkg.svelte || pkg.main || `${dirName}.html`;
 
       acc[`@mamba/${dirName.toLocaleLowerCase()}$`] = resolve(
         componentsPath,

@@ -45,9 +45,11 @@
       Dialog: '@mamba/dialog',
       ConfirmationDialog: '@mamba/dialog/Confirmation.html',
     },
+    helpers: {
+      STATES,
+    },
     data() {
       return {
-        STATES,
         _state: STATES.IDLE,
         _paperWidth: PAPER_WIDTH,
         dithering: false,
