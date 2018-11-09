@@ -9,13 +9,19 @@ const AppManager = extendDriver({});
 const Apps = new Map();
 let currentApp = null;
 
-Signal.register(AppManager, ['willOpen', 'opened', 'willClose', 'closed']);
+Signal.register(AppManager, [
+  'appInstalled',
+  'willOpen',
+  'opened',
+  'willClose',
+  'closed',
+]);
 
 AppManager.getInstalledApps = () => Apps;
 AppManager.getCurrentApp = () => currentApp;
 
 AppManager.installApp = (AppConstructor, manifest) => {
-  if (!Apps.has(AppConstructor)) {
+  if (!Apps.has(manifest.slug)) {
     const appMetaObj = {
       constructor: AppConstructor,
       manifest,
@@ -27,18 +33,19 @@ AppManager.installApp = (AppConstructor, manifest) => {
       DriverManager.clearLooseDrivers();
     }
 
-    Apps.set(AppConstructor, appMetaObj);
+    Apps.set(manifest.slug, appMetaObj);
+
+    AppManager.fire('appInstalled', appMetaObj);
   }
 };
 
-AppManager.open = (AppConstructor, target) => {
-  AppConstructor = AppConstructor || (currentApp && currentApp.constructor);
-  target = target || (currentApp && currentApp.target);
+AppManager.open = (appSlug, target) => {
+  AppManager.fire('willOpen');
+
+  target = target || document.getElementById('app-root');
 
   /** First time opening an app */
-  const appMetaObj = Apps.get(AppConstructor);
-
-  AppManager.fire('willOpen');
+  const appMetaObj = Apps.get(appSlug);
 
   if (__DEV__) log(`Opening App: ${appMetaObj.manifest.appName}`);
 
@@ -49,13 +56,13 @@ AppManager.open = (AppConstructor, target) => {
     return;
   }
 
-  appMetaObj.instance = new AppConstructor({ target });
+  appMetaObj.instance = new appMetaObj.constructor({ target });
   appMetaObj.target = target;
 
   currentApp = appMetaObj;
 
-  App.fire('opened');
   AppManager.fire('opened');
+  App.fire('opened');
 };
 
 AppManager.close = () => {

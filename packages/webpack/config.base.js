@@ -1,6 +1,7 @@
 /**
  * Common webpack configuration
  */
+const { readFileSync } = require('fs');
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -162,6 +163,10 @@ module.exports = {
         name: PKG.name,
         description: PKG.description,
         version: PKG.version,
+        slug: `${PKG.mamba.id}-${PKG.name}`,
+        iconBase64: readFileSync(fromCwd('src', PKG.mamba.iconPath), {
+          encoding: 'base64',
+        }),
         ...PKG.mamba,
       }),
     }),

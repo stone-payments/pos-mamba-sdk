@@ -9,7 +9,6 @@ import App from './index.html';
  * This file contain utility methods used by the apps in general.
  * This runs on the simulation AND the POS.
  */
-const target = document.getElementById('app-root');
 
 /**
  * If we're inside the simulator context,
@@ -19,7 +18,8 @@ if (__BROWSER__) {
   const { AppManager } = window.MambaWeb;
   /** __MANIFEST__ is replaced with the current app's manifest */
   AppManager.installApp(App, __MANIFEST__);
-  AppManager.open(App, target);
+  AppManager.open(__MANIFEST__.slug);
 } else {
+  const target = document.getElementById('app-root');
   new App({ target });
 }
