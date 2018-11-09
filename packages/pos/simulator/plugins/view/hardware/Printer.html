@@ -193,10 +193,6 @@
     transform-origin: 0 100%;
     max-height: $max-paper-height;
 
-    &::-webkit-scrollbar {
-      display: none;
-    }
-
     .printer.is-idle & {
       max-height: 0;
     }
@@ -222,9 +218,5 @@
     z-index: 1;
     padding: 20px 21px 15px 20px;
     filter: contrast(300%) grayscale(100%) url(#remove-colors-alpha);
-  }
-
-  .content::-webkit-scrollbar {
-    display: none;
   }
 </style>

@@ -1,10 +1,6 @@
 <svelte:window on:keyup="onKeyup(event)" on:keydown="onKeydown(event)"/>
 
-<div
-  class="app"
-  class:has-appbar="hasAppbar"
-  class:is-scrollable="scrollable"
->
+<div class="app">
   <slot></slot>
 </div>
 
@@ -55,6 +51,17 @@
       /** Set a reference on the root component to the <App/> meta component */
       if (!previous) {
         this.root.meta = this;
+      }
+    },
+    onupdate({ changed, current }) {
+      const { target: rootEl } = this.root.options;
+
+      if (changed.scrollable) {
+        rootEl.classList.toggle('no-scroll', !current.scrollable);
+      }
+
+      if (changed.hasAppbar) {
+        rootEl.classList.toggle('has-appbar', current.hasAppbar);
       }
     },
     methods: {
@@ -167,14 +174,11 @@
 <style type="text/postcss">
   @import '@mamba/styles/theme.pcss';
 
-  .app {
-    height: 100%;
+  :global(#app-root) {
     background-color: $app-bg-color;
-    overflow-x: hidden;
-    overflow-y: hidden;
 
-    &.is-scrollable {
-      overflow-y: auto;
+    &.no-scroll {
+      overflow: hidden;
     }
   }
 </style>

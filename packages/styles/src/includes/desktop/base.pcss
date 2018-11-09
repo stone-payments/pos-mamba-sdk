@@ -2,6 +2,23 @@ body {
   background-color: #fff;
 }
 
+/* stylelint-disable-next-line */
+#app-root::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  html[virtual-pos],
+  html[virtual-pos] body {
+    /* stylelint-disable-next-line */
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
 *::after,
 *::before,
 *:not(input),
