@@ -61,6 +61,7 @@
           const { scrollable, navigation } = this.root.meta.get();
 
           /** Disable app scroll when opening a dialog */
+          /* istanbul ignore else */
           if (scrollable) {
             this.root.meta.set({ scrollable: false });
           }
