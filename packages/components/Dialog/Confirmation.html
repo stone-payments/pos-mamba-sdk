@@ -1,15 +1,21 @@
-<Dialog ref:dialog {..._dialogProps} bind:isOpen>
+<Dialog
+  ref:dialog
+  {..._dialogProps}
+  bind:isOpen
+  on:open
+  on:close
+>
   <slot></slot>
   <div slot="extra">
     <table class="actions" class:has-labels="hasLabel">
       <tr>
         <td>
           {#if hasLabel}
-            <button class="action" on:click="fire('negative')" shortcut="close">
+            <button class="action" on:click="close('negative')" shortcut="close">
               {negativeLabel}
             </button>
           {:else}
-            <div class="action" on:click="fire('negative')" shortcut="close">
+            <div class="action" on:click="close('negative')" shortcut="close">
               <RoundIcon symbol="close" size="giant" borderRadius="15px" bgColor="#ef5152" />
             </div>
           {/if}
@@ -20,13 +26,13 @@
             <button
               class="action"
               style='color: #fff; background-color: {primaryColor}; border-color: {primaryColor};'
-              on:click="fire('positive')"
+              on:click="close('positive')"
               shortcut="enter"
             >
               {positiveLabel}
             </button>
           {:else}
-            <div class="action" on:click="fire('positive')" shortcut="enter">
+            <div class="action" on:click="close('positive')" shortcut="enter">
               <RoundIcon symbol="check" size="giant" borderRadius="15px" bgColor="#4ebf1a" />
             </div>
           {/if}
@@ -55,27 +61,16 @@
       hasLabel: ({ negativeLabel, positiveLabel }) =>
         !!(negativeLabel || positiveLabel),
     },
-    oncreate() {
-      /** When the dialog opens, prevent 'closing' the app with the 'close' key */
-      this.refs.dialog.on('open', () => {
-        if (document.activeElement) {
-          document.activeElement.blur();
-        }
-      });
-    },
-    onstate({ previous }) {
-      if (!previous) {
-        /** Close the confirmation dialog when a positive/negative action is clicked */
-        this.on('negative', () => this.close());
-        this.on('positive', () => this.close());
-      }
-    },
     methods: {
       open() {
         return this.refs.dialog.open();
       },
-      close() {
-        return this.refs.dialog.close();
+      close(event) {
+        return this.refs.dialog.close().then(() => {
+          if (event) {
+            this.fire(event);
+          }
+        });
       },
     },
   };

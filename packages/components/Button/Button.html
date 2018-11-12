@@ -1,6 +1,7 @@
 <button
   ref:button
-  class="button is-{size} {bottom ? 'is-fixed' : ''}"
+  class="button is-{size}"
+  class:is-fixed="bottom"
   {style}
   {disabled}
   on:click
