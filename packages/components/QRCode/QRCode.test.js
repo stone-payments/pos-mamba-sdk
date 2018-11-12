@@ -15,9 +15,33 @@ beforeEach(() => {
   document.body.innerHTML = '';
 });
 
-it('should hide logo image.', () => {
+it('should hide logo image without logo', () => {
   newQRCode({
     size: 'medium',
+    logo: undefined,
+  });
+  expect(document.querySelector('.logo')).toBe(null);
+});
+
+it('should show logo image.', () => {
+  newQRCode({
+    size: 'medium',
+    logo: './example/static/logo.png',
+  });
+  expect(document.querySelector('.logo')).not.toBeNull();
+});
+
+it('should hide logo image with small size.', () => {
+  newQRCode({
+    size: 'small',
+    logo: './example/static/logo.png',
+  });
+  expect(document.querySelector('.logo')).toBe(null);
+});
+
+it('should hide logo image with small size and without logo.', () => {
+  newQRCode({
+    size: 'small',
     logo: undefined,
   });
   expect(document.querySelector('.logo')).toBe(null);
