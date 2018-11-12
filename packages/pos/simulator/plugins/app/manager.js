@@ -3,8 +3,9 @@ import Signal from '../../libs/signal.js';
 import App from '../../../api/app.js';
 import extendDriver from '../../../drivers/extend.js';
 import { log, warn } from '../../libs/utils.js';
+import initEventCollector from './includes/events.js';
 
-const AppManager = extendDriver({});
+const AppManager = extendDriver({}, initEventCollector);
 
 const Apps = new Map();
 let currentApp = null;
@@ -56,10 +57,13 @@ AppManager.open = (appSlug, target) => {
     return;
   }
 
-  appMetaObj.instance = new appMetaObj.constructor({ target });
-  appMetaObj.target = target;
+  appMetaObj.runtime = {
+    target,
+    collectedEvents: [],
+  };
 
   currentApp = appMetaObj;
+  currentApp.runtime.instance = new appMetaObj.constructor({ target });
 
   AppManager.fire('opened');
   App.fire('opened');
@@ -72,9 +76,22 @@ AppManager.close = () => {
 
   App.fire('closed');
 
-  if (currentApp.instance) {
-    currentApp.instance.destroy();
-    currentApp.instance = null;
+  if (currentApp.runtime.instance) {
+    const { runtime } = currentApp;
+    runtime.instance.destroy();
+    runtime.instance = null;
+
+    if (runtime.collectedEvents.length) {
+      for (let len = runtime.collectedEvents.length; len--; ) {
+        const [node, type, fn] = runtime.collectedEvents[len];
+        node.removeEventListener(type, fn);
+        if (__DEBUG_LVL__ >= 3) {
+          log('Removing DOM event listener: ');
+          console.log([node, type, fn]);
+        }
+      }
+      runtime.collectedEvents = [];
+    }
 
     if (currentApp.drivers) {
       currentApp.drivers.forEach(driverModule => {
@@ -86,11 +103,6 @@ AppManager.close = () => {
   }
 
   AppManager.fire('closed');
-};
-
-AppManager.restart = () => {
-  AppManager.once('closed', () => AppManager.open());
-  AppManager.close();
 };
 
 export default AppManager;

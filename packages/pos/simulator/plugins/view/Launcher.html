@@ -40,6 +40,7 @@
   const STATES = {
     LOCKSCREEN: 0,
     HOME: 1,
+    APP: 2,
   };
 
   export default {
@@ -70,22 +71,20 @@
         if (STATE !== STATES.APP) {
           this.set({ STATE: STATES.APP });
         }
-      });
-
-      AppManager.on('closed', () => {
-        window.history.pushState(null, null, '/');
-        this.set({ STATE: STATES.HOME });
-      });
-
-      AppManager.on('appInstalled', appMeta => {
-        const { apps } = this.get();
-        this.set({
-          apps: {
-            ...apps,
-            [appMeta.manifest.slug]: appMeta,
-          },
+      })
+        .on('closed', () => {
+          window.history.pushState(null, null, '/');
+          this.gotoHome();
+        })
+        .on('appInstalled', appMeta => {
+          const { apps } = this.get();
+          this.set({
+            apps: {
+              ...apps,
+              [appMeta.manifest.slug]: appMeta,
+            },
+          });
         });
-      });
     },
     methods: {
       openApp(appMeta) {
@@ -94,9 +93,11 @@
       },
       gotoLockscreen() {
         this.set({ STATE: STATES.LOCKSCREEN });
+        document.title = 'MambaWeb - Lockscreen';
       },
       gotoHome() {
         this.set({ STATE: STATES.HOME });
+        document.title = 'MambaWeb - Home';
       },
     },
   };
