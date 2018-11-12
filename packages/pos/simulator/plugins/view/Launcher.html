@@ -4,7 +4,7 @@
 {:else}
   <div class="launcher">
     {#if STATE === STATES.LOCKSCREEN}
-      <div class="lock-screen">
+      <div class="lockscreen">
         <time>{time}</time>
         <div class="merchant">SIMULAÇÃO - Lojista</div>
         <div class="actions"></div>
@@ -20,9 +20,15 @@
     {#if STATE === STATES.HOME}
       <div class="home">
         {#each Object.values(apps) as app}
-          <div on:click="openApp(app)">
-            <img src="data:image/png;base64,{app.manifest.iconBase64}" alt="">
-            {app.manifest.appName}
+          <div class="app-item" on:click="openApp(app)">
+            <div class="content">
+              <div class="icon">
+                <img src="data:image/png;base64,{app.manifest.iconBase64}" alt="{app.manifest.name}">
+              </div>
+              <div class="title">
+                {app.manifest.appName}
+              </div>
+            </div>
           </div>
         {/each}
       </div>
@@ -114,16 +120,18 @@
     }
   }
 
-  :global(body) {
+  .launcher {
     height: 100%;
+    overflow: auto;
   }
 
-  .launcher {
+  .lockscreen,
+  .home {
     min-height: 100%;
     background-color: #fff;
   }
 
-  .lock-screen {
+  .lockscreen {
     text-align: center;
     overflow: hidden;
     padding: 0 10px;
@@ -141,5 +149,47 @@
     line-height: 1.2;
     font-size: 22px;
     margin: 8px 0 20px;
+  }
+
+  .home {
+    padding: 5px;
+    background-color: $gray-lighter;
+    font-size: 0;
+  }
+
+  .app-item {
+    cursor: pointer;
+    position: relative;
+    width: 50%;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    padding: 5px;
+    background-color: $white;
+    background-clip: content-box;
+
+    &::before {
+      content: '';
+      display: block;
+      width: 100%;
+      padding-bottom: 100%;
+    }
+
+    .content {
+      position: absolute;
+      width: 100%;
+      padding: 0 5px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 12px;
+      font-weight: bold;
+
+      .icon {
+        width: 50px;
+        height: 50px;
+        margin: 0 auto;
+      }
+    }
   }
 </style>
