@@ -8,6 +8,7 @@
 <script>
   import generateBarcode from 'jsbarcode';
 
+  /* istanbul ignore next */
   const cssStrToNumber = str =>
     typeof str !== 'string' ? str : parseFloat(str.replace(/[^0-9.]*$/, ''));
 
