@@ -79,7 +79,6 @@ AppManager.close = () => {
   if (currentApp.runtime.instance) {
     const { runtime } = currentApp;
     runtime.instance.destroy();
-    runtime.instance = null;
 
     if (runtime.collectedEvents.length) {
       for (let len = runtime.collectedEvents.length; len--; ) {
@@ -98,6 +97,10 @@ AppManager.close = () => {
         DriverManager.resetDriverState(driverModule);
       });
     }
+
+    delete currentApp.runtime;
+
+    currentApp = null;
   } else if (__DEV__) {
     warn('App already closed');
   }
