@@ -1,35 +1,27 @@
 import Barcode from './Barcode.html';
 
 const target = document.body;
-let barcodeComponent;
+let component;
 
-const newBarcode = data => {
-  barcodeComponent = new Barcode({
-    target,
-    data,
-  });
-  return barcodeComponent;
+const newInstance = data => {
+  if (component) {
+    component.destroy();
+  }
+  component = new Barcode({ target, data });
+  return component;
 };
 
-beforeEach(() => {
-  document.body.innerHTML = '';
-});
-
 it('should hide barcode value.', () => {
-  newBarcode({
-    displayValue: false,
-  });
-  expect(document.querySelector('label')).toBe(null);
+  newInstance({ displayValue: false });
+  expect(target.querySelector('label')).toBe(null);
 });
 
 it('should show barcode value.', () => {
-  newBarcode();
-  expect(document.querySelector('.label')).not.toBeNull();
+  newInstance();
+  expect(target.querySelector('.label')).not.toBeNull();
 });
 
 it('should have src attribute in barcode img', () => {
-  newBarcode({
-    data: 'testing',
-  });
-  expect(document.querySelector('.barcode').hasAttribute('src'));
+  newInstance({ data: 'testing' });
+  expect(target.querySelector('.barcode').hasAttribute('src'));
 });

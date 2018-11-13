@@ -1,66 +1,62 @@
 import QRCode from './QRCode.html';
 
 const target = document.body;
-let qrCodeComponent;
+let component;
 
-const newQRCode = data => {
-  qrCodeComponent = new QRCode({
-    target,
-    data,
-  });
-  return qrCodeComponent;
+const newInstance = data => {
+  if (component) {
+    component.destroy();
+  }
+  component = new QRCode({ target, data });
+  return component;
 };
 
-beforeEach(() => {
-  document.body.innerHTML = '';
-});
-
 it('should hide logo image without logo', () => {
-  newQRCode({
+  newInstance({
     size: 'medium',
     logo: undefined,
   });
-  expect(document.querySelector('.logo')).toBe(null);
+  expect(target.querySelector('.logo')).toBe(null);
 });
 
 it('should show logo image.', () => {
-  newQRCode({
+  newInstance({
     size: 'medium',
     logo: './example/static/logo.png',
   });
-  expect(document.querySelector('.logo')).not.toBeNull();
+  expect(target.querySelector('.logo')).not.toBeNull();
 });
 
 it('should hide logo image with small size.', () => {
-  newQRCode({
+  newInstance({
     size: 'small',
     logo: './example/static/logo.png',
   });
-  expect(document.querySelector('.logo')).toBe(null);
+  expect(target.querySelector('.logo')).toBe(null);
 });
 
 it('should hide logo image with small size and without logo.', () => {
-  newQRCode({
+  newInstance({
     size: 'small',
     logo: undefined,
   });
-  expect(document.querySelector('.logo')).toBe(null);
+  expect(target.querySelector('.logo')).toBe(null);
 });
 
 it('should hide logo image when size is small.', () => {
-  newQRCode({
+  newInstance({
     size: 'small',
   });
-  expect(document.querySelector('.logo')).toBe(null);
+  expect(target.querySelector('.logo')).toBe(null);
 });
 
 it('should create new QRCode image when Component updates', () => {
-  newQRCode({
+  newInstance({
     size: 'medium',
     level: 'M',
     color: 'black',
     value: 'testing',
     logo: './example/static/logo.png',
   });
-  expect(qrCodeComponent.refs.qrImg.hasAttribute('src')).toBe(true);
+  expect(component.refs.qrImg.hasAttribute('src')).toBe(true);
 });
