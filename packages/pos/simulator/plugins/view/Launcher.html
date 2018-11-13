@@ -6,7 +6,7 @@
     {#if STATE === STATES.LOCKSCREEN}
       <div class="lockscreen">
         <time>{time}</time>
-        <div class="merchant">SIMULAÇÃO - Lojista</div>
+        <div class="merchant">SIMULAÇÃO</div>
         <div class="actions"></div>
 
         <Button size="full" bottom on:click="gotoHome()" shortcut="enter">
@@ -80,7 +80,7 @@
         }
       })
         .on('closed', () => {
-          window.history.pushState(null, null, '');
+          window.history.pushState('', document.title, window.location.pathname);
           this.gotoHome();
         })
         .on('appInstalled', appMeta => {
