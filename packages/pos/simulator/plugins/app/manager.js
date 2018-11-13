@@ -3,7 +3,7 @@ import Signal from '../../libs/signal.js';
 import App from '../../../api/app.js';
 import extendDriver from '../../../drivers/extend.js';
 import { log, warn } from '../../libs/utils.js';
-import initEventCollector from './includes/events.js';
+import initEventCollector from './includes/eventCollector.js';
 
 const AppManager = extendDriver({}, initEventCollector);
 
@@ -59,7 +59,7 @@ AppManager.open = (appSlug, target) => {
 
   appMetaObj.runtime = {
     target,
-    collectedEvents: [],
+    collectedEvents: {},
   };
 
   currentApp = appMetaObj;
@@ -79,26 +79,34 @@ AppManager.close = () => {
   if (currentApp.runtime.instance) {
     const { runtime } = currentApp;
     runtime.instance.destroy();
+    delete currentApp.runtime;
 
-    if (runtime.collectedEvents.length) {
-      for (let len = runtime.collectedEvents.length; len--; ) {
-        const [node, type, fn] = runtime.collectedEvents[len];
-        node.removeEventListener(type, fn);
-        if (__DEBUG_LVL__ >= 3) {
-          log('Removing DOM event listener: ');
-          console.log([node, type, fn]);
-        }
+    const collectedEventsKeys = Object.keys(runtime.collectedEvents);
+    collectedEventsKeys.forEach(targetName => {
+      let node;
+
+      if (targetName === 'window') node = window;
+      if (targetName === 'document') node = document;
+
+      if (node) {
+        const eventTypes = Object.keys(runtime.collectedEvents[targetName]);
+        eventTypes.forEach(eventType => {
+          runtime.collectedEvents[targetName][eventType].forEach(fn => {
+            node.removeEventListener(eventType, fn);
+            if (__DEBUG_LVL__ >= 3) {
+              log('Removing collected DOM event listener: ');
+              console.log([node, eventType, fn]);
+            }
+          });
+        });
       }
-      runtime.collectedEvents = [];
-    }
+    });
 
     if (currentApp.drivers) {
       currentApp.drivers.forEach(driverModule => {
         DriverManager.resetDriverState(driverModule);
       });
     }
-
-    delete currentApp.runtime;
 
     currentApp = null;
   } else if (__DEV__) {

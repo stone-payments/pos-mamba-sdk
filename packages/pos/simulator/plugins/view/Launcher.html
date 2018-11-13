@@ -43,6 +43,7 @@
   import Registry from '../registry/manager.js';
 
   const { hours: initHours, minutes: initMinutes } = Registry.getCurrentTime();
+
   const STATES = {
     LOCKSCREEN: 0,
     HOME: 1,
@@ -79,7 +80,7 @@
         }
       })
         .on('closed', () => {
-          window.history.pushState(null, null, '/');
+          window.history.pushState(null, null, '');
           this.gotoHome();
         })
         .on('appInstalled', appMeta => {
