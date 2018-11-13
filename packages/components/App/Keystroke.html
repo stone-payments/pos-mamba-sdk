@@ -1,35 +1,9 @@
 <script>
-  import Keyboard from '@mamba/pos/api/keyboard.js';
+  import { addHandler, removeHandler } from './includes/KeystrokeRegister.js';
 
-  const register = { length: 0 };
-  const hasActiveHandler = key =>
-    register[key] && register[key].some(component => component.get().active);
-
-  const keystrokeHandler = e => {
-    const keyName = Keyboard.getKeyName(e.charCode || e.which || e.keyCode);
-    const keyRegister = register[keyName];
-
-    if (hasActiveHandler(keyName)) {
-      e.preventDefault();
-      e.stopImmediatePropagation(); // prevent the <App /> key up event from firing
-
-      keyRegister.forEach(component => {
-        const { active } = component.get();
-        if (active) {
-          component.fire('keystroke', e);
-        }
-      });
-    }
-  };
-
-  const listen = () => window.addEventListener('keyup', keystrokeHandler);
-  const unlisten = () => window.removeEventListener('keyup', keystrokeHandler);
+  const onKeystroke = component => e => component.fire('keystroke', e);
 
   export default {
-    setup(Keystroke) {
-      Keystroke.register = register;
-      Keystroke.hasActiveHandler = hasActiveHandler;
-    },
     data() {
       return {
         key: null,
@@ -37,43 +11,19 @@
       };
     },
     oncreate() {
-      const { key } = this.get();
-      if (key) {
-        if (!register[key]) {
-          if (__DEBUG_LVL__ >= 1) {
-            console.log(
-              `[@mamba/app/keystroke] Registering manual keystroke handler for "${key}"`,
-            );
-          }
-          register[key] = [];
-
-          /** First key in the register, let's start listening */
-          if (++register.length === 1) {
-            listen();
-          }
-        }
-        register[key].push(this);
-      }
+      this._onKeystroke = onKeystroke(this);
     },
     ondestroy() {
-      const { key } = this.get();
-      const index = register[key].indexOf(this);
-      if (index > -1) {
-        register[key].splice(index, 1);
-        if (__DEBUG_LVL__ >= 1) {
-          console.log(
-            `[@mamba/app/keystroke] Removing manual keystroke handler for "${key}"`,
-          );
+      removeHandler(this.get().key, this._onKeystroke);
+    },
+    onupdate({ changed, current }) {
+      /* istanbul ignore else */
+      if (changed.active) {
+        if (current.active) {
+          addHandler(current.key, this._onKeystroke);
+        } else {
+          removeHandler(current.key, this._onKeystroke);
         }
-
-        if (register[key].length === 0) {
-          delete register[key];
-        }
-      }
-
-      /** Was the last key on the register, let's unlisten */
-      if (--register.length === 0) {
-        unlisten();
       }
     },
   };

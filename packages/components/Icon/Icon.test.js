@@ -1,21 +1,17 @@
 import Icon from './Icon.html';
 
 const target = document.body;
-let icon;
+let component;
 
 const newInstance = data => {
-  icon = new Icon({
-    target,
-    data,
-  });
-  return icon;
+  if (component) {
+    component.destroy();
+  }
+  component = new Icon({ target, data });
+  return component;
 };
 
 describe('style', () => {
-  beforeEach(() => {
-    document.body.innerHTML = '';
-  });
-
   it('should accept custom inline styles', () => {
     newInstance({
       color: 'black',
@@ -23,8 +19,8 @@ describe('style', () => {
       height: '10px',
     });
 
-    expect(icon.refs.icon.style.width).toBe('10px');
-    expect(icon.refs.icon.style.height).toBe('10px');
-    expect(icon.refs.icon.style.backgroundColor).toBe('black');
+    expect(component.refs.icon.style.width).toBe('10px');
+    expect(component.refs.icon.style.height).toBe('10px');
+    expect(component.refs.icon.style.backgroundColor).toBe('black');
   });
 });

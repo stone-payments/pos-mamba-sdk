@@ -1,70 +1,69 @@
 import Button from './Button.html';
 
 const target = document.body;
-let button;
+let component;
 
-const newButton = data => {
-  button = new Button({ target, data });
-  return button;
+const newInstance = data => {
+  if (component) {
+    component.destroy();
+  }
+  component = new Button({ target, data });
+  return component;
 };
 
-describe('behavior', () => {
-  beforeAll(() => newButton());
+newInstance();
 
+describe('behavior', () => {
   it('should have a click method', () => {
-    expect(typeof button.click).toBe('function');
+    expect(typeof component.click).toBe('function');
   });
 
   it('should fire a click event when click fired', () =>
     new Promise(res => {
-      button.on('click', res);
-      button.click();
+      component.on('click', res);
+      component.click();
     }));
 
   it('should have a focus method', () => {
-    expect(typeof button.focus).toBe('function');
+    expect(typeof component.focus).toBe('function');
   });
 
   it('should focus the button', () => {
-    button.focus();
+    component.focus();
     expect(document.activeElement.tagName).toBe('BUTTON');
   });
 
   it('should accept a shortcut key', () => {
-    newButton({ shortcut: 'enter' });
+    newInstance({ shortcut: 'enter' });
 
-    expect(button.refs.button.getAttribute('shortcut')).toBe('enter');
+    expect(component.refs.button.getAttribute('shortcut')).toBe('enter');
   });
 
   it('should be able to disable the button', () => {
-    button = new Button({ target, data: { disabled: true } });
+    component = new Button({ target, data: { disabled: true } });
 
-    expect(button.refs.button.hasAttribute('disabled')).toBe(true);
+    expect(component.refs.button.hasAttribute('disabled')).toBe(true);
   });
 });
 
 describe('style', () => {
-  beforeEach(() => {
-    document.body.innerHTML = '';
-  });
-
   it("should have 'is-fixed' class when 'bottom' is set", () => {
-    newButton({ bottom: true });
+    newInstance({ bottom: true });
 
-    expect(button.refs.button.classList.contains('is-fixed')).toBe(true);
+    expect(component.refs.button.classList.contains('is-fixed')).toBe(true);
   });
 
   it('should accept custom inline styles', () => {
-    newButton({
+    newInstance({
       borderColor: 'red',
       textColor: 'green',
       bgColor: 'black',
       width: '85%',
     });
 
-    expect(button.refs.button.style.borderColor).toBe('red');
-    expect(button.refs.button.style.width).toBe('85%');
-    expect(button.refs.button.style.color).toBe('green');
-    expect(button.refs.button.style.backgroundColor).toBe('black');
+    expect(component.refs.button.style.borderColor).toBe('red');
+    expect(component.refs.button.style.width).toBe('85%');
+    expect(component.refs.button.style.color).toBe('green');
+    expect(component.refs.button.style.backgroundColor).toBe('black');
   });
 });
