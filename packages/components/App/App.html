@@ -7,7 +7,7 @@
 <script>
   import App from '@mamba/pos/api/app.js';
   import Keyboard from '@mamba/pos/api/keyboard.js';
-  import Keystroke from './Keystroke.html';
+  import { hasActiveHandlerFor } from './includes/KeystrokeRegister.js';
 
   /** Return if a certain shortcut key is valid */
   const isValidShortcut = (keyName, e) =>
@@ -86,10 +86,10 @@
       },
       onKeyup(e) {
         const keyName = Keyboard.getKeyName(e.charCode || e.which || e.keyCode);
-
-        if (Keystroke.hasActiveHandler(keyName)) {
+        if (e.defaultPrevented || hasActiveHandlerFor(keyName)) {
           return;
         }
+
         const { shortcuts: shortcutsEnabled } = this.get();
 
         /**
