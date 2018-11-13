@@ -30,9 +30,9 @@ describe('ProgressBar', () => {
     expect(wrapper.children[0]).not.toBeUndefined();
     const component = wrapper.querySelector('.progress-bar');
     expect(component).not.toBeUndefined();
-    expect(component.children[0].style.width).toStrictEqual('30%');
-    expect(component.style.height).toStrictEqual('2px');
-    expect(component.style.backgroundColor).toStrictEqual('blue');
+    expect(component.children[0].style.width).toBe('30%');
+    expect(component.style.height).toBe('2px');
+    expect(component.style.backgroundColor).toBe('blue');
   });
 
   // Must do color/theme specific tests
@@ -40,7 +40,7 @@ describe('ProgressBar', () => {
     it('should render bar with color', () => {
       newTestable({ color: 'red' });
       expect(wrapper.children[0]).not.toBeUndefined();
-      expect(wrapper.children[0].style.backgroundColor).toStrictEqual('red');
+      expect(wrapper.children[0].style.backgroundColor).toBe('red');
     });
   });
 
@@ -48,7 +48,7 @@ describe('ProgressBar', () => {
   describe('sizes', () => {
     it('should render bar with height', () => {
       newTestable({ height: '12px' });
-      expect(wrapper.children[0].style.height).toStrictEqual('12px');
+      expect(wrapper.children[0].style.height).toBe('12px');
     });
   });
 
@@ -58,7 +58,7 @@ describe('ProgressBar', () => {
       newTestable({ progress: '85' });
       expect(
         wrapper.querySelector('.progress-bar').children[0].style.width,
-      ).toStrictEqual('85%');
+      ).toBe('85%');
     });
   });
 
@@ -68,7 +68,7 @@ describe('ProgressBar', () => {
       const component = wrapper.querySelector('.progress-bar.is-infinite');
       component.dispatchEvent(new Event('animationend'));
       expect(component).not.toBeUndefined();
-      expect(getComputedStyle(component.children[0]).transform).toStrictEqual(
+      expect(getComputedStyle(component.children[0]).transform).toBe(
         'translateX(-100%)',
       );
     });
@@ -78,7 +78,7 @@ describe('ProgressBar', () => {
       const component = wrapper.querySelector('.progress-bar.is-infinite');
       component.dispatchEvent(new Event('animationstart'));
       expect(component).not.toBeUndefined();
-      expect(getComputedStyle(component.children[0]).transform).toStrictEqual(
+      expect(getComputedStyle(component.children[0]).transform).toBe(
         'translateX(-100%)',
       );
     });
@@ -87,7 +87,7 @@ describe('ProgressBar', () => {
       newTestable();
       const component = wrapper.querySelector('.progress-bar.is-infinite');
       expect(component).not.toBeUndefined();
-      expect(getComputedStyle(component.children[0]).width).not.toEqual('100%');
+      expect(getComputedStyle(component.children[0]).width).not.toBe('100%');
     });
   });
 });
