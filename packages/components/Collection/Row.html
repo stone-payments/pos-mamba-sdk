@@ -3,7 +3,7 @@
     <div class="top {_hasController ? 'has-controller' : ''}">
       <div class="label">{label}</div>
       {#if _hasController}
-        <div ref:controller>
+        <div class="controller" ref:controller>
           {#if href}
             <Icon symbol="chevron-right" width="10px" />
           {:elseif _hasCustomController}
@@ -61,12 +61,15 @@
         });
       }
 
-      const { shortcut } = this.options.data;
       /**
        * TODO: Refactor to pass as prop when undefined props are not rendered on the element
        */
-      if (this.options.data.shortcut) {
-        this.refs.main.setAttribute('shortcut', shortcut);
+      if (this.options.data) {
+        const { shortcut } = this.options.data;
+
+        if (shortcut) {
+          this.refs.main.setAttribute('shortcut', shortcut);
+        }
       }
     },
     onupdate({ changed, current }) {
@@ -91,14 +94,16 @@
          */
         if (_hasCustomController) {
           /** Prevent firing the event twice (because of event bubbling) */
-          const hasNotClickedController = !findClosest(
-            event.target,
-            el => el.getAttribute('slot') === 'controller',
+          const hasNotClickedController = !findClosest(event.target, el =>
+            el.classList.contains('controller'),
           );
+
           if (hasNotClickedController) {
             const triggerEl = this.refs.controller.querySelector(
               '[data-controller-trigger]',
             );
+
+            /* istanbul ignore else */
             if (triggerEl) {
               /** ! We assume that the trigger is also
                * the element method that triggers it (like click)
