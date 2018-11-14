@@ -1,5 +1,6 @@
 import Keyboard from '@mamba/pos/api/keyboard.js';
 import Keystroke from './Keystroke.html';
+import { hasActiveHandlerFor } from './includes/KeystrokeRegister.js';
 
 const target = document.body;
 let component;
@@ -15,32 +16,32 @@ const newInstance = data => {
 
 it('should have a list of active handlers for a key', () => {
   newInstance({ key: 'close' });
-  expect(Keystroke.hasActiveHandlerFor('close')).toBe(true);
+  expect(hasActiveHandlerFor('close')).toBe(true);
 });
 
 it('should NOT have active handlers for a key when `active: false`', () => {
   component.set({ active: false });
-  expect(Keystroke.hasActiveHandlerFor('close')).toBe(false);
+  expect(hasActiveHandlerFor('close')).toBe(false);
 });
 
 it('should have a list of active handlers for a key when `active: true`', () => {
   component.set({ active: true });
-  expect(Keystroke.hasActiveHandlerFor('close')).toBe(true);
+  expect(hasActiveHandlerFor('close')).toBe(true);
 });
 
 it('should NOT have active handlers for a key when destroyed', () => {
   component.destroy();
-  expect(Keystroke.hasActiveHandlerFor('close')).toBe(false);
+  expect(hasActiveHandlerFor('close')).toBe(false);
 });
 
 it('should NOT have a list of active handlers for a key not specified', () => {
-  expect(Keystroke.hasActiveHandlerFor('1')).toBe(false);
-  expect(Keystroke.hasActiveHandlerFor('2')).toBe(false);
-  expect(Keystroke.hasActiveHandlerFor('3')).toBe(false);
-  expect(Keystroke.hasActiveHandlerFor('enter')).toBe(false);
-  expect(Keystroke.hasActiveHandlerFor('help')).toBe(false);
-  expect(Keystroke.hasActiveHandlerFor('shortcuts')).toBe(false);
-  expect(Keystroke.hasActiveHandlerFor('back')).toBe(false);
+  expect(hasActiveHandlerFor('1')).toBe(false);
+  expect(hasActiveHandlerFor('2')).toBe(false);
+  expect(hasActiveHandlerFor('3')).toBe(false);
+  expect(hasActiveHandlerFor('enter')).toBe(false);
+  expect(hasActiveHandlerFor('help')).toBe(false);
+  expect(hasActiveHandlerFor('shortcuts')).toBe(false);
+  expect(hasActiveHandlerFor('back')).toBe(false);
 });
 
 it('should bind an event listener to a specified POS key and fire a "keystroke" event', () =>
