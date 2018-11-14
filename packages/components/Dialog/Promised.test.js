@@ -21,7 +21,7 @@ it('should accept a `promise` prop which opens the dialog', () => {
 it('should accept a `delay` prop which delays closing the dialog', () => {
   newInstance({
     promise: new Promise(res => setTimeout(res, 100)),
-    delay: 1000,
+    delay: 1200,
   });
 
   return Promise.all([
@@ -34,7 +34,7 @@ it('should accept a `delay` prop which delays closing the dialog', () => {
     new Promise(res =>
       setTimeout(
         () => !component.get().isOpen && res(),
-        component.get().delay + 100,
+        component.get().delay + 300,
       ),
     ),
   ]);
