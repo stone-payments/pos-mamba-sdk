@@ -5,7 +5,9 @@
         <div class="shadow"></div>
         <div class="pos">
           <Printer ref:printer />
-          <Screen ref:screen bind:time bind:version />
+          <Screen ref:screen>
+            <Launcher />
+          </Screen>
           <Keypad ref:keypad />
         </div>
       </div>
@@ -29,17 +31,16 @@
 
   export default {
     components: {
-      Printer: './partials/Printer.html',
-      Keypad: './partials/Keypad.html',
-      Screen: './partials/Screen.html',
-      Card: './partials/CreditCard.html',
-      ControlPanel: './partials/ControlPanel.html',
+      Printer: './hardware/Printer.html',
+      Keypad: './hardware/Keypad.html',
+      Screen: './hardware/Screen.html',
+      Card: './hardware/CreditCard.html',
+      ControlPanel: './ControlPanel.html',
+      Launcher: './Launcher.html',
     },
     data() {
       return {
         _browserEngine: 'webkit',
-        version: '2.1.0',
-        time: '00:00',
       };
     },
     oncreate() {
@@ -68,16 +69,6 @@
       this.set({ _browserEngine });
 
       this.createDriverPanel(PrinterSimulation, PrinterPanel);
-
-      /** Update the clock after each second */
-      const updateTimer = () => {
-        const curDate = new Date();
-        const minutes = String(curDate.getMinutes()).padStart(2, '0');
-        const hours = String(curDate.getHours()).padStart(2, '0');
-        this.set({ time: `${hours}:${minutes}` });
-        return updateTimer;
-      };
-      setInterval(updateTimer(), 1000);
     },
     methods: {
       createDriverPanel(driverSimulation, PanelConstructor) {
@@ -91,20 +82,11 @@
 </script>
 
 <style type="text/postcss">
-  @media (max-width: 480px) {
-    :global(html[virtual-pos] body),
-    .wrapper,
-    .container,
-    .pos-wrapper,
-    .pos {
-      height: 100%;
-    }
-
-    /* stylelint-disable-next-line */
-    :global(#app-root),
-    :global(body) {
-      min-height: 100%;
-    }
+  .wrapper,
+  .container,
+  .pos-wrapper,
+  .pos {
+    height: 100%;
   }
 
   @media (min-width: 481px) {
