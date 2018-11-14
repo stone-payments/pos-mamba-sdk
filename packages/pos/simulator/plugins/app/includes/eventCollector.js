@@ -2,11 +2,6 @@
  * This file overrides the default add/remove event listeners to collect possible loose ones
  * when unlisten them when the current app closes.
  */
-const getExternalTargetName = node => {
-  if (node === window) return 'window';
-  if (node === document) return 'document';
-  return null;
-};
 
 export default AppManager => {
   const originalAddEventListener = EventTarget.prototype.addEventListener;
@@ -23,19 +18,22 @@ export default AppManager => {
 
     /** Only collect events if there's an app running */
     if (currentApp && currentApp.runtime) {
-      const targetNode = getExternalTargetName(this);
+      const targetConstructor = this.constructor.name;
 
-      if (targetNode) {
+      if (
+        targetConstructor === 'Window' ||
+        targetConstructor === 'HTMLDocument'
+      ) {
         const { collectedEvents } = currentApp.runtime;
-        if (!collectedEvents[targetNode]) {
-          collectedEvents[targetNode] = {};
+        if (!collectedEvents[targetConstructor]) {
+          collectedEvents[targetConstructor] = {};
         }
 
-        if (!collectedEvents[targetNode][type]) {
-          collectedEvents[targetNode][type] = [];
+        if (!collectedEvents[targetConstructor][type]) {
+          collectedEvents[targetConstructor][type] = [];
         }
 
-        collectedEvents[targetNode][type].push(fn);
+        collectedEvents[targetConstructor][type].push(fn);
       }
     }
   };
@@ -50,19 +48,22 @@ export default AppManager => {
 
     /** Only remove collected events if an app is opened */
     if (currentApp && currentApp.runtime) {
-      const targetName = getExternalTargetName(this);
+      const targetConstructor = this.constructor.name;
 
-      if (targetName) {
+      if (
+        targetConstructor === 'Window' ||
+        targetConstructor === 'HTMLDocument'
+      ) {
         const { collectedEvents } = currentApp.runtime;
-        if (collectedEvents[targetName][type]) {
-          const fnIndex = collectedEvents[targetName][type].indexOf(fn);
+        if (collectedEvents[targetConstructor][type]) {
+          const fnIndex = collectedEvents[targetConstructor][type].indexOf(fn);
 
           if (fnIndex > -1) {
-            collectedEvents[targetName][type].splice(fnIndex, 1);
+            collectedEvents[targetConstructor][type].splice(fnIndex, 1);
           }
 
-          if (!collectedEvents[targetName][type].length) {
-            delete collectedEvents[targetName][type];
+          if (!collectedEvents[targetConstructor][type].length) {
+            delete collectedEvents[targetConstructor][type];
           }
         }
       }

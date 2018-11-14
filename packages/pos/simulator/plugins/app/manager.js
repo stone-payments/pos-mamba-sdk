@@ -82,16 +82,18 @@ AppManager.close = () => {
     delete currentApp.runtime;
 
     const collectedEventsKeys = Object.keys(runtime.collectedEvents);
-    collectedEventsKeys.forEach(targetName => {
+    collectedEventsKeys.forEach(targetConstructor => {
       let node;
 
-      if (targetName === 'window') node = window;
-      if (targetName === 'document') node = document;
+      if (targetConstructor === 'Window') node = window;
+      if (targetConstructor === 'HTMLDocument') node = document;
 
       if (node) {
-        const eventTypes = Object.keys(runtime.collectedEvents[targetName]);
+        const eventTypes = Object.keys(
+          runtime.collectedEvents[targetConstructor],
+        );
         eventTypes.forEach(eventType => {
-          runtime.collectedEvents[targetName][eventType].forEach(fn => {
+          runtime.collectedEvents[targetConstructor][eventType].forEach(fn => {
             node.removeEventListener(eventType, fn);
             if (__DEBUG_LVL__ >= 3) {
               log('Removing collected DOM event listener: ');
