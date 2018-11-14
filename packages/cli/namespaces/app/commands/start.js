@@ -37,7 +37,7 @@ module.exports = {
         description: 'Enable debug level log.',
         alias: ['d'],
         default: false,
-        choices: [false, 1, 2],
+        choices: [false, 1, 2, 3],
       },
     }),
 };
