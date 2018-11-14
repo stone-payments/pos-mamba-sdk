@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "ncp": "^2.0.0",
-    "postcss-cli": "^6.0.0",
+    "postcss-cli": "^6.0.1",
     "rimraf": "^2.6.2"
   },
   "gitHead": "91a8a4a8be4741a15249462cefda6e273f1613a3"
