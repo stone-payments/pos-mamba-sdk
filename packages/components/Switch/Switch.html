@@ -16,6 +16,17 @@
         checked: false,
       };
     },
+    methods: {
+      toggle(value) {
+        if (typeof value === 'undefined') {
+          this.set({ checked: !this.get().checked });
+        } else if (value === true) {
+          this.set({ checked: true });
+        } else if (value === false) {
+          this.set({ checked: false });
+        }
+      },
+    },
   };
 </script>
 
