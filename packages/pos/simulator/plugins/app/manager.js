@@ -54,17 +54,19 @@ AppManager.close = () => {
 
   App.closed();
 
-  if (currentApp.instance) {
-    currentApp.instance.destroy();
-    currentApp.instance = null;
+  if (currentApp) {
+    if (currentApp.instance) {
+      currentApp.instance.destroy();
+      currentApp.instance = null;
 
-    if (currentApp.drivers) {
-      currentApp.drivers.forEach(driverModule => {
-        DriverManager.resetDriverState(driverModule);
-      });
+      if (currentApp.drivers) {
+        currentApp.drivers.forEach(driverModule => {
+          DriverManager.resetDriverState(driverModule);
+        });
+      }
+    } else if (__DEV__) {
+      warn('App already closed');
     }
-  } else if (__DEV__) {
-    warn('App already closed');
   }
 
   AppManager.fire('closed');
