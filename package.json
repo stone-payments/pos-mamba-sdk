@@ -54,6 +54,7 @@
     "@babel/core": "^7.1.2",
     "@gen/rollup-plugin-generate-html": "^0.1.1",
     "@mamba/configs": "file:packages/configs",
+    "@mamba/app": "file:packages/components/App",
     "@mamba/pos": "file:packages/pos",
     "@mamba/switch": "file:packages/components/Switch",
     "babel-core": "^7.0.0-bridge.0",

@@ -32,6 +32,7 @@
 
       // TODO: Deprecate this sometime
       root.on('navigation', isEnabled => {
+        /* istanbul ignore next */
         if (__DEV__) {
           console.warn(
             "[@mamba/app] this.root.fire('navigation') is deprecated. Use this.root.meta.setNavigable()",
@@ -39,7 +40,9 @@
         }
         this.setNavigable(isEnabled);
       });
+
       root.on('shortcuts', isEnabled => {
+        /* istanbul ignore next */
         if (__DEV__) {
           console.warn(
             "[@mamba/app] this.root.fire('shortcuts') is deprecated. Use this.root.meta.setShortcuts()",
@@ -57,11 +60,13 @@
       };
 
       root.on('close', () => {
+        /* istanbul ignore next */
         if (__DEV__) {
           console.warn(
             "[@mamba/app] this.root.fire('close') is deprecated. Use this.root.close()",
           );
         }
+
         root.close();
       });
     },

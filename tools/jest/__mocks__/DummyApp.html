@@ -1,0 +1,27 @@
+<script>
+  import AppMeta from '@mamba/app';
+  import DummyRouter from './DummyRouter.html';
+
+  export default {
+    data() {
+      return {
+        component: null,
+        props: {},
+      };
+    },
+    ondestroy() {
+      this.meta.destroy();
+      this.router.destroy();
+    },
+    onstate({ previous }) {
+      if (!previous) {
+        this.router = new DummyRouter({ target: this.root.options.target });
+
+        new AppMeta({
+          target: this.root.options.target,
+          root: this.root,
+        });
+      }
+    },
+  };
+</script>

@@ -64,10 +64,16 @@ it('should register itself as a "meta" property on the root', () => {
   expect(component.root.meta).toBe(component);
 });
 
-it('should close the app on "close" root event', () =>
+it('should close the app on "this.root.close()" method execution', () =>
   new Promise(res => {
     AppAPI.once('closed', res);
     component.root.close();
+  }));
+
+it('[DEPRECATED] should close the app on "close" root event', () =>
+  new Promise(res => {
+    AppAPI.once('closed', res);
+    component.fire('close');
   }));
 
 it('should be able to override the close callback with a root.onClose method', () =>
@@ -82,6 +88,26 @@ it('should toggle a "no-scroll" class on the root.target with the `scrollable` p
 
   component.root.setScrollable(true);
   expect(target.classList.contains('no-scroll')).toBe(false);
+});
+
+it('[deprecated] should modify the navigation object when root "navigation" and "shortcuts" are fired ', () => {
+  component.root.fire('navigation', false);
+  component.root.fire('shortcuts', false);
+
+  expect(component.root.get().navigable).toEqual({
+    home: false,
+    back: false,
+  });
+  expect(component.root.get().shortcuts).toBe(false);
+
+  component.root.fire('navigation', { home: true, back: true });
+  component.root.fire('shortcuts', true);
+
+  expect(component.root.get().navigable).toEqual({
+    home: true,
+    back: true,
+  });
+  expect(component.root.get().shortcuts).toBe(true);
 });
 
 it('should toggle a "has-appbar" class on the root.target with the `_hasAppbar` prop', () => {

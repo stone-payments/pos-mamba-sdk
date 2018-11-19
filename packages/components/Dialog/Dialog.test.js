@@ -1,32 +1,13 @@
 import Dialog from './Dialog.html';
 
-const target = document.body;
+const { newComponent } = global;
+
 let component;
 
-const newInstance = data => {
-  if (component) {
-    component.destroy();
-  }
-  component = new Dialog({ target, data });
-  return component;
-};
-
-const mockMeta = metaObj => {
-  if (component) {
-    component.root.meta = {
-      set(o) {
-        metaObj = { ...metaObj, ...o };
-      },
-      get() {
-        return metaObj;
-      },
-    };
-  }
-};
-
 it('should create a opened dialog with markup if `isOpen: true`', () => {
-  newInstance({ isOpen: true });
-  expect(target.querySelector('.dialog')).not.toBeNull();
+  component = newComponent(Dialog, { data: { isOpen: true } });
+
+  expect(component.options.target.querySelector('.dialog')).not.toBeNull();
 
   return component.close();
 });
@@ -59,8 +40,7 @@ it('should close a opened dialog after the specified time', () => {
 });
 
 it('should make the app unscrollable when it opens and scrollable when it closes', () => {
-  newInstance();
-  mockMeta({ scrollable: true });
+  component = newComponent(Dialog);
 
   return component.open().then(() => {
     expect(component.root.meta.get().scrollable).toBe(false);

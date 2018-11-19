@@ -1,22 +1,21 @@
-import DummyApp from './DummyApp.html';
+import DummyApp from '../__mocks__/DummyApp.html';
 
-if (!global.App) {
-  const target = document.body;
+const target = document.body;
+let currentComponent;
 
-  const App = new DummyApp({
+const newComponent = (ComponentConstructor, { data, slots } = {}) => {
+  if (currentComponent) {
+    currentComponent.destroy();
+  }
+
+  currentComponent = new ComponentConstructor({
     target,
+    root: new DummyApp({ target }),
+    data,
+    slots,
   });
 
-  const newComponent = (component, props) => {
-    if (props) {
-      App.setComponentProps(props);
-    }
-    App.set({
-      component,
-    });
-  };
+  return currentComponent;
+};
 
-  global.App = App;
-
-  global.newComponent = newComponent;
-}
+global.newComponent = newComponent;
