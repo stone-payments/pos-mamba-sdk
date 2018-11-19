@@ -85,7 +85,7 @@
       goHome() {
         const { _isAtHome } = this.get();
         if (_isAtHome) {
-          return this.root.fire('close');
+          return this.root.close();
         }
 
         if (this.root.router) {

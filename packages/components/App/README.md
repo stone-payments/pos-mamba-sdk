@@ -33,7 +33,7 @@ As teclas existentes no `POS` são: `close`, `back`, `enter`, `help`, `shortcuts
 
 ### Fluxo de fechamento do app
 
-Sempre que um evento `close` é disparado no [componente raiz](https://svelte.technology/guide#component-root) (através de algo como `this.root.fire('close')`), o fluxo de fechamento do aplicativo é iniciado.
+Sempre que executado o método `this.root.close()` do [componente raiz](https://svelte.technology/guide#component-root), o fluxo de fechamento do aplicativo é iniciado.
 
 Por padrão, quando o usuário clicar no botão `close`/`x` o fluxo se inicia automaticamente. Entretanto, é possível sobrescrever este comportamento através de um método `onClose` no [componente raiz](https://svelte.technology/guide#component-root) de seu aplicativo. Deste modo, é possível customizar o fluxo de fechamento, adicionando uma tela, um diálogo, algum tipo de lógica, etc.
 
