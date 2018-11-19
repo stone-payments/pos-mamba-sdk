@@ -1,0 +1,30 @@
+<div class="app">
+  {#if component}
+    <svelte:component this={component} {...props} ref:component/>
+  {/if}
+</div>
+<Dummy ref:router/>
+<Dummy ref:meta/>
+
+<script>
+  export default {
+    components: {
+      Dummy: '../__mocks__/Dummy.html',
+    },
+    data() {
+      return {
+        component: null,
+        props: {},
+      };
+    },
+    methods: {
+      setComponentProps(props) {
+        this.set({ props });
+      },
+    },
+    oncreate() {
+      this.router = this.refs.router;
+      this.meta = this.refs.meta;
+    },
+  };
+</script>
