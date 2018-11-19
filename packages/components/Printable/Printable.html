@@ -58,6 +58,7 @@
       };
     },
     onupdate({ changed, current }) {
+      /* istanbul ignore next */
       if (changed._state) {
         if (current._state === STATES.FAILURE) {
           this.refs.failureDialog.open();

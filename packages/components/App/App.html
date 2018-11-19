@@ -42,6 +42,7 @@
 
       root.on('shortcuts', value => this.set({ shortcuts: value }));
 
+      root.close = () => root.fire('close');
       root.on('close', () => {
         /** Allow to override the default app close process */
         if (typeof root.onClose === 'function') {
