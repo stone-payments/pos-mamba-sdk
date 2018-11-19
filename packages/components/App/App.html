@@ -30,13 +30,39 @@
     oncreate() {
       const { root } = this;
 
-      root.close = () => root.fire('close');
-      root.on('close', () => {
+      // TODO: Deprecate this sometime
+      root.on('navigation', isEnabled => {
+        if (__DEV__) {
+          console.warn(
+            "[@mamba/app] this.root.fire('navigation') is deprecated. Use this.root.meta.setNavigable()",
+          );
+        }
+        this.setNavigable(isEnabled);
+      });
+      root.on('shortcuts', isEnabled => {
+        if (__DEV__) {
+          console.warn(
+            "[@mamba/app] this.root.fire('shortcuts') is deprecated. Use this.root.meta.setShortcuts()",
+          );
+        }
+        this.setShortcuts(isEnabled);
+      });
+
+      root.close = () => {
         /** Allow to override the default app close process */
         if (typeof root.onClose === 'function') {
           return root.onClose();
         }
         App.close();
+      };
+
+      root.on('close', () => {
+        if (__DEV__) {
+          console.warn(
+            "[@mamba/app] this.root.fire('close') is deprecated. Use this.root.close()",
+          );
+        }
+        root.close();
       });
     },
     onstate({ previous }) {
@@ -105,7 +131,7 @@
             !shortcutsEnabled ||
             (shortcutsEnabled && !document.querySelector('[shortcut="close"]'))
           ) {
-            this.root.fire('close');
+            this.root.close();
             return;
           }
         }

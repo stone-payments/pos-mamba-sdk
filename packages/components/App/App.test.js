@@ -67,13 +67,13 @@ it('should register itself as a "meta" property on the root', () => {
 it('should close the app on "close" root event', () =>
   new Promise(res => {
     AppAPI.once('closed', res);
-    component.root.fire('close');
+    component.root.close();
   }));
 
 it('should be able to override the close callback with a root.onClose method', () =>
   new Promise(res => {
     component.root.onClose = res;
-    component.root.fire('close');
+    component.root.close();
   }));
 
 it('should toggle a "no-scroll" class on the root.target with the `scrollable` prop', () => {
