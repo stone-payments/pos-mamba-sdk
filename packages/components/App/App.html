@@ -1,6 +1,6 @@
 <svelte:window
-  on:keyup="onKeyup(event)"
-  on:keydown="onKeydown(event)"
+  on:keyup="_onKeyup(event)"
+  on:keydown="_onKeydown(event)"
 />
 
 <div class="app">
@@ -21,27 +21,16 @@
   export default {
     data() {
       return {
-        navigation: { home: true, back: true },
+        navigable: { home: true, back: true },
         shortcuts: true,
         scrollable: true,
-        hasAppbar: false,
+        _hasAppbar: false,
       };
     },
     oncreate() {
       const { root } = this;
 
-      root.on('navigation', navigation => {
-        if (typeof navigation === 'boolean') {
-          this.set({ navigation: { home: navigation, back: navigation } });
-        } else {
-          this.set({
-            navigation: Object.assign({}, this.get().navigation, navigation),
-          });
-        }
-      });
-
-      root.on('shortcuts', value => this.set({ shortcuts: value }));
-
+      root.close = () => root.fire('close');
       root.on('close', () => {
         /** Allow to override the default app close process */
         if (typeof root.onClose === 'function') {
@@ -63,17 +52,31 @@
         rootEl.classList.toggle('no-scroll', !current.scrollable);
       }
 
-      if (changed.hasAppbar) {
-        rootEl.classList.toggle('has-appbar', current.hasAppbar);
+      if (changed._hasAppbar) {
+        rootEl.classList.toggle('has-appbar', current._hasAppbar);
       }
     },
     methods: {
-      isNavigationEnabled() {
-        const { home, back } = this.get().navigation;
-        return home && back;
+      setShortcuts(isEnabled) {
+        this.set({ shortcuts: isEnabled });
+      },
+      setScrollable(isEnabled) {
+        this.set({ scrollable: isEnabled });
+      },
+      setNavigable(navigable) {
+        if (typeof navigable === 'boolean') {
+          this.set({ navigable: { home: navigable, back: navigable } });
+        } else {
+          this.set({
+            navigable: {
+              ...this.get().navigable,
+              ...navigable,
+            },
+          });
+        }
       },
       /** Prevent default back/enter button behaviour */
-      onKeydown(e) {
+      _onKeydown(e) {
         const keyName = Keyboard.getKeyName(e.keyCode);
         if (
           (keyName === 'back' || keyName === 'enter') &&
@@ -84,7 +87,7 @@
           return false;
         }
       },
-      onKeyup(e) {
+      _onKeyup(e) {
         const keyName = Keyboard.getKeyName(e.charCode || e.which || e.keyCode);
         if (e.defaultPrevented || hasActiveHandlerFor(keyName)) {
           return;
@@ -114,8 +117,8 @@
 
         /** Handles back button */
         if (keyName === 'back') {
-          /** Guarantees that the 'back' button is enabled and navigation is enabled */
-          if (Keyboard.isBackspaceEnabled() && this.get().navigation.back) {
+          /** Guarantees that the 'back' button is enabled and navigable is enabled */
+          if (Keyboard.isBackspaceEnabled() && this.get().navigable.back) {
             e.preventDefault();
             if (this.root.router && this.root.router.get().path !== '/') {
               this.root.router.back();

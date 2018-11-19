@@ -12,18 +12,14 @@ const newInstance = data => {
 };
 
 it('should hide logo image without logo', () => {
-  newInstance({
-    size: 'medium',
-    logo: undefined,
-  });
+  newInstance();
+
   expect(target.querySelector('.logo')).toBe(null);
 });
 
 it('should show logo image.', () => {
-  newInstance({
-    size: 'medium',
-    logo: './example/static/logo.png',
-  });
+  newInstance({ logo: './example/static/logo.png' });
+
   expect(target.querySelector('.logo')).not.toBeNull();
 });
 
@@ -32,31 +28,23 @@ it('should hide logo image with small size.', () => {
     size: 'small',
     logo: './example/static/logo.png',
   });
+
   expect(target.querySelector('.logo')).toBe(null);
 });
 
 it('should hide logo image with small size and without logo.', () => {
-  newInstance({
-    size: 'small',
-    logo: undefined,
-  });
-  expect(target.querySelector('.logo')).toBe(null);
-});
+  newInstance({ size: 'small' });
 
-it('should hide logo image when size is small.', () => {
-  newInstance({
-    size: 'small',
-  });
   expect(target.querySelector('.logo')).toBe(null);
 });
 
 it('should create new QRCode image when Component updates', () => {
   newInstance({
-    size: 'medium',
     level: 'M',
     color: 'black',
     value: 'testing',
     logo: './example/static/logo.png',
   });
+
   expect(component.refs.qrImg.hasAttribute('src')).toBe(true);
 });

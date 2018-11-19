@@ -64,28 +64,6 @@ it('should register itself as a "meta" property on the root', () => {
   expect(component.root.meta).toBe(component);
 });
 
-it('should modify the navigation object when root "navigation" and "shortcuts" are fired ', () => {
-  component.root.fire('navigation', false);
-  component.root.fire('shortcuts', false);
-
-  expect(component.root.get().navigation).toEqual({
-    home: false,
-    back: false,
-  });
-  expect(component.root.get().shortcuts).toBe(false);
-  expect(component.isNavigationEnabled()).toBe(false);
-
-  component.root.fire('navigation', { home: true, back: true });
-  component.root.fire('shortcuts', true);
-
-  expect(component.root.get().navigation).toEqual({
-    home: true,
-    back: true,
-  });
-  expect(component.root.get().shortcuts).toBe(true);
-  expect(component.isNavigationEnabled()).toBe(true);
-});
-
 it('should close the app on "close" root event', () =>
   new Promise(res => {
     AppAPI.once('closed', res);
@@ -99,18 +77,18 @@ it('should be able to override the close callback with a root.onClose method', (
   }));
 
 it('should toggle a "no-scroll" class on the root.target with the `scrollable` prop', () => {
-  component.root.set({ scrollable: false });
+  component.root.setScrollable(false);
   expect(target.classList.contains('no-scroll')).toBe(true);
 
-  component.root.set({ scrollable: true });
+  component.root.setScrollable(true);
   expect(target.classList.contains('no-scroll')).toBe(false);
 });
 
-it('should toggle a "has-appbar" class on the root.target with the `hasAppbar` prop', () => {
-  component.root.set({ hasAppbar: false });
+it('should toggle a "has-appbar" class on the root.target with the `_hasAppbar` prop', () => {
+  component.root.set({ _hasAppbar: false });
   expect(target.classList.contains('has-appbar')).toBe(false);
 
-  component.root.set({ hasAppbar: true });
+  component.root.set({ _hasAppbar: true });
   expect(target.classList.contains('has-appbar')).toBe(true);
 });
 
@@ -135,9 +113,42 @@ it('should trigger an "go back" action if no input is selected and the router is
   });
 });
 
-it('should NOT trigger an "go back" action if `root.navigation.back: false`', () => {
+it('should merge navigable objects', () => {
   newInstance();
-  component.root.fire('navigation', { back: false });
+
+  component.root.meta.setNavigable({ home: true, back: false });
+  expect(component.root.get().navigable).toEqual({
+    home: true,
+    back: false,
+  });
+
+  component.root.meta.setNavigable({ back: true });
+  expect(component.root.get().navigable).toEqual({
+    home: true,
+    back: true,
+  });
+});
+
+it('should set both `home` and `back` navigable properties if passed a boolean', () => {
+  newInstance();
+
+  component.root.meta.setNavigable(false);
+  expect(component.root.get().navigable).toEqual({
+    home: false,
+    back: false,
+  });
+
+  component.root.meta.setNavigable(true);
+  expect(component.root.get().navigable).toEqual({
+    home: true,
+    back: true,
+  });
+});
+
+it('should NOT trigger an "go back" action if `navigable.back: false`', () => {
+  newInstance();
+
+  component.root.meta.setNavigable({ back: false, home: true });
 
   return new Promise((res, rej) => {
     component.root.router = {
@@ -247,7 +258,7 @@ it('should not handle keys if an input is focused', () => {
 it("should not handle shortcuts if shortcuts aren't enabled", () => {
   newInstance();
 
-  component.root.fire('shortcuts', false);
+  component.root.meta.setShortcuts(false);
 
   return new Promise((res, rej) => {
     createShortcutButton('1').addEventListener('click', rej);

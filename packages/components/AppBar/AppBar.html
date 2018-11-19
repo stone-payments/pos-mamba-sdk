@@ -63,17 +63,17 @@
       }
 
       if (root.meta) {
-        root.meta.set({ hasAppbar: true });
+        root.meta.set({ _hasAppbar: true });
         root.meta.on('update', ({ changed, current }) => {
-          if (changed.navigation) {
-            this.set({ _isNavigationEnabled: current.navigation });
+          if (changed.navigable) {
+            this.set({ _isNavigationEnabled: current.navigable });
           }
         });
       }
     },
     ondestroy() {
       if (this.root.meta) {
-        this.root.meta.set({ hasAppbar: false });
+        this.root.meta.set({ _hasAppbar: false });
       }
     },
     onstate({ changed, current }) {

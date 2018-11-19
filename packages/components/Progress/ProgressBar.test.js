@@ -1,93 +1,90 @@
 import ProgressBar from './ProgressBar.html';
 
-const wrapper = document.body;
+const target = document.body;
+let component;
 
-const newTestable = data =>
-  new ProgressBar({
-    target: wrapper,
-    data,
-  });
+const newInstance = data => {
+  if (component) {
+    component.destroy();
+  }
 
-const getComputedStyle = component => window.getComputedStyle(component);
+  component = new ProgressBar({ target, data });
 
-afterEach(() => {
-  wrapper.innerHTML = '';
+  return component;
+};
+
+const getComputedStyle = node => window.getComputedStyle(node);
+
+it('should create the default component', () => {
+  newInstance();
+
+  expect(target.children[0].classList.contains('progress-bar')).toBeTruthy();
+  expect(target.querySelector('.progress-bar.is-infinite')).not.toBeNull();
 });
 
-describe('ProgressBar', () => {
-  it('should create the default component', () => {
-    newTestable();
-    // This ensures the HTML, `progress-bar` and `svelte-[uniqueid]` classes to match this snapshot
-    // Any change in ProgressBar style need regenerate snapshot
-    expect(wrapper.children[0]).toMatchSnapshot();
-    expect(wrapper.children[0].classList.contains('progress-bar')).toBeTruthy();
-    expect(wrapper.querySelector('.progress-bar.is-infinite')).not.toBeNull();
+it('should match all params', () => {
+  newInstance({
+    progress: '30',
+    height: '2px',
+    color: 'blue',
   });
 
-  // All in One test
-  it('should match all params', () => {
-    newTestable({ progress: '30', height: '2px', color: 'blue' });
-    expect(wrapper.children[0]).not.toBeUndefined();
-    const component = wrapper.querySelector('.progress-bar');
-    expect(component).not.toBeUndefined();
-    expect(component.children[0].style.width).toBe('30%');
-    expect(component.style.height).toBe('2px');
-    expect(component.style.backgroundColor).toBe('blue');
+  const barEl = target.querySelector('.progress-bar');
+
+  expect(target.children[0]).not.toBeUndefined();
+
+  expect(barEl).not.toBeUndefined();
+  expect(barEl.children[0].style.width).toBe('30%');
+  expect(barEl.style.height).toBe('2px');
+  expect(barEl.style.backgroundColor).toBe('blue');
+});
+
+// Must do color/theme specific tests
+describe('colors/theme', () => {
+  it('should render bar with color', () => {
+    newInstance({ color: 'red' });
+
+    expect(target.children[0]).not.toBeUndefined();
+    expect(target.children[0].style.backgroundColor).toBe('red');
+  });
+});
+
+// Must do bar size specific test
+describe('sizes', () => {
+  it('should render bar with height', () => {
+    newInstance({ height: '12px' });
+
+    expect(target.children[0].style.height).toBe('12px');
+  });
+});
+
+// Must do bar behavior specific tests
+describe('custom progress', () => {
+  it('should set bar progress', () => {
+    newInstance({ progress: '85' });
+
+    expect(target.querySelector('.progress-bar').children[0].style.width).toBe(
+      '85%',
+    );
+  });
+});
+
+describe('infinite bar', () => {
+  it('infinite progress bar animation should start at -100%', () => {
+    newInstance();
+
+    const barEl = target.querySelector('.progress-bar.is-infinite');
+
+    expect(getComputedStyle(barEl.children[0]).transform).toBe(
+      'translateX(-100%)',
+    );
   });
 
-  // Must do color/theme specific tests
-  describe('colors/theme', () => {
-    it('should render bar with color', () => {
-      newTestable({ color: 'red' });
-      expect(wrapper.children[0]).not.toBeUndefined();
-      expect(wrapper.children[0].style.backgroundColor).toBe('red');
-    });
-  });
+  it('infinite progress bar width should have less than 100%', () => {
+    newInstance();
 
-  // Must do bar size specific test
-  describe('sizes', () => {
-    it('should render bar with height', () => {
-      newTestable({ height: '12px' });
-      expect(wrapper.children[0].style.height).toBe('12px');
-    });
-  });
+    const barEl = target.querySelector('.progress-bar.is-infinite');
 
-  // Must do bar behavior specific tests
-  describe('custom progress', () => {
-    it('should set bar progress', () => {
-      newTestable({ progress: '85' });
-      expect(
-        wrapper.querySelector('.progress-bar').children[0].style.width,
-      ).toBe('85%');
-    });
-  });
-
-  describe('infinite bar', () => {
-    it('infinite progress bar animation should end at 100%', () => {
-      newTestable();
-      const component = wrapper.querySelector('.progress-bar.is-infinite');
-      component.dispatchEvent(new Event('animationend'));
-      expect(component).not.toBeUndefined();
-      expect(getComputedStyle(component.children[0]).transform).toBe(
-        'translateX(-100%)',
-      );
-    });
-
-    it('infinite progress bar animation should start at -100%', () => {
-      newTestable();
-      const component = wrapper.querySelector('.progress-bar.is-infinite');
-      component.dispatchEvent(new Event('animationstart'));
-      expect(component).not.toBeUndefined();
-      expect(getComputedStyle(component.children[0]).transform).toBe(
-        'translateX(-100%)',
-      );
-    });
-
-    it('infinite progress bar width should have less than 100%', () => {
-      newTestable();
-      const component = wrapper.querySelector('.progress-bar.is-infinite');
-      expect(component).not.toBeUndefined();
-      expect(getComputedStyle(component.children[0]).width).not.toBe('100%');
-    });
+    expect(getComputedStyle(barEl.children[0]).width).not.toBe('100%');
   });
 });

@@ -8,7 +8,11 @@ const newInstance = data => {
   if (component) {
     component.destroy();
   }
+
   component = new Printable({ target, data });
+
+  component.root.meta = component;
+
   return component;
 };
 

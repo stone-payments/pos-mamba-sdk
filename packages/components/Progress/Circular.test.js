@@ -1,30 +1,49 @@
 import Circular from './Circular.html';
 
-const wrapper = document.body;
+const target = document.body;
+let component;
 
-const newTestable = data => {
-  const {
-    refs: { canvas },
-  } = new Circular({
-    target: wrapper,
-    data,
-  });
-  return { canvas, ctx: canvas.getContext('2d') };
+const newInstance = data => {
+  if (component) {
+    component.destroy();
+  }
+
+  component = new Circular({ target, data });
+
+  return component;
 };
 
-describe('Circular', () => {
-  it('should create the default canvas', () => {
-    const { canvas, ctx } = newTestable();
-    expect(canvas).not.toBeUndefined();
-    expect(typeof ctx).toEqual('object');
-  });
+it('should create the default canvas', () => {
+  newInstance();
 
-  // Must do bar size specific test
-  describe('size', () => {
-    it('should render spinner with radius', () => {
-      const { canvas } = newTestable({ height: '60px' });
-      expect(canvas.width).toBe('60px');
-      expect(canvas.height).toBe('60px');
-    });
-  });
+  expect(component.refs.canvas).not.toBeUndefined();
+});
+
+it('should render spinner with specified size', () => {
+  newInstance({ height: '60px' });
+
+  expect(component.refs.canvas.width).toBe('60px');
+  expect(component.refs.canvas.height).toBe('60px');
+});
+
+it('should NOT auto .start() when progress is  defined', () => {
+  newInstance({ progress: 10 });
+  expect(component.get()._interval).toBeNull();
+});
+
+it('should .stop() the spinner', () => {
+  newInstance();
+
+  component.stop();
+
+  expect(component.get()._interval).toBeNull();
+});
+
+it('should .start() the spinner', () => {
+  newInstance();
+
+  component.stop();
+  component.start();
+
+  expect(component.get()._interval).not.toBeNull();
 });
