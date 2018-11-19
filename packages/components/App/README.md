@@ -39,19 +39,25 @@ Por padrão, quando o usuário clicar no botão `close`/`x` o fluxo se inicia au
 
 ### Meta informações
 
-Através do disparo de eventos no [componente raiz](https://svelte.technology/guide#component-root), o `App` controla meta informações de estado e fluxos do aplicativo:
+O componente `<App/>` se registra como a propriedade `meta` no [componente raiz](https://svelte.technology/guide#component-root). Possibilitando o acesso meta informações de estado e fluxos do aplicativo:
 
-#### Navegação da `AppBar` e da tecla de `back`:
+#### Navegação da `AppBar` e da tecla de `back`
 
-`this.root.fire('navigation', boolean | { home, back })`;
+`this.root.meta.setNavigable({ home: boolean, back: boolean } | boolean)`
 
-O evento `navigation` habilita/desabilita a navegação do app. Passa-se um parâmetro *booleano* ou um objeto composto por `back` e/ou `home` com um valor *booleano*.
+Habilita/desabilita a navegação do app. Passa-se um objeto composto por `back` e `home` com um valor *booleano* ou um valor *booleano* único que será usado para ambos os casos.
 
-#### Atalhos de tecla automáticos (`shortcut="nomeDaTecla"`):
+#### Atalhos de tecla automáticos (`shortcut="nomeDaTecla"`)
 
-`this.root.fire('shortcuts', boolean)`;
+`this.root.meta.setShortcuts(boolean)`;
 
-O evento `shortcuts` habilita/desabilita os atalhos automáticos de teclado. Passa-se um parâmetro *booleano*.
+Habilita/desabilita os atalhos automáticos de teclado. Passa-se um parâmetro *booleano*.
+
+#### Bloqueio de *scroll*
+
+`this.root.meta.setScrollable(boolean)`;
+
+Habilita/desabilita o *scroll* do app.
 
 ## Sub componentes
 
