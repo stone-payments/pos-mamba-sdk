@@ -1,6 +1,7 @@
 <script>
   export default {
     onupdate({ previous }) {
+      /* istanbul ignore else */
       if (!previous && this.options.data) {
         this.root.fire('appbar:modify', { ...this.options.data });
       }
