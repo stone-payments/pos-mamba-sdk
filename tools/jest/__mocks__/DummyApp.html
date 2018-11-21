@@ -5,13 +5,32 @@
   export default {
     data() {
       return {
-        component: null,
-        props: {},
+        ComponentConstructor: null,
       };
     },
+    oncreate() {
+      const { ComponentConstructor, data, slots } = this.get();
+      /** We manually create the instance here because the tested
+       * component initialization must happen during the
+       * DummyApp (root) 'oncreate' process
+       */
+      const instance = new ComponentConstructor({
+        target: this.root.options.target,
+        root: this,
+        data,
+        slots,
+      });
+
+      this.set({ instance });
+    },
     ondestroy() {
+      const { instance } = this.get();
       this.meta.destroy();
       this.router.destroy();
+
+      if (instance) {
+        instance.destroy();
+      }
     },
     onstate({ previous }) {
       if (!previous) {

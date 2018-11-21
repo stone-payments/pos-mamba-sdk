@@ -1,21 +1,23 @@
 import DummyApp from '../__mocks__/DummyApp.html';
 
 const target = document.body;
-let currentComponent;
+let currentApp;
 
 const newComponent = (ComponentConstructor, { data, slots } = {}) => {
-  if (currentComponent) {
-    currentComponent.destroy();
+  if (currentApp) {
+    currentApp.destroy();
   }
 
-  currentComponent = new ComponentConstructor({
+  currentApp = new DummyApp({
     target,
-    root: new DummyApp({ target }),
-    data,
-    slots,
+    data: {
+      ComponentConstructor,
+      data,
+      slots,
+    },
   });
 
-  return currentComponent;
+  return currentApp.get().instance;
 };
 
 global.newComponent = newComponent;
