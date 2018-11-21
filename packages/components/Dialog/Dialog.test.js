@@ -7,7 +7,7 @@ let component;
 it('should create a opened dialog with markup if `isOpen: true`', () => {
   component = newComponent(Dialog, { data: { isOpen: true } });
 
-  expect(component.options.target.querySelector('.dialog')).not.toBeNull();
+  expect(component.root.options.target.querySelector('.dialog')).not.toBeNull();
 
   return component.close();
 });

@@ -1,46 +1,26 @@
+<AppMeta>
+  <DummyRouter ref:router />
+  <svelte:component this={ComponentConstructor} {...data} ref:instance />
+</AppMeta>
+
 <script>
   import AppMeta from '@mamba/app';
   import DummyRouter from './DummyRouter.html';
 
   export default {
+    components: {
+      AppMeta,
+      DummyRouter,
+    },
     data() {
       return {
         ComponentConstructor: null,
+        data: {},
+        slots: {},
       };
     },
     oncreate() {
-      const { ComponentConstructor, data, slots } = this.get();
-      /** We manually create the instance here because the tested
-       * component initialization must happen during the
-       * DummyApp (root) 'oncreate' process
-       */
-      const instance = new ComponentConstructor({
-        target: this.root.options.target,
-        root: this,
-        data,
-        slots,
-      });
-
-      this.set({ instance });
-    },
-    ondestroy() {
-      const { instance } = this.get();
-      this.meta.destroy();
-      this.router.destroy();
-
-      if (instance) {
-        instance.destroy();
-      }
-    },
-    onstate({ previous }) {
-      if (!previous) {
-        this.router = new DummyRouter({ target: this.root.options.target });
-
-        new AppMeta({
-          target: this.root.options.target,
-          root: this.root,
-        });
-      }
+      this.root.router = this.refs.router;
     },
   };
 </script>
