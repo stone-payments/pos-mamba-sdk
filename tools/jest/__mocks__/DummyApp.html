@@ -1,11 +1,22 @@
+<AppMeta>
+  <DummyRouter />
+  <svelte:component this={ComponentConstructor} {...data} ref:instance />
+</AppMeta>
+
 <script>
   import AppMeta from '@mamba/app';
   import DummyRouter from './DummyRouter.html';
 
   export default {
+    components: {
+      AppMeta,
+      DummyRouter,
+    },
     data() {
       return {
         ComponentConstructor: null,
+        data: {},
+        slots: {},
       };
     },
     oncreate() {
@@ -25,21 +36,8 @@
     },
     ondestroy() {
       const { instance } = this.get();
-      this.meta.destroy();
-      this.router.destroy();
-
       if (instance) {
         instance.destroy();
-      }
-    },
-    onstate({ previous }) {
-      if (!previous) {
-        this.router = new DummyRouter({ target: this.root.options.target });
-
-        new AppMeta({
-          target: this.root.options.target,
-          root: this.root,
-        });
       }
     },
   };

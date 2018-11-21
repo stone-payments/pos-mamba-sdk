@@ -1,24 +1,33 @@
 import Switch from './Switch.html';
 
-const { newComponent } = global;
-
+const target = document.body;
 let component;
+
+const newInstance = data => {
+  if (component) {
+    component.destroy();
+  }
+  component = new Switch({ target, data });
+  return component;
+};
+
+newInstance();
 
 const getCheckboxNode = () =>
   component.options.target.querySelector('input[type=checkbox]');
 
 it('should be able to start checked', () => {
-  component = newComponent(Switch, { data: { checked: true } });
+  component = newInstance({ checked: true });
   expect(getCheckboxNode().checked).toBe(true);
 });
 
 it('should be able to disable the checkbox', () => {
-  component = newComponent(Switch, { data: { disabled: true } });
+  component = newInstance({ disabled: true });
   expect(getCheckboxNode().disabled).toBe(true);
 });
 
 it('should fire a change event when value is modified', () => {
-  component = newComponent(Switch);
+  component = newInstance();
   return new Promise(res => {
     component.on('change', res);
     getCheckboxNode().click();
@@ -26,7 +35,7 @@ it('should fire a change event when value is modified', () => {
 });
 
 it('should toggle its checked value', () => {
-  component = newComponent(Switch);
+  component = newInstance();
 
   component.toggle();
   expect(getCheckboxNode().checked).toBe(true);

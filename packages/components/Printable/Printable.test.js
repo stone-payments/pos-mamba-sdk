@@ -71,7 +71,7 @@ it('should dispatch a "finish" event in case of not wanting to retry printing', 
   return new Promise(res => {
     component.on('finish', res);
     setTimeout(() => {
-      component.options.target.querySelector('[shortcut="close"]').click();
+      component.root.options.target.querySelector('[shortcut="close"]').click();
     });
   });
 });

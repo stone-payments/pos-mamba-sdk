@@ -1,15 +1,14 @@
 import DummyApp from '../__mocks__/DummyApp.html';
 
-const target = document.body;
 let currentApp;
 
-const newComponent = (ComponentConstructor, { data, slots } = {}) => {
+global.newComponent = (ComponentConstructor, { data, slots } = {}) => {
   if (currentApp) {
     currentApp.destroy();
   }
 
   currentApp = new DummyApp({
-    target,
+    target: document.body,
     data: {
       ComponentConstructor,
       data,
@@ -17,7 +16,7 @@ const newComponent = (ComponentConstructor, { data, slots } = {}) => {
     },
   });
 
-  return currentApp.get().instance;
+  return currentApp.refs.instance;
 };
 
-global.newComponent = newComponent;
+global.getTarget = () => document.body.querySelector('.app');
