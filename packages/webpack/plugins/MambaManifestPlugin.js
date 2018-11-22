@@ -15,7 +15,12 @@ const createXmlManifest = () => {
   const date = new Date();
 
   /** Align the date with POS timezone */
-  date.setHours(date.getHours() - 3, date.getMinutes(), date.getSeconds(), 0);
+  date.setHours(
+    date.getHours() - date.getTimezoneOffset() / 60,
+    date.getMinutes(),
+    date.getSeconds(),
+    0,
+  );
 
   const isoDate = date.toISOString();
   const formattedDate = isoDate.slice(0, isoDate.length - 5);

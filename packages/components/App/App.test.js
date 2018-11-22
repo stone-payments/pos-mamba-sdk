@@ -1,186 +1,136 @@
 import AppAPI from '@mamba/pos/api/app.js';
-import Keyboard from '@mamba/pos/api/keyboard.js';
 import App from './App.html';
 import Keystroke from './Keystroke.html';
 
-const target = document.body;
-let component;
-let contentDiv;
+const { newTestApp, fireKey } = global;
+let root;
+let meta;
+let content;
 
-const newInstance = data => {
-  const docFrag = document.createDocumentFragment();
-  contentDiv = document.createElement('DIV');
-  contentDiv.className = 'content';
-  docFrag.appendChild(contentDiv);
+const newAppTestApp = () => {
+  const metaTest = newTestApp();
 
-  if (component) {
-    component.destroy();
-  }
-
-  component = new App({
-    target,
-    data,
-    slots: {
-      default: docFrag,
+  metaTest.router = metaTest.createDummy({
+    data: { context: { path: '/' }, path: '/' },
+    methods: {
+      go(path) {
+        this.set({ context: { path }, path });
+      },
     },
   });
 
-  return component;
+  const docFrag = document.createDocumentFragment();
+  content = document.createElement('DIV');
+  content.className = 'content';
+  docFrag.appendChild(content);
+
+  meta = metaTest.createComponent(App, { slots: { default: docFrag } });
+  return metaTest;
 };
 
-const fireKey = keyName => {
-  window.dispatchEvent(
-    new KeyboardEvent('keydown', {
-      keyCode: Keyboard.getKeyCode(keyName),
-      bubbles: true,
-      cancelable: false,
-    }),
-  );
-
-  window.dispatchEvent(
-    new KeyboardEvent('keyup', {
-      keyCode: Keyboard.getKeyCode(keyName),
-      bubbles: true,
-      cancelable: false,
-    }),
-  );
-};
-
-const createShortcutButton = keyName => {
-  const button = document.createElement('BUTTON');
-  button.setAttribute('shortcut', keyName);
-  contentDiv.appendChild(button);
-  return button;
-};
-
-newInstance();
+beforeEach(() => {
+  root = newAppTestApp();
+});
 
 it("should pass the app's content through a slot", () => {
-  expect(target.querySelector('.app')).not.toBeNull();
-  expect(target.querySelector('.content')).not.toBeNull();
+  expect(root.query('.app')).not.toBeNull();
+  expect(root.query('.content')).not.toBeNull();
 });
 
 it('should register itself as a "meta" property on the root', () => {
-  expect(component.root.meta).toBe(component);
+  expect(meta.root.meta).toBe(meta);
 });
 
 it('should close the app on "this.root.close()" method execution', () =>
   new Promise(res => {
     AppAPI.once('closed', res);
-    component.root.close();
+    root.close();
   }));
 
 it('[DEPRECATED] should close the app on "close" root event', () =>
   new Promise(res => {
     AppAPI.once('closed', res);
-    component.fire('close');
+    root.fire('close');
   }));
 
 it('should be able to override the close callback with a root.onClose method', () =>
   new Promise(res => {
-    component.root.onClose = res;
-    component.root.close();
+    root.onClose = res;
+    root.close();
   }));
 
 it('should toggle a "no-scroll" class on the root.target with the `scrollable` prop', () => {
-  component.root.setScrollable(false);
-  expect(target.classList.contains('no-scroll')).toBe(true);
+  meta.setScrollable(false);
+  expect(root.options.target.classList.contains('no-scroll')).toBe(true);
 
-  component.root.setScrollable(true);
-  expect(target.classList.contains('no-scroll')).toBe(false);
+  meta.setScrollable(true);
+  expect(root.options.target.classList.contains('no-scroll')).toBe(false);
 });
 
 it('[deprecated] should modify the navigation object when root "navigation" and "shortcuts" are fired ', () => {
-  component.root.fire('navigation', false);
-  component.root.fire('shortcuts', false);
+  root.fire('navigation', false);
+  root.fire('shortcuts', false);
 
-  expect(component.root.get().navigable).toEqual({
+  expect(meta.get().navigable).toEqual({
     home: false,
     back: false,
   });
-  expect(component.root.get().shortcuts).toBe(false);
+  expect(meta.get().shortcuts).toBe(false);
 
-  component.root.fire('navigation', { home: true, back: true });
-  component.root.fire('shortcuts', true);
+  root.fire('navigation', { home: true, back: true });
+  root.fire('shortcuts', true);
 
-  expect(component.root.get().navigable).toEqual({
+  expect(meta.get().navigable).toEqual({
     home: true,
     back: true,
   });
-  expect(component.root.get().shortcuts).toBe(true);
+  expect(meta.get().shortcuts).toBe(true);
 });
 
 it('should toggle a "has-appbar" class on the root.target with the `_hasAppbar` prop', () => {
-  component.root.set({ _hasAppbar: false });
-  expect(target.classList.contains('has-appbar')).toBe(false);
+  meta.set({ _hasAppbar: false });
+  expect(root.target.classList.contains('has-appbar')).toBe(false);
 
-  component.root.set({ _hasAppbar: true });
-  expect(target.classList.contains('has-appbar')).toBe(true);
+  meta.set({ _hasAppbar: true });
+  expect(root.target.classList.contains('has-appbar')).toBe(true);
 });
 
-it('should close app on "close" button', () => {
-  newInstance();
-
-  return new Promise(res => {
+it('should close app on "close" button', () =>
+  new Promise(res => {
     AppAPI.once('closed', res);
     fireKey('close');
-  });
-});
+  }));
 
-it('should trigger an "go back" action if no input is selected and the router is not at the home page', () => {
-  newInstance();
-  return new Promise(res => {
-    component.root.router = {
-      get: () => ({ path: '/not-home' }),
-      back: res,
-    };
+it('should trigger an "go back" action if no input is selected and the router is not at the home page', () =>
+  new Promise(res => {
+    root.router.go('/not-home');
+    root.router.back = res;
 
     fireKey('back');
-  });
-});
+  }));
 
 it('should merge navigable objects', () => {
-  newInstance();
+  meta.setNavigable({ home: true, back: false });
+  expect(meta.get().navigable).toEqual({ home: true, back: false });
 
-  component.root.meta.setNavigable({ home: true, back: false });
-  expect(component.root.get().navigable).toEqual({
-    home: true,
-    back: false,
-  });
-
-  component.root.meta.setNavigable({ back: true });
-  expect(component.root.get().navigable).toEqual({
-    home: true,
-    back: true,
-  });
+  meta.setNavigable({ back: true });
+  expect(meta.get().navigable).toEqual({ home: true, back: true });
 });
 
 it('should set both `home` and `back` navigable properties if passed a boolean', () => {
-  newInstance();
+  meta.setNavigable(false);
+  expect(meta.get().navigable).toEqual({ home: false, back: false });
 
-  component.root.meta.setNavigable(false);
-  expect(component.root.get().navigable).toEqual({
-    home: false,
-    back: false,
-  });
-
-  component.root.meta.setNavigable(true);
-  expect(component.root.get().navigable).toEqual({
-    home: true,
-    back: true,
-  });
+  meta.setNavigable(true);
+  expect(meta.get().navigable).toEqual({ home: true, back: true });
 });
 
 it('should NOT trigger an "go back" action if `navigable.back: false`', () => {
-  newInstance();
-
-  component.root.meta.setNavigable({ back: false, home: true });
+  meta.setNavigable({ back: false, home: true });
 
   return new Promise((res, rej) => {
-    component.root.router = {
-      get: () => ({ path: '/not-home' }),
-      back: rej,
-    };
+    root.router.go('/not-home');
+    root.router.back = rej;
 
     fireKey('back');
 
@@ -188,23 +138,17 @@ it('should NOT trigger an "go back" action if `navigable.back: false`', () => {
   });
 });
 
-it('should NOT trigger an "go back" action if at app home', () => {
-  newInstance();
-
-  return new Promise((res, rej) => {
-    component.root.router = {
-      get: () => ({ path: '/' }),
-      back: rej,
-    };
+it('should NOT trigger an "go back" action if at app home', () =>
+  new Promise((res, rej) => {
+    root.router.go('/');
+    root.router.back = rej;
 
     fireKey('back');
 
     setTimeout(res, 500);
-  });
-});
+  }));
 
-it('should trigger an element with `shortcut="keyName"`', () => {
-  newInstance();
+describe('shortcuts', () => {
   const keyNames = [
     '1',
     '2',
@@ -223,74 +167,73 @@ it('should trigger an element with `shortcut="keyName"`', () => {
     // 'back' is not allowed to be a shortcut key
   ];
 
-  const promises = keyNames.map(
-    keyName =>
-      new Promise(res =>
-        createShortcutButton(keyName).addEventListener('click', res),
-      ),
-  );
+  const createShortcutButton = keyName => {
+    const button = document.createElement('BUTTON');
+    button.setAttribute('shortcut', keyName);
+    content.appendChild(button);
+    return button;
+  };
 
-  keyNames.forEach(fireKey);
+  it('should trigger an element with `shortcut="keyName"`', () => {
+    const promises = keyNames.map(
+      keyName =>
+        new Promise(res =>
+          createShortcutButton(keyName).addEventListener('click', res),
+        ),
+    );
 
-  return Promise.all(promises);
-});
+    keyNames.forEach(fireKey);
 
-it('should not double fire a "enter" shortcut event if the element is already focused', () => {
-  newInstance();
-
-  return new Promise((res, rej) => {
-    const btn = createShortcutButton('enter');
-    btn.focus();
-    btn.addEventListener('click', rej);
-
-    fireKey('enter');
-
-    setTimeout(res, 500);
+    return Promise.all(promises);
   });
-});
 
-it('should not handle keys with a <Keystroke/> assigned to them', () => {
-  newInstance();
+  it('should not double fire a "enter" shortcut event if the element is already focused', () =>
+    new Promise((res, rej) => {
+      const btn = createShortcutButton('enter');
+      btn.focus();
+      btn.addEventListener('click', rej);
 
-  return new Promise((res, rej) => {
-    const keystroke = new Keystroke({ target, data: { key: 'help' } });
-    keystroke.on('keystroke', () => {
-      res();
-      keystroke.destroy();
-    });
+      fireKey('enter');
 
-    createShortcutButton('help').addEventListener('click', rej);
+      setTimeout(res, 500);
+    }));
 
-    fireKey('help');
-  });
-});
+  it('should not handle keys with a <Keystroke/> assigned to them', () =>
+    new Promise((res, rej) => {
+      const keystroke = root.createComponent(Keystroke, {
+        data: { key: 'help' },
+      });
 
-it('should not handle keys if an input is focused', () => {
-  newInstance();
+      keystroke.on('keystroke', () => {
+        res();
+        keystroke.destroy();
+      });
 
-  return new Promise((res, rej) => {
-    createShortcutButton('1').addEventListener('click', rej);
+      createShortcutButton('help').addEventListener('click', rej);
 
-    const input = document.createElement('INPUT');
-    contentDiv.appendChild(input);
-    input.focus();
+      fireKey('help');
+    }));
 
-    fireKey('1');
+  it('should not handle keys if an input is focused', () =>
+    new Promise((res, rej) => {
+      createShortcutButton('1').addEventListener('click', rej);
 
-    setTimeout(res, 500);
-  });
-});
+      const input = document.createElement('INPUT');
+      content.appendChild(input);
+      input.focus();
 
-it("should not handle shortcuts if shortcuts aren't enabled", () => {
-  newInstance();
+      fireKey('1');
 
-  component.root.meta.setShortcuts(false);
+      setTimeout(res, 500);
+    }));
 
-  return new Promise((res, rej) => {
-    createShortcutButton('1').addEventListener('click', rej);
+  it("should not handle shortcuts if shortcuts aren't enabled", () =>
+    new Promise((res, rej) => {
+      meta.setShortcuts(false);
+      createShortcutButton('1').addEventListener('click', rej);
 
-    fireKey('1');
+      fireKey('1');
 
-    setTimeout(res, 500);
-  });
+      setTimeout(res, 500);
+    }));
 });

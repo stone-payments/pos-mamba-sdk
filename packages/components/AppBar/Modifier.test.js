@@ -1,13 +1,12 @@
 import AppbarModifier from './Modifier.html';
 
-const { newComponent } = global;
+const { newTestApp } = global;
 
-it('should fire appbar:modify when props change', () =>
+it('should fire appbar:modify when rendered', () =>
   new Promise(res => {
-    const component = newComponent(AppbarModifier, {
-      data: {
-        title: 'teste',
-      },
+    const test = newTestApp();
+    test.on('appbar:modify', res);
+    test.createComponent(AppbarModifier, {
+      data: { title: 'New Title' },
     });
-    component.root.on('appbar:modify', res);
   }));

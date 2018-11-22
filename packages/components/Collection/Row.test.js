@@ -1,134 +1,107 @@
 import Switch from '@mamba/switch';
 import Row from './Row.html';
 
-const target = document.body;
-let component;
+const { newTestApp } = global;
+
+const root = newTestApp();
+let row;
 let controller;
 
-const newInstance = (data, slots) => {
-  if (component) {
-    component.destroy();
-  }
-  component = new Row({
-    target,
-    data,
-    slots,
-  });
-  return component;
-};
-
-const getSwitchFragment = () => {
-  const controllerFragment = document.createDocumentFragment();
-  controller = new Switch({
-    target: controllerFragment,
-    data: {
-      disabled: false,
-      checked: false,
-    },
-  });
-
-  return controllerFragment;
-};
-
-const getExtraFragment = () => {
-  const extraFragment = document.createDocumentFragment();
-  const extra = document.createElement('P');
-
-  extra.innerText = 'extra';
-
-  extraFragment.appendChild(extra);
-
-  return extraFragment;
-};
+const newRow = (data, slots) => root.createComponent(Row, { data, slots });
 
 it('should have controller with href', () => {
-  newInstance({ showExtra: false, href: '/home' });
+  row = newRow({ showExtra: false, href: '/home' });
 
-  expect(component.get()._hasController).toBe(true);
-  expect(component.refs.controller).not.toBeNull();
+  expect(row.get()._hasController).toBe(true);
+  expect(row.refs.controller).not.toBeNull();
 });
 
 it('should apply controller class with href', () => {
-  newInstance({ showExtra: false, href: '/home' });
-
-  expect(target.querySelector('.top.has-controller')).not.toBeNull();
-});
-
-it('should have controller with custom controller', () => {
-  newInstance({}, { controller: getSwitchFragment() });
-
-  expect(component.get()._hasController).toBe(true);
-  expect(component.get()._hasCustomController).toBe(true);
-  expect(component.refs.controller).not.toBeNull();
+  expect(root.query('.top.has-controller')).not.toBeNull();
 });
 
 it('should apply controller class with custom controller', () => {
-  newInstance({}, { controller: getSwitchFragment() });
-
-  expect(target.querySelector('.top.has-controller')).not.toBeNull();
+  expect(root.query('.top.has-controller')).not.toBeNull();
 });
 
 it('should not have description field without description text', () => {
-  newInstance({ description: undefined });
+  row.set({ description: undefined });
 
-  expect(target.querySelector('p')).toBeNull();
+  expect(root.query('p')).toBeNull();
 });
 
 it('should have description text with description', () => {
-  newInstance({ description: 'description text' });
+  row.set({ description: 'description text' });
 
-  expect(target.querySelector('p')).not.toBeNull();
+  expect(root.query('p')).not.toBeNull();
 });
 
 it('should set shortcut attribute data', () => {
-  newInstance({ shortcut: 'help' });
+  row = newRow({ shortcut: 'help' });
 
-  expect(component.refs.main.getAttribute('shortcut')).toBe('help');
+  expect(row.refs.main.getAttribute('shortcut')).toBe('help');
 });
 
 describe('click behavior', () => {
-  it('should only trigger a click event if no href or controller present', () => {
-    newInstance();
-
-    return new Promise(res => {
-      component.on('click', res);
-      component.refs.main.click();
-    });
+  beforeAll(() => {
+    row = newRow();
   });
 
+  it('should only trigger a click event if no href or controller present', () =>
+    new Promise(res => {
+      row.on('click', res);
+      row.refs.main.click();
+    }));
+
   it('should trigger router when href exists and element is clicked', () => {
-    newInstance({ showExtra: false, href: '/home' });
+    row = newRow({ href: '/home' });
 
     return new Promise(res => {
-      /** Simulate router behavior */
-      component.root = {
-        router: {
-          go: res,
-        },
-      };
-
-      component.refs.main.click();
+      row.root.router = { go: res };
+      row.refs.main.click();
     });
+  });
+});
+
+describe('controller', () => {
+  const getSwitchFragment = () => {
+    const controllerFragment = document.createDocumentFragment();
+    controller = new Switch({
+      target: controllerFragment,
+      data: {
+        disabled: false,
+        checked: false,
+      },
+    });
+
+    return controllerFragment;
+  };
+  it('should have controller with custom controller', () => {
+    row = newRow({}, { controller: getSwitchFragment() });
+
+    expect(row.get()._hasController).toBe(true);
+    expect(row.get()._hasCustomController).toBe(true);
+    expect(row.refs.controller).not.toBeNull();
   });
 
   it('should trigger click in custom controller with data-controller-trigger="click"', () => {
-    newInstance({}, { controller: getSwitchFragment() });
+    row = newRow({}, { controller: getSwitchFragment() });
 
     return new Promise(res => {
       controller.on('change', res);
-      component.refs.main.click();
+      row.refs.main.click();
     });
   });
 
   it('should not retrigger controller if click was on it', () => {
-    newInstance({}, { controller: getSwitchFragment() });
+    row = newRow({}, { controller: getSwitchFragment() });
 
     return new Promise(res => {
       setTimeout(() => {
         if (controller.get().checked) res();
       }, 500);
 
-      component.refs.controller
+      row.refs.controller
         .querySelector('[data-controller-trigger="click"]')
         .click();
     });
@@ -136,26 +109,37 @@ describe('click behavior', () => {
 });
 
 describe('extra slot', () => {
+  const getExtraFragment = () => {
+    const extraFragment = document.createDocumentFragment();
+    const extra = document.createElement('P');
+
+    extra.innerText = 'extra';
+
+    extraFragment.appendChild(extra);
+
+    return extraFragment;
+  };
+
   it('should not show extra slot without extra content', () => {
-    newInstance({ showExtra: true });
+    row = newRow({ showExtra: true });
 
-    expect(target.querySelector('.extra')).toBeNull();
+    expect(root.query('.extra')).toBeNull();
 
-    component.set({ showExtra: false });
+    row.set({ showExtra: false });
 
-    expect(target.querySelector('.extra')).toBeNull();
+    expect(root.query('.extra')).toBeNull();
   });
 
   it('should show extra', () => {
-    newInstance({ showExtra: true }, { extra: getExtraFragment() });
+    row = newRow({ showExtra: true }, { extra: getExtraFragment() });
 
-    expect(component.get()._hasExtraContent).toBe(true);
-    expect(target.querySelector('.extra')).not.toBeNull();
+    expect(row.get()._hasExtraContent).toBe(true);
+    expect(root.query('.extra')).not.toBeNull();
   });
 
   it('should hide extra', () => {
-    newInstance({ showExtra: false }, { extra: getExtraFragment() });
+    row.set({ showExtra: false });
 
-    expect(target.querySelector('.extra')).toBeNull();
+    expect(root.query('.extra')).toBeNull();
   });
 });

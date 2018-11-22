@@ -1,11 +1,16 @@
 import Dialog from './Dialog.html';
 
-const { newComponent } = global;
-
+const target = document.body;
 let component;
 
+const newInstance = data => {
+  if (component) component.destroy();
+  component = new Dialog({ target, data });
+  return component;
+};
+
 it('should create a opened dialog with markup if `isOpen: true`', () => {
-  component = newComponent(Dialog, { data: { isOpen: true } });
+  component = newInstance({ isOpen: true });
 
   expect(component.root.options.target.querySelector('.dialog')).not.toBeNull();
 
@@ -40,7 +45,7 @@ it('should close a opened dialog after the specified time', () => {
 });
 
 it('should make the app unscrollable when it opens and scrollable when it closes', () => {
-  component = newComponent(Dialog);
+  component = newInstance();
 
   return component.open().then(() => {
     expect(component.root.meta.get().scrollable).toBe(false);

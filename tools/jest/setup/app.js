@@ -1,22 +1,45 @@
-import DummyApp from '../__mocks__/DummyApp.html';
+import Keyboard from '@mamba/pos/api/keyboard.js';
+import TestApp from '../__mocks__/TestApp.html';
 
-let currentApp;
+let lastTestApp;
 
-global.newComponent = (ComponentConstructor, { data, slots } = {}) => {
-  if (currentApp) {
-    currentApp.destroy();
-  }
+global.newTestApp = (destroyLast = true) => {
+  if (destroyLast && lastTestApp) lastTestApp.destroy();
 
-  currentApp = new DummyApp({
+  lastTestApp = new TestApp({
     target: document.body,
-    data: {
-      ComponentConstructor,
-      data,
-      slots,
-    },
   });
 
-  return currentApp.refs.instance;
+  lastTestApp.target = lastTestApp.options.target;
+
+  return lastTestApp;
 };
 
-global.getTarget = () => document.body.querySelector('.app');
+global.clickOn = (el, opts = {}) => {
+  el.dispatchEvent(
+    new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      ...opts,
+    }),
+  );
+};
+
+global.fireKey = keyName => {
+  window.dispatchEvent(
+    new KeyboardEvent('keydown', {
+      keyCode: Keyboard.getKeyCode(keyName),
+      bubbles: true,
+      cancelable: false,
+    }),
+  );
+
+  window.dispatchEvent(
+    new KeyboardEvent('keyup', {
+      keyCode: Keyboard.getKeyCode(keyName),
+      bubbles: true,
+      cancelable: false,
+    }),
+  );
+};

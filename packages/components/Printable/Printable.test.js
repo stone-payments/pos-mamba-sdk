@@ -1,12 +1,17 @@
 import Simulator from '@mamba/pos/simulator/index.js';
 import Printable from './Printable.html';
 
-const { newComponent } = global;
-
+const target = document.body;
 let component;
 
+const newInstance = data => {
+  if (component) component.destroy();
+  component = new Printable({ target, data });
+  return component;
+};
+
 it('should be able to print its content', () => {
-  component = newComponent(Printable);
+  component = newInstance();
   expect(typeof component.print).toBe('function');
 });
 
@@ -34,7 +39,7 @@ it('should display a printing dialog', () => {
 });
 
 it('should not display the printing dialog when `showPrintingDialog: false`', () => {
-  component = newComponent(Printable, { data: { showPrintingDialog: false } });
+  component = newInstance({ showPrintingDialog: false });
   component.print();
 
   return new Promise(res => {

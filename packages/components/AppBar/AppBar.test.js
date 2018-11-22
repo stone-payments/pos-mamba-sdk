@@ -1,9 +1,36 @@
 import AppBar from './AppBar.html';
 
-const { newComponent } = global;
+const { newTestApp, clickOn } = global;
+let test;
+let appBar;
+
+const newAppbarTest = () => {
+  const testApp = newTestApp();
+
+  const router = testApp.createDummy({ data: { context: { path: '/' } } });
+
+  const meta = testApp.createDummy({
+    methods: {
+      setNavigable(o) {
+        this.set({ navigable: o });
+      },
+    },
+  });
+
+  testApp.router = router;
+  testApp.meta = meta;
+
+  return testApp;
+};
+
+const changeRouterPath = path => {
+  appBar.root.router.set({ context: { path } });
+};
 
 it('should apply inline style', () => {
-  newComponent(AppBar, {
+  test = newAppbarTest();
+
+  test.createComponent(AppBar, {
     data: {
       title: 'teste',
       textColor: 'blue',
@@ -12,260 +39,140 @@ it('should apply inline style', () => {
     },
   });
 
-  expect(document.querySelector('.appbar').style.color).toBe('blue');
-  expect(document.querySelector('.appbar').style.backgroundColor).toBe('red');
-  expect(document.querySelector('.appbar').style.borderBottom).toBe('');
+  expect(test.query('.appbar').style.color).toBe('blue');
+  expect(test.query('.appbar').style.backgroundColor).toBe('red');
+  expect(test.query('.appbar').style.borderBottom).toBe('');
 });
 
-it('should display back button when location is not home and backward navigation is enabled', () => {
-  const appbar = newComponent(AppBar);
-  appbar.root.router.set({
-    context: {
-      path: '/not-home',
-    },
+describe('icons', () => {
+  beforeAll(() => {
+    test = newAppbarTest();
+    appBar = test.createComponent(AppBar);
   });
-  appbar.root.meta.setNavigable({
-    back: true,
-    home: true,
+
+  it('should display back button when location is not home and backward navigation is enabled', () => {
+    changeRouterPath('/not-home');
+
+    appBar.root.meta.setNavigable({ back: true, home: true });
+
+    expect(test.query('.icon-left')).not.toBeNull();
   });
-  expect(document.querySelector('.icon-left')).not.toBeNull();
+
+  it('should not display back button when location is home', () => {
+    changeRouterPath('/');
+
+    expect(test.query('.icon-left')).toBeNull();
+  });
 });
 
-it('should not display back button when location is home', () => {
-  const appbar = newComponent(AppBar);
-  appbar.root.router.set({
-    context: {
-      path: '/',
-    },
-  });
-  expect(document.querySelector('.icon-left')).toBeNull();
-});
-
-it('should display title', () => {
-  newComponent(AppBar, {
-    data: {
-      title: 'teste',
-      textColor: 'blue',
-      bgColor: 'red',
-      border: false,
-    },
-  });
-
-  const titleDOM = document.querySelector('.title');
-  expect(titleDOM).not.toBeNull();
-  expect(document.title).toBe('teste');
-  // expect(titleDOM.innerText).toBe('teste');
-});
-
-it('should not display title', () => {
-  newComponent(AppBar, {
-    data: {
-      title: undefined,
-      textColor: 'blue',
-      bgColor: 'red',
-      border: false,
-    },
-  });
-
-  const titleDOM = document.querySelector('.title');
-
-  expect(titleDOM).toBeNull();
-});
-
-it('should display home button when home navigation is enabled', () => {
-  const appbar = newComponent(AppBar);
-  appbar.root.router.set({
-    context: {
-      path: '/not-home',
-    },
-  });
-  appbar.root.meta.setNavigable({
-    back: true,
-    home: true,
-  });
-
-  expect(document.querySelector('.icon-right')).not.toBeNull();
-});
-
-it('should not display home(s) button when home navigation is disabled', () => {
-  const appbar = newComponent(AppBar);
-  appbar.root.router.set({
-    context: {
-      path: '/',
-    },
-  });
-  appbar.root.meta.setNavigable({
-    back: true,
-    home: false,
-  });
-
-  expect(document.querySelector('.icon-right')).toBeNull();
-});
-
-it('should display home button when location is /', () => {
-  const appbar = newComponent(AppBar);
-  appbar.root.router.set({
-    context: {
-      path: '/',
-    },
-  });
-  appbar.root.meta.setNavigable({
-    back: true,
-    home: true,
-  });
-
-  expect(document.querySelector('.icon-right')).not.toBeNull();
-  expect(appbar.get()._isAtHome).toBe(true);
-});
-
-it('should display app-home when location is not /', () => {
-  const appbar = newComponent(AppBar);
-  appbar.root.router.set({
-    context: {
-      path: '/not-home',
-    },
-  });
-  appbar.root.meta.setNavigable({
-    back: true,
-    home: true,
-  });
-
-  expect(document.querySelector('.icon-right')).not.toBeNull();
-  expect(appbar.get()._isAtHome).toBe(false);
-});
-
-it('should lock home navigation', () => {
-  const appbar = newComponent(AppBar);
-  appbar.root.router.set({
-    context: {
-      path: '/not-home',
-    },
-  });
-  appbar.root.meta.setNavigable({
-    back: true,
-    home: false,
-  });
-  expect(document.querySelector('.icon-left')).not.toBeNull();
-});
-
-it('should lock back navigation', () => {
-  const appbar = newComponent(AppBar);
-  appbar.root.router.set({
-    context: {
-      path: '/not-home',
-    },
-  });
-  appbar.root.meta.setNavigable({
-    back: false,
-    home: true,
-  });
-  expect(document.querySelector('.icon-left')).toBeNull();
-});
-
-it('should go home when home is clicked and location is not home page', () => {
-  const appbar = newComponent(AppBar);
-
-  appbar.root.router.set({
-    context: {
-      path: '/not-home',
-    },
-  });
-
-  appbar.root.meta.setNavigable({
-    back: false,
-    home: true,
-  });
-
-  return new Promise(res => {
-    appbar.root.router.go = res;
-
-    const evt = new MouseEvent('click', {
-      bubbles: true,
-      cancelable: true,
-      view: window,
+describe('title', () => {
+  beforeAll(() => {
+    test = newAppbarTest();
+    appBar = test.createComponent(AppBar, {
+      data: {
+        title: 'teste',
+      },
     });
+  });
 
-    document.querySelector('.icon-right').dispatchEvent(evt);
+  it('should display title', () => {
+    const titleDOM = test.query('.title');
+    expect(titleDOM).not.toBeNull();
+    expect(document.title).toBe('teste');
+    expect(titleDOM.textContent).toBe('teste');
+  });
+
+  it('should not display title', () => {
+    appBar.set({ title: undefined });
+    const titleDOM = test.query('.title');
+    expect(titleDOM).toBeNull();
   });
 });
 
-it('should close app when home is clicked and location is home', () => {
-  const appbar = newComponent(AppBar);
-
-  appbar.root.router.set({
-    context: {
-      path: '/',
-    },
+describe('navigation', () => {
+  beforeAll(() => {
+    test = newAppbarTest();
+    appBar = test.createComponent(AppBar);
   });
 
-  appbar.root.meta.setNavigable({
-    back: false,
-    home: true,
+  it('should display home button when home navigation is enabled', () => {
+    changeRouterPath('/not-home');
+
+    appBar.root.meta.setNavigable({ back: true, home: true });
+
+    expect(test.query('.icon-right')).not.toBeNull();
   });
 
-  return new Promise(res => {
-    appbar.root.close = res;
+  it('should not display home(s) button when home navigation is disabled', () => {
+    changeRouterPath('/');
 
-    const evt = new MouseEvent('click', {
-      bubbles: true,
-      cancelable: true,
-      view: window,
+    appBar.root.meta.setNavigable({ back: true, home: false });
+
+    expect(test.query('.icon-right')).toBeNull();
+  });
+
+  it('should display home button when location is /', () => {
+    appBar.root.meta.setNavigable({ back: true, home: true });
+
+    expect(test.query('.icon-right')).not.toBeNull();
+    expect(appBar.get()._isAtHome).toBe(true);
+  });
+
+  it('should display app-home when location is not /', () => {
+    changeRouterPath('/not-home');
+
+    expect(test.query('.icon-right')).not.toBeNull();
+    expect(appBar.get()._isAtHome).toBe(false);
+  });
+
+  it('should lock home navigation', () => {
+    changeRouterPath('/not-home');
+
+    appBar.root.meta.setNavigable({ back: true, home: false });
+
+    expect(test.query('.icon-left')).not.toBeNull();
+  });
+
+  it('should lock back navigation', () => {
+    appBar.root.meta.setNavigable({ back: false, home: true });
+
+    expect(test.query('.icon-left')).toBeNull();
+  });
+
+  it('should go home when home is clicked and location is not home page', () =>
+    new Promise(res => {
+      appBar.root.router.go = res;
+      clickOn(test.query('.icon-right'));
+    }));
+
+  it('should close app when home is clicked and location is home', () => {
+    changeRouterPath('/');
+
+    return new Promise(res => {
+      appBar.root.close = res;
+      clickOn(test.query('.icon-right'));
     });
-
-    document.querySelector('.icon-right').dispatchEvent(evt);
-  });
-});
-
-it('should go back when back is clicked', () => {
-  const appbar = newComponent(AppBar);
-
-  appbar.root.router.set({
-    context: {
-      path: '/not-home',
-    },
   });
 
-  appbar.root.meta.setNavigable({
-    back: true,
-    home: true,
-  });
+  it('should go back when back is clicked', () => {
+    changeRouterPath('/not-home');
 
-  return new Promise(res => {
-    appbar.root.router.back = res;
+    appBar.root.meta.setNavigable({ back: true, home: true });
 
-    const evt = new MouseEvent('click', {
-      bubbles: true,
-      cancelable: true,
-      view: window,
-    });
-
-    document.querySelector('.icon-left').dispatchEvent(evt);
-  });
-});
-
-// oncreate checks
-it('should update props on appbar:modify events', () => {
-  const appbar = newComponent(AppBar);
-
-  return new Promise(res => {
-    appbar.on('appbar:modify', () => {
-      res();
-    });
-    appbar.fire('appbar:modify', {
-      title: 'teste',
+    return new Promise(res => {
+      appBar.root.router.back = res;
+      clickOn(test.query('.icon-left'));
     });
   });
 });
 
-it('should set update callback on router', () => {});
+it('should modify the appbar props', () => {
+  test.fire('appbar:modify', { title: 'modificado' });
+  expect(appBar.get()).toMatchObject({ title: 'modificado' });
+});
 
-// destroy checks
 it('should set hasAppbar false on meta', () => {
-  const appbar = newComponent(AppBar);
+  appBar.destroy();
 
-  const { root } = appbar;
-
-  appbar.destroy();
-
-  expect(root.meta.get()._hasAppbar).toBe(false);
+  expect(test.meta.get()._hasAppbar).toBe(false);
 });
