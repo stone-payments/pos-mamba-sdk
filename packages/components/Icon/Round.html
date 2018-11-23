@@ -19,7 +19,7 @@
     computed: {
       style({ bgColor, borderRadius }) {
         return [
-          bgColor && `background-color: ${bgColor};`,
+          bgColor && `background-color: ${bgColor}`,
           borderRadius && `border-radius: ${borderRadius}`,
         ]
           .filter(Boolean)

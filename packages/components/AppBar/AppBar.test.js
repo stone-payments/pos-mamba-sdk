@@ -1,0 +1,154 @@
+import AppBar from './AppBar.html';
+
+const { newTestRoot, clickOn } = global;
+let root;
+let appBar;
+
+const newAppBar = data => {
+  root = newTestRoot();
+
+  return root.createComponent(AppBar, { data });
+};
+
+const changeRouterPath = path => {
+  root.router.set({ context: { path } });
+};
+
+it('should apply inline style', () => {
+  appBar = newAppBar({
+    title: 'teste',
+    textColor: 'blue',
+    bgColor: 'red',
+    border: false,
+  });
+
+  expect(root.query('.appbar').style.color).toBe('blue');
+  expect(root.query('.appbar').style.backgroundColor).toBe('red');
+  expect(root.query('.appbar').style.borderBottom).toBe('');
+});
+
+describe('icons', () => {
+  beforeAll(() => {
+    appBar = newAppBar();
+  });
+
+  it('should display back button when location is not home and backward navigation is enabled', () => {
+    changeRouterPath('/not-home');
+
+    root.meta.setNavigable({ back: true, home: true });
+
+    expect(root.query('.icon-left')).not.toBeNull();
+  });
+
+  it('should not display back button when location is home', () => {
+    changeRouterPath('/');
+
+    expect(root.query('.icon-left')).toBeNull();
+  });
+});
+
+describe('title', () => {
+  beforeAll(() => {
+    appBar = newAppBar({ title: 'teste' });
+  });
+
+  it('should display title', () => {
+    const titleDOM = root.query('.title');
+    expect(titleDOM).not.toBeNull();
+    expect(document.title).toBe('teste');
+    expect(titleDOM.textContent).toBe('teste');
+  });
+
+  it('should not display title', () => {
+    appBar.set({ title: undefined });
+    const titleDOM = root.query('.title');
+    expect(titleDOM).toBeNull();
+  });
+});
+
+describe('navigation', () => {
+  beforeAll(() => {
+    appBar = newAppBar();
+  });
+
+  it('should display home button when home navigation is enabled', () => {
+    changeRouterPath('/not-home');
+
+    root.meta.setNavigable({ back: true, home: true });
+
+    expect(root.query('.icon-right')).not.toBeNull();
+  });
+
+  it('should not display home(s) button when home navigation is disabled', () => {
+    changeRouterPath('/');
+
+    root.meta.setNavigable({ back: true, home: false });
+
+    expect(root.query('.icon-right')).toBeNull();
+  });
+
+  it('should display home button when location is /', () => {
+    root.meta.setNavigable({ back: true, home: true });
+
+    expect(root.query('.icon-right')).not.toBeNull();
+    expect(appBar.get()._isAtHome).toBe(true);
+  });
+
+  it('should display app-home when location is not /', () => {
+    changeRouterPath('/not-home');
+
+    expect(root.query('.icon-right')).not.toBeNull();
+    expect(appBar.get()._isAtHome).toBe(false);
+  });
+
+  it('should lock home navigation', () => {
+    changeRouterPath('/not-home');
+
+    root.meta.setNavigable({ back: true, home: false });
+
+    expect(root.query('.icon-left')).not.toBeNull();
+  });
+
+  it('should lock back navigation', () => {
+    root.meta.setNavigable({ back: false, home: true });
+
+    expect(root.query('.icon-left')).toBeNull();
+  });
+
+  it('should go home when home is clicked and location is not home page', () =>
+    new Promise(res => {
+      root.router.go = res;
+      clickOn(root.query('.icon-right'));
+    }));
+
+  it('should close app when home is clicked and location is home', () => {
+    changeRouterPath('/');
+
+    return new Promise(res => {
+      root.close = res;
+      clickOn(root.query('.icon-right'));
+    });
+  });
+
+  it('should go back when back is clicked', () => {
+    changeRouterPath('/not-home');
+
+    root.meta.setNavigable({ back: true, home: true });
+
+    return new Promise(res => {
+      root.router.back = res;
+      clickOn(root.query('.icon-left'));
+    });
+  });
+});
+
+it('should modify the appbar props', () => {
+  root.fire('appbar:modify', { title: 'modificado' });
+  expect(appBar.get()).toMatchObject({ title: 'modificado' });
+});
+
+it('should set hasAppbar false on meta', () => {
+  appBar.destroy();
+
+  expect(root.meta.get()._hasAppbar).toBe(false);
+});

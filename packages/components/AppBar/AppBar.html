@@ -54,26 +54,31 @@
       /** Listen for route changes and appbar prop changes */
       root.on('appbar:modify', state => this.set(state));
 
+      /* istanbul ignore else */
       if (root.router) {
         root.router.on('update', ({ changed, current }) => {
+          /* istanbul ignore else */
           if (changed.context && current.context) {
             this.set({ _location: current.context.path });
           }
         });
       }
 
+      /* istanbul ignore else */
       if (root.meta) {
-        root.meta.set({ hasAppbar: true });
+        root.meta.set({ _hasAppbar: true });
         root.meta.on('update', ({ changed, current }) => {
-          if (changed.navigation) {
-            this.set({ _isNavigationEnabled: current.navigation });
+          /* istanbul ignore else */
+          if (changed.navigable) {
+            this.set({ _isNavigationEnabled: current.navigable });
           }
         });
       }
     },
     ondestroy() {
+      /* istanbul ignore else */
       if (this.root.meta) {
-        this.root.meta.set({ hasAppbar: false });
+        this.root.meta.set({ _hasAppbar: false });
       }
     },
     onstate({ changed, current }) {
@@ -85,14 +90,16 @@
       goHome() {
         const { _isAtHome } = this.get();
         if (_isAtHome) {
-          return this.root.fire('close');
+          return this.root.close();
         }
 
+        /* istanbul ignore else */
         if (this.root.router) {
           this.root.router.go('/');
         }
       },
       goBack() {
+        /* istanbul ignore else */
         if (this.root.router) {
           this.root.router.back();
         }

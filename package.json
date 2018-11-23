@@ -22,7 +22,9 @@
     "format": "npm run format:css; npm run format:js",
     "format:js": "prettier --write \"*.js\" \"{tools,packages}/**/*.js\" && eslint --fix \"*.js\" \"{tools,packages}/**/*.{js,html,svelte}\"",
     "format:css": "prettier --write \"packages/**/*.{css,pcss}\" && stylelint --fix \"packages/**/*.{html,svelte,css,pcss}\"",
-    "postinstall": "lerna bootstrap --hoist --no-ci"
+    "postinstall": "lerna bootstrap --hoist --no-ci",
+    "test": "jest",
+    "test:watch": "jest --watchAll"
   },
   "husky": {
     "hooks": {
@@ -49,18 +51,24 @@
     }
   },
   "devDependencies": {
+    "@babel/core": "^7.1.2",
     "@gen/rollup-plugin-generate-html": "^0.1.1",
     "@mamba/configs": "file:packages/configs",
-    "babel-core": "^6.26.3",
+    "@mamba/app": "file:packages/components/App",
+    "@mamba/pos": "file:packages/pos",
+    "@mamba/switch": "file:packages/components/Switch",
+    "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
     "case": "^1.5.5",
     "cross-env": "^5.2.0",
+    "deasync": "^0.1.13",
     "eslint": "^5.8.0",
     "globby": "^8.0.1",
     "html-minifier": "^3.5.21",
     "husky": "^1.1.2",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^23.6.0",
+    "jest-canvas-mock": "^1.1.0",
     "lerna": "^3.4.3",
     "lerna-wizard": "^1.0.9",
     "lint-staged": "^8.0.4",
@@ -81,6 +89,6 @@
     "rollup-plugin-virtual": "^1.0.1",
     "stylelint": "^9.7.1",
     "svelte": "^2.15.1",
-    "svelte-preprocess": "^2.3.2"
+    "svelte-preprocess": "^2.4.0"
   }
 }

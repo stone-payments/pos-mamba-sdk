@@ -4,6 +4,7 @@
   export default {
     data() {
       return {
+        _interval: null,
         color: '#6ebf1a',
         progress: undefined,
         height: 25,
@@ -18,8 +19,8 @@
       }
     },
     ondestroy() {
-      const { interval } = this.get();
-      clearInterval(interval);
+      const { _interval } = this.get();
+      clearInterval(_interval);
     },
     onupdate({ changed }) {
       if (changed.progress) {
@@ -31,7 +32,8 @@
         let { speed } = this.get();
         speed = parseFloat(speed);
 
-        const interval = setInterval(() => {
+        /* istanbul ignore next */
+        const _interval = setInterval(() => {
           const { progress } = this.get();
           if (progress > 100) {
             this.set({ progress: 0 });
@@ -39,12 +41,13 @@
             this.set({ progress: progress + (5 * speed) / 10 });
           }
         }, 50);
-        this.set({ interval });
+
+        this.set({ _interval });
       },
       stop() {
-        const { interval } = this.get();
-        clearInterval(interval);
-        this.set({ interval: null });
+        const { _interval } = this.get();
+        clearInterval(_interval);
+        this.set({ _interval: null });
       },
       _drawCircularProgress() {
         const { progress, color, height } = this.get();

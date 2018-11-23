@@ -76,43 +76,47 @@ AppManager.close = () => {
 
   App.fire('closed');
 
-  if (currentApp.runtime.instance) {
-    const { runtime } = currentApp;
-    runtime.instance.destroy();
-    delete currentApp.runtime;
+  if (currentApp) {
+    if (currentApp.runtime.instance) {
+      const { runtime } = currentApp;
+      runtime.instance.destroy();
+      delete currentApp.runtime;
 
-    const collectedEventsKeys = Object.keys(runtime.collectedEvents);
-    collectedEventsKeys.forEach(targetConstructor => {
-      let node;
+      const collectedEventsKeys = Object.keys(runtime.collectedEvents);
+      collectedEventsKeys.forEach(targetConstructor => {
+        let node;
 
-      if (targetConstructor === 'Window') node = window;
-      if (targetConstructor === 'HTMLDocument') node = document;
+        if (targetConstructor === 'Window') node = window;
+        if (targetConstructor === 'HTMLDocument') node = document;
 
-      if (node) {
-        const eventTypes = Object.keys(
-          runtime.collectedEvents[targetConstructor],
-        );
-        eventTypes.forEach(eventType => {
-          runtime.collectedEvents[targetConstructor][eventType].forEach(fn => {
-            node.removeEventListener(eventType, fn);
-            if (__DEBUG_LVL__ >= 3) {
-              log('Removing collected DOM event listener: ');
-              console.log([node, eventType, fn]);
-            }
+        if (node) {
+          const eventTypes = Object.keys(
+            runtime.collectedEvents[targetConstructor],
+          );
+          eventTypes.forEach(eventType => {
+            runtime.collectedEvents[targetConstructor][eventType].forEach(
+              fn => {
+                node.removeEventListener(eventType, fn);
+                if (__DEBUG_LVL__ >= 3) {
+                  log('Removing collected DOM event listener: ');
+                  console.log([node, eventType, fn]);
+                }
+              },
+            );
           });
+        }
+      });
+
+      if (currentApp.drivers) {
+        currentApp.drivers.forEach(driverModule => {
+          DriverManager.resetDriverState(driverModule);
         });
       }
-    });
 
-    if (currentApp.drivers) {
-      currentApp.drivers.forEach(driverModule => {
-        DriverManager.resetDriverState(driverModule);
-      });
+      currentApp = null;
+    } else if (__DEV__) {
+      warn('App already closed');
     }
-
-    currentApp = null;
-  } else if (__DEV__) {
-    warn('App already closed');
   }
 
   AppManager.fire('closed');
