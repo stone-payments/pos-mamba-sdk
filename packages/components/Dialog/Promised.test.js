@@ -1,68 +1,58 @@
 import PromisedDialog from './Promised.html';
 
-const target = document.body;
-let component;
+const { newTestRoot } = global;
 
-const newInstance = data => {
-  if (component) {
-    component.destroy();
-  }
-  component = new PromisedDialog({ target, data });
-  return component;
-};
+const root = newTestRoot();
+
+const newPromisedDialog = data =>
+  root.createComponent(PromisedDialog, { unique: true, data });
 
 it('should accept a `promise` prop which opens the dialog', () => {
-  newInstance({
+  const dialog = newPromisedDialog({
     promise: new Promise(res => setTimeout(res, 100)),
   });
-  expect(component.get().isOpen).toBe(true);
+  expect(dialog.get().isOpen).toBe(true);
 });
 
 it('should accept a `delay` prop which delays closing the dialog', () => {
-  newInstance({
+  const dialog = newPromisedDialog({
     promise: new Promise(res => setTimeout(res, 100)),
     delay: 1200,
   });
 
   return Promise.all([
     new Promise(res =>
-      setTimeout(
-        () => component.get().isOpen && res(),
-        component.get().delay / 3,
-      ),
+      setTimeout(() => dialog.get().isOpen && res(), dialog.get().delay / 3),
     ),
     new Promise(res =>
-      setTimeout(
-        () => !component.get().isOpen && res(),
-        component.get().delay + 300,
-      ),
+      setTimeout(() => !dialog.get().isOpen && res(), dialog.get().delay + 300),
     ),
   ]);
 });
 
 it('should automatically close the dialog along with promise resolvement', () => {
-  newInstance({
+  const dialog = newPromisedDialog({
     promise: new Promise(res => setTimeout(res, 100)),
     delay: 100,
   });
 
   return new Promise(res =>
     setTimeout(() => {
-      if (!component.get().isOpen) res();
-    }, component.get().delay + 200),
+      if (!dialog.get().isOpen) res();
+    }, dialog.get().delay + 200),
   );
 });
 
 it('should fire a "success" event if promise resolves', () => {
-  newInstance({
+  const dialog = newPromisedDialog({
     promise: new Promise(res => setTimeout(res, 100)),
   });
-  return new Promise(res => component.on('success', res));
+  return new Promise(res => dialog.on('success', res));
 });
 
 it('should fire a "failure" event if promise rejects', () => {
-  newInstance({
+  const dialog = newPromisedDialog({
     promise: new Promise((res, rej) => setTimeout(rej, 100)),
   });
-  return new Promise(res => component.on('failure', res));
+  return new Promise(res => dialog.on('failure', res));
 });

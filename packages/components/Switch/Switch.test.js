@@ -1,51 +1,45 @@
 import Switch from './Switch.html';
 
-const target = document.body;
-let component;
+const { newTestRoot } = global;
 
-const newInstance = data => {
-  if (component) {
-    component.destroy();
-  }
-  component = new Switch({ target, data });
-  return component;
-};
+const root = newTestRoot();
 
-newInstance();
+const newSwitch = data => root.createComponent(Switch, { unique: true, data });
 
-const getCheckboxNode = () =>
-  component.options.target.querySelector('input[type=checkbox]');
+let switchComp;
+
+const getCheckboxNode = () => root.query('input[type=checkbox]');
 
 it('should be able to start checked', () => {
-  component = newInstance({ checked: true });
+  switchComp = newSwitch({ checked: true });
   expect(getCheckboxNode().checked).toBe(true);
 });
 
 it('should be able to disable the checkbox', () => {
-  component = newInstance({ disabled: true });
+  switchComp = newSwitch({ disabled: true });
   expect(getCheckboxNode().disabled).toBe(true);
 });
 
 it('should fire a change event when value is modified', () => {
-  component = newInstance();
+  switchComp = newSwitch();
   return new Promise(res => {
-    component.on('change', res);
+    switchComp.on('change', res);
     getCheckboxNode().click();
   });
 });
 
 it('should toggle its checked value', () => {
-  component = newInstance();
+  switchComp = newSwitch();
 
-  component.toggle();
+  switchComp.toggle();
   expect(getCheckboxNode().checked).toBe(true);
 
-  component.toggle(true);
+  switchComp.toggle(true);
   expect(getCheckboxNode().checked).toBe(true);
 
-  component.toggle(false);
+  switchComp.toggle(false);
   expect(getCheckboxNode().checked).toBe(false);
 
-  component.toggle(null);
+  switchComp.toggle(null);
   expect(getCheckboxNode().checked).toBe(false);
 });

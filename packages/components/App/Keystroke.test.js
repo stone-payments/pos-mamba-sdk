@@ -1,8 +1,8 @@
 import Keystroke from './Keystroke.html';
 import { hasActiveHandlerFor } from './includes/KeystrokeRegister.js';
 
-const { newTestApp, fireKey } = global;
-const root = newTestApp({ key: 'close' });
+const { newTestRoot, fireKey } = global;
+const root = newTestRoot({ key: 'close' });
 let keystroke;
 
 const newKeystroke = data => root.createComponent(Keystroke, { data });

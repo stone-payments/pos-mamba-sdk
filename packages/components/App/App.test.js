@@ -2,34 +2,22 @@ import AppAPI from '@mamba/pos/api/app.js';
 import App from './App.html';
 import Keystroke from './Keystroke.html';
 
-const { newTestApp, fireKey } = global;
+const { newTestRoot, fireKey } = global;
 let root;
 let meta;
 let content;
 
-const newAppTestApp = () => {
-  const metaTest = newTestApp();
-
-  metaTest.router = metaTest.createDummy({
-    data: { context: { path: '/' }, path: '/' },
-    methods: {
-      go(path) {
-        this.set({ context: { path }, path });
-      },
-    },
-  });
-
+beforeEach(() => {
   const docFrag = document.createDocumentFragment();
   content = document.createElement('DIV');
   content.className = 'content';
   docFrag.appendChild(content);
 
-  meta = metaTest.createComponent(App, { slots: { default: docFrag } });
-  return metaTest;
-};
-
-beforeEach(() => {
-  root = newAppTestApp();
+  root = newTestRoot({ contentFragment: docFrag });
+  meta = root.createComponent(App, {
+    unique: true,
+    slots: { default: docFrag },
+  });
 });
 
 it("should pass the app's content through a slot", () => {

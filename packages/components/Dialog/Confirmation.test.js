@@ -1,60 +1,51 @@
 import ConfirmationDialog from './Confirmation.html';
 
-const target = document.body;
-let component;
+const { newTestRoot } = global;
 
-const newInstance = data => {
-  if (component) {
-    component.destroy();
-  }
-  component = new ConfirmationDialog({ target, data });
+const root = newTestRoot();
 
-  return component;
-};
+const newDialog = data =>
+  root.createComponent(ConfirmationDialog, { unique: true, data });
 
-newInstance();
+let dialog = newDialog();
 
 it('should open a confirmation dialog', () =>
   Promise.all([
-    new Promise(res => component.on('open', res)),
-    new Promise(res => setTimeout(() => component.get().isOpen && res(), 300)),
-    component.open(),
+    new Promise(res => dialog.on('open', res)),
+    new Promise(res => setTimeout(() => dialog.get().isOpen && res(), 300)),
+    dialog.open(),
   ]));
 
 it('should close a confirmation dialog', () =>
   Promise.all([
-    new Promise(res => component.on('close', res)),
-    new Promise(res => setTimeout(() => !component.get().isOpen && res(), 300)),
-    component.close(),
+    new Promise(res => dialog.on('close', res)),
+    new Promise(res => setTimeout(() => !dialog.get().isOpen && res(), 300)),
+    dialog.close(),
   ]));
 
 it('should close and dispatch a "negative" event when negative button clicked', () =>
   Promise.all([
-    new Promise(res => component.on('close', res)),
-    new Promise(res => component.on('negative', res)),
-    component.open().then(() => {
-      target.querySelector('[shortcut="close"]').click();
+    new Promise(res => dialog.on('close', res)),
+    new Promise(res => dialog.on('negative', res)),
+    dialog.open().then(() => {
+      root.query('[shortcut="close"]').click();
     }),
   ]));
 
 it('should close and dispatch a "negative" event when negative button clicked', () =>
   Promise.all([
-    new Promise(res => component.on('close', res)),
-    new Promise(res => component.on('positive', res)),
-    component.open().then(() => {
-      target.querySelector('[shortcut="enter"]').click();
+    new Promise(res => dialog.on('close', res)),
+    new Promise(res => dialog.on('positive', res)),
+    dialog.open().then(() => {
+      root.query('[shortcut="enter"]').click();
     }),
   ]));
 
 it('should accept button labels', () => {
-  newInstance({ positiveLabel: 'Confirmar', negativeLabel: 'Negar' });
+  dialog = newDialog({ positiveLabel: 'Confirmar', negativeLabel: 'Negar' });
 
-  return component.open().then(() => {
-    expect(target.querySelector('[shortcut="close"]').innerHTML).toContain(
-      'Negar',
-    );
-    expect(target.querySelector('[shortcut="enter"]').innerHTML).toContain(
-      'Confirmar',
-    );
+  return dialog.open().then(() => {
+    expect(root.query('[shortcut="close"]').innerHTML).toContain('Negar');
+    expect(root.query('[shortcut="enter"]').innerHTML).toContain('Confirmar');
   });
 });

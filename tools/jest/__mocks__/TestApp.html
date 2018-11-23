@@ -2,11 +2,52 @@
   import Dummy from './Dummy.html';
 
   export default {
+    data() {
+      return {
+        uniques: new Map(),
+      };
+    },
+    oncreate() {
+      this.target = this.options.target;
+
+      this.router = this.createDummy({
+        data: {
+          context: { path: '/' },
+          path: '/',
+        },
+        methods: {
+          go(path) {
+            this.set({ context: { path }, path });
+          },
+          back() {},
+        },
+      });
+
+      this.meta = this.createDummy({
+        data: {
+          navigable: { home: true, back: true },
+          shortcuts: true,
+          scrollable: true,
+          _hasAppbar: false,
+        },
+        methods: {
+          setNavigable(o) {
+            this.set({ navigable: o });
+          },
+        },
+      });
+    },
     methods: {
       createDummy(opts) {
         return this.createComponent(Dummy, opts);
       },
-      createComponent(Constructor, { methods, ...opts } = {}) {
+      createComponent(Constructor, { unique = false, methods, ...opts } = {}) {
+        const { uniques } = this.get();
+
+        if (unique && uniques.has(Constructor)) {
+          uniques.get(Constructor).destroy();
+        }
+
         const instance = new Constructor({
           target: this.options.target,
           root: this,
@@ -22,10 +63,12 @@
         this.on('destroy', () => instance.destroy());
         this._flush(this);
 
+        if (unique) {
+          uniques.set(Constructor, instance);
+          instance.on('destroy', () => uniques.delete(Constructor));
+        }
+
         return instance;
-      },
-      query(selector) {
-        return this.options.target.querySelector(selector);
       },
       _flush(component) {
         component._lock = true;
@@ -36,6 +79,9 @@
       },
       _callAll(fns) {
         while (fns && fns.length) fns.shift()();
+      },
+      query(selector) {
+        return this.options.target.querySelector(selector);
       },
     },
   };

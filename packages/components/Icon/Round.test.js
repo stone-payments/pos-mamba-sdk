@@ -1,23 +1,14 @@
 import Round from './Round.html';
 
-const target = document.body;
-let component;
+const { newTestRoot } = global;
 
-const newInstance = data => {
-  component = new Round({
-    target,
-    data,
-  });
-  return component;
-};
+const root = newTestRoot();
+
+const newRoundIcon = data => root.createComponent(Round, { data });
 
 describe('style', () => {
-  beforeEach(() => {
-    document.body.innerHTML = '';
-  });
-
   it('should accept custom inline styles', () => {
-    newInstance({
+    newRoundIcon({
       bgColor: 'black',
       borderRadius: '50%',
     });

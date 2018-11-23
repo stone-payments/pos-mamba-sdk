@@ -1,15 +1,16 @@
 import Collection from './Collection.html';
 
-const { newTestApp } = global;
+const { newTestRoot } = global;
 
-const root = newTestApp();
-const collection = root.createComponent(Collection);
+const root = newTestRoot();
+const newCollection = data => root.createComponent(Collection, { data });
 
 it('should hide title', () => {
+  newCollection();
   expect(root.query('.title')).toBe(null);
 });
 
 it('should show title', () => {
-  collection.set({ title: 'Hello tests' });
+  newCollection({ title: 'Hello tests' });
   expect(root.query('.title')).not.toBeNull();
 });

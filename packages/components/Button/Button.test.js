@@ -1,8 +1,8 @@
 import Button from './Button.html';
 
-const { newTestApp } = global;
+const { newTestRoot } = global;
 
-const root = newTestApp();
+const root = newTestRoot();
 let button;
 
 const newButton = data => root.createComponent(Button, { data });

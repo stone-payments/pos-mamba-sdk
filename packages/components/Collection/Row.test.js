@@ -1,13 +1,14 @@
 import Switch from '@mamba/switch';
 import Row from './Row.html';
 
-const { newTestApp } = global;
+const { newTestRoot } = global;
 
-const root = newTestApp();
+const root = newTestRoot();
 let row;
 let controller;
 
-const newRow = (data, slots) => root.createComponent(Row, { data, slots });
+const newRow = (data, slots) =>
+  root.createComponent(Row, { unique: true, data, slots });
 
 it('should have controller with href', () => {
   row = newRow({ showExtra: false, href: '/home' });

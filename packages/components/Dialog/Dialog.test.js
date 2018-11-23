@@ -1,56 +1,62 @@
 import Dialog from './Dialog.html';
 
-const target = document.body;
-let component;
+const { newTestRoot } = global;
 
-const newInstance = data => {
-  if (component) component.destroy();
-  component = new Dialog({ target, data });
-  return component;
-};
+const root = newTestRoot();
+root.meta = root.createDummy({
+  data: {
+    scrollable: false,
+  },
+  methods: {
+    setNavigable(o) {
+      this.set({ navigable: o });
+    },
+  },
+});
+
+let dialog;
+
+const newDialog = data => root.createComponent(Dialog, { unique: true, data });
 
 it('should create a opened dialog with markup if `isOpen: true`', () => {
-  component = newInstance({ isOpen: true });
+  dialog = newDialog({ isOpen: true });
 
-  expect(component.root.options.target.querySelector('.dialog')).not.toBeNull();
+  expect(root.query('.dialog')).not.toBeNull();
 
-  return component.close();
+  return dialog.close();
 });
 
 it('should permanently open a dialog', () =>
   Promise.all([
-    new Promise(res => component.on('open', res)),
-    new Promise(res => setTimeout(() => component.get().isOpen && res(), 300)),
-    component.open(),
+    new Promise(res => dialog.on('open', res)),
+    new Promise(res => setTimeout(() => dialog.get().isOpen && res(), 300)),
+    dialog.open(),
   ]));
 
 it('should close a dialog', () =>
   Promise.all([
-    new Promise(res => component.on('close', res)),
-    new Promise(res => setTimeout(() => !component.get().isOpen && res(), 300)),
-    component.close(),
+    new Promise(res => dialog.on('close', res)),
+    new Promise(res => setTimeout(() => !dialog.get().isOpen && res(), 300)),
+    dialog.close(),
   ]));
 
 it('should open a dialog and close after the specified time', () =>
-  Promise.all([
-    new Promise(res => component.on('close', res)),
-    component.open(200),
-  ]));
+  Promise.all([new Promise(res => dialog.on('close', res)), dialog.open(200)]));
 
 it('should close a opened dialog after the specified time', () => {
-  component.open();
+  dialog.open();
   return Promise.all([
-    new Promise(res => component.on('close', res), component.close(200)),
+    new Promise(res => dialog.on('close', res), dialog.close(200)),
   ]);
 });
 
 it('should make the app unscrollable when it opens and scrollable when it closes', () => {
-  component = newInstance();
+  dialog = newDialog();
 
-  return component.open().then(() => {
-    expect(component.root.meta.get().scrollable).toBe(false);
-    return component.close().then(() => {
-      expect(component.root.meta.get().scrollable).toBe(true);
+  return dialog.open().then(() => {
+    expect(root.meta.get().scrollable).toBe(false);
+    return dialog.close().then(() => {
+      expect(root.meta.get().scrollable).toBe(true);
     });
   });
 });

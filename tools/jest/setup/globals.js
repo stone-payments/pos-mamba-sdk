@@ -3,18 +3,18 @@ import TestApp from '../__mocks__/TestApp.html';
 
 let lastTestApp;
 
-global.newTestApp = (destroyLast = true) => {
-  if (destroyLast && lastTestApp) lastTestApp.destroy();
+/* Create a new app root for testing */
+global.newTestRoot = ({ unique = true } = {}) => {
+  if (unique && lastTestApp) lastTestApp.destroy();
 
-  lastTestApp = new TestApp({
-    target: document.body,
-  });
+  lastTestApp = new TestApp({ target: document.body });
 
   lastTestApp.target = lastTestApp.options.target;
 
   return lastTestApp;
 };
 
+/** Dispatch a clcik event on a dom node */
 global.clickOn = (el, opts = {}) => {
   el.dispatchEvent(
     new MouseEvent('click', {
@@ -26,6 +26,7 @@ global.clickOn = (el, opts = {}) => {
   );
 };
 
+/** Dispatch key events on the window */
 global.fireKey = keyName => {
   window.dispatchEvent(
     new KeyboardEvent('keydown', {

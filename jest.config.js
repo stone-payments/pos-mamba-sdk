@@ -25,7 +25,7 @@ module.exports = {
   testMatch: [fromWorkspace('**/*.test.js')],
   setupFiles: [
     fromProject('tools/jest/setup/simulator.js'),
-    fromProject('tools/jest/setup/app.js'),
+    fromProject('tools/jest/setup/globals.js'),
     'jest-canvas-mock',
   ],
   moduleFileExtensions: ['js'],

@@ -1,11 +1,11 @@
 import Barcode from './Barcode.html';
 
-const { newTestApp } = global;
+const { newTestRoot } = global;
 
 let root;
 
 beforeEach(() => {
-  root = newTestApp();
+  root = newTestRoot();
 });
 
 it('should hide barcode value.', () => {
