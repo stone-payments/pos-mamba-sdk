@@ -15,7 +15,7 @@
     "mamba": "./cli.js"
   },
   "dependencies": {
-    "case": "^1.5.5",
+    "case": "^1.6.0",
     "chalk": "^2.4.1",
     "cross-env": "^5.2.0",
     "global-dirs": "^0.1.1",
@@ -23,7 +23,7 @@
     "inquirer": "^6.2.0",
     "quickenv": "^0.0.6",
     "yargonaut": "^1.1.4",
-    "yargs": "^12.0.2"
+    "yargs": "^12.0.5"
   },
   "gitHead": "7118f44e933d2f656166a80822c0b3c1001e6a33"
 }
