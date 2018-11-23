@@ -187,6 +187,7 @@ module.exports = {
       chunks: 'all',
       minSize: 0,
       minChunks: 1,
+      automaticNameDelimiter: '_',
       cacheGroups: {
         vendors: false,
         libs: {
