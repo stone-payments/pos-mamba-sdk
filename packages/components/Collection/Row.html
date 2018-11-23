@@ -12,8 +12,14 @@
         </div>
       {/if}
     </div>
-    {#if description}
-      <p>{description}</p>
+    {#if _hasDescription}
+      <div class="description">
+        {#if description}
+          <p>{description}</p>
+        {:elseif _hasDescriptionContent}
+          <slot name="description"></slot>
+        {/if}
+      </div>
     {/if}
   </div>
 
@@ -46,11 +52,14 @@
         description: undefined,
         _hasCustomController: false,
         _hasExtraContent: false,
+        _hasDescriptionContent: false,
       };
     },
     computed: {
       _hasController: ({ href, _hasCustomController }) =>
         !!(href || _hasCustomController),
+      _hasDescription: ({ description, _hasDescriptionContent }) =>
+        !!(description || _hasDescriptionContent),
     },
     oncreate() {
       const hasSlots = !!this.options.slots;
@@ -58,6 +67,7 @@
         this.set({
           _hasCustomController: !!this.options.slots.controller,
           _hasExtraContent: !!this.options.slots.extra,
+          _hasDescriptionContent: !!this.options.slots.description,
         });
       }
 
@@ -153,7 +163,7 @@
     }
   }
 
-  p {
+  .description {
     color: #8c8c8c;
     margin: 4px 0 0;
     font-size: 12px;
