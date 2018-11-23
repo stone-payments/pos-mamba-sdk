@@ -89,7 +89,7 @@ it('should close app on "close" button', () =>
     fireKey('close');
   }));
 
-it('should trigger an "go back" action if no input is selected and the router is not at the home page', () =>
+it('should trigger a "go back" action if no input is selected and the router is not at the home page', () =>
   new Promise(res => {
     root.router.go('/not-home');
     root.router.back = res;
@@ -113,7 +113,7 @@ it('should set both `home` and `back` navigable properties if passed a boolean',
   expect(meta.get().navigable).toEqual({ home: true, back: true });
 });
 
-it('should NOT trigger an "go back" action if `navigable.back: false`', () => {
+it('should NOT trigger a "go back" action if `navigable.back: false`', () => {
   meta.setNavigable({ back: false, home: true });
 
   return new Promise((res, rej) => {
@@ -126,7 +126,7 @@ it('should NOT trigger an "go back" action if `navigable.back: false`', () => {
   });
 });
 
-it('should NOT trigger an "go back" action if at app home', () =>
+it('should NOT trigger a "go back" action if at app home', () =>
   new Promise((res, rej) => {
     root.router.go('/');
     root.router.back = rej;
