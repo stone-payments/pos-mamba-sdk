@@ -1,16 +1,25 @@
 <div ref:row class="row">
   <div ref:main on:click="_handleClick({ event, href })">
     <div class="top {_hasController ? 'has-controller' : ''}">
-      <div class="label">{label}</div>
-      {#if _hasController}
-        <div class="controller" ref:controller>
-          {#if href}
-            <Icon symbol="chevron-right" width="10px" />
-          {:elseif _hasCustomController}
-            <slot name="controller"></slot>
-          {/if}
-        </div>
-      {/if}
+      <div class="left-area">
+        <div class="label">{label}</div>
+      </div>
+      <div class="right-area">
+        {#if rightLabel}
+          <div class="label-right">
+            {rightLabel}
+          </div>
+        {/if}
+        {#if _hasController}
+          <div class="controller" ref:controller>
+            {#if href}
+              <Icon symbol="chevron-right" width="10px" />
+            {:elseif _hasCustomController}
+              <slot name="controller"></slot>
+            {/if}
+          </div>
+        {/if}
+      </div>
     </div>
     {#if _hasDescription}
       <div class="description">
@@ -151,6 +160,16 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+  }
+
+  .left-area {
+    flex-grow: 1;
+  }
+
+  .right-area {
+    display: flex;
+    justify-content: flex-end;
     align-items: center;
   }
 

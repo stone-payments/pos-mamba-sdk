@@ -14,7 +14,7 @@ global.newTestRoot = ({ unique = true } = {}) => {
   return lastRoot;
 };
 
-/** Dispatch a clcik event on a dom node */
+/** Dispatch a click event on a dom node */
 global.clickOn = (el, opts = {}) => {
   el.dispatchEvent(
     new MouseEvent('click', {

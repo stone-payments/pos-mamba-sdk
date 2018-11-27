@@ -1,15 +1,8 @@
-const { readdirSync, statSync } = require('fs');
-const { getPkg } = require('quickenv');
 const { resolve } = require('path');
-const { fromWorkspace, fromProject } = require('./tools/utils/paths.js');
-
-const getDirs = p =>
-  readdirSync(p).filter(f => statSync(resolve(p, f)).isDirectory());
-
-const componentsPath = fromProject('packages', 'components');
+const getSvelteModuleMaps = require('./packages/configs/jest/getSvelteModuleMaps.js');
 
 module.exports = {
-  rootDir: fromWorkspace(),
+  rootDir: process.cwd(),
   collectCoverage: true,
   collectCoverageFrom: [
     '**/*.{html,htmlx,svelte}',
@@ -22,39 +15,21 @@ module.exports = {
       branches: 0,
     },
   },
-  testMatch: [fromWorkspace('**/*.test.js')],
+  testMatch: ['**/*.test.js'],
   setupFiles: [
-    fromProject('tools/jest/setup/simulator.js'),
-    fromProject('tools/jest/setup/globals.js'),
+    '<rootDir>/tools/jest/setup/simulator.js',
+    '<rootDir>/tools/jest/setup/globals.js',
     'jest-canvas-mock',
   ],
   moduleFileExtensions: ['js'],
   moduleNameMapper: {
-    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': fromProject(
-      'tools/jest/__mocks__/fileMock.js',
-    ),
-    '\\.(s[ac]?|c)ss$': 'identity-obj-proxy',
+    '\\.(jpg|jpeg|png|gif|svg|ttf)$': '<rootDir>/tools/jest/mocks/fileMock.js',
     /** act as a resolver for the "svelte" field of a component package.json */
-    ...getDirs(componentsPath).reduce((acc, dirName) => {
-      const pkg = getPkg({
-        path: resolve(componentsPath, dirName),
-        traverse: false,
-      });
-
-      const mainFile = pkg.svelte || pkg.main || `${dirName}.html`;
-
-      acc[`@mamba/${dirName.toLocaleLowerCase()}$`] = resolve(
-        componentsPath,
-        dirName,
-        mainFile,
-      );
-
-      return acc;
-    }, {}),
+    ...getSvelteModuleMaps(resolve(__dirname, 'packages', 'components')),
   },
   transform: {
-    '^.+\\.js?$': fromProject('tools/jest/babelPreprocess.js'),
-    '^.+\\.(htmlx?|svelte)$': fromProject('tools/jest/svelteTransformer.js'),
+    '^.+\\.js?$': '<rootDir>/tools/jest/babelPreprocess.js',
+    '^.+\\.(htmlx?|svelte)$': '<rootDir>/tools/jest/svelteTransformer.js',
   },
   globals: {
     __NODE_ENV__: 'test',
