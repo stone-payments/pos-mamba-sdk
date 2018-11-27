@@ -6,7 +6,7 @@
       </div>
       <div class="right-area">
         {#if rightLabel}
-          <div class="label-right">
+          <div class="label">
             {rightLabel}
           </div>
         {/if}
@@ -53,6 +53,7 @@
     },
     data() {
       return {
+        rightLabel: undefined,
         /** Boolean to display the extra content element */
         showExtra: false,
         /** Define a link to another page */
@@ -140,9 +141,7 @@
   @import '@mamba/styles/theme.pcss';
 
   ref:row {
-    display: block;
     margin: 0;
-    line-height: 1.5rem;
     background: #fff;
     color: #494949;
     border-bottom: 1px solid #e3e6e7;
@@ -153,6 +152,10 @@
   }
 
   ref:main {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    width: 100%;
     padding: $row-padding;
   }
 
@@ -167,20 +170,34 @@
     flex-grow: 1;
   }
 
-  .right-area {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-  }
-
   .label {
     font-size: 13px;
     font-weight: bold;
     word-wrap: break-word;
 
-    .top.has-controller & {
-      max-width: 80%;
+    .left-area & {
+      .top.has-controller & {
+        max-width: 80%;
+      }
     }
+
+    .right-area & {
+      max-width: 110px;
+      color: #8c8c8c;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
+      .top.has-controller & {
+        margin-right: 8px;
+      }
+    }
+  }
+
+  .right-area {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
   }
 
   .description {
@@ -188,10 +205,6 @@
     margin: 4px 0 0;
     font-size: 12px;
     line-height: 16px;
-  }
-
-  ref:controller {
-    line-height: 1;
   }
 
   .extra {
