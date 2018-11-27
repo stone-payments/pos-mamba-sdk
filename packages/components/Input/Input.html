@@ -84,7 +84,7 @@
     },
     oncreate() {
       if (this.options.data) {
-        const { type, maxlength, autofocus } = this.options.data;
+        const { type, maxlength, autofocus, value, mask } = this.options.data;
 
         // TODO: remove when undefined prop is not printed
         if (typeof maxlength !== 'undefined') {
@@ -98,6 +98,13 @@
         if (autofocus) {
           this.focus();
           this.refs.input.scrollIntoView(false);
+        }
+
+        if (value) {
+          const rawValue = mask
+            ? masker(value, mask, false, this.get().tokens)
+            : value;
+          this.set({ rawValue });
         }
       }
     },
