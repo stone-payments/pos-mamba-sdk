@@ -40,7 +40,7 @@ export function setup(Printer) {
 
       /** Fire endPrinting if no Virtual POS found */
       if (!Core.POS || window.innerWidth <= 480) {
-        setTimeout(Core.HardwareManager.endPrinting, 1000);
+        setTimeout(Core.HardwareManager.endPrinting, __TEST__ ? 0 : 1000);
       }
       return;
     }

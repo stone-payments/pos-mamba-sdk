@@ -3,10 +3,12 @@ import Printable from './Printable.html';
 
 const { newTestRoot } = global;
 
-const root = newTestRoot();
+let root;
 
-const newPrintable = data =>
-  root.createComponent(Printable, { unique: true, data });
+const newPrintable = data => {
+  root = newTestRoot();
+  return root.createComponent(Printable, { unique: true, data });
+};
 
 let printable;
 
@@ -16,6 +18,7 @@ it('should be able to print its content', () => {
 });
 
 it('print() promise should resolve at the same time as the "finish" event', () => {
+  printable = newPrintable();
   const printingPromise = printable.print();
 
   expect(typeof printingPromise.then).toBe('function');
@@ -27,6 +30,7 @@ it('print() promise should resolve at the same time as the "finish" event', () =
 });
 
 it('should display a printing dialog', () => {
+  printable = newPrintable();
   printable.print();
 
   return new Promise(res => {
@@ -38,31 +42,22 @@ it('should display a printing dialog', () => {
   });
 });
 
-it('should not display the printing dialog when `showPrintingDialog: false`', () => {
-  printable = newPrintable({ showPrintingDialog: false });
-  printable.print();
-
-  return new Promise(res => {
-    setTimeout(() => {
-      if (!printable.refs.printingDialog) {
-        res();
-      }
-    });
-  });
-});
-
-it('should return a resolved promise when `print({ print_to_paper: false })` and fire "finish"', () =>
-  Promise.all([
+it('should return a resolved promise when `print({ print_to_paper: false })` and fire "finish"', () => {
+  printable = newPrintable();
+  return Promise.all([
     new Promise(res => printable.on('finish', res)),
     printable.print({ print_to_paper: false }),
-  ]));
+  ]);
+});
 
 it('should display a retry dialog in case of a printing error', () => {
   Simulator.Registry.set('$Printer.panel.shouldFail', true);
+
+  printable = newPrintable();
   printable.print();
 
   return new Promise(res => {
-    setTimeout(() => {
+    printable.on('error', () => {
       if (printable.refs.failureDialog) {
         res();
       }
@@ -71,11 +66,14 @@ it('should display a retry dialog in case of a printing error', () => {
 });
 
 it('should dispatch a "finish" event in case of not wanting to retry printing', () => {
+  Simulator.Registry.set('$Printer.panel.shouldFail', true);
+
+  printable = newPrintable();
   printable.print();
 
   return new Promise(res => {
     printable.on('finish', res);
-    setTimeout(() => {
+    printable.on('error', () => {
       root.query('[shortcut="close"]').click();
     });
   });
