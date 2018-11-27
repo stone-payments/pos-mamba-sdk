@@ -6,8 +6,7 @@ let range;
 
 const newRange = data => {
   root = newTestRoot();
-
-  return root.createComponent(Range, { data });
+  return root.createComponent(Range, { unique: true, data });
 };
 
 describe('Test Styles', () => {
@@ -57,20 +56,16 @@ describe('Test Styles', () => {
   });
 
   it('should have correct width with specific unit', () => {
-    root.destroy();
-    root = newTestRoot();
-    root.createComponent(Range, {
-      data: {
-        icon: './example/static/brightness.png',
-        min: 0,
-        max: 125,
-        step: 10,
-        value: 25,
-        unit: 'm',
-        mainColor: '#3da10f',
-        textColor: '#494949',
-        barColor: '#000',
-      },
+    range = newRange({
+      icon: './example/static/brightness.png',
+      min: 0,
+      max: 125,
+      step: 10,
+      value: 25,
+      unit: 'm',
+      mainColor: '#3da10f',
+      textColor: '#494949',
+      barColor: '#000',
     });
     range.set({ max: 125 });
     expect(root.query('.bar').style.width).toBe('20%');
@@ -81,20 +76,16 @@ describe('Test Styles', () => {
   });
 
   it('should set value as half when value is undefined', () => {
-    root.destroy();
-    root = newTestRoot();
-    root.createComponent(Range, {
-      data: {
-        icon: './example/static/brightness.png',
-        min: 0,
-        max: 100,
-        step: 10,
-        value: undefined,
-        unit: '%',
-        mainColor: '#3da10f',
-        textColor: '#494949',
-        barColor: '#000',
-      },
+    range = newRange({
+      icon: './example/static/brightness.png',
+      min: 0,
+      max: 100,
+      step: 10,
+      value: undefined,
+      unit: '%',
+      mainColor: '#3da10f',
+      textColor: '#494949',
+      barColor: '#000',
     });
     expect(root.query('.value').textContent).toBe('50%');
   });
@@ -117,13 +108,17 @@ describe('Test action buttons', () => {
 
   it('should increment range value', () => {
     const btn = root.queryAll('button')[0];
+
     clickOn(btn);
+
     expect(range.get().value).toBe(40);
   });
 
   it('should decrement range value', () => {
     const btn = root.queryAll('button')[1];
+
     clickOn(btn);
+
     expect(range.get().value).toBe(50);
   });
 });
