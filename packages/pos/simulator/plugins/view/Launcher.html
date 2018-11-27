@@ -1,4 +1,3 @@
-
 {#if STATE === STATES.APP}
   <div ref:approot id="app-root"></div>
 {:else}
@@ -67,9 +66,7 @@
       };
     },
     computed: {
-      appsList({ apps }) {
-        return Object.values(apps);
-      },
+      appsList: ({ apps }) => Object.values(apps),
     },
     oncreate() {
       /** Update the clock after each second */
