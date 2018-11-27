@@ -19,7 +19,7 @@
 
     {#if STATE === STATES.HOME}
       <div class="home">
-        {#each Object.values(apps) as app}
+        {#each appsList as app}
           <div class="app-item" on:click="openApp(app)">
             <div class="content">
               <div class="icon">
@@ -65,6 +65,11 @@
         time: `${initHours}:${initMinutes}`,
         apps: {},
       };
+    },
+    computed: {
+      appsList({ apps }) {
+        return Object.values(apps);
+      },
     },
     oncreate() {
       /** Update the clock after each second */

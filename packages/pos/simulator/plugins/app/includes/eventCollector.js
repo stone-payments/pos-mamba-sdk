@@ -4,10 +4,15 @@
  */
 
 export default AppManager => {
-  const originalAddEventListener = EventTarget.prototype.addEventListener;
-  const originalRemoveEventListener = EventTarget.prototype.removeEventListener;
+  const eventTarget =
+    typeof window.EventTarget !== 'undefined'
+      ? window.EventTarget
+      : window.Node;
 
-  EventTarget.prototype.addEventListener = function addEventListener(
+  const originalAddEventListener = eventTarget.prototype.addEventListener;
+  const originalRemoveEventListener = eventTarget.prototype.removeEventListener;
+
+  eventTarget.prototype.addEventListener = function addEventListener(
     type,
     fn,
     capture,
@@ -38,7 +43,7 @@ export default AppManager => {
     }
   };
 
-  EventTarget.prototype.removeEventListener = function addEventListener(
+  eventTarget.prototype.removeEventListener = function addEventListener(
     type,
     fn,
   ) {
