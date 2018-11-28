@@ -23,7 +23,7 @@
     "format:js": "prettier --write \"*.js\" \"{tools,packages}/**/*.js\" && eslint --fix \"*.js\" \"{tools,packages}/**/*.{js,html,svelte}\"",
     "format:css": "prettier --write \"packages/**/*.{css,pcss}\" && stylelint --fix \"packages/**/*.{html,svelte,css,pcss}\"",
     "postinstall": "lerna bootstrap --hoist --no-ci",
-    "test": "jest",
+    "test": "jest --verbose",
     "test:watch": "jest --watchAll"
   },
   "husky": {
@@ -53,14 +53,15 @@
   "devDependencies": {
     "@babel/core": "^7.1.2",
     "@gen/rollup-plugin-generate-html": "^0.1.1",
-    "@mamba/configs": "file:packages/configs",
     "@mamba/app": "file:packages/components/App",
+    "@mamba/configs": "file:packages/configs",
     "@mamba/pos": "file:packages/pos",
     "@mamba/switch": "file:packages/components/Switch",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
     "case": "^1.5.5",
     "cross-env": "^5.2.0",
+    "danger": "^6.1.8",
     "deasync": "^0.1.13",
     "eslint": "^5.8.0",
     "globby": "^8.0.1",
