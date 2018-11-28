@@ -152,18 +152,18 @@
   }
 
   ref:main {
-    display: flex;
-    align-items: center;
-    height: 48px;
-    width: 100%;
     padding: $row-padding;
   }
 
   .top {
-    width: 100%;
     display: flex;
+    width: 100%;
     justify-content: space-between;
     align-items: center;
+
+    &:not(.has-controller) {
+      height: 24px;
+    }
   }
 
   .left-area {
