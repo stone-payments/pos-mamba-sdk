@@ -44,7 +44,7 @@ import MoneyInput from '@mamba/input/Money.html';
 ## Eventos
 
 `<Input ...props />`
- 
+
 | Nome          | Descrição                                                                                                                                        | Tipo              |
 |---------------|--------------------------------------------------------------------------------------------------------------------------------------------------|-------------------|
 | submit        | Especifique uma função para receber o evento com mais duas propriedades value(_valor do campo_) e isValid(*Boleano da propriedade `validation`*) | `function(event)` |
@@ -53,7 +53,7 @@ import MoneyInput from '@mamba/input/Money.html';
 
 
 `<MoneyInput ...props />`
- 
+
 | Nome     | Descrição                                                                                 | Tipo              |
 |----------|-------------------------------------------------------------------------------------------|-------------------|
 | submit   | Retorna duas propriedades value(Valor em centavos) e formatted(Valor formatado na moeda)  | `function(event)` |
@@ -79,6 +79,10 @@ Desfoca o componente de input.
 ### invalidate(message)
 
 Define que o input está com conteúdo inválido e mostra uma mensagem de erro opcional.
+
+### mask()
+
+Força uma atualização do conteúdo do `Input` para se adequar às máscaras definidas. Use apenas se a *prop* `value` for definida manualmente através de um `inputComponent.set({ value: ... })`.
 
 ## Máscara
 

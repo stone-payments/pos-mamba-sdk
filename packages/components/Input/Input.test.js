@@ -1,7 +1,7 @@
 import Simulator from '@mamba/pos/simulator/index.js';
 import Input from './Input.html';
 
-const { newTestRoot, clickOn } = global;
+const { newTestRoot, clickOn, typeOn } = global;
 
 const root = newTestRoot();
 
@@ -14,7 +14,6 @@ Node.prototype.scrollIntoView = jest.fn();
 it('default input', () => {
   input = newInput();
   expect(input.refs.input.getAttribute('maxlength')).toBeNull();
-  expect(input.get()).toMatchObject({ rawValue: '', value: '' });
   expect(document.activeElement).not.toBe(input.refs.input);
 });
 
@@ -52,6 +51,17 @@ describe('methods', () => {
     input.blur();
     expect(document.activeElement).not.toBe(input.refs.input);
     expect(input.get().isFocused).toBe(false);
+  });
+
+  it('should manually mask a input', () => {
+    input = newInput();
+    input.set({ mask: '###', value: 'A111' });
+    expect(input.get().value).toBe('A111');
+    expect(input.refs.input.value).toBe('A111');
+
+    input.mask();
+    expect(input.get().value).toBe('111');
+    expect(input.refs.input.value).toBe('111');
   });
 });
 
@@ -159,9 +169,51 @@ describe('behaviour', () => {
 
   describe('mask', () => {
     it('should accept a single mask', () => {
-      input = newInput({ mask: '###.###' });
-      input.set({ value: '123123' });
-      expect(input.get().value).toBe('123.123');
+      input = newInput({ mask: '###.###.###-##', value: '12312312312' });
+      expect(input.get().value).toBe('123.123.123-12');
+    });
+
+    it('should accept multiple masks', () => {
+      input = newInput({
+        mask: ['###.###.###-##', '##.###.###/####-##'],
+        value: '12312312123123',
+      });
+      expect(input.get().value).toBe('12.312.312/1231-23');
+
+      input.set({ value: '12312312312' });
+      input.mask();
+      expect(input.get().value).toBe('123.123.123-12');
+    });
+
+    it('should mask while typing', () => {
+      input = newInput({ mask: '###.###.###-##' });
+
+      typeOn(input.refs.input, '1231');
+      expect(input.get().value).toBe('123.1');
+    });
+
+    it('should accept custom masks tokens', () => {
+      input = newInput({
+        mask: 'Z Z Z',
+        tokens: {
+          Z: { pattern: /\d/ },
+        },
+      });
+
+      typeOn(input.refs.input, '1231');
+      expect(input.get().value).toBe('1 2 3');
+    });
+
+    it('should accept a transformer method for custom tokens', () => {
+      input = newInput({
+        mask: 'M M M M M',
+        tokens: {
+          M: { pattern: /[a-zA-Z]/, transform: v => v.toLocaleUpperCase() },
+        },
+      });
+
+      typeOn(input.refs.input, 'abcde');
+      expect(input.get().value).toBe('A B C D E');
     });
   });
 });

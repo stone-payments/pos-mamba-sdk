@@ -31,7 +31,7 @@ global.clickOn = (el, opts = {}) => {
 };
 
 /** Dispatch key events on the window */
-const KEYBOARD_EVENTS = ['keydown', 'keyup'];
+const KEYBOARD_EVENTS = ['keydown', 'keypress', 'input', 'keyup'];
 
 global.fireKey = (keyName, el = window) => {
   KEYBOARD_EVENTS.forEach(event =>
@@ -43,4 +43,12 @@ global.fireKey = (keyName, el = window) => {
       }),
     ),
   );
+};
+
+global.typeOn = (el, keys) => {
+  keys = keys.split('');
+  keys.forEach(key => {
+    el.value += key;
+    global.fireKey(key, el);
+  });
 };

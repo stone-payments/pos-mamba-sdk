@@ -88,7 +88,7 @@
     },
     oncreate() {
       if (this.options.data) {
-        const { type, maxlength, autofocus } = this.options.data;
+        const { type, maxlength, autofocus, mask } = this.options.data;
 
         // TODO: remove when undefined prop is not printed
         if (typeof maxlength !== 'undefined') {
@@ -104,10 +104,16 @@
           this.refs.input.scrollIntoView(false);
         }
 
-        this.refs.input.addEventListener('change');
+        if (mask) {
+          this.mask();
+        }
       }
     },
     onupdate({ changed, current }) {
+      if (changed.value) {
+        this.refs.input.value = current.value;
+      }
+
       if (
         changed._errorMsg &&
         current._errorMsg &&
@@ -123,10 +129,6 @@
         !current.isFocused
       ) {
         this.focus();
-      }
-
-      if (changed.value) {
-        this.refs.input.value = current.value;
       }
     },
     methods: {
@@ -147,6 +149,17 @@
       /** Invalidate the input with an optional error message */
       invalidate(message) {
         this.set({ isValid: false, _errorMsg: message });
+      },
+      mask() {
+        const state = this.get();
+        const { mask, tokens } = state;
+        let { value } = state;
+
+        if (mask) {
+          value = masker(value, mask, true, tokens);
+          this.set({ value });
+        }
+        return value;
       },
       // TODO: when '_visible' changes, it triggers a focus
       _onFocus() {
@@ -211,7 +224,7 @@
       _onInput(e) {
         let { value } = this.refs.input;
 
-        const { validation, validateOn, mask, tokens } = this.get();
+        const { validation, validateOn, mask, tokens, isFocused } = this.get();
 
         /** Mask handler */
         if (mask) {
@@ -219,9 +232,12 @@
 
           let position = inputEl.selectionEnd;
 
-          /* save the character just inserted */
+          /* Save the character just inserted */
           const digit = inputEl.value[position - 1];
           value = masker(value, mask, true, tokens);
+
+          /** Overwrite the input text with the masked value */
+          this.refs.input.value = value;
 
           /** If the digit was changed, increment position until find the digit again */
           while (
@@ -231,7 +247,7 @@
             position++;
           }
 
-          if (inputEl === document.activeElement) {
+          if (isFocused) {
             setTimeout(() => inputEl.setSelectionRange(position, position));
           }
         }
