@@ -1,9 +1,16 @@
-import { fail, warn, message, markdown, danger } from 'danger';
+import { fail, message, danger } from 'danger';
 
-fail('This is a failure message');
-warn('This is a warning');
-message('This is a normal message');
-markdown('*Markdown* is also **supported**');
+const { pr, modified_files: modifiedFiles } = danger.github;
+const { additions = 0, deletions = 0 } = pr;
 
-const { additions = 0, deletions = 0 } = danger.github.pr;
-message(`:tada: The PR added ${additions} and removed ${deletions} lines.`);
+message(
+  `:tada: The PR added ${additions} and removed ${deletions} lines from a total of ${modifiedFiles.length +
+    1} files.`,
+);
+
+// Always ensure we assign someone, so that our Slackbot can do its work correctly
+if (pr.assignee === null) {
+  fail(
+    'Please assign someone to merge this PR, and optionally include people who should review.',
+  );
+}
