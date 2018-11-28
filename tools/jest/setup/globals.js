@@ -15,32 +15,32 @@ global.newTestRoot = ({ unique = true } = {}) => {
 };
 
 /** Dispatch a clcik event on a dom node */
+const MOUSE_EVENTS = ['mousedown', 'mouseup', 'click'];
+
 global.clickOn = (el, opts = {}) => {
-  el.dispatchEvent(
-    new MouseEvent('click', {
-      bubbles: true,
-      cancelable: true,
-      view: window,
-      ...opts,
-    }),
+  MOUSE_EVENTS.forEach(event =>
+    el.dispatchEvent(
+      new MouseEvent(event, {
+        bubbles: true,
+        cancelable: true,
+        view: window,
+        ...opts,
+      }),
+    ),
   );
 };
 
 /** Dispatch key events on the window */
-global.fireKey = keyName => {
-  window.dispatchEvent(
-    new KeyboardEvent('keydown', {
-      keyCode: Keyboard.getKeyCode(keyName),
-      bubbles: true,
-      cancelable: false,
-    }),
-  );
+const KEYBOARD_EVENTS = ['keydown', 'keyup'];
 
-  window.dispatchEvent(
-    new KeyboardEvent('keyup', {
-      keyCode: Keyboard.getKeyCode(keyName),
-      bubbles: true,
-      cancelable: false,
-    }),
+global.fireKey = keyName => {
+  KEYBOARD_EVENTS.forEach(event =>
+    window.dispatchEvent(
+      new KeyboardEvent(event, {
+        keyCode: Keyboard.getKeyCode(keyName),
+        bubbles: true,
+        cancelable: false,
+      }),
+    ),
   );
 };

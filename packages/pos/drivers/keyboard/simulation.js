@@ -1,6 +1,11 @@
+import Core from '../../simulator/core.js';
 import { log } from '../../simulator/libs/utils.js';
 
 export const NAMESPACE = '$Keyboard';
+
+export const SETTINGS = {
+  isAlphanumericEnabled: false,
+};
 
 /**
  * KeyPress event handler that bypass only numbers
@@ -22,6 +27,9 @@ export function setup(Keyboard) {
    */
   Keyboard.setKeyboardAsNumeric = () => {
     if (__DEBUG_LVL__ >= 1) log('Keyboard is now numeric');
+
+    Core.Registry.set('$Keyboard.isAlphanumericEnabled', false);
+
     document.removeEventListener('keypress', filterLetters);
     document.addEventListener('keypress', filterLetters);
   };
@@ -33,6 +41,9 @@ export function setup(Keyboard) {
    */
   Keyboard.setKeyboardAsAlphanumeric = () => {
     if (__DEBUG_LVL__ >= 1) log('Keyboard is now alphanumeric');
+
+    Core.Registry.set('$Keyboard.isAlphanumericEnabled', true);
+
     document.removeEventListener('keypress', filterLetters);
   };
 }

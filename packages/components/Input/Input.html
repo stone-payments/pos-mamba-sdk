@@ -51,7 +51,6 @@
     },
     data() {
       return {
-        rawValue: '',
         value: '',
         placeholder: '',
         label: undefined,
@@ -82,9 +81,14 @@
         tokens: defaultTokens,
       };
     },
+    computed: {
+      rawValue({ value, tokens, mask }) {
+        return mask ? masker(value, mask, false, tokens) : value;
+      },
+    },
     oncreate() {
       if (this.options.data) {
-        const { type, maxlength, autofocus, value, mask } = this.options.data;
+        const { type, maxlength, autofocus } = this.options.data;
 
         // TODO: remove when undefined prop is not printed
         if (typeof maxlength !== 'undefined') {
@@ -100,12 +104,7 @@
           this.refs.input.scrollIntoView(false);
         }
 
-        if (value) {
-          const rawValue = mask
-            ? masker(value, mask, false, this.get().tokens)
-            : value;
-          this.set({ rawValue });
-        }
+        this.refs.input.addEventListener('change');
       }
     },
     onupdate({ changed, current }) {
@@ -117,7 +116,12 @@
         this.refs.input.scrollIntoView(false);
       }
 
-      if (changed.forcefocus && current.forcefocus && current.autofocus) {
+      if (
+        changed.forcefocus &&
+        current.forcefocus &&
+        current.autofocus &&
+        !current.isFocused
+      ) {
         this.focus();
       }
 
@@ -147,7 +151,9 @@
       // TODO: when '_visible' changes, it triggers a focus
       _onFocus() {
         const { alphanumeric } = this.get();
+
         this.set({ isFocused: true });
+
         if (alphanumeric) {
           Keyboard.setKeyboardAsAlphanumeric();
         } else {
@@ -156,6 +162,7 @@
       },
       _onBlur(e) {
         const { alphanumeric, forcefocus } = this.get();
+
         if (forcefocus) {
           e.stopImmediatePropagation();
           e.preventDefault();
@@ -163,7 +170,9 @@
           setTimeout(() => this.refs.input && this.focus());
           return;
         }
+
         this.set({ isFocused: false });
+
         if (alphanumeric) {
           Keyboard.setKeyboardAsNumeric();
         }
@@ -201,7 +210,6 @@
       },
       _onInput(e) {
         let { value } = this.refs.input;
-        let rawValue = value;
 
         const { validation, validateOn, mask, tokens } = this.get();
 
@@ -214,10 +222,6 @@
           /* save the character just inserted */
           const digit = inputEl.value[position - 1];
           value = masker(value, mask, true, tokens);
-          rawValue = masker(value, mask, false, tokens);
-
-          /** Overwrite the input text with the masked value */
-          this.refs.input.value = value;
 
           /** If the digit was changed, increment position until find the digit again */
           while (
@@ -238,13 +242,13 @@
               ? { isValid: false, _errorMsg: undefined }
               : this._getValidationResult();
 
-            this.set({ value, rawValue, ...validationResult });
+            this.set({ value, ...validationResult });
           } else {
             /** If validation is on submit, reset the isValid and errorMsg */
-            this.set({ value, rawValue, isValid: false, _errorMsg: undefined });
+            this.set({ value, isValid: false, _errorMsg: undefined });
           }
         } else {
-          this.set({ value, rawValue });
+          this.set({ value });
         }
 
         this.fire('input', e);
