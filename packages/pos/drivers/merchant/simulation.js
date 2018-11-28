@@ -14,4 +14,17 @@ export function setup(Merchant) {
    */
   Merchant.getStoneCode = () =>
     Core.Registry.get('$Merchant.acquirerIssuedMerchantId');
+
+  /**
+   * Get the supported brands of this Merchant
+   * @memberof Merchant
+   * @return {array} Array of supported brands
+   */
+  Merchant.getSupportedBrands = () => [
+    'VISA',
+    'MASTERCARD',
+    'AMERICAN EXPRESS',
+    'ELO',
+    'SODEXO',
+  ];
 }
