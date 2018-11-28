@@ -33,13 +33,14 @@ it('should display a printing dialog', () => {
   printable = newPrintable();
   printable.print();
 
-  return new Promise(res => {
-    setTimeout(() => {
+  return Promise.all([
+    new Promise(res => {
       if (printable.refs.printingDialog) {
         res();
       }
-    });
-  });
+    }),
+    new Promise(res => printable.on('finish', res)),
+  ]);
 });
 
 it('should return a resolved promise when `print({ print_to_paper: false })` and fire "finish"', () => {
