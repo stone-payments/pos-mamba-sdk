@@ -1,5 +1,5 @@
 import Keyboard from '@mamba/pos/api/keyboard.js';
-import Root from '../__mocks__/Root.html';
+import Root from '../mocks/Root.html';
 
 let lastRoot;
 
