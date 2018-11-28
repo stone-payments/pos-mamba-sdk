@@ -12,17 +12,7 @@
 <script>
   import System from '@mamba/pos/api/system.js';
   import Keyboard from '@mamba/pos/api/keyboard.js';
-
-  const formatMoney = n => {
-    if (typeof n === 'number') {
-      n = n.toFixed(2);
-    }
-
-    return n
-      .toString()
-      .replace('.', ',')
-      .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-  };
+  import formatMoney from './libs/formatMoney.js';
 
   export default {
     components: {
@@ -37,6 +27,7 @@
       };
     },
     computed: {
+      /* istanbul ignore next */
       _inputProps: ({
         rawValue,
         prefix,
@@ -50,9 +41,11 @@
         prefix + formatMoney(parseFloat(rawValue) / 100) + suffix,
     },
     methods: {
+      /* istanbul ignore next */
       focus() {
         this.refs.amountInput.focus();
       },
+      /* istanbul ignore next */
       blur() {
         this.refs.amountInput.blur();
       },
@@ -61,6 +54,7 @@
         if (rawValue !== '0') {
           this.fire('submit', { value: rawValue, formatted: value });
         } else {
+          console.log('aq');
           System.beep();
         }
       },
