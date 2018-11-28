@@ -33,9 +33,9 @@ global.clickOn = (el, opts = {}) => {
 /** Dispatch key events on the window */
 const KEYBOARD_EVENTS = ['keydown', 'keyup'];
 
-global.fireKey = keyName => {
+global.fireKey = (keyName, el = window) => {
   KEYBOARD_EVENTS.forEach(event =>
-    window.dispatchEvent(
+    el.dispatchEvent(
       new KeyboardEvent(event, {
         keyCode: Keyboard.getKeyCode(keyName),
         bubbles: true,
