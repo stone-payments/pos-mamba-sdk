@@ -61,28 +61,28 @@ describe('Behavior', () => {
   describe('Keypressed Actions', () => {
     it('should update raw value on first input', () => {
       moneyInput.set({ rawValue: '0' });
-      fireKey('1', moneyInput.refs.amountInput.refs.input);
+      fireKey(moneyInput.refs.amountInput.refs.input, '1');
       expect(moneyInput.get().rawValue).toBe('1');
     });
     it('should update raw value on new input', () => {
-      fireKey('1', moneyInput.refs.amountInput.refs.input);
+      fireKey(moneyInput.refs.amountInput.refs.input, '1');
       expect(moneyInput.get().rawValue).toBe('11');
     });
     it('should remove last character when backspace is pressed', () => {
-      fireKey('back', moneyInput.refs.amountInput.refs.input);
+      fireKey(moneyInput.refs.amountInput.refs.input, 'back');
       expect(moneyInput.get().rawValue).toBe('1');
     });
     it('should set rawValue to 0 if last character is removed', () => {
-      fireKey('back', moneyInput.refs.amountInput.refs.input);
+      fireKey(moneyInput.refs.amountInput.refs.input, 'back');
       expect(moneyInput.get().rawValue).toBe('0');
     });
     it('should not accept non numeric inputs', () => {
-      fireKey('a', moneyInput.refs.amountInput.refs.input);
+      fireKey(moneyInput.refs.amountInput.refs.input, 'a');
       expect(moneyInput.get().rawValue).toBe('0');
     });
     it('should block inputs if input is readonly', () => {
       moneyInput.set({ readonly: true });
-      fireKey('1', moneyInput.refs.amountInput.refs.input);
+      fireKey(moneyInput.refs.amountInput.refs.input, '1');
       expect(moneyInput.get().rawValue).toBe('0');
     });
     it('should not accept values bigger than limit', () => {
@@ -97,13 +97,13 @@ describe('Behavior', () => {
       new Promise(res => {
         moneyInput.on('submit', res);
         moneyInput.set({ rawValue: '1' });
-        fireKey('enter', moneyInput.refs.amountInput.refs.input);
+        fireKey(moneyInput.refs.amountInput.refs.input, 'enter');
       }));
     it('should beep if value is lower or equal to 0', () =>
       new Promise(res => {
         System.beep = res;
         moneyInput.set({ rawValue: '0' });
-        fireKey('enter', moneyInput.refs.amountInput.refs.input);
+        fireKey(moneyInput.refs.amountInput.refs.input, 'enter');
       }));
   });
 });
