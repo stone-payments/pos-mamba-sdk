@@ -1,13 +1,10 @@
 <div class="wrapper">
   <Collection title="Rede">
     <Row label="1. Configurar" href="/network/configure"/>
-    <Row label="1. Configurar"/>
-    <Row label="1. Configurar" rightLabel="Selecionar"/>
-    <Row label="1. Configurar" rightLabel="Selecionar" href="/"/>
   </Collection>
 
   <Collection title="Dispositivo">
-    <Row label="2. Som do Teclado">
+    <Row label="2. Som do Teclado" rightLabel="Baixo">
       <div slot="controller">
         <Icon symbol="settings"/>
       </div>
@@ -36,7 +33,11 @@
   </Collection>
 
   <Collection>
-    <Row label="Outras Redes" href="/" description="Lorem ipsum dolor sit amet consectetur adipisicing elit."/>
+    <Row label="Outras Redes" href="/">
+      <p slot="description">
+        Lorem ipsum dolor sit amet consectetur adipisicing eli. Hic maiores mollitia asperiores delectus.
+      </p>
+    </Row>
   </Collection>
 </div>
 <script>
