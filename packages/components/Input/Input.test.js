@@ -1,7 +1,7 @@
 import Simulator from '@mamba/pos/simulator/index.js';
 import Input from './Input.html';
 
-const { newTestRoot, clickOn, typeOn } = global;
+const { newTestRoot, clickOn, typeOn, fireKey } = global;
 
 const root = newTestRoot();
 
@@ -62,6 +62,22 @@ describe('methods', () => {
     input.mask();
     expect(input.get().value).toBe('111');
     expect(input.refs.input.value).toBe('111');
+
+    input.set({ mask: undefined, value: 'A111' });
+    input.mask();
+    expect(input.get().value).toBe('A111');
+  });
+
+  it('should invalidate a input and add the error class', () => {
+    input = newInput({ value: 'teste' });
+    input.invalidate('Error message');
+
+    expect(input.get()).toMatchObject({
+      isValid: false,
+      _errorMsg: 'Error message',
+    });
+
+    expect(root.query('label').classList.contains('is-invalid')).toBe(true);
   });
 });
 
@@ -82,7 +98,32 @@ describe('behaviour', () => {
     expect(input.refs.input.placeholder).toBe('Ya');
   });
 
+  it('should dispatch a submit event on "enter"', () => {
+    input = newInput();
+    return new Promise(res => {
+      input.on('submit', res);
+      fireKey(input.refs.input, 'enter');
+    });
+  });
+
   describe('focus/blur', () => {
+    it('should fire a "focus" event when focusing', () => {
+      input = newInput();
+      return new Promise(res => {
+        input.on('focus', res);
+        input.focus();
+      });
+    });
+
+    it('should fire a "blur" event when blurring', () => {
+      input = newInput();
+      input.focus();
+      return new Promise(res => {
+        input.on('blur', res);
+        input.blur();
+      });
+    });
+
     it('should focus an input with autofocus prop and scroll to it', () => {
       input = newInput({ autofocus: true });
 
@@ -114,6 +155,17 @@ describe('behaviour', () => {
           }
         });
       });
+    });
+
+    it('should focus constantly a "forcefocus:true" with "autofocus:true" after an "onupdate"', () => {
+      input = newInput({ autofocus: true, forcefocus: false });
+      expect(input.get().isFocused).toBe(true);
+
+      input.blur();
+      expect(input.get().isFocused).toBe(false);
+
+      input.set({ forcefocus: true });
+      expect(input.get().isFocused).toBe(true);
     });
 
     describe('input digits', () => {
@@ -214,6 +266,89 @@ describe('behaviour', () => {
 
       typeOn(input.refs.input, 'abcde');
       expect(input.get().value).toBe('A B C D E');
+    });
+  });
+
+  describe('validation', () => {
+    describe('on submit', () => {
+      it('should fire "submitValid" if input is valid according to "validation" method prop', () => {
+        input = newInput({
+          validation: val => ({ isValid: val === '2' }),
+        });
+        typeOn(input.refs.input, '2');
+
+        const submits = Promise.all([
+          new Promise(res => input.on('submitValid', res)),
+          new Promise(res => input.on('submit', res)),
+        ]);
+
+        fireKey(input.refs.input, 'enter');
+
+        return submits;
+      });
+
+      it('should fire "submitInvalid" if input is invalid according to "validation" method prop', () => {
+        input = newInput({
+          validation: val => ({ isValid: val === '2' }),
+        });
+        typeOn(input.refs.input, '123');
+
+        const submits = Promise.all([
+          new Promise(res => input.on('submitInvalid', res)),
+          new Promise(res => input.on('submit', res)),
+        ]);
+
+        fireKey(input.refs.input, 'enter');
+
+        return submits;
+      });
+    });
+
+    describe('on input', () => {
+      beforeAll(() => {
+        input = newInput({
+          validation: value => ({
+            isValid: parseInt(value, 10) > 100,
+            msg: 'Error',
+          }),
+          validateOn: 'input',
+        });
+      });
+
+      it('should invalidate the input while typing a invalid value and add "has-error" class', () => {
+        typeOn(input.refs.input, '23');
+
+        expect(input.get()).toMatchObject({
+          isValid: false,
+          _errorMsg: 'Error',
+        });
+        expect(root.query('label').classList.contains('is-invalid')).toBe(true);
+      });
+
+      it('should invalidate empty values without error class', () => {
+        input.set({ value: '' });
+        fireKey(input.refs.input, 'back');
+
+        expect(input.get()).toMatchObject({
+          isValid: false,
+          _errorMsg: undefined,
+        });
+
+        expect(root.query('label').classList.contains('is-invalid')).toBe(
+          false,
+        );
+      });
+
+      it('should validate the input while typing a valid value and remove "has-error" class', () => {
+        input.set({ value: '' });
+
+        typeOn(input.refs.input, '232');
+
+        expect(input.get().isValid).toBe(true);
+        expect(root.query('label').classList.contains('is-invalid')).toBe(
+          false,
+        );
+      });
     });
   });
 });
