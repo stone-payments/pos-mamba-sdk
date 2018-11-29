@@ -1,5 +1,4 @@
 <label
-  ref:container
   class="input type-{type}"
   class:is-readable="readable"
   class:is-invalid="!isValid && !!_errorMsg"
@@ -15,7 +14,8 @@
     ref:input
     class="align-{align}"
     type={_visible ? 'text' : 'password'}
-    style="color: {textColor};" {disabled}
+    style="color: {textColor};"
+    {disabled}
     {readonly}
     {placeholder}
     on:keydown
@@ -60,7 +60,7 @@
         readable: false,
         /** Automatically focus the input */
         autofocus: false,
-        /** Force the to be focused */
+        /** Force the input to be focused */
         forcefocus: false,
         readonly: false,
         disabled: false,
@@ -162,7 +162,7 @@
         return value;
       },
       // TODO: when '_visible' changes, it triggers a focus
-      _onFocus() {
+      _onFocus(e) {
         const { alphanumeric } = this.get();
 
         this.set({ isFocused: true });
@@ -172,6 +172,8 @@
         } else {
           Keyboard.setKeyboardAsNumeric();
         }
+
+        this.fire('focus', e);
       },
       _onBlur(e) {
         const { alphanumeric, forcefocus } = this.get();
@@ -189,6 +191,8 @@
         if (alphanumeric) {
           Keyboard.setKeyboardAsNumeric();
         }
+
+        this.fire('blur', e);
       },
       _onKeyUp(e) {
         const key = Keyboard.getKeyName(e.keyCode);
@@ -224,7 +228,7 @@
       _onInput(e) {
         let { value } = this.refs.input;
 
-        const { validation, validateOn, mask, tokens, isFocused } = this.get();
+        const { validation, validateOn, mask, tokens } = this.get();
 
         /** Mask handler */
         if (mask) {
@@ -236,7 +240,10 @@
           const digit = inputEl.value[position - 1];
           value = masker(value, mask, true, tokens);
 
-          /** Overwrite the input text with the masked value */
+          /**
+           * Overwrite the input text with the masked value.
+           * Needed for fixing the caret position
+           * */
           this.refs.input.value = value;
 
           /** If the digit was changed, increment position until find the digit again */
@@ -247,9 +254,7 @@
             position++;
           }
 
-          if (isFocused) {
-            setTimeout(() => inputEl.setSelectionRange(position, position));
-          }
+          setTimeout(() => inputEl.setSelectionRange(position, position));
         }
 
         if (validation) {
@@ -273,13 +278,16 @@
       _onMousedown() {
         const { type, _visible, readable } = this.get();
         /** Change password visibility only if element is focused */
+        /* istanbul ignore next */
         if (
           type === 'password' &&
           readable &&
           document.activeElement === this.refs.input
         ) {
           this.set({ _visible: !_visible });
-          setTimeout(() => this.refs.input.focus());
+          /** We must check for the existence of the input element in case */
+          /* istanbul ignore next */
+          setTimeout(() => this.refs.input && this.focus());
         }
       },
       _getValidationResult() {
