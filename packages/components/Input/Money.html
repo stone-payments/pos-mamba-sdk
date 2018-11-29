@@ -41,12 +41,12 @@
         prefix + formatMoney(parseFloat(rawValue) / 100) + suffix,
     },
     methods: {
-      /* istanbul ignore next */
       focus() {
+        /* istanbul ignore next */
         this.refs.amountInput.focus();
       },
-      /* istanbul ignore next */
       blur() {
+        /* istanbul ignore next */
         this.refs.amountInput.blur();
       },
       _onSubmit() {
@@ -54,7 +54,6 @@
         if (rawValue !== '0') {
           this.fire('submit', { value: rawValue, formatted: value });
         } else {
-          console.log('aq');
           System.beep();
         }
       },

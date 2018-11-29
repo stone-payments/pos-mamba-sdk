@@ -2,7 +2,7 @@ import MoneyInput from './Money.html';
 import formatMoney from './libs/formatMoney.js';
 import System from '../../pos/api/system.js';
 
-const { newTestRoot, fireKey } = global;
+const { newTestRoot, fireKey, typeOn } = global;
 
 const root = newTestRoot();
 let moneyInput;
@@ -59,13 +59,37 @@ describe('Behavior', () => {
   });
 
   describe('Keypressed Actions', () => {
-    it('should block inputs if input is readonly', () => {});
-    it('should remove last character when backspace is pressed', () => {});
-    it('should set rawValue to 0 if last character is removed', () => {});
-    it('should not accept non numeric inputs', () => {});
-    it('should not accept values bigger than limit', () => {});
-    it('should update raw value on first input', () => {});
-    it('should update raw value on new input', () => {});
+    it('should update raw value on first input', () => {
+      moneyInput.set({ rawValue: '0' });
+      fireKey('1', moneyInput.refs.amountInput.refs.input);
+      expect(moneyInput.get().rawValue).toBe('1');
+    });
+    it('should update raw value on new input', () => {
+      fireKey('1', moneyInput.refs.amountInput.refs.input);
+      expect(moneyInput.get().rawValue).toBe('11');
+    });
+    it('should remove last character when backspace is pressed', () => {
+      fireKey('back', moneyInput.refs.amountInput.refs.input);
+      expect(moneyInput.get().rawValue).toBe('1');
+    });
+    it('should set rawValue to 0 if last character is removed', () => {
+      fireKey('back', moneyInput.refs.amountInput.refs.input);
+      expect(moneyInput.get().rawValue).toBe('0');
+    });
+    it('should not accept non numeric inputs', () => {
+      fireKey('a', moneyInput.refs.amountInput.refs.input);
+      expect(moneyInput.get().rawValue).toBe('0');
+    });
+    it('should block inputs if input is readonly', () => {
+      moneyInput.set({ readonly: true });
+      fireKey('1', moneyInput.refs.amountInput.refs.input);
+      expect(moneyInput.get().rawValue).toBe('0');
+    });
+    it('should not accept values bigger than limit', () => {
+      moneyInput.set({ readonly: false });
+      typeOn(moneyInput.refs.amountInput.refs.input, '9999999999999');
+      expect(moneyInput.get().rawValue).toBe('9999999999');
+    });
   });
 
   describe('Submit', () => {
