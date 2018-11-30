@@ -4,7 +4,9 @@
   bind:value
   on:keyup
   on:input
-  on:keydown="_onKeyup(event)"
+  on:blur
+  on:focus="_onFocus(event)"
+  on:keydown="_onKeydown(event)"
   on:submit="_onSubmit()"
 />
 
@@ -49,6 +51,26 @@
         /* istanbul ignore next */
         this.refs.amountInput.blur();
       },
+      _onFocus(e) {
+        const { value } = this.get();
+        const endPosition = value.length;
+
+        setTimeout(() => {
+          /**
+           * Since we have to move the setSelectionRange to the end of the execution queue,
+           * we must check if there's a 'amountInput' component
+           * still rendered (it could have been destroyed).
+           */
+          if (this.refs.amountInput) {
+            this.refs.amountInput.refs.input.setSelectionRange(
+              endPosition,
+              endPosition,
+            );
+          }
+        });
+
+        this.fire('focus', e);
+      },
       _onSubmit() {
         const { rawValue, value } = this.get();
         if (rawValue !== '0') {
@@ -57,8 +79,8 @@
           System.beep();
         }
       },
-      _onKeyup(e) {
-        if (this.refs.amountInput.refs.input.readOnly === true) {
+      _onKeydown(e) {
+        if (this.refs.amountInput.get().readonly === true) {
           return;
         }
 
