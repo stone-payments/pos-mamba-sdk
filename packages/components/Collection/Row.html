@@ -1,16 +1,25 @@
 <div ref:row class="row">
   <div ref:main on:click="_handleClick({ event, href })">
     <div class="top {_hasController ? 'has-controller' : ''}">
-      <div class="label">{label}</div>
-      {#if _hasController}
-        <div class="controller" ref:controller>
-          {#if href}
-            <Icon symbol="chevron-right" width="10px" />
-          {:elseif _hasCustomController}
-            <slot name="controller"></slot>
-          {/if}
-        </div>
-      {/if}
+      <div class="left-area">
+        <div class="label">{label}</div>
+      </div>
+      <div class="right-area">
+        {#if rightLabel}
+          <div class="label">
+            {rightLabel}
+          </div>
+        {/if}
+        {#if _hasController}
+          <div class="controller" ref:controller>
+            {#if href}
+              <Icon symbol="chevron-right" width="10px" />
+            {:elseif _hasCustomController}
+              <slot name="controller"></slot>
+            {/if}
+          </div>
+        {/if}
+      </div>
     </div>
     {#if _hasDescription}
       <div class="description">
@@ -44,6 +53,7 @@
     },
     data() {
       return {
+        rightLabel: undefined,
         /** Boolean to display the extra content element */
         showExtra: false,
         /** Define a link to another page */
@@ -131,9 +141,7 @@
   @import '@mamba/styles/theme.pcss';
 
   ref:row {
-    display: block;
     margin: 0;
-    line-height: 1.5rem;
     background: #fff;
     color: #494949;
     border-bottom: 1px solid #e3e6e7;
@@ -148,10 +156,18 @@
   }
 
   .top {
-    width: 100%;
     display: flex;
+    width: 100%;
     justify-content: space-between;
     align-items: center;
+
+    &:not(.has-controller) {
+      height: 24px;
+    }
+  }
+
+  .left-area {
+    flex-grow: 1;
   }
 
   .label {
@@ -159,9 +175,29 @@
     font-weight: bold;
     word-wrap: break-word;
 
-    .top.has-controller & {
-      max-width: 80%;
+    .left-area & {
+      .top.has-controller & {
+        max-width: 80%;
+      }
     }
+
+    .right-area & {
+      max-width: 110px;
+      color: #8c8c8c;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
+      .top.has-controller & {
+        margin-right: 8px;
+      }
+    }
+  }
+
+  .right-area {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
   }
 
   .description {
@@ -169,10 +205,6 @@
     margin: 4px 0 0;
     font-size: 12px;
     line-height: 16px;
-  }
-
-  ref:controller {
-    line-height: 1;
   }
 
   .extra {
