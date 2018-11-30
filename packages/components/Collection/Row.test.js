@@ -35,6 +35,20 @@ it('should have description text with description', () => {
   row.set({ description: 'description text' });
 
   expect(root.query('p')).not.toBeNull();
+  expect(root.query('p').textContent).toBe('description text');
+});
+
+it('should have description text with description passed by a SLOT', () => {
+  const frag = document.createDocumentFragment();
+  const p = document.createElement('P');
+  p.textContent = 'description text';
+  frag.appendChild(p);
+
+  row = newRow({}, { description: frag });
+
+  expect(root.query('p')).not.toBeNull();
+  expect(root.query('p').textContent).toBe('description text');
+  expect(root.query('p')).toBe(p);
 });
 
 it('should set shortcut attribute data', () => {

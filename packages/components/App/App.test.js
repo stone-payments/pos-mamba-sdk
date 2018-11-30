@@ -170,7 +170,7 @@ describe('shortcuts', () => {
         ),
     );
 
-    keyNames.forEach(fireKey);
+    keyNames.forEach(key => fireKey(key));
 
     return Promise.all(promises);
   });
