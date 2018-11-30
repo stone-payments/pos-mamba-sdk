@@ -82,6 +82,8 @@
 </script>
 
 <style type="text/postcss">
+  @import './style.pcss';
+
   @media (max-width: 480px) {
     :global(body),
     .wrapper,
@@ -89,6 +91,10 @@
     .pos-wrapper,
     .pos {
       height: 100%;
+    }
+
+    :global(body) {
+      @extend %hide-scrollbar;
     }
   }
 

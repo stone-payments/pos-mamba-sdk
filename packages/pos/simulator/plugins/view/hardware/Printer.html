@@ -1,9 +1,8 @@
 <div
-  ref:printer
   class="printer {printerClass} {usingDithering ? 'has-dithering' : ''}"
   on:click="shred()"
 >
-  <div ref:paper class="paper">
+  <div ref:paper class="paper hide-scrollbar">
     <div class="content">{@html content}</div>
   </div>
 

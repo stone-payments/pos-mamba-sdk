@@ -2,34 +2,6 @@ body {
   background-color: #fff;
 }
 
-/* stylelint-disable-next-line */
-#app-root::-webkit-scrollbar {
-  display: none;
-}
-
-/* stylelint-disable */
-
-html[virtual-pos],
-html[virtual-pos] body,
-#app-root {
-  /* Hide all scrollbars for webkit based browsers */
-  /* Hide all scrollbars for firefox > 63 */
-  /* For now, must set the tag 'layout.css.scrollbar-width.enabled' to 'true' in 'about:config' */
-  /* https://developer.mozilla.org/en-US/docs/Web/CSS/scrollbar-width#Browser_Compatibility */
-  &::-webkit-scrollbar {
-    display: none;
-    width: 0px;
-    background: transparent;
-  }
-
-  &,
-  &::before,
-  &::after {
-    scrollbar-width: none;
-  }
-}
-/* stylelint-enable */
-
 *::after,
 *::before,
 *:not(input),
