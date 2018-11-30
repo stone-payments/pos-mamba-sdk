@@ -305,7 +305,7 @@
       _onMousedown() {
         const { type, _visible, readable } = this.get();
         /** Change password visibility only if element is focused */
-        /* istanbul ignore next */
+        /* istanbul ignore else */
         if (
           type === 'password' &&
           readable &&
