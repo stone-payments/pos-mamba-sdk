@@ -19,6 +19,7 @@ module.exports = {
   setupFiles: [
     '<rootDir>/tools/jest/setup/simulator.js',
     '<rootDir>/tools/jest/setup/globals.js',
+    '@mamba/configs/jest/globals.js',
     'jest-canvas-mock',
   ],
   moduleFileExtensions: ['js'],
