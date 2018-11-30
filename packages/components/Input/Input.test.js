@@ -1,4 +1,5 @@
 import Simulator from '@mamba/pos/simulator/index.js';
+import System from '@mamba/pos/api/system.js';
 import Input from './Input.html';
 
 const { newTestRoot, clickOn, typeOn, fireKey } = global;
@@ -9,9 +10,12 @@ const newInput = data => root.createComponent(Input, { unique: true, data });
 
 let input;
 
+const getInputStyle = () => getComputedStyle(input.refs.input);
+const type = what => typeOn(input.refs.input, what);
+
 Node.prototype.scrollIntoView = jest.fn();
 
-it('default input', () => {
+it('should create default input', () => {
   input = newInput();
   expect(input.refs.input.getAttribute('maxlength')).toBeNull();
   expect(document.activeElement).not.toBe(input.refs.input);
@@ -85,6 +89,14 @@ describe('behaviour', () => {
   it('should accept a maxlength prop', () => {
     input = newInput({ maxlength: 10 });
     expect(input.refs.input.getAttribute('maxlength')).toBe('10');
+  });
+
+  it('should disable the input width "disabled:true"', () => {
+    input = newInput({ disabled: true });
+    expect(input.refs.input.disabled).toBe(true);
+
+    input.set({ disabled: false });
+    expect(input.refs.input.disabled).toBe(false);
   });
 
   it('should have a "rawValue" equal to passed "value" on input creation', () => {
@@ -204,6 +216,10 @@ describe('behaviour', () => {
       input = newInput({ type: 'password' });
     });
 
+    it('should create a password input', () => {
+      expect(input.refs.input.getAttribute('type')).toBe('password');
+    });
+
     it('should render a not visible password', () => {
       expect(input.get()._visible).toBe(false);
     });
@@ -216,6 +232,7 @@ describe('behaviour', () => {
 
       expect(input.get()._visible).toBe(true);
       expect(input.refs.input.getAttribute('type')).toBe('text');
+      expect(root.query('.input').classList.contains('is-readable')).toBe(true);
     });
   });
 
@@ -240,7 +257,7 @@ describe('behaviour', () => {
     it('should mask while typing', () => {
       input = newInput({ mask: '###.###.###-##' });
 
-      typeOn(input.refs.input, '1231');
+      type('1231');
       expect(input.get().value).toBe('123.1');
     });
 
@@ -252,7 +269,7 @@ describe('behaviour', () => {
         },
       });
 
-      typeOn(input.refs.input, '1231');
+      type('1231');
       expect(input.get().value).toBe('1 2 3');
     });
 
@@ -264,18 +281,21 @@ describe('behaviour', () => {
         },
       });
 
-      typeOn(input.refs.input, 'abcde');
+      type('abcde');
       expect(input.get().value).toBe('A B C D E');
     });
   });
 
   describe('validation', () => {
     describe('on submit', () => {
-      it('should fire "submitValid" if input is valid according to "validation" method prop', () => {
+      beforeAll(() => {
         input = newInput({
           validation: val => ({ isValid: val === '2' }),
         });
-        typeOn(input.refs.input, '2');
+      });
+
+      it('should fire "submitValid" if input is valid according to "validation" method prop', () => {
+        type('2');
 
         const submits = Promise.all([
           new Promise(res => input.on('submitValid', res)),
@@ -287,13 +307,33 @@ describe('behaviour', () => {
         return submits;
       });
 
-      it('should fire "submitInvalid" if input is invalid according to "validation" method prop', () => {
+      it('should blur a valid and submitted input', () => {
+        input.set({ value: '' });
+
+        type('2');
+        expect(document.activeElement).toBe(input.refs.input);
+
+        fireKey(input.refs.input, 'enter');
+
+        return new Promise(res =>
+          setTimeout(() => {
+            if (document.activeElement !== input.refs.input) {
+              res();
+            }
+          }),
+        );
+      });
+
+      it('should fire "submitInvalid" if input is invalid according to "validation" method prop and BEEP', () => {
         input = newInput({
           validation: val => ({ isValid: val === '2' }),
         });
-        typeOn(input.refs.input, '123');
+        type('123');
 
         const submits = Promise.all([
+          new Promise(res => {
+            System.beep = res;
+          }),
           new Promise(res => input.on('submitInvalid', res)),
           new Promise(res => input.on('submit', res)),
         ]);
@@ -316,7 +356,7 @@ describe('behaviour', () => {
       });
 
       it('should invalidate the input while typing a invalid value and add "has-error" class', () => {
-        typeOn(input.refs.input, '23');
+        type('23');
 
         expect(input.get()).toMatchObject({
           isValid: false,
@@ -325,8 +365,14 @@ describe('behaviour', () => {
         expect(root.query('label').classList.contains('is-invalid')).toBe(true);
       });
 
-      it('should invalidate empty values without error class', () => {
-        input.set({ value: '' });
+      it('should not toggle is-invalid class if not valid and has no error msg', () => {
+        input.set({
+          value: '',
+          validation: value => ({
+            isValid: parseInt(value, 10) > 100,
+          }),
+        });
+
         fireKey(input.refs.input, 'back');
 
         expect(input.get()).toMatchObject({
@@ -339,15 +385,34 @@ describe('behaviour', () => {
         );
       });
 
-      it('should validate the input while typing a valid value and remove "has-error" class', () => {
+      it('should validate the input while typing a valid value and remove "is-invalid" class', () => {
         input.set({ value: '' });
 
-        typeOn(input.refs.input, '232');
+        type('232');
 
         expect(input.get().isValid).toBe(true);
         expect(root.query('label').classList.contains('is-invalid')).toBe(
           false,
         );
+      });
+
+      it('should be able to return a boolean from the validation method', () => {
+        input.set({
+          value: '',
+          validation: value => parseInt(value, 10) > 100,
+        });
+
+        type('12');
+        expect(input.get()).toMatchObject({
+          isValid: false,
+          _errorMsg: undefined,
+        });
+
+        type('3');
+        expect(input.get()).toMatchObject({
+          isValid: true,
+          _errorMsg: undefined,
+        });
       });
     });
   });
@@ -357,5 +422,19 @@ describe('appearance', () => {
   it('should have a label if defined', () => {
     input = newInput({ label: 'Name' });
     expect(root.query('span').textContent).toBe('Name');
+  });
+
+  it('should be able to align the input text', () => {
+    input = newInput();
+    expect(getInputStyle()).toMatchObject({ 'text-align': 'right' });
+
+    input.set({ align: 'left' });
+    expect(getInputStyle()).toMatchObject({ 'text-align': 'left' });
+
+    input.set({ align: 'center' });
+    expect(getInputStyle()).toMatchObject({ 'text-align': 'center' });
+
+    input.set({ align: 'right' });
+    expect(getInputStyle()).toMatchObject({ 'text-align': 'right' });
   });
 });
