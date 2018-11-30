@@ -57,6 +57,7 @@
          */
         document.activeElement.blur();
 
+        /* istanbul ignore else */
         if (this.root.meta) {
           const { scrollable, navigable } = this.root.meta.get();
 
@@ -98,6 +99,7 @@
         const { _previousNavigationObj } = this.get();
 
         /** Allow app to scroll again */
+        /* istanbul ignore else */
         if (this.root.meta) {
           /** Let's unlock the app */
           this.root.meta.set({

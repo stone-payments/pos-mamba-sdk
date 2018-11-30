@@ -1,5 +1,4 @@
 <label
-  ref:container
   class="input type-{type}"
   class:is-readable="readable"
   class:is-invalid="!isValid && !!_errorMsg"
@@ -15,7 +14,8 @@
     ref:input
     class="align-{align}"
     type={_visible ? 'text' : 'password'}
-    style="color: {textColor};" {disabled}
+    style="color: {textColor};"
+    {disabled}
     {readonly}
     {placeholder}
     on:keydown
@@ -51,7 +51,6 @@
     },
     data() {
       return {
-        rawValue: '',
         value: '',
         placeholder: '',
         label: undefined,
@@ -61,7 +60,7 @@
         readable: false,
         /** Automatically focus the input */
         autofocus: false,
-        /** Force the to be focused */
+        /** Force the input to be focused */
         forcefocus: false,
         readonly: false,
         disabled: false,
@@ -75,16 +74,21 @@
         /** Validation */
         validateOn: 'submit',
         validation: undefined,
-        isValid: false,
+        isValid: undefined,
         _errorMsg: undefined,
         /** Mask */
-        mask: null,
+        mask: undefined,
         tokens: defaultTokens,
       };
     },
+    computed: {
+      rawValue({ value, tokens, mask }) {
+        return mask ? masker(value, mask, false, tokens) : value;
+      },
+    },
     oncreate() {
       if (this.options.data) {
-        const { type, maxlength, autofocus } = this.options.data;
+        const { type, maxlength, autofocus, mask } = this.options.data;
 
         // TODO: remove when undefined prop is not printed
         if (typeof maxlength !== 'undefined') {
@@ -99,9 +103,17 @@
           this.focus();
           this.refs.input.scrollIntoView(false);
         }
+
+        if (mask) {
+          this.mask();
+        }
       }
     },
     onupdate({ changed, current }) {
+      if (changed.value) {
+        this.refs.input.value = current.value;
+      }
+
       if (
         changed._errorMsg &&
         current._errorMsg &&
@@ -110,12 +122,13 @@
         this.refs.input.scrollIntoView(false);
       }
 
-      if (changed.forcefocus && current.forcefocus && current.autofocus) {
+      if (
+        changed.forcefocus &&
+        current.forcefocus &&
+        current.autofocus &&
+        !current.isFocused
+      ) {
         this.focus();
-      }
-
-      if (changed.value) {
-        this.refs.input.value = current.value;
       }
     },
     methods: {
@@ -137,18 +150,57 @@
       invalidate(message) {
         this.set({ isValid: false, _errorMsg: message });
       },
+      mask() {
+        const state = this.get();
+        const { mask, tokens } = state;
+        let { value } = state;
+
+        if (mask) {
+          value = masker(value, mask, true, tokens);
+          this.set({ value });
+        }
+        return value;
+      },
+      _validate() {
+        const { value } = this.refs.input;
+        const { validation } = this.get();
+        const validateObj = {
+          isValid: true,
+          _errorMsg: undefined,
+        };
+
+        if (typeof validation !== 'function') {
+          return validateObj;
+        }
+
+        const result = validation(value);
+
+        if (typeof result === 'boolean') {
+          validateObj.isValid = result;
+        } else {
+          validateObj.isValid = !!result.isValid;
+          validateObj._errorMsg = result.msg;
+        }
+
+        return validateObj;
+      },
       // TODO: when '_visible' changes, it triggers a focus
-      _onFocus() {
+      _onFocus(e) {
         const { alphanumeric } = this.get();
+
         this.set({ isFocused: true });
+
         if (alphanumeric) {
           Keyboard.setKeyboardAsAlphanumeric();
         } else {
           Keyboard.setKeyboardAsNumeric();
         }
+
+        this.fire('focus', e);
       },
       _onBlur(e) {
         const { alphanumeric, forcefocus } = this.get();
+
         if (forcefocus) {
           e.stopImmediatePropagation();
           e.preventDefault();
@@ -156,10 +208,14 @@
           setTimeout(() => this.refs.input && this.focus());
           return;
         }
+
         this.set({ isFocused: false });
+
         if (alphanumeric) {
           Keyboard.setKeyboardAsNumeric();
         }
+
+        this.fire('blur', e);
       },
       _onKeyUp(e) {
         const key = Keyboard.getKeyName(e.keyCode);
@@ -168,13 +224,15 @@
 
         if (key === 'enter') {
           const { validateOn, validation } = this.get();
-          if (validateOn === 'submit') {
-            const validationResult = this._getValidationResult();
 
-            this.set(validationResult);
+          /* istanbul ignore else */
+          if (validateOn === 'submit') {
+            const result = this._validate();
+
+            this.set(result);
 
             /** Blur the input if a validation is present and the input is valid */
-            if (validation && validationResult.isValid) {
+            if (typeof validation !== 'undefined' && result.isValid) {
               this.blur();
             }
           }
@@ -194,7 +252,6 @@
       },
       _onInput(e) {
         let { value } = this.refs.input;
-        let rawValue = value;
 
         const { validation, validateOn, mask, tokens } = this.get();
 
@@ -204,12 +261,14 @@
 
           let position = inputEl.selectionEnd;
 
-          /* save the character just inserted */
+          /* Save the character just inserted */
           const digit = inputEl.value[position - 1];
           value = masker(value, mask, true, tokens);
-          rawValue = masker(value, mask, false, tokens);
 
-          /** Overwrite the input text with the masked value */
+          /**
+           * Overwrite the input text with the masked value.
+           * Needed for fixing the caret position
+           * */
           this.refs.input.value = value;
 
           /** If the digit was changed, increment position until find the digit again */
@@ -220,24 +279,24 @@
             position++;
           }
 
-          if (inputEl === document.activeElement) {
-            setTimeout(() => inputEl.setSelectionRange(position, position));
-          }
+          setTimeout(() => inputEl.setSelectionRange(position, position));
         }
 
         if (validation) {
-          if (validateOn === 'input') {
-            const validationResult = !value.length
-              ? { isValid: false, _errorMsg: undefined }
-              : this._getValidationResult();
-
-            this.set({ value, rawValue, ...validationResult });
+          let validationUpdate;
+          /** If validation is on submit, reset the validation state */
+          if (validateOn === 'submit') {
+            validationUpdate = {
+              isValid: false,
+              _errorMsg: undefined,
+            };
           } else {
-            /** If validation is on submit, reset the isValid and errorMsg */
-            this.set({ value, rawValue, isValid: false, _errorMsg: undefined });
+            validationUpdate = this._validate();
           }
+
+          this.set({ value, ...validationUpdate });
         } else {
-          this.set({ value, rawValue });
+          this.set({ value });
         }
 
         this.fire('input', e);
@@ -246,25 +305,17 @@
       _onMousedown() {
         const { type, _visible, readable } = this.get();
         /** Change password visibility only if element is focused */
+        /* istanbul ignore else */
         if (
           type === 'password' &&
           readable &&
           document.activeElement === this.refs.input
         ) {
           this.set({ _visible: !_visible });
-          setTimeout(() => this.refs.input.focus());
+          /** We must check for the existence of the input element in case */
+          /* istanbul ignore next */
+          setTimeout(() => this.refs.input && this.focus());
         }
-      },
-      _getValidationResult() {
-        const { value } = this.refs.input;
-        const { validation } = this.get();
-
-        if (validation) {
-          const { msg: _errorMsg = null, isValid = true } = validation(value);
-          return { _errorMsg, isValid };
-        }
-
-        return { _errorMsg: undefined, isValid: true };
       },
     },
   };
