@@ -7,6 +7,7 @@ module.exports = {
   collectCoverageFrom: [
     '**/*.{html,htmlx,svelte}',
     '!**/node_modules/**',
+    '!tools/**',
     '!packages/pos/**',
     '!packages/**/example/**',
   ],
