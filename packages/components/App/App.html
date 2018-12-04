@@ -69,6 +69,22 @@
 
         root.close();
       });
+
+      if (root.router) {
+        root.router.on('update', ({ changed, previous }) => {
+          if (changed.context && previous) {
+            /**
+             * Check for __browser__ for scrolling the virtual screen
+             * instead of the <html> element
+             * */
+            if (__BROWSER__ && window.innerWidth > 401) {
+              root.options.target.scrollTo(0, 0);
+            } else {
+              window.scrollTo(0, 0);
+            }
+          }
+        });
+      }
     },
     onstate({ previous }) {
       /** Set a reference on the root component to the <App/> meta component */

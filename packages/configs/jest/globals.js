@@ -1,5 +1,8 @@
 import Keyboard from '@mamba/pos/api/keyboard.js';
 
+/** Mock the scrollTo fn */
+Element.prototype.scrollTo = function noop() {};
+
 /** Dispatch a click event on a dom node */
 const MOUSE_EVENTS = ['mousedown', 'mouseup', 'click'];
 
