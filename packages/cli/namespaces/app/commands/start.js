@@ -7,7 +7,7 @@ module.exports = {
   command: 'start',
   desc: 'Start the development server',
   handler({ debug, port }) {
-    const webpackConfigPath = getWebpackConfigPath('dev');
+    const webpackConfigPath = getWebpackConfigPath('app.dev');
 
     console.log(
       chalk.cyan(

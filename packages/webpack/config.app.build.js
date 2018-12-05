@@ -10,7 +10,7 @@ const cssProcessor = require('cssnano');
 const { BUNDLE_NAME, IS_PROD, IS_POS } = require('./helpers/consts.js');
 const MambaManifestPlugin = require('./plugins/MambaManifestPlugin.js');
 
-module.exports = merge(require('./config.base.js'), {
+module.exports = merge(require('./config.app.js'), {
   devtool: false,
   plugins: [
     IS_POS && new MambaManifestPlugin(),
