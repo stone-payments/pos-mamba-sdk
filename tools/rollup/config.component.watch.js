@@ -11,15 +11,12 @@ import replace from 'rollup-plugin-replace';
 import alias from 'rollup-plugin-alias';
 import { getPkg } from 'quickenv';
 
-import copyStaticArtifacts from './helpers/copyStaticArtifacts.js';
 import { fromWorkspace, fromProject } from './helpers/paths.js';
 
 const posixify = file => file.replace(/[/\\]/g, '/');
 
 const babelConfig = require('../../.babelrc.js');
 const svelteConfig = require('../../svelte.config.js');
-
-const STATIC_ARTIFACTS = ['assets'];
 
 const PKG = getPkg();
 
@@ -58,7 +55,6 @@ export default {
       exclude: /node_modules[/\\](?!(svelte)|(@mamba))/,
     }),
     filesize(),
-    copyStaticArtifacts(STATIC_ARTIFACTS, 'example'),
     /** Create an html template in the example directory */
     html({
       template: fromProject(
