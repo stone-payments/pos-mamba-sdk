@@ -21,7 +21,7 @@ module.exports = {
       /** If development flag has a numeric value */
       IS_DEBUG && `DEBUG_LVL=${development}`,
       ADD_SIMULATOR && 'MAMBA_SIMULATOR=true',
-      `webpack --config "${getWebpackConfigPath('build')}"`,
+      `webpack --config "${getWebpackConfigPath('app.build')}"`,
     ]
       .filter(Boolean)
       .join(' ');

@@ -22,10 +22,12 @@ DriverManager.clearLooseDrivers = () => {
  * Resets a driver state. We use JSON.parse/stringify to deep clone the state object
  */
 DriverManager.resetDriverState = driverModule => {
-  Registry.set(
-    driverModule.NAMESPACE,
-    JSON.parse(JSON.stringify(driverModule.SETTINGS)),
-  );
+  if (driverModule.SETTINGS) {
+    Registry.set(
+      driverModule.NAMESPACE,
+      JSON.parse(JSON.stringify(driverModule.SETTINGS)),
+    );
+  }
 };
 
 DriverManager.attachDrivers = driverModules => {
