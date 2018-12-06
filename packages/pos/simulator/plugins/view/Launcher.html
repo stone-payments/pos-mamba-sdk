@@ -62,7 +62,7 @@
       return {
         STATE: STATES.LOCKSCREEN,
         time: `${initHours}:${initMinutes}`,
-        apps: {},
+        apps: { ...AppManager.getInstalledApps() },
       };
     },
     computed: {
@@ -85,13 +85,9 @@
           window.history.pushState('', document.title, window.location.pathname);
           this.gotoHome();
         })
-        .on('appInstalled', appMeta => {
-          const { apps } = this.get();
+        .on('appInstalled', () => {
           this.set({
-            apps: {
-              ...apps,
-              [appMeta.manifest.slug]: appMeta,
-            },
+            apps: { ...AppManager.getInstalledApps() },
           });
         });
     },
