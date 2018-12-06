@@ -22,6 +22,7 @@ it('should create a opened dialog with markup if `isOpen: true`', () => {
   dialog = newDialog({ isOpen: true });
 
   expect(root.query('.dialog')).not.toBeNull();
+  expect(root.meta.get().navigable).toBe(false);
 
   return dialog.close();
 });
