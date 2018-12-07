@@ -1,8 +1,17 @@
 import { log } from '../../simulator/libs/utils.js';
+import Core from '../../simulator/core.js';
 
 export const NAMESPACE = '$Http';
 
 export const SIGNALS = ['requestFinished', 'requestFailed'];
+
+export const SETTINGS = {
+  panel: {
+    simulateRequest: false,
+    requestMsg: '{}',
+    requestPayload: '{}',
+  },
+};
 
 export function setup(Http) {
   let _errorData = null;
@@ -43,6 +52,24 @@ export function setup(Http) {
         Http.fire('requestFinished');
       }
     };
+
+    const panel = Core.Registry.get('$Http.panel');
+    if (panel.simulateRequest) {
+      const requestMsg = JSON.parse(panel.requestMsg);
+      const requestPayload = JSON.parse(panel.requestPayload);
+
+      setTimeout(() => {
+        if (parseInt(requestMsg.status, 10) > 399) {
+          _errorData = requestMsg;
+          Http.fire('requestFailed');
+        } else {
+          _data = Object.assign({}, requestMsg, requestPayload);
+          Http.fire('requestFinished');
+        }
+      }, 1000);
+
+      return;
+    }
 
     xhttp.open(method, url, false);
 
