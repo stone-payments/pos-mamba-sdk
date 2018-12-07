@@ -1,8 +1,17 @@
 import { log } from '../../simulator/libs/utils.js';
+import Core from '../../simulator/core.js';
 
 export const NAMESPACE = '$Http';
 
 export const SIGNALS = ['requestFinished', 'requestFailed'];
+
+export const SETTINGS = {
+  panel: {
+    simulateRequest: false,
+    requestMsg: '{}',
+    requestPayload: '{}',
+  },
+};
 
 export function setup(Http) {
   let _errorData = null;
@@ -36,14 +45,31 @@ export function setup(Http) {
       }
     };
 
-    xhttp.open(method, url, false);
+    if (Core.Registry.get('$Http.panel.simulateRequest')) {
+      const requestMsg = JSON.parse(
+        Core.Registry.get('$Http.panel.requestMsg'),
+      );
+      const payload = JSON.parse(
+        Core.Registry.get('$Http.panel.requestPayload'),
+      );
+      setTimeout(() => {
+        if (parseInt(requestMsg.status, 10) > 399) {
+          _errorData = requestMsg;
+          Http.requestFailed();
+        }
+        _data = Object.assign(requestMsg, payload);
+        Http.requestFinished();
+      }, 1000);
+    } else {
+      xhttp.open(method, url, false);
 
-    if (headers) {
-      Object.keys(headers).forEach(key => {
-        xhttp.setRequestHeader(key, headers[key]);
-      });
+      if (headers) {
+        Object.keys(headers).forEach(key => {
+          xhttp.setRequestHeader(key, headers[key]);
+        });
+      }
+
+      setTimeout(() => xhttp.send(data));
     }
-
-    setTimeout(() => xhttp.send(data));
   };
 }
