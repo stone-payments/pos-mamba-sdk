@@ -27,6 +27,8 @@
 
 <script>
   import PrinterPanel from '../../../drivers/printer/panel.html';
+  import HttpPanel from '../../../drivers/http/panel.html';
+  import * as HttpSimulation from '../../../drivers/http/simulation.js';
   import * as PrinterSimulation from '../../../drivers/printer/simulation.js';
 
   export default {
@@ -69,6 +71,7 @@
       this.set({ _browserEngine });
 
       this.createDriverPanel(PrinterSimulation, PrinterPanel);
+      this.createDriverPanel(HttpSimulation, HttpPanel);
     },
     methods: {
       createDriverPanel(driverSimulation, PanelConstructor) {

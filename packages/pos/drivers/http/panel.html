@@ -1,0 +1,38 @@
+<div class="title">Requests</div>
+
+<ul class="controllers">
+  <li class="controller">
+    <span>Simular requisição?</span>
+    <Switch bind:checked="panel.simulateRequest" />
+  </li>
+  {#if panel.simulateRequest}
+    <li class="controller">
+      <span>Código</span>
+      <select on:change="set({ 'panel.requestMsg': event.target.value })">
+          <option value={`{"status":201, "msg": "teste"}`} defaultls>201</option>
+          <option value={`{"status":20, "msg": "teste"}`}>202</option>
+          <option value={`{"status":204, "msg": "teste"}`}>204</option>
+          <option value={`{"status":500, "msg": "Error Interno"}`}>500</option>
+          <option value={`{"status":400, "msg": "teste"}`}>400</option>
+          <option value={`{"status":401, "msg": "teste"}`}>401</option>
+          <option value={`{"status":403, "msg": "teste"}`}>403</option>
+          <option value={`{"status":404, "msg": "teste"}`}>404</option>
+          <option value={`{"status":408, "msg": "teste"}`}>408</option>
+      </select>
+    </li>
+    {#if panel.requesFailed}
+      <li class="controller">
+        <span>Payload</span>
+        <textarea rows="4" cols="20" bind:value="panel.requestPayload"/>
+      </li>
+    {/if}
+  {/if}
+</ul>
+
+<script>
+  export default {
+    components: {
+      Switch: '@mamba/switch',
+    },
+  };
+</script>
