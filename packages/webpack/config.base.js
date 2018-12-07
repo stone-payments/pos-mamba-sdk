@@ -57,6 +57,7 @@ module.exports = {
       {
         test: /\.js$/,
         include: [fromCwd('src')],
+        exclude: [/node_modules/],
         use: [loaders.babelEsNext, loaders.eslint],
       },
       /**
