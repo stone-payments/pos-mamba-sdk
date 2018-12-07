@@ -2,7 +2,7 @@
  * Common webpack configuration
  */
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin');
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const WebpackBar = require('webpackbar');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 const { fromCwd } = require('quickenv');
@@ -116,7 +116,7 @@ module.exports = {
     ],
   },
   plugins: [
-    new ProgressBarPlugin(),
+    new WebpackBar(),
     new MiniCssExtractPlugin({
       filename: 'style.css',
       chunkFilename: '[name].[hash:5].css',
@@ -136,7 +136,7 @@ module.exports = {
       __SIMULATOR__: ADD_MAMBA_SIMULATOR,
       __BROWSER__: IS_BROWSER,
     }),
-  ].filter(Boolean),
+  ],
   /** Minimal useful output log */
   stats: {
     modules: false,

@@ -32,7 +32,7 @@ export function setup(Keyboard) {
 
     Core.Registry.set('$Keyboard.isAlphanumericEnabled', false);
 
-    const root = document.getElementById('app-root');
+    const root = document.getElementById('app-root') || window;
     root.removeEventListener('keypress', filterLetters);
     root.addEventListener('keypress', filterLetters);
   };
@@ -47,7 +47,7 @@ export function setup(Keyboard) {
 
     Core.Registry.set('$Keyboard.isAlphanumericEnabled', true);
 
-    const root = document.getElementById('app-root');
+    const root = document.getElementById('app-root') || window;
     root.removeEventListener('keypress', filterLetters);
   };
 }
