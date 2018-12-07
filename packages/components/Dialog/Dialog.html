@@ -47,6 +47,7 @@
       }
     },
     onupdate({ changed, current }) {
+      /* istanbul ignore next */
       if (changed.isOpen) {
         if (current.isOpen) {
           this.fire('open');
@@ -104,6 +105,7 @@
         const { _previousNavigationObj } = this.get();
 
         /** Allow app to scroll again */
+        /* istanbul ignore else */
         if (this.root.meta) {
           /** Let's unlock the app */
           this.root.meta.set({

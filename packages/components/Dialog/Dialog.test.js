@@ -27,6 +27,15 @@ it('should create a opened dialog with markup if `isOpen: true`', () => {
   return dialog.close();
 });
 
+it("should close the dialog if `isOpen: false` and emit a 'close' event", () => {
+  dialog = newDialog({ isOpen: true });
+
+  return new Promise(res => {
+    dialog.on('close', res);
+    dialog.set({ isOpen: false });
+  });
+});
+
 it('should permanently open a dialog', () =>
   Promise.all([
     new Promise(res => dialog.on('open', res)),
