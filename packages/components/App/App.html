@@ -16,7 +16,9 @@
   const isInputFocused = (keyName, e) =>
     keyName &&
     e.target.tagName !== 'INPUT' &&
-    document.activeElement.tagName !== 'INPUT';
+    e.target.tagName !== 'TEXTAREA' &&
+    document.activeElement.tagName !== 'INPUT' &&
+    document.activeElement.tagName !== 'TEXTAREA';
 
   export default {
     data() {
@@ -124,7 +126,12 @@
       },
       /** Prevent default back/enter button behaviour */
       _onKeydown(e) {
+        if (__BROWSER__ && !e.path.find(node => node.id === 'app-root')) {
+          return;
+        }
+
         const keyName = Keyboard.getKeyName(e.keyCode);
+
         if (
           (keyName === 'back' || keyName === 'enter') &&
           isInputFocused(keyName, e)
@@ -135,7 +142,22 @@
         }
       },
       _onKeyup(e) {
-        const keyName = Keyboard.getKeyName(e.charCode || e.which || e.keyCode);
+        /**
+         * Don't control keys outside of an app scope if at the browser environment.
+         * However, if a textarea/input is not focused and an action key was pressed,
+         * allow it to pass through.
+         * */
+        const keyCode = e.charCode || e.which || e.keyCode;
+        if (
+          __BROWSER__ &&
+          !e.path.find(node => node.id === 'app-root') &&
+          (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') &&
+          !Keyboard.isActionKey(keyCode)
+        ) {
+          return;
+        }
+
+        const keyName = Keyboard.getKeyName(keyCode);
         if (e.defaultPrevented || hasActiveHandlerFor(keyName)) {
           return;
         }
