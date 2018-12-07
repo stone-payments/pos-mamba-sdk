@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "babel-loader": "^8.0.4",
-    "css-loader": "^1.0.1",
+    "css-loader": "^2.0.0",
     "cssnano": "^4.1.7",
     "eslint-loader": "^2.1.1",
     "file-loader": "^2.0.0",
