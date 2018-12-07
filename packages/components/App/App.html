@@ -72,13 +72,16 @@
         root.close();
       });
 
+      /* istanbul ignore next */
       if (root.router) {
         root.router.on('update', ({ changed, previous }) => {
+          /* istanbul ignore next */
           if (changed.context && previous) {
             /**
              * Check for __browser__ for scrolling the virtual screen
              * instead of the <html> element
              * */
+            /* istanbul ignore else */
             if (__BROWSER__ && window.innerWidth > 401) {
               root.options.target.scrollTo(0, 0);
             } else {
@@ -126,7 +129,12 @@
       },
       /** Prevent default back/enter button behaviour */
       _onKeydown(e) {
-        if (__BROWSER__ && !e.path.find(node => node.id === 'app-root')) {
+        /* istanbul ignore next */
+        if (
+          !__TEST__ &&
+          __BROWSER__ &&
+          !e.path.find(node => node.id === 'app-root')
+        ) {
           return;
         }
 
@@ -142,13 +150,16 @@
         }
       },
       _onKeyup(e) {
+        const keyCode = e.charCode || e.which || e.keyCode;
+
         /**
          * Don't control keys outside of an app scope if at the browser environment.
          * However, if a textarea/input is not focused and an action key was pressed,
          * allow it to pass through.
          * */
-        const keyCode = e.charCode || e.which || e.keyCode;
+        /* istanbul ignore next */
         if (
+          !__TEST__ &&
           __BROWSER__ &&
           !e.path.find(node => node.id === 'app-root') &&
           (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') &&
