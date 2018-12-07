@@ -12,6 +12,7 @@ const getEntrypoints = require('./helpers/getEntrypoints.js');
 const getVirtualFiles = require('./helpers/getVirtualFiles.js');
 const MambaFixesPlugin = require('./plugins/MambaFixesPlugin.js');
 const { BUNDLE_NAME } = require('./helpers/consts.js');
+const loaders = require('./helpers/loaders.js');
 
 const PKG = getPkg();
 
@@ -27,6 +28,14 @@ module.exports = merge(require('./config.base.js'), {
       'core-js': fromCwd('node_modules', 'core-js'),
       '@mamba/pos': fromCwd('node_modules', '@mamba', 'pos'),
     },
+  },
+  module: {
+    rules: [
+      /** Handle font imports */
+      { test: /\.(eot|woff2?|otf|ttf)$/, use: [loaders.fonts] },
+      /** Handle image imports */
+      { test: /\.(gif|jpe?g|png|ico|svg)$/, use: [loaders.images] },
+    ],
   },
   plugins: [
     /** If no real 'src/index.js' present, use the default virtual one */

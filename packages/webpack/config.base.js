@@ -113,10 +113,6 @@ module.exports = {
           loaders.resolveUrl,
         ],
       },
-      /** Handle font imports */
-      { test: /\.(eot|woff2?|otf|ttf)$/, use: [loaders.fonts] },
-      /** Handle image imports */
-      { test: /\.(gif|jpe?g|png|ico|svg)$/, use: [loaders.images] },
     ],
   },
   plugins: [
