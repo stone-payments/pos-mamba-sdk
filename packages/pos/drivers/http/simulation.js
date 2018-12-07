@@ -8,6 +8,14 @@ export function setup(Http) {
   let _errorData = null;
   let _data = null;
 
+  const setError = function onerror() {
+    _errorData = new Error({
+      status: this.status,
+      msg: this.responseText,
+    });
+    Http.fire('requestFailed');
+  };
+
   Http.getError = () => _errorData;
   Http.getData = () => _data;
 
@@ -20,19 +28,19 @@ export function setup(Http) {
       };
     }
 
-    xhttp.onerror = function onerror() {
-      _errorData = new Error({
-        status: this.status,
-        msg: this.responseText,
-      });
-      Http.requestFailed();
+    xhttp.onerror = setError;
+
+    xhttp.onloadend = function onloadend() {
+      if (this.status === 404) {
+        setError.call(this);
+      }
     };
 
     xhttp.onreadystatechange = function onreadystatechange() {
       /** On success state code 4 */
-      if (this.readyState === 4) {
+      if (this.readyState === 4 && this.status === 200) {
         _data = this.responseText;
-        Http.requestFinished();
+        Http.fire('requestFinished');
       }
     };
 
@@ -44,6 +52,12 @@ export function setup(Http) {
       });
     }
 
-    setTimeout(() => xhttp.send(data));
+    setTimeout(() => {
+      try {
+        xhttp.send(data);
+      } catch (e) {
+        setError.call(xhttp);
+      }
+    });
   };
 }
