@@ -9,20 +9,20 @@
     <li class="controller">
       <span>Código</span>
       <select on:change="set({ 'panel.requestMsg': event.target.value })">
-          <option value={`{"status":201, "msg": "teste"}`} default>201</option>
-          <option value={`{"status":20, "msg": "teste"}`}>202</option>
-          <option value={`{"status":204, "msg": "teste"}`}>204</option>
-          <option value={`{"status":500, "msg": "Error Interno"}`}>500</option>
-          <option value={`{"status":400, "msg": "teste"}`}>400</option>
-          <option value={`{"status":401, "msg": "teste"}`}>401</option>
-          <option value={`{"status":403, "msg": "teste"}`}>403</option>
-          <option value={`{"status":404, "msg": "teste"}`}>404</option>
-          <option value={`{"status":408, "msg": "teste"}`}>408</option>
+          <option value={`{"status":201, "msg": "Succcess"}`} default>201</option>
+          <option value={`{"status":204, "msg": "Success"}`}>202</option>
+          <option value={`{"status":204, "msg": "Success"}`}>204</option>
+          <option value={`{"status":400, "msg": "Error"}`}>400</option>
+          <option value={`{"status":401, "msg": "Error"}`}>401</option>
+          <option value={`{"status":403, "msg": "Error"}`}>403</option>
+          <option value={`{"status":404, "msg": "Error"}`}>404</option>
+          <option value={`{"status":408, "msg": "Error"}`}>408</option>
+          <option value={`{"status":500, "msg": "Error"}`}>500</option>
       </select>
     </li>
-    <li class="controller">
+    <li class="controller is-full">
       <span>Payload</span>
-      <textarea rows="4" cols="20" bind:value="panel.requestPayload"/>
+      <textarea rows="4" style="resize:none;" bind:value="panel.requestPayload"/>
     </li>
   {/if}
 </ul>
