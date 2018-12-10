@@ -183,6 +183,11 @@
 
       &.is-full {
         display: block;
+
+        :global(> span) {
+          display: block;
+          margin-bottom: 8px;
+        }
       }
 
       @media (max-width: 400px) {
