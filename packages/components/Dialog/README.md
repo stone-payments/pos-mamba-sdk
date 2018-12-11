@@ -129,3 +129,24 @@ Abre o `ConfirmationDialog`.
 ### ConfirmationDialog.close()
 
 Fecha o `ConfirmationDialog`.
+
+## Slots
+
+`<Dialog ... />`
+
+| Slot   | Descrição                                                                              |
+|--------|----------------------------------------------------------------------------------------|
+| extra  | Utilizade o slot `extra` para adicionar conteúdo adicional após a mensagem do diálogo. |
+
+<br/>
+
+Exemplo:
+
+```html
+<Dialog>
+  Minha mensagem
+  <slot name="extra">Conteúdo extra</slot>
+</Dialog>
+```
+
+
