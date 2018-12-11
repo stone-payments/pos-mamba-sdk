@@ -75,10 +75,7 @@
     },
     methods: {
       createDriverPanel(driverSimulation, PanelConstructor) {
-        this.refs.controlPanel.add(PanelConstructor, {
-          namespace: driverSimulation.NAMESPACE,
-          ...JSON.parse(JSON.stringify(driverSimulation.SETTINGS || {})),
-        });
+        this.refs.controlPanel.add(PanelConstructor, driverSimulation);
       },
     },
   };

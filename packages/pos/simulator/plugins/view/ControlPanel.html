@@ -1,19 +1,15 @@
-<Keystroke
-  key="shortcuts"
-  active={keystrokeActive}
-  on:keystroke="handleShortcutStroke(event)"
-/>
+<Keystroke key="shortcuts" on:keystroke="handleShortcutStroke(event)" />
 
 <div class="panel-wrapper">
   <input ref:toggle type="checkbox" class="panel-checkbox" id="panel-toggler">
   <label for="panel-toggler" class="panel-toggle">⚙</label>
   <div class="panel">
-      {#each panels as [panel, data]}
+      {#each Object.values(panels) as {namespace, panel, data}}
         <div class="section">
           <svelte:component
             this={panel}
             {...data}
-            on:update="handlePanelUpdate(event)"
+            on:update="handlePanelUpdate(namespace, event)"
           />
         </div>
       {/each}
@@ -21,9 +17,11 @@
 </div>
 
 <script>
-  import Core from '../../core.js';
+  import { Registry } from '../../index.js';
 
   let lastKeypressTime = 0;
+
+  const deepCopy = o => JSON.parse(JSON.stringify(o));
 
   export default {
     components: {
@@ -31,8 +29,7 @@
     },
     data() {
       return {
-        panels: [],
-        ...Core.Registry.get(),
+        panels: {},
       };
     },
     oncreate() {
@@ -47,31 +44,46 @@
       //   });
       // });
 
-      Core.Registry.on('settingsChanged', data => {
-        this.set({ ...data });
+      /** Update a driver local copy of settings */
+      Registry.on('shallowChange', ({ key, value }) => {
+        const { panels } = this.get();
+        if (panels[key]) {
+          this.set({
+            panels: {
+              ...panels,
+              [key]: { ...panels[key], data: deepCopy(value) },
+            },
+          });
+        }
       });
     },
     methods: {
       // TODO: need to rethink all of this
-      handlePanelUpdate({ changed, current, previous }) {
+      handlePanelUpdate(namespace, { changed, current, previous }) {
         if (previous) {
           Object.keys(changed).forEach(key => {
-            if (changed[key] && key !== 'namespace') {
-              const value = current[key];
-              /** See if the prop name has already the namespace path */
-              if (key.indexOf(`${current.namespace}.`) === -1) {
-                key = `${current.namespace}.${key}`;
-              }
-              Core.Registry.set(key, value, false);
+            const value = current[key];
+            /** See if the prop name has already the namespace path */
+            if (key.indexOf(`${namespace}.`) === -1) {
+              key = `${namespace}.${key}`;
             }
+            Registry.set(key, value, false);
           });
         }
       },
-      add(panelConstructor, initialData) {
+      add(panel, driver) {
         const { panels } = this.get();
+        const namespace = driver.NAMESPACE;
 
         this.set({
-          panels: [...panels, [panelConstructor, initialData]],
+          panels: {
+            ...panels,
+            [namespace]: {
+              namespace,
+              panel,
+              data: deepCopy(driver.SETTINGS || {}),
+            },
+          },
         });
       },
       handleShortcutStroke() {

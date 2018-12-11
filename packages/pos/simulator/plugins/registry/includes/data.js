@@ -21,25 +21,31 @@ export default Registry => {
     }
 
     const keys = keyPath.replace(/\[(\d+)\]/g, '.$1').split('.');
-    const lastKey = keys.pop();
 
     if (__DEBUG_LVL__ >= 2 && __BROWSER__) {
       log(`"${keyPath}" = ${JSON.stringify(value)}`);
     }
 
     // If not a nested keyPath
-    if (keys[0] === undefined) {
-      Registry._data[lastKey] = value;
-    } else {
-      let object = Registry._data[keys[0]];
-      for (let i = 1; i < keys.length; i++) {
-        object = object[keys[i]];
+    if (keys.length === 1) {
+      Registry._data[keyPath] = value;
+
+      if (fireSignal) {
+        Registry.fire('shallowChange', { key: keyPath, value });
       }
-      object[lastKey] = value;
+
+      return;
     }
 
+    let object = Registry._data[keys[0]];
+    for (let i = 1; i < keys.length - 1; i++) {
+      object = object[keys[i]];
+    }
+
+    object[keys[keys.length - 1]] = value;
+
     if (fireSignal) {
-      Registry.settingsChanged(Registry._data);
+      Registry.fire('deepChange', { key: keyPath, path: keys, value });
     }
   };
 };
