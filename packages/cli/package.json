@@ -1,6 +1,6 @@
 {
   "name": "@mamba/cli",
-  "version": "1.0.0-rc.29",
+  "version": "2.0.0",
   "description": "Mamba CLI",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
