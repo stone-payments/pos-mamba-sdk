@@ -27,7 +27,7 @@ O módulo `Collection` é composto por dois componentes: `Collection` e `Row`, q
 
 ### Row
 
-`<Keystroke ... on:event="..."/>`
+`<Row ... on:event="..."/>`
 
 | Eventos     | Descrição                                              | Objeto de Evento |
 |-------------|--------------------------------------------------------|------------------|
