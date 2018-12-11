@@ -30,14 +30,13 @@ export default Registry => {
     // If not a nested keyPath
     if (keys[0] === undefined) {
       Registry._data[lastKey] = value;
-      return;
+    } else {
+      let object = Registry._data[keys[0]];
+      for (let i = 1; i < keys.length; i++) {
+        object = object[keys[i]];
+      }
+      object[lastKey] = value;
     }
-
-    let object = Registry._data[keys[0]];
-    for (let i = 1; i < keys.length; i++) {
-      object = object[keys[i]];
-    }
-    object[lastKey] = value;
 
     if (fireSignal) {
       Registry.settingsChanged(Registry._data);
