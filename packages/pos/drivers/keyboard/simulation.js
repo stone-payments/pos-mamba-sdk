@@ -13,10 +13,12 @@ export const SETTINGS = {
  * @param  {function} e The KeyPress event
  */
 function filterLetters(e) {
-  const char = String.fromCharCode(e.charCode || e.which || e.keyCode);
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+    const char = String.fromCharCode(e.charCode || e.which || e.keyCode);
 
-  if (/[a-zA-z]/.test(char)) {
-    e.preventDefault();
+    if (/[a-zA-z]/.test(char)) {
+      e.preventDefault();
+    }
   }
 }
 
@@ -30,8 +32,9 @@ export function setup(Keyboard) {
 
     Core.Registry.set('$Keyboard.isAlphanumericEnabled', false);
 
-    document.removeEventListener('keypress', filterLetters);
-    document.addEventListener('keypress', filterLetters);
+    const root = document.getElementById('app-root') || window;
+    root.removeEventListener('keypress', filterLetters);
+    root.addEventListener('keypress', filterLetters);
   };
 
   /**
@@ -44,6 +47,7 @@ export function setup(Keyboard) {
 
     Core.Registry.set('$Keyboard.isAlphanumericEnabled', true);
 
-    document.removeEventListener('keypress', filterLetters);
+    const root = document.getElementById('app-root') || window;
+    root.removeEventListener('keypress', filterLetters);
   };
 }

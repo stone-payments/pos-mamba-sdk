@@ -19,6 +19,7 @@
     "svelte-preprocess": "^2.4.3"
   },
   "peerDependencies": {
+    "@mamba/pos": "^1.0.0-rc.29",
     "@babel/core": "^7.1.6",
     "eslint": "^5.9.0",
     "postcss": "^7.0.6",

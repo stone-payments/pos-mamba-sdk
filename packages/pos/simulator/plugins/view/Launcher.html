@@ -1,5 +1,5 @@
 {#if STATE === STATES.APP}
-  <div ref:approot id="app-root"></div>
+  <div ref:approot id="app-root" class="hide-scrollbar"></div>
 {:else}
   <div class="launcher">
     {#if STATE === STATES.LOCKSCREEN}
@@ -62,7 +62,7 @@
       return {
         STATE: STATES.LOCKSCREEN,
         time: `${initHours}:${initMinutes}`,
-        apps: {},
+        apps: { ...AppManager.getInstalledApps() },
       };
     },
     computed: {
@@ -85,13 +85,9 @@
           window.history.pushState('', document.title, window.location.pathname);
           this.gotoHome();
         })
-        .on('appInstalled', appMeta => {
-          const { apps } = this.get();
+        .on('appInstalled', () => {
           this.set({
-            apps: {
-              ...apps,
-              [appMeta.manifest.slug]: appMeta,
-            },
+            apps: { ...AppManager.getInstalledApps() },
           });
         });
     },
@@ -118,7 +114,7 @@
   ref:approot {
     height: 100%;
 
-    @media (min-width: 481px) {
+    @media (min-width: 401px) {
       overflow: auto;
     }
   }
@@ -192,6 +188,11 @@
         width: 50px;
         height: 50px;
         margin: 0 auto;
+
+        img {
+          width: 100%;
+          height: auto;
+        }
       }
     }
 

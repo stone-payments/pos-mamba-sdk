@@ -13,7 +13,7 @@
   <input
     ref:input
     class="align-{align}"
-    type={_visible ? 'text' : 'password'}
+    type={_inputType}
     style="color: {textColor};"
     {disabled}
     {readonly}
@@ -84,6 +84,14 @@
     computed: {
       rawValue({ value, tokens, mask }) {
         return mask ? masker(value, mask, false, tokens) : value;
+      },
+      _inputType({ _visible, type }) {
+        /** treat every non-visible input as a password input */
+        if (!_visible) return 'password';
+        /** if visible and is a password input, show it as text */
+        if (type === 'password') return 'text';
+        /** otherwise, we use what was passed to the 'type' prop */
+        return type;
       },
     },
     oncreate() {

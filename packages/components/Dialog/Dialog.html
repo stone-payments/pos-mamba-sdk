@@ -46,31 +46,39 @@
         this._close();
       }
     },
+    onupdate({ changed, current, previous }) {
+      /* istanbul ignore next */
+      if (changed.isOpen) {
+        if (current.isOpen) {
+          this.fire('open');
+
+          /**
+           * Unfocus whatever is focused on the current page.
+           * ! This may not work properly if a <Input/> has forcefocus={true}
+           */
+          document.activeElement.blur();
+
+          if (this.root.meta) {
+            const { scrollable, navigable } = this.root.meta.get();
+            /** Disable app scroll when opening a dialog */
+            /* istanbul ignore else */
+            if (scrollable) {
+              this.root.meta.set({ scrollable: false });
+            }
+
+            this.set({ _previousNavigationObj: navigable });
+
+            this.root.meta.setNavigable(false);
+          }
+        } else if (previous) {
+          this._close();
+          this.fire('close');
+        }
+      }
+    },
     methods: {
       open(duration) {
         this.set({ isOpen: true });
-        this.fire('open');
-
-        /**
-         * Unfocus whatever is focused on the current page.
-         * ! This may not work properly if a <Input/> has forcefocus={true}
-         */
-        document.activeElement.blur();
-
-        /* istanbul ignore else */
-        if (this.root.meta) {
-          const { scrollable, navigable } = this.root.meta.get();
-
-          /** Disable app scroll when opening a dialog */
-          /* istanbul ignore else */
-          if (scrollable) {
-            this.root.meta.set({ scrollable: false });
-          }
-
-          this.set({ _previousNavigationObj: navigable });
-
-          this.root.meta.setNavigable(false);
-        }
 
         if (typeof duration !== 'undefined') {
           return this.close(duration);
@@ -89,8 +97,6 @@
         }
 
         this.set({ isOpen: false });
-        this._close();
-        this.fire('close');
 
         return Promise.resolve();
       },
@@ -100,7 +106,7 @@
 
         /** Allow app to scroll again */
         /* istanbul ignore else */
-        if (this.root.meta) {
+        if (this.root.meta && _previousNavigationObj != null) {
           /** Let's unlock the app */
           this.root.meta.set({
             navigable: _previousNavigationObj,

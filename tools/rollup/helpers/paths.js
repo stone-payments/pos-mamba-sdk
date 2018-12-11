@@ -1,5 +1,5 @@
-const { resolve, dirname } = require('path');
-const { getPkg, fromCwd } = require('quickenv');
+import { resolve, dirname } from 'path';
+import { getPkg, fromCwd } from 'quickenv';
 
 const projectRoot = resolve(__dirname, '..', '..');
 
@@ -12,13 +12,13 @@ const distPath = dirname(fromCwd(PKG.main ? PKG.main : 'dist/x'));
 const srcPath = dirname(fromCwd((PKG.build && PKG.build.source) || 'src/x'));
 
 /** The @mamba project path */
-module.exports.fromProject = (...args) => resolve(projectRoot, ...args);
+export const fromProject = (...args) => resolve(projectRoot, ...args);
 
 /** Current project working directory */
-module.exports.fromWorkspace = fromCwd;
+export const fromWorkspace = fromCwd;
 
 /** Current project 'dist' directory */
-module.exports.fromDist = (...args) => fromCwd(distPath, ...args);
+export const fromDist = (...args) => fromCwd(distPath, ...args);
 
 /** Current project 'src' directory */
-module.exports.fromSrc = (...args) => fromCwd(srcPath, ...args);
+export const fromSrc = (...args) => fromCwd(srcPath, ...args);

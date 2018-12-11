@@ -21,3 +21,11 @@ Inicia a animação do `Sprite`.
 ### stop()
 
 Pausa a animação do `Sprite`.
+
+## Sub componentes
+
+### LoadingSprite
+
+`import LoadingSprite from '@mamba/sprite/Loading.html';`
+
+O component `LoadingSprite` é um component `Sprite` já configurado com a animação padrão de loading do POS.

@@ -49,7 +49,7 @@ module.exports = {
         const date = new Date();
 
         date.setHours(
-          date.getHours() - 3,
+          date.getHours() - date.getTimezoneOffset() / 60,
           date.getMinutes(),
           date.getSeconds(),
           0,

@@ -1,25 +1,19 @@
 /**
  * Common webpack configuration
  */
-const { readFileSync } = require('fs');
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin');
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const WebpackBar = require('webpackbar');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const VirtualModulesPlugin = require('webpack-virtual-modules');
 const webpack = require('webpack');
-const { getPkg, fromCwd } = require('quickenv');
+const { fromCwd } = require('quickenv');
 
-const getVirtualFiles = require('./helpers/getVirtualFiles.js');
-const getEntrypoints = require('./helpers/getEntrypoints.js');
 const getHTMLTemplate = require('./helpers/getHTMLTemplate.js');
 const loaders = require('./helpers/loaders.js');
-const MambaFixesPlugin = require('./plugins/MambaFixesPlugin.js');
 const {
   isOfModuleType,
   transpileIgnoreBaseCondition,
 } = require('./helpers/depTranspiling.js');
 const {
-  BUNDLE_NAME,
   DEBUG_LVL,
   IS_POS,
   IS_BROWSER,
@@ -30,17 +24,14 @@ const {
   ADD_MAMBA_SIMULATOR,
 } = require('./helpers/consts.js');
 
-const PKG = getPkg();
-
 module.exports = {
   mode: IS_PROD ? 'production' : 'development',
   cache: true,
   target: 'web',
   node: false,
   context: fromCwd('src'),
-  entry: getEntrypoints(),
   output: {
-    path: fromCwd('dist', BUNDLE_NAME),
+    path: fromCwd('dist'),
     publicPath: './',
     filename: '[name].[hash:5].js',
     chunkFilename: '[name].[hash:5].js',
@@ -51,13 +42,6 @@ module.exports = {
     enforceExtension: false,
     mainFields: ['svelte', 'esnext', 'jsnext:main', 'module', 'main'],
     extensions: ['.js', '.json', '.pcss', '.css', '.html', '.htmlx', '.svelte'],
-    /** Make webpack also resolve modules from './src' */
-    modules: [fromCwd('src'), 'node_modules'],
-    alias: {
-      page: fromCwd('node_modules', 'page'),
-      'core-js': fromCwd('node_modules', 'core-js'),
-      '@mamba/pos': fromCwd('node_modules', '@mamba', 'pos'),
-    },
   },
   module: {
     rules: [
@@ -73,6 +57,7 @@ module.exports = {
       {
         test: /\.js$/,
         include: [fromCwd('src')],
+        exclude: [/node_modules/],
         use: [loaders.babelEsNext, loaders.eslint],
       },
       /**
@@ -129,24 +114,16 @@ module.exports = {
           loaders.resolveUrl,
         ],
       },
-      /** Handle font imports */
-      { test: /\.(eot|woff2?|otf|ttf)$/, use: [loaders.fonts] },
-      /** Handle image imports */
-      { test: /\.(gif|jpe?g|png|ico|svg)$/, use: [loaders.images] },
     ],
   },
   plugins: [
-    /** If no real 'src/index.js' present, use the default virtual one */
-    new VirtualModulesPlugin(getVirtualFiles()),
-    /** Prepend the Function.prototype.bind() polyfill webpack's runtime code */
-    new MambaFixesPlugin(),
-    new ProgressBarPlugin(),
+    new WebpackBar(),
     new MiniCssExtractPlugin({
       filename: 'style.css',
       chunkFilename: '[name].[hash:5].css',
     }),
     new MiniHtmlWebpackPlugin({
-      context: { title: 'Mamba Application' },
+      context: { title: 'Application' },
       template: getHTMLTemplate,
     }),
     new webpack.DefinePlugin({
@@ -159,18 +136,8 @@ module.exports = {
       __POS__: IS_POS,
       __SIMULATOR__: ADD_MAMBA_SIMULATOR,
       __BROWSER__: IS_BROWSER,
-      __MANIFEST__: JSON.stringify({
-        name: PKG.name,
-        description: PKG.description,
-        version: PKG.version,
-        slug: `${PKG.mamba.id}-${PKG.name}`,
-        iconBase64: readFileSync(fromCwd('src', PKG.mamba.iconPath), {
-          encoding: 'base64',
-        }),
-        ...PKG.mamba,
-      }),
     }),
-  ].filter(Boolean),
+  ],
   /** Minimal useful output log */
   stats: {
     modules: false,

@@ -22,8 +22,18 @@ it('should create a opened dialog with markup if `isOpen: true`', () => {
   dialog = newDialog({ isOpen: true });
 
   expect(root.query('.dialog')).not.toBeNull();
+  expect(root.meta.get().navigable).toBe(false);
 
   return dialog.close();
+});
+
+it("should close the dialog if `isOpen: false` and emit a 'close' event", () => {
+  dialog = newDialog({ isOpen: true });
+
+  return new Promise(res => {
+    dialog.on('close', res);
+    dialog.set({ isOpen: false });
+  });
 });
 
 it('should permanently open a dialog', () =>
