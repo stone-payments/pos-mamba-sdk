@@ -1,7 +1,7 @@
 <header class="appbar" {style}>
   <div class="content">
     {#if _showBack}
-      <div class="icon-left" on:click="goBack()">
+      <div class="icon-left" on:click="_goBack()">
         <Icon symbol="chevron-left" width="10px" color={textColor} />
       </div>
     {/if}
@@ -11,7 +11,7 @@
     {/if}
 
     {#if _showHome}
-      <div class="icon-right" on:click="goHome()">
+      <div class="icon-right" on:click="_goHome()">
         <Icon symbol={_isAtHome ? 'home' : 'app-home'} color={textColor}/>
       </div>
     {/if}
@@ -87,7 +87,7 @@
       }
     },
     methods: {
-      goHome() {
+      _goHome() {
         const { _isAtHome } = this.get();
         if (_isAtHome) {
           return this.root.close();
@@ -98,7 +98,7 @@
           this.root.router.go('/');
         }
       },
-      goBack() {
+      _goBack() {
         /* istanbul ignore else */
         if (this.root.router) {
           this.root.router.back();
