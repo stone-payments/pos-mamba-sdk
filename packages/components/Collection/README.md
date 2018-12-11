@@ -23,6 +23,18 @@ O módulo `Collection` é composto por dois componentes: `Collection` e `Row`, q
 | shortcut    | Tecla de atalho para a ação da `<Row/>`: `0..9`,`enter`,`shortcuts`,`help` | `string` (keyname) | `undefined`   |
 | description | Texto de descrição abaixo do título          | `string`           | `undefined`   |
 
+## Eventos
+
+### Row
+
+`<Keystroke ... on:event="..."/>`
+
+| Eventos     | Descrição                                              | Objeto de Evento |
+|-------------|--------------------------------------------------------|------------------|
+| click       | Disparado quando uma Row é clicada                     |`undefined`       |
+| showExtra   | Disparado o conteúdo extra é exibido                   |`undefined`       |
+| hideExtra   | Disparado quando o conteúdo extra é escondido          |`undefined`       |
+
 ## Slots
 
 ### Row
