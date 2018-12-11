@@ -13,10 +13,10 @@
   "main": "src/index.js",
   "module": "src/index.js",
   "devDependencies": {
-    "svelte": "^2.13.4"
+    "svelte": "^2.15.3"
   },
   "peerDependencies": {
-    "svelte": "^2.13.4"
+    "svelte": "^2.15.3"
   },
   "dependencies": {
     "svelte-extras": "^2.0.2"

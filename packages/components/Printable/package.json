@@ -18,7 +18,7 @@
     "@mamba/styles": "^1.0.0-rc.29"
   },
   "peerDependencies": {
-    "@mamba/pos": "^1.0.0-rc.11"
+    "@mamba/pos": "^2.0.0"
   },
   "dependencies": {
     "@mamba/dialog": "^1.0.0-rc.29"
