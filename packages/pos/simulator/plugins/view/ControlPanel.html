@@ -32,7 +32,6 @@
     data() {
       return {
         panels: [],
-        keystrokeActive: true,
         ...Core.Registry.get(),
       };
     },
@@ -53,6 +52,7 @@
       });
     },
     methods: {
+      // TODO: need to rethink all of this
       handlePanelUpdate({ changed, current, previous }) {
         if (previous) {
           Object.keys(changed).forEach(key => {
