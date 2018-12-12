@@ -134,9 +134,9 @@ Fecha o `ConfirmationDialog`.
 
 `<Dialog ... />`
 
-| Slot   | Descrição                                                                              |
-|--------|----------------------------------------------------------------------------------------|
-| extra  | Utilizade o slot `extra` para adicionar conteúdo adicional após a mensagem do diálogo. |
+| Slot   | Descrição                                                                                   |
+|--------|---------------------------------------------------------------------------------------------|
+| extra  | O slot `extra` pode ser usado para adicionar conteúdo adicional após a mensagem do diálogo. |
 
 <br/>
 
