@@ -41,7 +41,7 @@ module.exports = merge(require('./config.base.js'), {
       /** Handle font imports */
       { test: /\.(eot|woff2?|otf|ttf)$/, use: [loaders.fonts] },
       /** Handle image imports */
-      { test: /\.(gif|jpe?g|png|ico|svg)$/, use: [loaders.images] },
+      { test: /\.(gif|jpe?g|png|ico|svg|bmp)$/, use: [loaders.images] },
     ],
   },
   plugins: [
