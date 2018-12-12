@@ -18,6 +18,15 @@ O módulo `Range` pode ser usado para representar um valor dentro de um interval
 | icon      | ícone que será apresentado ao lado do texto   | `string`          | `undefined` |
 | unit      | unidade de valor                              | `string` (%,x...) | `undefined` |
 
+## Eventos
+
+`<Range ... on:event="..."/>`
+
+| Eventos     | Descrição                                                               | Tipo            |
+|-------------|-------------------------------------------------------------------------|-----------------|
+| decrement   | Especifique uma função que será chamada quando o valor é decrescido     | `function(int)` |
+| increment   | Especifique uma que será chamada função quando o valor é aumentado      | `function(int)` |
+
 ## Métodos
 
 ### increment()
