@@ -25,8 +25,6 @@ O módulo `Collection` é composto por dois componentes: `Collection` e `Row`, q
 
 ## Eventos
 
-### Row
-
 `<Row ... on:event="..."/>`
 
 | Eventos     | Descrição                                                                                   | Tipo        |
@@ -54,16 +52,10 @@ Quando o conteúdo em `extra` for escondido, executa o método `myMethod()`.
 
 ## Slots
 
-### Row
+`<Row ... />`
 
-O component `Row` possui alguns slots para facilitar a customização de uma linha.
-
-#### `description`
-
-O slot `description` pode ser usado ao invés da propriedade `description`, oferecendo maior flexibilidade no layout da descrição da linha.
-
-```html
-<Row label="Linha">
-  <p slot="description">Texto de descrição da lina</p>
-</Row>
-```
+| Slot        | Descrição                                                                                  |
+|-------------|--------------------------------------------------------------------------------------------|
+| controller  | Utilize o slot `contoller` para adicionar um controlador customizado para sua `Row`        |
+| extra       | Utilize o slot `extra` para adicionar conteúdo adicional após o contéudo da `Row`          |
+| description | Utilize o slot `description` para adicionar uma descrição à `Row`                          |
