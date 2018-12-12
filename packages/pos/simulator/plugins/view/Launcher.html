@@ -69,6 +69,8 @@
       appsList: ({ apps }) => Object.values(apps),
     },
     oncreate() {
+      window.history.replaceState('', document.title, window.location.pathname);
+
       /** Update the clock after each second */
       Registry.on('clock', (newHours, newMinutes) => {
         this.set({ time: `${newHours}:${newMinutes}` });
