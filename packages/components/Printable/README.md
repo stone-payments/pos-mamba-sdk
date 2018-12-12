@@ -19,7 +19,7 @@ O componente `Printable` encapsula o fluxo de impressão do POS, permitindo a im
 
 #### Exemplos:
 
-Chama `myMethod()` quando a impressão termina, passando como parâmetro `interrupted` que indica caso a impressão foi concluída ou interrompida.
+Chama `myMethod()` quando a impressão termina, passando como parâmetro `event` que indica caso a impressão foi concluída ou interrompida.
 ```html
 <Printable on:finish="myMethod(event)" />
 ```
