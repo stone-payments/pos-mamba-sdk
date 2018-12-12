@@ -2,7 +2,6 @@
  * Webpack configuration for analyzing a production bundle
  */
 
-const { readFileSync, existsSync } = require('fs');
 const merge = require('webpack-merge');
 const VirtualModulesPlugin = require('webpack-virtual-modules');
 const webpack = require('webpack');
@@ -11,7 +10,7 @@ const { getPkg, fromCwd } = require('quickenv');
 const getEntrypoints = require('./helpers/getEntrypoints.js');
 const getVirtualFiles = require('./helpers/getVirtualFiles.js');
 const MambaFixesPlugin = require('./plugins/MambaFixesPlugin.js');
-const { BUNDLE_NAME } = require('./helpers/consts.js');
+const { BUNDLE_NAME, IS_BROWSER } = require('./helpers/consts.js');
 const loaders = require('./helpers/loaders.js');
 
 const PKG = getPkg();
@@ -23,18 +22,26 @@ module.exports = merge(require('./config.base.js'), {
   },
   resolve: {
     modules: [fromCwd('src'), 'node_modules'],
-    alias: {
-      page: fromCwd('node_modules', 'page'),
-      'core-js': fromCwd('node_modules', 'core-js'),
-      '@mamba/pos': fromCwd('node_modules', '@mamba', 'pos'),
-    },
+    alias: (() => {
+      const aliases = {
+        page: fromCwd('node_modules', 'page'),
+        'core-js': fromCwd('node_modules', 'core-js'),
+        '@mamba/pos': fromCwd('node_modules', '@mamba', 'pos'),
+      };
+
+      if (IS_BROWSER) {
+        aliases['%mamba_app_icon_path%$'] = fromCwd('src', PKG.mamba.iconPath);
+      }
+
+      return aliases;
+    })(),
   },
   module: {
     rules: [
       /** Handle font imports */
       { test: /\.(eot|woff2?|otf|ttf)$/, use: [loaders.fonts] },
       /** Handle image imports */
-      { test: /\.(gif|jpe?g|png|ico|svg)$/, use: [loaders.images] },
+      { test: /\.(gif|jpe?g|png|ico|svg|bmp)$/, use: [loaders.images] },
     ],
   },
   plugins: [
@@ -51,15 +58,6 @@ module.exports = merge(require('./config.base.js'), {
           slug: `${PKG.mamba.id}-${PKG.name}`,
           ...PKG.mamba,
         };
-
-        if (PKG.mamba) {
-          const iconPath = fromCwd('src', PKG.mamba.iconPath);
-          if (existsSync(iconPath)) {
-            __MANIFEST__.iconBase64 = readFileSync(iconPath, {
-              encoding: 'base64',
-            });
-          }
-        }
 
         return { __MANIFEST__: JSON.stringify(__MANIFEST__) };
       })(),
