@@ -90,5 +90,5 @@ O componente `Keystroke` associa um evento de tecla á uma tecla específica e o
 
 Chama `myMethod(keyup)` passando como parâmetro o evento de keyup quando a tecla especificada em `key` é pressionada.
 ```html
-<Dialog on:open="myMethod(keyup)" />
+<Keystroke on:keystroke="myMethod(keyup)" />
 ```
