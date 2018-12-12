@@ -62,18 +62,18 @@ AppManager.open = (appSlug, target) => {
   currentApp = appMetaObj;
   currentApp.runtime.instance = new appMetaObj.constructor({ target });
 
-  AppManager.fire('opened');
+  AppManager.fire('opened', currentApp);
   App.fire('opened');
 };
 
 AppManager.close = () => {
-  AppManager.fire('willClose');
-
   if (__DEV__) log('Closing App');
 
-  App.fire('closed');
-
   if (currentApp) {
+    AppManager.fire('willClose', currentApp);
+
+    App.fire('closed');
+
     if (currentApp.runtime.instance) {
       const { runtime } = currentApp;
       runtime.instance.destroy();
@@ -100,13 +100,13 @@ AppManager.close = () => {
         );
       });
 
+      AppManager.fire('closed', currentApp);
+
       currentApp = null;
     } else if (__DEV__) {
       warn('App already closed');
     }
   }
-
-  AppManager.fire('closed');
 };
 
 export default AppManager;
