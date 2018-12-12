@@ -29,11 +29,28 @@ O módulo `Collection` é composto por dois componentes: `Collection` e `Row`, q
 
 `<Row ... on:event="..."/>`
 
-| Eventos     | Descrição                                              | Objeto de Evento |
-|-------------|--------------------------------------------------------|------------------|
-| click       | Disparado quando uma Row é clicada                     |`undefined`       |
-| showExtra   | Disparado o conteúdo extra é exibido                   |`undefined`       |
-| hideExtra   | Disparado quando o conteúdo extra é escondido          |`undefined`       |
+| Eventos     | Descrição                                                                                   | Tipo        |
+|-------------|---------------------------------------------------------------------------------------------|-------------|
+| click       | Especifique uma função que será chamada quando uma Row é clicada                            |`function()` |
+| showExtra   | Especifique uma função que será chamada quando o conteúdo extra é exibido                   |`function()` |
+| hideExtra   | Especifique uma função que será chamada quando quando o conteúdo extra é escondido          |`function()` |
+
+#### Exemplos:
+
+Quando o componente `Row` for clicado o roteador retorna para a página `home`.
+```html
+<Row on:click="root.router.go('/')" />
+```
+
+Quando o conteúdo em `extra` for exbidio digita no console a mensagem.
+```html
+<Row on:showExtra="console.log('extra extra')" />
+```
+
+Quando o conteúdo em `extra` for escondido, executa o método `myMethod()`.
+```html
+<Row on:click="myMethod()" />
+```
 
 ## Slots
 
