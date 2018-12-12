@@ -3,7 +3,7 @@
 ## Descrição
 
 O módulo de Payment da API Nativa expõe métodos de controle de pagamento e informações sobre
-o estado deste. Para execução do pagamento, a aplicação nativa de pagamentos será chamada para realizar
+o estado do mesmo. Para execução do pagamento, a aplicação nativa de pagamentos será chamada para realizar
 a transação.
 
 ## Interface
@@ -12,8 +12,6 @@ a transação.
 interface Payment {
   pay: (params: PaymentOptions) => Promise;
   getAmountAuthorized: () => number;
-  enableCardEvent: () => void;
-  disableCardEvent: () => void;
   isPaying: () => boolean;
   failedPaying: () => boolean;
   getCardHolderName: () => string;
@@ -35,21 +33,23 @@ interface PaymentOptions {
   min_installments: number;
   max_installments: number;
   editable_amount: boolean;
+  order_id: number;
 }
 ```
 
 ### pay(params)
 
-Abre o aplicativo de pagamentos passando os parâmetros de pagamento (valor, número máximo e mínimo de parcelas e se pode ser editado) e retorna uma [`Promise`](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Promise).
+Abre o aplicativo de pagamentos passando os parâmetros de pagamento (valor, pode ser editado, número máximo e mínimo de parcelas e um id para a transação) e retorna uma [`Promise`](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Promise).
 
 ```js
-import Payment from '@mambasdk/api/payment.js';
+import Payment from '@mamba/pos/api/payment.js';
 
 Payment.pay({
   amount: 500,
   editable_amount: false,
   min_installments: 1,
   max_installments: 3,
+  order_id: 21,
 })
   .then(() => {
     console.log('Payment Done');
@@ -66,29 +66,9 @@ Payment.pay({
 Retorna o valor autorizado do pagamento ou 0 caso ocorra algum problema.
 
 ```js
-import Payment from '@mambasdk/api/payment.js';
+import Payment from '@mamba/pos/api/payment.js';
 
 Payment.getAmountAuthorized(); // 500
-```
-
-### enableCardEvent()
-
-**Habilita** a leitura de cartões.
-
-```js
-import Payment from '@mambasdk/api/payment.js';
-
-Payment.enableCardEvent(); // card event enabled
-```
-
-### disableCardEvent()
-
-**Desabilita** a leitura de cartões.
-
-```js
-import Payment from '@mambasdk/api/payment.js';
-
-Payment.disableCardEvent(); // card event disabled
 ```
 
 ### isPaying()
@@ -96,7 +76,7 @@ Payment.disableCardEvent(); // card event disabled
 Retorna se está ocorrendo um pagamento no momento.
 
 ```js
-import Payment from '@mambasdk/api/payment.js';
+import Payment from '@mamba/pos/api/payment.js';
 
 Payment.isPaying(); // true or false
 ```
@@ -106,15 +86,17 @@ Payment.isPaying(); // true or false
 Retorna se o último pagamento falhou.
 
 ```js
-import Payment from '@mambasdk/api/payment.js';
+import Payment from '@mamba/pos/api/payment.js';
 
 Payment.failedPaying(); // true or false
 ```
 
 ### getCardHolderName()
 
+Retorna o nome do portador do cartão inserido no leitor.
+
 ```js
-import Payment from '@mambasdk/api/payment.js';
+import Payment from '@mamba/pos/api/payment.js';
 
 Payment.getCardHolderName(); // 'JAMES LEE'
 ```
@@ -124,7 +106,7 @@ Payment.getCardHolderName(); // 'JAMES LEE'
 Retorna o código único da transação gerado pelo autorizador da transação.
 
 ```js
-import Payment from '@mambasdk/api/payment.js';
+import Payment from '@mamba/pos/api/payment.js';
 
 Payment.getAtk(); // '11111111111111'
 ```
@@ -134,37 +116,37 @@ Payment.getAtk(); // '11111111111111'
 Retorna o código único da transação gerado pelo POS.
 
 ```js
-import Payment from '@mambasdk/api/payment.js';
+import Payment from '@mamba/pos/api/payment.js';
 
 Payment.getItk(); // '11111111111111'
 ```
 
 ### getAuthorizationDateTime()
 
-Retorna o horário da trasansação, caso ocorra falhas retorna uma linha vazia.
+Retorna o horário da transação e, caso ocorra falha, retorna uma linha vazia.
 
 ```js
-import Payment from '@mambasdk/api/payment.js';
+import Payment from '@mamba/pos/api/payment.js';
 
 Payment.getAuthorizationDateTime(); // '2018-05-03:00:00:00.00'
 ```
 
 ### getBrand()
 
-Retorna a Bandeira da transação
+Retorna a Bandeira da transação.
 
 ```js
-import Payment from '@mambasdk/api/payment.js';
+import Payment from '@mamba/pos/api/payment.js';
 
 Payment.getBrand(); // 'MASTER'
 ```
 
 ### getOrderId()
 
-Retorna o id do pagamento, em caso de erros retorna uma `string` vazia.
+Retorna o id do pagamento e, em caso de erro, retorna uma `string` vazia.
 
 ```js
-import Payment from '@mambasdk/api/payment.js';
+import Payment from '@mamba/pos/api/payment.js';
 
 Payment.getOrderId(); // '12356068'
 ```
@@ -174,7 +156,7 @@ Payment.getOrderId(); // '12356068'
 Retorna o código do autorizador. Caso a operação falhe, retorna uma `string` vazia.
 
 ```js
-import Payment from '@mambasdk/api/payment.js';
+import Payment from '@mamba/pos/api/payment.js';
 
 Payment.getAuthorizationCode(); // '111111'
 ```
@@ -184,38 +166,38 @@ Payment.getAuthorizationCode(); // '111111'
 Retorna o número de parcelas do pagamento. Caso a operação falhe, retorna `0`.
 
 ```js
-import Payment from '@mambasdk/api/payment.js';
+import Payment from '@mamba/pos/api/payment.js';
 
-Payment.getAuthorizationCode(); // 0
+Payment.getInstallmentCount(); // 0
 ```
 
 ### getPan()
 
-Retorna o número da conta do cartão em que compra foi realizado. Caso a operação falhe, retorna uma
+Retorna o PAN (Permanent Account Number) mascarado do cartão em que compra foi realizado. Caso a operação falhe, retorna uma
 `string` vazia.
 
 ```js
-import Payment from '@mambasdk/api/payment.js';
+import Payment from '@mamba/pos/api/payment.js';
 
 Payment.getPan(); // '56497#####41578'
 ```
 
 ### getType()
 
-Retorna o tipo da transação `CREDITO` ou `DEBITO`.
+Retorna o tipo da transação `Crédito` ou `Débito`.
 
 ```js
-import Payment from '@mambasdk/api/payment.js';
+import Payment from '@mamba/pos/api/payment.js';
 
-Payment.getType(); // 'CREDITO'
+Payment.getType(); // 'Crédito'
 ```
 
 ### cancel(atk)
 
-Cancela uma transação utilizando o atk desta.
+Cancela uma transação utilizando o ATK desta.
 
 ```js
-import Payment from '@mambasdk/api/payment.js';
+import Payment from '@mamba/pos/api/payment.js';
 
 Payment.cancel('000000')
   .then(amountCanceled => {
@@ -231,7 +213,7 @@ Payment.cancel('000000')
 Retorna `true` caso o último cancelamento tenha falhado.
 
 ```js
-import Payment from '@mambasdk/api/payment.js';
+import Payment from '@mamba/pos/api/payment.js';
 
 Payment.failedCancellation(); // true or false
 ```

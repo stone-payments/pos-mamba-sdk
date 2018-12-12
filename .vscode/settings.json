@@ -2,6 +2,9 @@
   /** Allow to assign breakpoints to svelte templates */
   "debug.allowBreakpointsEverywhere": true,
 
+  /** Enforce LF as line ending */
+  "files.eol": "\n",
+
   /** Normalize trailing whitespaces */
   "editor.trimAutoWhitespace": true,
   "files.trimTrailingWhitespace": true,
@@ -17,15 +20,10 @@
   "html.validate.scripts": false,
   "html.validate.styles": false,
 
-  /** Auto-fix on save */
-  "eslint.autoFixOnSave": true,
-  /** Validate html/svelte files */
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    { "language": "html", "autoFix": true },
-    { "language": "svelte", "autoFix": true }
-  ],
+  /** Disable svelte-vscode linters */
+  "svelte.plugin.css.diagnostics.enable": false,
+  "svelte.plugin.typescript.diagnostics.enable": false,
+  "svelte.plugin.html.format.enable": false,
 
   /** Associate css files to postcss language */
   "files.associations": {
@@ -39,24 +37,29 @@
   "emmet.syntaxProfiles": {
     "postcss": "css"
   },
-
+  /** Enable auto format */
   "[svelte]": {
     "editor.formatOnSave": true
   },
-
   "[html]": {
     "editor.formatOnSave": true
   },
-
   "[javascript]": {
     "editor.formatOnSave": true
   },
-
   "[css]": {
     "editor.formatOnSave": true
   },
-
   "[postcss]": {
     "editor.formatOnSave": true
   },
+
+  /** Auto-fix on save */
+  "eslint.autoFixOnSave": true,
+  /** Validate html/svelte files */
+  "eslint.validate": [
+    { "language": "javascript", "autoFix": true },
+    { "language": "html", "autoFix": true },
+    { "language": "svelte", "autoFix": true }
+  ],
 }

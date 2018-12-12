@@ -1,8 +1,15 @@
 <div class="container">
-  <h1>Default Barcode<span>{'<Barcode></Barcode>'}</span></h1>
+  <h4>Padrão</h4>
   <div class="row">
     <Barcode data="435073851110001020000000042984311170" />
-    <Barcode data="999999999999999999999999999999999999" />
+  </div>
+  <h4>Tamanho e Largura da Barra</h4>
+  <div class="row">
+    <Barcode data="999999999999999999999999999999999999" height="25" barWidth="0.8"/>
+  </div>
+  <h4>Sem Descrição</h4>
+  <div class="row">
+    <Barcode data="435073851110001020000000042984311170" displayValue={false}/>
   </div>
 </div>
 
@@ -12,13 +19,10 @@
     background-color: #ddd;
   }
 
-  h1 span {
+  h4 {
     display: inline-block;
     vertical-align: middle;
-    margin-left: 10px;
-    font-size: 14px;
     font-weight: bold;
-    font-family: monospace;
   }
 
   .container {
@@ -26,16 +30,14 @@
   }
 
   .row {
-    margin-bottom: 50px;
+    margin: 20px 0px 20px 0px;
   }
-
 </style>
 
 <script>
-
   export default {
     components: {
-      Barcode: '../src',
+      Barcode: '@mamba/barcode/Barcode.html',
     },
   };
 </script>

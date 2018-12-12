@@ -1,16 +1,19 @@
 <div class="container">
-  <h1>Default Dialog</h1>
+  <h4>Padrão</h4>
   <div class="row">
     <button on:click="openDialog('defaultDialog', 2000)">
       Open dialog
     </button>
   </div>
 
-  <Dialog ref:defaultDialog>
-    Default dialog
+  <Dialog ref:defaultDialog
+    on:open="console.log('on:open')"
+    on:close="console.log('on:close')"
+  >
+    Dialog Padrão
   </Dialog>
 
-  <h1>PromisedDialog <span>{'<PromisedDialog promise="..." on:success on:failure/>'}</span></h1>
+  <h4>Com Promise </h4>
   <div class="row">
     <button on:click="refreshPromise()">
       Initialize promise
@@ -23,7 +26,7 @@
     on:failure="console.log(event)"
   >
     {#await promise}
-      Loading....
+      Loading...
     {:then }
       Success!!!
     {:catch }
@@ -31,27 +34,28 @@
     {/await}
   </PromisedDialog>
 
-  <h1>Confirmation Dialog</h1>
+  <h4>Com confirmação</h4>
   <div class="row">
     <button on:click="openDialog('confirmationDialog')">
       Open dialog
     </button>
   </div>
 
-  <ConfirmationDialog ref:confirmationDialog isOpen={true} title="IMPRESSORA SEM PAPEL">
+  <ConfirmationDialog ref:confirmationDialog 
+  title="IMPRESSORA SEM PAPEL"
+  on:negative="console.log('on:negative')"
+  on:positive="console.log('on:positive')"
+  >
     Tentar imprimir novamente?
   </ConfirmationDialog>
 </div>
 
 <script>
-  import { Dialog, PromisedDialog, ConfirmationDialog } from '../src/index.js';
-
   export default {
     components: {
-      Dialog,
-      PromisedDialog,
-      ConfirmationDialog,
-      Sprite: '@mambasdk/sprite',
+      Dialog: '@mamba/dialog/Dialog.html',
+      ConfirmationDialog: '@mamba/dialog/Confirmation.html',
+      PromisedDialog: '@mamba/dialog/Promised.html',
     },
     methods: {
       refreshPromise() {
@@ -71,17 +75,12 @@
     background-color: #ddd;
   }
 
-  h1 {
-    word-break: break-all;
-  }
-
-  h1 span {
+  h4 {
     display: inline-block;
     vertical-align: middle;
-    margin-left: 10px;
     font-size: 14px;
     font-weight: bold;
-    font-family: monospace;
+    word-break: break-all;
   }
 
   .container {
@@ -91,6 +90,6 @@
   }
 
   .row {
-    margin-bottom: 50px;
+    margin: 20px 0px 20px 0px;
   }
 </style>

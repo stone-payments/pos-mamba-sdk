@@ -1,8 +1,13 @@
-import baseDriver from './base.js';
+import getBaseDriver from './base.js';
 
 /** Used to extend a driver with the base driver */
 export default function(driver, ...modifiers) {
-  Object.assign(driver, baseDriver);
+  if (__DEV__ && typeof driver === 'undefined') {
+    throw new Error('[@mamba/pos/api] Could not find the loaded driver.');
+  }
+
+  Object.assign(driver, getBaseDriver());
+
   for (let i = modifiers.length; i--; ) {
     const modifier = modifiers[i];
     if (typeof modifier === 'function') {
@@ -11,5 +16,6 @@ export default function(driver, ...modifiers) {
       Object.assign(driver, modifier);
     }
   }
+
   return driver;
 }

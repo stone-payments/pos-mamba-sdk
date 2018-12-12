@@ -1,21 +1,17 @@
 <div class="container">
-  <h1>Default QR Code<span>{'<QRCode></QRCode>'}</span></h1>
-  <div class="row">
-    <QRCode/>
-  </div>
-  <h1>Setting QRCode Value<span>{'<QRCode value="http://stone.com.br"></QRCode>'}</span></h1>
+  <h4>Padrão</h4>
   <div class="row">
     <QRCode value="http://stone.com.br/"/>
   </div>
-  <h1>...and Colors/Size/Logo<span>{'<QRCode color="yourcolorcss" logo="logopath"></QRCode>'}</span></h1>
+  <h4>Taxa de Correção</h4>
   <div class="row">
-    <QRCode size="small" logo="./static/logo.png" color="blue" value="http://stone.com.br"/>
-    <QRCode size="medium" logo="./static/logo.png" color="red" value="http://stone.com.br"/>
-    <QRCode size="large" logo="./static/logo.png" color="purple" value="http://stone.com.br"/>
+    <QRCode value="http://stone.com.br/" level='H'/>
   </div>
-  <h1>Error Rate Level<span>{'<QRCode value="OLA" level="H"></QRCode>'}</span></h1>
+  <h4>Cores, Tamanhos e Logo</h4>
   <div class="row">
-    <QRCode value="OLA" level='H'/>
+    <QRCode size="small" logo="./static/logo.png" color="#14AA4B" value="http://stone.com.br"/>
+    <QRCode size="medium" logo="./static/logo.png" color="#95C93F" value="http://stone.com.br"/>
+    <QRCode size="large" logo="./static/logo.png" color="#103A21" value="http://stone.com.br"/>
   </div>
 </div>
 
@@ -25,13 +21,10 @@
     background-color: #ddd;
   }
 
-  h1 span {
+  h4 {
     display: inline-block;
     vertical-align: middle;
-    margin-left: 10px;
-    font-size: 14px;
     font-weight: bold;
-    font-family: monospace;
   }
 
   .container {
@@ -39,16 +32,14 @@
   }
 
   .row {
-    margin-bottom: 50px;
+    margin: 20px 0px 20px 0px;
   }
-
 </style>
 
 <script>
-
   export default {
     components: {
-      QRCode: '../src',
+      QRCode: '@mamba/qrcode/QRCode.html',
     },
   };
 </script>

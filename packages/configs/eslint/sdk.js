@@ -1,19 +1,16 @@
 module.exports = {
   rules: {
-    /** Allow to assign props to a native module */
-    'no-param-reassign': 'off',
     /** Allow to export overriden native objects */
     'import/no-mutable-exports': 'off',
   },
   overrides: [
     {
-      files: 'packages/{api,bridges}/**/*.js',
+      files: ['packages/webpack/virtual-files/*.js'],
       env: {
         browser: true,
-        es6: true,
       },
       rules: {
-        'no-multi-assign': 'off',
+        'import/no-extraneous-dependencies': ['off'],
       },
     },
     {
@@ -35,6 +32,12 @@ module.exports = {
             peerDependencies: true,
           },
         ],
+      },
+    },
+    {
+      files: ['tools/jest/setup/*.js'],
+      env: {
+        browser: true,
       },
     },
   ],

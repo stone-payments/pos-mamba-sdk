@@ -1,21 +1,22 @@
 {
-  "name": "@mambasdk/switch",
-  "version": "0.0.1",
-  "svelte": "src/index.js",
-  "files": [
-    "src/"
-  ],
+  "name": "@mamba/switch",
+  "version": "2.0.0",
+  "svelte": "Switch.html",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
-    "Christian Kaisermann <christian.kaisermann@stone.com.br>"
+    "Christian Kaisermann <christian.kaisermann@stone.com.br>",
+    "Pedro Lancelloti <pedro.lancelloti@stone.com.br>"
   ],
   "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
-    "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w",
-    "build": "exit 0",
-    "build:dev": "exit 0"
+    "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w"
   },
   "devDependencies": {
-    "@mambasdk/styles": "^0.0.1"
-  }
+    "@mamba/pos": "^2.0.0",
+    "@mamba/styles": "^2.0.0"
+  },
+  "gitHead": "7118f44e933d2f656166a80822c0b3c1001e6a33"
 }

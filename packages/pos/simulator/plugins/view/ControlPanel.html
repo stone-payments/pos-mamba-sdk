@@ -1,0 +1,224 @@
+<Keystroke key="shortcuts" on:keystroke="handleShortcutStroke(event)" />
+
+<div class="panel-wrapper">
+  <input ref:toggle type="checkbox" class="panel-checkbox" id="panel-toggler">
+  <label for="panel-toggler" class="panel-toggle">⚙</label>
+  <div class="panel">
+      {#each Object.values(panels) as {namespace, panel, data}}
+        <div class="section">
+          <svelte:component
+            this={panel}
+            {...data}
+            on:update="handlePanelUpdate(namespace, event)"
+          />
+        </div>
+      {/each}
+  </div>
+</div>
+
+<script>
+  import { Registry } from '../../index.js';
+
+  let lastKeypressTime = 0;
+
+  const deepCopy = o => JSON.parse(JSON.stringify(o));
+
+  export default {
+    components: {
+      Keystroke: '@mamba/app/Keystroke.html',
+    },
+    data() {
+      return {
+        panels: {},
+      };
+    },
+    oncreate() {
+      /**
+       * Disable the keystroke handler when
+       * there's a shortcut for the 'shortcuts' key
+       * */
+      // TODO HOW TO DO THIS WITHOUT STORE
+      // this.store.on('router:navigation', () => {
+      //   this.set({
+      //     keystrokeActive: !document.querySelector('[shortcut="shortcuts"]'),
+      //   });
+      // });
+
+      /** Update a driver local copy of settings */
+      Registry.on('shallowChange', ({ key, value }) => {
+        const { panels } = this.get();
+        if (panels[key]) {
+          this.set({
+            panels: {
+              ...panels,
+              [key]: { ...panels[key], data: deepCopy(value) },
+            },
+          });
+        }
+      });
+    },
+    methods: {
+      // TODO: need to rethink all of this
+      handlePanelUpdate(namespace, { changed, current, previous }) {
+        if (previous) {
+          Object.keys(changed).forEach(key => {
+            const value = current[key];
+            /** See if the prop name has already the namespace path */
+            if (key.indexOf(`${namespace}.`) === -1) {
+              key = `${namespace}.${key}`;
+            }
+            Registry.set(key, value, false);
+          });
+        }
+      },
+      add(panel, driver) {
+        const { panels } = this.get();
+        const namespace = driver.NAMESPACE;
+
+        this.set({
+          panels: {
+            ...panels,
+            [namespace]: {
+              namespace,
+              panel,
+              data: deepCopy(driver.SETTINGS || {}),
+            },
+          },
+        });
+      },
+      handleShortcutStroke() {
+        const keypressTime = new Date();
+        /** Require double keypress */
+        if (keypressTime - lastKeypressTime <= 400) {
+          this.refs.toggle.checked = !this.refs.toggle.checked;
+        }
+        lastKeypressTime = keypressTime;
+      },
+    },
+  };
+</script>
+
+<style type="text/postcss">
+  .panel-wrapper {
+    width: 100vh;
+    overflow: hidden;
+    color: #333;
+    user-select: none;
+  }
+
+  .panel-toggle {
+    position: fixed;
+    z-index: 9001;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
+    transition: transform 0.3s ease;
+    box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.2);
+
+    @media (max-width: 400px) {
+      display: none;
+    }
+
+    &:hover {
+      transform: scale(1.1) rotate(0);
+    }
+
+    .panel-checkbox:checked ~ & {
+      transform: scale(1) rotate(360deg);
+    }
+  }
+
+  .panel-checkbox {
+    display: none;
+  }
+
+  .panel {
+    position: fixed;
+    z-index: 9000;
+    top: 0;
+    right: -100%;
+    background-color: #fff;
+    width: 260px;
+    height: 100%;
+    padding: 60px 15px 30px;
+    opacity: 0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.4);
+    overflow: auto;
+    overflow-x: hidden;
+
+    @media (max-width: 400px) {
+      padding-top: 30px;
+      width: 220px;
+    }
+
+    @media (min-width: 401px) {
+      transition: right 0.3s ease, opacity 0.5s ease;
+    }
+
+    .panel-checkbox:checked ~ & {
+      right: 0;
+      opacity: 1;
+    }
+
+    :global(.title) {
+      font-weight: bold;
+      border-bottom: 1px dotted #ccc;
+      font-size: 18px;
+      line-height: 1;
+      padding-bottom: 5px;
+    }
+
+    :global(textarea) {
+      width: 100%;
+      border-radius: 3px;
+      border: none;
+      border-bottom: 1px solid #e3e6e7;
+      background-color: #f5f7f7;
+    }
+
+    :global(.controller) {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+
+      &.is-full {
+        display: block;
+
+        :global(> span) {
+          display: block;
+          margin-bottom: 8px;
+        }
+      }
+
+      @media (max-width: 400px) {
+        font-size: 12px;
+
+        :global(> span) {
+          max-width: 145px;
+        }
+      }
+
+      :global(> *) {
+        display: block;
+      }
+    }
+  }
+
+  .section {
+    & + .section {
+      margin-top: 25px;
+    }
+  }
+</style>

@@ -27,17 +27,34 @@ export default function(driver) {
         );
       }
 
-      driver.once('paymentDone', () => resolve(driver.getAmountAuthorized()));
+      driver.once('paymentDone', e => {
+        if (driver.failedPaying()) {
+          reject(e);
+        } else {
+          resolve(driver.getAmountAuthorized());
+        }
+      });
+
       driver.doPay(params);
     });
 
   driver.enableCardEvent = () => {
+    if (__DEV__) {
+      console.warn(
+        '[@mamba/pos/api/payment] The "enableCardEvent()" method is deprecated. Please use "Card.on(\'cardInserted\', function(){...})"',
+      );
+    }
     isCardEventEnabled = true;
     driver.unique('cardEvent', triggerCardEvent);
     driver.doEnableCardEvent();
   };
 
   driver.disableCardEvent = () => {
+    if (__DEV__) {
+      console.warn(
+        '[@mamba/pos/api/payment] The "disableCardEvent()" method is deprecated. Please use "Card.off(\'cardInserted\')"',
+      );
+    }
     isCardEventEnabled = false;
     driver.off('cardEvent', triggerCardEvent);
     driver.doDisableCardEvent();

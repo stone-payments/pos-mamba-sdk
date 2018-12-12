@@ -1,5 +1,5 @@
 export default {
-  Tone: Object.freeze({
+  Tones: Object.freeze({
     TONE1: 'TONE1',
     TONE2: 'TONE2',
     TONE3: 'TONE3',

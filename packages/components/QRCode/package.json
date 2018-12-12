@@ -1,23 +1,25 @@
 {
-  "name": "@mambasdk/qrcode",
-  "version": "0.0.1",
-  "svelte": "src/index.js",
-  "files": [
-    "src/"
-  ],
+  "name": "@mamba/qrcode",
+  "version": "2.0.0",
+  "svelte": "QRCode.html",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
-    "Pedro Lancelloti Kaisermann <pedro.lancelloti@stone.com.br>",
+    "Pedro Lancelloti <pedro.lancelloti@stone.com.br>",
     "Christian Kaisermann <christian.kaisermann@stone.com.br>"
   ],
   "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
-    "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w",
-    "build": "exit 0",
-    "build:dev": "exit 0"
+    "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w"
   },
   "dependencies": {
-    "@mambasdk/styles": "^0.0.1",
+    "@mamba/styles": "^2.0.0",
     "qrious": "^4.0.2"
+  },
+  "gitHead": "7118f44e933d2f656166a80822c0b3c1001e6a33",
+  "devDependencies": {
+    "@mamba/pos": "^2.0.0"
   }
 }

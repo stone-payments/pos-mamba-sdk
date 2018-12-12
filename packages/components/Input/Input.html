@@ -1,0 +1,404 @@
+<label
+  class="input type-{type}"
+  class:is-readable="readable"
+  class:is-invalid="!isValid && !!_errorMsg"
+  class:is-focused="isFocused"
+  style="background-color: {bgColor}; color: {textColor};"
+  on:mousedown="_onMousedown(event)"
+>
+  {#if label}
+    <span>{label}</span>
+  {/if}
+
+  <input
+    ref:input
+    class="align-{align}"
+    type={_inputType}
+    style="color: {textColor};"
+    {disabled}
+    {readonly}
+    {placeholder}
+    on:keydown
+    on:focus="_onFocus(event)"
+    on:blur="_onBlur(event)"
+    on:keyup="_onKeyUp(event)"
+    on:input="_onInput(event)"
+  />
+
+  {#if type === 'password' && readable}
+    <div class="type-toggle">
+      <Icon symbol="{_visible ? 'eye' : 'eye-off'}" />
+    </div>
+  {/if}
+
+  {#if !isValid && !!_errorMsg}
+    <div class="validation-msg" style="color: {errorColor};">
+      {_errorMsg}
+    </div>
+  {/if}
+
+</label>
+
+<script>
+  import Keyboard from '@mamba/pos/api/keyboard.js';
+  import System from '@mamba/pos/api/system.js';
+  import masker from './libs/masker.js';
+  import defaultTokens from './libs/tokens.js';
+
+  export default {
+    components: {
+      Icon: '@mamba/icon',
+    },
+    data() {
+      return {
+        value: '',
+        placeholder: '',
+        label: undefined,
+        /** Behavior */
+        _visible: true,
+        alphanumeric: false,
+        readable: false,
+        /** Automatically focus the input */
+        autofocus: false,
+        /** Force the input to be focused */
+        forcefocus: false,
+        readonly: false,
+        disabled: false,
+        isFocused: false,
+        /** Style */
+        type: 'text',
+        align: 'right',
+        bgColor: '#fff',
+        textColor: '#757575',
+        errorColor: '#d50000',
+        /** Validation */
+        validateOn: 'submit',
+        validation: undefined,
+        isValid: undefined,
+        _errorMsg: undefined,
+        /** Mask */
+        mask: undefined,
+        tokens: defaultTokens,
+      };
+    },
+    computed: {
+      rawValue({ value, tokens, mask }) {
+        return mask ? masker(value, mask, false, tokens) : value;
+      },
+      _inputType({ _visible, type }) {
+        /** treat every non-visible input as a password input */
+        if (!_visible) return 'password';
+        /** if visible and is a password input, show it as text */
+        if (type === 'password') return 'text';
+        /** otherwise, we use what was passed to the 'type' prop */
+        return type;
+      },
+    },
+    oncreate() {
+      if (this.options.data) {
+        const { type, maxlength, autofocus, mask } = this.options.data;
+
+        // TODO: remove when undefined prop is not printed
+        if (typeof maxlength !== 'undefined') {
+          this.refs.input.setAttribute('maxlength', parseInt(maxlength, 10));
+        }
+
+        if (type === 'password') {
+          this.set({ _visible: false });
+        }
+
+        if (autofocus) {
+          this.focus();
+          this.refs.input.scrollIntoView(false);
+        }
+
+        if (mask) {
+          this.mask();
+        }
+      }
+    },
+    onupdate({ changed, current }) {
+      if (changed.value) {
+        this.refs.input.value = current.value;
+      }
+
+      if (
+        changed._errorMsg &&
+        current._errorMsg &&
+        current.validateOn === 'input'
+      ) {
+        this.refs.input.scrollIntoView(false);
+      }
+
+      if (
+        changed.forcefocus &&
+        current.forcefocus &&
+        current.autofocus &&
+        !current.isFocused
+      ) {
+        this.focus();
+      }
+    },
+    methods: {
+      /** Prepend text to the input */
+      prepend(value) {
+        this.set({ value: value + this.get().value });
+      },
+      /** Append text to the input */
+      append(value) {
+        this.set({ value: this.get().value + value });
+      },
+      focus() {
+        this.refs.input.focus();
+      },
+      blur() {
+        this.refs.input.blur();
+      },
+      /** Invalidate the input with an optional error message */
+      invalidate(message) {
+        this.set({ isValid: false, _errorMsg: message });
+      },
+      mask() {
+        const state = this.get();
+        const { mask, tokens } = state;
+        let { value } = state;
+
+        if (mask) {
+          value = masker(value, mask, true, tokens);
+          this.set({ value });
+        }
+        return value;
+      },
+      _validate() {
+        const { value } = this.refs.input;
+        const { validation } = this.get();
+        const validateObj = {
+          isValid: true,
+          _errorMsg: undefined,
+        };
+
+        if (typeof validation !== 'function') {
+          return validateObj;
+        }
+
+        const result = validation(value);
+
+        if (typeof result === 'boolean') {
+          validateObj.isValid = result;
+        } else {
+          validateObj.isValid = !!result.isValid;
+          validateObj._errorMsg = result.msg;
+        }
+
+        return validateObj;
+      },
+      // TODO: when '_visible' changes, it triggers a focus
+      _onFocus(e) {
+        const { alphanumeric } = this.get();
+
+        this.set({ isFocused: true });
+
+        if (alphanumeric) {
+          Keyboard.setKeyboardAsAlphanumeric();
+        } else {
+          Keyboard.setKeyboardAsNumeric();
+        }
+
+        this.fire('focus', e);
+      },
+      _onBlur(e) {
+        const { alphanumeric, forcefocus } = this.get();
+
+        if (forcefocus) {
+          e.stopImmediatePropagation();
+          e.preventDefault();
+          /** onBlur can be fired just before a <Input/> destruction */
+          setTimeout(() => this.refs.input && this.focus());
+          return;
+        }
+
+        this.set({ isFocused: false });
+
+        if (alphanumeric) {
+          Keyboard.setKeyboardAsNumeric();
+        }
+
+        this.fire('blur', e);
+      },
+      _onKeyUp(e) {
+        const key = Keyboard.getKeyName(e.keyCode);
+
+        this.fire('keyup', e);
+
+        if (key === 'enter') {
+          const { validateOn, validation } = this.get();
+
+          /* istanbul ignore else */
+          if (validateOn === 'submit') {
+            const result = this._validate();
+
+            this.set(result);
+
+            /** Blur the input if a validation is present and the input is valid */
+            if (typeof validation !== 'undefined' && result.isValid) {
+              this.blur();
+            }
+          }
+
+          const { isValid, rawValue, value } = this.get();
+          const submitObj = { isValid, rawValue, value };
+
+          if (!isValid) {
+            System.beep();
+            this.fire('submitInvalid', submitObj);
+          } else {
+            this.fire('submitValid', submitObj);
+          }
+
+          this.fire('submit', submitObj);
+        }
+      },
+      _onInput(e) {
+        let { value } = this.refs.input;
+
+        const { validation, validateOn, mask, tokens } = this.get();
+
+        /** Mask handler */
+        if (mask) {
+          const inputEl = this.refs.input;
+
+          let position = inputEl.selectionEnd;
+
+          /* Save the character just inserted */
+          const digit = inputEl.value[position - 1];
+          value = masker(value, mask, true, tokens);
+
+          /**
+           * Overwrite the input text with the masked value.
+           * Needed for fixing the caret position
+           * */
+          this.refs.input.value = value;
+
+          /** If the digit was changed, increment position until find the digit again */
+          while (
+            position < value.length &&
+            value.charAt(position - 1) !== digit
+          ) {
+            position++;
+          }
+
+          setTimeout(() => inputEl.setSelectionRange(position, position));
+        }
+
+        if (validation) {
+          let validationUpdate;
+          /** If validation is on submit, reset the validation state */
+          if (validateOn === 'submit') {
+            validationUpdate = {
+              isValid: false,
+              _errorMsg: undefined,
+            };
+          } else {
+            validationUpdate = this._validate();
+          }
+
+          this.set({ value, ...validationUpdate });
+        } else {
+          this.set({ value });
+        }
+
+        this.fire('input', e);
+      },
+      /** We use mousedown instead of click because it fires before the input's .focus() */
+      _onMousedown() {
+        const { type, _visible, readable } = this.get();
+        /** Change password visibility only if element is focused */
+        /* istanbul ignore else */
+        if (
+          type === 'password' &&
+          readable &&
+          document.activeElement === this.refs.input
+        ) {
+          this.set({ _visible: !_visible });
+          /** We must check for the existence of the input element in case */
+          /* istanbul ignore next */
+          setTimeout(() => this.refs.input && this.focus());
+        }
+      },
+    },
+  };
+</script>
+
+<style type="text/postcss">
+  @import '@mamba/styles/theme.pcss';
+
+  .input {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 10px 15px 5px;
+    background-color: #fff;
+    transition: 0.3s ease border-bottom;
+    border-bottom: 2px solid $input-border-color;
+
+    &.is-readable input {
+      padding-right: 40px;
+    }
+
+    &.is-focused {
+      border-bottom-color: $input-focus-border-color;
+    }
+
+    &.is-invalid {
+      border-bottom-color: $input-invalid-border-color;
+    }
+  }
+
+  span {
+    display: block;
+    width: block;
+    font-size: 13px;
+    font-weight: bold;
+    pointer-events: none;
+  }
+
+  input {
+    width: 100%;
+    background-color: transparent;
+    appearance: none;
+    border: none;
+    font-size: 30px;
+    height: 36px;
+    /* border-bottom: 1px dotted #dedede; */
+
+    &.align-right {
+      text-align: right;
+    }
+
+    &.align-left {
+      text-align: left;
+    }
+
+    &.align-center {
+      text-align: center;
+    }
+  }
+
+  input[type='text'] {
+    font-size: 20px;
+  }
+
+  .type-toggle {
+    position: absolute;
+    right: 20px;
+    bottom: 12px;
+  }
+
+  .validation-msg {
+    text-align: right;
+    color: $input-error-color;
+    /* border-top: 2px solid; */
+    padding-top: 5px;
+    font-size: 12px;
+  }
+</style>

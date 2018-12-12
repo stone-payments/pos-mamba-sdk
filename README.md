@@ -1,27 +1,26 @@
-# Mamba Web
+# [Mamba SDK](https://mambasdk-docs.stone.com.br/)
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/stone-payments/pos-mamba-sdk.svg)](https://greenkeeper.io/)
 
 ## Requirements
 
 Make sure all dependencies have been installed before moving on:
 
-* [Node.js](http://nodejs.org/) >= 6.9.x
-* [Yarn](https://yarnpkg.com/en/docs/install)
-* [Bolt](http://boltpkg.com/)
+* [Node.js](http://nodejs.org/) >= v8.11.3
+* [Lerna](https://github.com/lerna/lerna) >= v3.0.0
 
 ### Commands
 
-* `bolt run start` - Start the project's main website dev server;
-* `bolt run build` - Build the all packages;
-* `bolt run lint` - Lint all style and script files;
-* `bolt run format` - Format all style and script files;
-* `bolt run link:packages` - Create a local link of every package for local developing;
-* `bolt ws build` - Execute the build script in all packages;
+* `npm run lint` - Lint all style and script files;
+* `npm run format` - Format all style and script files;
+* `npm run link:packages` - Create a local link of every package for local developing;
+* `npm run test` - Run all tests once;
+* `npm run test:watch` - Run all tests and keep watching for changes;
+* `lerna run x` - Execute the `x` script in all packages;
+* `lerna run start --scope=@mamba/component --stream` - Run the dev server for a specific component;
 
-#### Bolt specific
+## Useful
 
-> [Bolt documentation](https://github.com/boltpkg/bolt/blob/master/README.md#commands)
-
-* `bolt w @mambasdk/<workspace> <npm-script>` - Run a npm script on a workspace. Examples:
-  * `bolt w @mambasdk/utils build` - Build the `@mambasdk/utils`;
-  * `bolt w @mambasdk/utils start` - Build while watching the `@mambasdk/utils`;
-* `bolt ws <npm-script>` - Run a npm script on all workspaces.
+* [Mamba App Template](https://github.com/stone-payments/pos-mamba-app-template)
+* [Mamba SDK documentation](https://mambasdk-docs.stone.com.br/)
+* [Lerna documentation](https://github.com/lerna/lerna#readme)

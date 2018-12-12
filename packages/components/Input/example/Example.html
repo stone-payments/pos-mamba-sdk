@@ -1,58 +1,76 @@
 <div class="container">
 
-  <h1>Default input <span>{'<Input />'}</span></h1>
+  <h4>Padrão </h4>
   <div class="row">
-    <Input />
+    <Input on:submit="console.log(event.isValid)" />
   </div>
 
-  <h1>Alphanumeric input <span>{'<Input alphanumeric/>'}</span></h1>
+  <h4>Alfanúmerico</h4>
   <div class="row">
     <Input alphanumeric />
   </div>
 
-  <h1>Autofocused input <span>{'<Input autofocus />'}</span></h1>
+  <h4>Autofocado</h4>
   <div class="row">
-    <Input autofocus/>
+    <Input autofocus />
   </div>
 
-  <h1>Password input <span>{'<Input type="password"/>'}</span></h1>
+  <h4>Senha</h4>
   <div class="row">
     <Input type="password" />
   </div>
 
-  <h1>Readable Password input <span>{'<Input type="password" readable/>'}</span></h1>
+  <h4>Senha com Visibilidade</h4>
   <div class="row">
     <Input type="password" readable />
   </div>
 
-  <h1>Labeled input <span>{'<Input label="Input"/>'}</span></h1>
+  <h4>Título</h4>
   <div class="row">
     <Input label="Input"/>
   </div>
 
-  <h1>Labeled password input <span>{'<Input type="password" label="Password"/>'}</span></h1>
+  <h4>Custom colored labeled input</h4>
   <div class="row">
-    <Input type="password" label="Password"/>
+    <Input bgColor="#A8A9AD" textColor="white" label="Text"/>
   </div>
 
-  <h1>Custom colored input <span>{'<Input bgColor="red" textColor="white" />'}</span></h1>
-  <div class="row">
-    <Input bgColor="red" textColor="white"/>
-  </div>
-
-  <h1>Custom colored labeled input <span>{'<Input bgColor="red" textColor="white" label="Text" />'}</span></h1>
-  <div class="row">
-    <Input bgColor="red" textColor="white" label="Text"/>
-  </div>
-
-  <h1>Validated input <span>{'<Input validate="method()"/>'}</span></h1>
+  <h4>Validated input</h4>
   <div class="row">
     <Input
       type="password"
-      validate={validate}
-      on:valid="console.log('VALIDO')"
-      on:invalid="console.log('INVALIDO')"
+      validation={validate}
+      on:submitValid="console.log('VALIDO')"
+      on:submitInvalid="console.log('INVALIDO')"
     />
+  </div>
+
+  <h4>Input com máscara</h4>
+  <div class="row">
+    <Input
+      label="CPF/CNPJ"
+      mask={['###.###.###-##', '##.###.###/####-##']}
+    />
+  </div>
+
+  <h4>Input com máscara customizada</h4>
+  <div class="row">
+    <Input
+      label="Cor hexadecimal"
+      alphanumeric
+      mask="FFFFFF"
+      tokens={{
+        F: {
+          pattern: /[0-9a-fA-F]/,
+          transform: v => v.toLocaleUpperCase()
+        }
+      }}
+    />
+  </div>
+
+  <h4>Input de dinheiro</h4>
+  <div class="row">
+    <MoneyInput label="DINHEIRO" on:submit="console.log(event)"/>
   </div>
 </div>
 
@@ -61,13 +79,10 @@
     background-color: #ddd;
   }
 
-  h1 span {
+  h4 {
     display: inline-block;
     vertical-align: middle;
-    margin-left: 10px;
-    font-size: 14px;
     font-weight: bold;
-    font-family: monospace;
   }
 
   .container {
@@ -77,30 +92,31 @@
   }
 
   .row {
-    margin-bottom: 50px;
+    margin: 20px 0px 20px 0px;
+    width: 60%;
   }
 </style>
 
 <script>
   export default {
     components: {
-      Input: '../src',
+      Input: '@mamba/input/Input.html',
+      MoneyInput: '@mamba/input/Money.html',
     },
     data() {
       return {
-        validate(Input) {
-          const { value } = Input.get();
-          let error;
-          let message;
+        validate(value) {
+          let isValid;
+          let msg;
 
           if (value !== '2') {
-            error = true;
-            message = 'Senha inválida';
+            isValid = false;
+            msg = 'Senha inválida';
           }
 
           return {
-            error,
-            message,
+            isValid,
+            msg,
           };
         },
       };

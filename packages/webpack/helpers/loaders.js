@@ -1,25 +1,34 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { IS_DEV, IS_WATCHING } = require('quickenv');
-
+const { IS_WATCHING } = require('quickenv');
 /** Read the template's .babelrc.js to enforce it in 'babel-loader' */
-const babelrc = require('@mambasdk/configs/babel/template.js');
-
+const babelrc = require('@mamba/configs/babel/template.js');
+const { extendPresetEnv } = require('@mamba/configs/babel/utils.js');
 /** Read the svelte config file from the project */
-const svelteConfig = require('@mambasdk/configs/svelte/index.js');
+const svelteConfig = require('@mamba/configs/svelte/index.js');
+
+const { IS_DEV } = require('./consts.js');
+
+const babelLoaderConfig = {
+  loader: 'babel-loader',
+  options: {
+    compact: false,
+    cacheDirectory: IS_DEV,
+    babelrc: false,
+    ...babelrc,
+  },
+};
 
 module.exports = {
-  babel: {
-    loader: 'babel-loader',
-    options: {
-      compact: false,
-      cacheDirectory: IS_DEV(),
-      babelrc: false,
-      ...babelrc,
-    },
+  babelEsNext: babelLoaderConfig,
+  babelCJS: {
+    ...babelLoaderConfig,
+    options: extendPresetEnv(babelLoaderConfig.options, {
+      modules: 'commonjs',
+    }),
   },
   eslint: {
     loader: 'eslint-loader',
-    options: { emitWarning: IS_DEV() },
+    options: { emitWarning: IS_DEV },
   },
   /**
    * MiniCssExtractPlugin doesn't support HMR.
@@ -29,7 +38,7 @@ module.exports = {
   css: {
     loader: 'css-loader',
     options: {
-      sourceMap: IS_DEV(),
+      sourceMap: IS_DEV,
       /** Apply the two last loaders (resolve-url, postcss) to @imported url() css files */
       importLoaders: 2,
     },
@@ -41,25 +50,18 @@ module.exports = {
       sourceMap: true, // 'resolve-url-loader' requires this to be always true
     },
   },
-  // sass: {
-  //   loader: 'sass-loader',
-  //   options: {
-  //     sourceMap: true, // 'resolve-url-loader' requires this to be always true
-  //   },
-  // },
   resolveUrl: {
     loader: 'resolve-url-loader',
     options: {
-      sourceMap: IS_DEV(),
+      sourceMap: IS_DEV,
       keepQuery: true,
-      fail: true,
-      debug: false, // IS_DEV(),
+      debug: false, // IS_DEV,
     },
   },
   fonts: {
     loader: 'url-loader',
     options: {
-      // TODO: Test if an inline font works on the POS
+      fallback: 'file-loader',
       limit: 1, // Copy font files instead of inserting them on the css
       outputPath: 'assets/',
       name: './fonts/[name].[ext]',
@@ -68,6 +70,7 @@ module.exports = {
   images: {
     loader: 'url-loader',
     options: {
+      fallback: 'file-loader',
       limit: 1,
       outputPath: 'assets/',
       name: './images/[name].[ext]',
@@ -77,7 +80,7 @@ module.exports = {
     loader: 'svelte-loader',
     options: {
       emitCss: true,
-      hotReload: IS_DEV(),
+      hotReload: IS_DEV,
       ...svelteConfig,
     },
   },

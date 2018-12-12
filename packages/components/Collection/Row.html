@@ -1,0 +1,213 @@
+<div ref:row class="row">
+  <div ref:main on:click="_handleClick({ event, href })">
+    <div class="top {_hasController ? 'has-controller' : ''}">
+      <div class="left-area">
+        <div class="label">{label}</div>
+      </div>
+      <div class="right-area">
+        {#if rightLabel}
+          <div class="label">
+            {rightLabel}
+          </div>
+        {/if}
+        {#if _hasController}
+          <div class="controller" ref:controller>
+            {#if href}
+              <Icon symbol="chevron-right" width="10px" />
+            {:elseif _hasCustomController}
+              <slot name="controller"></slot>
+            {/if}
+          </div>
+        {/if}
+      </div>
+    </div>
+    {#if _hasDescription}
+      <div class="description">
+        {#if description}
+          <p>{description}</p>
+        {:elseif _hasDescriptionContent}
+          <slot name="description"></slot>
+        {/if}
+      </div>
+    {/if}
+  </div>
+
+  {#if showExtra && _hasExtraContent}
+    <div class="extra">
+      <slot name="extra"></slot>
+    </div>
+  {/if}
+</div>
+
+<script>
+  /* istanbul ignore next */
+  function findClosest(el, cb) {
+    if (!el || el.nodeType !== 1) return null;
+    if (el && !cb(el)) return findClosest(el.parentNode, cb);
+    return el;
+  }
+
+  export default {
+    components: {
+      Icon: '@mamba/icon',
+    },
+    data() {
+      return {
+        rightLabel: undefined,
+        /** Boolean to display the extra content element */
+        showExtra: false,
+        /** Define a link to another page */
+        href: undefined,
+        /** Description below the row label */
+        description: undefined,
+        _hasCustomController: false,
+        _hasExtraContent: false,
+        _hasDescriptionContent: false,
+      };
+    },
+    computed: {
+      _hasController: ({ href, _hasCustomController }) =>
+        !!(href || _hasCustomController),
+      _hasDescription: ({ description, _hasDescriptionContent }) =>
+        !!(description || _hasDescriptionContent),
+    },
+    oncreate() {
+      const hasSlots = !!this.options.slots;
+      if (hasSlots) {
+        this.set({
+          _hasCustomController: !!this.options.slots.controller,
+          _hasExtraContent: !!this.options.slots.extra,
+          _hasDescriptionContent: !!this.options.slots.description,
+        });
+      }
+
+      /**
+       * TODO: Refactor to pass as prop when undefined props are not rendered on the element
+       */
+      if (this.options.data) {
+        const { shortcut } = this.options.data;
+
+        if (shortcut) {
+          this.refs.main.setAttribute('shortcut', shortcut);
+        }
+      }
+    },
+    onupdate({ changed, current }) {
+      if (changed.showExtra) {
+        this.fire(current.showExtra ? 'showExtra' : 'hideExtra');
+      }
+    },
+    methods: {
+      _handleClick({ event, href }) {
+        /** Fire the row's click event for listening parent components */
+        this.fire('click');
+
+        /** If clicked on a "link" row, push the page to the router */
+        if (href && this.root.router) {
+          return this.root.router.go(href);
+        }
+
+        const { _hasCustomController } = this.get();
+        /**
+         * If the row has a custom controller,
+         * let's see if it has a [data-controller-triger] element.
+         */
+        if (_hasCustomController) {
+          /** Prevent firing the event twice (because of event bubbling) */
+          const hasNotClickedController = !findClosest(event.target, el =>
+            el.classList.contains('controller'),
+          );
+
+          if (hasNotClickedController) {
+            const triggerEl = this.refs.controller.querySelector(
+              '[data-controller-trigger]',
+            );
+
+            /* istanbul ignore else */
+            if (triggerEl) {
+              /** ! We assume that the trigger is also
+               * the element method that triggers it (like click)
+               * */
+              triggerEl[triggerEl.dataset.controllerTrigger]();
+            }
+          }
+        }
+      },
+    },
+  };
+</script>
+
+<style type="text/postcss">
+  @import '@mamba/styles/theme.pcss';
+
+  ref:row {
+    margin: 0;
+    background: #fff;
+    color: #494949;
+    border-bottom: 1px solid #e3e6e7;
+  }
+
+  .row ref:row:last-child {
+    border-bottom: none;
+  }
+
+  ref:main {
+    padding: $row-padding;
+  }
+
+  .top {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+
+    &:not(.has-controller) {
+      height: 24px;
+    }
+  }
+
+  .left-area {
+    flex-grow: 1;
+  }
+
+  .label {
+    font-size: 13px;
+    font-weight: bold;
+    word-wrap: break-word;
+
+    .left-area & {
+      .top.has-controller & {
+        max-width: 90%;
+      }
+    }
+
+    .right-area & {
+      max-width: 110px;
+      color: #8c8c8c;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
+      .top.has-controller & {
+        margin-right: 8px;
+      }
+    }
+  }
+
+  .right-area {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .description {
+    color: #8c8c8c;
+    margin: 4px 0 0;
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .extra {
+    border-top: 1px dashed #eee;
+  }
+</style>

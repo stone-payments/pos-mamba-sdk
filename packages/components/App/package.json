@@ -1,28 +1,24 @@
 {
-  "name": "@mambasdk/app",
-  "version": "0.0.10",
-  "svelte": "src/index.js",
-  "files": [
-    "src/"
-  ],
+  "name": "@mamba/app",
+  "version": "2.0.0",
+  "svelte": "App.html",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
     "Christian Kaisermann <christian.kaisermann@stone.com.br>"
   ],
   "license": "Apache-2.0",
-  "scripts": {
-    "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w",
-    "build": "exit 0",
-    "build:dev": "exit 0"
+  "publishConfig": {
+    "access": "public"
   },
-  "dependencies": {
-    "@mambasdk/dialog": "^0.0.2"
+  "scripts": {
+    "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w"
   },
   "devDependencies": {
-    "@mambasdk/styles": "^0.0.1"
+    "@mamba/pos": "^2.0.0",
+    "@mamba/styles": "^2.0.0"
   },
   "peerDependencies": {
-    "svelte-routing": "^0.4.2",
-    "@mambasdk/pos": "^0.0.9"
-  }
+    "@mamba/pos": "^2.0.0"
+  },
+  "gitHead": "7118f44e933d2f656166a80822c0b3c1001e6a33"
 }

@@ -2,49 +2,36 @@
  * Common webpack configuration
  */
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin');
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');
-
-const { IS_PROD, getPkg, fromCwd } = require('quickenv');
+const WebpackBar = require('webpackbar');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
-const htmlTemplate = require('./helpers/htmlTemplate.js');
+const { fromCwd } = require('quickenv');
+
+const getHTMLTemplate = require('./helpers/getHTMLTemplate.js');
 const loaders = require('./helpers/loaders.js');
-const MambaFixesPlugin = require('./helpers/MambaFixesPlugin.js');
-
-const PKG = getPkg();
-
-/** Default ENV variables */
-if (!process.env.NODE_ENV) {
-  process.env.NODE_ENV = 'development';
-}
-
-if (!process.env.APP_ENV) {
-  process.env.APP_ENV = 'browser';
-}
-
-if (!process.env.DEBUG) {
-  process.env.DEBUG = process.env.NODE_ENV === 'development';
-}
-
-const entry = {
-  app: [
-    /** Mamba style resetter/normalizer */
-    '@mambasdk/styles/dist/pos.css',
-    /** Load the simulator bootstrap */
-    process.env.APP_ENV !== 'pos' && './simulator.js',
-    /** App entry point */
-    './index.js',
-  ].filter(Boolean),
-};
+const {
+  isOfModuleType,
+  transpileIgnoreBaseCondition,
+} = require('./helpers/depTranspiling.js');
+const {
+  DEBUG_LVL,
+  IS_POS,
+  IS_BROWSER,
+  IS_DEV,
+  IS_PROD,
+  NODE_ENV,
+  APP_ENV,
+  ADD_MAMBA_SIMULATOR,
+} = require('./helpers/consts.js');
 
 module.exports = {
-  mode: IS_PROD() ? 'production' : 'development',
+  mode: IS_PROD ? 'production' : 'development',
   cache: true,
   target: 'web',
+  node: false,
   context: fromCwd('src'),
-  entry,
   output: {
-    path: fromCwd('bundle'),
+    path: fromCwd('dist'),
     publicPath: './',
     filename: '[name].[hash:5].js',
     chunkFilename: '[name].[hash:5].js',
@@ -52,45 +39,69 @@ module.exports = {
   resolve: {
     /** Do not resolve symlinks */
     symlinks: false,
-    mainFields: ['svelte', 'module', 'main'],
-    extensions: ['.js', '.json', '.pcss', '.css', '.html', '.svelte'],
-    /** Make webpack also resolve modules from './src' */
-    modules: [fromCwd('src'), 'node_modules'],
-    alias: {
-      /**
-       * Ensure we're always importing the main packages from this project's root.
-       * Fixes linked components using their own dependencies.
-       */
-      '@mambasdk': fromCwd('node_modules', '@mambasdk'),
-      ...Object.keys(PKG.dependencies).reduce((acc, libName) => {
-        acc[libName] = fromCwd('node_modules', libName);
-        return acc;
-      }, {}),
-    },
+    enforceExtension: false,
+    mainFields: ['svelte', 'esnext', 'jsnext:main', 'module', 'main'],
+    extensions: ['.js', '.json', '.pcss', '.css', '.html', '.htmlx', '.svelte'],
   },
   module: {
     rules: [
-      /** Run svelte component related loaders on  */
+      /**
+       * ! App modules
+       * */
       {
         test: /\.(htmlx?|svelte)$/,
-        exclude: [/node_modules[\\/].+[\\/]node_modules/],
-        use: [loaders.babel, loaders.svelte, loaders.eslint],
-      },
-      /** Make 'svelte' related js code run through babel */
-      {
-        test: /\.js?$/,
-        include: [/node_modules[\\/]svelte/, /@mambasdk\/pos/],
-        exclude: [/node_modules[\\/].+[\\/]node_modules/],
-        use: [loaders.babel],
-      },
-      /** Run babel and eslint on projects src files only */
-      {
-        test: /\.js?$/,
         include: [fromCwd('src')],
-        use: [loaders.babel, loaders.eslint],
+        exclude: [/node_modules/],
+        use: [loaders.babelEsNext, loaders.svelte, loaders.eslint],
       },
       {
-        test: /\.(css|s[ac]ss)$/,
+        test: /\.js$/,
+        include: [fromCwd('src')],
+        exclude: [/node_modules/],
+        use: [loaders.babelEsNext, loaders.eslint],
+      },
+      /**
+       * ! Dependency modules
+       * */
+      /** On dependencies svelte files, run svelte compiler and babel */
+      {
+        test: /\.(htmlx?|svelte)$/,
+        include: [/node_modules/],
+        /** When developing, parse linked packages svelte dependencies */
+        use: [loaders.babelEsNext, loaders.svelte],
+      },
+      /** Transpile .mjs dependencies as well */
+      {
+        test: /\.mjs$/,
+        include: [/node_modules/],
+        exclude: [/core-js/],
+        use: [loaders.babelEsNext],
+      },
+      /**
+       * * Run app COMMONJS dependencies through babel with module: 'commonjs'.
+       * @babel/preset-env inserts es6 import if we don't pass "module: 'commonjs'",
+       * resulting in mixed es6 and commonjs code.
+       * */
+      {
+        test: {
+          ...transpileIgnoreBaseCondition,
+          and: [isOfModuleType('cjs')],
+        },
+        use: [loaders.babelCJS],
+      },
+      /** Run app ES6 dependencies through babel with { modules: false } */
+      {
+        test: {
+          ...transpileIgnoreBaseCondition,
+          and: [isOfModuleType('es')],
+        },
+        use: [loaders.babelEsNext],
+      },
+      /**
+       * ! Generic files
+       */
+      {
+        test: /\.(css|pcss)$/,
         /** When importing from a style file, let's
          * use package.json's 'style' field before
          * the actual 'main' one
@@ -101,36 +112,30 @@ module.exports = {
           loaders.css,
           loaders.postcss,
           loaders.resolveUrl,
-          // loaders.sass,
         ],
       },
-      /** Handle font imports */
-      { test: /\.(eot|woff2?|otf|ttf)$/, use: [loaders.fonts] },
-      /** Handle image imports */
-      { test: /\.(gif|jpe?g|png|ico|svg)$/, use: [loaders.images] },
     ],
   },
   plugins: [
-    /** Prepend the Function.prototype.bind() polyfill webpack's runtime code */
-    new MambaFixesPlugin(),
-    new ProgressBarPlugin(),
+    new WebpackBar(),
     new MiniCssExtractPlugin({
       filename: 'style.css',
       chunkFilename: '[name].[hash:5].css',
     }),
     new MiniHtmlWebpackPlugin({
-      context: { title: 'Mamba Application' },
-      template: htmlTemplate,
+      context: { title: 'Application' },
+      template: getHTMLTemplate,
     }),
     new webpack.DefinePlugin({
-      __NODE_ENV__: JSON.stringify(process.env.NODE_ENV),
-      __APP_ENV__: JSON.stringify(process.env.APP_ENV),
-      __PROD__: process.env.NODE_ENV === 'production',
-      __TEST__: process.env.NODE_ENV === 'test',
-      __DEV__: process.env.NODE_ENV === 'development',
-      __DEBUG__: process.env.DEBUG,
-      __POS__: process.env.APP_ENV === 'pos',
-      __BROWSER__: process.env.APP_ENV === 'browser',
+      __NODE_ENV__: JSON.stringify(NODE_ENV),
+      __APP_ENV__: JSON.stringify(APP_ENV),
+      __PROD__: IS_PROD,
+      __TEST__: NODE_ENV === 'test',
+      __DEV__: IS_DEV,
+      __DEBUG_LVL__: DEBUG_LVL,
+      __POS__: IS_POS,
+      __SIMULATOR__: ADD_MAMBA_SIMULATOR,
+      __BROWSER__: IS_BROWSER,
     }),
   ],
   /** Minimal useful output log */
@@ -149,6 +154,7 @@ module.exports = {
       chunks: 'all',
       minSize: 0,
       minChunks: 1,
+      automaticNameDelimiter: '_',
       cacheGroups: {
         vendors: false,
         libs: {

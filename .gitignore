@@ -1,11 +1,12 @@
 ## System and generated files
 .idea
 .DS_Store
-.sass-cache
-bundle.stats.json
-result.xml
+.directory
 npm-debug.log
-yarn-error.log
+lerna-*
+package-lock.json
+/coverage.data
+/coverage/
 
 ## Components examples
 /packages/components/*/example/*

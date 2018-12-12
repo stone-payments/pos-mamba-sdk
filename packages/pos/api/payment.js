@@ -6,14 +6,14 @@ import cancellationWrappers from '../drivers/cancellation/wrappers.js';
 const {
   $Cancellation: {
     doCancellation,
-    getAmmount: getCancelledAmount,
+    getAmount: getCancelledAmount,
     failedCancellation,
     cancellationDone,
   },
 } = window;
 
 export default extendDriver(
-  window.Payment,
+  window.$Payment,
   paymentWrappers,
   {
     doCancellation,

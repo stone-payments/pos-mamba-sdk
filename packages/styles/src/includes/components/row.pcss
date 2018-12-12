@@ -1,0 +1,23 @@
+/** Imitate the <Row/> component layout */
+.ui-row {
+  padding: $row-padding;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  border-bottom: 2px solid $row-border-color;
+  font-size: 13px;
+
+  &.-light {
+    background-color: $gray-lightest;
+    border-bottom-color: $gray-lighter;
+  }
+
+  &.-border-top {
+    border-top: 2px solid $row-border-color;
+
+    &.-light {
+      border-bottom-color: $gray-lighter;
+    }
+  }
+}

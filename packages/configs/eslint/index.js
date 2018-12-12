@@ -4,8 +4,13 @@ const IS_PROD = process.env.NODE_ENV === 'production';
 
 module.exports = {
   root: true,
-  extends: ['airbnb-base', 'prettier', 'plugin:import/recommended'],
-  plugins: ['html', 'import', 'prettier'],
+  extends: [
+    'airbnb-base',
+    'prettier',
+    'plugin:import/recommended',
+    'plugin:@tivac/svelte/svelte',
+  ],
+  plugins: ['prettier', 'html', '@tivac/svelte', 'import'],
   settings: {
     'html/html-extensions': ['.html', '.svelte'],
   },
@@ -20,12 +25,14 @@ module.exports = {
   globals: {
     __APP_ENV__: true,
     __NODE_ENV__: true,
-    __DEBUG__: true,
     __BROWSER__: true,
     __POS__: true,
     __PROD__: true,
     __TEST__: true,
     __DEV__: true,
+    __DEBUG_LVL__: true,
+    __SIMULATOR__: true,
+    __MANIFEST__: true,
   },
   rules: {
     // ! Code
@@ -35,11 +42,11 @@ module.exports = {
     /** Disallow 'console.log' on production */
     'no-console': IS_PROD
       ? [
-          'warn',
-          {
-            allow: ['info', 'warn', 'error'],
-          },
-        ]
+        'warn',
+        {
+          allow: ['info', 'warn', 'error'],
+        },
+      ]
       : 'off',
 
     /** Allow implicit return */
@@ -48,6 +55,9 @@ module.exports = {
     /** Allow ++ -- operators */
     'no-plusplus': 'off',
 
+    /** Allow to reassign method parameters */
+    'no-param-reassign': 'off',
+
     /** Allow nested ? ternary : expressions ? ... : ...  */
     'no-nested-ternary': 'off',
 
@@ -55,8 +65,12 @@ module.exports = {
     'class-methods-use-this': 'off',
 
     // ! Style
+
     /** Allow __variables__ with underscores */
     'no-underscore-dangle': 'off',
+
+    /** Allow both LF and CRLF line endings */
+    'linebreak-style': 'off',
 
     /** Max line length */
     'max-len': [
@@ -94,7 +108,7 @@ module.exports = {
     'import/no-unresolved': [
       'error',
       {
-        ignore: ['.(?:svelte|html)$', '^(@mambasdk[\\/]|svelte-)'],
+        ignore: ['.(?:svelte|html)$', '^(@mamba[\\/]|svelte-)'],
       },
     ],
 
@@ -107,5 +121,87 @@ module.exports = {
     ],
 
     'import/prefer-default-export': 'off',
+
+    // ! eslint-config-prettier override
+
+    /** Require semicolons without enforcing */
+    semi: ['warn', 'always'],
+
+    quotes: [
+      'error',
+      'single',
+      { avoidEscape: true, allowTemplateLiterals: true },
+    ],
+
+    'comma-dangle': [
+      'error',
+      {
+        arrays: 'always-multiline',
+        objects: 'always-multiline',
+        imports: 'always-multiline',
+        exports: 'always-multiline',
+        functions: 'always-multiline',
+      },
+    ],
+
+    // this option sets a specific tab width for your code
+    // https://eslint.org/docs/rules/indent
+    indent: [
+      'error',
+      2,
+      {
+        SwitchCase: 1,
+        VariableDeclarator: 1,
+        outerIIFEBody: 1,
+        FunctionDeclaration: {
+          parameters: 1,
+          body: 1,
+        },
+        FunctionExpression: {
+          parameters: 1,
+          body: 1,
+        },
+        CallExpression: {
+          arguments: 1,
+        },
+        ArrayExpression: 1,
+        ObjectExpression: 1,
+        ImportDeclaration: 1,
+        flatTernaryExpressions: false,
+        ignoreComments: false,
+      },
+    ],
+
+    // ! Svelte eslint
+
+    /** We want to use onupdate */
+    '@tivac/svelte/onupdate': 'off',
+    '@tivac/svelte/onstate-this-refs': 'warn',
+    '@tivac/svelte/property-ordering': [
+      'warn',
+      {
+        order: [
+          'namespace',
+          'tag',
+          'immutable',
+          'components',
+          'store',
+          'setup',
+          'preload',
+          'helpers',
+          'data',
+          'computed',
+          'props',
+          'oncreate',
+          'ondestroy',
+          'onstate',
+          'onupdate',
+          'methods',
+          'actions',
+          'events',
+          'transitions',
+        ],
+      },
+    ],
   },
 };

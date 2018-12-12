@@ -1,0 +1,269 @@
+<svelte:window
+  on:keyup="_onKeyup(event)"
+  on:keydown="_onKeydown(event)"
+/>
+
+<div class="app">
+  <slot></slot>
+</div>
+
+<script>
+  import App from '@mamba/pos/api/app.js';
+  import Keyboard from '@mamba/pos/api/keyboard.js';
+  import { hasActiveHandlerFor } from './includes/KeystrokeRegister.js';
+
+  /** Return if a certain shortcut key is valid */
+  const isInputFocused = (keyName, e) =>
+    keyName &&
+    e.target.tagName !== 'INPUT' &&
+    e.target.tagName !== 'TEXTAREA' &&
+    document.activeElement.tagName !== 'INPUT' &&
+    document.activeElement.tagName !== 'TEXTAREA';
+
+  export default {
+    data() {
+      return {
+        navigable: { home: true, back: true },
+        shortcuts: true,
+        scrollable: true,
+        _hasAppbar: false,
+      };
+    },
+    oncreate() {
+      const { root } = this;
+
+      // TODO: Deprecate this sometime
+      root.on('navigation', isEnabled => {
+        /* istanbul ignore next */
+        if (__DEV__) {
+          console.warn(
+            "[@mamba/app] this.root.fire('navigation') is deprecated. Use this.root.meta.setNavigable()",
+          );
+        }
+        this.setNavigable(isEnabled);
+      });
+
+      root.on('shortcuts', isEnabled => {
+        /* istanbul ignore next */
+        if (__DEV__) {
+          console.warn(
+            "[@mamba/app] this.root.fire('shortcuts') is deprecated. Use this.root.meta.setShortcuts()",
+          );
+        }
+        this.setShortcuts(isEnabled);
+      });
+
+      root.close = () => {
+        /** Allow to override the default app close process */
+        if (typeof root.onClose === 'function') {
+          return root.onClose();
+        }
+        App.close();
+      };
+
+      root.on('close', () => {
+        /* istanbul ignore next */
+        if (__DEV__) {
+          console.warn(
+            "[@mamba/app] this.root.fire('close') is deprecated. Use this.root.close()",
+          );
+        }
+
+        root.close();
+      });
+
+      /* istanbul ignore next */
+      if (root.router) {
+        root.router.on('update', ({ changed, previous }) => {
+          /* istanbul ignore next */
+          if (changed.context && previous) {
+            /**
+             * Check for __browser__ for scrolling the virtual screen
+             * instead of the <html> element
+             * */
+            /* istanbul ignore else */
+            if (__BROWSER__ && window.innerWidth > 401) {
+              root.options.target.scrollTo(0, 0);
+            } else {
+              window.scrollTo(0, 0);
+            }
+          }
+        });
+      }
+    },
+    onstate({ previous }) {
+      /** Set a reference on the root component to the <App/> meta component */
+      if (!previous) {
+        this.root.meta = this;
+      }
+    },
+    onupdate({ changed, current }) {
+      const { target: rootEl } = this.root.options;
+
+      if (changed.scrollable) {
+        rootEl.classList.toggle('no-scroll', !current.scrollable);
+      }
+
+      if (changed._hasAppbar) {
+        rootEl.classList.toggle('has-appbar', current._hasAppbar);
+      }
+    },
+    methods: {
+      setShortcuts(isEnabled) {
+        this.set({ shortcuts: isEnabled });
+      },
+      setScrollable(isEnabled) {
+        this.set({ scrollable: isEnabled });
+      },
+      setNavigable(navigable) {
+        if (typeof navigable === 'boolean') {
+          this.set({ navigable: { home: navigable, back: navigable } });
+        } else {
+          this.set({
+            navigable: {
+              ...this.get().navigable,
+              ...navigable,
+            },
+          });
+        }
+      },
+      /** Prevent default back/enter button behaviour */
+      _onKeydown(e) {
+        /* istanbul ignore next */
+        if (
+          !__TEST__ &&
+          __BROWSER__ &&
+          !e.path.find(node => node.id === 'app-root')
+        ) {
+          return;
+        }
+
+        const keyName = Keyboard.getKeyName(e.keyCode);
+
+        if (
+          (keyName === 'back' || keyName === 'enter') &&
+          isInputFocused(keyName, e)
+        ) {
+          e.preventDefault();
+          e.stopPropagation();
+          return false;
+        }
+      },
+      _onKeyup(e) {
+        const keyCode = e.charCode || e.which || e.keyCode;
+
+        /**
+         * Don't control keys outside of an app scope if at the browser environment.
+         * However, if a textarea/input is not focused and an action key was pressed,
+         * allow it to pass through.
+         * */
+        /* istanbul ignore next */
+        if (
+          !__TEST__ &&
+          __BROWSER__ &&
+          !e.path.find(node => node.id === 'app-root') &&
+          (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') &&
+          !Keyboard.isActionKey(keyCode)
+        ) {
+          return;
+        }
+
+        const keyName = Keyboard.getKeyName(keyCode);
+        if (e.defaultPrevented || hasActiveHandlerFor(keyName)) {
+          return;
+        }
+
+        const { shortcuts: shortcutsEnabled } = this.get();
+
+        /**
+         * Close the app if 'close' button clicked,
+         * and there's no button with 'shortcut="close"'
+         * */
+        if (keyName === 'close') {
+          e.preventDefault();
+          if (
+            !shortcutsEnabled ||
+            (shortcutsEnabled && !document.querySelector('[shortcut="close"]'))
+          ) {
+            this.root.close();
+            return;
+          }
+        }
+
+        /** If the key is not mapped or a input is focused, do nothing */
+        if (!isInputFocused(keyName, e)) {
+          return;
+        }
+
+        /** Handles back button */
+        if (keyName === 'back') {
+          /** Guarantees that the 'back' button is enabled and navigable is enabled */
+          if (Keyboard.isBackspaceEnabled() && this.get().navigable.back) {
+            e.preventDefault();
+            if (this.root.router && this.root.router.get().path !== '/') {
+              this.root.router.back();
+            }
+          }
+          return;
+        }
+
+        /** Find the first element with shortcurt='keyName' */
+        const shortcutEls = document.querySelectorAll(`[shortcut='${keyName}']`);
+
+        /** If shortcuts are disabled or no shortcut element found, do nothing */
+        if (!shortcutsEnabled || shortcutEls.length === 0) {
+          return;
+        }
+
+        /**
+         * There can be only one element assigned to a shortcut.
+         * However, if there are more than one, use the last element.
+         * (Useful for multiple confirmation dialogs stacked)
+         */
+        const shortcutEl = shortcutEls[shortcutEls.length - 1];
+
+        /**
+         * If a shortcut element was found.
+         * If 'enter' was clicked, check if the shortcut element isn't already focused
+         */
+        if (keyName !== 'enter' || document.activeElement !== shortcutEl) {
+          /**
+           * Adapted from:
+           * https://stackoverflow.com/questions/15739263/phantomjs-click-an-element
+           */
+          const clickEvent = document.createEvent('MouseEvent');
+          clickEvent.initMouseEvent(
+            'click',
+            true,
+            true,
+            window,
+            null,
+            0,
+            0,
+            0,
+            0,
+            false,
+            false,
+            false,
+            false,
+            0,
+            null,
+          );
+          shortcutEl.dispatchEvent(clickEvent);
+        }
+      },
+    },
+  };
+</script>
+
+<style type="text/postcss">
+  @import '@mamba/styles/theme.pcss';
+
+  :global(#app-root) {
+    background-color: $app-bg-color;
+
+    &.no-scroll {
+      overflow: hidden;
+    }
+  }
+</style>

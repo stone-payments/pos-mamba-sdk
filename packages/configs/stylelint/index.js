@@ -7,7 +7,7 @@ module.exports = {
     'at-rule-no-unknown': [
       true,
       {
-        ignoreAtRules: ['if', 'else', 'each', 'for', 'mixin'],
+        ignoreAtRules: ['if', 'else', 'each', 'for', 'mixin', 'extend'],
       },
     ],
 
@@ -26,6 +26,9 @@ module.exports = {
 
     /** Prevent the usage of !important (bad practice) */
     'declaration-no-important': true,
+
+    /** Don't enforce newline in multiline declarations */
+    'declaration-colon-newline-after': null,
 
     /** Require quotes for recommended font-family names */
     'font-family-name-quotes': 'always-unless-keyword',
@@ -74,10 +77,6 @@ module.exports = {
         ignoreKeywords: '/{.*?}/',
       },
     ],
-
-    /** For inline styles (postcss-html doesn't allow to disable linting inline styles) */
-    'no-missing-end-of-source-newline': null,
-    'declaration-block-semicolon-newline-after': null,
 
     /** Svelte related */
 

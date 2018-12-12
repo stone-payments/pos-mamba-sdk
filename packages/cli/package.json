@@ -1,23 +1,29 @@
 {
-  "name": "@mambasdk/cli",
-  "version": "0.0.2",
+  "name": "@mamba/cli",
+  "version": "2.0.0",
   "description": "Mamba CLI",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
-    "Christian Kaisermann <christian.kaisermann@stone.com.br>"
+    "Christian Kaisermann <christian.kaisermann@stone.com.br>",
+    "Pedro Gabriel <pedro.lancelloti@stone.com.br>"
   ],
   "license": "Apache-2.0",
-  "bin": {
-    "mamba": "src/cli.js"
+  "publishConfig": {
+    "access": "public"
   },
-  "files": [
-    "src/"
-  ],
+  "bin": {
+    "mamba": "./cli.js"
+  },
   "dependencies": {
-    "quickenv": "^0.0.5",
-    "shelljs": "^0.8.2",
-    "xml-js": "^1.6.3",
-    "yargonaut": "^1.1.2",
-    "yargs": "^11.0.0"
-  }
+    "case": "^1.6.0",
+    "chalk": "^2.4.1",
+    "cross-env": "^5.2.0",
+    "global-dirs": "^0.1.1",
+    "import-global": "^0.1.0",
+    "inquirer": "^6.2.1",
+    "quickenv": "^0.0.6",
+    "yargonaut": "^1.1.4",
+    "yargs": "^12.0.5"
+  },
+  "gitHead": "7118f44e933d2f656166a80822c0b3c1001e6a33"
 }
