@@ -12,21 +12,21 @@ O componente `Printable` encapsula o fluxo de impressão do POS, permitindo a im
 
 `<Printable ... on:event="..."/>`
 
-| Nome     | Descrição                                                                                                                    | Tipo                |
-|----------|------------------------------------------------------------------------------------------------------------------------------|---------------------|
-| finish   | Especifique uma função que no final de uma impressão. Recebe `true` se a impressão foi concluída e `false` caso interrompida | `function(boolean)` |
-| error    | Especifique uma função que quando um erro de impressão ocorre.                                                               | `function()`        |
+| Nome     | Descrição                                                                                                                                  | Tipo                |
+|----------|--------------------------------------------------------------------------------------------------------------------------------------------|---------------------|
+| finish   | Especifique uma função que no final de uma impressão é executado recebendo `true` se a impressão foi concluída e `false` caso interrompida | `function(boolean)` |
+| error    | Especifique uma função que é executada quando um erro de impressão ocorre.                                                                 | `function()`        |
 
 #### Exemplos:
 
 Chama `myMethod()` quando a impressão termina, passando como parâmetro `interrupted` que indica caso a impressão foi concluída ou interrompida.
 ```html
-<Printable on:finish="myMethod(interrupted)" />
+<Printable on:finish="myMethod(event)" />
 ```
 
 Chama exibe no console a mensagem quando a impressão falha:
 ```html
-<Printable on:positive="console.log('your printing failed')" />
+<Printable on:error="console.log('your printing failed')" />
 ```
 
 
