@@ -80,8 +80,8 @@ Chama o método `promiseFailed` quando o Promise falhar.
 
 ...
   methods: {
-    promiseFailed(error) {
-      console.log(error)
+    promiseFailed(event) {
+      console.log(event)
     },
   }
 ...
