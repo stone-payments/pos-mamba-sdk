@@ -38,28 +38,78 @@ O `PromisedDialog` é exibido durante a execução de uma `Promise` e após sua 
 
 ## Eventos
 
-`<Dialog ...props />`
+`<Dialog ... on:event="..." />`
 
-| Nome     | Descrição                                                            | Tipo              |
+| Evento   | Descrição                                                            | Tipo              |
 |----------|----------------------------------------------------------------------|-------------------|
-| open     | Especifique uma função que será chamada quando o dialogo for exibido | `function`        |
-| close    | Especifique uma função que será chamada quando o dialogo fechar      | `function`        |
+| open     | Especifique uma função que será chamada quando o diálogo for exibido | `function()`      |
+| close    | Especifique uma função que será chamada quando o diálogo fechar      | `function()`      |
+
+#### Exemplos:
+
+Chama `myMethod()` quando o diálogo for exibido.
+```html
+<Dialog on:open="myMethod()" />
+```
 
 
-`<PromisedDialog ...props />`
+Chama o `console.log` quando o diálogo fechar.
+```html
+<Dialog on:close="console.log('Dialog fechou')" />
+```
 
-| Nome     | Descrição                                                                                                            | Tipo              |
-|----------|----------------------------------------------------------------------------------------------------------------------|-------------------|
-| success  | Especifique uma função que será chamada quando a Promise do dialogo for de sucesso(`.then`)                          | `function()`      |
-| failure  | Especifique uma função que será chamada quando a Promise do dialogo for de falha(`.catch`). Recebe o erro da promise | `function(error)` |
+---
+
+`<PromisedDialog ... on:event="..." />`
+
+| Evento   | Descrição                                                                                                                        | Tipo              |
+|----------|----------------------------------------------------------------------------------------------------------------------------------|-------------------|
+| success  | Especifique uma função que será chamada quando a Promise do diálogo for de sucesso(`.then`). Recebe o valor da `Promise.resolve` | `function(event)` |
+| failure  | Especifique uma função que será chamada quando a Promise do diálogo for de falha(`.catch`). Recebe o valor da `Promise.reject`   | `function(event)` |
+
+#### Exemplos:
+
+Chama `console.log` quando a Promise for de sucesso.
+```html
+<PromisedDialog on:success="console.log('promise success', event)" />
+```
+
+Chama o método `promiseFailed` quando o Promise falhar.
+```html
+<PromisedDialog on:failure="promiseFailed(event)" />
+
+...
+  methods: {
+    promiseFailed(event) {
+      console.log(event)
+    },
+  }
+...
 
 
-`<ConfirmationDialog ...props />`
+```
+---
 
-| Nome     | Descrição                                                                                                        | Tipo         |
+`<ConfirmationDialog ... on:event="..." />`
+
+| Evento   | Descrição                                                                                                        | Tipo         |
 |----------|------------------------------------------------------------------------------------------------------------------|------------- |
-| nagative | Especifique uma função que será chamada quando o dialogo receber a ação negativa ou do botão vermelho do teclado | `function()` |
-| positive | Especifique uma função que será chamada quando o dialogo receber a ação positiva ou do botão verde do teclado    | `function()` |
+| nagative | Especifique uma função que será chamada quando o diálogo receber a ação negativa ou do botão vermelho do teclado | `function()` |
+| positive | Especifique uma função que será chamada quando o diálogo receber a ação positiva ou do botão verde do teclado    | `function()` |
+
+#### Exemplos:
+
+Chama `myMethod()` quando o diálogo receber ação positiva.
+```html
+<ConfirmationDialog on:positive="myMethod()" />
+```
+
+
+Chama o `console.log` quando o diálogo receber ação negativa.
+```html
+<ConfirmationDialog on:nagative="console.log('on:negative')" />
+```
+
 
 ## Métodos
 
@@ -79,3 +129,24 @@ Abre o `ConfirmationDialog`.
 ### ConfirmationDialog.close()
 
 Fecha o `ConfirmationDialog`.
+
+## Slots
+
+`<Dialog ... />`
+
+| Slot   | Descrição                                                                                   |
+|--------|---------------------------------------------------------------------------------------------|
+| extra  | O slot `extra` pode ser usado para adicionar conteúdo adicional após a mensagem do diálogo. |
+
+<br/>
+
+Exemplo:
+
+```html
+<Dialog>
+  Minha mensagem
+  <slot name="extra">Conteúdo extra</slot>
+</Dialog>
+```
+
+
