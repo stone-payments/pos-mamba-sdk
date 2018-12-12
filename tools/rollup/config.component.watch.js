@@ -11,25 +11,24 @@ import replace from 'rollup-plugin-replace';
 import alias from 'rollup-plugin-alias';
 import { getPkg } from 'quickenv';
 
-import posixify from './helpers/posixify.js';
-import makeRollupConfig from './helpers/makeRollupConfig.js';
-import copyStaticArtifacts from './helpers/copyStaticArtifacts.js';
+import { fromWorkspace, fromProject } from './helpers/paths.js';
 
-const { fromWorkspace, fromProject } = require('../utils/paths.js');
+const posixify = file => file.replace(/[/\\]/g, '/');
 
 const babelConfig = require('../../.babelrc.js');
 const svelteConfig = require('../../svelte.config.js');
 
 const PKG = getPkg();
 
-const STATIC_ARTIFACTS = ['assets'];
-
 /** Svelte component example build config */
-const config = {
+export default {
   /** Use the virtual module __entry__ as the input for rollup */
   input: '__entry__',
-  output: 'example/bundle.js',
-  format: 'umd',
+  output: {
+    dir: './example',
+    file: './example/bundle.js',
+    format: 'umd',
+  },
   plugins: [
     alias({
       resolve: ['.html'],
@@ -46,7 +45,7 @@ const config = {
       extensions: ['.js', '.svelte', '.html'],
     }),
     cjs(),
-    /** Compile svepte components and extract itls css to <workspaceDir>/example/style.css */
+    /** Compile svepte components and extract it's css to <workspaceDir>/example/style.css */
     svelte(svelteConfig),
     babel({
       /** Enforce usage of '.babelrc.js' at the project's root directory */
@@ -56,7 +55,6 @@ const config = {
       exclude: /node_modules[/\\](?!(svelte)|(@mamba))/,
     }),
     filesize(),
-    copyStaticArtifacts(STATIC_ARTIFACTS)('example'),
     /** Create an html template in the example directory */
     html({
       template: fromProject(
@@ -100,5 +98,3 @@ const config = {
     }),
   ],
 };
-
-export default makeRollupConfig(config);

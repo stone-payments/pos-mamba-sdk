@@ -3,13 +3,14 @@ const xmlBuilder = require('xmlbuilder');
 
 const PKG = getPkg();
 
-const ALIASED_FIELDS = [
-  'appName',
-  'appDescription',
-  'appVersion',
-  'runOnUserSelection',
-  'appLastModificationDate',
-];
+/** Common used mamba manifest parameters */
+const DEFAULT_FIELDS = {
+  listInMainMenu: true,
+  appTechnology: '1',
+  appType: '0',
+  appPasswordProtectionLevel: '0',
+  runOnUserSelection: 'index.html',
+};
 
 const createXmlManifest = () => {
   const date = new Date();
@@ -23,27 +24,21 @@ const createXmlManifest = () => {
   );
 
   const isoDate = date.toISOString();
-  const formattedDate = isoDate.slice(0, isoDate.length - 5);
+  const modificationDate = isoDate.slice(0, isoDate.length - 5);
 
-  const aliasedFields = [
-    { '@Name': 'appName', '#text': PKG.name },
-    { '@Name': 'defaultName', '#text': PKG.name },
-    { '@Name': 'displayedName', '#text': PKG.mamba.appName }, // Deprecated
-    { '@Name': 'appVersion', '#text': PKG.version },
-    { '@Name': 'appDescription', '#text': PKG.description },
-    {
-      '@Name': 'runOnUserSelection',
-      '#text': 'index.html',
-    },
-    { '@Name': 'appLastModificationDate', '#text': formattedDate },
-  ];
-
-  const nonAliasedFields = Object.keys(PKG.mamba).reduce((acc, key) => {
-    if (!ALIASED_FIELDS.includes(key)) {
-      acc.push({ '@Name': key, '#text': PKG.mamba[key] });
-    }
-    return acc;
-  }, []);
+  const manifestEntries = Object.entries({
+    appName: PKG.name,
+    defaultName: PKG.name,
+    displayedName: PKG.mamba.appName, // Deprecated
+    appVersion: PKG.version,
+    appDescription: PKG.description,
+    appLastModificationDate: modificationDate,
+    ...DEFAULT_FIELDS,
+    ...PKG.mamba,
+  }).map(([name, text]) => ({
+    '@Name': name,
+    '#text': text,
+  }));
 
   return xmlBuilder
     .create(
@@ -51,7 +46,7 @@ const createXmlManifest = () => {
         MambaClass: {
           '@Type': 'Manifest',
           '@Version': '1.0',
-          Member: [...aliasedFields, ...nonAliasedFields],
+          Member: manifestEntries,
         },
       },
       { headless: true },

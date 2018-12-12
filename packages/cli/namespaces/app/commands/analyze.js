@@ -12,7 +12,7 @@ module.exports = {
       'cross-env',
       'NODE_ENV=production',
       `APP_ENV=${target}`,
-      `webpack --config "${getWebpackConfigPath('analyzer')}"`,
+      `webpack --config "${getWebpackConfigPath('app.analyzer')}"`,
     ].join(' ');
 
     console.log(chalk.cyan(`Analyzing bundle for '${target.toUpperCase()}'`));

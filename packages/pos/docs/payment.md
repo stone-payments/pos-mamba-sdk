@@ -168,7 +168,7 @@ Retorna o número de parcelas do pagamento. Caso a operação falhe, retorna `0`
 ```js
 import Payment from '@mamba/pos/api/payment.js';
 
-Payment.getAuthorizationCode(); // 0
+Payment.getInstallmentCount(); // 0
 ```
 
 ### getPan()
@@ -184,12 +184,12 @@ Payment.getPan(); // '56497#####41578'
 
 ### getType()
 
-Retorna o tipo da transação `CREDITO` ou `DEBITO`.
+Retorna o tipo da transação `Crédito` ou `Débito`.
 
 ```js
 import Payment from '@mamba/pos/api/payment.js';
 
-Payment.getType(); // 'CREDITO'
+Payment.getType(); // 'Crédito'
 ```
 
 ### cancel(atk)

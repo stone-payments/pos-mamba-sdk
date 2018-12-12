@@ -1,0 +1,23 @@
+
+<Sprite {src} width="70px" ref:sprite/>
+
+<script>
+  import loadingSprite from './assets/loading-sprite.png';
+
+  export default {
+    components: {
+      Sprite: './Sprite.html',
+    },
+    helpers: {
+      src: loadingSprite,
+    },
+    methods: {
+      start() {
+        this.refs.sprite.start();
+      },
+      stop() {
+        this.refs.sprite.stop();
+      },
+    },
+  };
+</script>

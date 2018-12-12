@@ -27,6 +27,8 @@
 
 <script>
   import PrinterPanel from '../../../drivers/printer/panel.html';
+  import HttpPanel from '../../../drivers/http/panel.html';
+  import * as HttpSimulation from '../../../drivers/http/simulation.js';
   import * as PrinterSimulation from '../../../drivers/printer/simulation.js';
 
   export default {
@@ -69,33 +71,34 @@
       this.set({ _browserEngine });
 
       this.createDriverPanel(PrinterSimulation, PrinterPanel);
+      this.createDriverPanel(HttpSimulation, HttpPanel);
     },
     methods: {
       createDriverPanel(driverSimulation, PanelConstructor) {
-        this.refs.controlPanel.add(PanelConstructor, {
-          namespace: driverSimulation.NAMESPACE,
-          ...(driverSimulation.SETTINGS || {}),
-        });
+        this.refs.controlPanel.add(PanelConstructor, driverSimulation);
       },
     },
   };
 </script>
 
 <style type="text/postcss">
-  .wrapper,
-  .container,
-  .pos-wrapper,
-  .pos {
-    height: 100%;
-  }
+  @import './style.pcss';
 
-  @media (max-width: 480px) {
-    :global(body) {
+  @media (max-width: 400px) {
+    :global(body),
+    .wrapper,
+    .container,
+    .pos-wrapper,
+    .pos {
       height: 100%;
+    }
+
+    :global(body) {
+      @extend %hide-scrollbar;
     }
   }
 
-  @media (min-width: 481px) {
+  @media (min-width: 401px) {
     .wrapper {
       display: flex;
       height: 100vh;

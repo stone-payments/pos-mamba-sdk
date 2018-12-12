@@ -7,7 +7,7 @@ import initEventCollector from './includes/eventCollector.js';
 
 const AppManager = extendDriver({}, initEventCollector);
 
-const Apps = new Map();
+const Apps = {};
 let currentApp = null;
 
 Signal.register(AppManager, [
@@ -22,7 +22,7 @@ AppManager.getInstalledApps = () => Apps;
 AppManager.getCurrentApp = () => currentApp;
 
 AppManager.installApp = (AppConstructor, manifest) => {
-  if (!Apps.has(manifest.slug)) {
+  if (!Apps[manifest.slug]) {
     const appMetaObj = {
       constructor: AppConstructor,
       manifest,
@@ -34,9 +34,13 @@ AppManager.installApp = (AppConstructor, manifest) => {
       DriverManager.clearLooseDrivers();
     }
 
-    Apps.set(manifest.slug, appMetaObj);
+    Apps[manifest.slug] = appMetaObj;
 
     AppManager.fire('appInstalled', appMetaObj);
+  } else if (__DEV__) {
+    warn(
+      `Tried to install an already installed app with slug "${manifest.slug}"`,
+    );
   }
 };
 
@@ -46,7 +50,7 @@ AppManager.open = (appSlug, target) => {
   target = target || document.getElementById('app-root');
 
   /** First time opening an app */
-  const appMetaObj = Apps.get(appSlug);
+  const appMetaObj = Apps[appSlug];
 
   if (__DEV__) log(`Opening App: ${appMetaObj.manifest.appName}`);
 
@@ -88,23 +92,19 @@ AppManager.close = () => {
 
         if (targetConstructor === 'Window') node = window;
         if (targetConstructor === 'HTMLDocument') node = document;
+        if (!node) return;
 
-        if (node) {
-          const eventTypes = Object.keys(
-            runtime.collectedEvents[targetConstructor],
-          );
-          eventTypes.forEach(eventType => {
-            runtime.collectedEvents[targetConstructor][eventType].forEach(
-              fn => {
-                node.removeEventListener(eventType, fn);
-                if (__DEBUG_LVL__ >= 3) {
-                  log('Removing collected DOM event listener: ');
-                  console.log([node, eventType, fn]);
-                }
-              },
-            );
-          });
-        }
+        Object.entries(runtime.collectedEvents[targetConstructor]).forEach(
+          ([eventType, eventList]) => {
+            eventList.forEach(fn => {
+              node.removeEventListener(eventType, fn);
+              if (__DEBUG_LVL__ >= 3) {
+                log('Removing collected DOM event listener: ');
+                console.log([node, eventType, fn]);
+              }
+            });
+          },
+        );
       });
 
       if (currentApp.drivers) {

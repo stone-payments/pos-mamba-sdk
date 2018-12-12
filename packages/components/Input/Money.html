@@ -99,17 +99,14 @@
           if (parseFloat(rawValue) / 100 > this.get().limit) {
             return;
           }
-
-          this.set({ rawValue });
         } else if (keyName === 'back') {
           rawValue = rawValue.slice(0, rawValue.length - 1);
 
           if (!rawValue.length) {
             rawValue = '0';
           }
-
-          this.set({ rawValue });
         }
+        this.set({ rawValue });
       },
     },
   };

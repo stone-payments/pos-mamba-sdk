@@ -1,19 +1,15 @@
-<Keystroke
-  key="shortcuts"
-  active={keystrokeActive}
-  on:keystroke="handleShortcutStroke(event)"
-/>
+<Keystroke key="shortcuts" on:keystroke="handleShortcutStroke(event)" />
 
 <div class="panel-wrapper">
   <input ref:toggle type="checkbox" class="panel-checkbox" id="panel-toggler">
   <label for="panel-toggler" class="panel-toggle">⚙</label>
   <div class="panel">
-      {#each panels as [panel, data]}
+      {#each Object.values(panels) as {namespace, panel, data}}
         <div class="section">
           <svelte:component
             this={panel}
             {...data}
-            on:update="handlePanelUpdate(event)"
+            on:update="handlePanelUpdate(namespace, event)"
           />
         </div>
       {/each}
@@ -21,9 +17,11 @@
 </div>
 
 <script>
-  import Core from '../../core.js';
+  import { Registry } from '../../index.js';
 
   let lastKeypressTime = 0;
+
+  const deepCopy = o => JSON.parse(JSON.stringify(o));
 
   export default {
     components: {
@@ -31,9 +29,7 @@
     },
     data() {
       return {
-        panels: [],
-        keystrokeActive: true,
-        ...Core.Registry.get(),
+        panels: {},
       };
     },
     oncreate() {
@@ -48,30 +44,46 @@
       //   });
       // });
 
-      Core.Registry.on('settingsChanged', data => {
-        this.set({ ...data });
+      /** Update a driver local copy of settings */
+      Registry.on('shallowChange', ({ key, value }) => {
+        const { panels } = this.get();
+        if (panels[key]) {
+          this.set({
+            panels: {
+              ...panels,
+              [key]: { ...panels[key], data: deepCopy(value) },
+            },
+          });
+        }
       });
     },
     methods: {
-      handlePanelUpdate({ changed, current, previous }) {
+      // TODO: need to rethink all of this
+      handlePanelUpdate(namespace, { changed, current, previous }) {
         if (previous) {
           Object.keys(changed).forEach(key => {
-            if (changed[key] && key !== 'namespace') {
-              const value = current[key];
-              /** See if the prop name has already the namespace path */
-              if (key.indexOf(`${current.namespace}.`) === -1) {
-                key = `${current.namespace}.${key}`;
-              }
-              Core.Registry.set(key, value, false);
+            const value = current[key];
+            /** See if the prop name has already the namespace path */
+            if (key.indexOf(`${namespace}.`) === -1) {
+              key = `${namespace}.${key}`;
             }
+            Registry.set(key, value, false);
           });
         }
       },
-      add(panelConstructor, initialData) {
+      add(panel, driver) {
         const { panels } = this.get();
+        const namespace = driver.NAMESPACE;
 
         this.set({
-          panels: [...panels, [panelConstructor, initialData]],
+          panels: {
+            ...panels,
+            [namespace]: {
+              namespace,
+              panel,
+              data: deepCopy(driver.SETTINGS || {}),
+            },
+          },
         });
       },
       handleShortcutStroke() {
@@ -111,7 +123,7 @@
     transition: transform 0.3s ease;
     box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.2);
 
-    @media (max-width: 480px) {
+    @media (max-width: 400px) {
       display: none;
     }
 
@@ -144,12 +156,12 @@
     overflow: auto;
     overflow-x: hidden;
 
-    @media (max-width: 480px) {
+    @media (max-width: 400px) {
       padding-top: 30px;
       width: 220px;
     }
 
-    @media (min-width: 481px) {
+    @media (min-width: 401px) {
       transition: right 0.3s ease, opacity 0.5s ease;
     }
 
@@ -166,6 +178,14 @@
       padding-bottom: 5px;
     }
 
+    :global(textarea) {
+      width: 100%;
+      border-radius: 3px;
+      border: none;
+      border-bottom: 1px solid #e3e6e7;
+      background-color: #f5f7f7;
+    }
+
     :global(.controller) {
       display: flex;
       align-items: center;
@@ -175,9 +195,14 @@
 
       &.is-full {
         display: block;
+
+        :global(> span) {
+          display: block;
+          margin-bottom: 8px;
+        }
       }
 
-      @media (max-width: 480px) {
+      @media (max-width: 400px) {
         font-size: 12px;
 
         :global(> span) {
