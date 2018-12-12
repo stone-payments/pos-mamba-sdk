@@ -84,7 +84,7 @@ O componente `Keystroke` associa um evento de tecla á uma tecla específica e o
 
 | Eventos     | Descrição                                                                            | Tipo                                                                          |
 |-------------|--------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
-| keystroke   | Especifique uma função que será chamada quando uma tecla é pressionada               |`function([keyup](https://developer.mozilla.org/pt-BR/docs/Web/Events/keyup))  |
+| keystroke   | Especifique uma função que será chamada quando uma tecla é pressionada               |`function`([keyup](https://developer.mozilla.org/pt-BR/docs/Web/Events/keyup))  |
 
 #### Exemplo:
 
