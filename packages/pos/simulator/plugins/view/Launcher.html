@@ -22,7 +22,7 @@
           <div class="app-item" on:click="openApp(app)">
             <div class="content">
               <div class="icon">
-                <img src="data:image/png;base64,{app.manifest.iconBase64}" alt="{app.manifest.name}">
+                <img src={app.manifest.icon} alt="{app.manifest.name}">
               </div>
               <div class="title">
                 {app.manifest.appName}

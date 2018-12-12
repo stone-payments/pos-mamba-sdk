@@ -14,6 +14,6 @@ module.exports = () => ({
     /** Mamba simulator entry point */
     ADD_MAMBA_SIMULATOR && './simulator.js',
     /** Virtual app entry point */
-    './index.js',
+    `./index.${IS_BROWSER ? 'browser' : 'pos'}.js`,
   ].filter(Boolean),
 });
