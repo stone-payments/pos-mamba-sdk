@@ -1,4 +1,3 @@
-import DriverManager from '../driver/manager.js';
 import Signal from '../../libs/signal.js';
 import App from '../../../api/app.js';
 import extendDriver from '../../../drivers/extend.js';
@@ -27,12 +26,6 @@ AppManager.installApp = (AppConstructor, manifest) => {
       constructor: AppConstructor,
       manifest,
     };
-
-    const looseDrivers = DriverManager.getLooseDrivers();
-    if (looseDrivers) {
-      appMetaObj.drivers = looseDrivers;
-      DriverManager.clearLooseDrivers();
-    }
 
     Apps[manifest.slug] = appMetaObj;
 
@@ -106,12 +99,6 @@ AppManager.close = () => {
           },
         );
       });
-
-      if (currentApp.drivers) {
-        currentApp.drivers.forEach(driverModule => {
-          DriverManager.resetDriverState(driverModule);
-        });
-      }
 
       currentApp = null;
     } else if (__DEV__) {
