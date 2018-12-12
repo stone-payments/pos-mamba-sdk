@@ -56,6 +56,6 @@ Quando o conteúdo em `extra` for escondido, executa o método `myMethod()`.
 
 | Slot        | Descrição                                                                                  |
 |-------------|--------------------------------------------------------------------------------------------|
-| controller  | Utilize o slot `contoller` para adicionar um controlador customizado para sua `Row`        |
+| controller  | Utilize o slot `controller` para adicionar um controlador customizado para sua `Row`        |
 | extra       | Utilize o slot `extra` para adicionar conteúdo adicional após o contéudo da `Row`          |
 | description | Utilize o slot `description` para adicionar uma descrição à `Row`                          |
