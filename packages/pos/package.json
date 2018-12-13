@@ -16,7 +16,8 @@
     "@mamba/button": "^2.0.0",
     "@mamba/icon": "^2.0.0",
     "@mamba/styles": "^2.0.0",
-    "@mamba/switch": "^2.0.0"
+    "@mamba/switch": "^2.0.0",
+    "immer": "^1.8.2"
   },
   "gitHead": "7118f44e933d2f656166a80822c0b3c1001e6a33"
 }
