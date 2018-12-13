@@ -40,10 +40,10 @@ O `PromisedDialog` é exibido durante a execução de uma `Promise` e após sua 
 
 `<Dialog ... on:event="..." />`
 
-| Evento   | Descrição                                                            | Tipo              |
-|----------|----------------------------------------------------------------------|-------------------|
-| open     | Especifique uma função que será chamada quando o diálogo for exibido | `function()`      |
-| close    | Especifique uma função que será chamada quando o diálogo fechar      | `function()`      |
+| Evento   | Disparado quando ...  | Tipo              |
+|----------|-----------------------|-------------------|
+| open     | O diálogo for exibido | `function()`      |
+| close    | O diálogo fechar      | `function()`      |
 
 #### Exemplos:
 

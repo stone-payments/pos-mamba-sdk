@@ -22,10 +22,10 @@ O módulo `Range` pode ser usado para representar um valor dentro de um interval
 
 `<Range ... on:event="..."/>`
 
-| Eventos     | Descrição                                                               | Tipo            |
-|-------------|-------------------------------------------------------------------------|-----------------|
-| decrement   | Especifique uma função que será chamada quando o valor é decrescido     | `function(int)` |
-| increment   | Especifique uma que será chamada função quando o valor é aumentado      | `function(int)` |
+| Eventos     | Disparado quando ...     | Tipo            |
+|-------------|--------------------------|-----------------|
+| decrement   | O valor é decrescido     | `function(int)` |
+| increment   | O valor é aumentado      | `function(int)` |
 
 ## Métodos
 

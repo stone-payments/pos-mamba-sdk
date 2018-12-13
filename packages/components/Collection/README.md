@@ -27,11 +27,11 @@ O módulo `Collection` é composto por dois componentes: `Collection` e `Row`, q
 
 `<Row ... on:event="..."/>`
 
-| Eventos     | Descrição                                                                                   | Tipo        |
-|-------------|---------------------------------------------------------------------------------------------|-------------|
-| click       | Especifique uma função que será chamada quando uma Row é clicada                            |`function()` |
-| showExtra   | Especifique uma função que será chamada quando o conteúdo extra é exibido                   |`function()` |
-| hideExtra   | Especifique uma função que será chamada quando quando o conteúdo extra é escondido          |`function()` |
+| Eventos     | Disparado quando ...           | Tipo        |
+|-------------|--------------------------------|-------------|
+| click       | Uma Row é clicada              |`function()` |
+| showExtra   | O conteúdo extra é exibido     |`function()` |
+| hideExtra   | O conteúdo extra é escondido   |`function()` |
 
 #### Exemplos:
 
