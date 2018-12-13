@@ -7,6 +7,7 @@ import initEventCollector from './includes/eventCollector.js';
 const AppManager = extendDriver({}, initEventCollector);
 
 const Apps = {};
+
 let currentApp = null;
 
 Signal.register(AppManager, [
@@ -37,10 +38,10 @@ AppManager.installApp = (AppConstructor, manifest) => {
   }
 };
 
-AppManager.open = (appSlug, target) => {
+AppManager.open = appSlug => {
   AppManager.fire('willOpen');
 
-  target = target || document.getElementById('app-root');
+  const target = document.getElementById('app-root');
 
   /** First time opening an app */
   const appMetaObj = Apps[appSlug];

@@ -1,6 +1,8 @@
 {#if STATE === STATES.APP}
   <div ref:approot id="app-root" class="hide-scrollbar"></div>
 {:else}
+  <SignalListener driver={Card} on:cardInserted="openPaymentApp()"/>
+
   <div class="launcher">
     {#if STATE === STATES.LOCKSCREEN}
       <div class="lockscreen">
@@ -38,10 +40,11 @@
 {/if}
 
 <script>
+  import { warn } from '../../libs/utils.js';
   import AppManager from '../app/manager.js';
   import Registry from '../registry/manager.js';
-
-  const { hours: initHours, minutes: initMinutes } = Registry.getCurrentTime();
+  import Card from '../../../api/card.js';
+  import SignalListener from '../../../SignalListener.html';
 
   const STATES = {
     LOCKSCREEN: 0,
@@ -68,11 +71,18 @@
       Button: '@mamba/button',
       Icon: '@mamba/icon',
       Keystroke: '@mamba/app/Keystroke.html',
+      SignalListener,
     },
     helpers: {
       STATES,
+      Card,
     },
     data() {
+      const {
+        hours: initHours,
+        minutes: initMinutes,
+      } = Registry.getCurrentTime();
+
       return {
         STATE: STATES.LOCKSCREEN,
         time: `${initHours}:${initMinutes}`,
@@ -117,6 +127,22 @@
         });
     },
     methods: {
+      openPaymentApp() {
+        const { apps } = this.get();
+
+        if (apps['1-payment']) {
+          Registry.set(draft => {
+            draft.PaymentApp.paymentConfig.openMode = 'detection';
+          });
+
+          this.openApp(apps['1-payment']);
+        } else {
+          // TODO: fake payment app
+          warn(
+            "Should open payment app but it's not installed\nTODO: placeholder payment app.",
+          );
+        }
+      },
       openApp(appMeta) {
         this.set({ STATE: STATES.APP });
         AppManager.open(appMeta.manifest.slug);
