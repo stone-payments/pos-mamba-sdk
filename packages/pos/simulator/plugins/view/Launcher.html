@@ -49,6 +49,20 @@
     APP: 2,
   };
 
+  const APP_INDEXES = [
+    'payment',
+    'cancellation',
+    'calculator',
+    'reprint',
+    'reports',
+    'closing',
+    'config',
+    'help',
+  ].reduce((acc, name, index) => {
+    acc[name] = index;
+    return acc;
+  }, {});
+
   export default {
     components: {
       Button: '@mamba/button',
@@ -66,7 +80,16 @@
       };
     },
     computed: {
-      appsList: ({ apps }) => Object.values(apps),
+      appsList: ({ apps }) =>
+        Object.values(apps).reduce((acc, app) => {
+          const { name } = app.manifest;
+          if (typeof APP_INDEXES[name] !== 'undefined') {
+            acc.splice(APP_INDEXES[name], 0, app);
+          } else {
+            acc.push(app);
+          }
+          return acc;
+        }, []),
     },
     oncreate() {
       window.history.replaceState('', document.title, window.location.pathname);
