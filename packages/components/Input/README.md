@@ -45,15 +45,15 @@ import MoneyInput from '@mamba/input/Money.html';
 
 `<Input ... on:event="..." />`
 
-| Evento        | Descrição                                                                                                                                        | Tipo              |
-|---------------|--------------------------------------------------------------------------------------------------------------------------------------------------|-------------------|
-| submit        | Define uma função que será chamada se a validação( se ouver ) do campo for bem-sucedida, quando o campo for submetido.                           | `function(event)` |
-| submitValid   | Especifique uma função que irá ser chamada somente quando o campo for __inválido__ no momento do `submit`                                        | `function(event)` |
-| submitInvalid | Especifique uma função que irá ser chamada somente quando o campo for __válido__ no momento do `submit`                                          | `function(event)` |
+| Evento        | Disparado quando ...                                                                   | Tipo              |
+|---------------|----------------------------------------------------------------------------------------|-------------------|
+| submit        | A validação( se houver ) do campo for bem-sucedida, quando o campo for submetido.      | `function(event)` |
+| submitValid   | O campo for __inválido__ no momento do `submit`                                        | `function(event)` |
+| submitInvalid | O campo for __válido__ no momento do `submit`                                          | `function(event)` |
 
-<br/> 
+<br/>
 
-Os eventos `submit`, `submitValid` e `submitInvalid`, retornam as seguintes propriedades no objeto `event`: 
+Os eventos `submit`, `submitValid` e `submitInvalid`, retornam as seguintes propriedades no objeto `event`:
 ```ts
 event = {
   value: string; // Valor do campo (com máscara se ouver)
@@ -74,7 +74,7 @@ event = {
 
 <br/>
 
-O evento `submit` retorna as seguintes propriedades no objeto `event`: 
+O evento `submit` retorna as seguintes propriedades no objeto `event`:
 ```ts
 event = {
   value: string; // Valor em centavos

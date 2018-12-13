@@ -12,10 +12,10 @@ O componente `Printable` encapsula o fluxo de impressão do POS, permitindo a im
 
 `<Printable ... on:event="..."/>`
 
-| Nome     | Descrição                                                                                                                                  | Tipo                |
-|----------|--------------------------------------------------------------------------------------------------------------------------------------------|---------------------|
-| finish   | Especifique uma função que no final de uma impressão é executado recebendo `true` se a impressão foi concluída e `false` caso interrompida | `function(boolean)` |
-| error    | Especifique uma função que é executada quando um erro de impressão ocorre.                                                                 | `function()`        |
+| Nome     | Disparado quando ....                                                                                 | Tipo                |
+|----------|-------------------------------------------------------------------------------------------------------|---------------------|
+| finish   | Ao finalizar uma impressão, recebendo `true` se a impressão foi concluída e `false` caso interrompida | `function(boolean)` |
+| error    | Um erro de impressão ocorre                                                                           | `function()`        |
 
 #### Exemplos:
 
