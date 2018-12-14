@@ -133,7 +133,7 @@
         if (
           !__TEST__ &&
           __BROWSER__ &&
-          !e.path.find(node => node.id === 'app-root')
+          !e.composedPath().find(node => node.id === 'app-root')
         ) {
           return;
         }
@@ -161,7 +161,7 @@
         if (
           !__TEST__ &&
           __BROWSER__ &&
-          !e.path.find(node => node.id === 'app-root') &&
+          !e.composedPath().find(node => node.id === 'app-root') &&
           (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') &&
           !Keyboard.isActionKey(keyCode)
         ) {

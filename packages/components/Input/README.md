@@ -43,20 +43,44 @@ import MoneyInput from '@mamba/input/Money.html';
 
 ## Eventos
 
-`<Input ...props />`
+`<Input ... on:event="..." />`
 
-| Nome          | Descrição                                                                                                                                        | Tipo              |
-|---------------|--------------------------------------------------------------------------------------------------------------------------------------------------|-------------------|
-| submit        | Especifique uma função para receber o evento com mais duas propriedades value(_valor do campo_) e isValid(*Boleano da propriedade `validation`*) | `function(event)` |
-| submitValid   | Especifique uma função que irá ser chamada somente quando o campo for __inválido__ no momento do `submit`                                        | `function(event)` |
-| submitInvalid | Especifique uma função que irá ser chamada somente quando o campo for __válido__ no momento do `submit`                                          | `function(event)` |
+| Evento        | Disparado quando ...                                                                   | Tipo              |
+|---------------|----------------------------------------------------------------------------------------|-------------------|
+| submit        | A validação( se houver ) do campo for bem-sucedida, quando o campo for submetido.      | `function(event)` |
+| submitValid   | O campo for __inválido__ no momento do `submit`                                        | `function(event)` |
+| submitInvalid | O campo for __válido__ no momento do `submit`                                          | `function(event)` |
 
+<br/>
 
-`<MoneyInput ...props />`
+Os eventos `submit`, `submitValid` e `submitInvalid`, retornam as seguintes propriedades no objeto `event`:
+```ts
+event = {
+  value: string; // Valor do campo (com máscara se ouver)
+  rawValue: string; // Valor sem máscara ou formatação
+  isValid: string; // Representa o valor da validação (se ouver)
+}
+```
 
-| Nome     | Descrição                                                                                 | Tipo              |
-|----------|-------------------------------------------------------------------------------------------|-------------------|
-| submit   | Retorna duas propriedades value(Valor em centavos) e formatted(Valor formatado na moeda)  | `function(event)` |
+> Além desses eventos, o `Input` recebe os eventos `focus`, `blur`, `keydown`, `keyup` e `input` por padrão.
+
+---
+
+`<MoneyInput ... on:event="..." />`
+
+| Evento   | Descrição                                                                                                                 | Tipo              |
+|----------|---------------------------------------------------------------------------------------------------------------------------|-------------------|
+| submit   | Define uma função que será chamada se a validação( valor ≠ 0 ) do campo for bem-sucedida, quando o campo for submetido.   | `function(event)` |
+
+<br/>
+
+O evento `submit` retorna as seguintes propriedades no objeto `event`:
+```ts
+event = {
+  value: string; // Valor em centavos
+  formatted: string; // Valor formatado na moeda
+}
+```
 
 ## Métodos
 

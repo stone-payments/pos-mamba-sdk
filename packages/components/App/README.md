@@ -71,9 +71,24 @@ O componente `Keystroke` associa um evento de tecla á uma tecla específica e o
 
 #### Parâmetros
 
-`<Keystroke ...props on:keystroke="..."/>`
+`<Keystroke ...props/>`
 
 | Parâmetro   | Descrição                                              | Tipo            | Padrão     |
 |-------------|--------------------------------------------------------|-----------------|------------|
 | key          | Define a tecla associada ao handler                   | `string`        | `null`     |
 | active       | Define ser o handler deve estar ativo ou não           | `boolean`      | `true`     |
+
+### Eventos
+
+`<Keystroke ... on:event="..."/>`
+
+| Eventos     | Disparado quando ...                 | Tipo                                                                          |
+|-------------|--------------------------------------|-------------------------------------------------------------------------------|
+| keystroke   | Uma das teclas do POS é pressionada  |`function`([keyup](https://developer.mozilla.org/pt-BR/docs/Web/Events/keyup)) |
+
+#### Exemplo:
+
+Chama `myMethod(keyup)` passando como parâmetro o evento de keyup quando a tecla especificada em `key` é pressionada.
+```html
+<Keystroke key="back" on:keystroke="myMethod(event)" />
+```

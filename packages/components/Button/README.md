@@ -8,14 +8,14 @@ Além disso, os botões também podem ser acionados por um shortcut e executar m
 
 ## Parâmetros
 
-| Parâmetro      | Descrição                               | Tipo            | Padrão    |
-| :------------- | :-------------------------------------- | :-------------- | :-------- |
-| bgColor        | Cor do botão                           | `string` (hex)    | `#4ebf1a` |
+| Parâmetro      | Descrição                              | Tipo              | Padrão      |
+| :------------- | :------------------------------------- | :---------------- | :---------- |
+| bgColor        | Cor do botão                           | `string` (hex)    | `#4ebf1a`   |
 | bottom         | Fixa o botão na parte inferior da tela | `boolean`         | `false`     |
 | borderColor    | Cor da borda do botão                  | `string` (hex)    | `null`      |
-| disable        | Desabilita o botão                     | `boolean`         | `false`     |
+| disabled       | Desabilita o botão                     | `boolean`         | `false`     |
 | size           | Tamanho do botão (opções: `small`, `regular`, `large`, `full`)   | `string` | `regular`|
-| textColor      | Cor do texto no botão                  | `string` (hex)    | `#fff`    |
+| textColor      | Cor do texto no botão                  | `string` (hex)    | `#fff`      |
 
 ## Métodos
 
