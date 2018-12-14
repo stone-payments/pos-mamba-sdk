@@ -4,7 +4,6 @@
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin');
 const WebpackBar = require('webpackbar');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OfflinePlugin = require('offline-plugin');
 const webpack = require('webpack');
 const { fromCwd } = require('quickenv');
 
@@ -138,7 +137,6 @@ module.exports = {
       __SIMULATOR__: ADD_MAMBA_SIMULATOR,
       __BROWSER__: IS_BROWSER,
     }),
-    new OfflinePlugin(),
   ],
   /** Minimal useful output log */
   stats: {
