@@ -12,9 +12,9 @@ let currentApp = null;
 
 Signal.register(AppManager, [
   'appInstalled',
-  'willOpen',
+  'opening',
   'opened',
-  'willClose',
+  'closing',
   'closed',
 ]);
 
@@ -38,15 +38,15 @@ AppManager.installApp = (AppConstructor, manifest) => {
   }
 };
 
-AppManager.open = appSlug => {
-  AppManager.fire('willOpen');
-
-  const target = document.getElementById('app-root');
-
+AppManager.open = (appSlug, options = {}) => {
   /** First time opening an app */
   const appMetaObj = Apps[appSlug];
 
+  AppManager.fire('opening', appMetaObj, options);
+
   if (__DEV__) log(`Opening App: ${appMetaObj.manifest.appName}`);
+
+  const target = document.getElementById('app-root');
 
   if (!target) {
     if (__DEV__) {
@@ -63,7 +63,7 @@ AppManager.open = appSlug => {
   currentApp = appMetaObj;
   currentApp.runtime.instance = new appMetaObj.constructor({ target });
 
-  AppManager.fire('opened', currentApp);
+  AppManager.fire('opened', appMetaObj, options);
   App.fire('opened');
 };
 
@@ -71,7 +71,7 @@ AppManager.close = () => {
   if (__DEV__) log('Closing App');
 
   if (currentApp) {
-    AppManager.fire('willClose', currentApp);
+    AppManager.fire('closing', currentApp);
 
     App.fire('closed');
 

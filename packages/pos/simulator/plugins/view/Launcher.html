@@ -110,7 +110,7 @@
       });
 
       /** Listen to an app being opened and guarantee the Launcher is ready to open it */
-      AppManager.on('willOpen', () => {
+      AppManager.on('opening', () => {
         const { STATE } = this.get();
         if (STATE !== STATES.APP) {
           this.set({ STATE: STATES.APP });
@@ -131,11 +131,7 @@
         const { apps } = this.get();
 
         if (apps['1-payment']) {
-          Registry.set(draft => {
-            draft.PaymentApp.paymentConfig.openMode = 'detection';
-          });
-
-          this.openApp(apps['1-payment']);
+          this.openApp(apps['1-payment'], { openMode: 'detection' });
         } else {
           // TODO: fake payment app
           warn(
@@ -143,9 +139,9 @@
           );
         }
       },
-      openApp(appMeta) {
+      openApp(appMeta, options) {
         this.set({ STATE: STATES.APP });
-        AppManager.open(appMeta.manifest.slug);
+        AppManager.open(appMeta.manifest.slug, options);
       },
       gotoLockscreen() {
         this.set({ STATE: STATES.LOCKSCREEN });
