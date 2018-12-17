@@ -3,7 +3,7 @@
 {:else}
   <SignalListener driver={Card} on:cardInserted="openPaymentApp()"/>
 
-  <div class="launcher">
+  <div class="launcher hide-scrollbars">
     {#if STATE === STATES.LOCKSCREEN}
       <div class="lockscreen">
         <time>{time}</time>

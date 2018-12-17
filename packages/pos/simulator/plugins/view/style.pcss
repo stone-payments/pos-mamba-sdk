@@ -21,3 +21,10 @@
 :global(.hide-scrollbar) {
   @extend %hide-scrollbar;
 }
+
+:global(.hide-scrollbars) {
+  &,
+  :global(*) {
+    @extend %hide-scrollbar;
+  }
+}
