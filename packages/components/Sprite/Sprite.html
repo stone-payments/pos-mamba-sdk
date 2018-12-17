@@ -10,9 +10,7 @@
   export default {
     data() {
       return {
-        _spriteWidth: null,
         _position: 0,
-        _interval: null,
         src: null,
         width: 0,
         height: 0,
@@ -28,39 +26,43 @@
       sprite.style.height = height || width;
 
       image.onload = () => {
-        this.set({ _spriteWidth: image.width });
+        this.spriteWidth = image.width;
         this.start();
       };
       image.src = src;
     },
     ondestroy() {
       /* istanbul ignore next */
-      const { _interval } = this.get();
-      /* istanbul ignore next */
-      clearInterval(_interval);
+      clearInterval(this.interval);
     },
     methods: {
       start() {
-        const { _spriteWidth, _position } = this.get();
+        /** Don't allow to run more than one interval */
+        if (this.interval != null) {
+          return;
+        }
+
+        const { spriteWidth } = this;
+        const { _position } = this.get();
+
         /* istanbul ignore next */
-        const STEP = _spriteWidth ? _spriteWidth / FPS : 0;
+        const STEP = spriteWidth ? spriteWidth / FPS : 0;
         let positionAux = _position;
 
         /* istanbul ignore next */
-        const _interval = setInterval(() => {
+        const interval = setInterval(() => {
           positionAux -= STEP;
-          if (positionAux < -_spriteWidth) {
+          if (positionAux < -spriteWidth) {
             positionAux = 0;
           }
           this.set({ _position: positionAux });
         }, 1000 / FPS);
 
-        this.set({ _interval });
+        this.interval = interval;
       },
       stop() {
-        const { _interval } = this.get();
-        clearInterval(_interval);
-        this.set({ _interval: null });
+        clearInterval(this.interval);
+        this.interval = null;
       },
     },
   };
