@@ -22,6 +22,7 @@ O módulo `Collection` é composto por dois componentes: `Collection` e `Row`, q
 | showExtra   | Mostra o conteúdo extra           | `boolean`          | `false`       |
 | shortcut    | Tecla de atalho para a ação da `<Row/>`: `0..9`,`enter`,`shortcuts`,`help` | `string` (keyname) | `undefined`   |
 | description | Texto de descrição abaixo do título          | `string`           | `undefined`   |
+| rightLabel  | Texto que é exibido no canto direito da linha | `string` | `undefined` |
 
 ## Eventos
 
