@@ -1,4 +1,8 @@
+import produce, { setAutoFreeze } from 'immer';
+
 import { log } from '../../../libs/utils.js';
+
+setAutoFreeze(false);
 
 export default Registry => {
   /** Data */
@@ -12,11 +16,21 @@ export default Registry => {
     for (let i = 1; i < keys.length; i++) {
       value = value[keys[i]];
     }
+
+    if (typeof value === 'object') {
+      return JSON.parse(JSON.stringify(value));
+    }
+
     return value;
   };
 
   Registry.set = (keyPath, value, fireSignal = true) => {
     if (keyPath === undefined) {
+      return;
+    }
+
+    if (typeof keyPath === 'function') {
+      Registry._data = produce(Registry._data, keyPath);
       return;
     }
 

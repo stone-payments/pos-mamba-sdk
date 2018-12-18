@@ -1,7 +1,9 @@
 {#if STATE === STATES.APP}
   <div ref:approot id="app-root" class="hide-scrollbar"></div>
 {:else}
-  <div class="launcher">
+  <SignalListener driver={Card} on:cardInserted="openPaymentApp()"/>
+
+  <div class="launcher hide-scrollbars">
     {#if STATE === STATES.LOCKSCREEN}
       <div class="lockscreen">
         <time>{time}</time>
@@ -38,10 +40,11 @@
 {/if}
 
 <script>
+  import { warn } from '../../libs/utils.js';
   import AppManager from '../app/manager.js';
   import Registry from '../registry/manager.js';
-
-  const { hours: initHours, minutes: initMinutes } = Registry.getCurrentTime();
+  import Card from '../../../api/card.js';
+  import SignalListener from '../../../SignalListener.html';
 
   const STATES = {
     LOCKSCREEN: 0,
@@ -49,16 +52,37 @@
     APP: 2,
   };
 
+  const APP_INDEXES = [
+    'payment',
+    'cancellation',
+    'calculator',
+    'reprint',
+    'reports',
+    'closing',
+    'settings',
+    'help',
+  ].reduce((acc, name, index) => {
+    acc[name] = index;
+    return acc;
+  }, {});
+
   export default {
     components: {
       Button: '@mamba/button',
       Icon: '@mamba/icon',
       Keystroke: '@mamba/app/Keystroke.html',
+      SignalListener,
     },
     helpers: {
       STATES,
+      Card,
     },
     data() {
+      const {
+        hours: initHours,
+        minutes: initMinutes,
+      } = Registry.getCurrentTime();
+
       return {
         STATE: STATES.LOCKSCREEN,
         time: `${initHours}:${initMinutes}`,
@@ -66,16 +90,27 @@
       };
     },
     computed: {
-      appsList: ({ apps }) => Object.values(apps),
+      appsList: ({ apps }) =>
+        Object.values(apps).reduce((acc, app) => {
+          const { name } = app.manifest;
+          if (typeof APP_INDEXES[name] !== 'undefined') {
+            acc.splice(APP_INDEXES[name], 0, app);
+          } else {
+            acc.push(app);
+          }
+          return acc;
+        }, []),
     },
     oncreate() {
+      window.history.replaceState('', document.title, window.location.pathname);
+
       /** Update the clock after each second */
       Registry.on('clock', (newHours, newMinutes) => {
         this.set({ time: `${newHours}:${newMinutes}` });
       });
 
       /** Listen to an app being opened and guarantee the Launcher is ready to open it */
-      AppManager.on('willOpen', () => {
+      AppManager.on('opening', () => {
         const { STATE } = this.get();
         if (STATE !== STATES.APP) {
           this.set({ STATE: STATES.APP });
@@ -92,9 +127,21 @@
         });
     },
     methods: {
-      openApp(appMeta) {
+      openPaymentApp() {
+        const { apps } = this.get();
+
+        if (apps['1-payment']) {
+          this.openApp(apps['1-payment'], { openMode: 'detection' });
+        } else {
+          // TODO: fake payment app
+          warn(
+            "Should open payment app but it's not installed\nTODO: placeholder payment app.",
+          );
+        }
+      },
+      openApp(appMeta, options) {
         this.set({ STATE: STATES.APP });
-        AppManager.open(appMeta.manifest.slug);
+        AppManager.open(appMeta.manifest.slug, options);
       },
       gotoLockscreen() {
         this.set({ STATE: STATES.LOCKSCREEN });

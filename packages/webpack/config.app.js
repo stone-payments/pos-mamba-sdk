@@ -30,7 +30,7 @@ module.exports = merge(require('./config.base.js'), {
       };
 
       if (IS_BROWSER) {
-        aliases['%mamba_app_icon_path%$'] = fromCwd('src', PKG.mamba.iconPath);
+        aliases.__APP_ICON__ = fromCwd('src', PKG.mamba.iconPath);
       }
 
       return aliases;
@@ -49,18 +49,14 @@ module.exports = merge(require('./config.base.js'), {
     new VirtualModulesPlugin(getVirtualFiles()),
     /** Prepend the Function.prototype.bind() polyfill webpack's runtime code */
     new MambaFixesPlugin(),
-    new webpack.DefinePlugin(
-      (() => {
-        const __MANIFEST__ = {
-          name: PKG.name,
-          description: PKG.description,
-          version: PKG.version,
-          slug: `${PKG.mamba.id}-${PKG.name}`,
-          ...PKG.mamba,
-        };
-
-        return { __MANIFEST__: JSON.stringify(__MANIFEST__) };
-      })(),
-    ),
+    new webpack.DefinePlugin({
+      __APP_MANIFEST__: JSON.stringify({
+        name: PKG.name,
+        description: PKG.description,
+        version: PKG.version,
+        slug: `${PKG.mamba.id}-${PKG.name}`,
+        ...PKG.mamba,
+      }),
+    }),
   ],
 });

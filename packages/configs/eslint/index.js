@@ -32,7 +32,7 @@ module.exports = {
     __DEV__: true,
     __DEBUG_LVL__: true,
     __SIMULATOR__: true,
-    __MANIFEST__: true,
+    __APP_MANIFEST__: true,
   },
   rules: {
     // ! Code

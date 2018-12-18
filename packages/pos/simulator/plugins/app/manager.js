@@ -1,4 +1,3 @@
-import DriverManager from '../driver/manager.js';
 import Signal from '../../libs/signal.js';
 import App from '../../../api/app.js';
 import extendDriver from '../../../drivers/extend.js';
@@ -8,13 +7,14 @@ import initEventCollector from './includes/eventCollector.js';
 const AppManager = extendDriver({}, initEventCollector);
 
 const Apps = {};
+
 let currentApp = null;
 
 Signal.register(AppManager, [
   'appInstalled',
-  'willOpen',
+  'opening',
   'opened',
-  'willClose',
+  'closing',
   'closed',
 ]);
 
@@ -28,12 +28,6 @@ AppManager.installApp = (AppConstructor, manifest) => {
       manifest,
     };
 
-    const looseDrivers = DriverManager.getLooseDrivers();
-    if (looseDrivers) {
-      appMetaObj.drivers = looseDrivers;
-      DriverManager.clearLooseDrivers();
-    }
-
     Apps[manifest.slug] = appMetaObj;
 
     AppManager.fire('appInstalled', appMetaObj);
@@ -44,15 +38,15 @@ AppManager.installApp = (AppConstructor, manifest) => {
   }
 };
 
-AppManager.open = (appSlug, target) => {
-  AppManager.fire('willOpen');
-
-  target = target || document.getElementById('app-root');
-
+AppManager.open = (appSlug, options = {}) => {
   /** First time opening an app */
   const appMetaObj = Apps[appSlug];
 
+  AppManager.fire('opening', appMetaObj, options);
+
   if (__DEV__) log(`Opening App: ${appMetaObj.manifest.appName}`);
+
+  const target = document.getElementById('app-root');
 
   if (!target) {
     if (__DEV__) {
@@ -69,18 +63,18 @@ AppManager.open = (appSlug, target) => {
   currentApp = appMetaObj;
   currentApp.runtime.instance = new appMetaObj.constructor({ target });
 
-  AppManager.fire('opened');
+  AppManager.fire('opened', appMetaObj, options);
   App.fire('opened');
 };
 
 AppManager.close = () => {
-  AppManager.fire('willClose');
-
   if (__DEV__) log('Closing App');
 
-  App.fire('closed');
-
   if (currentApp) {
+    AppManager.fire('closing', currentApp);
+
+    App.fire('closed');
+
     if (currentApp.runtime.instance) {
       const { runtime } = currentApp;
       runtime.instance.destroy();
@@ -107,19 +101,13 @@ AppManager.close = () => {
         );
       });
 
-      if (currentApp.drivers) {
-        currentApp.drivers.forEach(driverModule => {
-          DriverManager.resetDriverState(driverModule);
-        });
-      }
+      AppManager.fire('closed', currentApp);
 
       currentApp = null;
     } else if (__DEV__) {
       warn('App already closed');
     }
   }
-
-  AppManager.fire('closed');
 };
 
 export default AppManager;

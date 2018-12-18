@@ -3,32 +3,7 @@ import Signal from '../../libs/signal.js';
 import { LOG_PREFIX } from '../../libs/utils.js';
 import extendDriver from '../../../drivers/extend.js';
 
-let externalDrivers = [];
-let looseDrivers = null;
-
 const DriverManager = extendDriver({});
-
-Signal.register(DriverManager, [
-  'externalDriversAttached', // (driverModules)
-]);
-
-DriverManager.getExternalDrivers = () => externalDrivers;
-DriverManager.getLooseDrivers = () => looseDrivers;
-DriverManager.clearLooseDrivers = () => {
-  looseDrivers = null;
-};
-
-/**
- * Resets a driver state. We use JSON.parse/stringify to deep clone the state object
- */
-DriverManager.resetDriverState = driverModule => {
-  if (driverModule.SETTINGS) {
-    Registry.set(
-      driverModule.NAMESPACE,
-      JSON.parse(JSON.stringify(driverModule.SETTINGS)),
-    );
-  }
-};
 
 DriverManager.attachDrivers = driverModules => {
   if (__DEBUG_LVL__ >= 1 && __BROWSER__)
@@ -45,7 +20,11 @@ DriverManager.attachDrivers = driverModules => {
       if (__DEBUG_LVL__ >= 1 && __BROWSER__) {
         console.log('Default settings:', driverModule.SETTINGS);
       }
-      DriverManager.resetDriverState(driverModule);
+
+      Registry.set(
+        driverModule.NAMESPACE,
+        JSON.parse(JSON.stringify(driverModule.SETTINGS)),
+      );
     }
 
     /** Register the driver signals */
@@ -74,8 +53,6 @@ DriverManager.attachDrivers = driverModules => {
       );
     }
 
-    /** Export it to the window */
-
     /**
      * Merge the existing native module (if any) for the case of the
      * simulator running on the actual POS.
@@ -95,15 +72,11 @@ DriverManager.attachDrivers = driverModules => {
       });
     }
 
+    /** Export it to the window */
     window[driverRef] = driver;
 
     if (__DEBUG_LVL__ >= 1 && __BROWSER__) console.groupEnd();
   });
-
-  if (Registry._booted) {
-    externalDrivers = [...externalDrivers, ...driverModules];
-    looseDrivers = driverModules;
-  }
 
   if (__DEBUG_LVL__ >= 1 && __BROWSER__) console.groupEnd();
 };
