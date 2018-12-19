@@ -4,6 +4,8 @@ import { log } from '../../../libs/utils.js';
 
 setAutoFreeze(false);
 
+const deepCopy = o => JSON.parse(JSON.stringify(o));
+
 export default Registry => {
   /** Data */
   Registry.get = keyPath => {
@@ -18,7 +20,7 @@ export default Registry => {
     }
 
     if (typeof value === 'object') {
-      return JSON.parse(JSON.stringify(value));
+      return deepCopy(value);
     }
 
     return value;
@@ -31,35 +33,39 @@ export default Registry => {
 
     if (typeof keyPath === 'function') {
       Registry._data = produce(Registry._data, keyPath);
-      return;
-    }
+    } else {
+      const keys = keyPath.replace(/\[(\d+)\]/g, '.$1').split('.');
 
-    const keys = keyPath.replace(/\[(\d+)\]/g, '.$1').split('.');
-
-    if (__DEBUG_LVL__ >= 2 && __BROWSER__) {
-      log(`"${keyPath}" = ${JSON.stringify(value)}`);
-    }
-
-    // If not a nested keyPath
-    if (keys.length === 1) {
-      Registry._data[keyPath] = value;
-
-      if (fireSignal) {
-        Registry.fire('shallowChange', { key: keyPath, value });
+      if (__DEBUG_LVL__ >= 2 && __BROWSER__) {
+        log(`"${keyPath}" = ${JSON.stringify(value)}`);
       }
 
-      return;
-    }
+      // If not a nested keyPath
+      if (keys.length === 1) {
+        Registry._data[keyPath] = value;
 
-    let object = Registry._data[keys[0]];
-    for (let i = 1; i < keys.length - 1; i++) {
-      object = object[keys[i]];
-    }
+        if (fireSignal) {
+          // todo: deprecate
+          Registry.fire('shallowChange', { key: keyPath, value });
+        }
+      } else {
+        let object = Registry._data[keys[0]];
+        for (let i = 1; i < keys.length - 1; i++) {
+          object = object[keys[i]];
+        }
 
-    object[keys[keys.length - 1]] = value;
+        object[keys[keys.length - 1]] = value;
+
+        if (fireSignal) {
+          // todo: deprecate
+          Registry.fire('deepChange', { key: keyPath, path: keys, value });
+        }
+      }
+    }
 
     if (fireSignal) {
-      Registry.fire('deepChange', { key: keyPath, path: keys, value });
+      localStorage.setItem('_mamba_web_', JSON.stringify(Registry._data));
+      // Registry.fire('dataChange', Registry._data);
     }
   };
 };

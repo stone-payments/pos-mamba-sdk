@@ -28,6 +28,7 @@
 
 <script>
   import Registry from '../../registry/manager.js';
+  import HardwareManager from '../../hardware/manager.js';
 
   const { hours: initHours, minutes: initMinutes } = Registry.getCurrentTime();
 
@@ -43,6 +44,18 @@
       brightnessOpacity: ({ brightnessLevel }) => 1 - brightnessLevel / 10,
     },
     oncreate() {
+      // TODO: find another way to do this which doesn't directly access the driver state
+      const savedRegistryState = Registry.getSavedState();
+      if (savedRegistryState.ScreenBrightness) {
+        this.set({
+          brightnessLevel: savedRegistryState.ScreenBrightness.level,
+        });
+      }
+
+      HardwareManager.on('changeBrightness', brightnessLevel => {
+        this.set({ brightnessLevel });
+      });
+
       /** Update the clock after each second */
       Registry.on('clock', (newHours, newMinutes) => {
         this.set({ time: `${newHours}:${newMinutes}` });

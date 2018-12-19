@@ -21,10 +21,15 @@ DriverManager.attachDrivers = driverModules => {
         console.log('Default settings:', driverModule.SETTINGS);
       }
 
-      Registry.set(
-        driverModule.NAMESPACE,
-        JSON.parse(JSON.stringify(driverModule.SETTINGS)),
-      );
+      const savedStated = Registry.getSavedState()[driverModule.NAMESPACE];
+      if (savedStated) {
+        Registry.set(driverModule.NAMESPACE, savedStated, false);
+      } else {
+        Registry.set(
+          driverModule.NAMESPACE,
+          JSON.parse(JSON.stringify(driverModule.SETTINGS)),
+        );
+      }
     }
 
     /** Register the driver signals */
