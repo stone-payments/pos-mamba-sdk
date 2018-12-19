@@ -1,12 +1,14 @@
 import produce, { setAutoFreeze } from 'immer';
 
-import { log } from '../../../libs/utils.js';
+import { log, deepCopy } from '../../../libs/utils.js';
 
 setAutoFreeze(false);
 
-const deepCopy = o => JSON.parse(JSON.stringify(o));
-
 export default Registry => {
+  Registry.save = () => {
+    localStorage.setItem('_mamba_web_', JSON.stringify(Registry._data));
+  };
+
   /** Data */
   Registry.get = keyPath => {
     if (keyPath === undefined) {
@@ -31,45 +33,52 @@ export default Registry => {
       return;
     }
 
+    if (typeof keyPath === 'function') {
+      opts = value;
+    }
+
     opts = { dispatch: true, save: true, ...opts };
 
     const { dispatch, save } = opts;
 
     if (typeof keyPath === 'function') {
       Registry._data = produce(Registry._data, keyPath);
-    } else {
-      const keys = keyPath.replace(/\[(\d+)\]/g, '.$1').split('.');
+      if (save) {
+        Registry.save();
+      }
+      return;
+    }
 
-      if (__DEBUG_LVL__ >= 2 && __BROWSER__) {
-        log(`"${keyPath}" = ${JSON.stringify(value)}`);
+    const keys = keyPath.replace(/\[(\d+)\]/g, '.$1').split('.');
+
+    if (__DEBUG_LVL__ >= 2 && __BROWSER__) {
+      log(`"${keyPath}" = ${JSON.stringify(value)}`);
+    }
+
+    // If not a nested keyPath
+    if (keys.length === 1) {
+      Registry._data[keyPath] = value;
+
+      if (dispatch) {
+        // todo: deprecate in favor of immer
+        Registry.fire('shallowChange', { key: keyPath, value });
+      }
+    } else {
+      let object = Registry._data[keys[0]];
+      for (let i = 1; i < keys.length - 1; i++) {
+        object = object[keys[i]];
       }
 
-      // If not a nested keyPath
-      if (keys.length === 1) {
-        Registry._data[keyPath] = value;
+      object[keys[keys.length - 1]] = value;
 
-        if (dispatch) {
-          // todo: deprecate
-          Registry.fire('shallowChange', { key: keyPath, value });
-        }
-      } else {
-        let object = Registry._data[keys[0]];
-        for (let i = 1; i < keys.length - 1; i++) {
-          object = object[keys[i]];
-        }
-
-        object[keys[keys.length - 1]] = value;
-
-        if (dispatch) {
-          // todo: deprecate
-          Registry.fire('deepChange', { key: keyPath, path: keys, value });
-        }
+      if (dispatch) {
+        // todo: deprecate in favor of immer
+        Registry.fire('deepChange', { key: keyPath, path: keys, value });
       }
     }
 
     if (save) {
-      localStorage.setItem('_mamba_web_', JSON.stringify(Registry._data));
-      // Registry.fire('dataChange', Registry._data);
+      Registry.save();
     }
   };
 };
