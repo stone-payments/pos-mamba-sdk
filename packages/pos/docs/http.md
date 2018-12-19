@@ -17,7 +17,7 @@ interface connectionOptions {
   data: string;
   headers: HeaderOptions;
   connect: string;
-  encodeURI: boolean
+  encodeURI: boolean;
 }
 ```
 
@@ -27,7 +27,7 @@ Recebe as especificações do request por meio de um objeto e retorna uma [Promi
 
 - `connect`, que especifica o tipo de canal utilizado, e pode ser `LAN`(direto), `NET`(via proxy de produção) e `DEV`(via proxy de desenvolvimento).
 - `method`, que define o verbo http, e suporta apenas `GET` ou `POST`.
-- `encodeURI`, define se será feito um encode.
+- `encodeURI`, define se será feito um encode na URI.
 
 ```js
 import Http from '@mamba/pos/api/http.js'
