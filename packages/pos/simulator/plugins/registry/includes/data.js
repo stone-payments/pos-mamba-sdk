@@ -26,10 +26,14 @@ export default Registry => {
     return value;
   };
 
-  Registry.set = (keyPath, value, fireSignal = true) => {
+  Registry.set = (keyPath, value, opts) => {
     if (keyPath === undefined) {
       return;
     }
+
+    opts = { dispatch: true, save: true, ...opts };
+
+    const { dispatch, save } = opts;
 
     if (typeof keyPath === 'function') {
       Registry._data = produce(Registry._data, keyPath);
@@ -44,7 +48,7 @@ export default Registry => {
       if (keys.length === 1) {
         Registry._data[keyPath] = value;
 
-        if (fireSignal) {
+        if (dispatch) {
           // todo: deprecate
           Registry.fire('shallowChange', { key: keyPath, value });
         }
@@ -56,14 +60,14 @@ export default Registry => {
 
         object[keys[keys.length - 1]] = value;
 
-        if (fireSignal) {
+        if (dispatch) {
           // todo: deprecate
           Registry.fire('deepChange', { key: keyPath, path: keys, value });
         }
       }
     }
 
-    if (fireSignal) {
+    if (save) {
       localStorage.setItem('_mamba_web_', JSON.stringify(Registry._data));
       // Registry.fire('dataChange', Registry._data);
     }

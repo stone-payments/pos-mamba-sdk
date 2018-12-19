@@ -67,7 +67,9 @@
             if (key.indexOf(`${namespace}.`) === -1) {
               key = `${namespace}.${key}`;
             }
-            Registry.set(key, value, false);
+            Registry.set(key, value, {
+              dispatch: false,
+            });
           });
         }
       },

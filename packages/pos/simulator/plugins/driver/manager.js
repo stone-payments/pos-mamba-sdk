@@ -23,7 +23,7 @@ DriverManager.attachDrivers = driverModules => {
 
       const savedStated = Registry.getSavedState()[driverModule.NAMESPACE];
       if (savedStated) {
-        Registry.set(driverModule.NAMESPACE, savedStated, false);
+        Registry.set(driverModule.NAMESPACE, savedStated, { save: false });
       } else {
         Registry.set(
           driverModule.NAMESPACE,
