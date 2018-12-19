@@ -1,10 +1,14 @@
 import produce, { setAutoFreeze } from 'immer';
 
-import { log } from '../../../libs/utils.js';
+import { log, deepCopy } from '../../../libs/utils.js';
 
 setAutoFreeze(false);
 
 export default Registry => {
+  Registry.save = () => {
+    localStorage.setItem('_mamba_web_', JSON.stringify(Registry._data));
+  };
+
   /** Data */
   Registry.get = keyPath => {
     if (keyPath === undefined) {
@@ -18,19 +22,30 @@ export default Registry => {
     }
 
     if (typeof value === 'object') {
-      return JSON.parse(JSON.stringify(value));
+      return deepCopy(value);
     }
 
     return value;
   };
 
-  Registry.set = (keyPath, value, fireSignal = true) => {
+  Registry.set = (keyPath, value, opts) => {
     if (keyPath === undefined) {
       return;
     }
 
     if (typeof keyPath === 'function') {
+      opts = value;
+    }
+
+    opts = { dispatch: true, save: true, ...opts };
+
+    const { dispatch, save } = opts;
+
+    if (typeof keyPath === 'function') {
       Registry._data = produce(Registry._data, keyPath);
+      if (save) {
+        Registry.save();
+      }
       return;
     }
 
@@ -44,22 +59,26 @@ export default Registry => {
     if (keys.length === 1) {
       Registry._data[keyPath] = value;
 
-      if (fireSignal) {
+      if (dispatch) {
+        // todo: deprecate in favor of immer
         Registry.fire('shallowChange', { key: keyPath, value });
       }
+    } else {
+      let object = Registry._data[keys[0]];
+      for (let i = 1; i < keys.length - 1; i++) {
+        object = object[keys[i]];
+      }
 
-      return;
+      object[keys[keys.length - 1]] = value;
+
+      if (dispatch) {
+        // todo: deprecate in favor of immer
+        Registry.fire('deepChange', { key: keyPath, path: keys, value });
+      }
     }
 
-    let object = Registry._data[keys[0]];
-    for (let i = 1; i < keys.length - 1; i++) {
-      object = object[keys[i]];
-    }
-
-    object[keys[keys.length - 1]] = value;
-
-    if (fireSignal) {
-      Registry.fire('deepChange', { key: keyPath, path: keys, value });
+    if (save) {
+      Registry.save();
     }
   };
 };

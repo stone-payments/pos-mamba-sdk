@@ -18,10 +18,9 @@
 
 <script>
   import { Registry } from '../../index.js';
+  import { deepCopy } from '../../libs/utils.js';
 
   let lastKeypressTime = 0;
-
-  const deepCopy = o => JSON.parse(JSON.stringify(o));
 
   export default {
     components: {
@@ -62,12 +61,16 @@
       handlePanelUpdate(namespace, { changed, current, previous }) {
         if (previous) {
           Object.keys(changed).forEach(key => {
-            const value = current[key];
-            /** See if the prop name has already the namespace path */
-            if (key.indexOf(`${namespace}.`) === -1) {
-              key = `${namespace}.${key}`;
-            }
-            Registry.set(key, value, false);
+            Registry.set(
+              draft => {
+                draft[namespace] = {
+                  ...draft[namespace],
+                  [key]: current[key],
+                };
+              },
+              // todo: should save, but not possible right now without resetting every external driver
+              { dispatch: false, save: false },
+            );
           });
         }
       },

@@ -7,6 +7,7 @@ Signal.register(HardwareManager, [
   'startPrinting',
   'endPrinting',
   'toggleCard',
+  'changeBrightness',
 ]);
 
 export default HardwareManager;

@@ -9,9 +9,8 @@ import initData from './includes/data.js';
 
 const RegistryManager = extendDriver(
   {
-    _version: '2.5.2',
+    _version: '2.5.3',
     _clock: { hours: null, min: null },
-    _booted: false,
     _data: {},
   },
   initClock,
@@ -24,13 +23,30 @@ Signal.register(RegistryManager, [
   'clock', // fired at every clock update
 ]);
 
-RegistryManager.setBoot = isBooted => {
-  if (RegistryManager._booted) {
-    return;
-  }
-  RegistryManager._booted = isBooted;
-};
-
 RegistryManager.getVersion = () => RegistryManager._version;
+
+let lastCachedStatedJson;
+let savedState;
+
+RegistryManager.getSavedState = () => {
+  if (!localStorage) {
+    return {};
+  }
+
+  const cachedStatedJson = localStorage.getItem('_mamba_web_');
+
+  if (!cachedStatedJson) {
+    return {};
+  }
+
+  if (lastCachedStatedJson === cachedStatedJson) {
+    return savedState;
+  }
+
+  lastCachedStatedJson = cachedStatedJson;
+  savedState = JSON.parse(cachedStatedJson);
+
+  return savedState;
+};
 
 export default RegistryManager;

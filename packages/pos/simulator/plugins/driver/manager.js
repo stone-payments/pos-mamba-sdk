@@ -1,6 +1,6 @@
 import Registry from '../registry/manager.js';
 import Signal from '../../libs/signal.js';
-import { LOG_PREFIX } from '../../libs/utils.js';
+import { LOG_PREFIX, deepCopy } from '../../libs/utils.js';
 import extendDriver from '../../../drivers/extend.js';
 
 const DriverManager = extendDriver({});
@@ -8,6 +8,8 @@ const DriverManager = extendDriver({});
 DriverManager.attachDrivers = driverModules => {
   if (__DEBUG_LVL__ >= 1 && __BROWSER__)
     console.groupCollapsed(`${LOG_PREFIX} Attaching drivers`);
+
+  const savedState = Registry.getSavedState();
 
   driverModules.forEach(driverModule => {
     const driver = {};
@@ -21,10 +23,18 @@ DriverManager.attachDrivers = driverModules => {
         console.log('Default settings:', driverModule.SETTINGS);
       }
 
-      Registry.set(
-        driverModule.NAMESPACE,
-        JSON.parse(JSON.stringify(driverModule.SETTINGS)),
-      );
+      if (savedState[driverModule.NAMESPACE]) {
+        Registry.set(
+          draft => {
+            draft[driverModule.NAMESPACE] = savedState[driverModule.NAMESPACE];
+          },
+          { save: false },
+        );
+      } else {
+        Registry.set(draft => {
+          draft[driverModule.NAMESPACE] = deepCopy(driverModule.SETTINGS);
+        });
+      }
     }
 
     /** Register the driver signals */
