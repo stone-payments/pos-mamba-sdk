@@ -1,9 +1,12 @@
+import EventTarget from '../../libs/EventTarget.js';
 import Registry from '../registry/manager.js';
 import Signal from '../../libs/signal.js';
 import { LOG_PREFIX, deepCopy } from '../../libs/utils.js';
-import extendDriver from '../../../drivers/extend.js';
+import extend from '../../../extend.js';
 
-const DriverManager = extendDriver({});
+const DriverManager = extend({}, EventTarget());
+
+DriverManager.drivers = Object.freeze({});
 
 DriverManager.attachDrivers = driverModules => {
   if (__DEBUG_LVL__ >= 1 && __BROWSER__)
@@ -84,6 +87,12 @@ DriverManager.attachDrivers = driverModules => {
 
     /** Export it to the window */
     window[driverRef] = driver;
+
+    /** Export it to the driver manager */
+    DriverManager.drivers = Object.freeze({
+      ...DriverManager.drivers,
+      [driverRef]: driver,
+    });
 
     if (__DEBUG_LVL__ >= 1 && __BROWSER__) console.groupEnd();
   });

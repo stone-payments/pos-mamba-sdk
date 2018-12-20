@@ -7,8 +7,8 @@
   ></div>
 
 <script>
-  import Payment from '../../../../api/payment.js';
-  import Core from '../../../core.js';
+  import { HardwareManager } from '../../../index.js';
+  import Payment from '../../../../../api/payment.js';
 
   export default {
     data() {
@@ -30,10 +30,10 @@
         if (isCardInserted) {
           setTimeout(() => {
             Payment.cardEvent();
-            Core.HardwareManager.toggleCard(true);
+            HardwareManager.fire('toggleCard', true);
           }, 500);
         } else {
-          Core.HardwareManager.toggleCard(false);
+          HardwareManager.fire('toggleCard', false);
         }
       },
       _onKeyup(e) {

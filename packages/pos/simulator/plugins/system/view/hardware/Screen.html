@@ -27,16 +27,15 @@
 </svg>
 
 <script>
-  import Registry from '../../registry/manager.js';
-  import HardwareManager from '../../hardware/manager.js';
+  import { System, Registry, HardwareManager } from '../../../index.js';
 
-  const { hours: initHours, minutes: initMinutes } = Registry.getCurrentTime();
+  const { hours: initHours, minutes: initMinutes } = System.getCurrentTime();
 
   export default {
     data() {
       return {
         brightnessLevel: 10,
-        version: Registry.getVersion(),
+        version: System.getVersion(),
         time: `${initHours}:${initMinutes}`,
       };
     },

@@ -1,4 +1,4 @@
-import Core from '../../simulator/core.js';
+import { Registry } from '../../simulator/index.js';
 
 export const NAMESPACE = '$Merchant';
 
@@ -13,7 +13,7 @@ export function setup(Merchant) {
    * @return {string} The stone code
    */
   Merchant.getStoneCode = () =>
-    Core.Registry.get('$Merchant.acquirerIssuedMerchantId');
+    Registry.get().$Merchant.acquirerIssuedMerchantId;
 
   /**
    * Get the supported brands of this Merchant

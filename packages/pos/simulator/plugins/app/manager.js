@@ -1,25 +1,23 @@
-import Signal from '../../libs/signal.js';
-import App from '../../../api/app.js';
-import extendDriver from '../../../drivers/extend.js';
+import EventTarget from '../../libs/EventTarget.js';
 import { log, warn } from '../../libs/utils.js';
 import initEventCollector from './includes/eventCollector.js';
+import extend from '../../../extend.js';
+import { DriverManager } from '../index.js';
 
-const AppManager = extendDriver({}, initEventCollector);
+const AppManager = extend({}, initEventCollector, EventTarget());
 
 const Apps = {};
 
 let currentApp = null;
 
-Signal.register(AppManager, [
-  'appInstalled',
-  'opening',
-  'opened',
-  'closing',
-  'closed',
-]);
-
 AppManager.getInstalledApps = () => Apps;
 AppManager.getCurrentApp = () => currentApp;
+
+AppManager.loadApp = async (AppLoader, manifest) => {
+  AppManager.fire('loading');
+  const { default: App } = await AppLoader();
+  return AppManager.installApp(App, manifest);
+};
 
 AppManager.installApp = (AppConstructor, manifest) => {
   if (!Apps[manifest.slug]) {
@@ -36,6 +34,8 @@ AppManager.installApp = (AppConstructor, manifest) => {
       `Tried to install an already installed app with slug "${manifest.slug}"`,
     );
   }
+
+  return Apps[manifest.slug];
 };
 
 AppManager.open = (appSlug, options = {}) => {
@@ -64,7 +64,7 @@ AppManager.open = (appSlug, options = {}) => {
   currentApp.runtime.instance = new appMetaObj.constructor({ target });
 
   AppManager.fire('opened', appMetaObj, options);
-  App.fire('opened');
+  DriverManager.drivers.$App.fire('opened');
 };
 
 AppManager.close = () => {
@@ -72,8 +72,7 @@ AppManager.close = () => {
 
   if (currentApp) {
     AppManager.fire('closing', currentApp);
-
-    App.fire('closed');
+    DriverManager.drivers.$App.fire('closed');
 
     if (currentApp.runtime.instance) {
       const { runtime } = currentApp;
