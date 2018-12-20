@@ -112,8 +112,8 @@ export default () => {
         }
 
         /** Wrap the signal callback to disconnect all slots once one of the signals are emitted */
-        wrappedCallbacks[signal] = () => {
-          callback();
+        wrappedCallbacks[signal] = (...data) => {
+          callback(...data);
           Object.keys(wrappedCallbacks).forEach(signalName => {
             if (__DEBUG_LVL__ === 2) {
               console.log(`Removing '${signalName}'`);
