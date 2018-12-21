@@ -36,6 +36,7 @@ export {
   /** Get a single instance of the virtual POS */
   loadView,
   /** Simulator drivers */
+  System,
   Registry,
   HardwareManager,
   AppManager,

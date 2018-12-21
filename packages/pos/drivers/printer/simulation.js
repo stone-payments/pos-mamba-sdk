@@ -1,4 +1,4 @@
-import Simulator, { Registry, HardwareManager } from '../../simulator/index.js';
+import { System, Registry, HardwareManager } from '../../simulator/index.js';
 
 export const NAMESPACE = '$Printer';
 
@@ -34,7 +34,7 @@ export function setup(Printer) {
        * paper is printed, it will print nothing because the content element was
        * destroyed.
        * */
-      HardwareManager.startPrinting(content.cloneNode(true), options);
+      HardwareManager.fire('startPrinting', content.cloneNode(true), options);
       HardwareManager.once('endPrinting', () => {
         Registry.set(draft => {
           draft.$Printer.isPrinting = false;
@@ -43,8 +43,8 @@ export function setup(Printer) {
       });
 
       /** Fire endPrinting if no Virtual POS found */
-      if (!Simulator.POS || window.innerWidth <= 480) {
-        setTimeout(HardwareManager.endPrinting, 1000);
+      if (!System.POS || window.innerWidth <= 480) {
+        setTimeout(() => HardwareManager.fire('endPrinting'), 1000);
       }
       return;
     }

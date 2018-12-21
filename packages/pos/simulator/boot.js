@@ -1,20 +1,27 @@
 import { DriverManager, System } from './plugins/index.js';
 
-(async () => {
-  const drivers = await Promise.all([
-    import('../drivers/printer/simulation.js'),
-    import('../drivers/app/simulation.js'),
-    import('../drivers/storage/simulation.js'),
-    import('../drivers/keyboard/simulation.js'),
-    import('../drivers/merchant/simulation.js'),
-    import('../drivers/payment/simulation.js'),
-    import('../drivers/system/simulation.js'),
-    import('../drivers/cancellation/simulation.js'),
-    import('../drivers/http/simulation.js'),
-    import('../drivers/card/simulation.js'),
-  ]);
+import * as $Printer from '../drivers/printer/simulation.js';
+import * as $App from '../drivers/app/simulation.js';
+import * as $Storage from '../drivers/storage/simulation.js';
+import * as $Keyboard from '../drivers/keyboard/simulation.js';
+import * as $Merchant from '../drivers/merchant/simulation.js';
+import * as $Payment from '../drivers/payment/simulation.js';
+import * as $System from '../drivers/system/simulation.js';
+import * as $Cancellation from '../drivers/cancellation/simulation.js';
+import * as $Http from '../drivers/http/simulation.js';
+import * as $Card from '../drivers/card/simulation.js';
 
-  DriverManager.attachDrivers(drivers);
+DriverManager.attachDrivers([
+  $Printer,
+  $App,
+  $Storage,
+  $Keyboard,
+  $Merchant,
+  $Payment,
+  $System,
+  $Cancellation,
+  $Http,
+  $Card,
+]);
 
-  System.fire('boot');
-})();
+System.fire('boot');
