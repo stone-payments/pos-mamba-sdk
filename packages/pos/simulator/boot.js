@@ -1,4 +1,4 @@
-import { DriverManager, System } from './plugins/index.js';
+import { System, DriverManager } from './plugins/index.js';
 
 import * as $Printer from '../drivers/printer/simulation.js';
 import * as $App from '../drivers/app/simulation.js';

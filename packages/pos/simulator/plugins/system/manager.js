@@ -4,7 +4,7 @@ import extend from '../../../extend.js';
 
 const System = extend(
   {
-    version: '2.5.3',
+    _version: '2.5.3',
   },
   initClock,
   EventTarget(),
@@ -15,14 +15,14 @@ System.on('boot', () => {
   System.booted = true;
 });
 
-System.getVersion = () => System.version;
+System.getVersion = () => System._version;
 
-System.loadView = () => {
+System.getView = () => {
   if (System.POS) {
     return Promise.resolve(System.POS);
   }
 
-  return new Promise(res => {
+  System.POS = new Promise(res => {
     if (System.booted) {
       return res();
     }
@@ -36,6 +36,8 @@ System.loadView = () => {
 
     return System.POS;
   });
+
+  return System.POS;
 };
 
 export default System;
