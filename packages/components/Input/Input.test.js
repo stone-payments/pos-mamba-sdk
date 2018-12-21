@@ -1,4 +1,4 @@
-import Simulator from '@mamba/pos/simulator/index.js';
+import { Registry } from '@mamba/pos/simulator/index.js';
 import System from '@mamba/pos/api/system.js';
 import Input from './Input.html';
 
@@ -186,9 +186,7 @@ describe('behaviour', () => {
 
         input.focus();
 
-        expect(Simulator.Registry.get('$Keyboard.isAlphanumericEnabled')).toBe(
-          false,
-        );
+        expect(Registry.get('$Keyboard.isAlphanumericEnabled')).toBe(false);
       });
 
       it('should allow alphanumeric input after focusing the input if "alphanumeric:true"', () => {
@@ -196,17 +194,13 @@ describe('behaviour', () => {
 
         input.focus();
 
-        expect(Simulator.Registry.get('$Keyboard.isAlphanumericEnabled')).toBe(
-          true,
-        );
+        expect(Registry.get('$Keyboard.isAlphanumericEnabled')).toBe(true);
       });
 
       it('should revert to numeric only when input is blurred', () => {
         input.blur();
 
-        expect(Simulator.Registry.get('$Keyboard.isAlphanumericEnabled')).toBe(
-          false,
-        );
+        expect(Registry.get('$Keyboard.isAlphanumericEnabled')).toBe(false);
       });
     });
   });
