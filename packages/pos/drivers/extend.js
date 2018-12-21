@@ -7,5 +7,5 @@ export default function(driver, ...modifiers) {
     throw new Error('[@mamba/pos] Could not find the loaded driver.');
   }
 
-  return extend(driver, getBaseDriver(), ...modifiers);
+  return extend(driver, ...modifiers, getBaseDriver());
 }
