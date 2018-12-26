@@ -26,7 +26,7 @@ interface connectionOptions {
 Recebe as especificações do request por meio de um objeto e retorna uma [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) que espera pelo seu resultado. Observe que nesse objeto existe alguns parâmetros.
 
 - `method`, que define o verbo http, e suporta apenas `GET` ou `POST`.
-- `proxy`, que especifica o tipo de canal utilizado, e pode ser `false`(direto), `true`(via proxy). Por padrão é `false` desabilitando o uso do proxy, não sendo possível fazer requisições por `GPRS`.
+- `proxy`, que específica o tipo de canal utilizado, e pode ser `false`(direto), `true`(via proxy). Por padrão é `false` desabilitando o uso do proxy, não sendo possível fazer requisições por `GPRS`.
 - `encodeURI`, define se será feito um encode na URI.
 
 ```js
