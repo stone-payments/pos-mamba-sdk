@@ -6,7 +6,7 @@ import extend from '../../../extend.js';
 
 import initData from './includes/data.js';
 
-const RegistryManager = extend(
+const Registry = extend(
   {
     _data: {},
   },
@@ -14,28 +14,4 @@ const RegistryManager = extend(
   EventTarget(),
 );
 
-let lastCachedStatedJson;
-let savedState;
-
-RegistryManager.getSavedState = () => {
-  if (!localStorage) {
-    return {};
-  }
-
-  const cachedStatedJson = localStorage.getItem('_mamba_web_');
-
-  if (!cachedStatedJson) {
-    return {};
-  }
-
-  if (lastCachedStatedJson === cachedStatedJson) {
-    return savedState;
-  }
-
-  lastCachedStatedJson = cachedStatedJson;
-  savedState = JSON.parse(cachedStatedJson);
-
-  return savedState;
-};
-
-export default RegistryManager;
+export default Registry;
