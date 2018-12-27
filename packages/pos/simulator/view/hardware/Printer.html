@@ -60,7 +60,9 @@
     },
     oncreate() {
       HardwareManager.on('startPrinting', (content, options) => {
-        this.print(content, options).then(HardwareManager.endPrinting);
+        this.print(content, options).then(() =>
+          HardwareManager.fire('endPrinting'),
+        );
       });
     },
     methods: {
