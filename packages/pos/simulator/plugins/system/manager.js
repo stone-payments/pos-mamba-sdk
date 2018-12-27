@@ -10,11 +10,6 @@ const System = extend(
   EventTarget(),
 );
 
-System.booted = false;
-System.on('boot', () => {
-  System.booted = true;
-});
-
 System.getVersion = () => System._version;
 
 export default System;

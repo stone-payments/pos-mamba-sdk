@@ -1,4 +1,4 @@
-import { System, DriverManager } from './plugins/index.js';
+import { DriverManager } from './plugins/index.js';
 
 import * as $Printer from '../drivers/printer/simulation.js';
 import * as $App from '../drivers/app/simulation.js';
@@ -23,5 +23,3 @@ DriverManager.attachDrivers([
   $Http,
   $Card,
 ]);
-
-System.fire('boot');
