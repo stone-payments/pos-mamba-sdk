@@ -186,7 +186,7 @@ describe('behaviour', () => {
 
         input.focus();
 
-        expect(Registry.get('$Keyboard.isAlphanumericEnabled')).toBe(false);
+        expect(Registry.get().$Keyboard.isAlphanumericEnabled).toBe(false);
       });
 
       it('should allow alphanumeric input after focusing the input if "alphanumeric:true"', () => {
@@ -194,13 +194,13 @@ describe('behaviour', () => {
 
         input.focus();
 
-        expect(Registry.get('$Keyboard.isAlphanumericEnabled')).toBe(true);
+        expect(Registry.get().$Keyboard.isAlphanumericEnabled).toBe(true);
       });
 
       it('should revert to numeric only when input is blurred', () => {
         input.blur();
 
-        expect(Registry.get('$Keyboard.isAlphanumericEnabled')).toBe(false);
+        expect(Registry.get().$Keyboard.isAlphanumericEnabled).toBe(false);
       });
     });
   });

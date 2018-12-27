@@ -1,6 +1,6 @@
 import produce, { setAutoFreeze } from 'immer';
 
-import { log, deepCopy } from '../../../libs/utils.js';
+import { log, warn, deepCopy } from '../../../libs/utils.js';
 
 setAutoFreeze(false);
 
@@ -14,6 +14,12 @@ export default Registry => {
   Registry.get = keyPath => {
     if (keyPath === undefined) {
       return Registry._data;
+    }
+
+    if (__DEV__) {
+      warn(
+        'Registry.get(string) is deprecated. Please use Registry.get().Prop1.Prop2.Prop3...',
+      );
     }
 
     const keys = keyPath.replace(/\[(\d+)\]/g, '.$1').split('.');
@@ -48,6 +54,12 @@ export default Registry => {
         Registry.save();
       }
       return;
+    }
+
+    if (__DEV__) {
+      warn(
+        'Registry.set(string) is deprecated. Please use Registry.set(draft -> newState)',
+      );
     }
 
     const keys = keyPath.replace(/\[(\d+)\]/g, '.$1').split('.');

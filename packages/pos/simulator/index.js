@@ -16,7 +16,7 @@ import { getView } from './view.js';
 export {
   /** Get a single instance of the virtual POS */
   getView,
-  /** Simulator drivers */
+  /** Simulator plugins */
   System,
   Registry,
   HardwareManager,
