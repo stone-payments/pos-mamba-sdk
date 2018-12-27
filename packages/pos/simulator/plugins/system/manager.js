@@ -1,6 +1,6 @@
 import EventTarget from '../../libs/EventTarget.js';
-import initClock from './includes/clock.js';
 import extend from '../../../extend.js';
+import initClock from './includes/clock.js';
 
 const System = extend(
   {
@@ -16,28 +16,5 @@ System.on('boot', () => {
 });
 
 System.getVersion = () => System._version;
-
-System.getView = () => {
-  if (System.POS) {
-    return Promise.resolve(System.POS);
-  }
-
-  System.POS = new Promise(res => {
-    if (System.booted) {
-      return res();
-    }
-
-    System.once('boot', res);
-  }).then(async () => {
-    const { default: POS } = await import('./view/POS.html');
-
-    System.POS = new POS({ target: document.body });
-    System.fire('viewLoad');
-
-    return System.POS;
-  });
-
-  return System.POS;
-};
 
 export default System;

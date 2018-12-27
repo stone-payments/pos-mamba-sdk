@@ -6,7 +6,8 @@ setAutoFreeze(false);
 
 export default Registry => {
   Registry.save = () => {
-    localStorage.setItem('_mamba_web_', JSON.stringify(Registry._data));
+    // todo: we can't save everything. some things are dynamic and should be always reseted
+    // localStorage.setItem('_mamba_web_', JSON.stringify(Registry._data));
   };
 
   /** Data */

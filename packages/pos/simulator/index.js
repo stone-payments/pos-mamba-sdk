@@ -6,24 +6,12 @@ import {
   AppManager,
   HardwareManager,
   DriverManager,
-  System,
   Registry,
+  System,
 } from './plugins/index.js';
-
 import { log, warn, error } from './libs/utils.js';
-
 import './boot.js';
-
-/** Mamba Web simulator global object */
-window.MambaWeb = {
-  System,
-  Registry,
-  HardwareManager,
-  DriverManager,
-  AppManager,
-};
-
-const { getView } = System;
+import { getView } from './view.js';
 
 export {
   /** Get a single instance of the virtual POS */
@@ -38,4 +26,13 @@ export {
   log,
   warn,
   error,
+};
+
+/** Mamba Web simulator global object */
+window.MambaWeb = {
+  System,
+  Registry,
+  HardwareManager,
+  DriverManager,
+  AppManager,
 };
