@@ -29,10 +29,9 @@ export function setup(Cancellation) {
       : Registry.get().$Cancellation.cancelledAmount;
 
   Cancellation.doCancellation = () => {
-    Registry.set(
-      '$Cancellation.cancelledAmount',
-      Registry.get().$Payment.authorizedAmount,
-    );
+    Registry.set(draft => {
+      draft.$Cancellation.cancelledAmount = draft.$Payment.authorizedAmount;
+    });
     Cancellation.cancellationDone();
   };
 }
