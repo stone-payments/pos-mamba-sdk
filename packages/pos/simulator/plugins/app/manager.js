@@ -13,22 +13,21 @@ let currentApp = null;
 AppManager.getInstalledApps = () => Apps;
 AppManager.getCurrentApp = () => currentApp;
 
-AppManager.loadApp = async (AppLoader, manifest) => {
+const loadApp = appMeta => {
   AppManager.fire('loading');
-  const { default: App } = await AppLoader();
-  return AppManager.installApp(App, manifest);
+  return appMeta.loader().then(({ default: App }) => {
+    AppManager.fire('loaded');
+    Apps[appMeta.manifest.slug].RootComponent = App;
+  });
 };
 
-AppManager.installApp = (AppConstructor, manifest) => {
+AppManager.installApp = ({ manifest, RootComponent, loader }) => {
   if (!Apps[manifest.slug]) {
-    const appMetaObj = {
-      constructor: AppConstructor,
-      manifest,
-    };
+    const appMeta = { manifest, RootComponent, loader };
 
-    Apps[manifest.slug] = appMetaObj;
+    Apps[manifest.slug] = appMeta;
 
-    AppManager.fire('appInstalled', appMetaObj);
+    AppManager.fire('appInstalled', appMeta);
   } else if (__DEV__) {
     warn(
       `Tried to install an already installed app with slug "${manifest.slug}"`,
@@ -38,13 +37,17 @@ AppManager.installApp = (AppConstructor, manifest) => {
   return Apps[manifest.slug];
 };
 
-AppManager.open = (appSlug, options = {}) => {
+AppManager.open = async (appSlug, options = {}) => {
   /** First time opening an app */
-  const appMetaObj = Apps[appSlug];
+  const appMeta = Apps[appSlug];
 
-  AppManager.fire('opening', appMetaObj, options);
+  if (!appMeta.RootComponent) {
+    await loadApp(appMeta);
+  }
 
-  if (__DEV__) log(`Opening App: ${appMetaObj.manifest.appName}`);
+  AppManager.fire('opening', appMeta, options);
+
+  if (__DEV__) log(`Opening App: ${appMeta.manifest.appName}`);
 
   const target = document.getElementById('app-root');
 
@@ -55,15 +58,15 @@ AppManager.open = (appSlug, options = {}) => {
     return;
   }
 
-  appMetaObj.runtime = {
+  appMeta.runtime = {
     target,
     collectedEvents: {},
   };
 
-  currentApp = appMetaObj;
-  currentApp.runtime.instance = new appMetaObj.constructor({ target });
+  currentApp = appMeta;
+  currentApp.runtime.instance = new appMeta.RootComponent({ target });
 
-  AppManager.fire('opened', appMetaObj, options);
+  AppManager.fire('opened', appMeta, options);
   DriverManager.drivers.$App.fire('opened');
 };
 
