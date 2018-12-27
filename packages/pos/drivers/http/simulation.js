@@ -53,7 +53,7 @@ export function setup(Http) {
       }
     };
 
-    const panel = Registry.get().$Http;
+    const { panel } = Registry.get().$Http;
     if (panel.simulateRequest) {
       const requestMsg = JSON.parse(panel.requestMsg);
       const requestPayload = JSON.parse(panel.requestPayload);
