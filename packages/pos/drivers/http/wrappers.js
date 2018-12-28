@@ -3,6 +3,10 @@ export default function(driver) {
     return new Promise((resolve, reject) => {
       const refSignal = `${Math.random() * new Date().getMilliseconds()}`;
 
+      if (typeof configParams.data !== 'string') {
+        configParams.data = JSON.stringify(configParams.data);
+      }
+
       driver.race([
         [
           'requestFailed',
