@@ -35,4 +35,6 @@ View.showPOS = () => {
   return POS;
 };
 
+View.getPOS = () => POS;
+
 export default View;
