@@ -1,5 +1,5 @@
 import { log } from '../../simulator/libs/utils.js';
-import Core from '../../simulator/core.js';
+import { Registry } from '../../simulator/index.js';
 
 export const NAMESPACE = '$Http';
 
@@ -53,7 +53,7 @@ export function setup(Http) {
       }
     };
 
-    const panel = Core.Registry.get('$Http.panel');
+    const { panel } = Registry.get().$Http;
     if (panel.simulateRequest) {
       const requestMsg = JSON.parse(panel.requestMsg);
       const requestPayload = JSON.parse(panel.requestPayload);

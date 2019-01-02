@@ -1,4 +1,4 @@
-import Core from '../../simulator/core.js';
+import { Registry, HardwareManager } from '../../simulator/index.js';
 
 export const NAMESPACE = '$Printer';
 
@@ -13,16 +13,18 @@ export const SETTINGS = {
 export const SIGNALS = ['printerDone'];
 
 export function setup(Printer) {
-  Printer.getPaperWidth = () => Core.Registry.get('$Printer.paperWidth');
-  Printer.isPrinting = () => Core.Registry.get('$Printer.isPrinting');
-  Printer.failedPrinting = () => Core.Registry.get('$Printer.panel.shouldFail');
+  Printer.getPaperWidth = () => Registry.get().$Printer.paperWidth;
+  Printer.isPrinting = () => Registry.get().$Printer.isPrinting;
+  Printer.failedPrinting = () => Registry.get().$Printer.panel.shouldFail;
 
   Printer.doPrint = function doPrint(content, options) {
     if (options.print_to_paper === false) {
       return Printer.printerDone();
     }
 
-    Core.Registry.set('$Printer.isPrinting', true);
+    Registry.set(draft => {
+      draft.$Printer.isPrinting = true;
+    });
 
     /** Fire the printing signal for the browser mamba simulation */
     if (!Printer.failedPrinting()) {
@@ -32,20 +34,24 @@ export function setup(Printer) {
        * paper is printed, it will print nothing because the content element was
        * destroyed.
        * */
-      Core.HardwareManager.startPrinting(content.cloneNode(true), options);
-      Core.HardwareManager.once('endPrinting', () => {
-        Core.Registry.set('$Printer.isPrinting', false);
+      HardwareManager.fire('startPrinting', content.cloneNode(true), options);
+      HardwareManager.once('endPrinting', () => {
+        Registry.set(draft => {
+          draft.$Printer.isPrinting = false;
+        });
         Printer.printerDone();
       });
 
       /** Fire endPrinting if no Virtual POS found */
-      if (!Core.POS || window.innerWidth <= 480) {
-        setTimeout(Core.HardwareManager.endPrinting, 1000);
+      if (!window.MambaWeb.View || window.innerWidth <= 480) {
+        setTimeout(() => HardwareManager.fire('endPrinting'), 1000);
       }
       return;
     }
 
-    Core.Registry.set('$Printer.isPrinting', false);
+    Registry.set(draft => {
+      draft.$Printer.isPrinting = false;
+    });
     Printer.printerDone();
   };
 }
