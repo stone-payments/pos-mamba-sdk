@@ -26,11 +26,6 @@
 <ControlPanel ref:controlPanel />
 
 <script>
-  import PrinterPanel from '../../drivers/printer/panel.html';
-  import HttpPanel from '../../drivers/http/panel.html';
-  import * as HttpSimulation from '../../drivers/http/simulation.js';
-  import * as PrinterSimulation from '../../drivers/printer/simulation.js';
-
   export default {
     components: {
       Printer: './hardware/Printer.html',
@@ -69,14 +64,6 @@
       document.documentElement.setAttribute('engine', _browserEngine);
       document.documentElement.setAttribute('virtual-pos', '');
       this.set({ _browserEngine });
-
-      this.createDriverPanel(PrinterSimulation, PrinterPanel);
-      this.createDriverPanel(HttpSimulation, HttpPanel);
-    },
-    methods: {
-      createDriverPanel(driverSimulation, PanelConstructor) {
-        this.refs.controlPanel.add(PanelConstructor, driverSimulation);
-      },
     },
   };
 </script>

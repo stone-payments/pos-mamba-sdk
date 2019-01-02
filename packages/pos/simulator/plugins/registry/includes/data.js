@@ -1,4 +1,4 @@
-import produce, { setAutoFreeze } from 'immer';
+import produce, { setAutoFreeze, applyPatches } from 'immer';
 
 import { log, warn } from '../../../libs/utils.js';
 
@@ -34,7 +34,16 @@ export default Registry => {
     }
 
     if (typeof keyPath === 'function') {
-      Registry._data = produce(Registry._data, keyPath);
+      const changes = [];
+
+      produce(Registry._data, keyPath, patches => {
+        changes.push(...patches);
+      });
+
+      Registry._data = applyPatches(Registry._data, changes);
+
+      Registry.fire('dataChanged', changes);
+
       return;
     }
 

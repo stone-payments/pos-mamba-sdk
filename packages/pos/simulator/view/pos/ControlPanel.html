@@ -4,12 +4,11 @@
   <input ref:toggle type="checkbox" class="panel-checkbox" id="panel-toggler">
   <label for="panel-toggler" class="panel-toggle">⚙</label>
   <div class="panel">
-      {#each Object.values(panels) as {namespace, panel, data}}
+      {#each Object.values(panels) as {namespace, panel}}
         <div class="section">
           <svelte:component
             this={panel}
-            {...data}
-            on:update="handlePanelUpdate(namespace, event)"
+            {...Registry.get()[namespace]}
           />
         </div>
       {/each}
@@ -17,8 +16,7 @@
 </div>
 
 <script>
-  import { Registry } from '../index.js';
-  import { deepCopy } from '../libs/utils.js';
+  import { Registry } from '../../index.js';
 
   let lastKeypressTime = 0;
 
@@ -26,69 +24,32 @@
     components: {
       Keystroke: '@mamba/app/Keystroke.html',
     },
+    helpers: {
+      Registry,
+    },
     data() {
       return {
         panels: {},
       };
     },
     oncreate() {
-      /**
-       * Disable the keystroke handler when
-       * there's a shortcut for the 'shortcuts' key
-       * */
-      // TODO HOW TO DO THIS WITHOUT STORE
-      // this.store.on('router:navigation', () => {
-      //   this.set({
-      //     keystrokeActive: !document.querySelector('[shortcut="shortcuts"]'),
-      //   });
-      // });
+      Registry.on('dataChanged', changes => {
+        const hasMods = changes.filter(
+          change => change.op === 'replace' && change.path.length > 1,
+        );
 
-      /** Update a driver local copy of settings */
-      Registry.on('shallowChange', ({ key, value }) => {
-        const { panels } = this.get();
-        if (panels[key]) {
-          this.set({
-            panels: {
-              ...panels,
-              [key]: { ...panels[key], data: deepCopy(value) },
-            },
-          });
+        /**
+         * TODO: this is... okay, but not optimal.
+         * For every non-shallow (more than one property deep) registry update,
+         * the whole panel list is updates
+         */
+        if (hasMods) {
+          const { panels } = this.get();
+          this.set({ panels: { ...panels } });
         }
       });
     },
     methods: {
-      // TODO: need to rethink all of this
-      handlePanelUpdate(namespace, { changed, current, previous }) {
-        if (previous) {
-          Object.keys(changed).forEach(key => {
-            Registry.set(
-              draft => {
-                draft[namespace] = {
-                  ...draft[namespace],
-                  [key]: current[key],
-                };
-              },
-              // todo: should save, but not possible right now without resetting every external driver
-              { dispatch: false, save: false },
-            );
-          });
-        }
-      },
-      add(panel, driver) {
-        const { panels } = this.get();
-        const namespace = driver.NAMESPACE;
-
-        this.set({
-          panels: {
-            ...panels,
-            [namespace]: {
-              namespace,
-              panel,
-              data: deepCopy(driver.SETTINGS || {}),
-            },
-          },
-        });
-      },
       handleShortcutStroke() {
         const keypressTime = new Date();
         /** Require double keypress */
