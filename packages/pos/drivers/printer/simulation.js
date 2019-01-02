@@ -1,4 +1,4 @@
-import { Registry, HardwareManager } from '../../simulator/index.js';
+import { Registry, HardwareManager, View } from '../../simulator/index.js';
 
 export const NAMESPACE = '$Printer';
 
@@ -43,7 +43,7 @@ export function setup(Printer) {
       });
 
       /** Fire endPrinting if no Virtual POS found */
-      if (!window.MambaWeb.View || window.innerWidth <= 480) {
+      if (!View.getPOS() || window.innerWidth <= 480) {
         setTimeout(() => HardwareManager.fire('endPrinting'), 1000);
       }
       return;
