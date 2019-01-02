@@ -1,4 +1,4 @@
-export default Registry => {
+export default System => {
   const initDate = new Date();
 
   const time = {
@@ -6,7 +6,7 @@ export default Registry => {
     minutes: String(initDate.getMinutes()).padStart(2, '0'),
   };
 
-  Registry.getCurrentTime = () => time;
+  System.getCurrentTime = () => time;
 
   const timer = () => {
     let hours = Number.parseInt(time.hours, 10);
@@ -24,7 +24,7 @@ export default Registry => {
     time.hours = String(hours).padStart(2, '0');
     time.minutes = String(minutes).padStart(2, '0');
 
-    Registry.fire('clock', time.hours, time.minutes);
+    System.fire('clock', time.hours, time.minutes);
 
     return timer;
   };

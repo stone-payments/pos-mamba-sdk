@@ -1,50 +1,53 @@
-import Signal from '../../libs/signal.js';
-import App from '../../../api/app.js';
-import extendDriver from '../../../drivers/extend.js';
+import EventTarget from '../../libs/EventTarget.js';
 import { log, warn } from '../../libs/utils.js';
 import initEventCollector from './includes/eventCollector.js';
+import extend from '../../../extend.js';
+import { DriverManager } from '../index.js';
 
-const AppManager = extendDriver({}, initEventCollector);
+const AppManager = extend({}, initEventCollector, EventTarget());
 
 const Apps = {};
 
 let currentApp = null;
 
-Signal.register(AppManager, [
-  'appInstalled',
-  'opening',
-  'opened',
-  'closing',
-  'closed',
-]);
-
 AppManager.getInstalledApps = () => Apps;
 AppManager.getCurrentApp = () => currentApp;
 
-AppManager.installApp = (AppConstructor, manifest) => {
+const loadApp = appMeta => {
+  AppManager.fire('loading');
+  return appMeta.loader().then(({ default: App }) => {
+    AppManager.fire('loaded');
+    Apps[appMeta.manifest.slug].RootComponent = App;
+  });
+};
+
+AppManager.installApp = ({ manifest, RootComponent, loader }) => {
   if (!Apps[manifest.slug]) {
-    const appMetaObj = {
-      constructor: AppConstructor,
-      manifest,
-    };
+    const appMeta = { manifest, RootComponent, loader };
 
-    Apps[manifest.slug] = appMetaObj;
+    Apps[manifest.slug] = appMeta;
 
-    AppManager.fire('appInstalled', appMetaObj);
+    AppManager.fire('appInstalled', appMeta);
   } else if (__DEV__) {
     warn(
       `Tried to install an already installed app with slug "${manifest.slug}"`,
     );
   }
+
+  return Apps[manifest.slug];
 };
 
-AppManager.open = (appSlug, options = {}) => {
+AppManager.open = async (appSlug, options = {}) => {
   /** First time opening an app */
-  const appMetaObj = Apps[appSlug];
+  const appMeta = Apps[appSlug];
 
-  AppManager.fire('opening', appMetaObj, options);
+  if (!appMeta.RootComponent) {
+    await loadApp(appMeta);
+  }
 
-  if (__DEV__) log(`Opening App: ${appMetaObj.manifest.appName}`);
+  AppManager.fire('opening', appMeta, options);
+
+  if (__DEV__) log(`Opening App: ${appMeta.manifest.appName}`);
 
   const target = document.getElementById('app-root');
 
@@ -55,16 +58,16 @@ AppManager.open = (appSlug, options = {}) => {
     return;
   }
 
-  appMetaObj.runtime = {
+  appMeta.runtime = {
     target,
     collectedEvents: {},
   };
 
-  currentApp = appMetaObj;
-  currentApp.runtime.instance = new appMetaObj.constructor({ target });
+  currentApp = appMeta;
+  currentApp.runtime.instance = new appMeta.RootComponent({ target });
 
-  AppManager.fire('opened', appMetaObj, options);
-  App.fire('opened');
+  AppManager.fire('opened', appMeta, options);
+  DriverManager.drivers.$App.fire('opened');
 };
 
 AppManager.close = () => {
@@ -72,8 +75,7 @@ AppManager.close = () => {
 
   if (currentApp) {
     AppManager.fire('closing', currentApp);
-
-    App.fire('closed');
+    DriverManager.drivers.$App.fire('closed');
 
     if (currentApp.runtime.instance) {
       const { runtime } = currentApp;

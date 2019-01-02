@@ -25,7 +25,7 @@
 </div>
 
 <script>
-  import Core from '../../../core.js';
+  import { HardwareManager } from '../../index.js';
 
   const onceTransitionEnd = (el, cb) => {
     const onTransitionEnd = e => {
@@ -59,8 +59,10 @@
       },
     },
     oncreate() {
-      Core.HardwareManager.on('startPrinting', (content, options) => {
-        this.print(content, options).then(Core.HardwareManager.endPrinting);
+      HardwareManager.on('startPrinting', (content, options) => {
+        this.print(content, options).then(() =>
+          HardwareManager.fire('endPrinting'),
+        );
       });
     },
     methods: {

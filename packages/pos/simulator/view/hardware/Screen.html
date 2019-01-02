@@ -27,16 +27,15 @@
 </svg>
 
 <script>
-  import Registry from '../../registry/manager.js';
-  import HardwareManager from '../../hardware/manager.js';
+  import { System, Registry, HardwareManager } from '../../index.js';
 
-  const { hours: initHours, minutes: initMinutes } = Registry.getCurrentTime();
+  const { hours: initHours, minutes: initMinutes } = System.getCurrentTime();
 
   export default {
     data() {
       return {
         brightnessLevel: 10,
-        version: Registry.getVersion(),
+        version: System.getVersion(),
         time: `${initHours}:${initMinutes}`,
       };
     },
@@ -44,15 +43,18 @@
       brightnessOpacity: ({ brightnessLevel }) => 1 - brightnessLevel / 10,
     },
     oncreate() {
-      // TODO: find another way to do this which doesn't directly access the driver state
-      const savedRegistryState = Registry.getSavedState();
-      if (savedRegistryState.ScreenBrightness) {
-        this.set({
-          brightnessLevel: savedRegistryState.ScreenBrightness.level,
-        });
+      if (localStorage) {
+        const brightnessLevel = Number.parseInt(
+          localStorage.getItem('_mamba_screen_brightness'),
+          10,
+        );
+        this.set({ brightnessLevel });
       }
 
       HardwareManager.on('changeBrightness', brightnessLevel => {
+        if (localStorage) {
+          localStorage.setItem('_mamba_screen_brightness', brightnessLevel);
+        }
         this.set({ brightnessLevel });
       });
 
