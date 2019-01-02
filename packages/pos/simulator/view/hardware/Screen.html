@@ -44,22 +44,16 @@
     },
     oncreate() {
       if (localStorage) {
-        const brightnessLevel = Number.parseInt(
-          localStorage.getItem('_mamba_screen_brightness'),
-          10,
-        );
+        const brightnessLevel = Registry.persistent.get().ScreenBrightness.level;
         this.set({ brightnessLevel });
       }
 
       HardwareManager.on('changeBrightness', brightnessLevel => {
-        if (localStorage) {
-          localStorage.setItem('_mamba_screen_brightness', brightnessLevel);
-        }
         this.set({ brightnessLevel });
       });
 
       /** Update the clock after each second */
-      Registry.on('clock', (newHours, newMinutes) => {
+      System.on('clock', (newHours, newMinutes) => {
         this.set({ time: `${newHours}:${newMinutes}` });
       });
     },

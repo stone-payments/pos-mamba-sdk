@@ -6,12 +6,6 @@ import extend from '../../../extend.js';
 
 import initData from './includes/data.js';
 
-const Registry = extend(
-  {
-    _data: {},
-  },
-  initData,
-  EventTarget(),
-);
+const Registry = extend({}, initData, EventTarget());
 
 export default Registry;

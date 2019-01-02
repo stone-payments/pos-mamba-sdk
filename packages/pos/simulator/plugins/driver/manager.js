@@ -19,14 +19,36 @@ DriverManager.attachDrivers = driverModules => {
     if (__DEBUG_LVL__ >= 1 && __BROWSER__) console.groupCollapsed(driverRef);
 
     /** Set the simulator default settings for the driver */
-    if (driverModule.SETTINGS) {
+    if (driverModule.DYNAMIC_SETTINGS || driverModule.SETTINGS) {
+      const dynamicDefaults =
+        driverModule.DYNAMIC_SETTINGS || driverModule.SETTINGS;
+
       if (__DEBUG_LVL__ >= 1 && __BROWSER__) {
-        console.log('Default settings:', driverModule.SETTINGS);
+        console.log('Dynamic settings:', dynamicDefaults);
       }
 
       Registry.set(draft => {
-        draft[driverModule.NAMESPACE] = deepCopy(driverModule.SETTINGS);
+        draft[driverRef] = deepCopy(dynamicDefaults);
       });
+    }
+
+    if (driverModule.PERSISTENT_SETTINGS) {
+      const persistentDefaults = deepCopy(driverModule.PERSISTENT_SETTINGS);
+
+      /** Does any persisted data for this driver exist? */
+      Registry.persistent.set(draft => {
+        draft[driverRef] = {
+          ...persistentDefaults,
+          ...(draft[driverRef] || {}),
+        };
+      });
+
+      if (__DEBUG_LVL__ >= 1 && __BROWSER__) {
+        console.log(
+          'Persistent settings:',
+          Registry.persistent.get()[driverRef],
+        );
+      }
     }
 
     /** Register the driver signals */
