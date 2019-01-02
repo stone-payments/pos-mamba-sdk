@@ -1,8 +1,6 @@
-import produce, { setAutoFreeze, applyPatches } from 'immer';
+import produce, { applyPatches } from 'immer';
 
 import { log, warn } from '../../../libs/utils.js';
-
-setAutoFreeze(false);
 
 export default Registry => {
   Registry._data = {};
