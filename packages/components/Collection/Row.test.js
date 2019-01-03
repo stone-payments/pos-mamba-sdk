@@ -28,14 +28,14 @@ it('should apply controller class with custom controller', () => {
 it('should not have description field without description text', () => {
   row.set({ description: undefined });
 
-  expect(root.query('p')).toBeNull();
+  expect(root.query('.description')).toBeNull();
 });
 
 it('should have description text with description', () => {
   row.set({ description: 'description text' });
 
-  expect(root.query('p')).not.toBeNull();
-  expect(root.query('p').textContent).toBe('description text');
+  expect(root.query('.description')).not.toBeNull();
+  expect(root.query('.description').textContent).toBe('description text');
 });
 
 it('should have description text with description passed by a SLOT', () => {
