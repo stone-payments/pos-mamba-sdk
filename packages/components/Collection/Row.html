@@ -24,7 +24,7 @@
     {#if _hasDescription}
       <div class="description">
         {#if description}
-          <p>{description}</p>
+          {description}
         {:elseif _hasDescriptionContent}
           <slot name="description"></slot>
         {/if}
