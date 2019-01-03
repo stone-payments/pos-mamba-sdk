@@ -34,7 +34,7 @@
     },
     oncreate() {
       Registry.on('dataChanged', changes => {
-        const hasMods = changes.filter(
+        const hasMods = changes.some(
           change => change.op === 'replace' && change.path.length > 1,
         );
 
