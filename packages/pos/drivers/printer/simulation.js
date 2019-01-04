@@ -43,7 +43,7 @@ export function setup(Printer) {
       });
 
       /** Fire endPrinting if no Virtual POS found */
-      if (!View.getPOS() || window.innerWidth <= 480) {
+      if (!View.getInstance() || window.innerWidth <= 480) {
         setTimeout(() => HardwareManager.fire('endPrinting'), 1000);
       }
       return;

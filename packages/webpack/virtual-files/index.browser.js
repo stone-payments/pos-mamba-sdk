@@ -9,7 +9,7 @@ const manifest = {
 };
 
 /** Show the Virtual POS before installing and opening the app */
-View.showPOS();
+View.show();
 
 /** Install the app on the mamba simulator */
 AppManager.installApp({ manifest, RootComponent });
