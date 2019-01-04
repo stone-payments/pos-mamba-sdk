@@ -1,4 +1,4 @@
-import POSConstructor from './pos/POS.html';
+import ViewWrapper from './pos/Wrapper.html';
 import EventTarget from '../libs/EventTarget.js';
 import extend from '../../extend.js';
 
@@ -9,7 +9,7 @@ import * as $Printer from '../../drivers/printer/simulation.js';
 
 const View = extend({}, EventTarget());
 
-let POS;
+let instance;
 let panels = {};
 
 View.addPanel = (driver, panel) => {
@@ -20,21 +20,22 @@ View.addPanel = (driver, panel) => {
     [namespace]: { namespace, panel },
   };
 
-  if (POS) {
-    POS.refs.controlPanel.set({ panels });
+  if (instance) {
+    instance.refs.controlPanel.set({ panels });
   }
 };
+
 View.addPanel($Printer, PrinterPanel);
 View.addPanel($Http, HttpPanel);
 
-View.showPOS = () => {
-  if (!POS) {
-    POS = new POSConstructor({ target: document.body });
-    POS.refs.controlPanel.set({ panels });
+View.show = () => {
+  if (!instance) {
+    instance = new ViewWrapper({ target: document.body });
+    instance.refs.controlPanel.set({ panels });
   }
-  return POS;
+  return instance;
 };
 
-View.getPOS = () => POS;
+View.getInstance = () => instance;
 
 export default View;
