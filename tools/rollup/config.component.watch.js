@@ -60,11 +60,7 @@ export default {
     image({
       limit: 10 * 1024, // inline files < 10k, copy files > 10k
       emitFiles: true, // defaults to true
-      include: [
-        fromWorkspace('**/*.{png,jpg,svg,bmp}'),
-        fromProject('node_modules', '**', '*.{png,jpg,svg,bmp}'),
-        fromProject('**', 'node_modules', '**', '*.{png,jpg,svg,bmp}'),
-      ],
+      include: [fromProject('**/*.{png,jpg,svg,bmp}')],
     }),
     replace({
       __NODE_ENV__: JSON.stringify(process.env.NODE_ENV),
