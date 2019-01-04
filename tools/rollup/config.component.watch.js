@@ -33,7 +33,7 @@ export default {
   plugins: [
     alias({
       resolve: ['.html'],
-      [`${PKG.name}`]: fromWorkspace(),
+      [`${PKG.name}`]: fromWorkspace(PKG.svelte),
     }),
     /** Virtual entry module to bootstrap the example app */
     virtual({
