@@ -2,9 +2,11 @@
 
 <div
   class="credit-card"
-  class:is-inserted="isCardInserted"
-  on:click="toggleCard()"
-  ></div>
+  class:is-inserted="isInserted"
+  class:is-dragging="isDragging"
+  class:is-above-screen="isAboveScreen"
+  ref:card
+></div>
 
 <script>
   import { HardwareManager } from '../../index.js';
@@ -13,15 +15,86 @@
   export default {
     data() {
       return {
-        isCardInserted: false,
+        isInserted: false,
       };
+    },
+    oncreate() {
+      const cardEl = this.refs.card;
+
+      let mouseStartPos = {};
+      let elPos = {};
+
+      cardEl.style.position = 'absolute';
+
+      const checkAboveScreen = (x, y) =>
+        Array.from(document.elementsFromPoint(x, y)).some(n =>
+          n.classList.contains('screen'),
+        );
+
+      cardEl.addEventListener('mousedown', e => {
+        this.set({ isDragging: true });
+
+        mouseStartPos = {
+          x: e.clientX,
+          y: e.clientY,
+        };
+
+        elPos = {
+          x: cardEl.offsetLeft,
+          y: cardEl.offsetTop,
+        };
+      });
+
+      cardEl.addEventListener('mouseup', e => {
+        const isAboveScreen = checkAboveScreen(e.clientX, e.clientY);
+
+        this.set({
+          isDragging: false,
+          isAboveScreen,
+        });
+
+        if (!isAboveScreen) {
+          cardEl.style.top = '';
+          cardEl.style.left = '';
+        }
+
+        if (mouseStartPos.x === e.clientX && mouseStartPos.y === e.clientY) {
+          this.toggleCard();
+        }
+      });
+
+      document.body.addEventListener('mouseout', () => {
+        this.set({
+          isDragging: false,
+        });
+
+        cardEl.style.top = '';
+        cardEl.style.left = '';
+      });
+
+      document.body.addEventListener('mousemove', e => {
+        if (!this.get().isDragging) {
+          return;
+        }
+
+        this.set({
+          isAboveScreen: checkAboveScreen(e.clientX, e.clientY),
+        });
+
+        const newPos = {
+          x: elPos.x + e.clientX - mouseStartPos.x,
+          y: elPos.y + e.clientY - mouseStartPos.y,
+        };
+        cardEl.style.left = `${newPos.x}px`;
+        cardEl.style.top = `${newPos.y}px`;
+      });
     },
     methods: {
       toggleCard() {
-        const isCardInserted = !this.get().isCardInserted;
-        this.set({ isCardInserted });
+        const isInserted = !this.get().isInserted;
+        this.set({ isInserted });
 
-        if (isCardInserted) {
+        if (isInserted) {
           setTimeout(() => {
             Payment.cardEvent();
             HardwareManager.fire('toggleCard', true);
@@ -58,15 +131,30 @@
     z-index: 1;
     background-image: url(./assets/creditcard.png);
     cursor: pointer;
-    transition: transform 0.3s ease, filter 0.3s ease;
     filter: drop-shadow(8px 8px 2px rgba(0, 0, 0, 0.5));
+    transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
 
     &:not(:hover):not(.is-inserted) {
       filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
     }
 
+    &:not(.is-dragging) {
+      transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease,
+        top 0.3s ease, left 0.3s ease;
+    }
+
     &:hover {
       transform: scale(1.04);
+    }
+
+    &.is-dragging,
+    &.is-above-screen {
+      z-index: 999999;
+    }
+
+    &.is-above-screen {
+      opacity: 0.8;
+      transform: rotateZ(-35deg);
     }
 
     &.is-inserted {
