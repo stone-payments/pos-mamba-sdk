@@ -28,12 +28,22 @@ export default () => {
     return { cancel: () => off(event, handler) };
   };
 
-  const once = (event, handler) => {
-    const listener = on(event, (...data) => {
-      handler(...data);
-      listener.cancel();
+  /** The first signal dispatched is executed and automatically cancel all others */
+  const race = entries => {
+    const wrappedCallbacks = {};
+    entries.forEach(([event, callback]) => {
+      /** Wrap the signal callback to disconnect all slots once one of the signals are emitted */
+      wrappedCallbacks[event] = (...data) => {
+        callback(...data);
+        Object.keys(wrappedCallbacks).forEach(signalName => {
+          console.log('removing ', signalName);
+          off(signalName, wrappedCallbacks[signalName]);
+        });
+      };
+
+      /** Listen to the signal emission */
+      on(event, wrappedCallbacks[event]);
     });
-    return listener;
   };
 
   const fire = (event, ...data) => {
@@ -43,5 +53,15 @@ export default () => {
     }
   };
 
-  return { on, once, fire, off, events: eventHandlers };
+  /** Execute once a callback when the signal is dispatched and disconnect from it */
+  const once = (event, callback) => race([[event, callback]]);
+
+  return {
+    on,
+    once,
+    race,
+    fire,
+    off,
+    events: eventHandlers,
+  };
 };
