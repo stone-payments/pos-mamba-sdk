@@ -1,6 +1,13 @@
 export default () => {
   const eventHandlers = {};
 
+  const fire = (event, ...data) => {
+    const handlers = eventHandlers[event];
+    if (handlers && handlers.length) {
+      handlers.forEach(handler => handler(...data));
+    }
+  };
+
   const off = (event, handler) => {
     const handlers = eventHandlers[event];
 
@@ -36,7 +43,6 @@ export default () => {
       wrappedCallbacks[event] = (...data) => {
         callback(...data);
         Object.keys(wrappedCallbacks).forEach(signalName => {
-          console.log('removing ', signalName);
           off(signalName, wrappedCallbacks[signalName]);
         });
       };
@@ -46,22 +52,21 @@ export default () => {
     });
   };
 
-  const fire = (event, ...data) => {
-    const handlers = eventHandlers[event];
-    if (handlers && handlers.length) {
-      handlers.forEach(handler => handler(...data));
-    }
-  };
-
   /** Execute once a callback when the signal is dispatched and disconnect from it */
-  const once = (event, callback) => race([[event, callback]]);
+  const once = (event, handler) => {
+    const listener = on(event, (...data) => {
+      handler(...data);
+      listener.cancel();
+    });
+    return listener;
+  };
 
   return {
     on,
     once,
     race,
-    fire,
     off,
+    fire,
     events: eventHandlers,
   };
 };
