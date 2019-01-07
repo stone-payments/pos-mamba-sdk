@@ -8,7 +8,6 @@ import virtual from 'rollup-plugin-virtual';
 import livereload from 'rollup-plugin-livereload';
 import html from '@gen/rollup-plugin-generate-html';
 import replace from 'rollup-plugin-replace';
-import alias from 'rollup-plugin-alias';
 import image from 'rollup-plugin-url';
 
 import { getPkg } from 'quickenv';
@@ -31,10 +30,21 @@ export default {
     format: 'umd',
   },
   plugins: [
-    alias({
-      resolve: ['.html'],
-      [`${PKG.name}`]: fromWorkspace(PKG.svelte),
-    }),
+    (function aliases() {
+      const pkgRegExp = new RegExp(`${PKG.name}[\\/](.*)`);
+
+      return {
+        resolveId(importee) {
+          const match = importee.match(pkgRegExp);
+          if (!match) {
+            return null;
+          }
+
+          importee = fromWorkspace(match[1]);
+          return importee;
+        },
+      };
+    })(),
     /** Virtual entry module to bootstrap the example app */
     virtual({
       __entry__: `
