@@ -2,28 +2,111 @@
 
 <div
   class="credit-card"
-  class:is-inserted="isCardInserted"
-  on:click="toggleCard()"
-  ></div>
+  class:is-inserted="isInserted"
+  class:is-dragging="isDragging"
+  class:is-above-screen="isAboveScreen"
+  ref:card
+></div>
 
 <script>
   import { HardwareManager } from '../../index.js';
-  import Payment from '../../../api/payment.js';
 
   export default {
     data() {
       return {
-        isCardInserted: false,
+        isInserted: false,
+        isDragging: false,
+        isAboveScreen: false,
       };
+    },
+    oncreate() {
+      const cardEl = this.refs.card;
+
+      let mouseStartPos = null;
+      let elPos = null;
+      let nfcTimeout;
+
+      const reset = () => {
+        clearTimeout(nfcTimeout);
+        nfcTimeout = null;
+
+        this.set({ isDragging: false, isAboveScreen: false });
+
+        cardEl.style.top = '';
+        cardEl.style.left = '';
+
+        mouseStartPos = null;
+        elPos = null;
+      };
+
+      const checkAboveScreen = (x, y) =>
+        Array.from(document.elementsFromPoint(x, y)).some(n =>
+          n.classList.contains('screen'),
+        );
+
+      const onMousedown = e => {
+        mouseStartPos = { x: e.clientX, y: e.clientY };
+        elPos = { x: cardEl.offsetLeft, y: cardEl.offsetTop };
+      };
+
+      const onMouseup = e => {
+        if (mouseStartPos.x === e.clientX && mouseStartPos.y === e.clientY) {
+          this.toggleCard();
+        }
+        reset();
+      };
+
+      const onMousemove = e => {
+        if (!mouseStartPos) {
+          return;
+        }
+
+        if (!this.get().isDragging) {
+          this.set({ isDragging: true });
+        }
+
+        const newPos = {
+          x: elPos.x + e.clientX - mouseStartPos.x,
+          y: elPos.y + e.clientY - mouseStartPos.y,
+        };
+        cardEl.style.left = `${newPos.x}px`;
+        cardEl.style.top = `${newPos.y}px`;
+
+        const isAboveScreen = checkAboveScreen(e.clientX, e.clientY);
+
+        this.set({ isAboveScreen });
+
+        if (isAboveScreen) {
+          if (!nfcTimeout) {
+            nfcTimeout = setTimeout(() => {
+              HardwareManager.fire('nfcStart');
+            }, 1000);
+          }
+        } else {
+          clearTimeout(nfcTimeout);
+          nfcTimeout = null;
+        }
+      };
+
+      cardEl.addEventListener('mousedown', onMousedown);
+      cardEl.addEventListener('mouseup', onMouseup);
+      document.body.addEventListener('mouseout', reset);
+      document.body.addEventListener('mousemove', onMousemove);
+
+      this.on('destroy', () => {
+        cardEl.removeEventListener('mousedown', onMousedown);
+        cardEl.removeEventListener('mouseup', onMouseup);
+        document.body.removeEventListener('mouseout', reset);
+        document.body.removeEventListener('mousemove', onMousemove);
+      });
     },
     methods: {
       toggleCard() {
-        const isCardInserted = !this.get().isCardInserted;
-        this.set({ isCardInserted });
+        const isInserted = !this.get().isInserted;
+        this.set({ isInserted });
 
-        if (isCardInserted) {
+        if (isInserted) {
           setTimeout(() => {
-            Payment.cardEvent();
             HardwareManager.fire('toggleCard', true);
           }, 500);
         } else {
@@ -58,8 +141,8 @@
     z-index: 1;
     background-image: url(./assets/creditcard.png);
     cursor: pointer;
-    transition: transform 0.3s ease, filter 0.3s ease;
     filter: drop-shadow(8px 8px 2px rgba(0, 0, 0, 0.5));
+    transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
 
     &:not(:hover):not(.is-inserted) {
       filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
@@ -67,6 +150,20 @@
 
     &:hover {
       transform: scale(1.04);
+    }
+
+    &.is-dragging:not(.is-above-screen) {
+      filter: drop-shadow(18px 18px 2px rgba(0, 0, 0, 0.5));
+    }
+
+    &.is-dragging,
+    &.is-above-screen {
+      z-index: 999999;
+    }
+
+    &.is-above-screen {
+      opacity: 0.8;
+      transform: rotateZ(-25deg);
     }
 
     &.is-inserted {
