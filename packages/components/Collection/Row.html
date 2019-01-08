@@ -52,9 +52,9 @@
 <script>
   /* istanbul ignore next */
   function isChildOf(tgt, el) {
-    if (!tgt || tgt.nodeType !== 1) return null;
+    if (!tgt || tgt.nodeType !== 1) return false;
     if (tgt && el !== tgt) return isChildOf(tgt.parentNode, el);
-    return tgt;
+    return true;
   }
 
   export default {
