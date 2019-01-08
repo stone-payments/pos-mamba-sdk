@@ -1,12 +1,22 @@
-<div ref:row class="row">
-  <div ref:main on:click="_handleClick({ event, href })">
+<div class="row" style={_rowStyle}>
+  <div
+    ref:main
+    class="main"
+    style={_topStyle}
+    on:click="_handleClick({ event, href })"
+    >
     <div class="top {_hasController ? 'has-controller' : ''}">
       <div class="left-area">
+        {#if icon}
+          <div class="icon">
+            <Icon {..._iconProps} />
+          </div>
+        {/if}
         <div class="label">{label}</div>
       </div>
       <div class="right-area">
         {#if rightLabel}
-          <div class="label">
+          <div class="label" style={_rightLabelStyle}>
             {rightLabel}
           </div>
         {/if}
@@ -41,10 +51,10 @@
 
 <script>
   /* istanbul ignore next */
-  function findClosest(el, cb) {
-    if (!el || el.nodeType !== 1) return null;
-    if (el && !cb(el)) return findClosest(el.parentNode, cb);
-    return el;
+  function isChildOf(tgt, el) {
+    if (!tgt || tgt.nodeType !== 1) return null;
+    if (tgt && el !== tgt) return isChildOf(tgt.parentNode, el);
+    return tgt;
   }
 
   export default {
@@ -60,6 +70,13 @@
         href: undefined,
         /** Description below the row label */
         description: undefined,
+        /** icon object configuration */
+        icon: undefined,
+        /** Optional style */
+        bgColor: undefined,
+        primaryColor: undefined,
+        secondaryColor: undefined,
+        /** Private */
         _hasCustomController: false,
         _hasExtraContent: false,
         _hasDescriptionContent: false,
@@ -70,6 +87,25 @@
         !!(href || _hasCustomController),
       _hasDescription: ({ description, _hasDescriptionContent }) =>
         !!(description || _hasDescriptionContent),
+      _iconProps: ({ icon, secondaryColor }) => {
+        if (!icon) return null;
+
+        if (typeof icon === 'string') {
+          return { symbol: icon };
+        }
+
+        if (!icon.color) {
+          icon.color = secondaryColor || '#7e7e7e';
+        }
+
+        return icon;
+      },
+      _rowStyle: ({ primaryColor }) =>
+        [primaryColor && `color: ${primaryColor}`].filter(Boolean).join(';'),
+      _rightLabelStyle: ({ secondaryColor }) =>
+        [secondaryColor && `color: ${secondaryColor}`].filter(Boolean).join(';'),
+      _topStyle: ({ bgColor }) =>
+        [bgColor && `background-color: ${bgColor}`].filter(Boolean).join(';'),
     },
     oncreate() {
       const hasSlots = !!this.options.slots;
@@ -112,26 +148,27 @@
          * If the row has a custom controller,
          * let's see if it has a [data-controller-triger] element.
          */
-        if (_hasCustomController) {
-          /** Prevent firing the event twice (because of event bubbling) */
-          const hasNotClickedController = !findClosest(event.target, el =>
-            el.classList.contains('controller'),
-          );
+        if (!_hasCustomController) return;
 
-          if (hasNotClickedController) {
-            const triggerEl = this.refs.controller.querySelector(
-              '[data-controller-trigger]',
-            );
+        /** Prevent firing the event twice (because of event bubbling) */
+        const hasClickedController = isChildOf(
+          event.target,
+          this.refs.controller,
+        );
 
-            /* istanbul ignore else */
-            if (triggerEl) {
-              /** ! We assume that the trigger is also
-               * the element method that triggers it (like click)
-               * */
-              triggerEl[triggerEl.dataset.controllerTrigger]();
-            }
-          }
-        }
+        if (hasClickedController) return;
+
+        const triggerEl = this.refs.controller.querySelector(
+          '[data-controller-trigger]',
+        );
+
+        /* istanbul ignore else */
+        if (!triggerEl) return;
+
+        /** ! We assume that the trigger is also
+         * the element method that triggers it (like click)
+         * */
+        triggerEl[triggerEl.dataset.controllerTrigger]();
       },
     },
   };
@@ -140,19 +177,20 @@
 <style type="text/postcss">
   @import '@mamba/styles/theme.pcss';
 
-  ref:row {
+  .row {
     margin: 0;
     background: #fff;
-    color: #494949;
+    color: $row-primary-color;
     border-bottom: 1px solid #e3e6e7;
   }
 
-  .row ref:row:last-child {
+  .row .row:last-child {
     border-bottom: none;
   }
 
-  ref:main {
+  .main {
     padding: $row-padding;
+    background: $row-bg-color;
   }
 
   .top {
@@ -162,7 +200,7 @@
     align-items: center;
 
     &:not(.has-controller) {
-      height: 24px;
+      height: 16px;
     }
   }
 
@@ -170,10 +208,15 @@
     flex-grow: 1;
   }
 
+  .icon {
+    margin-right: 10px;
+  }
+
   .label {
     font-size: 13px;
     font-weight: bold;
     word-wrap: break-word;
+    flex-grow: 1;
 
     .left-area & {
       .top.has-controller & {
@@ -183,7 +226,7 @@
 
     .right-area & {
       max-width: 110px;
-      color: #8c8c8c;
+      color: $row-secondary-color;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
@@ -194,10 +237,14 @@
     }
   }
 
-  .right-area {
+  .right-area,
+  .left-area {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
+  }
+
+  .right-area {
+    justify-content: flex-end;
   }
 
   .description {

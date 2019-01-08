@@ -1,6 +1,49 @@
 <div class="wrapper">
-  <Collection title="Rede">
-    <Row label="1. Configurar" href="/network/configure"/>
+  <Collection title="Tipos">
+    <Row label="1 - Opção" rightLabel="Reposta" />
+
+    <Row label="1 - Opção">
+      <div slot="controller">
+        <Switch/>
+      </div>
+    </Row>
+
+    <Row
+      label="1 - Opção"
+      description="Mais uma opção de controle na hora da venda, essa etapa pode ser pulada"
+    >
+      <div slot="controller">
+        <Switch/>
+      </div>
+    </Row>
+
+    <Row
+      label="Hoje, 13/06/2018"
+      secondaryColor="#4EBF1A"
+      icon={{symbol: 'calendar'}}
+      rightLabel="Alterar"
+    />
+
+    <Row
+      label="Conectado"
+      primaryColor="#4EBF1A"
+      icon={{ symbol: 'wifi', level: 2 }}
+    />
+
+    <Row
+      label="Conectado"
+      primaryColor="white"
+      bgColor="#4EBF1A"
+    />
+
+    <Row label="1 - Opção">
+      <div slot="controller">
+        <Switch/>
+      </div>
+      <div slot="description">
+        Mais uma opção de controle na hora da venda, essa etapa pode ser pulada
+      </div>
+    </Row>
   </Collection>
 
   <Collection title="Dispositivo">
@@ -46,6 +89,7 @@
       Icon: '@mamba/icon',
       Row: '@mamba/collection/Row.html',
       Collection: '@mamba/collection/Collection.html',
+      Switch: '@mamba/switch/Switch.html',
     },
   };
 </script>

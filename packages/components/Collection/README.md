@@ -23,6 +23,10 @@ O módulo `Collection` é composto por dois componentes: `Collection` e `Row`, q
 | shortcut    | Tecla de atalho para a ação da `<Row/>`: `0..9`,`enter`,`shortcuts`,`help` | `string` (keyname) | `undefined`   |
 | description | Texto de descrição abaixo do título          | `string`           | `undefined`   |
 | rightLabel  | Texto que é exibido no canto direito da linha | `string` | `undefined` |
+| icon | Objeto de propriedades do componente Icon | `string`| `undefined`|
+| bgColor | Cor de fundo da linha | `string`| `undefined`|
+| primaryColor | Cor primária da linha | `string`| `undefined`|
+| secondaryColor | Cor secundária da linha | `string`| `undefined`|
 
 ## Eventos
 
