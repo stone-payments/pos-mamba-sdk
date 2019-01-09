@@ -130,12 +130,11 @@
       /** Prevent default back/enter button behaviour */
       _onKeydown(e) {
         /* istanbul ignore next */
-        if (
-          !__TEST__ &&
-          __BROWSER__ &&
-          !e.composedPath().find(node => node.id === 'app-root')
-        ) {
-          return;
+        if (!__TEST__ && __BROWSER__) {
+          const eventPath = e.path || (e.composedPath && e.composedPath());
+          if (eventPath && !eventPath.find(node => node.id === 'app-root')) {
+            return;
+          }
         }
 
         const keyName = Keyboard.getKeyName(e.keyCode);
@@ -158,14 +157,16 @@
          * allow it to pass through.
          * */
         /* istanbul ignore next */
-        if (
-          !__TEST__ &&
-          __BROWSER__ &&
-          !e.composedPath().find(node => node.id === 'app-root') &&
-          (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') &&
-          !Keyboard.isActionKey(keyCode)
-        ) {
-          return;
+        if (!__TEST__ && __BROWSER__) {
+          const eventPath = e.path || (e.composedPath && e.composedPath());
+          if (
+            eventPath &&
+            !eventPath.find(node => node.id === 'app-root') &&
+            (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') &&
+            !Keyboard.isActionKey(keyCode)
+          ) {
+            return;
+          }
         }
 
         const keyName = Keyboard.getKeyName(keyCode);

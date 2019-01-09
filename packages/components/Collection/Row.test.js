@@ -5,24 +5,20 @@ const { newTestRoot } = global;
 
 const root = newTestRoot();
 let row;
-let controller;
+let rightSign;
 
 const newRow = (data, slots) =>
   root.createComponent(Row, { unique: true, data, slots });
 
-it('should have controller with href', () => {
+it('should have a right sign with href', () => {
   row = newRow({ showExtra: false, href: '/home' });
 
-  expect(row.get()._hasController).toBe(true);
-  expect(row.refs.controller).not.toBeNull();
+  expect(row.get()._hasRightSign).toBe(true);
+  expect(row.refs.rightSign).not.toBeNull();
 });
 
-it('should apply controller class with href', () => {
-  expect(root.query('.top.has-controller')).not.toBeNull();
-});
-
-it('should apply controller class with custom controller', () => {
-  expect(root.query('.top.has-controller')).not.toBeNull();
+it('should apply has-right-sign class with href', () => {
+  expect(root.query('.top.has-right-sign')).not.toBeNull();
 });
 
 it('should not have description field without description text', () => {
@@ -62,7 +58,7 @@ describe('click behavior', () => {
     row = newRow();
   });
 
-  it('should only trigger a click event if no href or controller present', () =>
+  it('should only trigger a click event if no href or right sign present', () =>
     new Promise(res => {
       row.on('click', res);
       row.refs.main.click();
@@ -78,47 +74,49 @@ describe('click behavior', () => {
   });
 });
 
-describe('controller', () => {
+describe('signs', () => {
   const getSwitchFragment = () => {
-    const controllerFragment = document.createDocumentFragment();
-    controller = new Switch({
-      target: controllerFragment,
+    const signFragment = document.createDocumentFragment();
+    rightSign = new Switch({
+      target: signFragment,
       data: {
         disabled: false,
         checked: false,
       },
     });
 
-    return controllerFragment;
+    return signFragment;
   };
-  it('should have controller with custom controller', () => {
+  it('should have right sign with custom slot', () => {
+    row = newRow({}, { 'right-sign': getSwitchFragment() });
+
+    expect(row.get()._hasRightSign).toBe(true);
+    expect(row.refs.rightSign).not.toBeNull();
+
     row = newRow({}, { controller: getSwitchFragment() });
 
-    expect(row.get()._hasController).toBe(true);
-    expect(row.get()._hasCustomController).toBe(true);
-    expect(row.refs.controller).not.toBeNull();
+    expect(row.get()._hasRightSign).toBe(true);
+    expect(row.refs.rightSign).not.toBeNull();
   });
 
-  it('should trigger click in custom controller with data-controller-trigger="click"', () => {
-    row = newRow({}, { controller: getSwitchFragment() });
+  it('should trigger click in custom right sign with data-trigger="click"', () => {
+    row = newRow({}, { 'right-sign': getSwitchFragment() });
 
     return new Promise(res => {
-      controller.on('change', res);
+      rightSign.on('change', res);
       row.refs.main.click();
     });
   });
 
-  it('should not retrigger controller if click was on it', () => {
-    row = newRow({}, { controller: getSwitchFragment() });
+  it('should not retrigger sign trigger if click was on it', () => {
+    row = newRow({}, { 'right-sign': getSwitchFragment() });
 
     return new Promise(res => {
       setTimeout(() => {
-        if (controller.get().checked) res();
+        if (rightSign.get().checked) res();
       }, 500);
 
-      row.refs.controller
-        .querySelector('[data-controller-trigger="click"]')
-        .click();
+      row.refs.rightSign.querySelector('[data-trigger="click"]').click();
     });
   });
 });
@@ -148,7 +146,6 @@ describe('extra slot', () => {
   it('should show extra', () => {
     row = newRow({ showExtra: true }, { extra: getExtraFragment() });
 
-    expect(row.get()._hasExtraContent).toBe(true);
     expect(root.query('.extra')).not.toBeNull();
   });
 
