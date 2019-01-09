@@ -31,17 +31,17 @@ export default {
   },
   plugins: [
     (function aliases() {
-      const pkgRegExp = new RegExp(`${PKG.name}[\\/](.*)`);
-
       return {
         resolveId(importee) {
-          const match = importee.match(pkgRegExp);
-          if (!match) {
-            return null;
+          if (importee === PKG.name) {
+            return fromWorkspace(PKG.main);
           }
 
-          importee = fromWorkspace(match[1]);
-          return importee;
+          if (importee.startsWith(PKG.name)) {
+            importee = importee.substring(PKG.name.length + 1);
+            importee = fromWorkspace(importee);
+            return importee;
+          }
         },
       };
     })(),
