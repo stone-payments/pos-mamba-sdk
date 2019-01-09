@@ -5,14 +5,18 @@
     style={_topStyle}
     on:click="_handleClick({ event, href })"
     >
-    <div class="top {_hasController ? 'has-controller' : ''}">
+    <div
+      class="top"
+      class:has-right-sign="_hasRightSign"
+      class:has-left-sign="_slots.leftSign"
+    >
       <div class="left-area">
-        {#if icon}
-          <div class="icon">
-            <Icon {..._iconProps} />
+        {#if _slots.leftSign}
+          <div class="left-sign" ref:leftSign>
+            <slot name="left-sign"></slot>
           </div>
         {/if}
-        <div class="label">{label}</div>
+        <div class="label">{label || leftLabel}</div>
       </div>
       <div class="right-area">
         {#if rightLabel}
@@ -20,29 +24,31 @@
             {rightLabel}
           </div>
         {/if}
-        {#if _hasController}
-          <div class="controller" ref:controller>
+        {#if _hasRightSign}
+          <div class="right-sign" ref:rightSign>
             {#if href}
               <Icon symbol="chevron-right" width="10px" />
-            {:elseif _hasCustomController}
+            {:elseif _slots.rightSign}
+              <slot name="right-sign"></slot>
+            {:elseif _slots.controller}
               <slot name="controller"></slot>
             {/if}
           </div>
         {/if}
       </div>
     </div>
-    {#if _hasDescription}
+    {#if description || _slots.description}
       <div class="description">
-        {#if description}
-          {description}
-        {:elseif _hasDescriptionContent}
+        {#if _slots.description}
           <slot name="description"></slot>
+        {:elseif description}
+          {description}
         {/if}
       </div>
     {/if}
   </div>
 
-  {#if showExtra && _hasExtraContent}
+  {#if showExtra && _slots.extra}
     <div class="extra">
       <slot name="extra"></slot>
     </div>
@@ -63,6 +69,8 @@
     },
     data() {
       return {
+        label: '',
+        leftLabel: undefined,
         rightLabel: undefined,
         /** Boolean to display the extra content element */
         showExtra: false,
@@ -70,36 +78,17 @@
         href: undefined,
         /** Description below the row label */
         description: undefined,
-        /** icon object configuration */
-        icon: undefined,
         /** Optional style */
         bgColor: undefined,
         primaryColor: undefined,
         secondaryColor: undefined,
         /** Private */
-        _hasCustomController: false,
-        _hasExtraContent: false,
-        _hasDescriptionContent: false,
+        _slots: {},
       };
     },
     computed: {
-      _hasController: ({ href, _hasCustomController }) =>
-        !!(href || _hasCustomController),
-      _hasDescription: ({ description, _hasDescriptionContent }) =>
-        !!(description || _hasDescriptionContent),
-      _iconProps: ({ icon, secondaryColor }) => {
-        if (!icon) return null;
-
-        if (typeof icon === 'string') {
-          return { symbol: icon };
-        }
-
-        if (!icon.color) {
-          icon.color = secondaryColor || '#7e7e7e';
-        }
-
-        return icon;
-      },
+      _hasRightSign: ({ href, _slots }) =>
+        !!(href || _slots.rightSign || _slots.controller),
       _rowStyle: ({ primaryColor }) =>
         [primaryColor && `color: ${primaryColor}`].filter(Boolean).join(';'),
       _rightLabelStyle: ({ secondaryColor }) =>
@@ -111,9 +100,13 @@
       const hasSlots = !!this.options.slots;
       if (hasSlots) {
         this.set({
-          _hasCustomController: !!this.options.slots.controller,
-          _hasExtraContent: !!this.options.slots.extra,
-          _hasDescriptionContent: !!this.options.slots.description,
+          _slots: {
+            extra: !!this.options.slots.extra,
+            description: !!this.options.slots.description,
+            controller: !!this.options.slots.controller,
+            leftSign: !!this.options.slots['left-sign'],
+            rightSign: !!this.options.slots['right-sign'],
+          },
         });
       }
 
@@ -143,29 +136,27 @@
           return this.root.router.go(href);
         }
 
-        const { _hasCustomController } = this.get();
+        const { _hasRightSign } = this.get();
         /**
          * If the row has a custom controller,
          * let's see if it has a [data-controller-triger] element.
          */
-        if (!_hasCustomController) return;
+        if (!_hasRightSign) return;
 
         /** Prevent firing the event twice (because of event bubbling) */
-        const hasClickedController = isChildOf(
-          event.target,
-          this.refs.controller,
-        );
+        const clickedRightSign = isChildOf(event.target, this.refs.rightSign);
 
-        if (hasClickedController) return;
+        if (clickedRightSign) return;
 
-        const triggerEl = this.refs.controller.querySelector(
+        const triggerEl = this.refs.rightSign.querySelector(
           '[data-controller-trigger]',
         );
 
         /* istanbul ignore else */
         if (!triggerEl) return;
 
-        /** ! We assume that the trigger is also
+        /**
+         * We assume that the trigger is also
          * the element method that triggers it (like click)
          * */
         triggerEl[triggerEl.dataset.controllerTrigger]();
@@ -199,17 +190,13 @@
     justify-content: space-between;
     align-items: center;
 
-    &:not(.has-controller) {
+    &:not(.has-right-sign) {
       height: 16px;
     }
   }
 
   .left-area {
     flex-grow: 1;
-  }
-
-  .icon {
-    margin-right: 10px;
   }
 
   .label {
@@ -219,8 +206,12 @@
     flex-grow: 1;
 
     .left-area & {
-      .top.has-controller & {
+      .top.has-right-sign & {
         max-width: 90%;
+      }
+
+      .top.has-left-sign & {
+        margin-left: 10px;
       }
     }
 
@@ -231,7 +222,7 @@
       white-space: nowrap;
       text-overflow: ellipsis;
 
-      .top.has-controller & {
+      .top.has-right-sign & {
         margin-right: 8px;
       }
     }
@@ -248,10 +239,13 @@
   }
 
   .description {
-    color: #8c8c8c;
-    margin: 4px 0 0;
-    font-size: 12px;
-    line-height: 16px;
+    &,
+    & :global(*) {
+      color: #8c8c8c;
+      margin: 4px 0 0;
+      font-size: 12px;
+      line-height: 16px;
+    }
   }
 
   .extra {
