@@ -50,6 +50,7 @@
     "postcss-calc": "^7.0.1",
     "postcss-easy-import": "^3.0.0",
     "postcss-extend-rule": "^2.0.0",
+    "postcss-hexrgba": "^1.0.1",
     "postcss-html": "^0.36.0",
     "postcss-nested": "^4.1.1",
     "postcss-preset-env": "^6.5.0",

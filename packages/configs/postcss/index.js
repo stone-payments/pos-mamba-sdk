@@ -11,6 +11,7 @@ const postcssPropertyLookup = require('postcss-property-lookup');
 const postcssNested = require('postcss-nested');
 const cssMqpacker = require('css-mqpacker');
 const postcssReporter = require('postcss-reporter');
+const postcssHexRGBA = require('postcss-hexrgba');
 const prependImports = require('./prependImports.js');
 
 const IS_BUILDING_APP = !!process.env.APP_ENV;
@@ -36,6 +37,7 @@ module.exports = {
     postcssCalc({
       warnWhenCannotResolve: true,
     }),
+    postcssHexRGBA(),
     postcssPresetEnv({
       stage: 2 /** Defaults postcss-preset-env to stage 2 */,
       features: {
