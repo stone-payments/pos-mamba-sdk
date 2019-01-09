@@ -57,11 +57,12 @@
       };
 
       const onMousemove = e => {
-        if (!mouseStartPos) {
+        const { isInserted, isDragging } = this.get();
+        if (!mouseStartPos || isInserted) {
           return;
         }
 
-        if (!this.get().isDragging) {
+        if (!isDragging) {
           this.set({ isDragging: true });
         }
 
