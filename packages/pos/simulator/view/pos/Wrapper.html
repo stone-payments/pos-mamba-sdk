@@ -1,6 +1,6 @@
 {#if ENGINE === 'webkit'}
   <div class="container">
-    <div style="position: relative;">
+    <div class="main-wrapper">
       <POS ref:POS>
         <Launcher />
       </POS>
@@ -60,7 +60,8 @@
 
   @media (max-width: 400px) {
     :global(body),
-    .container {
+    .container,
+    .main-wrapper {
       height: 100%;
     }
 
@@ -79,6 +80,10 @@
       background-image: url(./assets/wood.jpg);
       background-size: cover;
       overflow: hidden;
+    }
+
+    .main-wrapper {
+      position: relative;
     }
   }
 

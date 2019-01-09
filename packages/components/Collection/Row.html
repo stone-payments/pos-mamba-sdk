@@ -1,38 +1,54 @@
-<div ref:row class="row">
-  <div ref:main on:click="_handleClick({ event, href })">
-    <div class="top {_hasController ? 'has-controller' : ''}">
+<div class="row" style={_rowStyle}>
+  <div
+    ref:main
+    class="main"
+    style={_topStyle}
+    on:click="_handleClick({ event, href })"
+    >
+    <div
+      class="top"
+      class:has-right-sign="_hasRightSign"
+      class:has-left-sign="_slots.leftSign"
+    >
       <div class="left-area">
-        <div class="label">{label}</div>
+        {#if _slots.leftSign}
+          <div class="left-sign" ref:leftSign>
+            <slot name="left-sign"></slot>
+          </div>
+        {/if}
+        <div class="label">{label || leftLabel}</div>
       </div>
       <div class="right-area">
         {#if rightLabel}
-          <div class="label">
+          <div class="label" style={_rightLabelStyle}>
             {rightLabel}
           </div>
         {/if}
-        {#if _hasController}
-          <div class="controller" ref:controller>
+        {#if _hasRightSign}
+          <div class="right-sign" ref:rightSign>
             {#if href}
               <Icon symbol="chevron-right" width="10px" />
-            {:elseif _hasCustomController}
+            {:elseif _slots.rightSign}
+              <slot name="right-sign"></slot>
+            {:elseif _slots.controller}
               <slot name="controller"></slot>
             {/if}
           </div>
         {/if}
       </div>
     </div>
-    {#if _hasDescription}
+    {#if description || _slots.description}
       <div class="description">
-        {#if description}
-          {description}
-        {:elseif _hasDescriptionContent}
+        {#if _slots.description}
           <slot name="description"></slot>
+        {:elseif description}
+          {description}
         {/if}
       </div>
     {/if}
   </div>
 
-  {#if showExtra && _hasExtraContent}
+  {#if showExtra && _slots.extra}
     <div class="extra">
       <slot name="extra"></slot>
     </div>
@@ -41,10 +57,10 @@
 
 <script>
   /* istanbul ignore next */
-  function findClosest(el, cb) {
-    if (!el || el.nodeType !== 1) return null;
-    if (el && !cb(el)) return findClosest(el.parentNode, cb);
-    return el;
+  function isChildOf(tgt, el) {
+    if (!tgt || tgt.nodeType !== 1) return false;
+    if (tgt && el !== tgt) return isChildOf(tgt.parentNode, el);
+    return true;
   }
 
   export default {
@@ -53,6 +69,8 @@
     },
     data() {
       return {
+        label: '',
+        leftLabel: undefined,
         rightLabel: undefined,
         /** Boolean to display the extra content element */
         showExtra: false,
@@ -60,24 +78,35 @@
         href: undefined,
         /** Description below the row label */
         description: undefined,
-        _hasCustomController: false,
-        _hasExtraContent: false,
-        _hasDescriptionContent: false,
+        /** Optional style */
+        bgColor: undefined,
+        primaryColor: undefined,
+        secondaryColor: undefined,
+        /** Private */
+        _slots: {},
       };
     },
     computed: {
-      _hasController: ({ href, _hasCustomController }) =>
-        !!(href || _hasCustomController),
-      _hasDescription: ({ description, _hasDescriptionContent }) =>
-        !!(description || _hasDescriptionContent),
+      _hasRightSign: ({ href, _slots }) =>
+        !!(href || _slots.rightSign || _slots.controller),
+      _rowStyle: ({ primaryColor }) =>
+        [primaryColor && `color: ${primaryColor}`].filter(Boolean).join(';'),
+      _rightLabelStyle: ({ secondaryColor }) =>
+        [secondaryColor && `color: ${secondaryColor}`].filter(Boolean).join(';'),
+      _topStyle: ({ bgColor }) =>
+        [bgColor && `background-color: ${bgColor}`].filter(Boolean).join(';'),
     },
     oncreate() {
       const hasSlots = !!this.options.slots;
       if (hasSlots) {
         this.set({
-          _hasCustomController: !!this.options.slots.controller,
-          _hasExtraContent: !!this.options.slots.extra,
-          _hasDescriptionContent: !!this.options.slots.description,
+          _slots: {
+            extra: !!this.options.slots.extra,
+            description: !!this.options.slots.description,
+            controller: !!this.options.slots.controller,
+            leftSign: !!this.options.slots['left-sign'],
+            rightSign: !!this.options.slots['right-sign'],
+          },
         });
       }
 
@@ -107,31 +136,28 @@
           return this.root.router.go(href);
         }
 
-        const { _hasCustomController } = this.get();
+        const { _hasRightSign } = this.get();
         /**
          * If the row has a custom controller,
-         * let's see if it has a [data-controller-triger] element.
+         * let's see if it has a [data-trigger] element.
          */
-        if (_hasCustomController) {
-          /** Prevent firing the event twice (because of event bubbling) */
-          const hasNotClickedController = !findClosest(event.target, el =>
-            el.classList.contains('controller'),
-          );
+        if (!_hasRightSign) return;
 
-          if (hasNotClickedController) {
-            const triggerEl = this.refs.controller.querySelector(
-              '[data-controller-trigger]',
-            );
+        /** Prevent firing the event twice (because of event bubbling) */
+        const clickedRightSign = isChildOf(event.target, this.refs.rightSign);
 
-            /* istanbul ignore else */
-            if (triggerEl) {
-              /** ! We assume that the trigger is also
-               * the element method that triggers it (like click)
-               * */
-              triggerEl[triggerEl.dataset.controllerTrigger]();
-            }
-          }
-        }
+        if (clickedRightSign) return;
+
+        const triggerEl = this.refs.rightSign.querySelector('[data-trigger]');
+
+        /* istanbul ignore next */
+        if (!triggerEl) return;
+
+        /**
+         * We assume that the trigger is also
+         * the element method that triggers it (like click)
+         * */
+        triggerEl[triggerEl.dataset.trigger]();
       },
     },
   };
@@ -140,19 +166,20 @@
 <style type="text/postcss">
   @import '@mamba/styles/theme.pcss';
 
-  ref:row {
+  .row {
     margin: 0;
     background: #fff;
-    color: #494949;
+    color: $row-primary-color;
     border-bottom: 1px solid #e3e6e7;
   }
 
-  .row ref:row:last-child {
+  .row .row:last-child {
     border-bottom: none;
   }
 
-  ref:main {
+  .main {
     padding: $row-padding;
+    background: $row-bg-color;
   }
 
   .top {
@@ -161,8 +188,8 @@
     justify-content: space-between;
     align-items: center;
 
-    &:not(.has-controller) {
-      height: 24px;
+    &:not(.has-right-sign) {
+      height: 16px;
     }
   }
 
@@ -174,37 +201,49 @@
     font-size: 13px;
     font-weight: bold;
     word-wrap: break-word;
+    flex-grow: 1;
 
     .left-area & {
-      .top.has-controller & {
+      .top.has-right-sign & {
         max-width: 90%;
+      }
+
+      .top.has-left-sign & {
+        margin-left: 10px;
       }
     }
 
     .right-area & {
       max-width: 110px;
-      color: #8c8c8c;
+      color: $row-secondary-color;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
 
-      .top.has-controller & {
+      .top.has-right-sign & {
         margin-right: 8px;
       }
     }
   }
 
-  .right-area {
+  .right-area,
+  .left-area {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
   }
 
+  .right-area {
+    justify-content: flex-end;
+  }
+
   .description {
-    color: #8c8c8c;
-    margin: 4px 0 0;
-    font-size: 12px;
-    line-height: 16px;
+    &,
+    & :global(*) {
+      color: #8c8c8c;
+      margin: 4px 0 0;
+      font-size: 12px;
+      line-height: 16px;
+    }
   }
 
   .extra {
