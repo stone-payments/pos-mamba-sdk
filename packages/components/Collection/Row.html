@@ -139,7 +139,7 @@
         const { _hasRightSign } = this.get();
         /**
          * If the row has a custom controller,
-         * let's see if it has a [data-controller-triger] element.
+         * let's see if it has a [data-trigger] element.
          */
         if (!_hasRightSign) return;
 
@@ -148,18 +148,16 @@
 
         if (clickedRightSign) return;
 
-        const triggerEl = this.refs.rightSign.querySelector(
-          '[data-controller-trigger]',
-        );
+        const triggerEl = this.refs.rightSign.querySelector('[data-trigger]');
 
-        /* istanbul ignore else */
+        /* istanbul ignore next */
         if (!triggerEl) return;
 
         /**
          * We assume that the trigger is also
          * the element method that triggers it (like click)
          * */
-        triggerEl[triggerEl.dataset.controllerTrigger]();
+        triggerEl[triggerEl.dataset.trigger]();
       },
     },
   };
