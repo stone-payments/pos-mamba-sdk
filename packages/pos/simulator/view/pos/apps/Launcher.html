@@ -3,7 +3,7 @@
 </Dialog>
 
 {#if STATE === STATES.APP}
-  <div ref:approot id="app-root" class="hide-scrollbar"></div>
+  <div id="app-root" class="app-root hide-scrollbar"></div>
 {:else}
   <SignalListener driver={Card} on:cardInserted="openPaymentApp()"/>
 
@@ -168,7 +168,7 @@
 <style>
   @import '@mamba/styles/colors.pcss';
 
-  ref:approot {
+  .app-root {
     height: 100%;
 
     @media (min-width: 401px) {
