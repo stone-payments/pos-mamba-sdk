@@ -22,26 +22,26 @@
         /** Make the button fixed at the bottom of the screen */
         bottom: false,
         /** Style */
-        primaryColor: undefined,
+        bgColor: undefined,
         textColor: undefined,
         width: undefined,
       };
     },
     computed: {
-      style({ secondary, primaryColor, textColor, width }) {
+      style({ secondary, bgColor, textColor, width }) {
         const style = [];
 
         if (textColor) {
           style.push(`color:${textColor}`);
         }
 
-        if (primaryColor) {
-          style.push(`border-color:${primaryColor}`);
+        if (bgColor) {
+          style.push(`border-color:${bgColor}`);
 
           if (!secondary) {
-            style.push(`background-color:${primaryColor}`);
+            style.push(`background-color:${bgColor}`);
           } else if (!textColor) {
-            style.push(`color:${primaryColor}`);
+            style.push(`color:${bgColor}`);
           }
         }
 
@@ -60,6 +60,9 @@
         }
 
         if (typeof width !== 'undefined' && width === '100%') {
+          if (__DEV__) {
+            console.warn('Use size="full" for @mamba/buttons with 100% width');
+          }
           this.set({ size: 'full' });
         }
       }

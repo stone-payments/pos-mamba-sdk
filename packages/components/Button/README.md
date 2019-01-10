@@ -14,7 +14,7 @@ Além disso, os botões também podem ser acionados por um shortcut e executar m
 | disabled       | Desabilita o botão                     | `boolean`         | `false`     |
 | secondary      | Habilita o estilo de botão secundário  | `boolean`         | `false`     |
 | size           | Tamanho do botão (opções: `small`, `normal`, `full`)       | `string` | `normal`|
-| primaryColor   | Cor primária do botão                  | `string` (hex)    | `''`        |
+| bgColor   | Cor primária do botão                  | `string` (hex)    | `''`        |
 | textColor      | Cor do texto no botão                  | `string` (hex)    | `''`        |
 
 ## Métodos
