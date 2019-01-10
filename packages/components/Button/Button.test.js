@@ -55,7 +55,7 @@ describe('style', () => {
   });
 
   it('should accept custom primary color', () => {
-    button = newButton({ primaryColor: 'red' });
+    button = newButton({ bgColor: 'red' });
 
     expect(button.refs.button.style.borderColor).toBe('red');
     expect(button.refs.button.style.backgroundColor).toBe('red');
@@ -68,7 +68,7 @@ describe('style', () => {
   });
 
   it('should accept custom primary color when "secondary" is true', () => {
-    button = newButton({ secondary: true, primaryColor: 'red' });
+    button = newButton({ secondary: true, bgColor: 'red' });
 
     expect(button.refs.button.style.color).toBe('red');
     expect(button.refs.button.style.borderColor).toBe('red');
@@ -81,10 +81,10 @@ describe('style', () => {
     expect(button.refs.button.style.color).toBe('red');
   });
 
-  it('should accept custom text color when "secondary" is true and "primaryColor" is set', () => {
+  it('should accept custom text color when "secondary" is true and "bgColor" is set', () => {
     button = newButton({
       secondary: true,
-      primaryColor: 'red',
+      bgColor: 'red',
       textColor: 'blue',
     });
 
