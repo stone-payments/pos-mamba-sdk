@@ -164,12 +164,13 @@ export function setup(System) {
    */
   System.getBatteryStatus = () => Registry.get().$System.Battery.status;
 
-    /**
+  /**
    * Gets the status of the battery critical
    * @memberOf System
    * @return {System.BatteryStatus} The status of the battery
    */
-  System.isBatteryCritical = () => Registry.get().$System.Battery.isBatteryCritical;
+  System.isBatteryCritical = () =>
+    Registry.get().$System.Battery.isBatteryCritical;
 
   /**
    * Gets the level of the battery. Note that the level is discrete and it
