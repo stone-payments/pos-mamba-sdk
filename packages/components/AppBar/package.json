@@ -15,11 +15,11 @@
     "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w"
   },
   "dependencies": {
-    "@mamba/icon": "^2.0.0",
-    "@mamba/store": "^2.0.0"
+    "@mamba/icon": "^2.0.0"
   },
   "peerDependencies": {
-    "@mamba/styles": "^2.0.0"
+    "@mamba/styles": "^2.0.0",
+    "svelte": "^2.16.0"
   },
   "devDependencies": {
     "@mamba/pos": "^2.0.0",
