@@ -19,8 +19,5 @@ module.exports = {
       },
     ],
   ],
-  plugins: [
-    /** Add class properties support */
-    ['@babel/plugin-proposal-class-properties', { loose: true }],
-  ],
+  plugins: [],
 };
