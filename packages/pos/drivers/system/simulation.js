@@ -4,6 +4,8 @@ import systemEnums from './enums.js';
 
 export const NAMESPACE = '$System';
 
+export const SIGNALS = ['batteryCritical', 'batteryNormal'];
+
 export const SETTINGS = {
   Connections: {
     ethernet: true,
