@@ -17,6 +17,7 @@ export const SETTINGS = {
     present: true,
     level: 50,
     status: systemEnums.BatteryStatus.DISCHARGE,
+    isBatteryCritical: false,
   },
   PowerSupply: systemEnums.PowerSupply.USB,
   SerialNumber: '00000000',
@@ -162,6 +163,14 @@ export function setup(System) {
    * @return {System.BatteryStatus} The status of the battery
    */
   System.getBatteryStatus = () => Registry.get().$System.Battery.status;
+
+    /**
+   * Gets the status of the battery critical
+   * @memberOf System
+   * @return {System.BatteryStatus} The status of the battery
+   */
+  System.isBatteryCritical = () =>
+    Core.Registry.get('$System.Battery.isBatteryCritical');
 
   /**
    * Gets the level of the battery. Note that the level is discrete and it
