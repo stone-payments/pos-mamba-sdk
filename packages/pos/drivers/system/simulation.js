@@ -169,8 +169,7 @@ export function setup(System) {
    * @memberOf System
    * @return {System.BatteryStatus} The status of the battery
    */
-  System.isBatteryCritical = () =>
-    Core.Registry.get('$System.Battery.isBatteryCritical');
+  System.isBatteryCritical = () => Registry.get().$System.Battery.isBatteryCritical;
 
   /**
    * Gets the level of the battery. Note that the level is discrete and it
