@@ -1,3 +1,4 @@
+const resolve = require('resolve');
 const { existsSync } = require('fs');
 const { fromCwd } = require('quickenv');
 
@@ -12,15 +13,18 @@ const postcssReporter = require('postcss-reporter');
 const postcssHexRGBA = require('postcss-hexrgba');
 
 const postcssUniqueImports = require('./includes/uniqueImports.js');
+const unthrow = require('./includes/unthrow.js');
 
 const isBuildingApp = typeof process.env.APP_ENV !== 'undefined';
+
+const globalThemeFile = unthrow(() => resolve.sync('@mamba/styles/theme.pcss'));
 const appThemeFile = fromCwd('src/theme.pcss');
 
 module.exports = {
   plugins: [
     /** Custom plugin to prepend imports */
     postcssUniqueImports.plugin([
-      '@mamba/styles/theme.pcss',
+      globalThemeFile && '@mamba/styles/theme.pcss',
       /** If building an app, append the local theme file */
       isBuildingApp && existsSync(appThemeFile) && appThemeFile,
     ]),
