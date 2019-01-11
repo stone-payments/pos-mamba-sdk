@@ -34,7 +34,7 @@ export default {
       return {
         resolveId(importee) {
           if (importee === PKG.name) {
-            return fromWorkspace(PKG.main);
+            return fromWorkspace(PKG.svelte);
           }
 
           if (importee.startsWith(PKG.name)) {

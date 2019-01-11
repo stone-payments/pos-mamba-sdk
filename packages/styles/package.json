@@ -15,13 +15,14 @@
     "build": "npm run build:pos && npm run build:desktop",
     "build:pos": "postcss ./src/pos.pcss -o ./dist/pos.css --verbose",
     "build:desktop": "postcss ./src/desktop.pcss -o ./dist/desktop.css --verbose",
-    "postbuild": "ncp ./assets dist/assets",
+    "postbuild": "ncp ./src/assets dist/assets",
     "start": "npm run start:pos",
     "start:pos": "postcss ./src/pos.pcss -o ./dist/pos.css -w --verbose",
     "start:desktop": "postcss ./src/desktop.pcss -o ./dist/desktop.css -w --verbose",
     "prepublish": "npm run build"
   },
   "devDependencies": {
+    "@mamba/configs": "^2.0.0",
     "ncp": "^2.0.0",
     "postcss-cli": "^6.1.0",
     "rimraf": "^2.6.3"
