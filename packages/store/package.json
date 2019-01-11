@@ -18,8 +18,5 @@
   "peerDependencies": {
     "svelte": "^2.16.0"
   },
-  "dependencies": {
-    "svelte-extras": "^2.0.2"
-  },
   "gitHead": "91a8a4a8be4741a15249462cefda6e273f1613a3"
 }
