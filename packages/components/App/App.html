@@ -201,7 +201,7 @@
           /** Guarantees that the 'back' button is enabled and navigable is enabled */
           if (Keyboard.isBackspaceEnabled() && this.get().navigable.back) {
             e.preventDefault();
-            if (this.root.router && this.root.router.get().path !== '/') {
+            if (this.root.router && this.root.router.get().context.path !== '/') {
               this.root.router.back();
             }
           }
