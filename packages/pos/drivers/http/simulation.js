@@ -18,10 +18,10 @@ export function setup(Http) {
   let _data = null;
 
   const setError = function onerror() {
-    _errorData = new Error({
+    _errorData = {
       status: this.status,
       msg: this.responseText,
-    });
+    };
     Http.fire('requestFailed');
   };
 
@@ -71,7 +71,7 @@ export function setup(Http) {
       return;
     }
 
-    xhttp.open(method, url, false);
+    xhttp.open(method, url, true);
 
     if (headers) {
       Object.keys(headers).forEach(key => {
@@ -79,12 +79,10 @@ export function setup(Http) {
       });
     }
 
-    setTimeout(() => {
-      try {
-        xhttp.send(data);
-      } catch (e) {
-        setError.call(xhttp);
-      }
-    });
+    try {
+      xhttp.send(data);
+    } catch (e) {
+      setError.call(xhttp);
+    }
   };
 }
