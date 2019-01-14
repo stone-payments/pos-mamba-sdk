@@ -3,7 +3,7 @@ import { Registry } from '../../simulator/index.js';
 export const NAMESPACE = '$Merchant';
 
 export const SETTINGS = {
-  acquirerIssuedMerchantId: '123', // Stone code
+  acquirerIssuedMerchantId: '123123123', // Stone code
 };
 
 export function setup(Merchant) {
