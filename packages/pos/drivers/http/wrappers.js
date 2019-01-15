@@ -14,4 +14,24 @@ export default function(driver) {
       driver.doSend(configParams);
     });
   };
+
+  driver.post = opts =>
+    driver.send({
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        ...(opts.headers || {}),
+      },
+      ...opts,
+    });
+
+  driver.get = opts =>
+    driver.send({
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        ...(opts.headers || {}),
+      },
+      ...opts,
+    });
 }
