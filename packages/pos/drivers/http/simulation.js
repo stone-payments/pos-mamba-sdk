@@ -37,7 +37,7 @@ export function setup(Http) {
   }) {
     const xhttp = new XMLHttpRequest();
 
-    if (__DEV__) {
+    if (__DEBUG_LVL__ >= 1) {
       xhttp.onprogress = function onprogress() {
         log('Requesting...');
       };
@@ -59,11 +59,13 @@ export function setup(Http) {
       /** On success state code 4 */
       if (this.readyState === 4 && this.status === 200) {
         _data = this.responseText;
+        if (__DEBUG_LVL__ >= 1) log('Request finished...');
         Http.fire('requestFinished');
       }
     };
 
     const { panel } = Registry.get().$Http;
+
     if (panel.simulateRequest) {
       const requestMsg = JSON.parse(panel.requestMsg);
       const requestPayload = JSON.parse(panel.requestPayload);
