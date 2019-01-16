@@ -29,11 +29,14 @@ interface Payment {
 }
 
 interface PaymentOptions {
+  order_id: number;
   amount: number;
+  editable_amount: boolean;
   min_installments: number;
   max_installments: number;
-  editable_amount: boolean;
-  order_id: number;
+  transactionType: 'credit' | 'debit' | 'voucher';
+  installmentType: 'none' | 'merchant' | 'issuer';
+  installmentCount: number;
 }
 ```
 
