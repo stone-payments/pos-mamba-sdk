@@ -17,6 +17,8 @@
 </header>
 
 <script>
+  import Router from 'svelte-page/Router.html';
+
   export default {
     components: {
       Icon: '@mamba/icon',
@@ -52,15 +54,9 @@
       /** Listen for route changes and appbar prop changes */
       root.on('appbar:modify', state => this.set(state));
 
-      /* istanbul ignore else */
-      if (root.router) {
-        root.router.on('update', ({ changed, current }) => {
-          /* istanbul ignore else */
-          if (changed.context && current.context) {
-            this.set({ _location: current.context.path });
-          }
-        });
-      }
+      Router.on('change', ctx => {
+        this.set({ _location: ctx.path });
+      });
 
       /* istanbul ignore else */
       if (root.meta) {

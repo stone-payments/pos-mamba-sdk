@@ -15,7 +15,8 @@
     "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w"
   },
   "dependencies": {
-    "@mamba/icon": "^2.1.0"
+    "@mamba/icon": "^2.1.0",
+    "svelte-page": "^2.1.2"
   },
   "peerDependencies": {
     "@mamba/styles": "^2.0.0",
