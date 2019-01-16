@@ -2,7 +2,10 @@ export default function(driver) {
   driver.send = function send(opts) {
     return new Promise((resolve, reject) => {
       /** Accept body and data as the body parameter */
-      if (opts.data === 'undefined' && typeof opts.body !== 'undefined') {
+      if (
+        typeof opts.data === 'undefined' &&
+        typeof opts.body !== 'undefined'
+      ) {
         opts.data = opts.body;
       }
 
