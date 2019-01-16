@@ -28,23 +28,13 @@ export function setup(Http) {
   Http.getError = () => _errorData;
   Http.getData = () => _data;
 
-  Http.doSend = function send({
-    method = 'GET',
-    url = '',
-    data,
-    body,
-    headers,
-  }) {
+  Http.doSend = function send({ method = 'GET', url = '', data, headers }) {
     const xhttp = new XMLHttpRequest();
 
     if (__DEBUG_LVL__ >= 1) {
       xhttp.onprogress = function onprogress() {
         log('Requesting...');
       };
-    }
-
-    if (typeof data !== 'undefined' && typeof body === 'undefined') {
-      body = data;
     }
 
     xhttp.onerror = setError;
