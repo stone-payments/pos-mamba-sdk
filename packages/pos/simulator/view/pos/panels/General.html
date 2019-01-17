@@ -1,0 +1,45 @@
+<div class="title">Geral</div>
+
+<ul class="controllers">
+  <li class="controller is-full">
+    <span>Nº de série</span>
+    <input type="text" bind:value="serialNumber" maxlength="8" />
+  </li>
+  <li class="controller is-full">
+    <span>Stonecode</span>
+    <input type="text" bind:value="stoneCode" maxlength="8" />
+  </li>
+</ul>
+
+<script>
+  import { Registry } from '../../../index.js';
+
+  export default {
+    data() {
+      const {
+        $System: { serialNumber },
+        $Merchant: { stoneCode },
+      } = Registry.persistent.get();
+
+      return {
+        stoneCode,
+        serialNumber,
+      };
+    },
+    onupdate({ previous, changed, current }) {
+      if (previous) {
+        if (changed.serialNumber || changed.stoneCode) {
+          Registry.persistent.set(draft => {
+            if (changed.serialNumber) {
+              draft.$System.serialNumber = current.serialNumber;
+            }
+
+            if (changed.stoneCode) {
+              draft.$Merchant.stoneCode = current.stoneCode;
+            }
+          });
+        }
+      }
+    },
+  };
+</script>

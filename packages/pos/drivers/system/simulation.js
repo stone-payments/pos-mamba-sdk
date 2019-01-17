@@ -20,7 +20,10 @@ export const SETTINGS = {
     isBatteryCritical: false,
   },
   PowerSupply: systemEnums.PowerSupply.USB,
-  SerialNumber: '00000000',
+};
+
+export const PERSISTENT_SETTINGS = {
+  serialNumber: '00000000',
 };
 
 /**
@@ -155,7 +158,7 @@ export function setup(System) {
    * @memberOf System
    * @return {string} The serial number
    */
-  System.getSerialNumber = () => Registry.get().$System.SerialNumber;
+  System.getSerialNumber = () => Registry.persistent.get().$System.serialNumber;
 
   /**
    * Gets the status of the battery
