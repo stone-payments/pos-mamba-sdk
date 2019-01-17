@@ -1,0 +1,28 @@
+<div class="title">Impressora</div>
+
+<ul class="controllers">
+  <li class="controller">
+    <span>Impressora sem papel?</span>
+    <Switch bind:checked="shouldFail" />
+  </li>
+</ul>
+
+<script>
+  import { Registry } from '../../../index.js';
+
+  export default {
+    components: {
+      Switch: '@mamba/switch',
+    },
+    data() {
+      return { ...Registry.get().$Printer.panel };
+    },
+    onupdate({ previous, current }) {
+      if (previous) {
+        Registry.set(draft => {
+          draft.$Printer.panel = current;
+        });
+      }
+    },
+  };
+</script>
