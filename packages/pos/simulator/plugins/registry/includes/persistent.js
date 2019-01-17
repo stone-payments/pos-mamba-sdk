@@ -17,12 +17,10 @@ export default Registry => {
       get() {
         const persistedData = localStorage.getItem('_mamba_persistent_');
 
-        if (persistedData === cachedGet) {
-          return cachedParsed;
+        if (persistedData !== cachedGet) {
+          cachedGet = persistedData;
+          cachedParsed = JSON.parse(cachedGet);
         }
-
-        cachedGet = persistedData;
-        cachedParsed = JSON.parse(cachedGet);
 
         return cachedParsed || {};
       },
