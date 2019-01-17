@@ -52,13 +52,16 @@
       /** Listen for route changes and appbar prop changes */
       root.on('appbar:modify', state => this.set(state));
 
-      /* istanbul ignore else */
+      /** Needed for projects with svelte-page < v2.2.0 */
       if (root.router) {
         root.router.on('update', ({ changed, current }) => {
-          /* istanbul ignore else */
-          if (changed.context && current.context) {
+          if (changed.context) {
             this.set({ _location: current.context.path });
           }
+        });
+      } else {
+        root.on('router:change', context => {
+          this.set({ _location: context.path });
         });
       }
 

@@ -12,6 +12,8 @@ const newAppBar = data => {
 
 const changeRouterPath = path => {
   root.router.set({ context: { path } });
+  root.router.fire('change', { path });
+  root.fire('router:change', { path });
 };
 
 it('should apply inline style', () => {
