@@ -28,7 +28,7 @@ export function setup(Http) {
   Http.getError = () => _errorData;
   Http.getData = () => _data;
 
-  Http.doSend = function send({ method = 'GET', url = '', data, headers }) {
+  Http.doSend = function send({ method = 'GET', url = '', data, headers }, refSignal) {
     const xhttp = new XMLHttpRequest();
 
     if (__DEV__) {
@@ -49,7 +49,7 @@ export function setup(Http) {
       /** On success state code 4 */
       if (this.readyState === 4 && this.status === 200) {
         _data = this.responseText;
-        Http.fire('requestFinished');
+        Http.fire('requestFinished', _data, refSignal);
       }
     };
 
@@ -61,10 +61,10 @@ export function setup(Http) {
       setTimeout(() => {
         if (parseInt(requestMsg.status, 10) > 399) {
           _errorData = requestMsg;
-          Http.fire('requestFailed');
+          Http.fire('requestFailed', _errorData, refSignal);
         } else {
           _data = Object.assign({}, requestMsg, requestPayload);
-          Http.fire('requestFinished');
+          Http.fire('requestFinished', _data, refSignal);
         }
       }, 1000);
 
