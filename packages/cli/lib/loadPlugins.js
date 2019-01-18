@@ -6,14 +6,16 @@ const globalDirs = require('global-dirs');
 const isNotFoundError = err => err.code === 'MODULE_NOT_FOUND';
 
 function loadCommand(moduleName) {
+  let plugin;
   try {
-    return require(moduleName); // eslint-disable-line
+    plugin = require(moduleName); // eslint-disable-line
   } catch (err) {
-    if (isNotFoundError(err)) {
-      return importGlobal.silent(moduleName);
+    if (!isNotFoundError(err)) {
+      throw err;
     }
-    throw err;
+    plugin = importGlobal.silent(moduleName);
   }
+  return plugin;
 }
 
 const getPackagesFrom = (path, includedStr) => {
@@ -44,4 +46,12 @@ const externalPlugins = pkgListPaths.reduce((acc, pkgListPath) => {
   ];
 }, []);
 
-module.exports = externalPlugins.map(loadCommand).filter(Boolean);
+module.exports = externalPlugins.reduce((acc, moduleName) => {
+  const pluginModule = loadCommand(moduleName);
+  if (Array.isArray(pluginModule)) {
+    acc.push(...pluginModule);
+  } else {
+    acc.push(pluginModule);
+  }
+  return acc;
+}, []);
