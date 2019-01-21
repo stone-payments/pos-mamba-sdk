@@ -72,18 +72,28 @@
         root.close();
       });
 
-      root.on('router:change', () => {
+      const resetScroll = () => {
         /**
          * Check for __browser__ for scrolling the virtual screen
          * instead of the <html> element
          * */
-        /* istanbul ignore else */
         if (__BROWSER__ && window.innerWidth > 401) {
           root.options.target.scrollTo(0, 0);
         } else {
           window.scrollTo(0, 0);
         }
-      });
+      };
+
+      /** Needed for projects with svelte-page < v2.2.0 */
+      if (root.router) {
+        root.router.on('update', ({ changed, previous }) => {
+          if (changed.context && previous) {
+            resetScroll();
+          }
+        });
+      } else {
+        root.on('router:change', resetScroll);
+      }
     },
     onstate({ previous }) {
       /** Set a reference on the root component to the <App/> meta component */
