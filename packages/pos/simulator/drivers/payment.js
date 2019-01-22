@@ -1,4 +1,4 @@
-import { Registry } from '../../simulator/index.js';
+import { Registry, AppManager } from '../index.js';
 
 export const NAMESPACE = '$Payment';
 
@@ -26,6 +26,7 @@ export function setup(Payment) {
       draft.$Payment._isPaying = true;
     });
 
+    AppManager.open('1-payment');
     Payment.paymentDone();
 
     Registry.set(draft => {

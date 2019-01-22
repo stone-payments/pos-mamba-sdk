@@ -1,5 +1,5 @@
-import { Registry } from '../../simulator/index.js';
-import { log } from '../../simulator/libs/utils.js';
+import { Registry } from '../index.js';
+import { log } from '../libs/utils.js';
 
 export const NAMESPACE = '$Keyboard';
 
