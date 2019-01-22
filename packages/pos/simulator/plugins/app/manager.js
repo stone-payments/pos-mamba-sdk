@@ -1,18 +1,26 @@
 import EventTarget from '../../libs/EventTarget.js';
 import { log, warn } from '../../libs/utils.js';
-import initEventCollector from './includes/eventCollector.js';
 import extend from '../../../extend.js';
 import { DriverManager } from '../index.js';
 
-const AppManager = extend({}, initEventCollector, EventTarget());
+import initEventCollector from './includes/collector.js';
+import initSuspension from './includes/suspension.js';
+
+const AppManager = extend(
+  {},
+  initEventCollector,
+  initSuspension,
+  EventTarget(),
+);
 
 const Apps = {};
 
 const openedApps = [];
 
+AppManager.getApp = slug => Apps[slug];
 AppManager.getInstalledApps = () => Apps;
 AppManager.getOpenedApps = () => openedApps;
-AppManager.getCurrentApp = () => openedApps[0];
+AppManager.getCurrentApp = () => openedApps[openedApps.length - 1];
 
 const loadApp = appMeta => {
   AppManager.fire('loading');
@@ -50,7 +58,9 @@ AppManager.open = async (appSlug, options = {}) => {
 
   if (__DEV__) log(`Opening App: ${appMeta.manifest.appName}`);
 
-  const target = document.getElementById('app-root');
+  const appsEl = document.getElementById('apps-container');
+  const target = document.createElement('DIV');
+  appsEl.appendChild(target);
 
   if (!target) {
     if (__DEV__) {
@@ -64,8 +74,14 @@ AppManager.open = async (appSlug, options = {}) => {
     collectedEvents: {},
   };
 
+  const currentApp = AppManager.getCurrentApp();
+
+  if (currentApp) {
+    await AppManager.suspend(currentApp);
+  }
+
   /** Insert the most current app at the first index */
-  openedApps.splice(0, 0, appMeta);
+  openedApps.push(appMeta);
 
   appMeta.runtime.instance = new appMeta.RootComponent({ target });
 
@@ -73,7 +89,7 @@ AppManager.open = async (appSlug, options = {}) => {
   DriverManager.drivers.$App.fire('opened');
 };
 
-AppManager.close = () => {
+AppManager.close = async () => {
   if (__DEV__) log('Closing App');
 
   const currentApp = AppManager.getCurrentApp();
@@ -86,12 +102,19 @@ AppManager.close = () => {
       AppManager.unbindGlobalEvents(currentApp);
       currentApp.runtime.instance.destroy();
 
+      const appsEl = document.getElementById('apps-container');
+      appsEl.removeChild(currentApp.runtime.target);
+
       delete currentApp.runtime;
 
-      AppManager.fire('closed', currentApp);
-
       /** Remove the current app from the opened apps array */
-      openedApps.splice(0, 1);
+      openedApps.pop();
+
+      if (openedApps.length) {
+        await AppManager.resume(AppManager.getCurrentApp());
+      }
+
+      AppManager.fire('closed', currentApp);
     } else if (__DEV__) {
       warn('App already closed');
     }
