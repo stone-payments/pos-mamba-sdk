@@ -8,10 +8,11 @@ const AppManager = extend({}, initEventCollector, EventTarget());
 
 const Apps = {};
 
-let currentApp = null;
+const openedApps = [];
 
 AppManager.getInstalledApps = () => Apps;
-AppManager.getCurrentApp = () => currentApp;
+AppManager.getOpenedApps = () => openedApps;
+AppManager.getCurrentApp = () => openedApps[0];
 
 const loadApp = appMeta => {
   AppManager.fire('loading');
@@ -63,8 +64,10 @@ AppManager.open = async (appSlug, options = {}) => {
     collectedEvents: {},
   };
 
-  currentApp = appMeta;
-  currentApp.runtime.instance = new appMeta.RootComponent({ target });
+  /** Insert the most current app at the first index */
+  openedApps.splice(0, 0, appMeta);
+
+  appMeta.runtime.instance = new appMeta.RootComponent({ target });
 
   AppManager.fire('opened', appMeta, options);
   DriverManager.drivers.$App.fire('opened');
@@ -72,6 +75,8 @@ AppManager.open = async (appSlug, options = {}) => {
 
 AppManager.close = () => {
   if (__DEV__) log('Closing App');
+
+  const currentApp = AppManager.getCurrentApp();
 
   if (currentApp) {
     AppManager.fire('closing', currentApp);
@@ -85,7 +90,8 @@ AppManager.close = () => {
 
       AppManager.fire('closed', currentApp);
 
-      currentApp = null;
+      /** Remove the current app from the opened apps array */
+      openedApps.splice(0, 1);
     } else if (__DEV__) {
       warn('App already closed');
     }
