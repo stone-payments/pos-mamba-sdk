@@ -1,16 +1,39 @@
+import { log } from '../../../libs/utils.js';
+
 /**
  * This file overrides the default add/remove event listeners to collect possible loose ones
  * when unlisten them when the current app closes.
  */
 
-export default AppManager => {
-  const eventTarget =
-    typeof window.EventTarget !== 'undefined'
-      ? window.EventTarget
-      : window.Node;
+const eventTarget =
+  typeof window.EventTarget !== 'undefined' ? window.EventTarget : window.Node;
 
-  const originalAddEventListener = eventTarget.prototype.addEventListener;
-  const originalRemoveEventListener = eventTarget.prototype.removeEventListener;
+const originalAddEventListener = eventTarget.prototype.addEventListener;
+const originalRemoveEventListener = eventTarget.prototype.removeEventListener;
+
+export default AppManager => {
+  AppManager.unbindGlobalEvents = ({ runtime }) => {
+    const collectedEventsKeys = Object.keys(runtime.collectedEvents);
+    collectedEventsKeys.forEach(targetConstructor => {
+      let node;
+
+      if (targetConstructor === 'Window') node = window;
+      else if (targetConstructor === 'HTMLDocument') node = document;
+      else return;
+
+      Object.entries(runtime.collectedEvents[targetConstructor]).forEach(
+        ([eventType, eventList]) => {
+          eventList.forEach(fn => {
+            node.removeEventListener(eventType, fn);
+            if (__DEBUG_LVL__ >= 3) {
+              log('Removing collected DOM event listener: ');
+              console.log([node, eventType, fn]);
+            }
+          });
+        },
+      );
+    });
+  };
 
   eventTarget.prototype.addEventListener = function addEventListener(
     type,
