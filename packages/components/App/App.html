@@ -32,6 +32,9 @@
     oncreate() {
       const { root } = this;
 
+      /** Add the mamba-app-container class to the root element */
+      this.root.options.target.classList.add('mamba-app-container');
+
       // TODO: Deprecate this sometime
       root.on('navigation', isEnabled => {
         /* istanbul ignore next */
@@ -262,7 +265,7 @@
 </script>
 
 <style type="text/postcss">
-  :global(#app-root) {
+  :global(.mamba-app-container) {
     background-color: $app-bg-color;
 
     &.no-scroll {
