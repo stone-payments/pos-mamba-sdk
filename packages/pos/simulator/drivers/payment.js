@@ -21,12 +21,7 @@ export const SETTINGS = {
 export const SIGNALS = ['cardEvent', 'paymentDone'];
 
 export function setup(Payment) {
-  Payment.doPay = params => {
-    Registry.set(draft => {
-      draft.$Payment._isPaying = true;
-    });
-
-    AppManager.open('1-payment');
+  const finishPayment = params => {
     Payment.paymentDone();
 
     Registry.set(draft => {
@@ -35,8 +30,26 @@ export function setup(Payment) {
     });
   };
 
-  Payment.doEnableCardEvent = function noop() {};
-  Payment.doDisableCardEvent = function noop() {};
+  Payment.doPay = params => {
+    Registry.set(draft => {
+      draft.$Payment._isPaying = true;
+    });
+
+    if (AppManager.getApp('1-payment')) {
+      AppManager.open('1-payment', {
+        openMode: 'selection',
+        ...params,
+      });
+
+      AppManager.once('closed', app => {
+        if (app.manifest.slug === '1-payment') {
+          finishPayment(params);
+        }
+      });
+    } else {
+      finishPayment(params);
+    }
+  };
 
   /**
    * Returns true if is paying
