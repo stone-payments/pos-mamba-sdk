@@ -3,15 +3,10 @@ import { log, warn } from '../../libs/utils.js';
 import extend from '../../../extend.js';
 import { DriverManager } from '../index.js';
 
-import initEventCollector from './includes/collector.js';
+import initCollector from './includes/collector.js';
 import initSuspension from './includes/suspension.js';
 
-const AppManager = extend(
-  {},
-  initEventCollector,
-  initSuspension,
-  EventTarget(),
-);
+const AppManager = extend({}, initCollector, initSuspension, EventTarget());
 
 const Apps = {};
 
