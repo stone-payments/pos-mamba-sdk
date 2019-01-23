@@ -14,7 +14,7 @@ const isSlotGroupSuspended = () => {
   return currentApp ? !!currentApp.runtime.suspended : false;
 };
 
-export default function Signal(n) {
+export default function Signal() {
   /** map of appSlug -> calback list */
   const slots = {};
 
@@ -34,9 +34,6 @@ export default function Signal(n) {
       slots.default.forEach(slot => slot(...args));
     }
 
-    console.log(n);
-    console.log(AppManager.getCurrentApp().manifest.slug);
-    console.log(isSlotGroupSuspended());
     if (
       groupName !== 'default' &&
       slots[groupName] &&
@@ -75,10 +72,10 @@ export default function Signal(n) {
 
 Signal.register = (namespace, signals) => {
   if (!Array.isArray(signals)) {
-    namespace[signals] = Signal(signals);
+    namespace[signals] = Signal();
   } else {
     signals.forEach(signalName => {
-      namespace[signalName] = Signal(signalName);
+      namespace[signalName] = Signal();
     });
   }
 };
