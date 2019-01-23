@@ -3,10 +3,9 @@ import { Registry, AppManager } from '../index.js';
 export const NAMESPACE = '$Payment';
 
 export const SETTINGS = {
-  _isPaying: false,
-  amountPaid: -1,
+  paymentFailed: false,
+  isPaying: false,
   installmentCount: 0,
-  shouldFail: false,
   cardHolderName: 'SPORTELLO/DOC',
   pan: '56497#####41578',
   type: 'CREDITO/DEBITO',
@@ -25,27 +24,26 @@ export function setup(Payment) {
     Payment.paymentDone();
 
     Registry.set(draft => {
-      draft.$Payment._isPaying = false;
+      draft.$Payment.isPaying = false;
       draft.$Payment.authorizedAmount = params.amount;
     });
   };
 
   Payment.doPay = params => {
     Registry.set(draft => {
-      draft.$Payment._isPaying = true;
+      draft.$Payment.isPaying = true;
+      /** Set failed to true. The payment app will define it as false if it succeeds */
+      draft.$Payment.paymentFailed = true;
     });
 
     if (AppManager.getApp('1-payment')) {
-      AppManager.open('1-payment', {
-        openMode: 'selection',
-        ...params,
-      });
-
       AppManager.once('closed', app => {
         if (app.manifest.slug === '1-payment') {
           finishPayment(params);
         }
       });
+
+      AppManager.open('1-payment', { openMode: 'selection', ...params });
     } else {
       finishPayment(params);
     }
@@ -56,13 +54,13 @@ export function setup(Payment) {
    * @memberof Payment
    * @return {boolean} True if is paying
    */
-  Payment.isPaying = () => Registry.get().$Payment._isPaying;
+  Payment.isPaying = () => Registry.get().$Payment.isPaying;
 
   /**
    * Returns true it the last payment job has failed
    * @return {boolean} True if the last payment job has failed
    */
-  Payment.failedPaying = () => Registry.get().$Payment.shouldFail;
+  Payment.failedPaying = () => Registry.get().$Payment.paymentFailed;
 
   /**
    * Get card holder name in case of payment success.
