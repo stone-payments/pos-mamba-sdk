@@ -8,8 +8,10 @@ import initSuspension from './includes/suspension.js';
 
 const AppManager = extend({}, initCollector, initSuspension, EventTarget());
 
+/** Map of installed appds: app-slug -> app-obj */
 const Apps = {};
 
+/** Stack of opened apps. The current app is the last one. */
 const openedApps = [];
 
 AppManager.getApp = slug => Apps[slug];
@@ -57,9 +59,9 @@ AppManager.open = async (appSlug, options = {}) => {
   const target = document.createElement('DIV');
   appsEl.appendChild(target);
 
-  if (!target) {
+  if (!appsEl) {
     if (__DEV__) {
-      console.warn('App target root element not found.');
+      console.warn('Apps container element not found.');
     }
     return;
   }
