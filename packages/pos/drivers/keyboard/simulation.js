@@ -1,4 +1,4 @@
-import Core from '../../simulator/core.js';
+import { Registry } from '../../simulator/index.js';
 import { log } from '../../simulator/libs/utils.js';
 
 export const NAMESPACE = '$Keyboard';
@@ -30,7 +30,9 @@ export function setup(Keyboard) {
   Keyboard.setKeyboardAsNumeric = () => {
     if (__DEBUG_LVL__ >= 1) log('Keyboard is now numeric');
 
-    Core.Registry.set('$Keyboard.isAlphanumericEnabled', false);
+    Registry.set(draft => {
+      draft.$Keyboard.isAlphanumericEnabled = false;
+    });
 
     const root = document.getElementById('app-root') || window;
     root.removeEventListener('keypress', filterLetters);
@@ -45,7 +47,9 @@ export function setup(Keyboard) {
   Keyboard.setKeyboardAsAlphanumeric = () => {
     if (__DEBUG_LVL__ >= 1) log('Keyboard is now alphanumeric');
 
-    Core.Registry.set('$Keyboard.isAlphanumericEnabled', true);
+    Registry.set(draft => {
+      draft.$Keyboard.isAlphanumericEnabled = true;
+    });
 
     const root = document.getElementById('app-root') || window;
     root.removeEventListener('keypress', filterLetters);

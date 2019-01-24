@@ -13,15 +13,13 @@
 </div>
 
 <script>
-  import MambaStore from '@mamba/store';
-
-  const store = MambaStore();
+  import { Store } from 'svelte/store.js';
 
   export default {
     components: {
       AppBar: '@mamba/appbar/AppBar.html',
     },
-    store: () => store,
+    store: () => new Store(),
   };
 </script>
 

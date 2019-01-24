@@ -29,11 +29,17 @@ interface Payment {
 }
 
 interface PaymentOptions {
+  order_id: number;
   amount: number;
+  editable_amount: boolean;
   min_installments: number;
   max_installments: number;
-  editable_amount: boolean;
-  order_id: number;
+  /* Respectivamente: Credito, Débito e Voucher/Ticket */
+  transactionType: 'credit' | 'debit' | 'voucher';
+  /* Respectivamente: À vista, Sem Juros e Com Juros */
+  installmentType: 'none' | 'merchant' | 'issuer';
+  /** 2 ~ 99 */
+  installmentCount: number;
 }
 ```
 

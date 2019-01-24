@@ -1,18 +1,20 @@
-import produce, { setAutoFreeze } from 'immer';
+import produce, { applyPatches } from 'immer';
 
-import { log, deepCopy } from '../../../libs/utils.js';
-
-setAutoFreeze(false);
+import { log, warn } from '../../../libs/utils.js';
 
 export default Registry => {
-  Registry.save = () => {
-    localStorage.setItem('_mamba_web_', JSON.stringify(Registry._data));
-  };
+  Registry._data = Object.freeze({});
 
   /** Data */
   Registry.get = keyPath => {
     if (keyPath === undefined) {
       return Registry._data;
+    }
+
+    if (__DEV__) {
+      warn(
+        'Registry.get(string) is deprecated. Please use Registry.get().Prop1.Prop2.Prop3...',
+      );
     }
 
     const keys = keyPath.replace(/\[(\d+)\]/g, '.$1').split('.');
@@ -21,32 +23,31 @@ export default Registry => {
       value = value[keys[i]];
     }
 
-    if (typeof value === 'object') {
-      return deepCopy(value);
-    }
-
     return value;
   };
 
-  Registry.set = (keyPath, value, opts) => {
+  Registry.set = (keyPath, value) => {
     if (keyPath === undefined) {
       return;
     }
 
     if (typeof keyPath === 'function') {
-      opts = value;
+      const changes = [];
+
+      produce(Registry._data, keyPath, patches => {
+        changes.push(...patches);
+      });
+
+      Registry._data = applyPatches(Registry._data, changes);
+      Registry.fire('dataChanged', changes);
+
+      return;
     }
 
-    opts = { dispatch: true, save: true, ...opts };
-
-    const { dispatch, save } = opts;
-
-    if (typeof keyPath === 'function') {
-      Registry._data = produce(Registry._data, keyPath);
-      if (save) {
-        Registry.save();
-      }
-      return;
+    if (__DEV__) {
+      warn(
+        'Registry.set(string) is deprecated. Please use Registry.set(draft -> newState)',
+      );
     }
 
     const keys = keyPath.replace(/\[(\d+)\]/g, '.$1').split('.');
@@ -58,11 +59,6 @@ export default Registry => {
     // If not a nested keyPath
     if (keys.length === 1) {
       Registry._data[keyPath] = value;
-
-      if (dispatch) {
-        // todo: deprecate in favor of immer
-        Registry.fire('shallowChange', { key: keyPath, value });
-      }
     } else {
       let object = Registry._data[keys[0]];
       for (let i = 1; i < keys.length - 1; i++) {
@@ -70,15 +66,6 @@ export default Registry => {
       }
 
       object[keys[keys.length - 1]] = value;
-
-      if (dispatch) {
-        // todo: deprecate in favor of immer
-        Registry.fire('deepChange', { key: keyPath, path: keys, value });
-      }
-    }
-
-    if (save) {
-      Registry.save();
     }
   };
 };

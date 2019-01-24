@@ -11,7 +11,7 @@ const { IS_DEV } = require('./consts.js');
 const babelLoaderConfig = {
   loader: 'babel-loader',
   options: {
-    compact: false,
+    sourceMaps: IS_DEV,
     cacheDirectory: IS_DEV,
     babelrc: false,
     ...babelrc,

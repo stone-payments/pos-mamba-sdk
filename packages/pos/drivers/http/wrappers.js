@@ -1,5 +1,5 @@
 export default function(driver) {
-  driver.send = function send(configParams) {
+  driver.send = function send(opts) {
     return new Promise((resolve, reject) => {
       const refSignal = `${Math.random() * new Date().getMilliseconds()}`;
 
@@ -27,5 +27,15 @@ export default function(driver) {
       /** Asynchronously make a request at the backend */
       driver.doSend(configParams, refSignal);
     });
+  };
+
+  driver.post = opts => {
+    opts.method = 'POST';
+    return driver.send(opts);
+  };
+
+  driver.get = opts => {
+    opts.method = 'GET';
+    return driver.send(opts);
   };
 }

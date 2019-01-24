@@ -3,12 +3,12 @@
 <ul class="controllers">
   <li class="controller">
     <span>Simular requisição?</span>
-    <Switch bind:checked="panel.simulateRequest" />
+    <Switch bind:checked="simulateRequest" />
   </li>
-  {#if panel.simulateRequest}
+  {#if simulateRequest}
     <li class="controller">
       <span>Código</span>
-      <select on:change="set({ 'panel.requestMsg': event.target.value })">
+      <select on:change="set({ 'requestMsg': event.target.value })">
           <option value={`{"status":201, "msg": "Succcess"}`} default>201</option>
           <option value={`{"status":204, "msg": "Success"}`}>202</option>
           <option value={`{"status":204, "msg": "Success"}`}>204</option>
@@ -22,15 +22,27 @@
     </li>
     <li class="controller is-full">
       <span>Payload</span>
-      <textarea rows="4" style="resize:none;" bind:value="panel.requestPayload"/>
+      <textarea rows="4" style="resize:none;" bind:value="requestPayload"/>
     </li>
   {/if}
 </ul>
 
 <script>
+  import { Registry } from '../../../index.js';
+
   export default {
     components: {
       Switch: '@mamba/switch',
+    },
+    data() {
+      return { ...Registry.get().$Http.panel };
+    },
+    onupdate({ previous, current }) {
+      if (previous) {
+        Registry.set(draft => {
+          draft.$Http.panel = current;
+        });
+      }
     },
   };
 </script>

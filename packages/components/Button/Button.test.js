@@ -42,23 +42,52 @@ describe('behavior', () => {
 });
 
 describe('style', () => {
-  it("should have 'is-fixed' class when 'bottom' is set", () => {
+  it("should have 'at-bottom' class when 'bottom' is set", () => {
     button = newButton({ bottom: true });
 
-    expect(button.refs.button.classList.contains('is-fixed')).toBe(true);
+    expect(button.refs.button.classList.contains('at-bottom')).toBe(true);
   });
 
-  it('should accept custom inline styles', () => {
-    button = newButton({
-      borderColor: 'red',
-      textColor: 'green',
-      bgColor: 'black',
-      width: '85%',
-    });
+  it('should accept custom width', () => {
+    button = newButton({ width: '85%' });
+
+    expect(button.refs.button.style.width).toBe('85%');
+  });
+
+  it('should accept custom primary color', () => {
+    button = newButton({ bgColor: 'red' });
 
     expect(button.refs.button.style.borderColor).toBe('red');
-    expect(button.refs.button.style.width).toBe('85%');
-    expect(button.refs.button.style.color).toBe('green');
-    expect(button.refs.button.style.backgroundColor).toBe('black');
+    expect(button.refs.button.style.backgroundColor).toBe('red');
+  });
+
+  it('should accept custom text color', () => {
+    button = newButton({ textColor: 'red' });
+
+    expect(button.refs.button.style.color).toBe('red');
+  });
+
+  it('should accept custom primary color when "secondary" is true', () => {
+    button = newButton({ secondary: true, bgColor: 'red' });
+
+    expect(button.refs.button.style.color).toBe('red');
+    expect(button.refs.button.style.borderColor).toBe('red');
+    expect(button.refs.button.style.backgroundColor).toBe('');
+  });
+
+  it('should accept custom text color when "secondary" is true', () => {
+    button = newButton({ secondary: true, textColor: 'red' });
+
+    expect(button.refs.button.style.color).toBe('red');
+  });
+
+  it('should accept custom text color when "secondary" is true and "bgColor" is set', () => {
+    button = newButton({
+      secondary: true,
+      bgColor: 'red',
+      textColor: 'blue',
+    });
+
+    expect(button.refs.button.style.color).toBe('blue');
   });
 });

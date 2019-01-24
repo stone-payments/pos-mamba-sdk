@@ -1,5 +1,9 @@
+<Dialog ref:loadingDialog fullscreen>
+  <LoadingSprite />
+</Dialog>
+
 {#if STATE === STATES.APP}
-  <div ref:approot id="app-root" class="hide-scrollbar"></div>
+  <div id="app-root" class="app-root hide-scrollbar"></div>
 {:else}
   <SignalListener driver={Card} on:cardInserted="openPaymentApp()"/>
 
@@ -40,16 +44,16 @@
 {/if}
 
 <script>
-  import { warn } from '../../libs/utils.js';
-  import AppManager from '../app/manager.js';
-  import Registry from '../registry/manager.js';
-  import Card from '../../../api/card.js';
-  import SignalListener from '../../../SignalListener.html';
+  import { AppManager, System } from '../../../index.js';
+  import { warn } from '../../../libs/utils.js';
+  import Card from '../../../../api/card.js';
+  import SignalListener from '../../../../SignalListener.html';
 
   const STATES = {
     LOCKSCREEN: 0,
     HOME: 1,
-    APP: 2,
+    LOADING: 2,
+    APP: 3,
   };
 
   const APP_INDEXES = [
@@ -71,6 +75,8 @@
       Button: '@mamba/button',
       Icon: '@mamba/icon',
       Keystroke: '@mamba/app/Keystroke.html',
+      Dialog: '@mamba/dialog',
+      LoadingSprite: '@mamba/sprite/Loading.html',
       SignalListener,
     },
     helpers: {
@@ -78,10 +84,7 @@
       Card,
     },
     data() {
-      const {
-        hours: initHours,
-        minutes: initMinutes,
-      } = Registry.getCurrentTime();
+      const { hours: initHours, minutes: initMinutes } = System.getCurrentTime();
 
       return {
         STATE: STATES.LOCKSCREEN,
@@ -105,26 +108,33 @@
       window.history.replaceState('', document.title, window.location.pathname);
 
       /** Update the clock after each second */
-      Registry.on('clock', (newHours, newMinutes) => {
+      System.on('clock', (newHours, newMinutes) => {
         this.set({ time: `${newHours}:${newMinutes}` });
       });
 
       /** Listen to an app being opened and guarantee the Launcher is ready to open it */
+      AppManager.on('loading', () => {
+        this.refs.loadingDialog.open();
+      });
+
       AppManager.on('opening', () => {
         const { STATE } = this.get();
         if (STATE !== STATES.APP) {
           this.set({ STATE: STATES.APP });
         }
-      })
-        .on('closed', () => {
-          window.history.pushState('', document.title, window.location.pathname);
-          this.gotoHome();
-        })
-        .on('appInstalled', () => {
-          this.set({
-            apps: { ...AppManager.getInstalledApps() },
-          });
+        this.refs.loadingDialog.close(100);
+      });
+
+      AppManager.on('closed', () => {
+        window.history.pushState('', document.title, window.location.pathname);
+        this.gotoHome();
+      });
+
+      AppManager.on('appInstalled', () => {
+        this.set({
+          apps: { ...AppManager.getInstalledApps() },
         });
+      });
     },
     methods: {
       openPaymentApp() {
@@ -158,7 +168,7 @@
 <style>
   @import '@mamba/styles/colors.pcss';
 
-  ref:approot {
+  .app-root {
     height: 100%;
 
     @media (min-width: 401px) {

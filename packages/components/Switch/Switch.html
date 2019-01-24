@@ -4,7 +4,7 @@
     {disabled}
     bind:checked
     on:change="fire('change', { value: checked })"
-    data-controller-trigger="click"
+    data-trigger="click"
 	/>
 </label>
 
@@ -31,16 +31,6 @@
 </script>
 
 <style type="text/postcss">
-  @import '@mamba/styles/colors.pcss';
-
-  $checked-icon-border: $green;
-  $checked-bar-bg: $green;
-  $unchecked-icon-bg: $white;
-  $unchecked-icon-border: $blue-gray-dark;
-  $unchecked-bar-bg: $blue-gray-dark;
-  $disabled-icon-border: $gray-light;
-  $disabled-bar-bg: $gray-lighter;
-
   input {
     display: none;
   }
@@ -48,11 +38,11 @@
   .switch {
     position: relative;
     display: inline-block;
-    width: 30px;
-    height: 16px;
+    width: 27px;
+    height: 12px;
     vertical-align: middle;
     border-radius: 8px;
-    background-color: $unchecked-bar-bg;
+    background-color: $switch-unchecked-bg;
 
     &::after {
       content: '';
@@ -60,30 +50,31 @@
       position: absolute;
       top: -2px;
       left: -3px;
-      width: 20px;
-      height: 20px;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
-      border: 0.2rem solid $unchecked-icon-border;
-      background-color: $unchecked-icon-bg;
+      border: none;
+      background-color: $switch-unchecked-color;
+      box-shadow: 0 0 1px 0 rgba($black, 0.12), 0 1px 1px 0 rgba($black, 0.24);
     }
 
     /** Checked switch style */
     &[checked='true'] {
-      background-color: $checked-bar-bg;
+      background-color: $switch-checked-bg;
 
       &::after {
         left: auto;
         right: -3px;
-        border-color: $checked-icon-border;
+        background-color: $switch-checked-color;
       }
     }
 
     /** Disabled switch style */
     &[disabled='true'] {
-      background-color: $disabled-bar-bg;
+      background-color: rgba($switch-disabled-bg, 0.5);
 
       &::after {
-        border-color: $disabled-icon-border;
+        background-color: $switch-disabled-color;
       }
     }
   }

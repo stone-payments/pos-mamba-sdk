@@ -1,15 +1,16 @@
+import EventTarget from '../../libs/EventTarget.js';
 import Registry from '../registry/manager.js';
 import Signal from '../../libs/signal.js';
 import { LOG_PREFIX, deepCopy } from '../../libs/utils.js';
-import extendDriver from '../../../drivers/extend.js';
+import extend from '../../../extend.js';
 
-const DriverManager = extendDriver({});
+const DriverManager = extend({}, EventTarget());
+
+DriverManager.drivers = Object.freeze({});
 
 DriverManager.attachDrivers = driverModules => {
   if (__DEBUG_LVL__ >= 1 && __BROWSER__)
     console.groupCollapsed(`${LOG_PREFIX} Attaching drivers`);
-
-  const savedState = Registry.getSavedState();
 
   driverModules.forEach(driverModule => {
     const driver = {};
@@ -18,22 +19,35 @@ DriverManager.attachDrivers = driverModules => {
     if (__DEBUG_LVL__ >= 1 && __BROWSER__) console.groupCollapsed(driverRef);
 
     /** Set the simulator default settings for the driver */
-    if (driverModule.SETTINGS) {
+    if (driverModule.DYNAMIC_SETTINGS || driverModule.SETTINGS) {
+      const dynamicDefaults =
+        driverModule.DYNAMIC_SETTINGS || driverModule.SETTINGS;
+
       if (__DEBUG_LVL__ >= 1 && __BROWSER__) {
-        console.log('Default settings:', driverModule.SETTINGS);
+        console.log('Dynamic settings:', dynamicDefaults);
       }
 
-      if (savedState[driverModule.NAMESPACE]) {
-        Registry.set(
-          draft => {
-            draft[driverModule.NAMESPACE] = savedState[driverModule.NAMESPACE];
-          },
-          { save: false },
+      Registry.set(draft => {
+        draft[driverRef] = deepCopy(dynamicDefaults);
+      });
+    }
+
+    if (driverModule.PERSISTENT_SETTINGS) {
+      const persistentDefaults = deepCopy(driverModule.PERSISTENT_SETTINGS);
+
+      /** Does any persisted data for this driver exist? */
+      Registry.persistent.set(draft => {
+        draft[driverRef] = {
+          ...persistentDefaults,
+          ...(draft[driverRef] || {}),
+        };
+      });
+
+      if (__DEBUG_LVL__ >= 1 && __BROWSER__) {
+        console.log(
+          'Persistent settings:',
+          Registry.persistent.get()[driverRef],
         );
-      } else {
-        Registry.set(draft => {
-          draft[driverModule.NAMESPACE] = deepCopy(driverModule.SETTINGS);
-        });
       }
     }
 
@@ -84,6 +98,12 @@ DriverManager.attachDrivers = driverModules => {
 
     /** Export it to the window */
     window[driverRef] = driver;
+
+    /** Export it to the driver manager */
+    DriverManager.drivers = Object.freeze({
+      ...DriverManager.drivers,
+      [driverRef]: driver,
+    });
 
     if (__DEBUG_LVL__ >= 1 && __BROWSER__) console.groupEnd();
   });

@@ -1,8 +1,10 @@
-import Core from '../../simulator/core.js';
+import { Registry } from '../../simulator/index.js';
 import { error, log } from '../../simulator/libs/utils.js';
 import systemEnums from './enums.js';
 
 export const NAMESPACE = '$System';
+
+export const SIGNALS = ['batteryCritical', 'batteryNormal'];
 
 export const SETTINGS = {
   Connections: {
@@ -15,9 +17,13 @@ export const SETTINGS = {
     present: true,
     level: 50,
     status: systemEnums.BatteryStatus.DISCHARGE,
+    isBatteryCritical: false,
   },
   PowerSupply: systemEnums.PowerSupply.USB,
-  SerialNumber: '00000000',
+};
+
+export const PERSISTENT_SETTINGS = {
+  serialNumber: '00000000',
 };
 
 /**
@@ -91,7 +97,9 @@ export function setup(System) {
       return false;
     }
 
-    Core.Registry.set('$System.Connections.currentType', desiredAdapter);
+    Registry.set(draft => {
+      draft.$System.Connections.currentType = desiredAdapter;
+    });
     return true;
   };
 
@@ -101,42 +109,42 @@ export function setup(System) {
    * @return {string} Wifi or 3G
    */
   System.getCurrentConnectionType = () =>
-    Core.Registry.get('$System.Connections.currentType');
+    Registry.get().$System.Connections.currentType;
 
   /**
    * Checks if the device has ethernet
    * @memberOf System
    * @return {boolean} True if the device has ethernet
    */
-  System.hasEthernet = () => Core.Registry.get('$System.Connections.ethernet');
+  System.hasEthernet = () => Registry.get().$System.Connections.ethernet;
 
   /**
    * Checks if the device has wifi
    * @memberOf System
    * @return {boolean} True if the device has wifi
    */
-  System.hasWifi = () => Core.Registry.get('$System.Connections.wifi');
+  System.hasWifi = () => Registry.get().$System.Connections.wifi;
 
   /**
    * Checks if the device has gprs
    * @memberOf System
    * @return {boolean} True if the device has gprs
    */
-  System.hasGprs = () => Core.Registry.get('$System.Connections.gprs');
+  System.hasGprs = () => Registry.get().$System.Connections.gprs;
 
   /**
    * Checks if the battery is present
    * @memberOf System
    * @return {boolean} True if the battery is present
    */
-  System.isBatteryPresent = () => Core.Registry.get('$System.Battery.present');
+  System.isBatteryPresent = () => Registry.get().$System.Battery.present;
 
   /**
    * Gets the decive current power supply
    * @memberOf System
    * @return {System.PowerSupply} The current power supply of the device
    */
-  System.getPowerSupply = () => Core.Registry.get('$System.PowerSupply');
+  System.getPowerSupply = () => Registry.get().$System.PowerSupply;
 
   /**
    * Gets the time from the boot until this moment [ms]
@@ -150,14 +158,22 @@ export function setup(System) {
    * @memberOf System
    * @return {string} The serial number
    */
-  System.getSerialNumber = () => Core.Registry.get('$System.SerialNumber');
+  System.getSerialNumber = () => Registry.persistent.get().$System.serialNumber;
 
   /**
    * Gets the status of the battery
    * @memberOf System
    * @return {System.BatteryStatus} The status of the battery
    */
-  System.getBatteryStatus = () => Core.Registry.get('$System.Battery.status');
+  System.getBatteryStatus = () => Registry.get().$System.Battery.status;
+
+  /**
+   * Gets the status of the battery critical
+   * @memberOf System
+   * @return {System.BatteryStatus} The status of the battery
+   */
+  System.isBatteryCritical = () =>
+    Registry.get().$System.Battery.isBatteryCritical;
 
   /**
    * Gets the level of the battery. Note that the level is discrete and it
@@ -173,7 +189,7 @@ export function setup(System) {
    * @memberOf System
    * @return {number} The level of the battery
    */
-  System.getBatteryLevel = () => Core.Registry.get('$System.Battery.level');
+  System.getBatteryLevel = () => Registry.get().$System.Battery.level;
 
   /**
    * Performs a beep. Note that this function blocks the execution on the real device

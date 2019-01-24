@@ -67,6 +67,12 @@
 
 <style type="text/postcss">
   .keypad {
+    position: absolute;
+    width: 292px;
+    height: 158px;
+    bottom: 20px;
+    left: 18px;
+
     @media (max-width: 400px) {
       display: none;
     }
@@ -74,7 +80,7 @@
 
   button {
     position: absolute;
-    width: 60px;
+    width: 62px;
     height: 30px;
     border: 0;
     appearance: none;
@@ -84,77 +90,83 @@
     color: transparent;
     font-weight: bold;
     font-size: 18px;
+    transition: 0.2s ease;
   }
 
   button:hover {
-    opacity: 1;
     color: white;
-    background-color: rgba(22, 22, 22, 0.8);
+    background-color: rgba(22, 22, 22, 0.9);
     border: 2px solid white;
+  }
+
+  button:active {
+    transform: scale(0.95);
   }
 
   .shortcuts {
     font-size: 10px;
   }
 
-  .close {
-    right: 50px;
+  .help {
+    border-bottom-left-radius: 35px;
   }
 
-  .back {
-    bottom: 101px;
-    right: 50px;
+  .close,
+  .back,
+  .enter {
+    left: 219px;
   }
 
   .enter {
     height: 64px;
-    right: 50px;
+    border-bottom-right-radius: 30px;
   }
 
   .key-1,
   .key-4,
   .key-7,
   .help {
-    right: 255px;
+    left: 14px;
   }
 
   .key-2,
   .key-5,
   .key-8,
   .key-0 {
-    right: 187px;
+    left: 82px;
   }
 
   .key-3,
   .key-6,
   .key-9,
   .shortcuts {
-    right: 119px;
+    left: 150px;
   }
 
   .key-1,
   .key-2,
   .key-3,
   .close {
-    bottom: 138px;
+    bottom: 118px;
   }
 
   .key-4,
   .key-5,
-  .key-6 {
-    bottom: 102px;
+  .key-6,
+  .back {
+    bottom: 82px;
   }
 
   .key-7,
   .key-8,
   .key-9 {
-    bottom: 67px;
+    bottom: 47px;
   }
 
   .key-0,
   .shortcuts,
   .help,
   .enter {
-    bottom: 32px;
+    bottom: 12px;
   }
 </style>

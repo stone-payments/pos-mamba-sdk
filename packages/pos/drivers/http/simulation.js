@@ -1,5 +1,5 @@
 import { log } from '../../simulator/libs/utils.js';
-import Core from '../../simulator/core.js';
+import { Registry } from '../../simulator/index.js';
 
 export const NAMESPACE = '$Http';
 
@@ -18,10 +18,10 @@ export function setup(Http) {
   let _data = null;
 
   const setError = function onerror() {
-    _errorData = new Error({
+    _errorData = {
       status: this.status,
       msg: this.responseText,
-    });
+    };
     Http.fire('requestFailed');
   };
 
@@ -31,7 +31,7 @@ export function setup(Http) {
   Http.doSend = function send({ method = 'GET', url = '', data, headers }, refSignal) {
     const xhttp = new XMLHttpRequest();
 
-    if (__DEV__) {
+    if (__DEBUG_LVL__ >= 1) {
       xhttp.onprogress = function onprogress() {
         log('Requesting...');
       };
@@ -53,7 +53,8 @@ export function setup(Http) {
       }
     };
 
-    const panel = Core.Registry.get('$Http.panel');
+    const { panel } = Registry.get().$Http;
+
     if (panel.simulateRequest) {
       const requestMsg = JSON.parse(panel.requestMsg);
       const requestPayload = JSON.parse(panel.requestPayload);
@@ -71,7 +72,7 @@ export function setup(Http) {
       return;
     }
 
-    xhttp.open(method, url, false);
+    xhttp.open(method, url, true);
 
     if (headers) {
       Object.keys(headers).forEach(key => {
@@ -79,12 +80,10 @@ export function setup(Http) {
       });
     }
 
-    setTimeout(() => {
-      try {
-        xhttp.send(data);
-      } catch (e) {
-        setError.call(xhttp);
-      }
-    });
+    try {
+      xhttp.send(data);
+    } catch (e) {
+      setError.call(xhttp);
+    }
   };
 }

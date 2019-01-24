@@ -7,11 +7,16 @@
 >
   <slot></slot>
   <div slot="extra">
-    <table class="actions" class:has-labels="hasLabel">
+    <table class="actions" class:has-labels="_hasLabel">
       <tr>
         <td>
-          {#if hasLabel}
-            <button class="action" on:click="close('negative')" shortcut="close">
+          {#if _hasLabel}
+            <button
+              class="action negative"
+              style={_negativeLabelStyle}
+              on:click="close('negative')"
+              shortcut="close"
+            >
               {negativeLabel}
             </button>
           {:else}
@@ -22,10 +27,10 @@
         </td>
         <td class="spacer"></td>
         <td>
-          {#if hasLabel}
+          {#if _hasLabel}
             <button
-              class="action"
-              style='color: #fff; background-color: {primaryColor}; border-color: {primaryColor};'
+              class="action positive"
+              style={_positiveLabelStyle}
               on:click="close('positive')"
               shortcut="enter"
             >
@@ -53,13 +58,28 @@
         isOpen: false,
         positiveLabel: null,
         negativeLabel: null,
-        primaryColor: '#4fb341',
+        primaryColor: undefined,
       };
     },
     computed: {
-      _dialogProps: props => props,
-      hasLabel: ({ negativeLabel, positiveLabel }) =>
-        !!(negativeLabel || positiveLabel),
+      _dialogProps: ({ positiveLabel, negativeLabel, primaryColor, ...props }) =>
+        props,
+      _hasLabel: ({ negativeLabel, positiveLabel }) =>
+        !!(negativeLabel && positiveLabel),
+      _positiveLabelStyle: ({ _hasLabel, primaryColor }) => {
+        if (!_hasLabel || !primaryColor) {
+          return;
+        }
+
+        return `color: #fff; background-color: ${primaryColor}; border-color: ${primaryColor};`;
+      },
+      _negativeLabelStyle: ({ _hasLabel, primaryColor }) => {
+        if (!_hasLabel || !primaryColor) {
+          return;
+        }
+
+        return `color: ${primaryColor}; border-color: ${primaryColor}; `;
+      },
     },
     methods: {
       open() {
@@ -89,12 +109,18 @@
   .action {
     display: block;
     background: transparent;
+    font-weight: bold;
 
     .actions.has-labels & {
-      border: 1px solid #425963;
+      border: 1px solid $dialog-confirmation-primary-color;
       border-radius: 3px;
       padding: 10px 16px;
-      color: #425963;
+      color: $dialog-confirmation-primary-color;
+
+      &.positive {
+        background-color: $dialog-confirmation-primary-color;
+        color: $dialog-confirmation-text-color;
+      }
     }
   }
 
