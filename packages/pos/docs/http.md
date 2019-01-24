@@ -17,7 +17,10 @@ interface connectionOptions {
   data: string;
   headers: HeaderOptions;
   connect: string;
+<<<<<<< HEAD
   encodeURI: boolean;
+=======
+>>>>>>> origin/develop
 }
 ```
 
@@ -40,10 +43,10 @@ const myRequest = {
         'Authorization':'CDBDE4E6DC4E6AC1845606D0720BAFA557FA046347876CAA3986872AC1123852'
   },
   method: 'GET',
-  data: JSON.stringify({title:'Test', body:'This is a Test.'}),
+  data: {title:'Test', body:'This is a Test.'},
   connect: 'DEV',
   encodeURI: false
-}
+
 
 
 Http.send(myRequest).then((result)=> {

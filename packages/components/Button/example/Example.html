@@ -1,33 +1,51 @@
 <div class="container">
   <h4>Padrão</h4>
   <div class="row">
-    <Button on:click="console.log(event)">Label</Button>
+    <Button>Label</Button>
   </div>
 
   <h4>Desativado</h4>
   <div class="row">
-    <Button on:click="console.log(event)" disabled>Label</Button>
+    <Button disabled>Label</Button>
   </div>
 
-  <h4>Tamanhos</h4>
+  <h4>Secundário</h4>
   <div class="row">
-    <div class="group">
-      <Button on:click="console.log(event)" size="small">Label</Button>
-      <Button on:click="console.log(event)">Label</Button>
-      <Button on:click="console.log(event)" size="large">Label</Button>
-    </div>
+    <Button secondary>Label</Button>
   </div>
 
-  <h4>Custom width button</h4>
+  <h4>Pequeno</h4>
   <div class="row">
-    <Button on:click="console.log(event)" width="33%">Label</Button>
+    <Button size="small" secondary bgColor="#425963">Não</Button>
+    <Button size="small" bgColor="#425963">Sim</Button>
+  </div>
+
+  <h4>Tela cheia</h4>
+  <div class="row">
+    <Button size="full">Label</Button>
+  </div>
+
+  <h4>Largura personalizada</h4>
+  <div class="row">
+    <Button width="50%">Label</Button>
   </div>
 
   <h4>Personalizado</h4>
   <div class="row">
-    <Button on:click="console.log(event)" textColor="white" bgColor="black">Label</Button>
-     <Button>
-      <Icon symbol="chevron-right" color="white"/>
+    <Button bgColor="#425963">Label</Button>
+  </div>
+
+  <div class="row">
+    <Button bgColor="#425963" secondary>Label</Button>
+  </div>
+
+  <div class="row">
+    <Button bgColor="#425963" secondary disabled>Label</Button>
+  </div>
+
+  <div class="row">
+    <Button size="small">
+      <Icon symbol="chevron-right" color="white" />
     </Button>
   </div>
 

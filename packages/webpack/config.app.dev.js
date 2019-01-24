@@ -6,7 +6,7 @@ const merge = require('webpack-merge');
 const { fromCwd } = require('quickenv');
 
 module.exports = merge(require('./config.app.js'), {
-  devtool: 'inline-source-map',
+  devtool: 'eval-source-map',
 
   plugins: [new webpack.HotModuleReplacementPlugin()],
 

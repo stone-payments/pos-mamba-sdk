@@ -25,15 +25,8 @@
 </div>
 
 <script>
-  import Core from '../../../core.js';
-
-  const onceTransitionEnd = (el, cb) => {
-    const onTransitionEnd = e => {
-      cb(e);
-      el.removeEventListener('transitionend', onTransitionEnd);
-    };
-    el.addEventListener('transitionend', onTransitionEnd);
-  };
+  import { HardwareManager } from '../../../index.js';
+  import { onceTransitionEnd } from '../utils.js';
 
   let shreddingPromise = null;
 
@@ -59,8 +52,10 @@
       },
     },
     oncreate() {
-      Core.HardwareManager.on('startPrinting', (content, options) => {
-        this.print(content, options).then(Core.HardwareManager.endPrinting);
+      HardwareManager.on('startPrinting', (content, options) => {
+        this.print(content, options).then(() =>
+          HardwareManager.fire('endPrinting'),
+        );
       });
     },
     methods: {

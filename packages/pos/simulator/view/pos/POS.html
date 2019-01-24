@@ -1,0 +1,67 @@
+
+<div class="pos-wrapper">
+  <div class="shadow"></div>
+  <div class="pos">
+    <Printer ref:printer />
+      <Screen ref:screen>
+        <slot></slot>
+      </Screen>
+    <Keypad ref:keypad />
+  </div>
+</div>
+
+<script>
+  export default {
+    components: {
+      Printer: './hardware/Printer.html',
+      Keypad: './hardware/Keypad.html',
+      Screen: './hardware/Screen.html',
+    },
+  };
+</script>
+
+<style type="text/postcss">
+  @media (max-width: 400px) {
+    .pos-wrapper,
+    .pos {
+      height: 100%;
+    }
+  }
+
+  @media (min-width: 401px) {
+    .pos-wrapper {
+      position: relative;
+    }
+
+    .pos,
+    .shadow {
+      position: relative;
+      z-index: 2;
+      margin: 0 auto;
+      width: 347px;
+      height: 761px;
+      background-image: url(./assets/POS.png);
+      background-size: cover;
+    }
+
+    .pos {
+      user-select: none;
+    }
+
+    .shadow {
+      display: none;
+    }
+
+    @supports (filter: brightness(0)) {
+      .shadow {
+        display: block;
+        position: absolute;
+        z-index: 0;
+        filter: brightness(0) blur(2px);
+        opacity: 0.4;
+        animation: shadow 0.8s ease-out forwards;
+        transform: translate(15px, 15px);
+      }
+    }
+  }
+</style>

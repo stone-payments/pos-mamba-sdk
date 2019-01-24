@@ -1,4 +1,4 @@
-import Core from '../../simulator/core.js';
+import { Registry, HardwareManager } from '../../simulator/index.js';
 
 export const NAMESPACE = '$Card';
 
@@ -9,10 +9,13 @@ export const SETTINGS = {
 };
 
 export function setup(Card) {
-  Card.isCardInserted = () => Core.Registry.get('$Card.isInserted');
+  Card.isCardInserted = () => Registry.get().$Card.isInserted;
 
-  Core.HardwareManager.on('toggleCard', isInserted => {
-    Core.Registry.set('$Card.isInserted', isInserted);
+  HardwareManager.on('toggleCard', isInserted => {
+    Registry.set(draft => {
+      draft.$Card.isInserted = isInserted;
+    });
+
     if (isInserted) {
       Card.cardInserted();
     } else {

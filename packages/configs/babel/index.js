@@ -19,10 +19,5 @@ module.exports = {
       },
     ],
   ],
-  plugins: [
-    /** Add support to import() */
-    '@babel/plugin-syntax-dynamic-import',
-    /** Add class properties support */
-    ['@babel/plugin-proposal-class-properties', { loose: true }],
-  ],
+  plugins: [],
 };

@@ -27,15 +27,15 @@
 </svg>
 
 <script>
-  import Registry from '../../registry/manager.js';
+  import { System, Registry, HardwareManager } from '../../../index.js';
 
-  const { hours: initHours, minutes: initMinutes } = Registry.getCurrentTime();
+  const { hours: initHours, minutes: initMinutes } = System.getCurrentTime();
 
   export default {
     data() {
       return {
         brightnessLevel: 10,
-        version: Registry.getVersion(),
+        version: System.getVersion(),
         time: `${initHours}:${initMinutes}`,
       };
     },
@@ -43,8 +43,19 @@
       brightnessOpacity: ({ brightnessLevel }) => 1 - brightnessLevel / 10,
     },
     oncreate() {
+      if (localStorage) {
+        const { ScreenBrightness } = Registry.persistent.get();
+        if (ScreenBrightness && typeof ScreenBrightness.level !== 'undefined') {
+          this.set({ brightnessLevel: ScreenBrightness.level });
+        }
+      }
+
+      HardwareManager.on('changeBrightness', brightnessLevel => {
+        this.set({ brightnessLevel });
+      });
+
       /** Update the clock after each second */
-      Registry.on('clock', (newHours, newMinutes) => {
+      System.on('clock', (newHours, newMinutes) => {
         this.set({ time: `${newHours}:${newMinutes}` });
       });
     },
@@ -52,8 +63,6 @@
 </script>
 
 <style type="text/postcss">
-  @import '@mamba/styles/theme.pcss';
-
   .screen,
   .content {
     height: 100%;
@@ -83,13 +92,13 @@
       display: flex;
       flex-flow: column;
       overflow: hidden;
+      filter: url(#pos-color-map);
     }
 
     .content {
       height: 100%;
       flex: 0 1 auto;
       overflow: hidden;
-      filter: url(#pos-color-map);
       user-select: text;
     }
 
