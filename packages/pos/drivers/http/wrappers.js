@@ -3,9 +3,23 @@ export default function(driver) {
     return new Promise((resolve, reject) => {
       const refSignal = `${Math.random() * new Date().getMilliseconds()}`;
 
-      if (typeof configParams.data !== 'string') {
-        configParams.data = JSON.stringify(configParams.data);
+      /** Accept body and data as the body parameter */
+      if (
+        typeof opts.data === 'undefined' &&
+        typeof opts.body !== 'undefined'
+      ) {
+        opts.data = opts.body;
       }
+
+      /** Default content type to json */
+      if (!opts.headers) {
+        opts.headers = { 'Content-Type': 'application/json;charset=UTF-8' };
+      } else if (!('Content-Type' in opts.headers)) {
+        opts.headers['Content-Type'] = 'application/json;charset=UTF-8';
+      }
+
+      if (typeof opts.data !== 'string') {
+        opts.data = JSON.stringify(opts.data);
 
       driver.race([
         [
@@ -25,7 +39,7 @@ export default function(driver) {
       ]);
 
       /** Asynchronously make a request at the backend */
-      driver.doSend(configParams, refSignal);
+      driver.doSend(opts, refSignal);
     });
   };
 
