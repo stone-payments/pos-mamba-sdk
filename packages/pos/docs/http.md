@@ -17,10 +17,7 @@ interface connectionOptions {
   data: string;
   headers: HeaderOptions;
   connect: string;
-<<<<<<< HEAD
   encodeURI: boolean;
-=======
->>>>>>> origin/develop
 }
 ```
 
