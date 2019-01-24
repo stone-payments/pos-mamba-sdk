@@ -20,7 +20,7 @@
   },
   "peerDependencies": {
     "@babel/core": "^7.2.2",
-    "@mamba/pos": "^2.0.0",
+    "@mamba/pos": "^2.1.0",
     "eslint": "^5.12.0",
     "postcss": "^7.0.13",
     "prettier": "^1.15.3",
