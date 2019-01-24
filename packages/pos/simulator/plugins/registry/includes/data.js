@@ -1,11 +1,9 @@
-import produce, { setAutoFreeze } from 'immer';
+import produce, { applyPatches } from 'immer';
 
 import { log, warn } from '../../../libs/utils.js';
 
-setAutoFreeze(false);
-
 export default Registry => {
-  Registry._data = {};
+  Registry._data = Object.freeze({});
 
   /** Data */
   Registry.get = keyPath => {
@@ -34,7 +32,15 @@ export default Registry => {
     }
 
     if (typeof keyPath === 'function') {
-      Registry._data = produce(Registry._data, keyPath);
+      const changes = [];
+
+      produce(Registry._data, keyPath, patches => {
+        changes.push(...patches);
+      });
+
+      Registry._data = applyPatches(Registry._data, changes);
+      Registry.fire('dataChanged', changes);
+
       return;
     }
 
@@ -62,41 +68,4 @@ export default Registry => {
       object[keys[keys.length - 1]] = value;
     }
   };
-
-  let cachedGet = null;
-  let cachedParsed = {};
-
-  if (!localStorage) {
-    if (__DEV__) {
-      warn(
-        'Could not load persistent Registry data because "localStorage" was not found',
-      );
-    }
-    Registry.persistent = { get() {}, set() {} };
-  } else {
-    Registry.persistent = {
-      get() {
-        const persistedData = localStorage.getItem('_mamba_persistent_');
-
-        if (persistedData === cachedGet) {
-          return cachedParsed;
-        }
-
-        cachedGet = persistedData;
-        cachedParsed = JSON.parse(cachedGet);
-
-        return cachedParsed || {};
-      },
-      set(fn) {
-        if (typeof fn === 'function') {
-          const persistentData = Registry.persistent.get();
-
-          localStorage.setItem(
-            '_mamba_persistent_',
-            JSON.stringify(produce(persistentData, fn)),
-          );
-        }
-      },
-    };
-  }
 };

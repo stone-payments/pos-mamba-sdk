@@ -11,12 +11,11 @@ import {
 } from './plugins/index.js';
 import { log, warn, error } from './libs/utils.js';
 import './boot.js';
-import { getView } from './view.js';
+import View from './view/manager.js';
 
 export {
-  /** Get a single instance of the virtual POS */
-  getView,
   /** Simulator plugins */
+  View,
   System,
   Registry,
   HardwareManager,
@@ -35,4 +34,5 @@ window.MambaWeb = {
   HardwareManager,
   DriverManager,
   AppManager,
+  View,
 };

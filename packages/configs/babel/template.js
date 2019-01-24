@@ -1,8 +1,17 @@
+const { IS_TEST } = require('quickenv');
 const generalConfig = require('./index.js');
 const { extendPresetEnv } = require('./utils.js');
 
-module.exports = {
-  ...extendPresetEnv(generalConfig, {
-    useBuiltIns: 'usage',
-  }),
-};
+const config = extendPresetEnv(generalConfig, {
+  useBuiltIns: 'usage',
+});
+
+if (IS_TEST()) {
+  /** Transpile dynamic imports and async/await */
+  config.plugins.push('dynamic-import-node', '@babel/plugin-transform-runtime');
+} else {
+  /** Accept dynamic import syntax and leave it to bundler */
+  config.plugins.push('@babel/plugin-syntax-dynamic-import');
+}
+
+module.exports = config;

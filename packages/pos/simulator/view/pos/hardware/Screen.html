@@ -27,7 +27,7 @@
 </svg>
 
 <script>
-  import { System, Registry, HardwareManager } from '../../index.js';
+  import { System, Registry, HardwareManager } from '../../../index.js';
 
   const { hours: initHours, minutes: initMinutes } = System.getCurrentTime();
 
@@ -44,8 +44,10 @@
     },
     oncreate() {
       if (localStorage) {
-        const brightnessLevel = Registry.persistent.get().ScreenBrightness.level;
-        this.set({ brightnessLevel });
+        const { ScreenBrightness } = Registry.persistent.get();
+        if (ScreenBrightness && typeof ScreenBrightness.level !== 'undefined') {
+          this.set({ brightnessLevel: ScreenBrightness.level });
+        }
       }
 
       HardwareManager.on('changeBrightness', brightnessLevel => {
@@ -61,8 +63,6 @@
 </script>
 
 <style type="text/postcss">
-  @import '@mamba/styles/theme.pcss';
-
   .screen,
   .content {
     height: 100%;
@@ -92,13 +92,13 @@
       display: flex;
       flex-flow: column;
       overflow: hidden;
+      filter: url(#pos-color-map);
     }
 
     .content {
       height: 100%;
       flex: 0 1 auto;
       overflow: hidden;
-      filter: url(#pos-color-map);
       user-select: text;
     }
 

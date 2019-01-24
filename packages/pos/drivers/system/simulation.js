@@ -4,6 +4,8 @@ import systemEnums from './enums.js';
 
 export const NAMESPACE = '$System';
 
+export const SIGNALS = ['batteryCritical', 'batteryNormal'];
+
 export const SETTINGS = {
   Connections: {
     ethernet: true,
@@ -15,9 +17,13 @@ export const SETTINGS = {
     present: true,
     level: 50,
     status: systemEnums.BatteryStatus.DISCHARGE,
+    isBatteryCritical: false,
   },
   PowerSupply: systemEnums.PowerSupply.USB,
-  SerialNumber: '00000000',
+};
+
+export const PERSISTENT_SETTINGS = {
+  serialNumber: '00000000',
 };
 
 /**
@@ -152,7 +158,7 @@ export function setup(System) {
    * @memberOf System
    * @return {string} The serial number
    */
-  System.getSerialNumber = () => Registry.get().$System.SerialNumber;
+  System.getSerialNumber = () => Registry.persistent.get().$System.serialNumber;
 
   /**
    * Gets the status of the battery
@@ -160,6 +166,14 @@ export function setup(System) {
    * @return {System.BatteryStatus} The status of the battery
    */
   System.getBatteryStatus = () => Registry.get().$System.Battery.status;
+
+  /**
+   * Gets the status of the battery critical
+   * @memberOf System
+   * @return {System.BatteryStatus} The status of the battery
+   */
+  System.isBatteryCritical = () =>
+    Registry.get().$System.Battery.isBatteryCritical;
 
   /**
    * Gets the level of the battery. Note that the level is discrete and it

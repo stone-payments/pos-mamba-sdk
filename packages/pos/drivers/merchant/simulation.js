@@ -2,8 +2,8 @@ import { Registry } from '../../simulator/index.js';
 
 export const NAMESPACE = '$Merchant';
 
-export const SETTINGS = {
-  acquirerIssuedMerchantId: '123', // Stone code
+export const PERSISTENT_SETTINGS = {
+  stoneCode: '123123123',
 };
 
 export function setup(Merchant) {
@@ -12,8 +12,7 @@ export function setup(Merchant) {
    * @memberof Merchant
    * @return {string} The stone code
    */
-  Merchant.getStoneCode = () =>
-    Registry.get().$Merchant.acquirerIssuedMerchantId;
+  Merchant.getStoneCode = () => Registry.persistent.get().$Merchant.stoneCode;
 
   /**
    * Get the supported brands of this Merchant

@@ -111,15 +111,20 @@ export default () => {
           this.off(signal, callback);
         }
 
-        /** Wrap the signal callback to disconnect all slots once one of the signals are emitted */
+        /**
+         * Wrap the signal callback to disconnect all slots once one of the signals are emitted
+         * If the return of a callback is "false", it doesn't unlisten automatically
+         */
         wrappedCallbacks[signal] = (...data) => {
-          callback(...data);
-          Object.keys(wrappedCallbacks).forEach(signalName => {
-            if (__DEBUG_LVL__ === 2) {
-              console.log(`Removing '${signalName}'`);
-            }
-            this.off(signalName, wrappedCallbacks[signalName]);
-          });
+          const result = callback(...data);
+          if (result !== false) {
+            Object.keys(wrappedCallbacks).forEach(signalName => {
+              if (__DEBUG_LVL__ === 2) {
+                console.log(`Removing '${signalName}'`);
+              }
+              this.off(signalName, wrappedCallbacks[signalName]);
+            });
+          }
         };
 
         /** Listen to the signal emission */

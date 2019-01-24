@@ -19,14 +19,5 @@ module.exports = {
       },
     ],
   ],
-  plugins: [
-    process.env.NODE_ENV === 'test'
-      ? /** Add support to import() syntax and transpile it */
-      'dynamic-import-node'
-      : /** Add support to import() syntax and leave it to bundler */
-      '@babel/plugin-syntax-dynamic-import',
-    process.env.NODE_ENV === 'test' && '@babel/plugin-transform-runtime',
-    /** Add class properties support */
-    ['@babel/plugin-proposal-class-properties', { loose: true }],
-  ].filter(Boolean),
+  plugins: [],
 };

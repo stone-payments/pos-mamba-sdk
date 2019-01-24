@@ -25,15 +25,8 @@
 </div>
 
 <script>
-  import { HardwareManager } from '../../index.js';
-
-  const onceTransitionEnd = (el, cb) => {
-    const onTransitionEnd = e => {
-      cb(e);
-      el.removeEventListener('transitionend', onTransitionEnd);
-    };
-    el.addEventListener('transitionend', onTransitionEnd);
-  };
+  import { HardwareManager } from '../../../index.js';
+  import { onceTransitionEnd } from '../utils.js';
 
   let shreddingPromise = null;
 

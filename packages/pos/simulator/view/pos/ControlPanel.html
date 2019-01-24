@@ -2,23 +2,20 @@
 
 <div class="panel-wrapper">
   <input ref:toggle type="checkbox" class="panel-checkbox" id="panel-toggler">
-  <label for="panel-toggler" class="panel-toggle">⚙</label>
-  <div class="panel">
-      {#each Object.values(panels) as {namespace, panel, data}}
-        <div class="section">
-          <svelte:component
-            this={panel}
-            {...data}
-            on:update="handlePanelUpdate(namespace, event)"
-          />
-        </div>
-      {/each}
+  <label for="panel-toggler" class="panel-toggle">&#x2699;</label>
+  <div class="panel" ref:panel>
+    {#each panels as panel}
+      <div class="section">
+        <svelte:component this={panel} />
+      </div>
+    {/each}
   </div>
 </div>
 
 <script>
-  import { Registry } from '../index.js';
-  import { deepCopy } from '../libs/utils.js';
+  import GeneralPanel from './panels/General.html';
+  import PrinterPanel from './panels/Printer.html';
+  import HttpPanel from './panels/Http.html';
 
   let lastKeypressTime = 0;
 
@@ -28,67 +25,26 @@
     },
     data() {
       return {
-        panels: {},
+        panels: [GeneralPanel, PrinterPanel, HttpPanel],
       };
     },
     oncreate() {
-      /**
-       * Disable the keystroke handler when
-       * there's a shortcut for the 'shortcuts' key
-       * */
-      // TODO HOW TO DO THIS WITHOUT STORE
-      // this.store.on('router:navigation', () => {
-      //   this.set({
-      //     keystrokeActive: !document.querySelector('[shortcut="shortcuts"]'),
-      //   });
-      // });
-
-      /** Update a driver local copy of settings */
-      Registry.on('shallowChange', ({ key, value }) => {
-        const { panels } = this.get();
-        if (panels[key]) {
-          this.set({
-            panels: {
-              ...panels,
-              [key]: { ...panels[key], data: deepCopy(value) },
-            },
-          });
+      const togglePanels = e => {
+        if (e.target.classList.contains('title')) {
+          const eventPath = e.path || (e.composedPath && e.composedPath());
+          const section = eventPath.find(n => n.classList.contains('section'));
+          if (section) {
+            section.classList.toggle('is-active');
+          }
         }
+      };
+
+      this.refs.panel.addEventListener('click', togglePanels);
+      this.on('destroy', () => {
+        this.refs.panel.removeEventListener('click', togglePanels);
       });
     },
     methods: {
-      // TODO: need to rethink all of this
-      handlePanelUpdate(namespace, { changed, current, previous }) {
-        if (previous) {
-          Object.keys(changed).forEach(key => {
-            Registry.set(
-              draft => {
-                draft[namespace] = {
-                  ...draft[namespace],
-                  [key]: current[key],
-                };
-              },
-              // todo: should save, but not possible right now without resetting every external driver
-              { dispatch: false, save: false },
-            );
-          });
-        }
-      },
-      add(panel, driver) {
-        const { panels } = this.get();
-        const namespace = driver.NAMESPACE;
-
-        this.set({
-          panels: {
-            ...panels,
-            [namespace]: {
-              namespace,
-              panel,
-              data: deepCopy(driver.SETTINGS || {}),
-            },
-          },
-        });
-      },
       handleShortcutStroke() {
         const keypressTime = new Date();
         /** Require double keypress */
@@ -174,19 +130,45 @@
     }
 
     :global(.title) {
+      cursor: pointer;
       font-weight: bold;
       border-bottom: 1px dotted #ccc;
       font-size: 18px;
       line-height: 1;
       padding-bottom: 5px;
+      transition: transform 0.3s ease;
+      transform-origin: 0 50%;
+
+      &:hover {
+        transform: scale(1.05);
+      }
     }
 
-    :global(textarea) {
+    :global(textarea),
+    :global(input) {
       width: 100%;
       border-radius: 3px;
       border: none;
-      border-bottom: 1px solid #e3e6e7;
+      border-left: 3px solid #e3e6e7;
+      padding: 8px 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    :global(textarea) {
       background-color: #f5f7f7;
+    }
+
+    :global(input) {
+      background-color: #fff;
+
+      &:hover,
+      &:focus {
+        background-color: #f5f7f7;
+      }
+    }
+
+    :global(.controllers) {
+      transition: opacity 0.3s ease, visibility 0.3s ease;
     }
 
     :global(.controller) {
@@ -220,6 +202,19 @@
   }
 
   .section {
+    &:not(.is-active) {
+      :global(.title) {
+        border-bottom: none;
+      }
+
+      :global(.controllers) {
+        transition: none;
+        opacity: 0;
+        height: 0;
+        visibility: hidden;
+      }
+    }
+
     & + .section {
       margin-top: 25px;
     }

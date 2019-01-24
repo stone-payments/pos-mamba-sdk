@@ -8,7 +8,8 @@ import virtual from 'rollup-plugin-virtual';
 import livereload from 'rollup-plugin-livereload';
 import html from '@gen/rollup-plugin-generate-html';
 import replace from 'rollup-plugin-replace';
-import alias from 'rollup-plugin-alias';
+import image from 'rollup-plugin-url';
+
 import { getPkg } from 'quickenv';
 
 import { fromWorkspace, fromProject } from './helpers/paths.js';
@@ -25,15 +26,25 @@ export default {
   /** Use the virtual module __entry__ as the input for rollup */
   input: '__entry__',
   output: {
-    dir: './example',
     file: './example/bundle.js',
     format: 'umd',
   },
   plugins: [
-    alias({
-      resolve: ['.html'],
-      [`${PKG.name}`]: fromWorkspace(),
-    }),
+    (function aliases() {
+      return {
+        resolveId(importee) {
+          if (importee === PKG.name) {
+            return fromWorkspace(PKG.svelte);
+          }
+
+          if (importee.startsWith(PKG.name)) {
+            importee = importee.substring(PKG.name.length + 1);
+            importee = fromWorkspace(importee);
+            return importee;
+          }
+        },
+      };
+    })(),
     /** Virtual entry module to bootstrap the example app */
     virtual({
       __entry__: `
@@ -52,9 +63,26 @@ export default {
       babelrc: false,
       ...babelConfig,
       externalHelpers: true,
+      runtimeHelpers: true,
       exclude: /node_modules[/\\](?!(svelte)|(@mamba))/,
     }),
     filesize(),
+    image({
+      limit: 10 * 1024, // inline files < 10k, copy files > 10k
+      emitFiles: true, // defaults to true
+      include: [fromProject('**/*.{png,jpg,svg,bmp}')],
+    }),
+    replace({
+      __NODE_ENV__: JSON.stringify(process.env.NODE_ENV),
+      __APP_ENV__: JSON.stringify(process.env.APP_ENV),
+      __PROD__: process.env.NODE_ENV === 'production',
+      __TEST__: process.env.NODE_ENV === 'test',
+      __DEV__: process.env.NODE_ENV === 'development',
+      __POS__: process.env.APP_ENV === 'POS',
+      __SIMULATOR__: process.env.MAMBA_SIMULATOR === true,
+      __BROWSER__: process.env.APP_ENV === 'browser',
+      __DEBUG_LVL__: 2,
+    }),
     /** Create an html template in the example directory */
     html({
       template: fromProject(
@@ -85,16 +113,5 @@ export default {
     }),
     /** Reload the serve on file changes */
     livereload(),
-    replace({
-      __NODE_ENV__: JSON.stringify(process.env.NODE_ENV),
-      __APP_ENV__: JSON.stringify(process.env.APP_ENV),
-      __PROD__: process.env.NODE_ENV === 'production',
-      __TEST__: process.env.NODE_ENV === 'test',
-      __DEV__: process.env.NODE_ENV === 'development',
-      __POS__: process.env.APP_ENV === 'POS',
-      __SIMULATOR__: process.env.MAMBA_SIMULATOR === true,
-      __BROWSER__: process.env.APP_ENV === 'browser',
-      __DEBUG_LVL__: 2,
-    }),
   ],
 };

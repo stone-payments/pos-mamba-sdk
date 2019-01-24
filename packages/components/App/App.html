@@ -72,23 +72,27 @@
         root.close();
       });
 
-      /* istanbul ignore next */
+      const resetScroll = () => {
+        /**
+         * Check for __browser__ for scrolling the virtual screen
+         * instead of the <html> element
+         * */
+        if (__BROWSER__ && window.innerWidth > 401) {
+          root.options.target.scrollTo(0, 0);
+        } else {
+          window.scrollTo(0, 0);
+        }
+      };
+
+      /** Needed for projects with svelte-page < v2.2.0 */
       if (root.router) {
         root.router.on('update', ({ changed, previous }) => {
-          /* istanbul ignore next */
           if (changed.context && previous) {
-            /**
-             * Check for __browser__ for scrolling the virtual screen
-             * instead of the <html> element
-             * */
-            /* istanbul ignore else */
-            if (__BROWSER__ && window.innerWidth > 401) {
-              root.options.target.scrollTo(0, 0);
-            } else {
-              window.scrollTo(0, 0);
-            }
+            resetScroll();
           }
         });
+      } else {
+        root.on('router:change', resetScroll);
       }
     },
     onstate({ previous }) {
@@ -130,12 +134,11 @@
       /** Prevent default back/enter button behaviour */
       _onKeydown(e) {
         /* istanbul ignore next */
-        if (
-          !__TEST__ &&
-          __BROWSER__ &&
-          !e.composedPath().find(node => node.id === 'app-root')
-        ) {
-          return;
+        if (!__TEST__ && __BROWSER__) {
+          const eventPath = e.path || (e.composedPath && e.composedPath());
+          if (eventPath && !eventPath.find(node => node.id === 'app-root')) {
+            return;
+          }
         }
 
         const keyName = Keyboard.getKeyName(e.keyCode);
@@ -158,14 +161,16 @@
          * allow it to pass through.
          * */
         /* istanbul ignore next */
-        if (
-          !__TEST__ &&
-          __BROWSER__ &&
-          !e.composedPath().find(node => node.id === 'app-root') &&
-          (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') &&
-          !Keyboard.isActionKey(keyCode)
-        ) {
-          return;
+        if (!__TEST__ && __BROWSER__) {
+          const eventPath = e.path || (e.composedPath && e.composedPath());
+          if (
+            eventPath &&
+            !eventPath.find(node => node.id === 'app-root') &&
+            (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') &&
+            !Keyboard.isActionKey(keyCode)
+          ) {
+            return;
+          }
         }
 
         const keyName = Keyboard.getKeyName(keyCode);
@@ -200,7 +205,7 @@
           /** Guarantees that the 'back' button is enabled and navigable is enabled */
           if (Keyboard.isBackspaceEnabled() && this.get().navigable.back) {
             e.preventDefault();
-            if (this.root.router && this.root.router.get().path !== '/') {
+            if (this.root.router && this.root.router.get().context.path !== '/') {
               this.root.router.back();
             }
           }
@@ -257,8 +262,6 @@
 </script>
 
 <style type="text/postcss">
-  @import '@mamba/styles/theme.pcss';
-
   :global(#app-root) {
     background-color: $app-bg-color;
 
