@@ -55,16 +55,18 @@ AppManager.open = async (appSlug, options = {}) => {
 
   if (__DEV__) log(`Opening App: ${appMeta.manifest.appName}`);
 
-  const appsEl = document.getElementById('apps-container');
-  const target = document.createElement('DIV');
-  appsEl.appendChild(target);
+  const appsEl =
+    document.getElementById('apps-container') ||
+    document.getElementById('app-root');
 
   if (!appsEl) {
-    if (__DEV__) {
-      console.warn('Apps container element not found.');
-    }
-    return;
+    throw new Error(
+      'Apps container element (#apps-container or #app-root) not found.',
+    );
   }
+
+  const target = document.createElement('DIV');
+  appsEl.appendChild(target);
 
   appMeta.runtime = {
     target,

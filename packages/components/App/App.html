@@ -3,9 +3,7 @@
   on:keydown="_onKeydown(event)"
 />
 
-<div class="app">
-  <slot></slot>
-</div>
+<slot></slot>
 
 <script>
   import App from '@mamba/pos/api/app.js';
@@ -265,8 +263,13 @@
 </script>
 
 <style type="text/postcss">
+  :global(body) {
+    height: 100%;
+  }
+
   :global(.mamba-app-container) {
     background-color: $app-bg-color;
+    height: 100%;
 
     &.no-scroll {
       overflow: hidden;
