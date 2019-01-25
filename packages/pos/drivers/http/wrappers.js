@@ -20,7 +20,7 @@ export default function(driver) {
 
       if (typeof opts.data !== 'string') {
         opts.data = JSON.stringify(opts.data);
-
+      }
       driver.race([
         [
           'requestFailed',
