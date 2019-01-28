@@ -9,7 +9,7 @@ module.exports = {
   builder: yargs => {
     if (PKG == null) {
       console.error(
-        chalk.red('No "package.json" found. Is this an mamba app directory?"'),
+        chalk.red('No "package.json" found. Is this a mamba app directory?"'),
       );
       process.exit(1);
     }
