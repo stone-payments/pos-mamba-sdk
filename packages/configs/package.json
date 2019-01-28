@@ -37,7 +37,7 @@
     "babel-plugin-dynamic-import-node": "^2.2.0",
     "css-mqpacker": "^7.0.0",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-config-prettier": "^3.5.0",
+    "eslint-config-prettier": "^4.0.0",
     "eslint-plugin-html": "^5.0.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jest": "^22.1.3",
