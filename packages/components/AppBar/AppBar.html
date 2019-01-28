@@ -90,18 +90,24 @@
     methods: {
       _goHome() {
         const { _isAtHome } = this.get();
+
+        this.root.fire('appbar:goHome');
+
         if (_isAtHome) {
+          this.root.fire('appbar:closeApp');
           return this.root.close();
         }
 
         /* istanbul ignore else */
         if (this.root.router) {
+          this.root.fire('appbar:goHome');
           this.root.router.go('/');
         }
       },
       _goBack() {
         /* istanbul ignore else */
         if (this.root.router) {
+          this.root.fire('appbar:goBack');
           this.root.router.back();
         }
       },
