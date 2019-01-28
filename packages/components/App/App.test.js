@@ -21,7 +21,9 @@ beforeEach(() => {
 });
 
 it("should pass the app's content through a slot", () => {
-  expect(root.query('.app')).not.toBeNull();
+  expect(root.options.target.classList.contains('mamba-app-container')).toBe(
+    true,
+  );
   expect(root.query('.content')).not.toBeNull();
 });
 

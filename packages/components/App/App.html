@@ -3,9 +3,7 @@
   on:keydown="_onKeydown(event)"
 />
 
-<div class="app">
-  <slot></slot>
-</div>
+<slot></slot>
 
 <script>
   import App from '@mamba/pos/api/app.js';
@@ -31,6 +29,9 @@
     },
     oncreate() {
       const { root } = this;
+
+      /** Add the mamba-app-container class to the root element */
+      this.root.options.target.classList.add('mamba-app-container');
 
       // TODO: Deprecate this sometime
       root.on('navigation', isEnabled => {
@@ -262,8 +263,13 @@
 </script>
 
 <style type="text/postcss">
-  :global(#app-root) {
+  :global(body) {
+    height: 100%;
+  }
+
+  :global(.mamba-app-container) {
     background-color: $app-bg-color;
+    height: 100%;
 
     &.no-scroll {
       overflow: hidden;

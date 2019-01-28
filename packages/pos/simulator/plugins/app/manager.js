@@ -1,17 +1,23 @@
 import EventTarget from '../../libs/EventTarget.js';
 import { log, warn } from '../../libs/utils.js';
-import initEventCollector from './includes/eventCollector.js';
 import extend from '../../../extend.js';
 import { DriverManager } from '../index.js';
 
-const AppManager = extend({}, initEventCollector, EventTarget());
+import initCollector from './includes/collector.js';
+import initSuspension from './includes/suspension.js';
 
+const AppManager = extend({}, initCollector, initSuspension, EventTarget());
+
+/** Map of installed appds: app-slug -> app-obj */
 const Apps = {};
 
-let currentApp = null;
+/** Stack of opened apps. The current app is the last one. */
+const openedApps = [];
 
+AppManager.getApp = slug => Apps[slug];
 AppManager.getInstalledApps = () => Apps;
-AppManager.getCurrentApp = () => currentApp;
+AppManager.getOpenedApps = () => openedApps;
+AppManager.getCurrentApp = () => openedApps[openedApps.length - 1];
 
 const loadApp = appMeta => {
   AppManager.fire('loading');
@@ -49,63 +55,65 @@ AppManager.open = async (appSlug, options = {}) => {
 
   if (__DEV__) log(`Opening App: ${appMeta.manifest.appName}`);
 
-  const target = document.getElementById('app-root');
+  const appsEl =
+    document.getElementById('apps-container') ||
+    document.getElementById('app-root');
 
-  if (!target) {
-    if (__DEV__) {
-      console.warn('App target root element not found.');
-    }
-    return;
+  if (!appsEl) {
+    throw new Error(
+      'Apps container element (#apps-container or #app-root) not found.',
+    );
   }
+
+  const target = document.createElement('DIV');
+  appsEl.appendChild(target);
 
   appMeta.runtime = {
     target,
     collectedEvents: {},
   };
 
-  currentApp = appMeta;
-  currentApp.runtime.instance = new appMeta.RootComponent({ target });
+  const currentApp = AppManager.getCurrentApp();
+
+  if (currentApp) {
+    await AppManager.suspend(currentApp);
+  }
+
+  /** Insert the most current app at the first index */
+  openedApps.push(appMeta);
+
+  appMeta.runtime.instance = new appMeta.RootComponent({ target });
 
   AppManager.fire('opened', appMeta, options);
   DriverManager.drivers.$App.fire('opened');
 };
 
-AppManager.close = () => {
+AppManager.close = async () => {
   if (__DEV__) log('Closing App');
+
+  const currentApp = AppManager.getCurrentApp();
 
   if (currentApp) {
     AppManager.fire('closing', currentApp);
     DriverManager.drivers.$App.fire('closed');
 
     if (currentApp.runtime.instance) {
-      const { runtime } = currentApp;
-      runtime.instance.destroy();
+      AppManager.unbindGlobalEvents(currentApp);
+      currentApp.runtime.instance.destroy();
+
+      const appsEl = document.getElementById('apps-container');
+      appsEl.removeChild(currentApp.runtime.target);
+
       delete currentApp.runtime;
 
-      const collectedEventsKeys = Object.keys(runtime.collectedEvents);
-      collectedEventsKeys.forEach(targetConstructor => {
-        let node;
+      /** Remove the current app from the opened apps array */
+      openedApps.pop();
 
-        if (targetConstructor === 'Window') node = window;
-        if (targetConstructor === 'HTMLDocument') node = document;
-        if (!node) return;
-
-        Object.entries(runtime.collectedEvents[targetConstructor]).forEach(
-          ([eventType, eventList]) => {
-            eventList.forEach(fn => {
-              node.removeEventListener(eventType, fn);
-              if (__DEBUG_LVL__ >= 3) {
-                log('Removing collected DOM event listener: ');
-                console.log([node, eventType, fn]);
-              }
-            });
-          },
-        );
-      });
+      if (openedApps.length) {
+        await AppManager.resume(AppManager.getCurrentApp());
+      }
 
       AppManager.fire('closed', currentApp);
-
-      currentApp = null;
     } else if (__DEV__) {
       warn('App already closed');
     }

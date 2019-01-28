@@ -1,4 +1,4 @@
-import { Registry } from '../../simulator/index.js';
+import { Registry } from '../index.js';
 
 export const NAMESPACE = '$Cancellation';
 

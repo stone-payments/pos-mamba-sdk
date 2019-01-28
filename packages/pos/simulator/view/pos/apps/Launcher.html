@@ -3,10 +3,8 @@
 </Dialog>
 
 {#if STATE === STATES.APP}
-  <div id="app-root" class="app-root hide-scrollbar"></div>
+  <div id="apps-container" class="hide-scrollbars"></div>
 {:else}
-  <SignalListener driver={Card} on:cardInserted="openPaymentApp()"/>
-
   <div class="launcher hide-scrollbars">
     {#if STATE === STATES.LOCKSCREEN}
       <div class="lockscreen">
@@ -39,15 +37,14 @@
       </div>
       <Keystroke key="back" on:keystroke="gotoLockscreen()" />
       <Keystroke key="close" on:keystroke="gotoLockscreen()" />
+      <Keystroke key="enter" on:keystroke="gotoLockscreen()" />
     {/if}
   </div>
 {/if}
 
 <script>
-  import { AppManager, System } from '../../../index.js';
+  import { AppManager, System, HardwareManager } from '../../../index.js';
   import { warn } from '../../../libs/utils.js';
-  import Card from '../../../../api/card.js';
-  import SignalListener from '../../../../SignalListener.html';
 
   const STATES = {
     LOCKSCREEN: 0,
@@ -77,11 +74,9 @@
       Keystroke: '@mamba/app/Keystroke.html',
       Dialog: '@mamba/dialog',
       LoadingSprite: '@mamba/sprite/Loading.html',
-      SignalListener,
     },
     helpers: {
       STATES,
-      Card,
     },
     data() {
       const { hours: initHours, minutes: initMinutes } = System.getCurrentTime();
@@ -126,14 +121,22 @@
       });
 
       AppManager.on('closed', () => {
-        window.history.pushState('', document.title, window.location.pathname);
-        this.gotoHome();
+        if (AppManager.getOpenedApps().length === 0) {
+          window.history.pushState('', document.title, window.location.pathname);
+          this.gotoHome();
+        }
       });
 
       AppManager.on('appInstalled', () => {
         this.set({
           apps: { ...AppManager.getInstalledApps() },
         });
+      });
+
+      HardwareManager.on('toggleCard', isInserted => {
+        if (this.get().STATE !== STATES.APP && isInserted) {
+          this.openPaymentApp();
+        }
       });
     },
     methods: {
@@ -168,11 +171,24 @@
 <style>
   @import '@mamba/styles/colors.pcss';
 
-  .app-root {
+  :global(#apps-container) {
     height: 100%;
+    position: relative;
 
-    @media (min-width: 401px) {
-      overflow: auto;
+    > :global(.mamba-app-container) {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+
+      &.is-suspended {
+        display: none;
+      }
+
+      @media (min-width: 401px) {
+        overflow: auto;
+      }
     }
   }
 

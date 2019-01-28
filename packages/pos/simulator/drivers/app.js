@@ -1,4 +1,4 @@
-import { AppManager } from '../../simulator/index.js';
+import { AppManager } from '../index.js';
 
 export const NAMESPACE = '$App';
 

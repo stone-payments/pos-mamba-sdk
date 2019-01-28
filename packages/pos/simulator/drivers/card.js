@@ -1,4 +1,4 @@
-import { Registry, HardwareManager } from '../../simulator/index.js';
+import { Registry, HardwareManager } from '../index.js';
 
 export const NAMESPACE = '$Card';
 
