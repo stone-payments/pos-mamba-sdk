@@ -29,7 +29,10 @@ const loadApp = appMeta => {
 
 AppManager.installApp = ({ manifest, RootComponent, loader }) => {
   if (!Apps[manifest.slug]) {
-    const appMeta = { manifest, RootComponent, loader };
+    const appMeta = { manifest };
+
+    if (loader != null) appMeta.loader = loader;
+    if (RootComponent != null) appMeta.RootComponent = RootComponent;
 
     Apps[manifest.slug] = appMeta;
 
@@ -45,7 +48,7 @@ AppManager.installApp = ({ manifest, RootComponent, loader }) => {
 
 AppManager.open = async (appSlug, options = {}) => {
   /** First time opening an app */
-  const appMeta = Apps[appSlug];
+  const appMeta = AppManager.getApp(appSlug);
 
   if (!appMeta.RootComponent) {
     await loadApp(appMeta);
@@ -68,21 +71,41 @@ AppManager.open = async (appSlug, options = {}) => {
   const target = document.createElement('DIV');
   appsEl.appendChild(target);
 
-  appMeta.runtime = {
-    target,
-    collectedEvents: {},
-  };
-
   const currentApp = AppManager.getCurrentApp();
 
   if (currentApp) {
     await AppManager.suspend(currentApp);
   }
 
+  /**
+   *  Runtime object must be created before instance initialization
+   * because it already binds event listeners on instantiation.
+   */
+  appMeta.runtime = {
+    target,
+    collectedEvents: {},
+  };
   /** Insert the most current app at the first index */
   openedApps.push(appMeta);
 
   appMeta.runtime.instance = new appMeta.RootComponent({ target });
+
+  /**
+   * Since our app store is initialized once inside its module
+   * and not along the app's constructor, we need to reset it to a
+   * initial state after the app closes.
+   *
+   * If the app is supposed to be kept in the background, we assume
+   * the app itself has some logic to reset its store.
+   */
+  if (!appMeta.manifest.keepInBackground) {
+    const { store } = appMeta.runtime.instance;
+    const initialState = { ...store.get() };
+    Object.keys(store._computed).forEach(computedKey => {
+      delete initialState[computedKey];
+    });
+    appMeta.runtime.store = { ref: store, initialState };
+  }
 
   AppManager.fire('opened', appMeta, options);
   DriverManager.drivers.$App.fire('opened');
@@ -97,12 +120,19 @@ AppManager.close = async () => {
     AppManager.fire('closing', currentApp);
     DriverManager.drivers.$App.fire('closed');
 
-    if (currentApp.runtime.instance) {
-      AppManager.unbindGlobalEvents(currentApp);
-      currentApp.runtime.instance.destroy();
+    const {
+      manifest,
+      runtime: { instance, target, store },
+    } = currentApp;
 
-      const appsEl = document.getElementById('apps-container');
-      appsEl.removeChild(currentApp.runtime.target);
+    if (instance) {
+      AppManager.unbindGlobalEvents(currentApp);
+      instance.destroy();
+      target.parentNode.removeChild(target);
+
+      if (!manifest.keepInBackground) {
+        store.ref.set(store.initialState);
+      }
 
       delete currentApp.runtime;
 
