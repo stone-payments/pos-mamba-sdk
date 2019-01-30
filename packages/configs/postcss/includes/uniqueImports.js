@@ -25,7 +25,7 @@ postcssUniqueImports.plugin = (...opts) => {
       if (typeof initialImports === 'string') {
         imports = [initialImports];
       } else if (initialImports.length) {
-        imports = initialImports.filter(Boolean).reverse();
+        imports = initialImports.filter(Boolean);
       }
     }
 
