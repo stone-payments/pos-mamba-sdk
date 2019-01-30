@@ -45,6 +45,9 @@ export function setup(Payment) {
 
       AppManager.open('1-payment', { openMode: 'selection', ...params });
     } else {
+      Registry.set(draft => {
+        draft.$Payment.paymentFailed = false;
+      });
       finishPayment(params);
     }
   };
