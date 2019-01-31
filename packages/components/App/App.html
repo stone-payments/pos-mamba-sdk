@@ -137,7 +137,12 @@
         /* istanbul ignore next */
         if (!__TEST__ && __BROWSER__) {
           const eventPath = e.path || (e.composedPath && e.composedPath());
-          if (eventPath && !eventPath.find(node => node.id === 'app-root')) {
+          if (
+            eventPath &&
+            !eventPath.find(node =>
+              node.classList.contains('mamba-app-container'),
+            )
+          ) {
             return;
           }
         }
@@ -166,7 +171,9 @@
           const eventPath = e.path || (e.composedPath && e.composedPath());
           if (
             eventPath &&
-            !eventPath.find(node => node.id === 'app-root') &&
+            !eventPath.find(node =>
+              node.classList.contains('mamba-app-container'),
+            ) &&
             (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') &&
             !Keyboard.isActionKey(keyCode)
           ) {
