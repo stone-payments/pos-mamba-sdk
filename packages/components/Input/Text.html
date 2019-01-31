@@ -1,44 +1,69 @@
-
-<div class="keyboardScreen">
-  <textarea ref:keyboardInput
-    bind:value=value
-  />
-  <div class="keyboard">
-    <div class="suggestion">
-    </div>
-    <div class="key-row">
-      {#each layout.firstRowKeys as key}
-        <div class="key" on:click="typeKey(key)">{key}</div>
-      {/each}
-    </div>
-    <div class="key-row">
-      {#each layout.secondRowKeys as key}
-        <div class="key" on:click="typeKey(key)">{key}</div>
-      {/each}
-    </div>
-    <div class="key-row">
-      <div class="key bigger" on:click="capitalize()">
-        <img src={capslockImg} alt="^"/>
+{#if active}
+  <div class="keyboardScreen">
+    <textarea ref:keyboardInput
+      bind:value=value
+    />
+    <div class="keyboard">
+      <div class="suggestion">
       </div>
-      {#each layout.thirdRowKeys as key}
-        <div class="key" on:click="typeKey(key)">{key}</div>
-      {/each}
-      <div class="key bigger" on:click="backspace()">
-        <img src={backspaceImg} alt="-"/>
+      <div class="key-row">
+        {#each layout.firstRowKeys as key}
+          <div class="key" on:click="typeKey(key)">{key}</div>
+        {/each}
       </div>
-    </div>
-    <div class="key-row">
-      <div class="key bigger" on:click="speacialize()">123/</div>
-      <div class="key bigger" on:click="typeKey('@')">@</div>
-      <div class="key space" on:click="typeKey(' ')"></div>
-      <div class="key bigger" on:click="typeKey('.')">.</div>
-      <div class="key bigger" on:click="capitalize()">OK</div>
+      <div class="key-row">
+        {#each layout.secondRowKeys as key}
+          <div class="key" on:click="typeKey(key)">{key}</div>
+        {/each}
+      </div>
+      <div class="key-row">
+        <div class="key bigger" on:click="capitalize()">
+          <img src={capslockImg} alt="^"/>
+        </div>
+        {#each layout.thirdRowKeys as key}
+          <div class="key" on:click="typeKey(key)">{key}</div>
+        {/each}
+        <div class="key bigger" on:click="backspace()">
+          <img src={backspaceImg} alt="-"/>
+        </div>
+      </div>
+      <div class="key-row">
+        <div class="key bigger" on:click="speacialize()">{specialLabel}</div>
+        <div class="key bigger" on:click="typeKey('@')">@</div>
+        <div class="key space" on:click="typeKey(' ')"></div>
+        <div class="key bigger" on:click="typeKey('.')">.</div>
+        <div class="key bigger" on:click="closeKeyboard()">OK</div>
+      </div>
     </div>
   </div>
-</div>
+{:else}
+  <label class="input">
+    <input
+      type="text"
+      bind:value=value
+      on:focus="openKeyboard()"/>
+  </label>
+  {#if type === 'password' && readable}
+    <div class="type-toggle">
+      <Icon symbol="{_visible ? 'eye' : 'eye-off'}" />
+    </div>
+  {/if}
+
+  {#if !isValid && !!_errorMsg}
+    <div class="validation-msg" style="color: {errorColor};">
+      {_errorMsg}
+    </div>
+  {/if}
+{/if}
+
 
 
 <script>
+  // TODO: foco default
+  // TODO: toggle capslock
+  // TODO: change capslock icon
+  // TODO: password
+
   import backspaceImg from './assets/backspace.svg';
   import capslockImg from './assets/capslock.svg';
 
@@ -61,6 +86,9 @@
   };
 
   export default {
+    components: {
+      Icon: '@mamba/icon',
+    },
     helpers: {
       backspaceImg,
       capslockImg,
@@ -69,6 +97,8 @@
       return {
         value: '',
         mode: 'default',
+        bgColor: '',
+        keyColor: '',
         _defaultSuggestions: [
           {
             target: 'e',
@@ -84,6 +114,12 @@
     computed: {
       layout({ mode }) {
         return KEYBOARD_LAYOUTS[mode];
+      },
+      specialLabel({ mode }) {
+        if (mode === 'special') {
+          return 'abc';
+        }
+        return '123/';
       },
     },
     methods: {
@@ -114,12 +150,41 @@
         const inputValue = this.get().value;
         this.set({ value: inputValue.slice(0, -1) });
       },
+      openKeyboard() {
+        this.set({ active: true });
+      },
+      closeKeyboard() {
+        this.set({ active: false });
+      },
     },
   };
 </script>
 
 
-<style>
+<style type="text/postcss">
+  .input {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 10px 15px 5px;
+    background-color: #fff;
+    transition: 0.3s ease border-bottom;
+    border-bottom: 2px solid $input-border-color;
+  }
+
+  input {
+    width: 100%;
+    background-color: transparent;
+    appearance: none;
+    border: none;
+    font-size: 30px;
+    height: 36px;
+  }
+
+  input[type='text'] {
+    font-size: 20px;
+  }
+
   .keyboardScreen {
     display: block;
     position: absolute;
