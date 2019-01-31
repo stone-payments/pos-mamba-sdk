@@ -1,0 +1,182 @@
+
+<div class="keyboardScreen">
+  <textarea ref:keyboardInput
+    bind:value=value
+  />
+  <div class="keyboard">
+    <div class="suggestion">
+    </div>
+    <div class="key-row">
+      {#each layout.firstRowKeys as key}
+        <div class="key" on:click="typeKey(key)">{key}</div>
+      {/each}
+    </div>
+    <div class="key-row">
+      {#each layout.secondRowKeys as key}
+        <div class="key" on:click="typeKey(key)">{key}</div>
+      {/each}
+    </div>
+    <div class="key-row">
+      <div class="key bigger" on:click="capitalize()">
+        <img src={capslockImg} alt="^"/>
+      </div>
+      {#each layout.thirdRowKeys as key}
+        <div class="key" on:click="typeKey(key)">{key}</div>
+      {/each}
+      <div class="key bigger" on:click="backspace()">
+        <img src={backspaceImg} alt="-"/>
+      </div>
+    </div>
+    <div class="key-row">
+      <div class="key bigger" on:click="speacialize()">123/</div>
+      <div class="key bigger" on:click="typeKey('@')">@</div>
+      <div class="key space" on:click="typeKey(' ')"></div>
+      <div class="key bigger" on:click="typeKey('.')">.</div>
+      <div class="key bigger" on:click="capitalize()">OK</div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  import backspaceImg from './assets/backspace.svg';
+  import capslockImg from './assets/capslock.svg';
+
+  const KEYBOARD_LAYOUTS = {
+    default: {
+      firstRowKeys: ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
+      secondRowKeys: ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+      thirdRowKeys: ['z', 'x', 'c', 'v', 'b', 'n', 'm'],
+    },
+    capitalized: {
+      firstRowKeys: ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+      secondRowKeys: ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+      thirdRowKeys: ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
+    },
+    special: {
+      firstRowKeys: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
+      secondRowKeys: [':', '/', '-', '_', '*', '#', '?', '!', '('],
+      thirdRowKeys: [')', '$', '%', '[', ']', '+', '='],
+    },
+  };
+
+  export default {
+    helpers: {
+      backspaceImg,
+      capslockImg,
+    },
+    data() {
+      return {
+        value: '',
+        mode: 'default',
+        _defaultSuggestions: [
+          {
+            target: 'e',
+            suggestions: ['é', 'è', 'ê', 'ẽ'],
+          },
+          {
+            target: 'a',
+            suggestions: ['á', 'à', 'â', 'ã'],
+          },
+        ],
+      };
+    },
+    computed: {
+      layout({ mode }) {
+        return KEYBOARD_LAYOUTS[mode];
+      },
+    },
+    methods: {
+      typeKey(key) {
+        const inputValue = this.get().value;
+        const { keyboardInput } = this.refs;
+        this.set({ value: inputValue + key });
+        // moves cursor to the end
+        keyboardInput.focus();
+        keyboardInput.selectionEnd = keyboardInput.value.length;
+        keyboardInput.selectionStart = keyboardInput.selectionEnd;
+      },
+      capitalize() {
+        if (this.get().mode === 'capitalized') {
+          this.set({ mode: 'default' });
+        } else {
+          this.set({ mode: 'capitalized' });
+        }
+      },
+      speacialize() {
+        if (this.get().mode === 'special') {
+          this.set({ mode: 'default' });
+        } else {
+          this.set({ mode: 'special' });
+        }
+      },
+      backspace() {
+        const inputValue = this.get().value;
+        this.set({ value: inputValue.slice(0, -1) });
+      },
+    },
+  };
+</script>
+
+
+<style>
+  .keyboardScreen {
+    display: block;
+    position: absolute;
+    z-index: 900;
+    height: 262px;
+    width: 240px;
+    background-color: silver;
+
+    textarea {
+      width: 250px;
+      height: 38%;
+      resize: none;
+      font-size: 20px;
+    }
+  }
+
+  .suggestion {
+    width: 100%;
+    background-color: silver;
+    height: 28px;
+  }
+
+  .keyboard {
+    display: block;
+    width: 100%;
+  }
+
+  .key-row {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .key {
+    display: flex;
+    width: 24px;
+    height: 32px;
+    text-align: center;
+    background-color: #f2f2f2;
+    cursor: pointer;
+    border: 1px solid silver;
+    border-radius: 4px;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .key.space {
+    width: 100px;
+    margin-top: 1px;
+  }
+
+  .key.bigger {
+    width: 34px;
+  }
+</style>
