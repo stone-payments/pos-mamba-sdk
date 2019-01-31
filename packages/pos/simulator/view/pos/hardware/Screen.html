@@ -31,6 +31,9 @@
 
   const { hours: initHours, minutes: initMinutes } = System.getCurrentTime();
 
+  const rescale = (val, [minOld, maxOld], [minNew, maxNew]) =>
+    ((maxNew - minNew) / (maxOld - minOld)) * (val - maxOld) + maxNew;
+
   export default {
     data() {
       return {
@@ -40,7 +43,8 @@
       };
     },
     computed: {
-      brightnessOpacity: ({ brightnessLevel }) => 1 - brightnessLevel / 10,
+      brightnessOpacity: ({ brightnessLevel }) =>
+        1 - rescale(brightnessLevel, [1, 10], [0.4, 1]),
     },
     oncreate() {
       if (localStorage) {
