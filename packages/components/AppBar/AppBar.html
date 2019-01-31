@@ -55,7 +55,7 @@
       /** Needed for projects with svelte-page < v2.2.0 */
       if (root.router) {
         root.router.on('update', ({ changed, current }) => {
-          if (changed.context) {
+          if (changed.context && current.context) {
             this.set({ _location: current.context.path });
           }
         });
