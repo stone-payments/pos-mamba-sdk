@@ -152,6 +152,7 @@
       },
       openKeyboard() {
         this.set({ active: true });
+        this.refs.keyboardInput.focus();
       },
       closeKeyboard() {
         this.set({ active: false });
