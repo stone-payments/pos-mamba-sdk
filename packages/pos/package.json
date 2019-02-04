@@ -19,7 +19,7 @@
     "@mamba/sprite": "^2.2.0",
     "@mamba/styles": "^2.2.0",
     "@mamba/switch": "^2.2.0",
-    "immer": "^1.9.3"
+    "immer": "^2.0.0"
   },
   "gitHead": "7118f44e933d2f656166a80822c0b3c1001e6a33"
 }
