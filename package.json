@@ -59,6 +59,19 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
+  "release": {
+    "verifyConditions": [
+      "@semantic-release/changelog",
+      "@semantic-release/git",
+      "@semantic-release/npm",
+      "@semantic-release/github"
+    ],
+    "prepare": [
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/git"
+    ]
+  },
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@commitlint/cli": "^7.5.0",
@@ -69,6 +82,8 @@
     "@mamba/pos": "file:packages/pos",
     "@mamba/styles": "file:packages/styles",
     "@mamba/switch": "file:packages/components/Switch",
+    "@semantic-release/changelog": "^3.0.2",
+    "@semantic-release/git": "^7.0.8",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
     "commitizen": "^3.0.5",

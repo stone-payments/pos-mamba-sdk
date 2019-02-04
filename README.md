@@ -19,9 +19,19 @@ Make sure all dependencies have been installed before moving on:
 - `lerna run x` - Execute the `x` script in all packages;
 - `lerna run start --scope=@mamba/component --stream` - Run the dev server for a specific component;
 
+### Contributing
+
+#### Commiting
+
+Our commits follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0-beta.3/) standard:
+
+`<type>[optional scope]: <description>`
+
+You can use `git cz` instead of `git commit` for a interactive commit helper.
+
 ## Useful
 
-- [Commit convention](https://www.conventionalcommits.org/en/v1.0.0-beta.3/)
+- [Conventional commits](https://www.conventionalcommits.org/en/v1.0.0-beta.3/)
 - [Mamba App Template](https://github.com/stone-payments/pos-mamba-app-template)
 - [Mamba SDK documentation](https://mambasdk-docs.stone.com.br/)
 - [Lerna documentation](https://github.com/lerna/lerna#readme)
