@@ -116,7 +116,6 @@
       _moveCursor(position) {
         // moves cursor to the end
         const { input } = this.refs.keyboardInput.refs;
-        input.focus();
         if (typeof this.get().value !== 'undefined') {
           if (typeof position === 'undefined' || position < 0) {
             input.selectionEnd = input.value.length;
