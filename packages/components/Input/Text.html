@@ -152,13 +152,16 @@
         const { input } = this.refs.keyboardInput.refs;
         const cursorPosition = input.selectionStart;
 
-        if (cursorPosition === input.value.length) {
-          this.set({ value: inputValue.slice(0, -1) });
-        } else if (cursorPosition - 1 >= 0) {
-          const res =
-            inputValue.slice(0, cursorPosition - 1) +
-            inputValue.slice(cursorPosition, input.value.length);
-          this.set({ value: res });
+        if (cursorPosition - 1 >= 0) {
+          if (cursorPosition === input.value.length) {
+            this.set({ value: inputValue.slice(0, -1) });
+          } else {
+            const res =
+              inputValue.slice(0, cursorPosition - 1) +
+              inputValue.slice(cursorPosition, input.value.length);
+            this.set({ value: res });
+          }
+          this._moveCursor(cursorPosition - 1);
         }
       },
       openKeyboard() {
