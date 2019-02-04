@@ -3,7 +3,12 @@
   "npmClient": "npm",
   "command": {
     "publish": {
-      "ignoreChanges": ["*.md", "*.txt", "test/**"],
+      "ignoreChanges": [
+        "{.*,*}.{txt,md,yml}",
+        "{.*,*}{.config,rc,ignore}{,.js}",
+        "LICENSE",
+        "lerna.json"
+      ],
       "message": "chore(release): publish",
       "conventionalCommits": true
     }
