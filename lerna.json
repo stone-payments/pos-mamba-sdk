@@ -1,19 +1,13 @@
 {
   "version": "2.2.1",
+  "npmClient": "npm",
   "command": {
     "publish": {
-      "ignoreChanges": [
-        "*.md",
-        "*.json",
-        "*.txt",
-        "test/**",
-        "package.json"
-      ]
+      "ignoreChanges": ["*.md", "*.json", "*.txt", "test/**", "package.json"],
+      "message": "chore(release): publish"
     }
   },
-  "npmClientArgs": [
-    "--no-package-lock"
-  ],
+  "npmClientArgs": ["--no-package-lock"],
   "packages": [
     "packages/cli",
     "packages/components/*",
