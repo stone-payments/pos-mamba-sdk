@@ -37,7 +37,7 @@
       </div>
       <div class="key-row">
         <div class="key bigger" on:click="capitalize()">
-          <div class="capslock"
+          <div class="utility-key capslock"
            style={ mode === 'capitalized' ? 'background-color: black;' : '' }>
            </div>
         </div>
@@ -45,7 +45,7 @@
           <div class="key" on:click="typeKey(key)">{key}</div>
         {/each}
         <div class="key bigger" on:click="backspace()">
-          <img src={backspaceImg} alt="-"/>
+          <div class="utility-key backspace"></div>
         </div>
       </div>
       <div class="key-row">
@@ -68,20 +68,14 @@
 
 <script>
   // TODO: press backspace wipe multiple keys
-  // TODO: shrink chars by sentence length
-  // TODO: fix backspace icon
-  // TODO: fix backspace
+  // TODO: fix backspace in middle
 
-  import backspaceImg from './assets/backspace.svg';
   import virtualKeyboard from './virtualKeyboard.js';
 
   export default {
     components: {
       Input: './Input.html',
       Keystroke: '@mamba/app/Keystroke.html',
-    },
-    helpers: {
-      backspaceImg,
     },
     data() {
       return {
@@ -119,12 +113,18 @@
       },
     },
     methods: {
-      _moveCursor() {
+      _moveCursor(position) {
         // moves cursor to the end
-        const { keyboardInput } = this.refs;
-        if (typeof keyboardInput.value !== 'undefined') {
-          keyboardInput.selectionEnd = keyboardInput.value.length;
-          keyboardInput.selectionStart = keyboardInput.selectionEnd;
+        const { input } = this.refs.keyboardInput.refs;
+        input.focus();
+        if (typeof this.get().value !== 'undefined') {
+          if (typeof position === 'undefined' || position < 0) {
+            input.selectionEnd = input.value.length;
+            input.selectionStart = input.selectionEnd;
+          } else {
+            input.selectionEnd = position;
+            input.selectionStart = position;
+          }
         }
       },
       typeKey(key) {
@@ -150,7 +150,17 @@
       },
       backspace() {
         const inputValue = this.get().value;
-        this.set({ value: inputValue.slice(0, -1) });
+        const { input } = this.refs.keyboardInput.refs;
+        const cursorPosition = input.selectionStart;
+        if (cursorPosition === input.value.length) {
+          this.set({ value: inputValue.slice(0, -1) });
+        } else {
+          const res =
+            inputValue.slice(0, cursorPosition - 1) +
+            inputValue.slice(cursorPosition, input.value.length);
+          this.set({ value: res });
+        }
+        this._moveCursor(cursorPosition - 1);
       },
       openKeyboard() {
         this.set({ active: true });
@@ -226,11 +236,6 @@
     border-radius: 4px;
     align-items: center;
     justify-content: center;
-
-    img {
-      width: 16px;
-      height: 16px;
-    }
   }
 
   .key:active {
@@ -242,16 +247,24 @@
     margin-top: 1px;
   }
 
-  .capslock {
+  .utility-key {
     display: inline-block;
     vertical-align: middle;
     width: 18px;
     height: 18px;
     background-color: silver;
-    mask-image: url(./assets/capslock.svg);
     mask-size: contain;
     mask-repeat: no-repeat;
     mask-position: center;
+  }
+
+  .utility-key.capslock {
+    mask-image: url(./assets/capslock.svg);
+  }
+
+  .utility-key.backspace {
+    mask-image: url(./assets/backspace.svg);
+    background-color: black;
   }
 
   .key.bigger {
