@@ -68,7 +68,6 @@
 
 <script>
   // TODO: press backspace wipe multiple keys
-  // TODO: fix backspace in middle
 
   import virtualKeyboard from './virtualKeyboard.js';
 
@@ -116,6 +115,7 @@
       _moveCursor(position) {
         // moves cursor to the end
         const { input } = this.refs.keyboardInput.refs;
+        input.focus();
         if (typeof this.get().value !== 'undefined') {
           if (typeof position === 'undefined' || position < 0) {
             input.selectionEnd = input.value.length;
@@ -151,15 +151,15 @@
         const inputValue = this.get().value;
         const { input } = this.refs.keyboardInput.refs;
         const cursorPosition = input.selectionStart;
+
         if (cursorPosition === input.value.length) {
           this.set({ value: inputValue.slice(0, -1) });
-        } else {
+        } else if (cursorPosition - 1 >= 0) {
           const res =
             inputValue.slice(0, cursorPosition - 1) +
             inputValue.slice(cursorPosition, input.value.length);
           this.set({ value: res });
         }
-        this._moveCursor(cursorPosition - 1);
       },
       openKeyboard() {
         this.set({ active: true });
