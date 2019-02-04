@@ -27,7 +27,6 @@
     "test:watch": "jest --watch",
     "test:ci": "jest --no-cache --verbose",
     "link:packages": "lerna exec npm link",
-    "version-bump": "lerna publish --skip-git --skip-npm",
     "semantic-release": "lerna exec --concurrency 1 -- npx --no-install semantic-release -e semantic-release-monorepo"
   },
   "husky": {
