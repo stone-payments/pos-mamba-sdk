@@ -4,7 +4,8 @@
   "command": {
     "publish": {
       "ignoreChanges": ["*.md", "*.txt", "test/**"],
-      "message": "chore(release): publish"
+      "message": "chore(release): publish",
+      "conventionalCommits": true
     }
   },
   "npmClientArgs": ["--no-package-lock"],

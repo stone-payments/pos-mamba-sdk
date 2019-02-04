@@ -26,7 +26,18 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:ci": "jest --no-cache --verbose",
-    "link:packages": "lerna exec npm link"
+    "link:packages": "lerna exec npm link",
+    "changelog": "npx conventional-changelog-cli -p angular -i CHANGELOG.md -s"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   },
   "husky": {
     "hooks": {
@@ -51,11 +62,6 @@
         "stylelint --fix",
         "git add"
       ]
-    }
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
     }
   },
   "devDependencies": {
