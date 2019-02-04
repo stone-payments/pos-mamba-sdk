@@ -23,5 +23,9 @@ script:
   - npm run test:ci
   - lerna run build
 
-after_success:
-  - npm run semantic-release
+jobs:
+  include:
+    - stage: release
+      if: branch = master
+      node_js: '8'
+      script: npm run semantic-release
