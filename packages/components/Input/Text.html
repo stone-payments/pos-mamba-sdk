@@ -1,10 +1,29 @@
+<Input on:focus="openKeyboard()"
+    bind:value=value
+    bind:alphanumeric=alphanumeric
+    bind:type
+/>
 {#if active}
   <div class="keyboardScreen">
-    <textarea ref:keyboardInput
+    <Input
       bind:value=value
+      bind:alphanumeric=alphanumeric
+      bind:type
+      ref:keyboardInput
     />
     <div class="keyboard">
-      <div class="suggestion">
+      <div class="suggestions">
+          <table style="width: 100%; border-spacing: 5px; border-collapse: separate;">
+            <tr>
+              {#each targetSuggestions as suggestion}
+                <td>
+                  <div class="suggestion" on:click="addSuggestion(suggestion)">
+                    {suggestion}
+                  </div>
+                </td>
+              {/each}
+            </tr>
+          </table>
       </div>
       <div class="key-row">
         {#each layout.firstRowKeys as key}
@@ -18,7 +37,9 @@
       </div>
       <div class="key-row">
         <div class="key bigger" on:click="capitalize()">
-          <img src={capslockImg} alt="^"/>
+          <div class="capslock"
+           style={ mode === 'capitalized' ? 'background-color: black;' : '' }>
+           </div>
         </div>
         {#each layout.thirdRowKeys as key}
           <div class="key" on:click="typeKey(key)">{key}</div>
@@ -29,108 +50,89 @@
       </div>
       <div class="key-row">
         <div class="key bigger" on:click="speacialize()">{specialLabel}</div>
-        <div class="key bigger" on:click="typeKey('@')">@</div>
+        <div class="key bigger" on:click="typeKey(layout.utilityKeys[0])">
+          {layout.utilityKeys[0]}
+        </div>
         <div class="key space" on:click="typeKey(' ')"></div>
-        <div class="key bigger" on:click="typeKey('.')">.</div>
+        <div class="key bigger" on:click="typeKey(layout.utilityKeys[1])">
+          {layout.utilityKeys[1]}
+        </div>
         <div class="key bigger" on:click="closeKeyboard()">OK</div>
       </div>
     </div>
   </div>
-{:else}
-  <label class="input">
-    <input
-      type="text"
-      bind:value=value
-      on:focus="openKeyboard()"/>
-  </label>
-  {#if type === 'password' && readable}
-    <div class="type-toggle">
-      <Icon symbol="{_visible ? 'eye' : 'eye-off'}" />
-    </div>
-  {/if}
-
-  {#if !isValid && !!_errorMsg}
-    <div class="validation-msg" style="color: {errorColor};">
-      {_errorMsg}
-    </div>
-  {/if}
+  <Keystroke key="enter" on:keystroke="closeKeyboard()"/>
+  <Keystroke key="close" on:keystroke="closeKeyboard()"/>
 {/if}
 
 
-
 <script>
-  // TODO: foco default
-  // TODO: toggle capslock
-  // TODO: change capslock icon
-  // TODO: password
+  // TODO: press backspace wipe multiple keys
+  // TODO: shrink chars by sentence length
+  // TODO: fix backspace icon
+  // TODO: fix backspace
 
   import backspaceImg from './assets/backspace.svg';
-  import capslockImg from './assets/capslock.svg';
-
-  const KEYBOARD_LAYOUTS = {
-    default: {
-      firstRowKeys: ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
-      secondRowKeys: ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
-      thirdRowKeys: ['z', 'x', 'c', 'v', 'b', 'n', 'm'],
-    },
-    capitalized: {
-      firstRowKeys: ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
-      secondRowKeys: ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
-      thirdRowKeys: ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
-    },
-    special: {
-      firstRowKeys: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
-      secondRowKeys: [':', '/', '-', '_', '*', '#', '?', '!', '('],
-      thirdRowKeys: [')', '$', '%', '[', ']', '+', '='],
-    },
-  };
+  import virtualKeyboard from './virtualKeyboard.js';
 
   export default {
     components: {
-      Icon: '@mamba/icon',
+      Input: './Input.html',
+      Keystroke: '@mamba/app/Keystroke.html',
     },
     helpers: {
       backspaceImg,
-      capslockImg,
     },
     data() {
       return {
         value: '',
         mode: 'default',
+        type: 'text',
+        alphanumeric: false,
         bgColor: '',
         keyColor: '',
-        _defaultSuggestions: [
-          {
-            target: 'e',
-            suggestions: ['é', 'è', 'ê', 'ẽ'],
-          },
-          {
-            target: 'a',
-            suggestions: ['á', 'à', 'â', 'ã'],
-          },
-        ],
+        _defaultSuggestions: virtualKeyboard.DEFAULT_SUGGESTIONS,
+        suggestions: undefined,
       };
     },
     computed: {
       layout({ mode }) {
-        return KEYBOARD_LAYOUTS[mode];
+        return virtualKeyboard.KEYBOARD_LAYOUTS[mode];
       },
       specialLabel({ mode }) {
         if (mode === 'special') {
           return 'abc';
         }
-        return '123/';
+        return '?123';
+      },
+      targetSuggestions({ _defaultSuggestions, suggestions, value }) {
+        let allSuggestions = _defaultSuggestions;
+        if (typeof suggestions !== 'undefined') {
+          allSuggestions = suggestions.concat(_defaultSuggestions);
+        }
+        const res = allSuggestions.filter(option => {
+          return (
+            value.substr(value.length - option.target.length) === option.target
+          );
+        })[0];
+        return typeof res !== 'undefined' ? res.suggestions : [];
       },
     },
     methods: {
+      _moveCursor() {
+        // moves cursor to the end
+        const { keyboardInput } = this.refs;
+        if (typeof keyboardInput.value !== 'undefined') {
+          keyboardInput.selectionEnd = keyboardInput.value.length;
+          keyboardInput.selectionStart = keyboardInput.selectionEnd;
+        }
+      },
       typeKey(key) {
         const inputValue = this.get().value;
         const { keyboardInput } = this.refs;
         this.set({ value: inputValue + key });
-        // moves cursor to the end
         keyboardInput.focus();
-        keyboardInput.selectionEnd = keyboardInput.value.length;
-        keyboardInput.selectionStart = keyboardInput.selectionEnd;
+        this._moveCursor();
       },
       capitalize() {
         if (this.get().mode === 'capitalized') {
@@ -155,7 +157,14 @@
         this.refs.keyboardInput.focus();
       },
       closeKeyboard() {
+        this.refs.keyboardInput.blur();
         this.set({ active: false });
+        this.refs.input.set({ value: this.get().value });
+      },
+      addSuggestion(suggestion) {
+        const inputValue = this.get().value;
+        this.set({ value: inputValue.slice(0, -1) + suggestion });
+        this._moveCursor();
       },
     },
   };
@@ -163,49 +172,36 @@
 
 
 <style type="text/postcss">
-  .input {
-    position: relative;
-    display: block;
-    width: 100%;
-    padding: 10px 15px 5px;
-    background-color: #fff;
-    transition: 0.3s ease border-bottom;
-    border-bottom: 2px solid $input-border-color;
-  }
-
-  input {
-    width: 100%;
-    background-color: transparent;
-    appearance: none;
-    border: none;
-    font-size: 30px;
-    height: 36px;
-  }
-
-  input[type='text'] {
-    font-size: 20px;
-  }
-
   .keyboardScreen {
-    display: block;
     position: absolute;
     z-index: 900;
-    height: 262px;
+    height: 260px;
     width: 240px;
+    align-items: center;
     background-color: silver;
+    user-select: none;
+    top: 40px;
+  }
 
-    textarea {
-      width: 250px;
-      height: 38%;
-      resize: none;
-      font-size: 20px;
-    }
+  .suggestions {
+    display: flex;
+    width: 100%;
+    background-color: silver;
+    height: 58px;
+    align-items: center;
   }
 
   .suggestion {
-    width: 100%;
-    background-color: silver;
     height: 28px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background-color: #f2f2f2;
+    padding: 8px 2px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    text-align: center;
+    margin: 0 auto;
   }
 
   .keyboard {
@@ -222,11 +218,11 @@
   .key {
     display: flex;
     width: 24px;
-    height: 32px;
+    height: 36px;
     text-align: center;
     background-color: #f2f2f2;
     cursor: pointer;
-    border: 1px solid silver;
+    box-shadow: 0px 0px 0px 1px silver inset;
     border-radius: 4px;
     align-items: center;
     justify-content: center;
@@ -237,9 +233,25 @@
     }
   }
 
+  .key:active {
+    background-color: darkgray;
+  }
+
   .key.space {
     width: 100px;
     margin-top: 1px;
+  }
+
+  .capslock {
+    display: inline-block;
+    vertical-align: middle;
+    width: 18px;
+    height: 18px;
+    background-color: silver;
+    mask-image: url(./assets/capslock.svg);
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
   }
 
   .key.bigger {
