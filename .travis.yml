@@ -5,12 +5,11 @@ language: node_js
 
 node_js:
   - node
-  - '9'
   - '8'
 
 cache:
   directories:
-  - "$HOME/.npm"
+    - '$HOME/.npm'
 
 before_install:
   - npm config set loglevel warn
@@ -22,3 +21,7 @@ install:
 script:
   - npm run lint
   - npm run test:ci
+  - lerna run build
+
+after_success:
+  - npm run semantic-release
