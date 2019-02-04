@@ -133,8 +133,8 @@
         });
       });
 
-      HardwareManager.on('toggleCard', isInserted => {
-        if (this.get().STATE !== STATES.APP && isInserted) {
+      HardwareManager.on('cardInserted', () => {
+        if (this.get().STATE !== STATES.APP) {
           this.openPaymentApp();
         }
       });
