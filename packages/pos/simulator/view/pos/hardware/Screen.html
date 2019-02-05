@@ -97,6 +97,11 @@
       flex-flow: column;
       overflow: hidden;
       filter: url(#pos-color-map);
+
+      /** Firefox is being annoyed by two stack contexts (.screen and .content) and breaking the scroll */
+      @supports (-moz-appearance: none) {
+        filter: none;
+      }
     }
 
     .content {
