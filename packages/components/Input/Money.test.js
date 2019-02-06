@@ -1,5 +1,4 @@
 import MoneyInput from './Money.html';
-import formatMoney from './libs/formatMoney.js';
 import System from '../../pos/api/system.js';
 
 const { newTestRoot, fireKey, typeOn } = global;
@@ -49,21 +48,6 @@ describe('Behavior', () => {
   it('should add suffix to value', () => {
     moneyInput.set({ suffix: 'a' });
     expect(getInputEl().value.endsWith('a')).toBe(true);
-  });
-
-  describe('Format Money', () => {
-    it('should return a string', () => {
-      expect(typeof formatMoney(100)).toBe('string');
-    });
-
-    it('should separate cents using comma', () => {
-      expect(formatMoney(100).split(',').length).toBe(2);
-    });
-
-    it('should add . every 3 digits', () => {
-      expect(formatMoney(100)).not.toContain('.');
-      expect(formatMoney(10000)).toContain('.');
-    });
   });
 
   describe('Keypressed Actions', () => {
