@@ -68,6 +68,7 @@
 
 <script>
   // TODO: press backspace wipe multiple keys
+  // TODO: fix insertion by cursor
 
   import virtualKeyboard from './virtualKeyboard.js';
 
@@ -84,8 +85,9 @@
         alphanumeric: false,
         bgColor: '',
         keyColor: '',
+        keyTextColor: '',
         _defaultSuggestions: virtualKeyboard.DEFAULT_SUGGESTIONS,
-        suggestions: undefined,
+        suggestions: [],
       };
     },
     computed: {
@@ -98,18 +100,18 @@
         }
         return '?123';
       },
-      targetSuggestions({ _defaultSuggestions, suggestions, value }) {
-        let allSuggestions = _defaultSuggestions;
-        if (typeof suggestions !== 'undefined') {
-          allSuggestions = suggestions.concat(_defaultSuggestions);
-        }
-        const res = allSuggestions.filter(option => {
+      targetSuggestions({ suggestions, value }) {
+        const res = suggestions.filter(option => {
           return (
             value.substr(value.length - option.target.length) === option.target
           );
         })[0];
         return typeof res !== 'undefined' ? res.suggestions : [];
       },
+    },
+    oncreate() {
+      const { suggestions, _defaultSuggestions } = this.get();
+      this.set({ suggestions: suggestions.concat(_defaultSuggestions) });
     },
     methods: {
       _moveCursor(position) {
@@ -128,10 +130,12 @@
       },
       typeKey(key) {
         const inputValue = this.get().value;
-        const { keyboardInput } = this.refs;
-        this.set({ value: inputValue + key });
-        keyboardInput.focus();
-        this._moveCursor();
+        const keyboardInput = this.refs.keyboardInput.refs.input;
+        const position = keyboardInput.selectionStart;
+        this.set({
+          value: inputValue.slice(0, position) + key + inputValue.slice(position),
+        });
+        this._moveCursor(position + 1);
       },
       capitalize() {
         if (this.get().mode === 'capitalized') {
