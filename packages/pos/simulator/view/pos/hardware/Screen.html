@@ -31,6 +31,9 @@
 
   const { hours: initHours, minutes: initMinutes } = System.getCurrentTime();
 
+  const rescale = (val, [minOld, maxOld], [minNew, maxNew]) =>
+    ((maxNew - minNew) / (maxOld - minOld)) * (val - maxOld) + maxNew;
+
   export default {
     data() {
       return {
@@ -40,7 +43,8 @@
       };
     },
     computed: {
-      brightnessOpacity: ({ brightnessLevel }) => 1 - brightnessLevel / 10,
+      brightnessOpacity: ({ brightnessLevel }) =>
+        1 - rescale(brightnessLevel, [1, 10], [0.4, 1]),
     },
     oncreate() {
       if (localStorage) {
@@ -79,6 +83,7 @@
 
     .screen {
       height: 100%;
+      filter: url(#pos-color-map);
     }
   }
 
@@ -93,13 +98,18 @@
       flex-flow: column;
       overflow: hidden;
       filter: url(#pos-color-map);
+
+      /** Firefox is being annoyed by two stack contexts (.screen and .content) and breaking the scroll */
+      @supports (-moz-appearance: none) {
+        filter: none;
+      }
     }
 
     .content {
       height: 100%;
       flex: 0 1 auto;
       overflow: hidden;
-      user-select: text;
+      /* user-select: text; */
     }
 
     /** Makes, in chrome, all fixed elements relative to the screen div */

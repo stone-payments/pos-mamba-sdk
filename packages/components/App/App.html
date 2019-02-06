@@ -137,7 +137,15 @@
         /* istanbul ignore next */
         if (!__TEST__ && __BROWSER__) {
           const eventPath = e.path || (e.composedPath && e.composedPath());
-          if (eventPath && !eventPath.find(node => node.id === 'app-root')) {
+          const isInsideApp =
+            eventPath &&
+            eventPath.some(
+              node =>
+                node.nodeType === 1 &&
+                node.classList.contains('mamba-app-container'),
+            );
+
+          if (!isInsideApp) {
             return;
           }
         }
@@ -164,9 +172,16 @@
         /* istanbul ignore next */
         if (!__TEST__ && __BROWSER__) {
           const eventPath = e.path || (e.composedPath && e.composedPath());
-          if (
+          const isInsideApp =
             eventPath &&
-            !eventPath.find(node => node.id === 'app-root') &&
+            eventPath.some(
+              node =>
+                node.nodeType === 1 &&
+                node.classList.contains('mamba-app-container'),
+            );
+
+          if (
+            !isInsideApp &&
             (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') &&
             !Keyboard.isActionKey(keyCode)
           ) {

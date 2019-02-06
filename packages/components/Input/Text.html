@@ -4,20 +4,20 @@
     bind:type
 />
 {#if active}
-  <div class="keyboardScreen">
+  <div class="keyboardScreen" style="background-color: {bgColor};">
     <Input
       bind:value=value
       bind:alphanumeric=alphanumeric
       bind:type
       ref:keyboardInput
     />
-    <div class="keyboard">
+    <div class="keyboard" style="color: {keyTextColor};">
       <div class="suggestions">
           <table style="width: 100%; border-spacing: 5px; border-collapse: separate;">
             <tr>
               {#each targetSuggestions as suggestion}
                 <td>
-                  <div class="suggestion" on:click="addSuggestion(suggestion)">
+                  <div class="suggestion" style={keyStyle} on:click="addSuggestion(suggestion)">
                     {suggestion}
                   </div>
                 </td>
@@ -27,48 +27,54 @@
       </div>
       <div class="key-row">
         {#each layout.firstRowKeys as key}
-          <div class="key" on:click="typeKey(key)">{key}</div>
+          <div class="key" style={keyStyle} on:click="typeKey(key)">{key}</div>
         {/each}
       </div>
       <div class="key-row">
         {#each layout.secondRowKeys as key}
-          <div class="key" on:click="typeKey(key)">{key}</div>
+          <div class="key" style={keyStyle} on:click="typeKey(key)">{key}</div>
         {/each}
       </div>
       <div class="key-row">
-        <div class="key bigger" on:click="capitalize()">
+        <div class="key bigger" style={keyStyle} on:click="capitalize()">
           <div class="utility-key capslock"
-           style={ mode === 'capitalized' ? 'background-color: black;' : '' }>
+           style={capslockStyle}>
            </div>
         </div>
         {#each layout.thirdRowKeys as key}
-          <div class="key" on:click="typeKey(key)">{key}</div>
+          <div class="key" style={keyStyle} on:click="typeKey(key)">{key}</div>
         {/each}
-        <div class="key bigger" on:click="backspace()">
-          <div class="utility-key backspace"></div>
+        <div class="key bigger" style={keyStyle} on:click="backspace()">
+          <div class="utility-key backspace" style="background-color: {keyTextColor};"></div>
         </div>
       </div>
       <div class="key-row">
-        <div class="key bigger" on:click="speacialize()">{specialLabel}</div>
-        <div class="key bigger" on:click="typeKey(layout.utilityKeys[0])">
+        <div class="key bigger" style={keyStyle}
+          on:click="speacialize()"
+        >
+          {specialLabel}
+        </div>
+        <div class="key bigger"
+          style={keyStyle}
+          on:click="typeKey(layout.utilityKeys[0])"
+        >
           {layout.utilityKeys[0]}
         </div>
-        <div class="key space" on:click="typeKey(' ')"></div>
-        <div class="key bigger" on:click="typeKey(layout.utilityKeys[1])">
+        <div class="key space" style={keyStyle} on:click="typeKey(' ')"></div>
+        <div class="key bigger" style={keyStyle} on:click="typeKey(layout.utilityKeys[1])">
           {layout.utilityKeys[1]}
         </div>
-        <div class="key bigger" on:click="closeKeyboard()">OK</div>
+        <div class="key bigger" style={keyStyle} on:click="closeKeyboard()">OK</div>
       </div>
     </div>
   </div>
-  <Keystroke key="enter" on:keystroke="closeKeyboard()"/>
-  <Keystroke key="close" on:keystroke="closeKeyboard()"/>
+  <Keystroke key="enter" style={keyStyle} on:keystroke="closeKeyboard()"/>
+  <Keystroke key="close" style={keyStyle} on:keystroke="closeKeyboard()"/>
 {/if}
 
 
 <script>
   // TODO: press backspace wipe multiple keys
-  // TODO: fix insertion by cursor
 
   import virtualKeyboard from './virtualKeyboard.js';
 
@@ -83,9 +89,9 @@
         mode: 'default',
         type: 'text',
         alphanumeric: false,
-        bgColor: '',
-        keyColor: '',
-        keyTextColor: '',
+        bgColor: undefined,
+        keyColor: undefined,
+        keyTextColor: undefined,
         _defaultSuggestions: virtualKeyboard.DEFAULT_SUGGESTIONS,
         suggestions: [],
       };
@@ -108,6 +114,19 @@
         })[0];
         return typeof res !== 'undefined' ? res.suggestions : [];
       },
+      keyStyle({ keyColor, bgColor }) {
+        return [
+          keyColor && `background-color: ${keyColor}`,
+          bgColor && `box-shadow: 0px 0px 0px 1px ${bgColor} inset`,
+        ]
+          .filter(Boolean)
+          .join(';');
+      },
+      capslockStyle({ keyTextColor, mode }) {
+        return `${
+          mode === 'capitalized' ? 'opacity: 1;' : 'opacity: 0.35;'
+        } background-color: ${keyTextColor};`;
+      },
     },
     oncreate() {
       const { suggestions, _defaultSuggestions } = this.get();
@@ -115,7 +134,6 @@
     },
     methods: {
       _moveCursor(position) {
-        // moves cursor to the end
         const { input } = this.refs.keyboardInput.refs;
         input.focus();
         if (typeof this.get().value !== 'undefined') {
@@ -202,7 +220,6 @@
   .suggestions {
     display: flex;
     width: 100%;
-    background-color: silver;
     height: 58px;
     align-items: center;
   }
@@ -233,6 +250,7 @@
 
   .key {
     display: flex;
+    position: relative;
     width: 24px;
     height: 36px;
     text-align: center;
@@ -242,15 +260,25 @@
     border-radius: 4px;
     align-items: center;
     justify-content: center;
+    z-index: 1;
   }
 
-  .key:active {
-    background-color: darkgray;
+  .key:active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: black;
+    opacity: 0.25;
+    z-index: -1;
+    border-radius: 3px;
+    box-shadow: 0px 0px 0px 1px silver inset;
   }
 
   .key.space {
     width: 100px;
-    margin-top: 1px;
   }
 
   .utility-key {
@@ -270,7 +298,6 @@
 
   .utility-key.backspace {
     mask-image: url(./assets/backspace.svg);
-    background-color: black;
   }
 
   .key.bigger {

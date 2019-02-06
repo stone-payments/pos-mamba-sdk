@@ -1,19 +1,19 @@
 {
-  "version": "2.1.0",
+  "version": "2.2.1",
+  "npmClient": "npm",
   "command": {
     "publish": {
       "ignoreChanges": [
-        "*.md",
-        "*.json",
-        "*.txt",
-        "test/**",
-        "package.json"
-      ]
+        "{.*,*}.{txt,md,yml}",
+        "{.*,*}{.config,rc,ignore}{,.js}",
+        "LICENSE",
+        "lerna.json"
+      ],
+      "message": "chore(release): publish",
+      "conventionalCommits": true
     }
   },
-  "npmClientArgs": [
-    "--no-package-lock"
-  ],
+  "npmClientArgs": ["--no-package-lock"],
   "packages": [
     "packages/cli",
     "packages/components/*",

@@ -34,7 +34,7 @@ export function setup(Keyboard) {
       draft.$Keyboard.isAlphanumericEnabled = false;
     });
 
-    const root = document.getElementById('app-root') || window;
+    const root = document.querySelector('.mamba-app-container') || window;
     root.removeEventListener('keypress', filterLetters);
     root.addEventListener('keypress', filterLetters);
   };
@@ -51,7 +51,7 @@ export function setup(Keyboard) {
       draft.$Keyboard.isAlphanumericEnabled = true;
     });
 
-    const root = document.getElementById('app-root') || window;
+    const root = document.querySelector('.mamba-app-container') || window;
     root.removeEventListener('keypress', filterLetters);
   };
 }
