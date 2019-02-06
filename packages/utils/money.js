@@ -1,11 +1,11 @@
 /** Format a number to XXX.XXX,XX format */
 export const format = n => {
-  if (typeof n === 'number') {
-    n = n.toFixed(2);
+  if (typeof n !== 'number') {
+    throw new Error('format() only accepts a number as a parameter');
   }
 
   return n
-    .toString()
+    .toFixed(2)
     .replace('.', ',')
     .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 };
@@ -26,6 +26,7 @@ export const padZero = n => {
 };
 
 /**
+ * Methods to approximate rounding with currency values.
  * Uses exponential to prevent js calculation errors
  * http://www.jacklmoore.com/notes/rounding-in-javascript/
  * */
@@ -34,3 +35,6 @@ export const floor = (value, decimals = 2) =>
 
 export const round = (value, decimals = 2) =>
   Number(`${Math.round(`${parseFloat(value)}e${decimals}`)}e-${decimals}`);
+
+export const ceil = (value, decimals = 2) =>
+  Number(`${Math.ceil(`${parseFloat(value)}e${decimals}`)}e-${decimals}`);
