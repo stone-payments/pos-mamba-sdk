@@ -21,7 +21,7 @@ export const padZero = n => {
   }
 
   throw new Error(
-    `padZero() only accepts numbers and strings. A was ${typeof n} passed `,
+    `padZero() only accepts numbers and strings. A "${typeof n}" was passed `,
   );
 };
 

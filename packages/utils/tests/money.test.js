@@ -59,6 +59,3 @@ describe('approximations', () => {
     expect(ceil(127.77 / 10)).toBe(12.78);
   });
 });
-
-//   export const floor = (value, decimals = 2) =>
-//   export const round = (value, decimals = 2) =>
