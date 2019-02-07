@@ -22,12 +22,13 @@
     "format": "npm run format:css; npm run format:js",
     "format:js": "prettier --write \"*.js\" \"{tools,packages}/**/*.js\" && eslint --fix \"*.js\" \"{tools,packages}/**/*.{js,html,svelte}\"",
     "format:css": "prettier --write \"packages/**/*.{css,pcss}\" && stylelint --fix \"packages/**/*.{html,svelte,css,pcss}\"",
-    "postinstall": "lerna bootstrap --hoist --no-ci",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:ci": "jest --no-cache --verbose",
     "link:packages": "lerna exec npm link",
-    "changelog": "npx conventional-changelog-cli -p angular -i CHANGELOG.md -s"
+    "changelog": "npx conventional-changelog-cli -p angular -i CHANGELOG.md -s",
+    "postinstall": "lerna bootstrap --hoist --no-ci",
+    "preversion": "npm run test"
   },
   "config": {
     "commitizen": {
