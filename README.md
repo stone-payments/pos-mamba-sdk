@@ -16,6 +16,7 @@ Make sure all dependencies have been installed before moving on:
 - `npm run link:packages` - Create a local link of every package for local developing;
 - `npm run test` - Run all tests once;
 - `npm run test:watch` - Run all tests and keep watching for changes;
+- `npm run release` - Release a new version of the SDK;
 - `lerna run x` - Execute the `x` script in all packages;
 - `lerna run start --scope=@mamba/component --stream` - Run the dev server for a specific component;
 

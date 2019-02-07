@@ -16,18 +16,19 @@
     "npm": ">= 5.6.0"
   },
   "scripts": {
+    "postinstall": "lerna bootstrap --hoist --no-ci",
     "lint": "npm run lint:css; npm run lint:js",
     "lint:js": "eslint \"*.js\" \"{tools,packages}/**/*.{js,html,svelte}\"",
     "lint:css": "stylelint \"packages/**/*.{html,svelte,css,pcss}\"",
-    "format": "npm run format:css; npm run format:js",
     "format:js": "prettier --write \"*.js\" \"{tools,packages}/**/*.js\" && eslint --fix \"*.js\" \"{tools,packages}/**/*.{js,html,svelte}\"",
     "format:css": "prettier --write \"packages/**/*.{css,pcss}\" && stylelint --fix \"packages/**/*.{html,svelte,css,pcss}\"",
+    "format": "npm run format:css; npm run format:js",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:ci": "jest --no-cache --verbose",
     "link:packages": "lerna exec npm link",
     "changelog": "npx conventional-changelog-cli -p angular -i CHANGELOG.md -s",
-    "postinstall": "lerna bootstrap --hoist --no-ci",
+    "release": "lerna publish",
     "preversion": "npm run test"
   },
   "config": {
