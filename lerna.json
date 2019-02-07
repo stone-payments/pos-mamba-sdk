@@ -21,6 +21,7 @@
     "packages/pos",
     "packages/store",
     "packages/styles",
+    "packages/utils",
     "packages/webpack"
   ]
 }
