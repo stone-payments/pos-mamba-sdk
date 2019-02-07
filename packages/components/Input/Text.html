@@ -1,14 +1,12 @@
 <Input on:focus="openKeyboard()"
-    bind:value=value
-    bind:alphanumeric=alphanumeric
-    bind:type
+    ref:visibleInput
+    {..._inputProps}
 />
 {#if active}
   <div class="keyboardScreen" style="background-color: {bgColor};">
     <Input
       bind:value=value
-      bind:alphanumeric=alphanumeric
-      bind:type
+      {..._inputProps}
       ref:keyboardInput
     />
     <div class="keyboard" style="color: {keyTextColor};">
@@ -88,6 +86,7 @@
         value: '',
         mode: 'default',
         type: 'text',
+        label: undefined,
         alphanumeric: false,
         bgColor: undefined,
         keyColor: undefined,
@@ -129,6 +128,15 @@
           .filter(Boolean)
           .join(';');
       },
+      _inputProps: ({
+        rawValue,
+        prefix,
+        suffix,
+        mask,
+        placeholder,
+        type,
+        ...props
+      }) => props,
     },
     oncreate() {
       const { suggestions, _defaultSuggestions } = this.get();
@@ -191,16 +199,23 @@
       openKeyboard() {
         this.set({ active: true });
         this.refs.keyboardInput.focus();
+        this.root.meta.setScrollable(false);
       },
       closeKeyboard() {
         this.refs.keyboardInput.blur();
+        const value = this.get();
         this.set({ active: false });
-        this.refs.input.set({ value: this.get().value });
+        this.root.meta.setScrollable(true);
+        this.fire('submit', { isValid: true, rawValue: value, value });
       },
       addSuggestion(suggestion) {
         const inputValue = this.get().value;
         this.set({ value: inputValue.slice(0, -1) + suggestion });
         this._moveCursor();
+      },
+      focus() {
+        /* istanbul ignore next */
+        this.refs.visibleInput.focus();
       },
     },
   };
@@ -222,7 +237,7 @@
   .suggestions {
     display: flex;
     width: 100%;
-    height: 58px;
+    height: 48px;
     align-items: center;
   }
 
