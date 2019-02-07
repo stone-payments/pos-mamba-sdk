@@ -3,7 +3,13 @@
   on:keydown="_onKeydown(event)"
 />
 
-<slot></slot>
+<div
+  class="mamba-app"
+  class:no-scroll="!scrollable"
+  class:has-appbar="hasAppbar"
+>
+  <slot></slot>
+</div>
 
 <script>
   import App from '@mamba/pos/api/app.js';
@@ -24,7 +30,7 @@
         navigable: { home: true, back: true },
         shortcuts: true,
         scrollable: true,
-        _hasAppbar: false,
+        hasAppbar: false,
       };
     },
     oncreate() {
@@ -102,17 +108,6 @@
         this.root.meta = this;
       }
     },
-    onupdate({ changed, current }) {
-      const { target: rootEl } = this.root.options;
-
-      if (changed.scrollable) {
-        rootEl.classList.toggle('no-scroll', !current.scrollable);
-      }
-
-      if (changed._hasAppbar) {
-        rootEl.classList.toggle('has-appbar', current._hasAppbar);
-      }
-    },
     methods: {
       setShortcuts(isEnabled) {
         this.set({ shortcuts: isEnabled });
@@ -140,9 +135,7 @@
           const isInsideApp =
             eventPath &&
             eventPath.some(
-              node =>
-                node.nodeType === 1 &&
-                node.classList.contains('mamba-app-container'),
+              node => node.nodeType === 1 && node.classList.contains('mamba-app'),
             );
 
           if (!isInsideApp) {
@@ -175,9 +168,7 @@
           const isInsideApp =
             eventPath &&
             eventPath.some(
-              node =>
-                node.nodeType === 1 &&
-                node.classList.contains('mamba-app-container'),
+              node => node.nodeType === 1 && node.classList.contains('mamba-app'),
             );
 
           if (
@@ -282,9 +273,20 @@
     height: 100%;
   }
 
-  :global(.mamba-app-container) {
-    background-color: $app-bg-color;
+  .mamba-app {
     height: 100%;
+
+    /** app fullscreen background */
+    &::before {
+      content: '';
+      position: fixed;
+      z-index: -1;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: $app-bg-color;
+    }
 
     &.no-scroll {
       overflow: hidden !important; /* stylelint-disable-line */
