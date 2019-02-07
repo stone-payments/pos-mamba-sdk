@@ -1,5 +1,5 @@
 {
-  "version": "2.2.1",
+  "version": "2.2.2",
   "npmClient": "npm",
   "command": {
     "publish": {
@@ -9,7 +9,7 @@
         "LICENSE",
         "lerna.json"
       ],
-      "message": "chore(release): publish",
+      "message": "chore(release): :robot: publish",
       "conventionalCommits": true
     }
   },

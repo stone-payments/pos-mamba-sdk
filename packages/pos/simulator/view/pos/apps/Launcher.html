@@ -174,21 +174,21 @@
   :global(#apps-container) {
     height: 100%;
     position: relative;
+  }
 
-    > :global(.mamba-app-container) {
-      position: absolute;
-      left: 0;
-      top: 0;
-      right: 0;
-      bottom: 0;
+  :global(.mamba-app-container) {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
 
-      &.is-suspended {
-        display: none;
-      }
+    &.is-suspended {
+      display: none;
+    }
 
-      @media (min-width: 401px) {
-        overflow: auto;
-      }
+    @media (min-width: 401px) {
+      overflow: auto;
     }
   }
 

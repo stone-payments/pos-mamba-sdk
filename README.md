@@ -27,7 +27,7 @@ Our commits follow the [Conventional Commits](https://www.conventionalcommits.or
 
 `<type>[optional scope]: <description>`
 
-You can use `git cz` instead of `git commit` for a interactive commit helper.
+By installing `git-cz` _globally_ (`npm i -g git-cz`) it's possible to use `git cz` instead of `git commit` for a interactive commit helper.
 
 ## Useful
 
