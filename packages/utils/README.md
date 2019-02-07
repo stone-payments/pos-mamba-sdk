@@ -1,6 +1,6 @@
 # `@mamba/utils`
 
-The `@mamba/utils` package contains useful methods to facilitate development of Mamba apps.
+O pacote `@mamba/utils` contém métodos úteis para facilitar o desenvolvimento de aplicativos Mamba.
 
 ## Money
 
@@ -8,7 +8,7 @@ The `@mamba/utils` package contains useful methods to facilitate development of 
 
 ### `format(value: Number): string`
 
-`Money.format()` formats a numeric value to a currency format:
+`Money.format()` formata um valor númerico para um formato de dinheiro:
 
 ```js
 import { format } from '@mamba/utils/money.js';
@@ -21,7 +21,7 @@ format(1000000.27); // '1.000.000,27'
 
 ### `padZero(value: Number | string): string`
 
-`Money.padZero()` left-pads a `0` for numeric values less than 10 or string values of length `1`.
+`Money.padZero()` adiciona um `0` para valores numéricos menores que `10` or _strings_ de tamanho `1`.
 
 ```js
 import { padZero } from '@mamba/utils/money.js';
@@ -32,7 +32,7 @@ padZero(17); // '17'
 padZero('230'); // '230'
 ```
 
-### Rounding
+### Arredondando
 
 - `round(value: Number): Number`
 
@@ -40,7 +40,7 @@ padZero('230'); // '230'
 
 - `floor(value: Number): Number`
 
-`Money.round()`, `Money.ceil()`, `Money.floor()` are similar to their `Math.*` counterpart, except that they deal with some common javascript rounding errors and take the decimal value in account.
+`Money.round()`, `Money.ceil()`, `Money.floor()` são similares aos métodos `Math.*` de mesmo nome. A principal diferença é que lidam com alguns erros de arrendondamento da linguagem e levam em conta o valor decimal.
 
 ```js
 import { round, ceil, floor } from '@mamba/utils/money.js';
