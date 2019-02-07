@@ -68,8 +68,13 @@ AppManager.open = async (appSlug, options = {}) => {
     );
   }
 
-  const target = document.createElement('DIV');
-  appsEl.appendChild(target);
+  let target = appsEl;
+
+  /** We support multiple apps only when the simulator view is loaded */
+  if (appsEl.id === 'apps-container') {
+    target = document.createElement('DIV');
+    appsEl.appendChild(target);
+  }
 
   const currentApp = AppManager.getCurrentApp();
 
