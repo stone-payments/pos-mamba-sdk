@@ -27,9 +27,9 @@
     "test:watch": "jest --watch",
     "test:ci": "jest --no-cache --verbose",
     "link:packages": "lerna exec npm link",
-    "changelog": "npx conventional-changelog-cli -p angular -i CHANGELOG.md -s",
-    "release": "lerna publish",
-    "preversion": "npm run test"
+    "check-next-version": "echo 'n' | lerna version",
+    "preversion": "npm run test",
+    "release": "lerna publish"
   },
   "config": {
     "commitizen": {
