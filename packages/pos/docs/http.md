@@ -27,7 +27,6 @@ Recebe as especificações do request por meio de um objeto e retorna uma [Promi
 
 - `method`, que define o verbo http, e suporta apenas `GET` ou `POST`.
 - `proxy`, que específica o tipo de canal utilizado, e pode ser `false`(direto), `true`(via proxy). Por padrão é `false` desabilitando o uso do proxy, não sendo possível fazer requisições por `GPRS`.
-- `encodeURI`, define se será feito um encode na URI.
 
 ```js
 import Http from '@mamba/pos/api/http.js'
@@ -41,8 +40,7 @@ const myRequest = {
   },
   method: 'GET',
   data: {title:'Test', body:'This is a Test.'},
-  proxy: true,
-  encodeURI: false
+  proxy: true
 }
 
 
