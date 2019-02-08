@@ -1,4 +1,4 @@
-import { Registry, HardwareManager, View } from '../../simulator/index.js';
+import { Registry, HardwareManager, View } from '../index.js';
 
 export const NAMESPACE = '$Printer';
 

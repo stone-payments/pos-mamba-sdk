@@ -1,6 +1,6 @@
 {
   "name": "@mamba/qrcode",
-  "version": "2.1.0",
+  "version": "2.2.2",
   "svelte": "QRCode.html",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -15,11 +15,11 @@
     "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w"
   },
   "dependencies": {
-    "@mamba/styles": "^2.1.0",
+    "@mamba/styles": "^2.2.2",
     "qrious": "^4.0.2"
   },
   "gitHead": "7118f44e933d2f656166a80822c0b3c1001e6a33",
   "devDependencies": {
-    "@mamba/pos": "^2.1.0"
+    "@mamba/pos": "^2.2.2"
   }
 }

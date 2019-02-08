@@ -1,12 +1,11 @@
-import { Registry } from '../../simulator/index.js';
+import { Registry, AppManager } from '../index.js';
 
 export const NAMESPACE = '$Payment';
 
 export const SETTINGS = {
-  _isPaying: false,
-  amountPaid: -1,
+  paymentFailed: false,
+  isPaying: false,
   installmentCount: 0,
-  shouldFail: false,
   cardHolderName: 'SPORTELLO/DOC',
   pan: '56497#####41578',
   type: 'CREDITO/DEBITO',
@@ -21,34 +20,50 @@ export const SETTINGS = {
 export const SIGNALS = ['cardEvent', 'paymentDone'];
 
 export function setup(Payment) {
-  Payment.doPay = params => {
-    Registry.set(draft => {
-      draft.$Payment._isPaying = true;
-    });
-
+  const finishPayment = params => {
     Payment.paymentDone();
 
     Registry.set(draft => {
-      draft.$Payment._isPaying = false;
+      draft.$Payment.isPaying = false;
       draft.$Payment.authorizedAmount = params.amount;
     });
   };
 
-  Payment.doEnableCardEvent = function noop() {};
-  Payment.doDisableCardEvent = function noop() {};
+  Payment.doPay = params => {
+    Registry.set(draft => {
+      draft.$Payment.isPaying = true;
+      /** Set failed to true. The payment app will define it as false if it succeeds */
+      draft.$Payment.paymentFailed = true;
+    });
+
+    if (AppManager.getApp('1-payment')) {
+      AppManager.once('closed', app => {
+        if (app.manifest.slug === '1-payment') {
+          finishPayment(params);
+        }
+      });
+
+      AppManager.open('1-payment', { openMode: 'selection', ...params });
+    } else {
+      Registry.set(draft => {
+        draft.$Payment.paymentFailed = false;
+      });
+      finishPayment(params);
+    }
+  };
 
   /**
    * Returns true if is paying
    * @memberof Payment
    * @return {boolean} True if is paying
    */
-  Payment.isPaying = () => Registry.get().$Payment._isPaying;
+  Payment.isPaying = () => Registry.get().$Payment.isPaying;
 
   /**
    * Returns true it the last payment job has failed
    * @return {boolean} True if the last payment job has failed
    */
-  Payment.failedPaying = () => Registry.get().$Payment.shouldFail;
+  Payment.failedPaying = () => Registry.get().$Payment.paymentFailed;
 
   /**
    * Get card holder name in case of payment success.

@@ -1,4 +1,4 @@
-import { Registry, HardwareManager } from '../../simulator/index.js';
+import { Registry, HardwareManager } from '../index.js';
 
 export const NAMESPACE = '$Card';
 
@@ -11,7 +11,7 @@ export const SETTINGS = {
 export function setup(Card) {
   Card.isCardInserted = () => Registry.get().$Card.isInserted;
 
-  HardwareManager.on('toggleCard', isInserted => {
+  HardwareManager.on('cardToggled', isInserted => {
     Registry.set(draft => {
       draft.$Card.isInserted = isInserted;
     });

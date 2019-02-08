@@ -1,0 +1,15 @@
+{
+  "name": "@mamba/utils",
+  "version": "2.2.2",
+  "description": "Utility methods for mamba apps",
+  "module": "index.js",
+  "sideEffects": false,
+  "author": "Stone Payments - Mamba Team",
+  "contributors": [
+    "Christian Kaisermann <christian.kaisermann@stone.com.br>"
+  ],
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  }
+}
