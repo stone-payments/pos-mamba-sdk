@@ -2,6 +2,7 @@ export default function(driver) {
   driver.send = function send(opts) {
     return new Promise((resolve, reject) => {
       const refSignal = `${Math.random() * new Date().getMilliseconds()}`;
+      let refReply = '';
 
       /** Accept body and data as the body parameter */
       if (
@@ -21,18 +22,25 @@ export default function(driver) {
       if (typeof opts.data !== 'string') {
         opts.data = JSON.stringify(opts.data);
       }
+
+      driver.on('requestRefSinal', (data, id) => {
+        if (refSignal !== id) return false;
+
+        refReply = data;
+      });
+
       driver.race([
         [
           'requestFailed',
           (err, id) => {
-            if (refSignal !== id) return false;
+            if (refReply !== id) return false;
             reject(err);
           },
         ],
         [
           'requestFinished',
           (data, id) => {
-            if (refSignal !== id) return false;
+            if (refReply !== id) return false;
             resolve(data);
           },
         ],

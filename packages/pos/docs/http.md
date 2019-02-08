@@ -2,7 +2,7 @@
 
 ## Descrição
 
-Esta API Nativa auxilia a realizar pedidos `Http` de `GET` e `POST`, podendo optar por utilizar um proxy(necessário para realizar requisições `GPRS`) ou não.
+Esta API Nativa auxilia a realizar pedidos `Http` de `GET` e `POST`, `PUT` e `DELETE`, podendo optar por utilizar um proxy(necessário para realizar requisições `GPRS`) ou não.
 
 ## Interface
 
@@ -25,7 +25,7 @@ interface connectionOptions {
 Recebe as especificações do request por meio de um objeto e retorna uma [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) que espera pelo seu resultado. Observe que nesse objeto existe alguns parâmetros.
 
 - `connect`, que especifica o tipo de canal utilizado, e pode ser `LAN`(direto), `NET`(via proxy de produção) e `DEV`(via proxy de desenvolvimento).
-- `method`, que define o verbo http, e suporta apenas `GET` ou `POST`.
+- `method`, que define o verbo http, e suporta apenas `GET`, `POST`, `PUT` e `DELETE`.
 
 ```js
 import Http from '@mamba/pos/api/http.js'
@@ -45,11 +45,14 @@ const myRequest = {
 
 Http.send(myRequest).then((result)=> {
   // in case the request have no errors
-  console.log(result)
+  console.log(result.status)
+  console.log(result.body)
+
 })
 .catch((error) => {
   // if the request fails
-  console.log(error)
+  console.log(error.status)
+  console.log(error.msg)
 });
 
 ```
