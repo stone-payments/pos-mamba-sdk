@@ -2,6 +2,41 @@
 
 O pacote `@mamba/utils` contém métodos úteis para facilitar o desenvolvimento de aplicativos Mamba.
 
+## UI
+
+`import * as UI from '@mamba/utils/ui.js';`
+
+### `timeout(delay: Number): Promise`
+
+`UI.timeout()` move a execução do script para o final da pilha de execução. É uma simples abstração de um `setTimeout` que retorna uma `Promise`.
+
+```js
+import { timeout } from '@mamba/utils/ui.js';
+
+function init() {
+  console.log('Log imediato');
+  timeout(300).then(() => {
+    console.log('Log após 300ms');
+  });
+}
+
+init();
+```
+
+Com isso, é possível utilizar `async/await` para facilitar a leitura de alguns métodos:
+
+```js
+import { timeout } from '@mamba/utils/ui.js';
+
+async function init() {
+  console.log('Log imediato');
+  await timeout(300);
+  console.log('Log após 300ms');
+}
+
+init();
+```
+
 ## Money
 
 `import * as Money from '@mamba/utils/money.js';`
