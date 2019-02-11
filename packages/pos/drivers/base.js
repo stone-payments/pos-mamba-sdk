@@ -1,7 +1,9 @@
+const DEFAULT_GROUP_NAME = 'default';
+
 export default () => {
   const defaultGroup = {};
   const groups = { default: defaultGroup };
-  let currentGroupName = 'default';
+  let currentGroupName = DEFAULT_GROUP_NAME;
   let currentGroup = defaultGroup;
 
   const isSlotFilled = (signal, callback) => {
@@ -26,6 +28,7 @@ export default () => {
 
     endGroup() {
       currentGroup = defaultGroup;
+      currentGroupName = DEFAULT_GROUP_NAME;
       return this;
     },
 
