@@ -3,16 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## 2.2.3 (2019-02-12)
+## 2.2.1 (2019-02-12)
 
 
 ### Bug Fixes
 
-* 🐛 reset currentGroupName to 'default' after 'endGroup()' is called ([c17f2ed](https://github.com/stone-payments/pos-mamba-sdk/commit/c17f2ed))
-
-
-
-## 2.2.1 (2019-02-01)
+* **package:** update yargs to version 13.1.0 ([#354](https://github.com/stone-payments/pos-mamba-sdk/issues/354)) ([a53ca14](https://github.com/stone-payments/pos-mamba-sdk/commit/a53ca14))
 
 
 
@@ -93,11 +89,3 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 # 1.0.0-rc.7 (2018-09-20)
-
-
-
-
-
-## [2.2.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.2.1...v2.2.2) (2019-02-07)
-
-**Note:** Version bump only for package @mamba/pos
