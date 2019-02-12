@@ -1,5 +1,5 @@
 {
-  "version": "independent",
+  "version": "2.3.0",
   "npmClient": "npm",
   "command": {
     "publish": {
@@ -19,7 +19,6 @@
     "packages/components/*",
     "packages/configs",
     "packages/pos",
-    "packages/store",
     "packages/styles",
     "packages/utils",
     "packages/webpack"

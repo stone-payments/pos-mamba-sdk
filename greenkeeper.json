@@ -6,7 +6,6 @@
         "packages/cli/package.json",
         "packages/configs/package.json",
         "packages/pos/package.json",
-        "packages/store/package.json",
         "packages/styles/package.json",
         "packages/webpack/package.json"
       ]
