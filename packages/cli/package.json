@@ -23,7 +23,7 @@
     "inquirer": "^6.2.2",
     "quickenv": "^0.0.6",
     "yargonaut": "^1.1.4",
-    "yargs": "^12.0.5"
+    "yargs": "^13.1.0"
   },
   "gitHead": "7118f44e933d2f656166a80822c0b3c1001e6a33"
 }
