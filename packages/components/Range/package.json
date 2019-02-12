@@ -1,6 +1,6 @@
 {
   "name": "@mamba/range",
-  "version": "2.2.3",
+  "version": "2.4.0",
   "svelte": "Range.html",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -15,10 +15,10 @@
     "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w"
   },
   "dependencies": {
-    "@mamba/styles": "^2.2.3"
+    "@mamba/styles": "^2.4.0"
   },
   "gitHead": "7118f44e933d2f656166a80822c0b3c1001e6a33",
   "devDependencies": {
-    "@mamba/pos": "^2.2.3"
+    "@mamba/pos": "^2.4.0"
   }
 }
