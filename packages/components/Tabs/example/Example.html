@@ -1,12 +1,7 @@
 <AppBarModifier title="ABAS" />
 
 <Tabs on:change="tabChanged(event)">
-  <TabPane title="Pontual">
-    <p>
-      O módulo <strong>Tabs</strong> é responsável por exibir uma lista de abas, possibilitando a troca de conteúdo de acordo com a sua seleção.
-    </p>
-  </TabPane>
-  <TabPane title="Automática">
+  <TabPane title="Ajuda">
     <Collection>
       <Row label="1 - Como funciona?" href="/" />
       <Row label="2 - Sobre taxas" href="/" />
@@ -14,16 +9,21 @@
       <Row label="4 - Fale conosco" href="/" />
     </Collection>
   </TabPane>
+  <TabPane title="Descrição">
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic maiores mollitia asperiores delectus, deleniti nobis fugiat quas eaque aspernatur atque ex voluptate modi fuga, iusto minus magni reprehenderit libero numquam.
+      </p>
+    </TabPane>
 </Tabs>
 
 <script>
   export default {
     components: {
-      Collection: '@mamba/collection/Collection.html',
       AppBarModifier: '@mamba/appbar/Modifier.html',
-      TabPane: '@mamba/tabs/TabPane.html',
+      Collection: '@mamba/collection/Collection.html',
       Row: '@mamba/collection/Row.html',
       Tabs: '@mamba/tabs/Tabs.html',
+      TabPane: '@mamba/tabs/TabPane.html',
     },
     methods: {
       tabChanged({ currentIndex, lastIndex }) {
