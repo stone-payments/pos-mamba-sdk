@@ -1,9 +1,9 @@
 <AppBarModifier title="ABAS" />
 
-<Tabs>
+<Tabs on:change="tabChanged(event)">
   <TabPane title="Pontual">
     <p>
-      3 Or; accessibility, mobilize inspirational and energize. Vibrant, deep dive inspirational, initiative, agile movements or changemaker living a fully ethical life. Disrupt changemaker, philanthropy black lives matter living a fully ethical life shared vocabulary. Contextualize the; data, indicators best practices benefit corporation paradigm. Impact, change-makers, academic, unprecedented challenge greenwashing change-makers; inspirational.
+      O módulo <strong>Tabs</strong> é responsável por exibir uma lista de abas, possibilitando a troca de conteúdo de acordo com a sua seleção.
     </p>
   </TabPane>
   <TabPane title="Automática">
@@ -11,9 +11,7 @@
       <Row label="1 - Como funciona?" href="/" />
       <Row label="2 - Sobre taxas" href="/" />
       <Row label="3 - Recebimento" href="/" />
-      <Row label="4 - Preciso antecipar tudo?" href="/" />
-      <Row label="5 - Posso cancelar?" href="/" />
-      <Row label="6 - Fale conosco" href="/" />
+      <Row label="4 - Fale conosco" href="/" />
     </Collection>
   </TabPane>
 </Tabs>
@@ -21,11 +19,17 @@
 <script>
   export default {
     components: {
-      AppBarModifier: '@mamba/appbar/Modifier.html',
       Collection: '@mamba/collection/Collection.html',
-      Row: '@mamba/collection/Row.html',
+      AppBarModifier: '@mamba/appbar/Modifier.html',
       TabPane: '@mamba/tabs/TabPane.html',
+      Row: '@mamba/collection/Row.html',
       Tabs: '@mamba/tabs/Tabs.html',
+    },
+    methods: {
+      tabChanged({ currentIndex, lastIndex }) {
+        console.log('Índice atual: ', currentIndex);
+        console.log('Índice antigo: ', lastIndex);
+      },
     },
   };
 </script>
