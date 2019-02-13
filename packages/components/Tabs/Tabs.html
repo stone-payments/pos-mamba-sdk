@@ -26,8 +26,11 @@
       };
     },
     oncreate() {
-      const tabs = [].filter.call(this.refs.container.children, element =>
-        element.classList.contains('tab-pane'),
+      const tabs = [].filter.call(
+        this.refs.container.children,
+        element =>
+          element.classList.contains('tab-pane') &&
+          element.title !== 'undefined',
       );
 
       this.set({ tabs });
