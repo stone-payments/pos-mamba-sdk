@@ -38,10 +38,10 @@
     },
     methods: {
       _changeTab(index) {
-        const { tabs, currentIndex } = this.get();
-        tabs[currentIndex].hidden = true;
+        const { tabs, currentIndex: lastIndex } = this.get();
+        tabs[lastIndex].hidden = true;
         tabs[index].hidden = false;
-        this.fire('change', { currentIndex: index });
+        this.fire('change', { currentIndex: index, lastIndex });
         this.set({ currentIndex: index });
       },
     },
