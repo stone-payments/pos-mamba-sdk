@@ -11,7 +11,7 @@ import TabPane from '@mamba/tabs/TabPane.html';
 
 ...
 
-<Tabs on:change="callback">
+<Tabs>
   <TabPane title="Tab 1">Your content</TabPane>
   <TabPane title="Tab 2">Another content</TabPane>
   ...
