@@ -1,6 +1,6 @@
 <AppBarModifier title="ABAS" />
 
-<Tabs on:change="tabChanged(event)">
+<Tabs on:change="tabChanged(event)" index="{1}">
   <TabPane title="Ajuda">
     <Collection>
       <Row label="1 - Como funciona?" href="/" />
@@ -26,8 +26,8 @@
       TabPane: '@mamba/tabs/TabPane.html',
     },
     methods: {
-      tabChanged({ currentIndex, lastIndex }) {
-        console.log('Índice atual: ', currentIndex);
+      tabChanged({ index, lastIndex }) {
+        console.log('Índice atual: ', index);
         console.log('Índice antigo: ', lastIndex);
       },
     },
