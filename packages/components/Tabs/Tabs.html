@@ -1,9 +1,9 @@
 <div class="tabs">
-  {#if tabs && tabs.length}
+  {#if _tabs && _tabs.length}
   <table class="tab-navigation">
     <tr>
-      {#each tabs as tab, index}
-      <td on:click="_changeTab(index)" class:active="index == currentIndex">
+      {#each _tabs as tab, key}
+      <td on:click="_changeTab(key)" class:active="key === index">
         {tab.title}
         <div class="line"></div>
       </td>
@@ -22,27 +22,42 @@
   export default {
     data() {
       return {
-        currentIndex: 0,
+        _tabs: [],
+        index: 0,
       };
     },
     oncreate() {
-      const tabs = [].filter.call(
+      const _tabs = [].filter.call(
         this.refs.container.children,
         element =>
           element.classList.contains('tab-pane') &&
           element.title !== 'undefined',
       );
 
-      this.set({ tabs });
-      this._changeTab(this.get().currentIndex);
+      this.set({ _tabs });
+
+      // Set started tab
+      this._changeTab(this.get().index);
     },
     methods: {
+      _validIndex(index) {
+        const { _tabs } = this.get();
+        if (_tabs && index >= _tabs.length) return _tabs.length - 1;
+        if (index < 0) return 0;
+        return index;
+      },
       _changeTab(index) {
-        const { tabs, currentIndex: lastIndex } = this.get();
-        tabs[lastIndex].hidden = true;
-        tabs[index].hidden = false;
-        this.fire('change', { currentIndex: index, lastIndex });
-        this.set({ currentIndex: index });
+        const { _tabs, index: lastIndex } = this.get();
+        if (_tabs.length) {
+          const validLastIndex = this._validIndex(lastIndex);
+          _tabs[validLastIndex].hidden = true;
+
+          const currentIdx = this._validIndex(index);
+          _tabs[currentIdx].hidden = false;
+
+          this.set({ index: currentIdx });
+          this.fire('change', { index: currentIdx, lastIndex });
+        }
       },
     },
   };
