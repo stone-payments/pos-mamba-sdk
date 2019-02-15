@@ -1,6 +1,6 @@
 <AppBarModifier title="ABAS" />
 
-<Tabs on:change="tabChanged(event)" index="{1}">
+<Tabs on:change="tabChanged(event)" bind:index="tabIndex">
   <TabPane title="Ajuda">
     <Collection>
       <Row label="1 - Como funciona?" href="/" />
@@ -10,20 +10,30 @@
     </Collection>
   </TabPane>
   <TabPane title="Descrição">
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic maiores mollitia asperiores delectus, deleniti nobis fugiat quas eaque aspernatur atque ex voluptate modi fuga, iusto minus magni reprehenderit libero numquam.
-      </p>
-    </TabPane>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic maiores mollitia asperiores delectus, deleniti nobis fugiat quas eaque aspernatur atque ex voluptate modi fuga, iusto minus magni reprehenderit libero numquam.
+    </p>
+    <br>
+    <div style="text-align: center;">
+      <Button on:click="set({tabIndex: 1})">Trocar aba</Button>
+    </div>
+  </TabPane>
 </Tabs>
 
 <script>
   export default {
     components: {
       AppBarModifier: '@mamba/appbar/Modifier.html',
+      Button: '@mamba/button/Button.html',
       Collection: '@mamba/collection/Collection.html',
       Row: '@mamba/collection/Row.html',
-      Tabs: '@mamba/tabs/Tabs.html',
       TabPane: '@mamba/tabs/TabPane.html',
+      Tabs: '@mamba/tabs/Tabs.html',
+    },
+    data() {
+      return {
+        tabIndex: 0,
+      };
     },
     methods: {
       tabChanged({ index, lastIndex }) {
