@@ -105,11 +105,13 @@ AppManager.open = async (appSlug, options = {}) => {
    */
   if (!appMeta.manifest.keepInBackground) {
     const { store } = appMeta.runtime.instance;
-    const initialState = { ...store.get() };
-    Object.keys(store._computed).forEach(computedKey => {
-      delete initialState[computedKey];
-    });
-    appMeta.runtime.store = { ref: store, initialState };
+    if (store) {
+      const initialState = { ...store.get() };
+      Object.keys(store._computed).forEach(computedKey => {
+        delete initialState[computedKey];
+      });
+      appMeta.runtime.store = { ref: store, initialState };
+    }
   }
 
   AppManager.fire('opened', appMeta, options);
@@ -135,7 +137,7 @@ AppManager.close = async () => {
       instance.destroy();
       target.parentNode.removeChild(target);
 
-      if (!manifest.keepInBackground) {
+      if (!manifest.keepInBackground && store) {
         store.ref.set(store.initialState);
       }
 
