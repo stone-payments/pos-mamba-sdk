@@ -4,7 +4,7 @@ import initClock from './includes/clock.js';
 
 const System = extend(
   {
-    _version: '2.5.3',
+    _version: '3.0.1',
   },
   initClock,
   EventTarget(),
