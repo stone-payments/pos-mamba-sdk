@@ -3,7 +3,7 @@
   <table class="tab-navigation">
     <tr>
       {#each _tabs as tab, key}
-      <td on:click="_changeTab(key)" class:active="key === index">
+      <td on:click="set({index: key})" class:active="key === index">
         {tab.title}
         <div class="line"></div>
       </td>
@@ -23,6 +23,7 @@
     data() {
       return {
         _tabs: [],
+        _lastIndex: 0,
         index: 0,
       };
     },
@@ -35,9 +36,12 @@
       );
 
       this.set({ _tabs });
-
-      // Set started tab
-      this._changeTab(this.get().index);
+    },
+    onupdate({ changed, current }) {
+      if (changed.index === true || changed._tabs === true) {
+        // Update tab position
+        this._changeTab(current.index);
+      }
     },
     methods: {
       _validIndex(index) {
@@ -47,15 +51,17 @@
         return index;
       },
       _changeTab(index) {
-        const { _tabs, index: lastIndex } = this.get();
+        const { _tabs, _lastIndex: lastIndex } = this.get();
         if (_tabs.length) {
-          const validLastIndex = this._validIndex(lastIndex);
-          _tabs[validLastIndex].hidden = true;
+          // Prevent redraw if index is the same of lastIndex
+          if (lastIndex !== index) {
+            _tabs[lastIndex].hidden = true;
+          }
 
           const currentIdx = this._validIndex(index);
           _tabs[currentIdx].hidden = false;
 
-          this.set({ index: currentIdx });
+          this.set({ index: currentIdx, _lastIndex: currentIdx });
           this.fire('change', { index: currentIdx, lastIndex });
         }
       },
