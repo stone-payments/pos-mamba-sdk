@@ -56,12 +56,12 @@
         }
       },
       _changeTab(index) {
-        const { _tabs, _lastIndex: lastIndex } = this.get();
-        if (_tabs.length) {
-          _tabs[lastIndex].hidden = true;
-          const currentIdx = this._validIndex(index);
-          _tabs[currentIdx].hidden = false;
+        const { _tabs: _tabElements, _lastIndex: lastIndex } = this.get();
+        if (_tabElements.length) {
+          _tabElements[lastIndex].hidden = true;
 
+          const currentIdx = this._validIndex(index);
+          _tabElements[currentIdx].hidden = false;
           this.set({ index: currentIdx, _lastIndex: currentIdx });
           this.fire('change', { index: currentIdx, lastIndex });
         }
