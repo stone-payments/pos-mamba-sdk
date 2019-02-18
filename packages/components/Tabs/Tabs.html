@@ -38,7 +38,7 @@
       this.set({ _tabs });
     },
     onupdate({ changed, current }) {
-      if (changed.index === true || changed._tabs === true) {
+      if (changed.index || changed._tabs) {
         // Update tab position
         this._changeTab(current.index);
       }
