@@ -12,10 +12,6 @@
     "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w"
   },
   "devDependencies": {
-    "@mamba/pos": "^2.4.0",
     "@mamba/styles": "^2.4.0"
-  },
-  "peerDependencies": {
-    "@mamba/pos": "^2.1.0"
   }
 }
