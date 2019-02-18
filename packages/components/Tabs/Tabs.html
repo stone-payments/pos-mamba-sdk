@@ -46,14 +46,9 @@
     methods: {
       _validIndex(index) {
         const { _tabs } = this.get();
-        switch (true) {
-          case index < 0:
-            return 0;
-          case index >= _tabs.length:
-            return _tabs.length - 1;
-          default:
-            return index;
-        }
+        if (index < 0) return 0;
+        if (index >= _tabs.length) return _tabs.length - 1;
+        return index;
       },
       _changeTab(index) {
         const { _tabs: _tabElements, _lastIndex: lastIndex } = this.get();
