@@ -58,11 +58,7 @@
       _changeTab(index) {
         const { _tabs, _lastIndex: lastIndex } = this.get();
         if (_tabs.length) {
-          // Prevent redraw if index is the same of lastIndex
-          if (lastIndex !== index) {
-            _tabs[lastIndex].hidden = true;
-          }
-
+          _tabs[lastIndex].hidden = true;
           const currentIdx = this._validIndex(index);
           _tabs[currentIdx].hidden = false;
 
