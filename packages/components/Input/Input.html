@@ -7,7 +7,7 @@
   on:mousedown="_onMousedown(event)"
 >
   {#if label}
-    <span>{label}</span>
+    <span class="label">{label}</span>
   {/if}
 
   <input
@@ -352,7 +352,7 @@
     }
   }
 
-  span {
+  .label {
     display: block;
     font-size: 13px;
     font-weight: bold;
