@@ -122,3 +122,37 @@ describe('Test action buttons', () => {
     expect(range.get().value).toBe(50);
   });
 });
+
+describe('validation', () => {
+  beforeAll(() => {
+    range = newRange({
+      icon: './example/static/brightness.png',
+      min: 0,
+      max: 100,
+      step: 10,
+      value: 50,
+      unit: '%',
+      validation: jest.fn(() => false),
+    });
+  });
+
+  it('should prevent increment/decrement based on the validation method passed as prop', () => {
+    range.increment();
+    expect(range.get().value).toBe(50);
+
+    range.decrement();
+    expect(range.get().value).toBe(50);
+  });
+
+  it('should pass an { action, value, newValue } object to the validation method', () => {
+    const { validation } = range.get();
+
+    range.increment();
+    expect(validation).toHaveBeenCalledWith(60);
+
+    validation.mockClear();
+
+    range.decrement();
+    expect(validation).toHaveBeenCalledWith(40);
+  });
+});
