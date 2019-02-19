@@ -31,8 +31,7 @@
       const _tabs = [].filter.call(
         this.refs.container.children,
         element =>
-          element.classList.contains('tab-pane') &&
-          element.title !== 'undefined',
+          element.classList.contains('tab-pane') && element.title !== 'undefined',
       );
 
       this.set({ _tabs });

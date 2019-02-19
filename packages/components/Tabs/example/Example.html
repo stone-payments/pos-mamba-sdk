@@ -1,5 +1,3 @@
-<AppBarModifier title="ABAS" />
-
 <Tabs on:change="tabChanged(event)" bind:index="tabIndex">
   <TabPane title="Ajuda">
     <Collection>
@@ -23,7 +21,6 @@
 <script>
   export default {
     components: {
-      AppBarModifier: '@mamba/appbar/Modifier.html',
       Button: '@mamba/button/Button.html',
       Collection: '@mamba/collection/Collection.html',
       Row: '@mamba/collection/Row.html',
