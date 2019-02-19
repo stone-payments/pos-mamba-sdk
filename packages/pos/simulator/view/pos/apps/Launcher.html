@@ -100,8 +100,6 @@
         }, []),
     },
     oncreate() {
-      window.history.replaceState('', document.title, window.location.pathname);
-
       /** Update the clock after each second */
       System.on('clock', (newHours, newMinutes) => {
         this.set({ time: `${newHours}:${newMinutes}` });
