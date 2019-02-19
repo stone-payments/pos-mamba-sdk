@@ -4,6 +4,7 @@ export const NAMESPACE = '$Merchant';
 
 export const PERSISTENT_SETTINGS = {
   stoneCode: '123123123',
+  password: '1234',
 };
 
 export function setup(Merchant) {
@@ -26,4 +27,8 @@ export function setup(Merchant) {
     'ELO',
     'SODEXO',
   ];
+
+  Merchant.checkPassword = password => {
+    return password === '1234';
+  };
 }
