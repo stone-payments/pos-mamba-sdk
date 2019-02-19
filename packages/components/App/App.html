@@ -11,6 +11,8 @@
   <slot></slot>
 </div>
 
+<AdminLock ref:adminLock/>
+
 <script>
   import App from '@mamba/pos/api/app.js';
   import Keyboard from '@mamba/pos/api/keyboard.js';
@@ -25,12 +27,16 @@
     document.activeElement.tagName !== 'TEXTAREA';
 
   export default {
+    components: {
+      AdminLock: './AdminLock.html',
+    },
     data() {
       return {
         navigable: { home: true, back: true },
         shortcuts: true,
         scrollable: true,
         hasAppbar: false,
+        askOnClose: false,
       };
     },
     oncreate() {
@@ -60,10 +66,19 @@
         this.setShortcuts(isEnabled);
       });
 
-      root.close = () => {
+      root.close = async () => {
         /** Allow to override the default app close process */
+        const auth = await this.askAdminPassword();
         if (typeof root.onClose === 'function') {
-          return root.onClose();
+          if (this.get().askOnClose) {
+            if (auth === false) return;
+          }
+          const closingPromise = root.onClose();
+
+          if (!closingPromise || typeof closingPromise.then !== 'function') {
+            return;
+          }
+          await closingPromise;
         }
         App.close();
       };
@@ -126,6 +141,16 @@
             },
           });
         }
+      },
+      async askAdminPassword() {
+        this.refs.adminLock.open();
+        return new Promise(resolve => {
+          this.refs.adminLock.on('authentication', event => {
+            if (event.success) {
+              resolve(true);
+            }
+          });
+        });
       },
       /** Prevent default back/enter button behaviour */
       _onKeydown(e) {
