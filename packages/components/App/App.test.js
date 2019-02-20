@@ -37,6 +37,12 @@ it('should close the app on "this.root.close()" method execution', () =>
     root.close();
   }));
 
+it('should open password dialog "this.root.close()" method execution when passwordOnClose is true', () => {
+  root.meta.set({ passwordOnClose: true });
+  root.close();
+  expect(root.meta.refs.adminLock.get()._showLockPopUp).toBe(true);
+});
+
 it('[DEPRECATED] should close the app on "close" root event', () =>
   new Promise(res => {
     AppAPI.once('closed', res);
