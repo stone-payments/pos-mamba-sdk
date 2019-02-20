@@ -18,6 +18,6 @@ describe('style', () => {
 
     expect(icon.refs.icon.style.width).toBe('10px');
     expect(icon.refs.icon.style.height).toBe('10px');
-    expect(icon.refs.icon.style.backgroundColor).toBe('black');
+    expect(icon.refs.icon.style.color).toBe('black');
   });
 });
