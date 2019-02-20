@@ -57,27 +57,22 @@
       }
     },
     methods: {
-      _validate(action) {
-        const { validation } = this.get();
-        const newValue = this._getNewValue(action);
+      _changeValue(action) {
+        const { validation, max, min, value, step } = this.get();
 
-        return typeof validation !== 'function' || validation(newValue) !== false;
-      },
-      _getNewValue(action) {
-        const { max, min, value, step } = this.get();
-        return Math.min(
+        const newValue = Math.min(
           max,
           Math.max(min, value + (action === 'increment' ? step : -step)),
         );
-      },
-      _changeValue(action) {
-        if (!this._validate(action)) return;
 
-        const value = this._getNewValue(action);
-        this.set({ value });
+        if (typeof validation === 'function' && validation(newValue) === false) {
+          return;
+        }
 
-        this.fire(action, { value });
-        this.fire('change', { value });
+        this.set({ value: newValue });
+
+        this.fire(action, { value: newValue });
+        this.fire('change', { value: newValue });
       },
       decrement() {
         this._changeValue('decrement');
