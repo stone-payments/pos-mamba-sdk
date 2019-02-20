@@ -1,10 +1,12 @@
 <div
   ref:icon
   class="icon"
-  {style}
-  {..._props}
-  on:click>
-</div>
+  style={iconStyle}
+  {symbol}
+  {size}
+  {level}
+  on:click
+></div>
 
 <script>
   export default {
@@ -14,30 +16,22 @@
         symbol: 'custom',
         src: undefined,
         color: undefined,
-        level: undefined,
         width: undefined,
         height: undefined,
+        level: undefined,
       };
     },
     computed: {
-      _props({ symbol, size, level }) {
-        return {
-          symbol,
-          size,
-          level,
-        };
-      },
-      style({ src, color, width, height }) {
-        return [
-          color && `color:${color}; background-color: ${color}`,
+      iconStyle: ({ src, color, width, height }) =>
+        [
+          color && `color:${color}`,
           /* istanbul ignore next */
           src && `-webkit-mask-image: url(${src})`,
           width && `width: ${width}`,
           height && `height: ${height}`,
         ]
           .filter(Boolean)
-          .join(';');
-      },
+          .join(';'),
     },
   };
 </script>
@@ -101,7 +95,7 @@
     vertical-align: middle;
     width: 24px;
     height: 24px;
-    background-color: #494949;
+    background-color: currentColor;
     mask-size: cover;
     mask-repeat: no-repeat;
     mask-position: center;
@@ -117,15 +111,39 @@
     height: 56px;
   }
 
-  [level='0'] {
-    background-color: #494949;
-  }
+  [symbol='wifi'] {
+    position: relative;
+    background-color: $gray-light;
 
-  [symbol='wifi'][level='1'] {
-    background: linear-gradient(to bottom, #b5b5b5 60%, currentColor 0%);
-  }
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-radius: 50%;
+      background: currentColor;
+    }
 
-  [symbol='wifi'][level='2'] {
-    background: linear-gradient(to bottom, #b5b5b5 37%, currentColor 0%);
+    &[level='0']::before {
+      height: 0;
+    }
+
+    &[level='1']::before {
+      height: 40%;
+    }
+
+    &[level='2']::before {
+      height: 54%;
+    }
+
+    &[level='3']::before {
+      height: 67%;
+    }
+
+    &[level='4']::before,
+    &[level='5']::before {
+      height: 100%;
+    }
   }
 </style>
