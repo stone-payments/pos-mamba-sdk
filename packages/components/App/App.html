@@ -36,7 +36,7 @@
         shortcuts: true,
         scrollable: true,
         hasAppbar: false,
-        askOnClose: false,
+        passwordOnClose: false,
       };
     },
     oncreate() {
@@ -70,7 +70,7 @@
         /** Allow to override the default app close process */
         const auth = await this.askAdminPassword();
         if (typeof root.onClose === 'function') {
-          if (this.get().askOnClose) {
+          if (this.get().passwordOnClose) {
             if (auth === false) return;
           }
           const closingPromise = root.onClose();
