@@ -37,8 +37,8 @@ it('should close the app on "this.root.close()" method execution', () =>
     root.close();
   }));
 
-it('should open password dialog "this.root.close()" method execution when passwordOnClose is true', () => {
-  root.meta.set({ passwordOnClose: true });
+it('should open password dialog "this.root.close()" method execution when askPasswordOnClose is true', () => {
+  root.meta.set({ askPasswordOnClose: true });
   root.close();
   expect(root.meta.refs.adminLock.get()._showLockPopUp).toBe(true);
 });

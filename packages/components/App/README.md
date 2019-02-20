@@ -20,8 +20,8 @@ Vale ressaltar também, que este componente não deve ser utilizado em nenhum ou
   export default {
     components: {
       App: '@mamba/app',
-    }
-  }
+    },
+  };
 </script>
 ```
 
@@ -35,10 +35,10 @@ As teclas existentes no `POS` são: `close`, `back`, `enter`, `help`, `shortcuts
 
 Sempre que executado o método `this.root.close()` do [componente raiz](https://svelte.technology/guide#component-root), o fluxo de fechamento do aplicativo é iniciado.
 
-Por padrão, quando o usuário clicar no botão `close`/`x` o fluxo se inicia automaticamente. Caso, deseje que para fechar a aplicação a senha de administrador do `POS` seja informada, basta adicionar `passwordOnClose` no seu componente `App`.
+Por padrão, quando o usuário clicar no botão `close`/`x` o fluxo se inicia automaticamente. Caso, deseje que para fechar a aplicação a senha de administrador do `POS` seja informada, basta adicionar `askPasswordOnClose` no seu componente `App`.
 
 ```html
-<App passwordOnClose>
+<App askPasswordOnClose>
   <!--
     Tudo relacionado ao aplicativo deve
     estar dentro do componente <App></App>
@@ -56,19 +56,19 @@ O componente `<App/>` se registra como a propriedade `meta` no [componente raiz]
 
 `this.root.meta.setNavigable({ home: boolean, back: boolean } | boolean)`
 
-Habilita/desabilita a navegação do app. Passa-se um objeto composto por `back` e `home` com um valor *booleano* ou um valor *booleano* único que será usado para ambos os casos.
+Habilita/desabilita a navegação do app. Passa-se um objeto composto por `back` e `home` com um valor _booleano_ ou um valor _booleano_ único que será usado para ambos os casos.
 
 #### Atalhos de tecla automáticos (`shortcut="nomeDaTecla"`)
 
 `this.root.meta.setShortcuts(boolean)`;
 
-Habilita/desabilita os atalhos automáticos de teclado. Passa-se um parâmetro *booleano*.
+Habilita/desabilita os atalhos automáticos de teclado. Passa-se um parâmetro _booleano_.
 
-#### Bloqueio de *scroll*
+#### Bloqueio de _scroll_
 
 `this.root.meta.setScrollable(boolean)`;
 
-Habilita/desabilita o *scroll* do app.
+Habilita/desabilita o _scroll_ do app.
 
 ## Sub componentes
 
@@ -84,22 +84,23 @@ O componente `Keystroke` associa um evento de tecla á uma tecla específica e o
 
 `<Keystroke ...props/>`
 
-| Parâmetro   | Descrição                                              | Tipo            | Padrão     |
-|-------------|--------------------------------------------------------|-----------------|------------|
-| key          | Define a tecla associada ao handler                   | `string`        | `null`     |
-| active       | Define ser o handler deve estar ativo ou não           | `boolean`      | `true`     |
+| Parâmetro | Descrição                                    | Tipo      | Padrão |
+| --------- | -------------------------------------------- | --------- | ------ |
+| key       | Define a tecla associada ao handler          | `string`  | `null` |
+| active    | Define ser o handler deve estar ativo ou não | `boolean` | `true` |
 
 ### Eventos
 
 `<Keystroke ... on:event="..."/>`
 
-| Eventos     | Disparado quando ...                 | Tipo                                                                          |
-|-------------|--------------------------------------|-------------------------------------------------------------------------------|
-| keystroke   | Uma das teclas do POS é pressionada  |`function`([keyup](https://developer.mozilla.org/pt-BR/docs/Web/Events/keyup)) |
+| Eventos   | Disparado quando ...                | Tipo                                                                           |
+| --------- | ----------------------------------- | ------------------------------------------------------------------------------ |
+| keystroke | Uma das teclas do POS é pressionada | `function`([keyup](https://developer.mozilla.org/pt-BR/docs/Web/Events/keyup)) |
 
 #### Exemplo:
 
 Chama `myMethod(keyup)` passando como parâmetro o evento de keyup quando a tecla especificada em `key` é pressionada.
+
 ```html
 <Keystroke key="back" on:keystroke="myMethod(event)" />
 ```

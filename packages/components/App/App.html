@@ -36,7 +36,7 @@
         shortcuts: true,
         scrollable: true,
         hasAppbar: false,
-        passwordOnClose: false,
+        askPasswordOnClose: false,
       };
     },
     oncreate() {
@@ -67,14 +67,21 @@
       });
 
       root.close = async () => {
-        /** Allow to override the default app close process */
-        if (this.get().passwordOnClose) {
+        const { askPasswordOnClose } = this.get();
+
+        if (askPasswordOnClose) {
           const auth = await this.askAdminPassword();
           if (auth === false) return;
         }
+
+        /** Allow to override the default app close process */
         if (typeof root.onClose === 'function') {
           const closingPromise = root.onClose();
 
+          /**
+           * If the `onClose` returns a promise, let's wait for its resolution and close the app.
+           * If not, return and assume the method will be responsible to close the app.
+           */
           if (!closingPromise || typeof closingPromise.then !== 'function') {
             return;
           }

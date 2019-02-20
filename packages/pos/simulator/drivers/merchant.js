@@ -28,7 +28,6 @@ export function setup(Merchant) {
     'SODEXO',
   ];
 
-  Merchant.checkPassword = password => {
-    return password === '1234';
-  };
+  Merchant.checkPassword = password =>
+    password === Registry.persistent.get().$Merchant.password;
 }
