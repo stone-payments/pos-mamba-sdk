@@ -4,30 +4,24 @@
     <div class="message">Digite a senha administrativa para continuar.</div>
     <input type="password" ref:password/>
     <div class="btns-wrapper">
-      <tr>
-        <td>
-          <Button
-            size="auto"
-            secondary
-            bgColor="#425963"
-            on:click="close()">
-              Voltar
-          </Button>
-        </td>
-        <td class="spacer">
-        </td>
-        <td>
-          <Button
-            size="auto"
-            on:click="auth()">
-            Confirmar
-          </Button>
-        </td>
-      </tr>
+      <Button
+        secondary
+        bgColor="#425963"
+        width="48%"
+        on:click="close()">
+          Voltar
+      </Button>
+      <Button
+        width="48%"
+        on:click="auth()">
+        Confirmar
+      </Button>
     </div>
   </div>
 </div>
+<KeyStroke key="enter" on:keystroke="auth()"></KeyStroke>
 {/if}
+
 
 <script>
   import Merchant from '@mamba/pos/api/merchant.js';
@@ -36,6 +30,7 @@
   export default {
     components: {
       Button: '@mamba/button/Button.html',
+      KeyStroke: './Keystroke.html',
     },
     data() {
       return {
@@ -129,11 +124,14 @@
   }
 
   .btns-wrapper {
-    display: table;
-  }
+    text-align: justify;
+    margin-bottom: -10px;
 
-  .spacer {
-    width: 29px;
+    &::after {
+      content: '';
+      width: 100%;
+      display: inline-block;
+    }
   }
 
   @keyframes shake {
