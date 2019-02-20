@@ -68,11 +68,11 @@
 
       root.close = async () => {
         /** Allow to override the default app close process */
-        const auth = await this.askAdminPassword();
+        if (this.get().passwordOnClose) {
+          const auth = await this.askAdminPassword();
+          if (auth === false) return;
+        }
         if (typeof root.onClose === 'function') {
-          if (this.get().passwordOnClose) {
-            if (auth === false) return;
-          }
           const closingPromise = root.onClose();
 
           if (!closingPromise || typeof closingPromise.then !== 'function') {
