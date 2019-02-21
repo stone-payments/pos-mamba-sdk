@@ -24,7 +24,7 @@ interface Payment {
   getInstallmentCount: () => number;
   getPan: () => string;
   getType: () => string;
-  cancel: (atk: string) => Promise;
+  cancel: (atk?: string) => Promise;
   failedCancellation: () => boolean;
 }
 
@@ -196,6 +196,22 @@ Retorna o tipo da transação `Crédito` ou `Débito`.
 import Payment from '@mamba/pos/api/payment.js';
 
 Payment.getType(); // 'Crédito'
+```
+
+### cancel()
+
+Abre o app de cancelamento com todas as transações realizadas pelo seu app.
+
+```js
+import Payment from '@mamba/pos/api/payment.js';
+
+Payment.cancel()
+  .then(amountCanceled => {
+    console.log(amountCancelled); // 50
+  })
+  .catch(error => {
+    console.log(error); // 'Cancellation Failed.'
+  });
 ```
 
 ### cancel(atk)

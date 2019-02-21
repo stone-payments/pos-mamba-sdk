@@ -13,4 +13,17 @@ export default function(driver) {
       });
       driver.doCancellation(atk);
     });
+
+  driver.cancel = () =>
+    new Promise((resolve, reject) => {
+
+      driver.once('cancellationDone', () => {
+        if (driver.failedCancellation()) {
+          reject(new Error('Cancellation Failed.'));
+        } else {
+          resolve(driver.getCancelledAmount());
+        }
+      });
+      driver.doCancellation();
+    });
 }
