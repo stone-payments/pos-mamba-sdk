@@ -1,6 +1,6 @@
 {
   "name": "@mamba/utils",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "description": "Utility methods for mamba apps",
   "module": "index.js",
   "sideEffects": false,
@@ -11,5 +11,6 @@
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "gitHead": "869644effc7b7347a2ff75c956c57d69ee8236a5"
 }

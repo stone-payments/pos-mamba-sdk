@@ -1,6 +1,6 @@
 {
   "name": "@mamba/barcode",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "svelte": "Barcode.html",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -15,11 +15,11 @@
     "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w"
   },
   "dependencies": {
-    "@mamba/styles": "^2.5.0",
+    "@mamba/styles": "^2.5.1",
     "jsbarcode": "^3.11.0"
   },
-  "gitHead": "b9834102336b1e8e0193d1e61d93ce320995b3db",
+  "gitHead": "869644effc7b7347a2ff75c956c57d69ee8236a5",
   "devDependencies": {
-    "@mamba/pos": "^2.5.0"
+    "@mamba/pos": "^2.5.1"
   }
 }

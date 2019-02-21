@@ -1,6 +1,6 @@
 {
   "name": "@mamba/styles",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "description": "Mamba core and reset styles",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -22,10 +22,10 @@
     "prepublish": "npm run build"
   },
   "devDependencies": {
-    "@mamba/configs": "^2.4.0",
+    "@mamba/configs": "^2.5.1",
     "ncp": "^2.0.0",
     "postcss-cli": "^6.1.0",
     "rimraf": "^2.6.3"
   },
-  "gitHead": "b9834102336b1e8e0193d1e61d93ce320995b3db"
+  "gitHead": "869644effc7b7347a2ff75c956c57d69ee8236a5"
 }
