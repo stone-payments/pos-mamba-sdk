@@ -31,22 +31,33 @@
         adminPassword,
       };
     },
-    onupdate({ previous, changed, current }) {
-      if (previous) {
-        Registry.persistent.set(draft => {
-          if (changed.serialNumber) {
-            draft.$System.serialNumber = current.serialNumber;
-          }
-
-          if (changed.stoneCode) {
-            draft.$Merchant.stoneCode = current.stoneCode;
-          }
-
-          if (changed.adminPassword) {
-            draft.$Merchant.adminPassword = current.adminPassword;
+    oncreate() {
+      Registry.on('persistentDataChanged', changes => {
+        changes.forEach(({ path: [, prop], value }) => {
+          if (prop === 'adminPassword') {
+            this.set({ adminPassword: value });
           }
         });
+      });
+    },
+    onupdate({ previous, changed, current }) {
+      if (!previous) {
+        return;
       }
+
+      Registry.persistent.set(draft => {
+        if (changed.serialNumber) {
+          draft.$System.serialNumber = current.serialNumber;
+        }
+
+        if (changed.stoneCode) {
+          draft.$Merchant.stoneCode = current.stoneCode;
+        }
+
+        if (changed.adminPassword) {
+          draft.$Merchant.adminPassword = current.adminPassword;
+        }
+      });
     },
   };
 </script>
