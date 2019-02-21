@@ -1,6 +1,6 @@
 {
   "name": "@mamba/switch",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "svelte": "Switch.html",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -15,8 +15,8 @@
     "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w"
   },
   "devDependencies": {
-    "@mamba/pos": "^2.5.0",
-    "@mamba/styles": "^2.5.0"
+    "@mamba/pos": "^2.5.1",
+    "@mamba/styles": "^2.5.1"
   },
   "gitHead": "b9834102336b1e8e0193d1e61d93ce320995b3db"
 }
