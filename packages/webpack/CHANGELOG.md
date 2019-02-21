@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.4.1...v2.5.0) (2019-02-21)
+
+
+### Bug Fixes
+
+* **package:** update xmlbuilder to version 11.0.0 ([e20d768](https://github.com/stone-payments/pos-mamba-sdk/commit/e20d768))
+
+
+
+
+
 # 2.4.0 (2019-02-12)
 
 

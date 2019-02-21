@@ -1,6 +1,6 @@
 {
   "name": "@mamba/webpack",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "description": "Webpack configs for Mamba Applications",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -48,5 +48,5 @@
     "webpackbar": "^3.1.4",
     "xmlbuilder": "^11.0.0"
   },
-  "gitHead": "91a8a4a8be4741a15249462cefda6e273f1613a3"
+  "gitHead": "b9834102336b1e8e0193d1e61d93ce320995b3db"
 }
