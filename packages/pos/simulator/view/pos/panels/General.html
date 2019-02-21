@@ -9,6 +9,10 @@
     <span>Stonecode</span>
     <input type="text" bind:value="stoneCode" maxlength="9" />
   </li>
+  <li class="controller is-full">
+    <span>Senha Admin</span>
+    <input type="text" bind:value="adminPassword" maxlength="4" />
+  </li>
 </ul>
 
 <script>
@@ -18,27 +22,30 @@
     data() {
       const {
         $System: { serialNumber },
-        $Merchant: { stoneCode },
+        $Merchant: { stoneCode, adminPassword },
       } = Registry.persistent.get();
 
       return {
         stoneCode,
         serialNumber,
+        adminPassword,
       };
     },
     onupdate({ previous, changed, current }) {
       if (previous) {
-        if (changed.serialNumber || changed.stoneCode) {
-          Registry.persistent.set(draft => {
-            if (changed.serialNumber) {
-              draft.$System.serialNumber = current.serialNumber;
-            }
+        Registry.persistent.set(draft => {
+          if (changed.serialNumber) {
+            draft.$System.serialNumber = current.serialNumber;
+          }
 
-            if (changed.stoneCode) {
-              draft.$Merchant.stoneCode = current.stoneCode;
-            }
-          });
-        }
+          if (changed.stoneCode) {
+            draft.$Merchant.stoneCode = current.stoneCode;
+          }
+
+          if (changed.adminPassword) {
+            draft.$Merchant.adminPassword = current.adminPassword;
+          }
+        });
       }
     },
   };

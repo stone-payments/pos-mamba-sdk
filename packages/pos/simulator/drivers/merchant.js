@@ -4,7 +4,7 @@ export const NAMESPACE = '$Merchant';
 
 export const PERSISTENT_SETTINGS = {
   stoneCode: '123123123',
-  password: '1234',
+  adminPassword: '1234',
 };
 
 export function setup(Merchant) {
@@ -29,5 +29,5 @@ export function setup(Merchant) {
   ];
 
   Merchant.checkPassword = password =>
-    password === Registry.persistent.get().$Merchant.password;
+    password === Registry.persistent.get().$Merchant.adminPassword;
 }
