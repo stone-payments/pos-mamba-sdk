@@ -14,7 +14,7 @@
   export default {
     data() {
       return {
-        /** Button size: small | normal | full */
+        /** Button size: small | normal | fill | full */
         size: 'normal',
         /** Disable the button */
         disabled: false,
@@ -99,6 +99,10 @@
     &.size-normal {
       max-width: 216px;
       width: 90%;
+    }
+
+    &.size-fill {
+      width: 100%;
     }
 
     &.size-full {
