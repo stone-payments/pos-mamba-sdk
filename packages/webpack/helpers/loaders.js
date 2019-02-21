@@ -81,6 +81,8 @@ module.exports = {
     options: {
       emitCss: true,
       hotReload: IS_DEV,
+      /** fix for svelte-loader not setting css: false when emitCss: true */
+      css: false,
       ...svelteConfig,
     },
   },

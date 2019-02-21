@@ -23,7 +23,7 @@
     "format:js": "prettier --write \"*.js\" \"{tools,packages}/**/*.js\" && eslint --fix \"*.js\" \"{tools,packages}/**/*.{js,html,svelte}\"",
     "format:css": "prettier --write \"packages/**/*.{css,pcss}\" && stylelint --fix \"packages/**/*.{html,svelte,css,pcss}\"",
     "format": "npm run format:css; npm run format:js",
-    "test": "jest",
+    "test": "jest --no-cache",
     "test:watch": "jest --watch",
     "test:ci": "jest --no-cache --verbose",
     "link:packages": "lerna exec npm link",
