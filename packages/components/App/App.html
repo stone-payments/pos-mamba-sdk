@@ -114,6 +114,7 @@
       };
 
       /** Needed for projects with svelte-page < v2.2.0 */
+      /* istanbul ignore next */
       if (root.router) {
         root.router.on('update', ({ changed, previous }) => {
           if (changed.context && previous) {
@@ -149,12 +150,13 @@
           });
         }
       },
-      async askAdminPassword() {
+      askAdminPassword() {
         this.refs.adminLock.open();
         return new Promise(resolve => {
-          this.refs.adminLock.on('authentication', event => {
+          const listener = this.refs.adminLock.on('authentication', event => {
             if (event.success) {
               resolve(true);
+              listener.cancel();
             }
           });
         });
