@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.4.1...v2.5.2) (2019-02-21)
+
+
+### Bug Fixes
+
+* **package:** update xmlbuilder to version 11.0.0 ([e20d768](https://github.com/stone-payments/pos-mamba-sdk/commit/e20d768))
+* 🐛 css being emitted AND injected ([65d966a](https://github.com/stone-payments/pos-mamba-sdk/commit/65d966a))
+
+
+
+
+
 ## [2.5.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.4.1...v2.5.1) (2019-02-21)
 
 

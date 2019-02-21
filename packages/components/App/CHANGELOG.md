@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.4.1...v2.5.2) (2019-02-21)
+
+
+### Bug Fixes
+
+* 🐛 cancel auth listener on successful logout ([756e90c](https://github.com/stone-payments/pos-mamba-sdk/commit/756e90c))
+* 🐛 Prop name for locking app exit ([754c5c7](https://github.com/stone-payments/pos-mamba-sdk/commit/754c5c7))
+* 🐛 Style and send button activating auth method ([cb81e1d](https://github.com/stone-payments/pos-mamba-sdk/commit/cb81e1d))
+
+
+### Features
+
+* 🎸 AdminLock, App lock and checkPassword simulation ([dee5ea9](https://github.com/stone-payments/pos-mamba-sdk/commit/dee5ea9))
+
+
+
+
+
 ## [2.5.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.4.1...v2.5.1) (2019-02-21)
 
 
