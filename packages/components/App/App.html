@@ -307,20 +307,12 @@
     height: 100%;
   }
 
+  :global(.mamba-app-container) {
+    background-color: $app-bg-color;
+  }
+
   .mamba-app {
     height: 100%;
-
-    /** app fullscreen background */
-    &::before {
-      content: '';
-      position: fixed;
-      z-index: -1;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: $app-bg-color;
-    }
 
     &.no-scroll {
       overflow: hidden !important; /* stylelint-disable-line */
