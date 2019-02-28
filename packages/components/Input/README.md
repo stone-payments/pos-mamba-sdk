@@ -35,6 +35,7 @@ import MoneyInput from '@mamba/input/Money.html';
 | readable    | Possibilita esconder o texto de Entrada                    | `boolean`       | `false`    |
 | type        | Tipo de texto de entrada (`password`/`text`)               | `string`        | `'text'`   |
 | textColor   | Cor do Texto da Caixa de Entrada                           | `string` (hex)  | `'#4a4a4a'`|
+| labelColor  | Cor do título do Input                                     | `string` (hex)  | `'#4a4a4a'`|
 | value       | Valor de padrão de entrada                                 | `string`        | `false`    |
 | validation  | Adiciona um método de validação                            | `function`      | `undefined`|
 | validateOn  | Define em que momento a validação ocorre (`input`/`submit`)| `string`        | `'submit'` |

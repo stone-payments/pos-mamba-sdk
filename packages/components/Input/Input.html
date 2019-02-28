@@ -3,7 +3,7 @@
   class:is-readable="readable"
   class:is-invalid="!isValid && !!_errorMsg"
   class:is-focused="isFocused"
-  style="background-color: {bgColor}; color: {textColor};"
+  style="background-color: {bgColor}; color: {labelColor};"
   on:mousedown="_onMousedown(event)"
 >
   {#if label}
@@ -70,6 +70,7 @@
         align: 'right',
         bgColor: '#fff',
         textColor: '#757575',
+        labelColor: '#757575',
         errorColor: '#d50000',
         /** Validation */
         validateOn: 'submit',
