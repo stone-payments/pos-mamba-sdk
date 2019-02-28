@@ -57,9 +57,9 @@ import MoneyInput from '@mamba/input/Money.html';
 Os eventos `submit`, `submitValid` e `submitInvalid`, retornam as seguintes propriedades no objeto `event`:
 ```ts
 event = {
-  value: string; // Valor do campo (com máscara se ouver)
+  value: string; // Valor do campo (com máscara se houver)
   rawValue: string; // Valor sem máscara ou formatação
-  isValid: string; // Representa o valor da validação (se ouver)
+  isValid: boolean; // Representa o valor da validação (se houver)
 }
 ```
 
@@ -69,17 +69,13 @@ event = {
 
 `<MoneyInput ... on:event="..." />`
 
-| Evento   | Descrição                                                                                                                 | Tipo              |
-|----------|---------------------------------------------------------------------------------------------------------------------------|-------------------|
-| submit   | Define uma função que será chamada se a validação( valor ≠ 0 ) do campo for bem-sucedida, quando o campo for submetido.   | `function(event)` |
+O evento `submit`, `submitValid` e `submitInvalid` retornam as seguintes propriedades no objeto `event` para o `MoneyInput`:
 
-<br/>
-
-O evento `submit` retorna as seguintes propriedades no objeto `event`:
 ```ts
 event = {
-  value: string; // Valor em centavos
+  cents: number; // Valor em centavos
   formatted: string; // Valor formatado na moeda
+  isValid: boolean; // Representa o valor da validação (se houver)
 }
 ```
 
@@ -105,13 +101,9 @@ Desfoca o componente de input.
 
 Define que o input está com conteúdo inválido e mostra uma mensagem de erro opcional.
 
-### mask()
-
-Força uma atualização do conteúdo do `Input` para se adequar às máscaras definidas. Use apenas se a *prop* `value` for definida manualmente através de um `inputComponent.set({ value: ... })`.
-
 ## Máscara
 
-Para definir uma máscara de *input*, basta passar um parâmetro `mask` com uma ou mais máscaras. Uma máscara é definida por *tokens* que, por padrão, são:
+O componente padrão `Input` suporta máscaras para formatar o seu valor. Para definir uma máscara de *input*, basta passar um parâmetro `mask` com uma ou mais máscaras. Uma máscara é definida por *tokens* que, por padrão, são:
 
 * `#` - Dígito
 * `X` - Caractér alfanumérico
@@ -128,3 +120,7 @@ Exemplo de CPF/CNPJ:
   mask={['###.###.###-##', '##.###.###/####-##']}
 />
 ```
+
+### mask()
+
+Força uma atualização do conteúdo do `Input` para se adequar às máscaras definidas. Use apenas se a *prop* `value` for definida manualmente através de um `inputComponent.set({ value: ... })`.
