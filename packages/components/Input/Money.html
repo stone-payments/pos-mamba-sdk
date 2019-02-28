@@ -59,7 +59,7 @@
         // istanbul ignore next
         if (typeof this.options.data.validation === 'function') {
           this.set({
-            _validation: () => validation(parseFloat(this.get().cents)),
+            _validation: () => validation(this.get().cents),
           });
         }
       }
