@@ -171,8 +171,7 @@
         return value;
       },
       _validate() {
-        const { value } = this.refs.input;
-        const { validation } = this.get();
+        const { validation, rawValue } = this.get();
         const validateObj = {
           isValid: true,
           _errorMsg: undefined,
@@ -182,7 +181,7 @@
           return validateObj;
         }
 
-        const result = validation(value);
+        const result = validation(rawValue);
 
         if (typeof result === 'boolean') {
           validateObj.isValid = result;
@@ -291,8 +290,11 @@
           setTimeout(() => inputEl.setSelectionRange(position, position));
         }
 
+        this.set({ value });
+
         if (validation) {
           let validationUpdate;
+
           /** If validation is on submit, reset the validation state */
           if (validateOn === 'submit') {
             validationUpdate = {
@@ -303,9 +305,7 @@
             validationUpdate = this._validate();
           }
 
-          this.set({ value, ...validationUpdate });
-        } else {
-          this.set({ value });
+          this.set(validationUpdate);
         }
 
         this.fire('input', e);
