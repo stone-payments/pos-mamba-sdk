@@ -1,6 +1,8 @@
 <Input
   ref:amountInput
   {..._inputProps}
+  validation={_validation}
+  bind:isValid
   bind:value
   on:keyup
   on:input
@@ -22,27 +24,51 @@
     },
     data() {
       return {
-        rawValue: '0',
+        cents: 0,
         prefix: 'R$ ',
         suffix: '',
         limit: 99999999.99,
+        validation: undefined,
       };
     },
     computed: {
       /* istanbul ignore next */
       _inputProps: ({
-        rawValue,
+        cents,
         prefix,
         suffix,
         mask,
         placeholder,
         type,
+        validation,
         ...props
       }) => props,
-      value: ({ prefix, suffix, rawValue }) =>
-        prefix + formatMoney(parseFloat(rawValue) / 100) + suffix,
+      value: ({ prefix, suffix, cents }) =>
+        prefix + formatMoney(parseFloat(cents) / 100) + suffix,
+      /** deprecated */
+      rawValue: ({ cents }) => cents,
+    },
+    oncreate() {
+      if (this.options.data) {
+        /**
+         * Override the Input default validation method. The input's cents is related to masks.
+         * Since the money input doesn't use masks, it's necessary to override the "validation"
+         * property (if exists) with a method that has access to the money input real cents.
+         */
+        const { validation } = this.options.data;
+        // istanbul ignore next
+        if (typeof this.options.data.validation === 'function') {
+          this.set({
+            _validation: () => validation(this.get().cents),
+          });
+        }
+      }
     },
     methods: {
+      invalidate(message) {
+        /* istanbul ignore next */
+        this.refs.amountInput.invalidate(message);
+      },
       focus() {
         /* istanbul ignore next */
         this.refs.amountInput.focus();
@@ -72,41 +98,53 @@
         this.fire('focus', e);
       },
       _onSubmit() {
-        const { rawValue, value } = this.get();
-        if (rawValue !== '0') {
-          this.fire('submit', { value: rawValue, formatted: value });
-        } else {
+        const { cents, value: formatted, isValid } = this.get();
+        const submitObj = { cents, value: cents, formatted, isValid };
+
+        /** Bubble up on the submit events */
+        if (!isValid) {
           System.beep();
+          this.fire('submitInvalid', submitObj);
+        } else {
+          this.fire('submitValid', submitObj);
         }
+
+        this.fire('submit', submitObj);
       },
       _onKeydown(e) {
-        if (this.refs.amountInput.get().readonly === true) {
+        if (this.get().readonly === true) {
           return;
         }
 
         e.preventDefault();
-        let { rawValue } = this.get();
+        let { cents } = this.get();
+        cents = cents.toString();
+
         const keyName = Keyboard.getKeyName(e.keyCode);
 
         if (Keyboard.isNumericKey(e.keyCode)) {
-          if (rawValue === '0') {
-            rawValue = keyName;
+          if (cents === '0') {
+            cents = keyName;
           } else {
-            rawValue += keyName;
+            cents += keyName;
           }
 
           /** If the value is above the limit, do nothing */
-          if (parseFloat(rawValue) / 100 > this.get().limit) {
+          if (parseFloat(cents) / 100 > this.get().limit) {
             return;
           }
         } else if (keyName === 'back') {
-          rawValue = rawValue.slice(0, rawValue.length - 1);
+          cents = cents.slice(0, cents.length - 1);
 
-          if (!rawValue.length) {
-            rawValue = '0';
+          if (!cents.length) {
+            cents = '0';
           }
         }
-        this.set({ rawValue });
+
+        cents = parseFloat(cents);
+
+        this.set({ cents });
+        this.refs.amountInput.invalidate();
       },
     },
   };

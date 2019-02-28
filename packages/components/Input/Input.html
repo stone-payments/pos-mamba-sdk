@@ -3,7 +3,7 @@
   class:is-readable="readable"
   class:is-invalid="!isValid && !!_errorMsg"
   class:is-focused="isFocused"
-  style="background-color: {bgColor}; color: {textColor};"
+  style="background-color: {bgColor}; color: {labelColor};"
   on:mousedown="_onMousedown(event)"
 >
   {#if label}
@@ -70,6 +70,7 @@
         align: 'right',
         bgColor: '#fff',
         textColor: '#757575',
+        labelColor: '#757575',
         errorColor: '#d50000',
         /** Validation */
         validateOn: 'submit',
@@ -170,8 +171,7 @@
         return value;
       },
       _validate() {
-        const { value } = this.refs.input;
-        const { validation } = this.get();
+        const { validation, rawValue } = this.get();
         const validateObj = {
           isValid: true,
           _errorMsg: undefined,
@@ -181,7 +181,7 @@
           return validateObj;
         }
 
-        const result = validation(value);
+        const result = validation(rawValue);
 
         if (typeof result === 'boolean') {
           validateObj.isValid = result;
@@ -290,8 +290,11 @@
           setTimeout(() => inputEl.setSelectionRange(position, position));
         }
 
+        this.set({ value });
+
         if (validation) {
           let validationUpdate;
+
           /** If validation is on submit, reset the validation state */
           if (validateOn === 'submit') {
             validationUpdate = {
@@ -302,9 +305,7 @@
             validationUpdate = this._validate();
           }
 
-          this.set({ value, ...validationUpdate });
-        } else {
-          this.set({ value });
+          this.set(validationUpdate);
         }
 
         this.fire('input', e);
@@ -357,6 +358,7 @@
     font-size: 13px;
     font-weight: bold;
     pointer-events: none;
+    margin-bottom: 11px;
   }
 
   input {
