@@ -65,6 +65,10 @@
       }
     },
     methods: {
+      validate() {
+        /* istanbul ignore next */
+        this.refs.amountInput.validate();
+      },
       invalidate(message) {
         /* istanbul ignore next */
         this.refs.amountInput.invalidate(message);

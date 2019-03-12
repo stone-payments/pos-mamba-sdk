@@ -155,6 +155,12 @@
       blur() {
         this.refs.input.blur();
       },
+      /** Execute the validation method and return a boolean as a result */
+      validate() {
+        const validationResult = this._validate();
+        this.set(validationResult);
+        return validationResult.isValid;
+      },
       /** Invalidate the input with an optional error message */
       invalidate(message) {
         this.set({ isValid: false, _errorMsg: message });
