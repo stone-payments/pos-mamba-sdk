@@ -57,7 +57,7 @@ describe('methods', () => {
     expect(input.get().isFocused).toBe(false);
   });
 
-  it('should manually mask a input', () => {
+  it('should manually mask an input', () => {
     input = newInput();
     input.set({ mask: '###', value: 'A111' });
     expect(input.get().value).toBe('A111');
@@ -72,7 +72,28 @@ describe('methods', () => {
     expect(input.get().value).toBe('A111');
   });
 
-  it('should invalidate a input and add the error class', () => {
+  it('should validate an input', () => {
+    input = newInput({
+      value: '1',
+      validation: val => ({ isValid: val === '2' }),
+    });
+
+    input.validate();
+
+    expect(input.get()).toMatchObject({
+      isValid: false,
+      _errorMsg: undefined,
+    });
+
+    input.set({ value: '2' });
+    input.validate();
+
+    expect(input.get()).toMatchObject({
+      isValid: true,
+    });
+  });
+
+  it('should invalidate an input and add the error class', () => {
     input = newInput({ value: 'teste' });
     input.invalidate('Error message');
 
