@@ -10,11 +10,12 @@
   on:focus="_onFocus(event)"
   on:keydown="_onKeydown(event)"
   on:submit="_onSubmit()"
+  on:submitValid="_onSubmitValid()"
+  on:submitInvalid="_onSubmitInvalid()"
 />
 
 
 <script>
-  import System from '@mamba/pos/api/system.js';
   import Keyboard from '@mamba/pos/api/keyboard.js';
   import { format as formatMoney } from '@mamba/utils/money.js';
 
@@ -101,19 +102,18 @@
 
         this.fire('focus', e);
       },
-      _onSubmit() {
+      _getSubmissionObj() {
         const { cents, value: formatted, isValid } = this.get();
-        const submitObj = { cents, value: cents, formatted, isValid };
-
-        /** Bubble up on the submit events */
-        if (!isValid) {
-          System.beep();
-          this.fire('submitInvalid', submitObj);
-        } else {
-          this.fire('submitValid', submitObj);
-        }
-
-        this.fire('submit', submitObj);
+        return { cents, value: cents, formatted, isValid };
+      },
+      _onSubmitValid() {
+        this.fire('submitValid', this._getSubmissionObj());
+      },
+      _onSubmitInvalid() {
+        this.fire('submitInvalid', this._getSubmissionObj());
+      },
+      _onSubmit() {
+        this.fire('submit', this._getSubmissionObj());
       },
       _onKeydown(e) {
         if (this.get().readonly === true) {
