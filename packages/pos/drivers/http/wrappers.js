@@ -12,8 +12,6 @@ export default function(driver) {
       /** Default content type to json */
       if (!opts.headers) {
         opts.headers = { 'Content-Type': 'application/json;charset=UTF-8' };
-      } else if (!('Content-Type' in opts.headers)) {
-        opts.headers['Content-Type'] = 'application/json;charset=UTF-8';
       }
 
       if (typeof opts.data !== 'string') {
