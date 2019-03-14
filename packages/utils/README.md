@@ -89,3 +89,35 @@ floor(127.77 / 10); // 12.77
 Math.ceil(127.77 / 10); // 13
 ceil(127.77 / 10); // 12.78
 ```
+
+## Date
+
+`import * as DateUtils from '@mamba/utils/date.js';`
+
+### `format(date: Date, mask: strring): string`
+
+`DateUtils.format()` recebe um objeto `Date` retorna a data formatada de acordo com a `string` de máscara passada.
+
+Os `tokens` suportados são:
+
+- d - dia: 1..31
+- dd - dia: 01..31
+- m - mês: 1..12
+- mm - mês: 01..12
+- yy - ano: 01..99
+- yyyy - ano: 2001..2099
+- h - hora: 0..12
+- hh - hora: 00..12
+- H - hora: 0..23
+- HH - hora: 00..23
+- M - minuto: 0..59
+- MM - minuto: 00..59
+- s - segundo: 0..59
+- ss - segundo: 00..59
+
+```js
+import { format } from '@mamba/utils/date.js';
+
+format(new Date(2019, 1, 20), 'dd/mm/yyyy')) // 20/02/2019
+format(new Date(2019, 1, 20, 20, 30, 55), 'HH:MM:ss')) // 20:30:55
+```
