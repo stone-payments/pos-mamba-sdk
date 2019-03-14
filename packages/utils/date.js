@@ -3,7 +3,7 @@ function pad(val, len = 2) {
 }
 
 /** Adapted from http://blog.stevenlevithan.com/archives/date-time-format */
-const maskPattern = /dd|mm?|yy(?:yy)?|([HhMs])\1?/g;
+const maskPattern = /dd?|mm?|yy(?:yy)?|([HhMs])\1?/g;
 export function format(date, mask) {
   if (typeof date.getFullYear !== 'function') {
     throw new Error('Must pass a Date object to format it');
@@ -14,6 +14,7 @@ export function format(date, mask) {
       "Invalid mask passed. Must be a string of these characters: 'dd', 'm', 'mm', 'yy', 'yyyy', 'h', 'hh', 'H', 'HH', 'M', 'MM', 's', 'ss'",
     );
   }
+  const d = date.getDate();
   const year = date.getFullYear();
   const m = date.getMonth() + 1;
   const H = date.getHours();
@@ -22,7 +23,8 @@ export function format(date, mask) {
 
   /** Support for: dd, m, mm, yy, yyyy, h, hh, H, HH, M, MM, s, ss */
   const flags = {
-    dd: pad(date.getDate()),
+    d,
+    dd: pad(d),
     m,
     mm: pad(m),
     yy: String(year).substring(2),

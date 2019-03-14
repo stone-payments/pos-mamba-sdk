@@ -1,5 +1,6 @@
 {
   "name": "mamba-sdk",
+  "version": "2.0.0",
   "description": "SDK for developing in the Mamba web environment",
   "repository": "https://github.com/stone-payments/pos-mamba-sdk.git",
   "author": "Stone Payments - Mamba Team",
