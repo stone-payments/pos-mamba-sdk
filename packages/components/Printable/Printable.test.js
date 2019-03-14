@@ -43,6 +43,20 @@ it('should display a printing dialog', () => {
   ]);
 });
 
+it('should NOT display a printing dialog', () => {
+  printable = newPrintable({ showPrintingDialog: false });
+  printable.print();
+
+  return Promise.all([
+    new Promise(res => {
+      if (!printable.refs.printingDialog) {
+        res();
+      }
+    }),
+    new Promise(res => printable.on('finish', res)),
+  ]);
+});
+
 it('should return a resolved promise when `print({ print_to_paper: false })` and fire "finish"', () => {
   printable = newPrintable();
   return Promise.all([

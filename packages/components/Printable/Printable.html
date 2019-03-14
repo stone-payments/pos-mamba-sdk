@@ -4,7 +4,7 @@
   </div>
 </div>
 
-{#if _state === STATES.PRINTING}
+{#if _state === STATES.PRINTING && showPrintingDialog}
   <Dialog
     ref:printingDialog
     bgColor="#fff"
@@ -52,6 +52,7 @@
       return {
         _state: STATES.IDLE,
         _paperWidth: PAPER_WIDTH,
+        showPrintingDialog: true,
         dithering: false,
         id: null,
       };
@@ -69,7 +70,7 @@
     },
     methods: {
       print(printerOptions) {
-        const { dithering, id } = this.get();
+        const { dithering, id, showPrintingDialog } = this.get();
         const contentEl = this.refs.printableContent;
 
         /** Default printing parameters */
@@ -92,7 +93,9 @@
         }
 
         this.set({ _state: STATES.PRINTING });
-        this.refs.printingDialog.open();
+        if (showPrintingDialog) {
+          this.refs.printingDialog.open();
+        }
 
         Printer.print(contentEl, printerOptions)
           .then(() => this.set({ _state: STATES.SUCCESS }))
