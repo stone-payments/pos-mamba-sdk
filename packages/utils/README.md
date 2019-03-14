@@ -94,7 +94,7 @@ ceil(127.77 / 10); // 12.78
 
 `import * as DateUtils from '@mamba/utils/date.js';`
 
-### `format(date: Date, mask: strring): string`
+### `format(date: Date, mask: string): string`
 
 `DateUtils.format()` recebe um objeto `Date` retorna a data formatada de acordo com a `string` de máscara passada.
 
