@@ -50,8 +50,7 @@ const COMMIT_TYPES = {
     value: 'test',
   },
   internal: {
-    description:
-      'Internal refactor/change/feature not to be used by third parties',
+    description: 'Internal refactor/change/feature',
     emoji: '🏭',
     value: 'internal',
   },

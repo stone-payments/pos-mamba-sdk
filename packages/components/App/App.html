@@ -3,7 +3,15 @@
   on:keydown="_onKeydown(event)"
 />
 
-<slot></slot>
+<div
+  class="mamba-app"
+  class:no-scroll="!scrollable"
+  class:has-appbar="hasAppbar"
+>
+  <slot></slot>
+</div>
+
+<AdminLock ref:adminLock/>
 
 <script>
   import App from '@mamba/pos/api/app.js';
@@ -19,12 +27,16 @@
     document.activeElement.tagName !== 'TEXTAREA';
 
   export default {
+    components: {
+      AdminLock: './AdminLock.html',
+    },
     data() {
       return {
         navigable: { home: true, back: true },
         shortcuts: true,
         scrollable: true,
-        _hasAppbar: false,
+        hasAppbar: false,
+        askPasswordOnClose: false,
       };
     },
     oncreate() {
@@ -54,10 +66,26 @@
         this.setShortcuts(isEnabled);
       });
 
-      root.close = () => {
+      root.close = async () => {
+        const { askPasswordOnClose } = this.get();
+
+        if (askPasswordOnClose) {
+          const auth = await this.askAdminPassword();
+          if (auth === false) return;
+        }
+
         /** Allow to override the default app close process */
         if (typeof root.onClose === 'function') {
-          return root.onClose();
+          const closingPromise = root.onClose();
+
+          /**
+           * If the `onClose` returns a promise, let's wait for its resolution and close the app.
+           * If not, return and assume the method will be responsible to close the app.
+           */
+          if (!closingPromise || typeof closingPromise.then !== 'function') {
+            return;
+          }
+          await closingPromise;
         }
         App.close();
       };
@@ -86,6 +114,7 @@
       };
 
       /** Needed for projects with svelte-page < v2.2.0 */
+      /* istanbul ignore next */
       if (root.router) {
         root.router.on('update', ({ changed, previous }) => {
           if (changed.context && previous) {
@@ -100,17 +129,6 @@
       /** Set a reference on the root component to the <App/> meta component */
       if (!previous) {
         this.root.meta = this;
-      }
-    },
-    onupdate({ changed, current }) {
-      const { target: rootEl } = this.root.options;
-
-      if (changed.scrollable) {
-        rootEl.classList.toggle('no-scroll', !current.scrollable);
-      }
-
-      if (changed._hasAppbar) {
-        rootEl.classList.toggle('has-appbar', current._hasAppbar);
       }
     },
     methods: {
@@ -132,6 +150,17 @@
           });
         }
       },
+      askAdminPassword() {
+        this.refs.adminLock.open();
+        return new Promise(resolve => {
+          const listener = this.refs.adminLock.on('authentication', event => {
+            if (event.success) {
+              resolve(true);
+              listener.cancel();
+            }
+          });
+        });
+      },
       /** Prevent default back/enter button behaviour */
       _onKeydown(e) {
         /* istanbul ignore next */
@@ -140,9 +169,7 @@
           const isInsideApp =
             eventPath &&
             eventPath.some(
-              node =>
-                node.nodeType === 1 &&
-                node.classList.contains('mamba-app-container'),
+              node => node.nodeType === 1 && node.classList.contains('mamba-app'),
             );
 
           if (!isInsideApp) {
@@ -175,9 +202,7 @@
           const isInsideApp =
             eventPath &&
             eventPath.some(
-              node =>
-                node.nodeType === 1 &&
-                node.classList.contains('mamba-app-container'),
+              node => node.nodeType === 1 && node.classList.contains('mamba-app'),
             );
 
           if (
@@ -284,10 +309,13 @@
 
   :global(.mamba-app-container) {
     background-color: $app-bg-color;
+  }
+
+  .mamba-app {
     height: 100%;
 
     &.no-scroll {
-      overflow: hidden;
+      overflow: hidden !important; /* stylelint-disable-line */
     }
   }
 </style>

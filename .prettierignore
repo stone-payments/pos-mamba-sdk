@@ -1,7 +1,3 @@
 node_modules/
 dist/
 /packages/components/*/example/*.js
-/packages/api/*.js
-/packages/bridges/*.js
-/packages/signal/*.js
-/packages/utils/*.js

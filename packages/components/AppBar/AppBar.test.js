@@ -167,5 +167,5 @@ it('should modify the appbar props', () => {
 it('should set hasAppbar false on meta', () => {
   appBar.destroy();
 
-  expect(root.meta.get()._hasAppbar).toBe(false);
+  expect(root.meta.get().hasAppbar).toBe(false);
 });

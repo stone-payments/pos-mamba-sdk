@@ -49,7 +49,7 @@
               el.value = el.value.slice(0, -1);
             }
             /** If numeric button clicked */
-          } else if (!el.maxLength || el.value.length + 1 <= el.maxLength) {
+          } else if (el.maxLength < 0 || el.value.length + 1 <= el.maxLength) {
             el.value += keyName;
           }
         }

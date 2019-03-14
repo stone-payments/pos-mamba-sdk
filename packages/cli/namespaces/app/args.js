@@ -16,11 +16,13 @@ module.exports = {
     description: 'Disable minification. Good for debugging',
     alias: ['d'],
     default: false,
+    type: 'boolean',
   },
   simulator: {
     description:
       'Add the mamba simulator to the bundle (automatically added to target "browser")',
     alias: ['s'],
     default: false,
+    type: 'boolean',
   },
 };

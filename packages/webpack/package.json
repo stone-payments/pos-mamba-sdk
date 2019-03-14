@@ -1,6 +1,6 @@
 {
   "name": "@mamba/webpack",
-  "version": "2.2.0",
+  "version": "2.5.2",
   "description": "Webpack configs for Mamba Applications",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -11,7 +11,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@mamba/configs": "^2.2.0",
+    "@mamba/configs": "^2.5.2",
     "webpack": "^4.28.3",
     "webpack-cli": "^3.2.0"
   },
@@ -46,7 +46,7 @@
     "webpack-sources": "^1.3.0",
     "webpack-virtual-modules": "^0.1.10",
     "webpackbar": "^3.1.4",
-    "xmlbuilder": "^10.1.1"
+    "xmlbuilder": "^11.0.0"
   },
-  "gitHead": "91a8a4a8be4741a15249462cefda6e273f1613a3"
+  "gitHead": "869644effc7b7347a2ff75c956c57d69ee8236a5"
 }

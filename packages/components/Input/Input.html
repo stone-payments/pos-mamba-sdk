@@ -3,11 +3,11 @@
   class:is-readable="readable"
   class:is-invalid="!isValid && !!_errorMsg"
   class:is-focused="isFocused"
-  style="background-color: {bgColor}; color: {textColor};"
+  style="background-color: {bgColor}; color: {labelColor};"
   on:mousedown="_onMousedown(event)"
 >
   {#if label}
-    <span>{label}</span>
+    <span class="label">{label}</span>
   {/if}
 
   <input
@@ -70,6 +70,7 @@
         align: 'right',
         bgColor: '#fff',
         textColor: '#757575',
+        labelColor: '#757575',
         errorColor: '#d50000',
         /** Validation */
         validateOn: 'submit',
@@ -154,6 +155,12 @@
       blur() {
         this.refs.input.blur();
       },
+      /** Execute the validation method and return a boolean as a result */
+      validate() {
+        const validationResult = this._validate();
+        this.set(validationResult);
+        return validationResult.isValid;
+      },
       /** Invalidate the input with an optional error message */
       invalidate(message) {
         this.set({ isValid: false, _errorMsg: message });
@@ -170,8 +177,7 @@
         return value;
       },
       _validate() {
-        const { value } = this.refs.input;
-        const { validation } = this.get();
+        const { validation, rawValue } = this.get();
         const validateObj = {
           isValid: true,
           _errorMsg: undefined,
@@ -181,7 +187,7 @@
           return validateObj;
         }
 
-        const result = validation(value);
+        const result = validation(rawValue);
 
         if (typeof result === 'boolean') {
           validateObj.isValid = result;
@@ -290,8 +296,11 @@
           setTimeout(() => inputEl.setSelectionRange(position, position));
         }
 
+        this.set({ value });
+
         if (validation) {
           let validationUpdate;
+
           /** If validation is on submit, reset the validation state */
           if (validateOn === 'submit') {
             validationUpdate = {
@@ -302,9 +311,7 @@
             validationUpdate = this._validate();
           }
 
-          this.set({ value, ...validationUpdate });
-        } else {
-          this.set({ value });
+          this.set(validationUpdate);
         }
 
         this.fire('input', e);
@@ -336,7 +343,6 @@
     width: 100%;
     padding: 10px 15px 5px;
     background-color: #fff;
-    transition: 0.3s ease border-bottom;
     border-bottom: 2px solid $input-border-color;
 
     &.is-readable input {
@@ -352,11 +358,12 @@
     }
   }
 
-  span {
+  .label {
     display: block;
     font-size: 13px;
     font-weight: bold;
     pointer-events: none;
+    margin-bottom: 11px;
   }
 
   input {

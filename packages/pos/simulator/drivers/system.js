@@ -1,4 +1,4 @@
-import { Registry } from '../index.js';
+import { Registry, System as SimulatorSystem } from '../index.js';
 import { error, log } from '../libs/utils.js';
 import systemEnums from '../../drivers/system/enums.js';
 
@@ -86,6 +86,8 @@ export function setup(System) {
   setInterval(() => {
     localConfig.TimeFromBoot += 1000;
   }, 1000);
+
+  System.getVersion = () => SimulatorSystem.getVersion();
 
   /**
    * Change adapter network wifi or 3g

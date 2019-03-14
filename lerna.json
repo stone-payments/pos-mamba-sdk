@@ -1,5 +1,5 @@
 {
-  "version": "2.2.1",
+  "version": "2.5.3",
   "npmClient": "npm",
   "command": {
     "publish": {
@@ -9,18 +9,20 @@
         "LICENSE",
         "lerna.json"
       ],
-      "message": "chore(release): publish",
+      "message": "chore(release): :robot: publish",
       "conventionalCommits": true
     }
   },
-  "npmClientArgs": ["--no-package-lock"],
+  "npmClientArgs": [
+    "--no-package-lock"
+  ],
   "packages": [
     "packages/cli",
     "packages/components/*",
     "packages/configs",
     "packages/pos",
-    "packages/store",
     "packages/styles",
+    "packages/utils",
     "packages/webpack"
   ]
 }
