@@ -1,4 +1,4 @@
-const KEYBOARD_LAYOUTS = {
+export const KEYBOARD_LAYOUTS = {
   default: {
     firstRowKeys: ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
     secondRowKeys: ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
@@ -11,7 +11,7 @@ const KEYBOARD_LAYOUTS = {
     thirdRowKeys: ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
     utilityKeys: ['@', '.'],
   },
-  special: {
+  symbols: {
     firstRowKeys: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
     secondRowKeys: [':', '/', '-', '_', '*', '#', '?', '!', '('],
     thirdRowKeys: [')', '$', '%', '[', ']', '+', '='],
@@ -19,7 +19,7 @@ const KEYBOARD_LAYOUTS = {
   },
 };
 
-const DEFAULT_SUGGESTIONS = [
+export const DEFAULT_SUGGESTIONS = [
   {
     target: 'a',
     suggestions: ['ã', 'á', 'à', 'â'],
@@ -69,5 +69,3 @@ const DEFAULT_SUGGESTIONS = [
     suggestions: ['Ç', 'ÇA', 'ÇO', 'ÇÃO'],
   },
 ];
-
-export default { KEYBOARD_LAYOUTS, DEFAULT_SUGGESTIONS };

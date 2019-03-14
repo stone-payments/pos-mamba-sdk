@@ -1,13 +1,16 @@
-<Input on:focus="openKeyboard()"
-    ref:visibleInput
-    {..._inputProps}
+<Input
+  ref:visibleInput
+  bind:value
+  {..._inputProps}
+  on:focus="openKeyboard()"
 />
+
 {#if active}
   <div class="keyboardScreen" style="background-color: {bgColor};">
     <Input
-      bind:value=value
-      {..._inputProps}
       ref:keyboardInput
+      bind:value
+      {..._inputProps}
     />
     <div class="keyboard" style="color: {keyTextColor};">
       <div class="suggestions">
@@ -15,7 +18,7 @@
             <tr>
               {#each targetSuggestions as suggestion}
                 <td>
-                  <div class="suggestion" style={keyStyle} on:click="addSuggestion(suggestion)">
+                  <div class="suggestion" style={keyStyle} on:click="insertSuggestion(suggestion)">
                     {suggestion}
                   </div>
                 </td>
@@ -25,22 +28,22 @@
       </div>
       <div class="key-row">
         {#each layout.firstRowKeys as key}
-          <div class="key" style={keyStyle} on:click="typeKey(key)">{key}</div>
+          <div class="key" style={keyStyle} on:click="insertKey(key)">{key}</div>
         {/each}
       </div>
       <div class="key-row">
         {#each layout.secondRowKeys as key}
-          <div class="key" style={keyStyle} on:click="typeKey(key)">{key}</div>
+          <div class="key" style={keyStyle} on:click="insertKey(key)">{key}</div>
         {/each}
       </div>
       <div class="key-row">
-        <div class="key bigger" style={keyStyle} on:click="capitalize()">
+        <div class="key bigger" style={keyStyle} on:click="toggleCapitalize()">
           <div class="utility-key capslock"
            style={capslockStyle}>
            </div>
         </div>
         {#each layout.thirdRowKeys as key}
-          <div class="key" style={keyStyle} on:click="typeKey(key)">{key}</div>
+          <div class="key" style={keyStyle} on:click="insertKey(key)">{key}</div>
         {/each}
         <div class="key bigger" style={keyStyle} on:click="backspace()">
           <div class="utility-key backspace" style="background-color: {keyTextColor};"></div>
@@ -48,18 +51,18 @@
       </div>
       <div class="key-row">
         <div class="key bigger" style={keyStyle}
-          on:click="speacialize()"
+          on:click="toggleSymbols()"
         >
           {specialLabel}
         </div>
         <div class="key bigger"
           style={keyStyle}
-          on:click="typeKey(layout.utilityKeys[0])"
+          on:click="insertKey(layout.utilityKeys[0])"
         >
           {layout.utilityKeys[0]}
         </div>
-        <div class="key space" style={keyStyle} on:click="typeKey(' ')">___</div>
-        <div class="key bigger" style={keyStyle} on:click="typeKey(layout.utilityKeys[1])">
+        <div class="key space" style={keyStyle} on:click="insertKey(' ')">___</div>
+        <div class="key bigger" style={keyStyle} on:click="insertKey(layout.utilityKeys[1])">
           {layout.utilityKeys[1]}
         </div>
         <div class="key bigger" style={keyStyle} on:click="closeKeyboard()">OK</div>
@@ -73,8 +76,15 @@
 
 <script>
   // TODO: press backspace wipe multiple keys
+  // TODO: number only keyboard
 
-  import virtualKeyboard from './virtualKeyboard.js';
+  import { DEFAULT_SUGGESTIONS, KEYBOARD_LAYOUTS } from './virtualKeyboard.js';
+
+  const MODES = {
+    DEFAULT: 'default',
+    CAPITALIZED: 'capitalized',
+    SYMBOLS: 'symbols',
+  };
 
   export default {
     components: {
@@ -84,34 +94,26 @@
     data() {
       return {
         value: '',
-        mode: 'default',
+        mode: MODES.DEFAULT,
         type: 'text',
         label: undefined,
         alphanumeric: false,
         bgColor: undefined,
         keyColor: undefined,
         keyTextColor: undefined,
-        _defaultSuggestions: virtualKeyboard.DEFAULT_SUGGESTIONS,
         suggestions: [],
       };
     },
     computed: {
-      layout({ mode }) {
-        return virtualKeyboard.KEYBOARD_LAYOUTS[mode];
-      },
-      specialLabel({ mode }) {
-        if (mode === 'special') {
-          return 'abc';
-        }
-        return '?123';
-      },
-      targetSuggestions({ suggestions, value }) {
-        const res = suggestions.filter(option => {
-          return (
-            value.substr(value.length - option.target.length) === option.target
-          );
-        })[0];
-        return typeof res !== 'undefined' ? res.suggestions : [];
+      layout: ({ mode }) => KEYBOARD_LAYOUTS[mode],
+      specialLabel: ({ mode }) => (mode === MODES.SYMBOLS ? 'abc' : '?123'),
+      targetSuggestions: ({ suggestions, value }) => {
+        const currentSuggestions = suggestions.find(
+          option =>
+            value.substr(value.length - option.target.length) === option.target,
+        );
+
+        return currentSuggestions ? currentSuggestions.suggestions : [];
       },
       keyStyle({ keyColor, bgColor }) {
         return [
@@ -123,77 +125,96 @@
       },
       capslockStyle({ keyTextColor, mode }) {
         const opacity =
-          mode === 'capitalized' ? 'opacity: 0.8;' : 'opacity: 0.35;';
+          mode === MODES.CAPITALIZED ? 'opacity: 0.8;' : 'opacity: 0.35;';
         return [opacity, keyTextColor && `background-color: ${keyTextColor};`]
           .filter(Boolean)
           .join(';');
       },
       _inputProps: ({
-        rawValue,
-        prefix,
-        suffix,
-        mask,
-        placeholder,
-        type,
+        value,
+        mode,
+        bgColor,
+        keyColor,
+        keyTextColor,
+        suggestions,
         ...props
       }) => props,
     },
     oncreate() {
-      const { suggestions, _defaultSuggestions } = this.get();
-      this.set({ suggestions: suggestions.concat(_defaultSuggestions) });
+      const { suggestions } = this.get();
+
+      this.set({
+        suggestions: suggestions.concat(DEFAULT_SUGGESTIONS),
+      });
     },
     methods: {
       _moveCursor(position) {
         const { input } = this.refs.keyboardInput.refs;
+        const { value } = this.get();
+
         input.focus();
-        if (typeof this.get().value !== 'undefined') {
-          if (typeof position === 'undefined' || position < 0) {
-            input.selectionEnd = input.value.length;
-            input.selectionStart = input.selectionEnd;
-          } else {
-            input.selectionEnd = position;
-            input.selectionStart = position;
-          }
+
+        if (value == null) {
+          return;
+        }
+
+        if (typeof position === 'undefined' || position < 0) {
+          input.selectionEnd = input.value.length;
+          input.selectionStart = input.selectionEnd;
+        } else {
+          input.selectionEnd = position;
+          input.selectionStart = position;
         }
       },
-      typeKey(key) {
-        const inputValue = this.get().value;
-        const keyboardInput = this.refs.keyboardInput.refs.input;
-        const position = keyboardInput.selectionStart;
+      insertKey(key) {
+        const { value } = this.get();
+        const { input } = this.refs.keyboardInput.refs;
+        const position = input.selectionStart;
+
         this.set({
-          value: inputValue.slice(0, position) + key + inputValue.slice(position),
+          value: value.slice(0, position) + key + value.slice(position),
         });
         this._moveCursor(position + 1);
       },
-      capitalize() {
-        if (this.get().mode === 'capitalized') {
-          this.set({ mode: 'default' });
-        } else {
-          this.set({ mode: 'capitalized' });
-        }
-      },
-      speacialize() {
-        if (this.get().mode === 'special') {
-          this.set({ mode: 'default' });
-        } else {
-          this.set({ mode: 'special' });
-        }
+      insertSuggestion(suggestion) {
+        const inputValue = this.get().value;
+
+        this.set({ value: inputValue.slice(0, -1) + suggestion });
+        this._moveCursor();
       },
       backspace() {
-        const inputValue = this.get().value;
         const { input } = this.refs.keyboardInput.refs;
-        const cursorPosition = input.selectionStart;
+        const { value } = this.get();
+        const position = input.selectionStart;
 
-        if (cursorPosition - 1 >= 0) {
-          if (cursorPosition === input.value.length) {
-            this.set({ value: inputValue.slice(0, -1) });
-          } else {
-            const res =
-              inputValue.slice(0, cursorPosition - 1) +
-              inputValue.slice(cursorPosition, input.value.length);
-            this.set({ value: res });
-          }
-          this._moveCursor(cursorPosition - 1);
+        if (position - 1 < 0) {
+          return;
+        }
+
+        if (position === input.value.length) {
+          this.set({ value: value.slice(0, -1) });
+        } else {
+          this.set({
+            value:
+              value.slice(0, position - 1) +
+              value.slice(position, input.value.length),
+          });
+        }
+
+        this._moveCursor(position - 1);
+      },
+      toggleCapitalize() {
+        if (this.get().mode === MODES.CAPITALIZED) {
+          this.set({ mode: MODES.DEFAULT });
+        } else {
+          this.set({ mode: MODES.CAPITALIZED });
+        }
+      },
+      toggleSymbols() {
+        if (this.get().mode === MODES.SYMBOLS) {
+          this.set({ mode: MODES.DEFAULT });
+        } else {
+          this.set({ mode: MODES.SYMBOLS });
         }
       },
       openKeyboard() {
@@ -203,15 +224,12 @@
       },
       closeKeyboard() {
         this.refs.keyboardInput.blur();
-        const value = this.get();
+
+        const { value } = this.get();
+
         this.set({ active: false });
         this.root.meta.setScrollable(true);
-        this.fire('submit', { isValid: true, rawValue: value, value });
-      },
-      addSuggestion(suggestion) {
-        const inputValue = this.get().value;
-        this.set({ value: inputValue.slice(0, -1) + suggestion });
-        this._moveCursor();
+        this.fire('submit', { isValid: true, value });
       },
       focus() {
         /* istanbul ignore next */
