@@ -6,26 +6,26 @@
 />
 
 {#if active}
-  <div class="keyboardScreen" style="background-color: {bgColor};">
+  <div
+    class="keyboardScreen"
+    class:is-fullscreen="fullscreen"
+    style="background-color: {bgColor};"
+  >
     <Input
       ref:keyboardInput
       bind:value
       {..._inputProps}
     />
     <div class="keyboard" style="color: {keyTextColor};">
-      <div class="suggestions">
-          <table style="width: 100%; border-spacing: 5px; border-collapse: separate;">
-            <tr>
-              {#each targetSuggestions as suggestion}
-                <td>
-                  <div class="suggestion" style={keyStyle} on:click="insertSuggestion(suggestion)">
-                    {suggestion}
-                  </div>
-                </td>
-              {/each}
-            </tr>
-          </table>
-      </div>
+      <table class="suggestions">
+        <tr>
+          {#each targetSuggestions as suggestion}
+            <td class="suggestion" style={keyStyle} on:click="insertSuggestion(suggestion)">
+              {suggestion}
+            </td>
+          {/each}
+        </tr>
+      </table>
       <div class="key-row">
         {#each layout.firstRowKeys as key}
           <div class="key" style={keyStyle} on:click="insertKey(key)">{key}</div>
@@ -78,7 +78,10 @@
   // TODO: press backspace wipe multiple keys
   // TODO: number only keyboard
 
-  import { DEFAULT_SUGGESTIONS, KEYBOARD_LAYOUTS } from './virtualKeyboard.js';
+  import {
+    DEFAULT_SUGGESTIONS,
+    KEYBOARD_LAYOUTS,
+  } from './libs/virtualKeyboard.js';
 
   const MODES = {
     DEFAULT: 'default',
@@ -96,7 +99,7 @@
         value: '',
         mode: MODES.DEFAULT,
         type: 'text',
-        label: undefined,
+        fullscreen: false,
         alphanumeric: false,
         bgColor: undefined,
         keyColor: undefined,
@@ -241,40 +244,51 @@
 
 
 <style type="text/postcss">
+  @import '@mamba/styles/settings.pcss';
+
   .keyboardScreen {
-    position: absolute;
-    z-index: 900;
-    height: 260px;
-    width: 240px;
-    align-items: center;
+    position: fixed;
+    z-index: $layer-keyboard;
     background-color: silver;
     user-select: none;
-    top: 40px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    &.is-fullscreen {
+      z-index: $layer-keyboard-fullscreen;
+    }
+
+    :global(.mamba-app.has-appbar) &:not(.is-fullscreen) {
+      top: $appbar-height;
+    }
   }
 
   .suggestions {
-    display: flex;
     width: 100%;
-    height: 48px;
-    align-items: center;
+    height: 28px;
+    border-spacing: 5px;
+    border-collapse: separate;
   }
 
   .suggestion {
-    height: 28px;
-    overflow: hidden;
     text-overflow: ellipsis;
-    background-color: #f2f2f2;
+    margin: 0 auto;
     padding: 8px 2px;
     border-radius: 3px;
-    cursor: pointer;
-    font-size: 14px;
+    background-color: #f2f2f2;
     text-align: center;
-    margin: 0 auto;
+    font-size: 14px;
+    overflow: hidden;
+    cursor: pointer;
   }
 
   .keyboard {
-    display: block;
-    width: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 8px;
   }
 
   .key-row {
@@ -291,7 +305,7 @@
     text-align: center;
     background-color: #f2f2f2;
     cursor: pointer;
-    box-shadow: 0px 0px 0px 1px silver inset;
+    border: 1px solid silver;
     border-radius: 4px;
     align-items: center;
     justify-content: center;
