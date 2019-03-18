@@ -1,22 +1,22 @@
-<Input
-  ref:visibleInput
-  bind:value
-  {..._inputProps}
-  on:focus="openKeyboard()"
-/>
+<div
+  class="text-wrapper"
+  class:is-active="active"
+  class:is-fullscreen="fullscreen"
+  style="background-color: {bgColor};"
+>
+  <Input
+    ref:keyboardInput
+    bind:value
+    {..._inputProps}
+    on:focus="openKeyboard()"
+  />
 
-{#if active}
-  <div
-    class="keyboardScreen"
-    class:is-fullscreen="fullscreen"
-    style="background-color: {bgColor};"
-  >
-    <Input
-      ref:keyboardInput
-      bind:value
-      {..._inputProps}
-    />
-    <div class="keyboard" style="color: {keyTextColor};">
+  {#if active}
+    <div
+      class="keyboard"
+      class:is-active="active"
+      style="color: {keyTextColor};"
+    >
       <table class="suggestions">
         <tr>
           {#each targetSuggestions as suggestion}
@@ -39,8 +39,8 @@
       <div class="key-row">
         <div class="key bigger" style={keyStyle} on:click="toggleCapitalize()">
           <div class="utility-key capslock"
-           style={capslockStyle}>
-           </div>
+            style={capslockStyle}>
+            </div>
         </div>
         {#each layout.thirdRowKeys as key}
           <div class="key" style={keyStyle} on:click="insertKey(key)">{key}</div>
@@ -68,7 +68,10 @@
         <div class="key bigger" style={keyStyle} on:click="closeKeyboard()">OK</div>
       </div>
     </div>
-  </div>
+    {/if}
+</div>
+
+{#if active}
   <Keystroke key="enter" style={keyStyle} on:keystroke="closeKeyboard()"/>
   <Keystroke key="close" style={keyStyle} on:keystroke="closeKeyboard()"/>
 {/if}
@@ -141,7 +144,10 @@
         keyTextColor,
         suggestions,
         ...props
-      }) => props,
+      }) => ({
+        alphanumeric: true,
+        ...props,
+      }),
     },
     oncreate() {
       const { suggestions } = this.get();
@@ -221,9 +227,17 @@
         }
       },
       openKeyboard() {
+        if (this.get().active) {
+          return;
+        }
+
         this.set({ active: true });
-        this.refs.keyboardInput.focus();
         this.root.meta.setScrollable(false);
+        /** Small hack for fixing the input focus when opening the keyboar */
+        setTimeout(() => {
+          this.refs.keyboardInput.blur();
+          setTimeout(() => this.refs.keyboardInput.focus());
+        });
       },
       closeKeyboard() {
         this.refs.keyboardInput.blur();
@@ -246,15 +260,17 @@
 <style type="text/postcss">
   @import '@mamba/styles/settings.pcss';
 
-  .keyboardScreen {
-    position: fixed;
-    z-index: $layer-keyboard;
-    background-color: silver;
-    user-select: none;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+  .text-wrapper {
+    &.is-active {
+      position: fixed;
+      z-index: $layer-keyboard;
+      background-color: silver;
+      user-select: none;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
 
     &.is-fullscreen {
       z-index: $layer-keyboard-fullscreen;
@@ -289,6 +305,10 @@
     left: 0;
     right: 0;
     bottom: 8px;
+
+    &:not(.is-active) {
+      display: none;
+    }
   }
 
   .key-row {
