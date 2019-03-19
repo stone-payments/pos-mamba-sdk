@@ -7,6 +7,7 @@
   <Input
     ref:keyboardInput
     bind:value
+    label={hideLabel && !active ? undefined : label}
     {..._inputProps}
     on:focus="openKeyboard()"
   />
@@ -142,10 +143,12 @@
         keyColor,
         keyTextColor,
         suggestions,
+        label,
+        hideLabel,
         ...props
       }) => ({
-        alphanumeric: true,
         ...props,
+        alphanumeric: true,
       }),
     },
     oncreate() {
@@ -263,7 +266,7 @@
     &.is-active {
       position: fixed;
       z-index: $layer-keyboard;
-      background-color: silver;
+      background-color: #f0f0f0;
       user-select: none;
       top: 0;
       left: 0;
@@ -302,7 +305,9 @@
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 4px;
+    bottom: 0;
+    background-color: silver;
+    padding: 4px 0;
 
     &:not(.is-active) {
       display: none;
