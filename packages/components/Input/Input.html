@@ -157,7 +157,7 @@
       },
       /** Execute the validation method and return a boolean as a result */
       validate() {
-        const validationResult = this._validate();
+        const validationResult = this._validate(this.get().rawValue);
         this.set(validationResult);
         return validationResult.isValid;
       },
@@ -176,8 +176,8 @@
         }
         return value;
       },
-      _validate() {
-        const { validation, rawValue } = this.get();
+      _validate(value) {
+        const { validation } = this.get();
         const validateObj = {
           isValid: true,
           _errorMsg: undefined,
@@ -187,7 +187,7 @@
           return validateObj;
         }
 
-        const result = validation(rawValue);
+        const result = validation(value);
 
         if (typeof result === 'boolean') {
           validateObj.isValid = result;
@@ -237,11 +237,11 @@
         this.fire('keyup', e);
 
         if (key === 'enter') {
-          const { validateOn, validation } = this.get();
+          const { validateOn, validation, rawValue, isValid, value } = this.get();
 
           /* istanbul ignore else */
           if (validateOn === 'submit') {
-            const result = this._validate();
+            const result = this._validate(rawValue);
 
             this.set(result);
 
@@ -251,9 +251,7 @@
             }
           }
 
-          const { isValid, rawValue, value } = this.get();
           const submitObj = { isValid, rawValue, value };
-
           if (!isValid) {
             System.beep();
             this.fire('submitInvalid', submitObj);
@@ -296,8 +294,6 @@
           setTimeout(() => inputEl.setSelectionRange(position, position));
         }
 
-        this.set({ value });
-
         if (validation) {
           let validationUpdate;
 
@@ -308,10 +304,14 @@
               _errorMsg: undefined,
             };
           } else {
-            validationUpdate = this._validate();
+            const rawValue = mask ? masker(value, mask, true, tokens) : value;
+            validationUpdate = this._validate(rawValue);
           }
 
-          this.set(validationUpdate);
+          /** Validation state must be set at the same time as the 'value' */
+          this.set({ value, ...validationUpdate });
+        } else {
+          this.set({ value });
         }
 
         this.fire('input', e);
