@@ -237,7 +237,7 @@
         this.fire('keyup', e);
 
         if (key === 'enter') {
-          const { validateOn, validation, rawValue, isValid, value } = this.get();
+          const { validateOn, validation, rawValue, value } = this.get();
 
           /* istanbul ignore else */
           if (validateOn === 'submit') {
@@ -251,7 +251,10 @@
             }
           }
 
+          const { isValid } = this.get();
+
           const submitObj = { isValid, rawValue, value };
+          console.log(isValid);
           if (!isValid) {
             System.beep();
             this.fire('submitInvalid', submitObj);
