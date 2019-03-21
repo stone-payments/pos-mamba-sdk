@@ -254,7 +254,7 @@
           const { isValid } = this.get();
 
           const submitObj = { isValid, rawValue, value };
-          console.log(isValid);
+
           if (!isValid) {
             System.beep();
             this.fire('submitInvalid', submitObj);
