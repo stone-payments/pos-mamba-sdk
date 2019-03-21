@@ -30,6 +30,9 @@ module.exports = {
     /** act as a resolver for the "svelte" field of a component package.json */
     ...getSvelteModuleMaps(resolve(__dirname, 'packages', 'components')),
   },
+  transformIgnorePatterns: [
+    'node_modules/(?!(@mamba)|(.+\\.html)|(svelte.+\\.js))',
+  ],
   transform: {
     '^.+\\.js$': '<rootDir>/tools/jest/babelPreprocess.js',
     '^.+\\.(htmlx?|svelte)$': '<rootDir>/tools/jest/svelteTransformer.js',
