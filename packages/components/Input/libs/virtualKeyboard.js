@@ -19,53 +19,17 @@ export const KEYBOARD_LAYOUTS = {
   },
 };
 
-export const DEFAULT_SUGGESTIONS = [
-  {
-    target: 'a',
-    suggestions: ['ã', 'á', 'à', 'â'],
-  },
-  {
-    target: 'e',
-    suggestions: ['ẽ', 'é', 'è', 'ê'],
-  },
-  {
-    target: 'i',
-    suggestions: ['ĩ', 'í', 'ì', 'î'],
-  },
-  {
-    target: 'o',
-    suggestions: ['õ', 'ò', 'ó', 'ô'],
-  },
-  {
-    target: 'u',
-    suggestions: ['ũ', 'ú', 'ù', 'û'],
-  },
-  {
-    target: 'c',
-    suggestions: ['ç', 'ça', 'ço', 'ção'],
-  },
-  {
-    target: 'A',
-    suggestions: ['Ã', 'Á', 'À', 'Â'],
-  },
-  {
-    target: 'E',
-    suggestions: ['Ẽ', 'É', 'È', 'Ê'],
-  },
-  {
-    target: 'I',
-    suggestions: ['Ĩ', 'Í', 'Ì', 'Î'],
-  },
-  {
-    target: 'O',
-    suggestions: ['Õ', 'Ò', 'Ó', 'Ô'],
-  },
-  {
-    target: 'U',
-    suggestions: ['Ũ', 'Ú', 'Ù', 'Û'],
-  },
-  {
-    target: 'C',
-    suggestions: ['Ç', 'ÇA', 'ÇO', 'ÇÃO'],
-  },
-];
+export const DEFAULT_SUGGESTIONS = {
+  a: ['ã', 'á', 'à', 'â'],
+  e: ['ẽ', 'é', 'è', 'ê'],
+  i: ['ĩ', 'í', 'ì', 'î'],
+  o: ['õ', 'ò', 'ó', 'ô'],
+  u: ['ũ', 'ú', 'ù', 'û'],
+  c: ['ç', 'ça', 'ço', 'ção'],
+  A: ['Ã', 'Á', 'À', 'Â'],
+  E: ['Ẽ', 'É', 'È', 'Ê'],
+  I: ['Ĩ', 'Í', 'Ì', 'Î'],
+  O: ['Õ', 'Ò', 'Ó', 'Ô'],
+  U: ['Ũ', 'Ú', 'Ù', 'Û'],
+  C: ['Ç', 'ÇA', 'ÇO', 'ÇÃO'],
+};
