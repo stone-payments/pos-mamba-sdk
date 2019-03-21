@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.6.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.5.3...v2.6.0) (2019-03-21)
+
+
+### Bug Fixes
+
+* **package:** update immer to version 2.1.0 ([2e064aa](https://github.com/stone-payments/pos-mamba-sdk/commit/2e064aa))
+* 🐛 add core-js@3 configs ([7bb9bca](https://github.com/stone-payments/pos-mamba-sdk/commit/7bb9bca))
+* 🐛 append a hash to imported images filenames ([4d68807](https://github.com/stone-payments/pos-mamba-sdk/commit/4d68807))
+* 🐛 babel and core-js@3 breaking the tests ([3be4896](https://github.com/stone-payments/pos-mamba-sdk/commit/3be4896))
+* 🐛 input using wrong isValid value ([4163205](https://github.com/stone-payments/pos-mamba-sdk/commit/4163205))
+* 🐛 money input validation events and extra beep ([ff54f7b](https://github.com/stone-payments/pos-mamba-sdk/commit/ff54f7b))
+* 🐛 remove input border transition ([715a6b9](https://github.com/stone-payments/pos-mamba-sdk/commit/715a6b9))
+* typo in readme ([8e8fcd2](https://github.com/stone-payments/pos-mamba-sdk/commit/8e8fcd2))
+
+
+### Features
+
+* 🎸 Add format date to yyyy/mm/dd to utils ([6d8b1f1](https://github.com/stone-payments/pos-mamba-sdk/commit/6d8b1f1))
+* 🎸 add showPrintingDialog prop ([eb6dba2](https://github.com/stone-payments/pos-mamba-sdk/commit/eb6dba2))
+* 🎸 add simple mask date formatter ([58c9aa5](https://github.com/stone-payments/pos-mamba-sdk/commit/58c9aa5))
+* 🎸 add validate() method ([6aaff5f](https://github.com/stone-payments/pos-mamba-sdk/commit/6aaff5f))
+* 🎸virtualkeyboard ([#350](https://github.com/stone-payments/pos-mamba-sdk/issues/350)) ([e9440c8](https://github.com/stone-payments/pos-mamba-sdk/commit/e9440c8)), closes [#375](https://github.com/stone-payments/pos-mamba-sdk/issues/375)
+
+
+
+
+
 ## [2.5.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.5.2...v2.5.3) (2019-02-22)
 
 

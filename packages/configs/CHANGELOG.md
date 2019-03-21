@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.6.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.5.3...v2.6.0) (2019-03-21)
+
+
+### Bug Fixes
+
+* 🐛 add core-js@3 configs ([7bb9bca](https://github.com/stone-payments/pos-mamba-sdk/commit/7bb9bca))
+* 🐛 babel and core-js@3 breaking the tests ([3be4896](https://github.com/stone-payments/pos-mamba-sdk/commit/3be4896))
+
+
+
+
+
 ## [2.5.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.4.1...v2.5.2) (2019-02-21)
 
 **Note:** Version bump only for package @mamba/configs

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.6.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.5.3...v2.6.0) (2019-03-21)
+
+
+### Bug Fixes
+
+* 🐛 append a hash to imported images filenames ([4d68807](https://github.com/stone-payments/pos-mamba-sdk/commit/4d68807))
+
+
+
+
+
 ## [2.5.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.4.1...v2.5.2) (2019-02-21)
 
 
