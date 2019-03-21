@@ -10,11 +10,26 @@ module.exports = {
         debug: false,
         forceAllTransforms: true,
         exclude: [
-          'es6.string.anchor', // Not used
-          'es6.string.repeat', // Not used
-          'es6.regexp.*', // Not used regexp polyfills
-          'es6.object.keys', // Already exists on POS webkit
-          'es6.object.freeze', // Already exists on POS webkit
+          'es.string.anchor', // Not used
+          'es.string.repeat', // Not used
+          'es.regexp.*', // Not used regexp polyfills
+          // Already exists on POS webkit
+          'es.array.concat',
+          'es.array.filter',
+          'es.array.for-each',
+          'es.array.index-of',
+          'es.array.join',
+          'es.array.map',
+          'es.array.reduce',
+          'es.array.splice',
+          'es.array.some',
+          'es.array.slice',
+          'es.object.keys',
+          'es.object.freeze',
+          'es.date.to-string',
+          'es.object.to-string',
+          'es.string.split',
+          'es.string.replace',
         ],
       },
     ],

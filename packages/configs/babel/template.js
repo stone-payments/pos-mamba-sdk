@@ -4,6 +4,7 @@ const { extendPresetEnv } = require('./utils.js');
 
 const config = extendPresetEnv(generalConfig, {
   useBuiltIns: 'usage',
+  corejs: { version: 3, proposals: true },
 });
 
 if (IS_TEST()) {
