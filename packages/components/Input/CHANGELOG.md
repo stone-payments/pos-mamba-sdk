@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.6.0...v2.6.1) (2019-03-25)
+
+
+### Bug Fixes
+
+* 🐛 <Text/> focus on unexistent input ([1eeafbe](https://github.com/stone-payments/pos-mamba-sdk/commit/1eeafbe))
+
+
+
+
+
 # [2.6.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.5.3...v2.6.0) (2019-03-21)
 
 
