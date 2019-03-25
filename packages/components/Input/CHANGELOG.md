@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.6.1...v2.6.2) (2019-03-25)
+
+
+### Bug Fixes
+
+* 🐛 check if the input is rendered before blurring ([2bb0c77](https://github.com/stone-payments/pos-mamba-sdk/commit/2bb0c77))
+
+
+
+
+
 ## [2.6.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.6.0...v2.6.1) (2019-03-25)
 
 

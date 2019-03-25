@@ -1,6 +1,6 @@
 {
   "name": "@mamba/input",
-  "version": "2.6.1",
+  "version": "2.6.2",
   "svelte": "Input.html",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
