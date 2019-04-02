@@ -370,6 +370,7 @@
     }
 
     /** readonly and disabled inputs should not be allowed to focus (by clicking) */
+    /** mamba's webkit doesn't handle well a focus > blur > focus programmatic action */
     &.is-non-editable {
       pointer-events: none;
     }
