@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.6.2...v2.6.3) (2019-04-02)
+
+
+### Bug Fixes
+
+* 🐛 return null if passed a non-existing storage key ([53fa24c](https://github.com/stone-payments/pos-mamba-sdk/commit/53fa24c))
+
+
+
+
+
 # [2.6.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.5.3...v2.6.0) (2019-03-21)
 
 

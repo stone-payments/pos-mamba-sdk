@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.6.2...v2.6.3) (2019-04-02)
+
+
+### Bug Fixes
+
+* 🐛 editable text input selected condition ([76b0361](https://github.com/stone-payments/pos-mamba-sdk/commit/76b0361))
+* 🐛 forcefocus breaking another consecutive input focus ([72999e3](https://github.com/stone-payments/pos-mamba-sdk/commit/72999e3))
+* 🐛 prevent printable content to overflow a page ([9ec53ba](https://github.com/stone-payments/pos-mamba-sdk/commit/9ec53ba))
+* 🐛 return null if passed a non-existing storage key ([53fa24c](https://github.com/stone-payments/pos-mamba-sdk/commit/53fa24c))
+
+
+
+
+
 ## [2.6.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.6.1...v2.6.2) (2019-03-25)
 
 
