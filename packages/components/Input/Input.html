@@ -3,6 +3,7 @@
   class:is-readable="readable"
   class:is-invalid="!isValid && !!_errorMsg"
   class:is-focused="isFocused"
+  class:is-non-editable="disabled || readonly"
   style="background-color: {bgColor}; color: {labelColor};"
   on:mousedown="_onMousedown(event)"
 >
@@ -153,6 +154,10 @@
         this.refs.input.focus();
       },
       blur() {
+        const { forcefocus } = this.get();
+
+        if (forcefocus) return;
+
         this.refs.input.blur();
       },
       /** Execute the validation method and return a boolean as a result */
@@ -213,14 +218,18 @@
         this.fire('focus', e);
       },
       _onBlur(e) {
-        const { alphanumeric, forcefocus } = this.get();
+        const { alphanumeric, forcefocus, disabled, readonly } = this.get();
 
-        if (forcefocus) {
+        if (forcefocus && disabled !== true && readonly !== true) {
           e.stopImmediatePropagation();
           e.preventDefault();
           /** onBlur can be fired just before a <Input/> destruction */
-          setTimeout(() => this.refs.input && this.focus());
-          return;
+          setTimeout(() => {
+            if (this.refs.input) {
+              this.focus();
+            }
+          });
+          return false;
         }
 
         this.set({ isFocused: false });
@@ -358,6 +367,11 @@
 
     &.is-invalid {
       border-bottom-color: $input-invalid-border-color;
+    }
+
+    /** readonly and disabled inputs should not be allowed to focus (by clicking) */
+    &.is-non-editable {
+      pointer-events: none;
     }
   }
 
