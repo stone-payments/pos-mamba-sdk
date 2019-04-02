@@ -19,12 +19,14 @@
   import { hasActiveHandlerFor } from './includes/KeystrokeRegister.js';
 
   /** Return if a certain shortcut key is valid */
-  const isInputFocused = (keyName, e) =>
-    keyName &&
-    e.target.tagName !== 'INPUT' &&
-    e.target.tagName !== 'TEXTAREA' &&
-    document.activeElement.tagName !== 'INPUT' &&
-    document.activeElement.tagName !== 'TEXTAREA';
+  const isEditableInputOnFocus = () => {
+    const targetEl = document.activeElement;
+    const isTextInputEl =
+      targetEl.tagName === 'INPUT' || targetEl.tagName === 'TEXTAREA';
+    const isEditable = targetEl.disabled !== true && targetEl.readOnly !== true;
+
+    return isTextInputEl && isEditable;
+  };
 
   export default {
     components: {
@@ -181,7 +183,7 @@
 
         if (
           (keyName === 'back' || keyName === 'enter') &&
-          isInputFocused(keyName, e)
+          !isEditableInputOnFocus()
         ) {
           e.preventDefault();
           e.stopPropagation();
@@ -237,7 +239,7 @@
         }
 
         /** If the key is not mapped or a input is focused, do nothing */
-        if (!isInputFocused(keyName, e)) {
+        if (isEditableInputOnFocus()) {
           return;
         }
 
