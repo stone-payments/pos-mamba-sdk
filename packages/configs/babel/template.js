@@ -7,7 +7,6 @@ const config = extendPresetEnv(generalConfig, {
   corejs: { version: 3, proposals: true },
   exclude: [
     'es.string.anchor', // Not used
-    'es.string.repeat', // Not used
     'es.regexp.*', // Not used regexp polyfills
     // Already exists on POS webkit
     'es.array.concat',
