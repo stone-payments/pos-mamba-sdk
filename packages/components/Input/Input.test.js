@@ -114,10 +114,12 @@ describe('behaviour', () => {
 
   it('should disable the input width "disabled:true"', () => {
     input = newInput({ disabled: true });
-    expect(input.refs.input.disabled).toBe(true);
+    const el = root.query('.input');
+
+    expect(el.classList.contains('is-disabled')).toBe(true);
 
     input.set({ disabled: false });
-    expect(input.refs.input.disabled).toBe(false);
+    expect(el.classList.contains('is-disabled')).toBe(false);
   });
 
   it('should have a "rawValue" equal to passed "value" on input creation', () => {
