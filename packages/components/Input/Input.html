@@ -3,7 +3,7 @@
   class:is-readable="readable"
   class:is-invalid="!isValid && !!_errorMsg"
   class:is-focused="isFocused"
-  class:is-non-editable="disabled || readonly"
+  class:is-disabled="disabled"
   style="background-color: {bgColor}; color: {labelColor};"
   on:mousedown="_onMousedown(event)"
 >
@@ -16,7 +16,6 @@
     class="align-{align}"
     type={_inputType}
     style="color: {textColor};"
-    {disabled}
     {readonly}
     {placeholder}
     on:keydown
@@ -64,6 +63,11 @@
         /** Force the input to be focused */
         forcefocus: false,
         readonly: false,
+        /**
+         * For some reason webkit 534 darkens the input color when disabled.
+         * Our workaround is to set pointer-events: none to the <label/>
+         * instead of using the native "disabled" attribute on the <input/>
+         */
         disabled: false,
         isFocused: false,
         /** Style */
@@ -218,9 +222,9 @@
         this.fire('focus', e);
       },
       _onBlur(e) {
-        const { alphanumeric, forcefocus, disabled, readonly } = this.get();
+        const { alphanumeric, forcefocus, disabled } = this.get();
 
-        if (forcefocus && disabled !== true && readonly !== true) {
+        if (forcefocus && disabled !== true) {
           e.stopImmediatePropagation();
           e.preventDefault();
           /** onBlur can be fired just before a <Input/> destruction */
@@ -369,9 +373,8 @@
       border-bottom-color: $input-invalid-border-color;
     }
 
-    /** readonly and disabled inputs should not be allowed to focus (by clicking) */
-    /** mamba's webkit doesn't handle well a focus > blur > focus programmatic action */
-    &.is-non-editable {
+    /** disabled inputs should not be allowed to focus (by clicking) */
+    &.is-disabled {
       pointer-events: none;
     }
   }
