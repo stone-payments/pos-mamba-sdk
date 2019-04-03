@@ -181,6 +181,10 @@
 
         const keyName = Keyboard.getKeyName(e.keyCode);
 
+        /**
+         * Should cancel the native actions for enter/back keys
+         * if pressed anywhere but within a editable input
+         * */
         if (
           (keyName === 'back' || keyName === 'enter') &&
           !isEditableInputOnFocus()
