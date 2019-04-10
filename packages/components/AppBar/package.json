@@ -1,6 +1,6 @@
 {
   "name": "@mamba/appbar",
-  "version": "2.6.4",
+  "version": "2.7.0",
   "svelte": "AppBar.html",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -15,14 +15,14 @@
     "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w"
   },
   "dependencies": {
-    "@mamba/icon": "^2.6.4"
+    "@mamba/icon": "^2.7.0"
   },
   "peerDependencies": {
     "@mamba/styles": "^2.1.0",
     "svelte": "^2.16.0"
   },
   "devDependencies": {
-    "@mamba/pos": "^2.6.4",
+    "@mamba/pos": "^2.7.0",
     "@mamba/styles": "^2.6.4"
   },
   "gitHead": "869644effc7b7347a2ff75c956c57d69ee8236a5"

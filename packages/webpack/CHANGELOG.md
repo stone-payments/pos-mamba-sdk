@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.7.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.6.4...v2.7.0) (2019-04-10)
+
+
+### Bug Fixes
+
+* **package:** update mini-css-extract-plugin to version 0.6.0 ([0e934c7](https://github.com/stone-payments/pos-mamba-sdk/commit/0e934c7))
+* **package:** update mini-css-extract-plugin to version 0.6.0 ([#383](https://github.com/stone-payments/pos-mamba-sdk/issues/383)) ([064bc48](https://github.com/stone-payments/pos-mamba-sdk/commit/064bc48))
+
+
+
+
+
 ## [2.6.4](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.6.3...v2.6.4) (2019-04-03)
 
 **Note:** Version bump only for package @mamba/webpack
