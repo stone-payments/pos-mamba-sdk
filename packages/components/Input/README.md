@@ -41,6 +41,12 @@ import MoneyInput from '@mamba/input/Money.html';
 | validateOn   | Define em que momento a validação ocorre (`input`/`submit`) | `string`       | `'submit'`  |
 | mask         | Define uma máscara para o texto                             | `string`       | `null`      |
 
+### Money
+
+| Parâmetro | Descrição                  | Tipo                 | Padrão |
+| --------- | -------------------------- | -------------------- | ------ |
+| cents     | Valor do input em centavos | `string` or `number` | `0`    |
+
 ## Eventos
 
 `<Input ... on:event="..." />`
