@@ -1,6 +1,9 @@
 export default function(driver) {
   driver.send = function send(opts) {
     return new Promise((resolve, reject) => {
+      const refSignal = `${Math.random() * new Date().getMilliseconds()}`;
+      let refReply = '';
+
       /** Accept body and data as the body parameter */
       if (
         typeof opts.data === 'undefined' &&
@@ -12,21 +15,37 @@ export default function(driver) {
       /** Default content type to json */
       if (!opts.headers) {
         opts.headers = { 'Content-Type': 'application/json;charset=UTF-8' };
-      } else if (!('Content-Type' in opts.headers)) {
-        opts.headers['Content-Type'] = 'application/json;charset=UTF-8';
       }
 
       if (typeof opts.data !== 'string') {
         opts.data = JSON.stringify(opts.data);
       }
 
+      driver.on('requestRefSinal', (data, id) => {
+        if (refSignal !== id) return false;
+
+        refReply = data;
+      });
+
       driver.race([
-        ['requestFailed', () => reject(driver.getError())],
-        ['requestFinished', () => resolve(driver.getData())],
+        [
+          'requestFailed',
+          (err, id) => {
+            if (refReply !== id) return false;
+            reject(err);
+          },
+        ],
+        [
+          'requestFinished',
+          (data, id) => {
+            if (refReply !== id) return false;
+            resolve(data);
+          },
+        ],
       ]);
 
       /** Asynchronously make a request at the backend */
-      driver.doSend(opts);
+      driver.doSend(opts, refSignal);
     });
   };
 

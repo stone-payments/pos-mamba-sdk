@@ -108,10 +108,12 @@
 
         if (isInserted) {
           setTimeout(() => {
-            HardwareManager.fire('toggleCard', true);
+            HardwareManager.fire('cardToggled', true);
+            HardwareManager.fire('cardInserted');
           }, 500);
         } else {
-          HardwareManager.fire('toggleCard', false);
+          HardwareManager.fire('cardToggled', false);
+          HardwareManager.fire('cardRemoved');
         }
       },
       _onKeyup(e) {

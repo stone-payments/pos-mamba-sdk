@@ -1,6 +1,4 @@
 import MoneyInput from './Money.html';
-import formatMoney from './libs/formatMoney.js';
-import System from '../../pos/api/system.js';
 
 const { newTestRoot, fireKey, typeOn } = global;
 
@@ -36,8 +34,8 @@ describe('Component Standards', () => {
   });
 
   it('should have raw value of 0 by default', () => {
-    const { rawValue } = moneyInput.get();
-    expect(rawValue).toBe('0');
+    const { cents } = moneyInput.get();
+    expect(cents).toBe(0);
   });
 });
 
@@ -51,21 +49,6 @@ describe('Behavior', () => {
     expect(getInputEl().value.endsWith('a')).toBe(true);
   });
 
-  describe('Format Money', () => {
-    it('should return a string', () => {
-      expect(typeof formatMoney(100)).toBe('string');
-    });
-
-    it('should separate cents using comma', () => {
-      expect(formatMoney(100).split(',').length).toBe(2);
-    });
-
-    it('should add . every 3 digits', () => {
-      expect(formatMoney(100)).not.toContain('.');
-      expect(formatMoney(10000)).toContain('.');
-    });
-  });
-
   describe('Keypressed Actions', () => {
     beforeAll(() => {
       moneyInput = newMoneyInput();
@@ -73,39 +56,39 @@ describe('Behavior', () => {
 
     it('should update raw value on first input', () => {
       type('1');
-      expect(moneyInput.get().rawValue).toBe('1');
+      expect(moneyInput.get().cents).toBe(1);
     });
 
     it('should update raw value on new input', () => {
       type('1');
-      expect(moneyInput.get().rawValue).toBe('11');
+      expect(moneyInput.get().cents).toBe(11);
     });
 
     it('should remove last character when backspace is pressed', () => {
       fireKey(getInputEl(), 'back');
-      expect(moneyInput.get().rawValue).toBe('1');
+      expect(moneyInput.get().cents).toBe(1);
     });
 
-    it('should set rawValue to 0 if last character is removed', () => {
+    it('should set cents to 0 if last character is removed', () => {
       fireKey(getInputEl(), 'back');
-      expect(moneyInput.get().rawValue).toBe('0');
+      expect(moneyInput.get().cents).toBe(0);
     });
 
     it('should not accept non numeric inputs', () => {
       type('a');
-      expect(moneyInput.get().rawValue).toBe('0');
+      expect(moneyInput.get().cents).toBe(0);
     });
 
     it('should block inputs if input is readonly', () => {
       moneyInput.set({ readonly: true });
       type('1');
-      expect(moneyInput.get().rawValue).toBe('0');
+      expect(moneyInput.get().cents).toBe(0);
     });
 
     it('should not accept values bigger than limit', () => {
       moneyInput.set({ readonly: false });
       type('9999999999999');
-      expect(moneyInput.get().rawValue).toBe('9999999999');
+      expect(moneyInput.get().cents).toBe(9999999999);
     });
 
     it('should move the caret to the right side of the input on every focus', () => {
@@ -124,18 +107,46 @@ describe('Behavior', () => {
     });
   });
 
-  describe('Submit', () => {
-    it('should fire submit if value is bigger than 0', () =>
-      new Promise(res => {
-        moneyInput.on('submit', res);
-        moneyInput.set({ rawValue: '1' });
-        fireKey(getInputEl(), 'enter');
-      }));
-    it('should beep if value is lower or equal to 0', () =>
-      new Promise(res => {
-        System.beep = res;
-        moneyInput.set({ rawValue: '0' });
-        fireKey(getInputEl(), 'enter');
-      }));
+  describe('validation', () => {
+    beforeAll(() => {
+      moneyInput = newMoneyInput({
+        validation: cents => cents > 100 && cents < 200,
+      });
+    });
+
+    it('should validate on submit (enter) with the cents value', () => {
+      type('11');
+
+      return Promise.all([
+        new Promise(
+          res => moneyInput.on('submit', res),
+          new Promise(res => {
+            setTimeout(() => {
+              moneyInput.on('submitInvalid', e => {
+                expect(e.cents).toBe(11);
+                expect(e.value).toBe(11);
+                expect(e.formatted).toBe('R$ 0,11');
+                expect(e.isValid).toBe(false);
+                res();
+              });
+              fireKey(getInputEl(), 'enter');
+            });
+          }),
+        ),
+      ]).then(() => {
+        moneyInput.set({ cents: 0 });
+        type('112');
+        return new Promise(res => {
+          moneyInput.on('submitValid', e => {
+            expect(e.cents).toBe(112);
+            expect(e.value).toBe(112);
+            expect(e.formatted).toBe('R$ 1,12');
+            expect(e.isValid).toBe(true);
+            res();
+          });
+          fireKey(getInputEl(), 'enter');
+        });
+      });
+    });
   });
 });

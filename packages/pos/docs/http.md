@@ -2,7 +2,7 @@
 
 ## Descrição
 
-Esta API Nativa auxilia a realizar pedidos `Http` de `GET` e `POST`, podendo optar por utilizar um proxy(necessário para realizar requisições `GPRS`) ou não.
+Esta API Nativa auxilia a realizar pedidos `Http` de `GET` e `POST`, `PUT` e `DELETE`, podendo optar por utilizar um proxy(necessário para realizar requisições `GPRS`) ou não.
 
 ## Interface
 
@@ -46,11 +46,14 @@ const myRequest = {
 
 Http.send(myRequest).then((result)=> {
   // in case the request have no errors
-  console.log(result)
+  console.log(result.status)
+  console.log(result.body)
+
 })
 .catch((error) => {
   // if the request fails
-  console.log(error)
+  console.log(error.status)
+  console.log(error.msg)
 });
 
 ```

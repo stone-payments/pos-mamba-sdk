@@ -1,6 +1,6 @@
 {
   "name": "@mamba/range",
-  "version": "2.1.0",
+  "version": "2.6.4",
   "svelte": "Range.html",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -15,10 +15,10 @@
     "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w"
   },
   "dependencies": {
-    "@mamba/styles": "^2.1.0"
+    "@mamba/styles": "^2.6.4"
   },
-  "gitHead": "7118f44e933d2f656166a80822c0b3c1001e6a33",
+  "gitHead": "869644effc7b7347a2ff75c956c57d69ee8236a5",
   "devDependencies": {
-    "@mamba/pos": "^2.1.0"
+    "@mamba/pos": "^2.6.4"
   }
 }

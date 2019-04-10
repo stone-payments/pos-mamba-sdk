@@ -33,6 +33,7 @@
         step: 10,
         value: 0,
         unit: '%',
+        validation: undefined,
         mainColor: '#3da10f',
         textColor: '#494949',
         barColor: '#000',
@@ -56,17 +57,28 @@
       }
     },
     methods: {
+      _changeValue(action) {
+        const { validation, max, min, value, step } = this.get();
+
+        const newValue = Math.min(
+          max,
+          Math.max(min, value + (action === 'increment' ? step : -step)),
+        );
+
+        if (typeof validation === 'function' && validation(newValue) === false) {
+          return;
+        }
+
+        this.set({ value: newValue });
+
+        this.fire(action, { value: newValue });
+        this.fire('change', { value: newValue });
+      },
       decrement() {
-        const { min, value, step } = this.get();
-        this.set({ value: Math.max(min, value - step) });
-        this.fire('decrement', { value });
-        this.fire('change', { value });
+        this._changeValue('decrement');
       },
       increment() {
-        const { max, value, step } = this.get();
-        this.set({ value: Math.min(max, value + step) });
-        this.fire('increment', { value });
-        this.fire('change', { value });
+        this._changeValue('increment');
       },
     },
   };

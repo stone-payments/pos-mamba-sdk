@@ -1,14 +1,16 @@
 {
-  "version": "2.1.0",
+  "version": "2.6.4",
+  "npmClient": "npm",
   "command": {
     "publish": {
       "ignoreChanges": [
-        "*.md",
-        "*.json",
-        "*.txt",
-        "test/**",
-        "package.json"
-      ]
+        "{.*,*}.{txt,md,yml}",
+        "{.*,*}{.config,rc,ignore}{,.js}",
+        "LICENSE",
+        "lerna.json"
+      ],
+      "message": "chore(release): :robot: publish",
+      "conventionalCommits": true
     }
   },
   "npmClientArgs": [
@@ -19,8 +21,8 @@
     "packages/components/*",
     "packages/configs",
     "packages/pos",
-    "packages/store",
     "packages/styles",
+    "packages/utils",
     "packages/webpack"
   ]
 }

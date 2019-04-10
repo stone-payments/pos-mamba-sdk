@@ -55,7 +55,7 @@
       border-radius: 50%;
       border: none;
       background-color: $switch-unchecked-color;
-      box-shadow: 0 0 1px 0 rgba($black, 0.12), 0 1px 1px 0 rgba($black, 0.24);
+      box-shadow: 0 0 1px 0 #e0e0e0, 0 1px 1px 0 #c1c1c1;
     }
 
     /** Checked switch style */
@@ -71,7 +71,7 @@
 
     /** Disabled switch style */
     &[disabled='true'] {
-      background-color: rgba($switch-disabled-bg, 0.5);
+      background-color: $switch-disabled-bg;
 
       &::after {
         background-color: $switch-disabled-color;

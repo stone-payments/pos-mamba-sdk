@@ -55,7 +55,7 @@
       /** Needed for projects with svelte-page < v2.2.0 */
       if (root.router) {
         root.router.on('update', ({ changed, current }) => {
-          if (changed.context) {
+          if (changed.context && current.context) {
             this.set({ _location: current.context.path });
           }
         });
@@ -67,7 +67,7 @@
 
       /* istanbul ignore else */
       if (root.meta) {
-        root.meta.set({ _hasAppbar: true });
+        root.meta.set({ hasAppbar: true });
         root.meta.on('update', ({ changed, current }) => {
           /* istanbul ignore else */
           if (changed.navigable) {
@@ -79,7 +79,7 @@
     ondestroy() {
       /* istanbul ignore else */
       if (this.root.meta) {
-        this.root.meta.set({ _hasAppbar: false });
+        this.root.meta.set({ hasAppbar: false });
       }
     },
     onstate({ changed, current }) {
@@ -90,18 +90,22 @@
     methods: {
       _goHome() {
         const { _isAtHome } = this.get();
+
         if (_isAtHome) {
+          this.root.fire('appbar:closeApp');
           return this.root.close();
         }
 
         /* istanbul ignore else */
         if (this.root.router) {
+          this.root.fire('appbar:goHome');
           this.root.router.go('/');
         }
       },
       _goBack() {
         /* istanbul ignore else */
         if (this.root.router) {
+          this.root.fire('appbar:goBack');
           this.root.router.back();
         }
       },

@@ -1,6 +1,6 @@
 {
   "name": "@mamba/cli",
-  "version": "2.1.0",
+  "version": "2.5.2",
   "description": "Mamba CLI",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -15,15 +15,15 @@
     "mamba": "./cli.js"
   },
   "dependencies": {
-    "case": "^1.6.0",
-    "chalk": "^2.4.1",
+    "case": "^1.6.1",
+    "chalk": "^2.4.2",
     "cross-env": "^5.2.0",
     "global-dirs": "^0.1.1",
     "import-global": "^0.1.0",
-    "inquirer": "^6.2.1",
+    "inquirer": "^6.2.2",
     "quickenv": "^0.0.6",
     "yargonaut": "^1.1.4",
-    "yargs": "^12.0.5"
+    "yargs": "^13.1.0"
   },
-  "gitHead": "7118f44e933d2f656166a80822c0b3c1001e6a33"
+  "gitHead": "869644effc7b7347a2ff75c956c57d69ee8236a5"
 }

@@ -3,9 +3,15 @@
   on:keydown="_onKeydown(event)"
 />
 
-<div class="app">
+<div
+  class="mamba-app"
+  class:no-scroll="!scrollable"
+  class:has-appbar="hasAppbar"
+>
   <slot></slot>
 </div>
+
+<AdminLock ref:adminLock/>
 
 <script>
   import App from '@mamba/pos/api/app.js';
@@ -13,24 +19,33 @@
   import { hasActiveHandlerFor } from './includes/KeystrokeRegister.js';
 
   /** Return if a certain shortcut key is valid */
-  const isInputFocused = (keyName, e) =>
-    keyName &&
-    e.target.tagName !== 'INPUT' &&
-    e.target.tagName !== 'TEXTAREA' &&
-    document.activeElement.tagName !== 'INPUT' &&
-    document.activeElement.tagName !== 'TEXTAREA';
+  const isEditableInputOnFocus = () => {
+    const targetEl = document.activeElement;
+    const isTextInputEl =
+      targetEl.tagName === 'INPUT' || targetEl.tagName === 'TEXTAREA';
+    const isEditable = targetEl.disabled !== true && targetEl.readOnly !== true;
+
+    return isTextInputEl && isEditable;
+  };
 
   export default {
+    components: {
+      AdminLock: './AdminLock.html',
+    },
     data() {
       return {
         navigable: { home: true, back: true },
         shortcuts: true,
         scrollable: true,
-        _hasAppbar: false,
+        hasAppbar: false,
+        askPasswordOnClose: false,
       };
     },
     oncreate() {
       const { root } = this;
+
+      /** Add the mamba-app-container class to the root element */
+      this.root.options.target.classList.add('mamba-app-container');
 
       // TODO: Deprecate this sometime
       root.on('navigation', isEnabled => {
@@ -53,10 +68,26 @@
         this.setShortcuts(isEnabled);
       });
 
-      root.close = () => {
+      root.close = async () => {
+        const { askPasswordOnClose } = this.get();
+
+        if (askPasswordOnClose) {
+          const auth = await this.askAdminPassword();
+          if (auth === false) return;
+        }
+
         /** Allow to override the default app close process */
         if (typeof root.onClose === 'function') {
-          return root.onClose();
+          const closingPromise = root.onClose();
+
+          /**
+           * If the `onClose` returns a promise, let's wait for its resolution and close the app.
+           * If not, return and assume the method will be responsible to close the app.
+           */
+          if (!closingPromise || typeof closingPromise.then !== 'function') {
+            return;
+          }
+          await closingPromise;
         }
         App.close();
       };
@@ -85,6 +116,7 @@
       };
 
       /** Needed for projects with svelte-page < v2.2.0 */
+      /* istanbul ignore next */
       if (root.router) {
         root.router.on('update', ({ changed, previous }) => {
           if (changed.context && previous) {
@@ -99,17 +131,6 @@
       /** Set a reference on the root component to the <App/> meta component */
       if (!previous) {
         this.root.meta = this;
-      }
-    },
-    onupdate({ changed, current }) {
-      const { target: rootEl } = this.root.options;
-
-      if (changed.scrollable) {
-        rootEl.classList.toggle('no-scroll', !current.scrollable);
-      }
-
-      if (changed._hasAppbar) {
-        rootEl.classList.toggle('has-appbar', current._hasAppbar);
       }
     },
     methods: {
@@ -131,22 +152,44 @@
           });
         }
       },
+      askAdminPassword() {
+        this.refs.adminLock.open();
+        return new Promise(resolve => {
+          const listener = this.refs.adminLock.on('authentication', event => {
+            if (event.success) {
+              resolve(true);
+              listener.cancel();
+            }
+          });
+        });
+      },
       /** Prevent default back/enter button behaviour */
       _onKeydown(e) {
         /* istanbul ignore next */
         if (!__TEST__ && __BROWSER__) {
           const eventPath = e.path || (e.composedPath && e.composedPath());
-          if (eventPath && !eventPath.find(node => node.id === 'app-root')) {
+          const isInsideApp =
+            eventPath &&
+            eventPath.some(
+              node => node.nodeType === 1 && node.classList.contains('mamba-app'),
+            );
+
+          if (!isInsideApp) {
             return;
           }
         }
 
         const keyName = Keyboard.getKeyName(e.keyCode);
 
-        if (
-          (keyName === 'back' || keyName === 'enter') &&
-          isInputFocused(keyName, e)
-        ) {
+        /**
+         * Should cancel the native actions for enter/back keys
+         * if pressed anywhere but within a editable input
+         * */
+        if (keyName === 'back' || keyName === 'enter') {
+          if (isEditableInputOnFocus()) {
+            return;
+          }
+
           e.preventDefault();
           e.stopPropagation();
           return false;
@@ -163,9 +206,14 @@
         /* istanbul ignore next */
         if (!__TEST__ && __BROWSER__) {
           const eventPath = e.path || (e.composedPath && e.composedPath());
-          if (
+          const isInsideApp =
             eventPath &&
-            !eventPath.find(node => node.id === 'app-root') &&
+            eventPath.some(
+              node => node.nodeType === 1 && node.classList.contains('mamba-app'),
+            );
+
+          if (
+            !isInsideApp &&
             (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') &&
             !Keyboard.isActionKey(keyCode)
           ) {
@@ -196,7 +244,7 @@
         }
 
         /** If the key is not mapped or a input is focused, do nothing */
-        if (!isInputFocused(keyName, e)) {
+        if (isEditableInputOnFocus()) {
           return;
         }
 
@@ -262,11 +310,19 @@
 </script>
 
 <style type="text/postcss">
-  :global(#app-root) {
+  :global(body) {
+    height: 100%;
+  }
+
+  :global(.mamba-app-container) {
     background-color: $app-bg-color;
+  }
+
+  .mamba-app {
+    height: 100%;
 
     &.no-scroll {
-      overflow: hidden;
+      overflow: hidden !important; /* stylelint-disable-line */
     }
   }
 </style>

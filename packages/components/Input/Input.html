@@ -3,11 +3,12 @@
   class:is-readable="readable"
   class:is-invalid="!isValid && !!_errorMsg"
   class:is-focused="isFocused"
-  style="background-color: {bgColor}; color: {textColor};"
+  class:is-disabled="disabled"
+  style="background-color: {bgColor}; color: {labelColor};"
   on:mousedown="_onMousedown(event)"
 >
   {#if label}
-    <span>{label}</span>
+    <span class="label">{label}</span>
   {/if}
 
   <input
@@ -15,7 +16,6 @@
     class="align-{align}"
     type={_inputType}
     style="color: {textColor};"
-    {disabled}
     {readonly}
     {placeholder}
     on:keydown
@@ -63,6 +63,11 @@
         /** Force the input to be focused */
         forcefocus: false,
         readonly: false,
+        /**
+         * For some reason webkit 534 darkens the input color when disabled.
+         * Our workaround is to set pointer-events: none to the <label/>
+         * instead of using the native "disabled" attribute on the <input/>
+         */
         disabled: false,
         isFocused: false,
         /** Style */
@@ -70,6 +75,7 @@
         align: 'right',
         bgColor: '#fff',
         textColor: '#757575',
+        labelColor: '#757575',
         errorColor: '#d50000',
         /** Validation */
         validateOn: 'submit',
@@ -152,7 +158,17 @@
         this.refs.input.focus();
       },
       blur() {
+        const { forcefocus } = this.get();
+
+        if (forcefocus) return;
+
         this.refs.input.blur();
+      },
+      /** Execute the validation method and return a boolean as a result */
+      validate() {
+        const validationResult = this._validate(this.get().rawValue);
+        this.set(validationResult);
+        return validationResult.isValid;
       },
       /** Invalidate the input with an optional error message */
       invalidate(message) {
@@ -169,8 +185,7 @@
         }
         return value;
       },
-      _validate() {
-        const { value } = this.refs.input;
+      _validate(value) {
         const { validation } = this.get();
         const validateObj = {
           isValid: true,
@@ -207,14 +222,18 @@
         this.fire('focus', e);
       },
       _onBlur(e) {
-        const { alphanumeric, forcefocus } = this.get();
+        const { alphanumeric, forcefocus, disabled } = this.get();
 
-        if (forcefocus) {
+        if (forcefocus && disabled !== true) {
           e.stopImmediatePropagation();
           e.preventDefault();
           /** onBlur can be fired just before a <Input/> destruction */
-          setTimeout(() => this.refs.input && this.focus());
-          return;
+          setTimeout(() => {
+            if (this.refs.input) {
+              this.focus();
+            }
+          });
+          return false;
         }
 
         this.set({ isFocused: false });
@@ -231,11 +250,11 @@
         this.fire('keyup', e);
 
         if (key === 'enter') {
-          const { validateOn, validation } = this.get();
+          const { validateOn, validation, rawValue, value } = this.get();
 
           /* istanbul ignore else */
           if (validateOn === 'submit') {
-            const result = this._validate();
+            const result = this._validate(rawValue);
 
             this.set(result);
 
@@ -245,7 +264,8 @@
             }
           }
 
-          const { isValid, rawValue, value } = this.get();
+          const { isValid } = this.get();
+
           const submitObj = { isValid, rawValue, value };
 
           if (!isValid) {
@@ -292,6 +312,7 @@
 
         if (validation) {
           let validationUpdate;
+
           /** If validation is on submit, reset the validation state */
           if (validateOn === 'submit') {
             validationUpdate = {
@@ -299,9 +320,11 @@
               _errorMsg: undefined,
             };
           } else {
-            validationUpdate = this._validate();
+            const rawValue = mask ? masker(value, mask, true, tokens) : value;
+            validationUpdate = this._validate(rawValue);
           }
 
+          /** Validation state must be set at the same time as the 'value' */
           this.set({ value, ...validationUpdate });
         } else {
           this.set({ value });
@@ -336,7 +359,6 @@
     width: 100%;
     padding: 10px 15px 5px;
     background-color: #fff;
-    transition: 0.3s ease border-bottom;
     border-bottom: 2px solid $input-border-color;
 
     &.is-readable input {
@@ -350,14 +372,19 @@
     &.is-invalid {
       border-bottom-color: $input-invalid-border-color;
     }
+
+    /** disabled inputs should not be allowed to focus (by clicking) */
+    &.is-disabled {
+      pointer-events: none;
+    }
   }
 
-  span {
+  .label {
     display: block;
-    width: block;
     font-size: 13px;
     font-weight: bold;
     pointer-events: none;
+    margin-bottom: 11px;
   }
 
   input {
@@ -379,6 +406,10 @@
 
     &.align-center {
       text-align: center;
+    }
+
+    &::placeholder {
+      color: #e3e6e7;
     }
   }
 
