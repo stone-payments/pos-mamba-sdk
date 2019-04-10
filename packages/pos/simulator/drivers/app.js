@@ -1,4 +1,4 @@
-import { AppManager } from '../index.js';
+import { AppManager, Registry } from '../index.js';
 
 export const NAMESPACE = '$App';
 

@@ -44,7 +44,7 @@ export function setup(Http) {
 
     xhttp.onerror = setError;
 
-    xhttp.ontimeout = function() {
+    xhttp.ontimeout = function ontimeout() {
       _errorData = {
         status: 504,
         msg: 'Gateway Time-Out',
@@ -77,8 +77,6 @@ export function setup(Http) {
 
     if (panel.simulateRequest) {
       const requestMsg = JSON.parse(panel.requestMsg);
-      const requestPayload = panel.requestPayload;
-      const timeout = panel.timeout;
 
       if (timeout > 0) {
         setTimeout(() => {
@@ -87,7 +85,7 @@ export function setup(Http) {
             msg: 'Gateway Time-Out',
           };
           Http.fire('requestFailed', _errorData, refSignal);
-        }, timeout);
+        }, panel.timeout);
         return;
       }
 
@@ -101,7 +99,7 @@ export function setup(Http) {
         } else {
           _data = {
             status: requestMsg.status,
-            body: requestPayload,
+            body: panel.requestPayload,
           };
           Http.fire('requestFinished', _data, refSignal);
         }
