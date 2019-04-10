@@ -16,7 +16,8 @@ interface connectionOptions {
   method: string;
   data: string;
   headers: HeaderOptions;
-  connect: string;
+  proxy: boolean;
+  encodeURI: boolean;
 }
 ```
 
@@ -24,8 +25,8 @@ interface connectionOptions {
 
 Recebe as especificações do request por meio de um objeto e retorna uma [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) que espera pelo seu resultado. Observe que nesse objeto existe alguns parâmetros.
 
-- `connect`, que especifica o tipo de canal utilizado, e pode ser `LAN`(direto), `NET`(via proxy de produção) e `DEV`(via proxy de desenvolvimento).
-- `method`, que define o verbo http, e suporta apenas `GET`, `POST`, `PUT` e `DELETE`.
+- `method`, que define o verbo http, e suporta apenas `GET` ou `POST`.
+- `proxy`, que específica o tipo de canal utilizado, e pode ser `false`(direto), `true`(via proxy). Por padrão é `false` desabilitando o uso do proxy, não sendo possível fazer requisições por `GPRS`.
 
 ```js
 import Http from '@mamba/pos/api/http.js'
@@ -39,7 +40,7 @@ const myRequest = {
   },
   method: 'GET',
   data: {title:'Test', body:'This is a Test.'},
-  connect: 'DEV',
+  proxy: true
 }
 
 
