@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.7.1...v2.7.2) (2019-04-12)
+
+
+### Features
+
+* 🎸 allow to mock payment failure ([7d3f992](https://github.com/stone-payments/pos-mamba-sdk/commit/7d3f992))
+
+
+
+
+
 ## [2.7.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.7.0...v2.7.1) (2019-04-10)
 
 
