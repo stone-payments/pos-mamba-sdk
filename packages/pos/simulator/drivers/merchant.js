@@ -5,6 +5,16 @@ export const NAMESPACE = '$Merchant';
 export const PERSISTENT_SETTINGS = {
   stoneCode: '123123123',
   adminPassword: '1234',
+  zipCode: '20040901',
+  country: 'Brasil',
+  city: 'Rio de Janeiro',
+  state: 'Rio de Janeiro',
+  neighborhood: 'Centro',
+  complement: 'Edifício Central',
+  street: 'Avenida Rio Branco',
+  number: '131',
+  displayName: 'Stoninho',
+  taxationIdentificationNumber: '8651',
 };
 
 export function setup(Merchant) {
@@ -30,4 +40,20 @@ export function setup(Merchant) {
 
   Merchant.checkPassword = password =>
     password === Registry.persistent.get().$Merchant.adminPassword;
+
+  Merchant.getInfo = () => {
+    return {
+      street: Registry.persistent.get().$Merchant.street,
+      number: Registry.persistent.get().$Merchant.number,
+      complement: Registry.persistent.get().$Merchant.complement,
+      zipCode: Registry.persistent.get().$Merchant.zipCode,
+      city: Registry.persistent.get().$Merchant.city,
+      state: Registry.persistent.get().$Merchant.state,
+      country: Registry.persistent.get().$Merchant.country,
+      acquirerIssuedMerchantId: Registry.persistent.get().$Merchant.stoneCode,
+      displayName: Registry.persistent.get().$Merchant.displayName,
+      taxationIdentificationNumber: Registry.persistent.get().$Merchant
+        .taxationIdentificationNumber,
+    };
+  };
 }
