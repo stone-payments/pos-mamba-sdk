@@ -2,29 +2,21 @@
  * This file initializes every aspect of the simulator (logic and view).
  * */
 
-/**
- * This import order is **extremely** important since the POS.html
- * needs the simulator initialized.
- */
-import Simulator from './core.js';
-import './plugins/load.js';
-import { log, warn, error } from './libs/utils.js';
-
-/** Mamba Web simulator global object */
-export default Simulator;
-
-const {
-  getVirtualPOS,
-  Registry,
-  HardwareManager,
+import {
   AppManager,
+  HardwareManager,
   DriverManager,
-} = Simulator;
+  Registry,
+  System,
+} from './plugins/index.js';
+import { log, warn, error } from './libs/utils.js';
+import './boot.js';
+import View from './view/manager.js';
 
 export {
-  /** Get a single instance of the virtual POS */
-  getVirtualPOS,
-  /** Simulator drivers */
+  /** Simulator plugins */
+  View,
+  System,
   Registry,
   HardwareManager,
   AppManager,
@@ -33,4 +25,14 @@ export {
   log,
   warn,
   error,
+};
+
+/** Mamba Web simulator global object */
+window.MambaWeb = {
+  System,
+  Registry,
+  HardwareManager,
+  DriverManager,
+  AppManager,
+  View,
 };

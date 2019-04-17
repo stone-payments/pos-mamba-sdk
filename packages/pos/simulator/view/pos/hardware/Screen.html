@@ -1,0 +1,150 @@
+<div class="screen">
+  <div class="brightness" style="opacity: {brightnessOpacity};"></div>
+  <div class="status-bar">
+    <div>
+      <div class="version">{version}</div>
+    </div>
+    <div>
+      <div class="time">{time}</div>
+    </div>
+  </div>
+  <div class="content">
+    <slot></slot>
+  </div>
+</div>
+
+<!-- SVG filter for mapping the colors supported by the POS -->
+<svg width="0" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1" style="display: block;">
+  <defs>
+    <filter id="pos-color-map" x="0%" y="0%" width="100%" height="100%">
+      <feComponentTransfer>
+        <feFuncR type="discrete" tableValues="0.00000 0.03125 0.06250 0.09375 0.12500 0.15625 0.18750 0.21875 0.25000 0.28125 0.31250 0.34375 0.37500 0.40625 0.43750 0.46875 0.50000 0.53125 0.56250 0.59375 0.62500 0.65625 0.68750 0.71875 0.75000 0.78125 0.81250 0.84375 0.87500 0.90625 0.93750 0.96875 1.00000"></feFuncR>
+        <feFuncG type="discrete" tableValues="0.000000 0.015625 0.031250 0.046875 0.062500 0.078125 0.093750 0.109375 0.125000 0.140625 0.156250 0.171875 0.187500 0.203125 0.218750 0.234375 0.250000 0.265625 0.281250 0.296875 0.312500 0.328125 0.343750 0.359375 0.375000 0.390625 0.406250 0.421875 0.437500 0.453125 0.468750 0.484375 0.500000 0.515625 0.531250 0.546875 0.562500 0.578125 0.593750 0.609375 0.625000 0.640625 0.656250 0.671875 0.687500 0.703125 0.718750 0.734375 0.750000 0.765625 0.781250 0.796875 0.812500 0.828125 0.843750 0.859375 0.875000 0.890625 0.906250 0.921875 0.937500 0.953125 0.968750 0.984375 1.000000"></feFuncG>
+        <feFuncB type="discrete" tableValues="0.00000 0.03125 0.06250 0.09375 0.12500 0.15625 0.18750 0.21875 0.25000 0.28125 0.31250 0.34375 0.37500 0.40625 0.43750 0.46875 0.50000 0.53125 0.56250 0.59375 0.62500 0.65625 0.68750 0.71875 0.75000 0.78125 0.81250 0.84375 0.87500 0.90625 0.93750 0.96875 1.00000"></feFuncB>
+      </feComponentTransfer>
+    </filter>
+  </defs>
+</svg>
+
+<script>
+  import { System, Registry, HardwareManager } from '../../../index.js';
+
+  const { hours: initHours, minutes: initMinutes } = System.getCurrentTime();
+
+  const rescale = (val, [minOld, maxOld], [minNew, maxNew]) =>
+    ((maxNew - minNew) / (maxOld - minOld)) * (val - maxOld) + maxNew;
+
+  export default {
+    data() {
+      return {
+        brightnessLevel: 10,
+        version: System.getVersion(),
+        time: `${initHours}:${initMinutes}`,
+      };
+    },
+    computed: {
+      brightnessOpacity: ({ brightnessLevel }) =>
+        1 - rescale(brightnessLevel, [1, 10], [0.4, 1]),
+    },
+    oncreate() {
+      if (localStorage) {
+        const { ScreenBrightness } = Registry.persistent.get();
+        if (ScreenBrightness && typeof ScreenBrightness.level !== 'undefined') {
+          this.set({ brightnessLevel: ScreenBrightness.level });
+        }
+      }
+
+      HardwareManager.on('changeBrightness', brightnessLevel => {
+        this.set({ brightnessLevel });
+      });
+
+      /** Update the clock after each second */
+      System.on('clock', (newHours, newMinutes) => {
+        this.set({ time: `${newHours}:${newMinutes}` });
+      });
+    },
+  };
+</script>
+
+<style type="text/postcss">
+  .screen,
+  .content {
+    height: 100%;
+  }
+
+  @media (max-width: 400px) {
+    .status-bar {
+      display: none;
+    }
+
+    :global(body) {
+      background-color: $app-bg-color;
+    }
+
+    .screen {
+      height: 100%;
+      filter: url(#pos-color-map);
+    }
+  }
+
+  @media (min-width: 401px) {
+    .screen {
+      position: absolute;
+      top: 231px;
+      left: 50px;
+      width: 240px;
+      height: 320px;
+      display: flex;
+      flex-flow: column;
+      overflow: hidden;
+      filter: url(#pos-color-map);
+
+      /** Firefox is being annoyed by two stack contexts (.screen and .content) and breaking the scroll */
+      @supports (-moz-appearance: none) {
+        filter: none;
+      }
+    }
+
+    .content {
+      height: 100%;
+      flex: 0 1 auto;
+      overflow: hidden;
+      /* user-select: text; */
+    }
+
+    /** Makes, in chrome, all fixed elements relative to the screen div */
+    @supports (-webkit-appearance: none) {
+      .content {
+        transform: translateZ(0);
+      }
+    }
+
+    .brightness {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      z-index: 100000;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .status-bar {
+      position: relative;
+      z-index: 1002;
+      width: 100%;
+      height: 20px;
+      flex: 0 0 20px;
+      background-color: #000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 4px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: bold;
+    }
+  }
+</style>

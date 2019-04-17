@@ -11,7 +11,7 @@ const { IS_DEV } = require('./consts.js');
 const babelLoaderConfig = {
   loader: 'babel-loader',
   options: {
-    compact: false,
+    sourceMaps: IS_DEV,
     cacheDirectory: IS_DEV,
     babelrc: false,
     ...babelrc,
@@ -73,7 +73,7 @@ module.exports = {
       fallback: 'file-loader',
       limit: 1,
       outputPath: 'assets/',
-      name: './images/[name].[ext]',
+      name: './images/[name].[hash:5].[ext]',
     },
   },
   svelte: {
@@ -81,6 +81,8 @@ module.exports = {
     options: {
       emitCss: true,
       hotReload: IS_DEV,
+      /** fix for svelte-loader not setting css: false when emitCss: true */
+      css: false,
       ...svelteConfig,
     },
   },

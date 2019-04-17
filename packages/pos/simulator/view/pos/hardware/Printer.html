@@ -1,0 +1,216 @@
+<div
+  class="printer {printerClass} {usingDithering ? 'has-dithering' : ''}"
+  on:click="shred()"
+>
+  <div ref:paper class="paper hide-scrollbar">
+    <div class="content">{@html content}</div>
+  </div>
+
+  <!-- SVG filter for removing colors from the paper -->
+  <svg width="0" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1" style="display: block;">
+    <defs>
+      <filter id="remove-colors-alpha" x="0%" y="0%" width="100%" height="100%">
+        {#if !usingDithering}
+          <feComponentTransfer>
+            <feFuncR type="discrete" tableValues="0.0 1.0"></feFuncR>
+            <feFuncG type="discrete" tableValues="0.0 1.0"></feFuncG>
+            <feFuncB type="discrete" tableValues="0.0 1.0"></feFuncB>
+          </feComponentTransfer>
+        {/if}
+        <!-- Remove white -->
+        <feColorMatrix result="original" id="svgcolormatrix" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1 -1 -1 1 -0.04"></feColorMatrix>
+      </filter>
+    </defs>
+  </svg>
+</div>
+
+<script>
+  import { HardwareManager } from '../../../index.js';
+  import { onceTransitionEnd } from '../utils.js';
+
+  let shreddingPromise = null;
+
+  const STATES = Object.freeze({
+    IDLE: 'idle',
+    PRINTING: 'printing',
+    PRINTED: 'printed',
+    SHREDDING: 'shredding',
+    WAITING: 'waiting',
+  });
+
+  export default {
+    data() {
+      return {
+        content: '',
+        state: STATES.IDLE,
+        usingDithering: false,
+      };
+    },
+    computed: {
+      printerClass({ state }) {
+        return `is-${state}`;
+      },
+    },
+    oncreate() {
+      HardwareManager.on('startPrinting', (content, options) => {
+        this.print(content, options).then(() =>
+          HardwareManager.fire('endPrinting'),
+        );
+      });
+    },
+    methods: {
+      print(content, options) {
+        const { state } = this.get();
+        this.set({ usingDithering: !!options.use_dithering });
+
+        const getPrintPromise = () =>
+          new Promise(resolve => {
+            this.set({
+              state: STATES.PRINTED,
+              content: content.outerHTML,
+            });
+
+            /** Once it finishes printing animation */
+            onceTransitionEnd(this.refs.paper, resolve);
+          });
+
+        /** If there's already printed paper, shred it */
+        if (state === STATES.PRINTED || state === STATES.SHREDDING) {
+          return this.shred().then(getPrintPromise);
+        }
+
+        return getPrintPromise();
+      },
+      /** Shred a already printed paper */
+      shred() {
+        const { state } = this.get();
+        /** Does the printer has any printed paper? */
+        const doesntHasPaper = state !== STATES.PRINTED;
+
+        /** If already shredding, return the current shredding promise */
+        if (state === STATES.SHREDDING) {
+          return shreddingPromise;
+        }
+
+        if (doesntHasPaper) {
+          return Promise.resolve();
+        }
+
+        /** If there's already printed paper, shred it */
+        shreddingPromise = new Promise(resolve => {
+          this.set({ state: STATES.SHREDDING });
+          /** Once it finishes shredding animation */
+          onceTransitionEnd(this.refs.paper, () => {
+            this.set({
+              state: STATES.WAITING,
+              content: '',
+            });
+
+            /** Once it finishes the "reset" animation */
+            setTimeout(resolve);
+          });
+        });
+
+        return shreddingPromise;
+      },
+    },
+  };
+</script>
+
+<style type="text/postcss">
+  $paper-color: #add8e6;
+  $max-paper-height: 370px;
+  $real-paper-width: calc(384 + 36);
+  $mockup-paper-width: 250;
+  $paper-scale: calc($mockup-paper-width / $real-paper-width);
+
+  .printer {
+    width: 400px;
+    position: absolute;
+    left: 42px;
+    bottom: 584px;
+    transform: scale($paper-scale);
+    transform-origin: 0 100%;
+
+    @media (max-width: 400px) {
+      display: none;
+    }
+
+    &:not(.is-printed) {
+      pointer-events: none;
+    }
+
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      z-index: 0;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 10px;
+      max-height: 10px;
+      background-color: $paper-color;
+      border-top: 1px dashed transparent;
+      transition: border-top-color 0.3s ease, max-height 0.3s ease;
+    }
+
+    &.is-printed:hover {
+      &::after {
+        border-top-color: rgba(0, 0, 0, 0.6);
+      }
+    }
+
+    &.is-shredding,
+    &.is-waiting {
+      &::after {
+        box-shadow: 2px 0px 2px 1px rgba(0, 0, 0, 0.4);
+      }
+    }
+
+    &.is-idle {
+      &::after {
+        max-height: 0;
+        background-color: transparent;
+      }
+    }
+  }
+
+  .paper {
+    position: relative;
+    overflow-y: auto;
+    background-color: $paper-color;
+    cursor: pointer;
+    border-top-right-radius: 2px;
+    border-top-left-radius: 2px;
+    transition: transform 0.2s 0.3s ease, max-height 2s ease-in-out;
+    transform-origin: 0 100%;
+    max-height: $max-paper-height;
+
+    .printer.is-idle & {
+      max-height: 0;
+    }
+
+    .printer.is-waiting & {
+      transition: none;
+      max-height: 10px;
+    }
+
+    .printer.is-printed & {
+      box-shadow: 2px 0px 2px 1px rgba(0, 0, 0, 0.4);
+    }
+
+    .printer.is-shredding & {
+      border-bottom: none;
+      transition: transform 1s ease;
+      transform: rotateZ(-8deg) translateY(-700px);
+    }
+  }
+
+  .content {
+    position: relative;
+    z-index: 1;
+    padding: 20px 21px 15px 20px;
+    filter: contrast(300%) grayscale(100%) url(#remove-colors-alpha);
+  }
+</style>

@@ -19,7 +19,7 @@ beforeEach(() => {
 });
 
 it('should automatically start after image loading', () => {
-  expect(typeof sprite.get()._interval).toBe('number');
+  expect(typeof sprite.interval).toBe('number');
 });
 
 it('should stop the sprite animation interval', () => {
@@ -27,7 +27,7 @@ it('should stop the sprite animation interval', () => {
 
   sprite.stop();
 
-  expect(sprite.get()._interval).toBe(null);
+  expect(sprite.interval).toBe(null);
 });
 
 it('should start the sprite animation interval', () => {
@@ -35,5 +35,5 @@ it('should start the sprite animation interval', () => {
 
   sprite.start();
 
-  expect(typeof sprite.get()._interval).toBe('number');
+  expect(typeof sprite.interval).toBe('number');
 });

@@ -1,34 +1,12 @@
+import EventTarget from '../../libs/EventTarget.js';
 import Registry from '../registry/manager.js';
 import Signal from '../../libs/signal.js';
-import { LOG_PREFIX } from '../../libs/utils.js';
-import extendDriver from '../../../drivers/extend.js';
+import { LOG_PREFIX, deepCopy } from '../../libs/utils.js';
+import extend from '../../../extend.js';
 
-let externalDrivers = [];
-let looseDrivers = null;
+const DriverManager = extend({}, EventTarget());
 
-const DriverManager = extendDriver({});
-
-Signal.register(DriverManager, [
-  'externalDriversAttached', // (driverModules)
-]);
-
-DriverManager.getExternalDrivers = () => externalDrivers;
-DriverManager.getLooseDrivers = () => looseDrivers;
-DriverManager.clearLooseDrivers = () => {
-  looseDrivers = null;
-};
-
-/**
- * Resets a driver state. We use JSON.parse/stringify to deep clone the state object
- */
-DriverManager.resetDriverState = driverModule => {
-  if (driverModule.SETTINGS) {
-    Registry.set(
-      driverModule.NAMESPACE,
-      JSON.parse(JSON.stringify(driverModule.SETTINGS)),
-    );
-  }
-};
+DriverManager.drivers = Object.freeze({});
 
 DriverManager.attachDrivers = driverModules => {
   if (__DEBUG_LVL__ >= 1 && __BROWSER__)
@@ -41,11 +19,36 @@ DriverManager.attachDrivers = driverModules => {
     if (__DEBUG_LVL__ >= 1 && __BROWSER__) console.groupCollapsed(driverRef);
 
     /** Set the simulator default settings for the driver */
-    if (driverModule.SETTINGS) {
+    if (driverModule.DYNAMIC_SETTINGS || driverModule.SETTINGS) {
+      const dynamicDefaults =
+        driverModule.DYNAMIC_SETTINGS || driverModule.SETTINGS;
+
       if (__DEBUG_LVL__ >= 1 && __BROWSER__) {
-        console.log('Default settings:', driverModule.SETTINGS);
+        console.log('Dynamic settings:', dynamicDefaults);
       }
-      DriverManager.resetDriverState(driverModule);
+
+      Registry.set(draft => {
+        draft[driverRef] = deepCopy(dynamicDefaults);
+      });
+    }
+
+    if (driverModule.PERSISTENT_SETTINGS) {
+      const persistentDefaults = deepCopy(driverModule.PERSISTENT_SETTINGS);
+
+      /** Does any persisted data for this driver exist? */
+      Registry.persistent.set(draft => {
+        draft[driverRef] = {
+          ...persistentDefaults,
+          ...(draft[driverRef] || {}),
+        };
+      });
+
+      if (__DEBUG_LVL__ >= 1 && __BROWSER__) {
+        console.log(
+          'Persistent settings:',
+          Registry.persistent.get()[driverRef],
+        );
+      }
     }
 
     /** Register the driver signals */
@@ -74,8 +77,6 @@ DriverManager.attachDrivers = driverModules => {
       );
     }
 
-    /** Export it to the window */
-
     /**
      * Merge the existing native module (if any) for the case of the
      * simulator running on the actual POS.
@@ -95,15 +96,17 @@ DriverManager.attachDrivers = driverModules => {
       });
     }
 
+    /** Export it to the window */
     window[driverRef] = driver;
+
+    /** Export it to the driver manager */
+    DriverManager.drivers = Object.freeze({
+      ...DriverManager.drivers,
+      [driverRef]: driver,
+    });
 
     if (__DEBUG_LVL__ >= 1 && __BROWSER__) console.groupEnd();
   });
-
-  if (Registry._booted) {
-    externalDrivers = [...externalDrivers, ...driverModules];
-    looseDrivers = driverModules;
-  }
 
   if (__DEBUG_LVL__ >= 1 && __BROWSER__) console.groupEnd();
 };

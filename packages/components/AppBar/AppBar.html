@@ -1,6 +1,6 @@
 <header class="appbar" {style}>
   {#if _showBack}
-    <div class="icon-left" on:click="goBack()">
+    <div class="icon-left" on:click="_goBack()">
       <Icon symbol="chevron-left" width="10px" color={textColor} />
     </div>
   {/if}
@@ -10,7 +10,7 @@
   {/if}
 
   {#if _showHome}
-    <div class="icon-right" on:click="goHome()">
+    <div class="icon-right" on:click="_goHome()">
       <Icon symbol={_isAtHome ? 'home' : 'app-home'} color={textColor}/>
     </div>
   {/if}
@@ -52,19 +52,22 @@
       /** Listen for route changes and appbar prop changes */
       root.on('appbar:modify', state => this.set(state));
 
-      /* istanbul ignore else */
+      /** Needed for projects with svelte-page < v2.2.0 */
       if (root.router) {
         root.router.on('update', ({ changed, current }) => {
-          /* istanbul ignore else */
           if (changed.context && current.context) {
             this.set({ _location: current.context.path });
           }
+        });
+      } else {
+        root.on('router:change', context => {
+          this.set({ _location: context.path });
         });
       }
 
       /* istanbul ignore else */
       if (root.meta) {
-        root.meta.set({ _hasAppbar: true });
+        root.meta.set({ hasAppbar: true });
         root.meta.on('update', ({ changed, current }) => {
           /* istanbul ignore else */
           if (changed.navigable) {
@@ -76,7 +79,7 @@
     ondestroy() {
       /* istanbul ignore else */
       if (this.root.meta) {
-        this.root.meta.set({ _hasAppbar: false });
+        this.root.meta.set({ hasAppbar: false });
       }
     },
     onstate({ changed, current }) {
@@ -85,20 +88,24 @@
       }
     },
     methods: {
-      goHome() {
+      _goHome() {
         const { _isAtHome } = this.get();
+
         if (_isAtHome) {
+          this.root.fire('appbar:closeApp');
           return this.root.close();
         }
 
         /* istanbul ignore else */
         if (this.root.router) {
+          this.root.fire('appbar:goHome');
           this.root.router.go('/');
         }
       },
-      goBack() {
+      _goBack() {
         /* istanbul ignore else */
         if (this.root.router) {
+          this.root.fire('appbar:goBack');
           this.root.router.back();
         }
       },
@@ -108,7 +115,6 @@
 
 <style type="text/postcss">
   @import '@mamba/styles/settings.pcss';
-  @import '@mamba/styles/theme.pcss';
 
   $item-horizontal-margin: 8px;
 

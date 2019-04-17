@@ -12,6 +12,8 @@ const newAppBar = data => {
 
 const changeRouterPath = path => {
   root.router.set({ context: { path } });
+  root.router.fire('change', { path });
+  root.fire('router:change', { path });
 };
 
 it('should apply inline style', () => {
@@ -116,18 +118,28 @@ describe('navigation', () => {
   });
 
   it('should go home when home is clicked and location is not home page', () =>
-    new Promise(res => {
-      root.router.go = res;
-      clickOn(root.query('.icon-right'));
-    }));
+    Promise.all([
+      new Promise(res => {
+        root.on('appbar:goHome', res);
+      }),
+      new Promise(res => {
+        root.router.go = res;
+        clickOn(root.query('.icon-right'));
+      }),
+    ]));
 
   it('should close app when home is clicked and location is home', () => {
     changeRouterPath('/');
 
-    return new Promise(res => {
-      root.close = res;
-      clickOn(root.query('.icon-right'));
-    });
+    return Promise.all([
+      new Promise(res => {
+        root.on('appbar:closeApp', res);
+      }),
+      new Promise(res => {
+        root.close = res;
+        clickOn(root.query('.icon-right'));
+      }),
+    ]);
   });
 
   it('should go back when back is clicked', () => {
@@ -135,10 +147,15 @@ describe('navigation', () => {
 
     root.meta.setNavigable({ back: true, home: true });
 
-    return new Promise(res => {
-      root.router.back = res;
-      clickOn(root.query('.icon-left'));
-    });
+    return Promise.all([
+      new Promise(res => {
+        root.on('appbar:goBack', res);
+      }),
+      new Promise(res => {
+        root.router.back = res;
+        clickOn(root.query('.icon-left'));
+      }),
+    ]);
   });
 });
 
@@ -150,5 +167,5 @@ it('should modify the appbar props', () => {
 it('should set hasAppbar false on meta', () => {
   appBar.destroy();
 
-  expect(root.meta.get()._hasAppbar).toBe(false);
+  expect(root.meta.get().hasAppbar).toBe(false);
 });

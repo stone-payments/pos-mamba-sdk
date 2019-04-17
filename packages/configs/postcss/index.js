@@ -1,33 +1,33 @@
+const resolve = require('resolve');
 const { existsSync } = require('fs');
-const { resolve } = require('path');
+const { fromCwd } = require('quickenv');
 
 const postcssEasyImport = require('postcss-easy-import');
 const postcssExtendRule = require('postcss-extend-rule');
 const postcssAdvancedVariables = require('postcss-advanced-variables');
 const postcssCalc = require('postcss-calc');
 const postcssPresetEnv = require('postcss-preset-env');
-const postcssAtroot = require('postcss-atroot');
-const postcssPropertyLookup = require('postcss-property-lookup');
 const postcssNested = require('postcss-nested');
-const cssMqpacker = require('css-mqpacker');
+const cssMqPacker = require('css-mqpacker');
 const postcssReporter = require('postcss-reporter');
-const prependImports = require('./prependImports.js');
+const postcssHexRGBA = require('postcss-hexrgba');
 
-const IS_BUILDING_APP = !!process.env.APP_ENV;
+const postcssUniqueImports = require('./includes/uniqueImports.js');
+const unthrow = require('./includes/unthrow.js');
 
-const CWD = process.cwd();
+const isBuildingApp = typeof process.env.APP_ENV !== 'undefined';
 
-const LOCAL_THEME_PATH = resolve(CWD, 'src/theme.pcss');
-
-const THEME_FILES = [
-  '@mamba/styles/theme.pcss',
-  existsSync(LOCAL_THEME_PATH) && LOCAL_THEME_PATH,
-];
+const globalThemeFile = unthrow(() => resolve.sync('@mamba/styles/theme.pcss'));
+const appThemeFile = fromCwd('src/theme.pcss');
 
 module.exports = {
   plugins: [
-    /** Custom plugin to prepend theme imports ONLY for apps */
-    IS_BUILDING_APP && prependImports({ files: THEME_FILES }),
+    /** Custom plugin to prepend imports */
+    postcssUniqueImports.plugin([
+      globalThemeFile && '@mamba/styles/theme.pcss',
+      /** If building an app, append the local theme file */
+      isBuildingApp && existsSync(appThemeFile) && appThemeFile,
+    ]),
     postcssEasyImport({
       extensions: ['.css', '.pcss'],
     }),
@@ -36,6 +36,7 @@ module.exports = {
     postcssCalc({
       warnWhenCannotResolve: true,
     }),
+    postcssHexRGBA(),
     postcssPresetEnv({
       stage: 2 /** Defaults postcss-preset-env to stage 2 */,
       features: {
@@ -44,10 +45,8 @@ module.exports = {
         },
       },
     }),
-    postcssAtroot(),
-    postcssPropertyLookup(),
     postcssNested(),
-    cssMqpacker(),
-    postcssReporter({ clearReportedMessages: true }),
+    cssMqPacker(),
+    postcssReporter({ clearReportedMessages: false }),
   ],
 };

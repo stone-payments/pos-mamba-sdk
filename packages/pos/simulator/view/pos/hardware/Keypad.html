@@ -1,0 +1,172 @@
+<div class="keypad">
+  <button class="key-1" on:mousedown="dispatchKey({ event, keyName: '1'})">1</button>
+  <button class="key-2" on:mousedown="dispatchKey({ event, keyName: '2'})">2</button>
+  <button class="key-3" on:mousedown="dispatchKey({ event, keyName: '3'})">3</button>
+  <button class="key-4" on:mousedown="dispatchKey({ event, keyName: '4'})">4</button>
+  <button class="key-5" on:mousedown="dispatchKey({ event, keyName: '5'})">5</button>
+  <button class="key-6" on:mousedown="dispatchKey({ event, keyName: '6'})">6</button>
+  <button class="key-7" on:mousedown="dispatchKey({ event, keyName: '7'})">7</button>
+  <button class="key-8" on:mousedown="dispatchKey({ event, keyName: '8'})">8</button>
+  <button class="key-9" on:mousedown="dispatchKey({ event, keyName: '9'})">9</button>
+  <button class="key-0" on:mousedown="dispatchKey({ event, keyName: '0'})">0</button>
+  <button class="back" on:mousedown="dispatchKey({ event, keyName: 'back'})">back</button>
+  <button class="close" on:mousedown="dispatchKey({ event, keyName: 'close'})">close</button>
+  <button class="enter" on:mousedown="dispatchKey({ event, keyName: 'enter'})">enter</button>
+  <button class="shortcuts" on:mousedown="dispatchKey({ event, keyName: 'shortcuts'})">shortcuts</button>
+  <button class="help" on:mousedown="dispatchKey({ event, keyName: 'help'})">help</button>
+</div>
+
+<script>
+  import Keyboard from '../../../../api/keyboard.js';
+
+  const getKeyboardEvent = (event, code, keyName) =>
+    new KeyboardEvent(event, {
+      bubbles: true,
+      cancelable: true,
+      key: keyName,
+      charCode: code,
+      keyCode: code,
+      which: code,
+    });
+
+  export default {
+    methods: {
+      dispatchKey({ event, keyName }) {
+        /** Prevent the button from being focused */
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        const el = document.activeElement;
+        const isInputOnFocus =
+          el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA');
+        const keyCode = Keyboard.getKeyCode(keyName);
+
+        /** We have to handle input actions manually */
+        if (isInputOnFocus) {
+          /** If action button clicked */
+          if (Keyboard.isActionKey(keyCode)) {
+            /** The actual 'back' is handled by that 'handleKeyUp' method */
+            if (keyName === 'back') {
+              el.value = el.value.slice(0, -1);
+            }
+            /** If numeric button clicked */
+          } else if (el.maxLength < 0 || el.value.length + 1 <= el.maxLength) {
+            el.value += keyName;
+          }
+        }
+
+        el.dispatchEvent(getKeyboardEvent('keydown', keyCode, keyName));
+        el.dispatchEvent(getKeyboardEvent('keypress', keyCode, keyName));
+        if (isInputOnFocus) {
+          el.dispatchEvent(getKeyboardEvent('input', keyCode, keyName));
+        }
+        el.dispatchEvent(getKeyboardEvent('keyup', keyCode, keyName));
+      },
+    },
+  };
+</script>
+
+<style type="text/postcss">
+  .keypad {
+    position: absolute;
+    width: 292px;
+    height: 158px;
+    bottom: 20px;
+    left: 18px;
+
+    @media (max-width: 400px) {
+      display: none;
+    }
+  }
+
+  button {
+    position: absolute;
+    width: 62px;
+    height: 30px;
+    border: 0;
+    appearance: none;
+    cursor: pointer;
+    background: none;
+    border-radius: 8px;
+    color: transparent;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.2s ease;
+  }
+
+  button:hover {
+    color: white;
+    background-color: rgba(22, 22, 22, 0.9);
+    border: 2px solid white;
+  }
+
+  button:active {
+    transform: scale(0.95);
+  }
+
+  .shortcuts {
+    font-size: 10px;
+  }
+
+  .help {
+    border-bottom-left-radius: 35px;
+  }
+
+  .close,
+  .back,
+  .enter {
+    left: 219px;
+  }
+
+  .enter {
+    height: 64px;
+    border-bottom-right-radius: 30px;
+  }
+
+  .key-1,
+  .key-4,
+  .key-7,
+  .help {
+    left: 14px;
+  }
+
+  .key-2,
+  .key-5,
+  .key-8,
+  .key-0 {
+    left: 82px;
+  }
+
+  .key-3,
+  .key-6,
+  .key-9,
+  .shortcuts {
+    left: 150px;
+  }
+
+  .key-1,
+  .key-2,
+  .key-3,
+  .close {
+    bottom: 118px;
+  }
+
+  .key-4,
+  .key-5,
+  .key-6,
+  .back {
+    bottom: 82px;
+  }
+
+  .key-7,
+  .key-8,
+  .key-9 {
+    bottom: 47px;
+  }
+
+  .key-0,
+  .shortcuts,
+  .help,
+  .enter {
+    bottom: 12px;
+  }
+</style>

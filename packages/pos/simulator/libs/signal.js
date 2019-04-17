@@ -1,18 +1,69 @@
 /**
  * This file is a simulation of the QT Signal & Slot
  * */
+
+import { AppManager } from '../index.js';
+
+const getSlotsGroup = () => {
+  const currentApp = AppManager.getCurrentApp();
+  return currentApp ? currentApp.manifest.slug : 'default';
+};
+
+const isSlotGroupSuspended = () => {
+  const currentApp = AppManager.getCurrentApp();
+  return currentApp ? !!currentApp.runtime.suspended : false;
+};
+
 export default function Signal() {
-  const slots = [];
+  /** map of appSlug -> calback list */
+  const slots = {};
+
+  /**
+   * When an app closes, remove it's connected signal slots
+   * This logic should not be here but it'd be cumbersome to put it elsewhere for now.
+   */
+  AppManager.on('closed', app => {
+    if (slots[app.manifest.slug]) {
+      delete slots[app.manifest.slug];
+    }
+  });
 
   function signal(...args) {
-    slots.forEach(slot => slot(...args));
+    const groupName = getSlotsGroup();
+    if (slots.default) {
+      slots.default.forEach(slot => slot(...args));
+    }
+
+    if (
+      groupName !== 'default' &&
+      slots[groupName] &&
+      !isSlotGroupSuspended()
+    ) {
+      slots[groupName].forEach(slot => slot(...args));
+    }
   }
 
-  signal.connect = callback => slots.push(callback);
+  signal.connect = callback => {
+    const groupName = getSlotsGroup();
+
+    if (!slots[groupName]) {
+      slots[groupName] = [];
+    }
+
+    slots[groupName].push(callback);
+  };
+
   signal.disconnect = callback => {
-    const callbackIndex = slots.indexOf(callback);
+    const groupName = getSlotsGroup();
+
+    const callbackIndex = slots[groupName].indexOf(callback);
+
     if (callbackIndex >= 0) {
-      slots.splice(callbackIndex, 1);
+      slots[groupName].splice(callbackIndex, 1);
+
+      if (slots[groupName].length === 0) {
+        delete slots[groupName];
+      }
     }
   };
 

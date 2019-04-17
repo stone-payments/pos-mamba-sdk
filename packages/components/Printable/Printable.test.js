@@ -1,4 +1,4 @@
-import Simulator from '@mamba/pos/simulator/index.js';
+import { Registry } from '@mamba/pos/simulator/index.js';
 import Printable from './Printable.html';
 
 const { newTestRoot } = global;
@@ -43,6 +43,20 @@ it('should display a printing dialog', () => {
   ]);
 });
 
+it('should NOT display a printing dialog', () => {
+  printable = newPrintable({ showPrintingDialog: false });
+  printable.print();
+
+  return Promise.all([
+    new Promise(res => {
+      if (!printable.refs.printingDialog) {
+        res();
+      }
+    }),
+    new Promise(res => printable.on('finish', res)),
+  ]);
+});
+
 it('should return a resolved promise when `print({ print_to_paper: false })` and fire "finish"', () => {
   printable = newPrintable();
   return Promise.all([
@@ -52,7 +66,9 @@ it('should return a resolved promise when `print({ print_to_paper: false })` and
 });
 
 it('should display a retry dialog in case of a printing error', () => {
-  Simulator.Registry.set('$Printer.panel.shouldFail', true);
+  Registry.set(draft => {
+    draft.$Printer.panel.shouldFail = true;
+  });
 
   printable = newPrintable();
   printable.print();
@@ -67,7 +83,9 @@ it('should display a retry dialog in case of a printing error', () => {
 });
 
 it('should dispatch a "finish" event in case of not wanting to retry printing', () => {
-  Simulator.Registry.set('$Printer.panel.shouldFail', true);
+  Registry.set(draft => {
+    draft.$Printer.panel.shouldFail = true;
+  });
 
   printable = newPrintable();
   printable.print();

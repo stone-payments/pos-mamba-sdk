@@ -6,6 +6,7 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: [
     '**/*.{html,htmlx,svelte}',
+    'packages/utils/**/*.js',
     '!**/node_modules/**',
     '!tools/**',
     '!packages/pos/**',
@@ -29,8 +30,11 @@ module.exports = {
     /** act as a resolver for the "svelte" field of a component package.json */
     ...getSvelteModuleMaps(resolve(__dirname, 'packages', 'components')),
   },
+  transformIgnorePatterns: [
+    'node_modules/(?!(@mamba)|(.+\\.html)|(svelte.+\\.js))',
+  ],
   transform: {
-    '^.+\\.js?$': '<rootDir>/tools/jest/babelPreprocess.js',
+    '^.+\\.js$': '<rootDir>/tools/jest/babelPreprocess.js',
     '^.+\\.(htmlx?|svelte)$': '<rootDir>/tools/jest/svelteTransformer.js',
   },
   globals: {

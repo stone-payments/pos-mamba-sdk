@@ -21,7 +21,9 @@ beforeEach(() => {
 });
 
 it("should pass the app's content through a slot", () => {
-  expect(root.query('.app')).not.toBeNull();
+  expect(root.options.target.classList.contains('mamba-app-container')).toBe(
+    true,
+  );
   expect(root.query('.content')).not.toBeNull();
 });
 
@@ -34,6 +36,12 @@ it('should close the app on "this.root.close()" method execution', () =>
     AppAPI.once('closed', res);
     root.close();
   }));
+
+it('should open password dialog "this.root.close()" method execution when askPasswordOnClose is true', () => {
+  root.meta.set({ askPasswordOnClose: true });
+  root.close();
+  expect(root.meta.refs.adminLock.get()._showLockPopUp).toBe(true);
+});
 
 it('[DEPRECATED] should close the app on "close" root event', () =>
   new Promise(res => {
@@ -49,10 +57,10 @@ it('should be able to override the close callback with a root.onClose method', (
 
 it('should toggle a "no-scroll" class on the root.target with the `scrollable` prop', () => {
   meta.setScrollable(false);
-  expect(root.options.target.classList.contains('no-scroll')).toBe(true);
+  expect(root.query('.mamba-app').classList.contains('no-scroll')).toBe(true);
 
   meta.setScrollable(true);
-  expect(root.options.target.classList.contains('no-scroll')).toBe(false);
+  expect(root.query('.mamba-app').classList.contains('no-scroll')).toBe(false);
 });
 
 it('[deprecated] should modify the navigation object when root "navigation" and "shortcuts" are fired ', () => {
@@ -75,12 +83,12 @@ it('[deprecated] should modify the navigation object when root "navigation" and 
   expect(meta.get().shortcuts).toBe(true);
 });
 
-it('should toggle a "has-appbar" class on the root.target with the `_hasAppbar` prop', () => {
-  meta.set({ _hasAppbar: false });
-  expect(root.target.classList.contains('has-appbar')).toBe(false);
+it('should toggle a "has-appbar" class on the root.target with the `hasAppbar` prop', () => {
+  meta.set({ hasAppbar: false });
+  expect(root.query('.mamba-app').classList.contains('has-appbar')).toBe(false);
 
-  meta.set({ _hasAppbar: true });
-  expect(root.target.classList.contains('has-appbar')).toBe(true);
+  meta.set({ hasAppbar: true });
+  expect(root.query('.mamba-app').classList.contains('has-appbar')).toBe(true);
 });
 
 it('should close app on "close" button', () =>

@@ -19,13 +19,17 @@
 {/if}
 
 <script>
+  /** Static variables */
+  /** Number of dialogs currently opened */
+  let dialogsOpened = 0;
+  /** Previous navigable (app meta) object */
+  let previousNavigable = null;
+
   export default {
     data() {
       return {
         /** Dialog open state */
         isOpen: false,
-        /** Should the dialog automatic lock the app? */
-        _previousNavigationObj: null,
         title: undefined,
         bgColor: '#e3e3e3',
         textColor: '#353535',
@@ -50,6 +54,7 @@
       /* istanbul ignore next */
       if (changed.isOpen) {
         if (current.isOpen) {
+          dialogsOpened++;
           this.fire('open');
 
           /**
@@ -58,20 +63,22 @@
            */
           document.activeElement.blur();
 
-          if (this.root.meta) {
+          if (dialogsOpened === 1 && this.root.meta) {
             const { scrollable, navigable } = this.root.meta.get();
+
             /** Disable app scroll when opening a dialog */
             /* istanbul ignore else */
             if (scrollable) {
               this.root.meta.set({ scrollable: false });
             }
 
-            this.set({ _previousNavigationObj: navigable });
+            previousNavigable = navigable;
 
             this.root.meta.setNavigable(false);
           }
         } else if (previous) {
           this._close();
+          dialogsOpened--;
           this.fire('close');
         }
       }
@@ -102,16 +109,16 @@
       },
       /** Private close method. Used on .close() and ondestroy() */
       _close() {
-        const { _previousNavigationObj } = this.get();
-
         /** Allow app to scroll again */
         /* istanbul ignore else */
-        if (this.root.meta && _previousNavigationObj != null) {
+        if (dialogsOpened === 1 && this.root.meta && previousNavigable != null) {
           /** Let's unlock the app */
           this.root.meta.set({
-            navigable: _previousNavigationObj,
+            navigable: previousNavigable,
             scrollable: true,
           });
+
+          previousNavigable = null;
         }
       },
     },
@@ -120,7 +127,6 @@
 
 <style type="text/postcss">
   @import '@mamba/styles/settings.pcss';
-  @import '@mamba/styles/theme.pcss';
 
   .dialog {
     position: fixed;
@@ -130,7 +136,7 @@
     width: 100%;
     bottom: 0;
 
-    :global(#app-root.has-appbar) &:not(.is-fullscreen) {
+    :global(.mamba-app.has-appbar) &:not(.is-fullscreen) {
       top: $appbar-height;
 
       &::before {

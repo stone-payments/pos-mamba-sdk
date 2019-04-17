@@ -1,0 +1,177 @@
+<svelte:window on:keyup="_onKeyup(event)" />
+
+<div
+  class="credit-card"
+  class:is-inserted="isInserted"
+  class:is-dragging="isDragging"
+  class:is-above-screen="isAboveScreen"
+  ref:card
+></div>
+
+<script>
+  import { HardwareManager } from '../../index.js';
+
+  export default {
+    data() {
+      return {
+        isInserted: false,
+        isDragging: false,
+        isAboveScreen: false,
+      };
+    },
+    oncreate() {
+      const cardEl = this.refs.card;
+
+      let mouseStartPos = null;
+      let elPos = null;
+      let nfcTimeout;
+
+      const resetDrag = () => {
+        clearTimeout(nfcTimeout);
+        nfcTimeout = null;
+
+        cardEl.style.top = '';
+        cardEl.style.left = '';
+
+        this.set({ isDragging: false, isAboveScreen: false });
+
+        mouseStartPos = null;
+        elPos = null;
+      };
+
+      const checkAboveScreen = (x, y) =>
+        Array.from(document.elementsFromPoint(x, y)).some(n =>
+          n.classList.contains('screen'),
+        );
+
+      const onMousedown = e => {
+        mouseStartPos = { x: e.clientX, y: e.clientY };
+        elPos = { x: cardEl.offsetLeft, y: cardEl.offsetTop };
+      };
+
+      const onMouseup = e => {
+        if (mouseStartPos.x === e.clientX && mouseStartPos.y === e.clientY) {
+          this.toggleCard();
+        }
+        resetDrag();
+      };
+
+      const onMousemove = e => {
+        const { isInserted, isDragging } = this.get();
+        if (!mouseStartPos || isInserted) {
+          return;
+        }
+
+        if (!isDragging) {
+          this.set({ isDragging: true });
+        }
+
+        const newPos = {
+          x: elPos.x + e.clientX - mouseStartPos.x,
+          y: elPos.y + e.clientY - mouseStartPos.y,
+        };
+        cardEl.style.left = `${newPos.x}px`;
+        cardEl.style.top = `${newPos.y}px`;
+
+        const isAboveScreen = checkAboveScreen(e.clientX, e.clientY);
+
+        this.set({ isAboveScreen });
+
+        if (isAboveScreen) {
+          if (!nfcTimeout) {
+            nfcTimeout = setTimeout(() => {
+              HardwareManager.fire('nfcStart');
+            }, 1000);
+          }
+        } else {
+          clearTimeout(nfcTimeout);
+          nfcTimeout = null;
+        }
+      };
+
+      cardEl.addEventListener('mousedown', onMousedown);
+      cardEl.addEventListener('mouseup', onMouseup);
+      document.body.addEventListener('mouseout', resetDrag);
+      document.body.addEventListener('mousemove', onMousemove);
+
+      this.on('destroy', () => {
+        cardEl.removeEventListener('mousedown', onMousedown);
+        cardEl.removeEventListener('mouseup', onMouseup);
+        document.body.removeEventListener('mouseout', resetDrag);
+        document.body.removeEventListener('mousemove', onMousemove);
+      });
+    },
+    methods: {
+      toggleCard() {
+        const isInserted = !this.get().isInserted;
+        this.set({ isInserted });
+
+        if (isInserted) {
+          setTimeout(() => {
+            HardwareManager.fire('cardToggled', true);
+            HardwareManager.fire('cardInserted');
+          }, 500);
+        } else {
+          HardwareManager.fire('cardToggled', false);
+          HardwareManager.fire('cardRemoved');
+        }
+      },
+      _onKeyup(e) {
+        const keyCode = e.charCode || e.which || e.keyCode;
+        /** If input is focused or a key other than 'spacebar' clicked, do nothing */
+        if (document.activeElement.tagName === 'INPUT' || keyCode !== 32) {
+          return;
+        }
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        this.toggleCard();
+      },
+    },
+  };
+</script>
+
+<style type="text/postcss">
+  .credit-card {
+    @media (max-width: 400px) {
+      display: none;
+    }
+
+    position: absolute;
+    width: 240px;
+    height: 370px;
+    left: 45px;
+    top: 780px;
+    z-index: 1;
+    background-image: url(./assets/creditcard.png);
+    cursor: pointer;
+    filter: drop-shadow(8px 8px 2px rgba(0, 0, 0, 0.5));
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: scale(1.04);
+    }
+
+    &:not(:hover):not(.is-inserted) {
+      filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+    }
+
+    &.is-dragging {
+      z-index: 999999;
+      cursor: grabbing;
+      transition: all 0.3s ease, top 0s, left 0s;
+
+      &:not(.is-above-screen) {
+        filter: drop-shadow(18px 18px 6px rgba(0, 0, 0, 0.5));
+      }
+    }
+
+    &.is-above-screen {
+      opacity: 0.8;
+      transform: rotateZ(-25deg);
+    }
+
+    &.is-inserted {
+      transform: translateY(-180px);
+    }
+  }
+</style>

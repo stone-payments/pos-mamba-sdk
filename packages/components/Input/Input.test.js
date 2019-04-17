@@ -1,4 +1,4 @@
-import Simulator from '@mamba/pos/simulator/index.js';
+import { Registry } from '@mamba/pos/simulator/index.js';
 import System from '@mamba/pos/api/system.js';
 import Input from './Input.html';
 
@@ -57,7 +57,7 @@ describe('methods', () => {
     expect(input.get().isFocused).toBe(false);
   });
 
-  it('should manually mask a input', () => {
+  it('should manually mask an input', () => {
     input = newInput();
     input.set({ mask: '###', value: 'A111' });
     expect(input.get().value).toBe('A111');
@@ -72,7 +72,28 @@ describe('methods', () => {
     expect(input.get().value).toBe('A111');
   });
 
-  it('should invalidate a input and add the error class', () => {
+  it('should validate an input', () => {
+    input = newInput({
+      value: '1',
+      validation: val => ({ isValid: val === '2' }),
+    });
+
+    input.validate();
+
+    expect(input.get()).toMatchObject({
+      isValid: false,
+      _errorMsg: undefined,
+    });
+
+    input.set({ value: '2' });
+    input.validate();
+
+    expect(input.get()).toMatchObject({
+      isValid: true,
+    });
+  });
+
+  it('should invalidate an input and add the error class', () => {
     input = newInput({ value: 'teste' });
     input.invalidate('Error message');
 
@@ -93,10 +114,12 @@ describe('behaviour', () => {
 
   it('should disable the input width "disabled:true"', () => {
     input = newInput({ disabled: true });
-    expect(input.refs.input.disabled).toBe(true);
+    const el = root.query('.input');
+
+    expect(el.classList.contains('is-disabled')).toBe(true);
 
     input.set({ disabled: false });
-    expect(input.refs.input.disabled).toBe(false);
+    expect(el.classList.contains('is-disabled')).toBe(false);
   });
 
   it('should have a "rawValue" equal to passed "value" on input creation', () => {
@@ -186,9 +209,7 @@ describe('behaviour', () => {
 
         input.focus();
 
-        expect(Simulator.Registry.get('$Keyboard.isAlphanumericEnabled')).toBe(
-          false,
-        );
+        expect(Registry.get().$Keyboard.isAlphanumericEnabled).toBe(false);
       });
 
       it('should allow alphanumeric input after focusing the input if "alphanumeric:true"', () => {
@@ -196,17 +217,13 @@ describe('behaviour', () => {
 
         input.focus();
 
-        expect(Simulator.Registry.get('$Keyboard.isAlphanumericEnabled')).toBe(
-          true,
-        );
+        expect(Registry.get().$Keyboard.isAlphanumericEnabled).toBe(true);
       });
 
       it('should revert to numeric only when input is blurred', () => {
         input.blur();
 
-        expect(Simulator.Registry.get('$Keyboard.isAlphanumericEnabled')).toBe(
-          false,
-        );
+        expect(Registry.get().$Keyboard.isAlphanumericEnabled).toBe(false);
       });
     });
   });

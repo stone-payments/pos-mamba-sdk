@@ -1,125 +1,160 @@
-import DriverManager from '../driver/manager.js';
-import Signal from '../../libs/signal.js';
-import App from '../../../api/app.js';
-import extendDriver from '../../../drivers/extend.js';
+import EventTarget from '../../libs/EventTarget.js';
 import { log, warn } from '../../libs/utils.js';
-import initEventCollector from './includes/eventCollector.js';
+import extend from '../../../extend.js';
+import { DriverManager } from '../index.js';
 
-const AppManager = extendDriver({}, initEventCollector);
+import initCollector from './includes/collector.js';
+import initSuspension from './includes/suspension.js';
 
+const AppManager = extend({}, initCollector, initSuspension, EventTarget());
+
+/** Map of installed appds: app-slug -> app-obj */
 const Apps = {};
-let currentApp = null;
 
-Signal.register(AppManager, [
-  'appInstalled',
-  'willOpen',
-  'opened',
-  'willClose',
-  'closed',
-]);
+/** Stack of opened apps. The current app is the last one. */
+const openedApps = [];
 
+AppManager.getApp = slug => Apps[slug];
 AppManager.getInstalledApps = () => Apps;
-AppManager.getCurrentApp = () => currentApp;
+AppManager.getOpenedApps = () => openedApps;
+AppManager.getCurrentApp = () => openedApps[openedApps.length - 1];
 
-AppManager.installApp = (AppConstructor, manifest) => {
+const loadApp = appMeta => {
+  AppManager.fire('loading');
+  return appMeta.loader().then(({ default: App }) => {
+    AppManager.fire('loaded');
+    Apps[appMeta.manifest.slug].RootComponent = App;
+  });
+};
+
+AppManager.installApp = ({ manifest, RootComponent, loader }) => {
   if (!Apps[manifest.slug]) {
-    const appMetaObj = {
-      constructor: AppConstructor,
-      manifest,
-    };
+    const appMeta = { manifest };
 
-    const looseDrivers = DriverManager.getLooseDrivers();
-    if (looseDrivers) {
-      appMetaObj.drivers = looseDrivers;
-      DriverManager.clearLooseDrivers();
-    }
+    if (loader != null) appMeta.loader = loader;
+    if (RootComponent != null) appMeta.RootComponent = RootComponent;
 
-    Apps[manifest.slug] = appMetaObj;
+    Apps[manifest.slug] = appMeta;
 
-    AppManager.fire('appInstalled', appMetaObj);
+    AppManager.fire('appInstalled', appMeta);
   } else if (__DEV__) {
     warn(
       `Tried to install an already installed app with slug "${manifest.slug}"`,
     );
   }
+
+  return Apps[manifest.slug];
 };
 
-AppManager.open = (appSlug, target) => {
-  AppManager.fire('willOpen');
-
-  target = target || document.getElementById('app-root');
-
+AppManager.open = async (appSlug, options = {}) => {
   /** First time opening an app */
-  const appMetaObj = Apps[appSlug];
+  const appMeta = AppManager.getApp(appSlug);
 
-  if (__DEV__) log(`Opening App: ${appMetaObj.manifest.appName}`);
-
-  if (!target) {
-    if (__DEV__) {
-      console.warn('App target root element not found.');
-    }
-    return;
+  if (!appMeta.RootComponent) {
+    await loadApp(appMeta);
   }
 
-  appMetaObj.runtime = {
+  AppManager.fire('opening', appMeta, options);
+
+  if (__DEV__) log(`Opening App: ${appMeta.manifest.appName}`);
+
+  const appsEl =
+    document.getElementById('apps-container') ||
+    document.getElementById('app-root');
+
+  if (!appsEl) {
+    throw new Error(
+      'Apps container element (#apps-container or #app-root) not found.',
+    );
+  }
+
+  let target = appsEl;
+
+  /** We support multiple apps only when the simulator view is loaded */
+  if (appsEl.id === 'apps-container') {
+    target = document.createElement('DIV');
+    appsEl.appendChild(target);
+  }
+
+  const currentApp = AppManager.getCurrentApp();
+
+  if (currentApp) {
+    await AppManager.suspend(currentApp);
+  }
+
+  /**
+   *  Runtime object must be created before instance initialization
+   * because it already binds event listeners on instantiation.
+   */
+  appMeta.runtime = {
     target,
     collectedEvents: {},
   };
+  /** Insert the most current app at the first index */
+  openedApps.push(appMeta);
 
-  currentApp = appMetaObj;
-  currentApp.runtime.instance = new appMetaObj.constructor({ target });
+  appMeta.runtime.instance = new appMeta.RootComponent({ target });
 
-  AppManager.fire('opened');
-  App.fire('opened');
+  /**
+   * Since our app store is initialized once inside its module
+   * and not along the app's constructor, we need to reset it to a
+   * initial state after the app closes.
+   *
+   * If the app is supposed to be kept in the background, we assume
+   * the app itself has some logic to reset its store.
+   */
+  if (!appMeta.manifest.keepInBackground) {
+    const { store } = appMeta.runtime.instance;
+    if (store) {
+      const initialState = { ...store.get() };
+      Object.keys(store._computed).forEach(computedKey => {
+        delete initialState[computedKey];
+      });
+      appMeta.runtime.store = { ref: store, initialState };
+    }
+  }
+
+  AppManager.fire('opened', appMeta, options);
+  DriverManager.drivers.$App.fire('opened');
 };
 
-AppManager.close = () => {
-  AppManager.fire('willClose');
-
+AppManager.close = async () => {
   if (__DEV__) log('Closing App');
 
-  App.fire('closed');
+  const currentApp = AppManager.getCurrentApp();
 
   if (currentApp) {
-    if (currentApp.runtime.instance) {
-      const { runtime } = currentApp;
-      runtime.instance.destroy();
-      delete currentApp.runtime;
+    AppManager.fire('closing', currentApp);
+    DriverManager.drivers.$App.fire('closed');
 
-      const collectedEventsKeys = Object.keys(runtime.collectedEvents);
-      collectedEventsKeys.forEach(targetConstructor => {
-        let node;
+    const {
+      manifest,
+      runtime: { instance, target, store },
+    } = currentApp;
 
-        if (targetConstructor === 'Window') node = window;
-        if (targetConstructor === 'HTMLDocument') node = document;
-        if (!node) return;
+    if (instance) {
+      AppManager.unbindGlobalEvents(currentApp);
+      instance.destroy();
+      target.parentNode.removeChild(target);
 
-        Object.entries(runtime.collectedEvents[targetConstructor]).forEach(
-          ([eventType, eventList]) => {
-            eventList.forEach(fn => {
-              node.removeEventListener(eventType, fn);
-              if (__DEBUG_LVL__ >= 3) {
-                log('Removing collected DOM event listener: ');
-                console.log([node, eventType, fn]);
-              }
-            });
-          },
-        );
-      });
-
-      if (currentApp.drivers) {
-        currentApp.drivers.forEach(driverModule => {
-          DriverManager.resetDriverState(driverModule);
-        });
+      if (!manifest.keepInBackground && store) {
+        store.ref.set(store.initialState);
       }
 
-      currentApp = null;
+      delete currentApp.runtime;
+
+      /** Remove the current app from the opened apps array */
+      openedApps.pop();
+
+      if (openedApps.length) {
+        await AppManager.resume(AppManager.getCurrentApp());
+      }
+
+      AppManager.fire('closed', currentApp);
     } else if (__DEV__) {
       warn('App already closed');
     }
   }
-
-  AppManager.fire('closed');
 };
 
 export default AppManager;

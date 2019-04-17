@@ -1,0 +1,47 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [2.6.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.5.3...v2.6.0) (2019-03-21)
+
+
+### Bug Fixes
+
+* typo in readme ([8e8fcd2](https://github.com/stone-payments/pos-mamba-sdk/commit/8e8fcd2))
+
+
+### Features
+
+* 🎸 Add format date to yyyy/mm/dd to utils ([6d8b1f1](https://github.com/stone-payments/pos-mamba-sdk/commit/6d8b1f1))
+* 🎸 add simple mask date formatter ([58c9aa5](https://github.com/stone-payments/pos-mamba-sdk/commit/58c9aa5))
+
+
+
+
+
+## [2.5.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.4.1...v2.5.2) (2019-02-21)
+
+**Note:** Version bump only for package @mamba/utils
+
+
+
+
+
+## [2.5.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.4.1...v2.5.1) (2019-02-21)
+
+**Note:** Version bump only for package @mamba/utils
+
+
+
+
+
+# 2.4.0 (2019-02-12)
+
+
+### Features
+
+* 🎸 Add [@mamba](https://github.com/mamba)/utils with basic money utility methods ([19f7315](https://github.com/stone-payments/pos-mamba-sdk/commit/19f7315))
+* 🎸 Add currency ceil method ([1260649](https://github.com/stone-payments/pos-mamba-sdk/commit/1260649))
+* 🎸 add main entry to facilitate utilities access ([3190b62](https://github.com/stone-payments/pos-mamba-sdk/commit/3190b62))
+* 🎸 add timeout() method to promisify setTimeouts ([224840c](https://github.com/stone-payments/pos-mamba-sdk/commit/224840c))

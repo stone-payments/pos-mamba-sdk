@@ -1,0 +1,369 @@
+<div
+  class="text-wrapper"
+  class:is-active="active"
+  class:is-fullscreen="fullscreen"
+  style="background-color: {bgColor};"
+>
+  <Input
+    ref:keyboardInput
+    bind:value
+    label={hideLabel && !active ? undefined : label}
+    {..._inputProps}
+    on:focus="openKeyboard()"
+  />
+
+  {#if active}
+    <div
+      class="keyboard mode-{mode}"
+      class:is-active="active"
+    >
+      <!-- <table class="suggestions">
+        <tr>
+          {#each targetSuggestions as suggestion}
+            <td class="suggestion" on:click="insertSuggestion(suggestion)">
+              {suggestion}
+            </td>
+          {/each}
+        </tr>
+      </table> -->
+      <div class="key-row">
+        {#each layout.firstRowKeys as key}
+          <div class="key" on:click="insertKey(key)">{key}</div>
+        {/each}
+      </div>
+      <div class="key-row">
+        {#each layout.secondRowKeys as key}
+          <div class="key" on:click="insertKey(key)">{key}</div>
+        {/each}
+      </div>
+      <div class="key-row">
+        <div class="key bigger" on:click="toggleCapitalize()">
+          <div class="utility-key capslock"></div>
+        </div>
+        {#each layout.thirdRowKeys as key}
+          <div class="key" on:click="insertKey(key)">{key}</div>
+        {/each}
+        <div class="key bigger" on:click="backspace()">
+          <div class="utility-key backspace"></div>
+        </div>
+      </div>
+      <div class="key-row">
+        <div class="key bigger" on:click="toggleSymbols()">
+          {specialLabel}
+        </div>
+        <div class="key bigger" on:click="insertKey(layout.utilityKeys[0])">
+          {layout.utilityKeys[0]}
+        </div>
+        <div class="key space" on:click="insertKey(' ')">___</div>
+        <div class="key bigger" on:click="insertKey(layout.utilityKeys[1])">
+          {layout.utilityKeys[1]}
+        </div>
+        <div class="key bigger" on:click="submit()">OK</div>
+      </div>
+    </div>
+    {/if}
+</div>
+
+{#if active}
+  <Keystroke key="enter" on:keystroke="submit()"/>
+  <Keystroke key="close" on:keystroke="closeKeyboard()"/>
+{/if}
+
+
+<script>
+  // TODO: press backspace wipe multiple keys
+
+  import { KEYBOARD_LAYOUTS } from './libs/virtualKeyboard.js';
+
+  const MODES = {
+    DEFAULT: 'default',
+    CAPITALIZED: 'capitalized',
+    SYMBOLS: 'symbols',
+  };
+
+  export default {
+    components: {
+      Input: './Input.html',
+      Keystroke: '@mamba/app/Keystroke.html',
+    },
+    data() {
+      return {
+        value: '',
+        mode: MODES.DEFAULT,
+        type: 'text',
+        fullscreen: false,
+        capitalizeWords: false,
+        bgColor: undefined,
+        // suggestions: [],
+      };
+    },
+    computed: {
+      layout: ({ mode }) => KEYBOARD_LAYOUTS[mode],
+      specialLabel: ({ mode }) => (mode === MODES.SYMBOLS ? 'abc' : '?123'),
+      // targetSuggestions: ({ suggestions, value }) => {
+      //   const lastChar = value[value.length - 1];
+      //   return suggestions[lastChar] || [];
+      // },
+      _inputProps: ({
+        value,
+        mode,
+        bgColor,
+        suggestions,
+        label,
+        hideLabel,
+        ...props
+      }) => ({
+        ...props,
+        alphanumeric: true,
+      }),
+    },
+    oncreate() {
+      const { capitalizeWords } = this.get();
+
+      // this.set({
+      //   suggestions: Object.assign({}, DEFAULT_SUGGESTIONS, suggestions),
+      // });
+
+      if (capitalizeWords) {
+        this.capitalizeNextLetter();
+      }
+    },
+    methods: {
+      _moveCursor(position) {
+        const { input } = this.refs.keyboardInput.refs;
+        const { value } = this.get();
+
+        input.focus();
+
+        if (value == null) {
+          return;
+        }
+
+        if (typeof position === 'undefined' || position < 0) {
+          input.selectionEnd = input.value.length;
+          input.selectionStart = input.selectionEnd;
+        } else {
+          input.selectionEnd = position;
+          input.selectionStart = position;
+        }
+      },
+      capitalizeNextLetter() {
+        if (!this.isCapitalizedState()) {
+          this._tempCaptalize = true;
+          this.toggleCapitalize(true);
+        }
+      },
+      openKeyboard() {
+        if (this.get().active) {
+          return;
+        }
+
+        this.set({ active: true });
+        this.root.meta.setScrollable(false);
+
+        /** Small hack for fixing the input focus when opening the keyboard */
+        setTimeout(() => {
+          this.refs.keyboardInput.blur();
+          setTimeout(() => this.refs.keyboardInput.focus());
+        });
+      },
+      closeKeyboard() {
+        /** check if the element is still rendered */
+        if (this.refs.keyboardInput) {
+          this.refs.keyboardInput.blur();
+        }
+
+        this.set({ active: false });
+        this.root.meta.setScrollable(true);
+      },
+      insertKey(key) {
+        const { value, capitalizeWords } = this.get();
+        const { input } = this.refs.keyboardInput.refs;
+        const position = input.selectionStart;
+
+        this.set({
+          value: value.slice(0, position) + key + value.slice(position),
+        });
+
+        this._moveCursor(position + 1);
+
+        if (key === ' ' && capitalizeWords) {
+          this.capitalizeNextLetter();
+        } else if (this._tempCaptalize === true) {
+          delete this._tempCaptalize;
+          this.toggleCapitalize(false);
+        }
+      },
+      insertSuggestion(suggestion) {
+        const inputValue = this.get().value;
+
+        this.set({ value: inputValue.slice(0, -1) + suggestion });
+        this._moveCursor();
+      },
+      backspace() {
+        const { input } = this.refs.keyboardInput.refs;
+        const { value } = this.get();
+        const position = input.selectionStart;
+
+        if (position - 1 < 0) {
+          return;
+        }
+
+        const newValue =
+          position === input.value.length
+            ? value.slice(0, -1)
+            : value.slice(0, position - 1) +
+              value.slice(position, input.value.length);
+
+        this.set({ value: newValue });
+
+        this._moveCursor(position - 1);
+      },
+      isCapitalizedState() {
+        return this.get().mode === MODES.CAPITALIZED;
+      },
+      isSymbolsState() {
+        return this.get().mode === MODES.SYMBOLS;
+      },
+      toggleCapitalize(force) {
+        if (force !== true && this.get().mode === MODES.CAPITALIZED) {
+          this.set({ mode: MODES.DEFAULT });
+        } else if (force !== false) {
+          this.set({ mode: MODES.CAPITALIZED });
+        }
+      },
+      toggleSymbols(force) {
+        if (force !== true && this.get().mode === MODES.SYMBOLS) {
+          this.set({ mode: MODES.DEFAULT });
+        } else if (force !== false) {
+          this.set({ mode: MODES.SYMBOLS });
+        }
+      },
+      submit() {
+        const { value } = this.get();
+        this.fire('submit', { isValid: true, value });
+        this.closeKeyboard();
+      },
+      focus() {
+        /* istanbul ignore next */
+        this.refs.keyboardInput.focus();
+      },
+    },
+  };
+</script>
+
+
+<style type="text/postcss">
+  @import '@mamba/styles/settings.pcss';
+
+  .text-wrapper {
+    &.is-active {
+      position: fixed;
+      z-index: $layer-keyboard;
+      background-color: rgba(#f0f0f0, 0.9);
+      user-select: none;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding-top: 16px;
+    }
+
+    &.is-fullscreen {
+      z-index: $layer-keyboard-fullscreen;
+    }
+
+    :global(.mamba-app.has-appbar) &:not(.is-fullscreen) {
+      top: $appbar-height;
+    }
+  }
+
+  .keyboard {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: silver;
+    padding: 4px 0;
+
+    &:not(.is-active) {
+      display: none;
+    }
+  }
+
+  .key-row {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .suggestions {
+    width: 100%;
+    border-spacing: 2px;
+    border-collapse: separate;
+  }
+
+  .suggestion {
+    text-overflow: ellipsis;
+    margin: 0 auto;
+    padding: 8px 2px;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    text-align: center;
+    font-size: 14px;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .key {
+    display: flex;
+    width: 24px;
+    height: 36px;
+    background-color: #f2f2f2;
+    cursor: pointer;
+    border: 1px solid silver;
+    border-radius: 4px;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+
+    &:active {
+      background-color: #c5c5c5;
+      border-color: #f2f2f2;
+    }
+
+    &.bigger {
+      width: 34px;
+    }
+
+    &.space {
+      width: 100px;
+    }
+  }
+
+  .utility-key {
+    display: inline-block;
+    vertical-align: middle;
+    width: 18px;
+    height: 18px;
+    background-color: silver;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+  }
+
+  .capslock {
+    mask-image: url(./assets/capslock.svg);
+    background-color: black;
+    opacity: 0.35;
+
+    .keyboard.mode-capitalized & {
+      opacity: 0.8;
+    }
+  }
+
+  .backspace {
+    mask-image: url(./assets/backspace.svg);
+    background-color: black;
+  }
+</style>

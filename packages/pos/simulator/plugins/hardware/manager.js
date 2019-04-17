@@ -1,12 +1,6 @@
-import Signal from '../../libs/signal.js';
-import extendDriver from '../../../drivers/extend.js';
+import EventTarget from '../../libs/EventTarget.js';
+import extend from '../../../extend.js';
 
-const HardwareManager = extendDriver({});
-
-Signal.register(HardwareManager, [
-  'startPrinting',
-  'endPrinting',
-  'toggleCard',
-]);
+const HardwareManager = extend({}, EventTarget());
 
 export default HardwareManager;

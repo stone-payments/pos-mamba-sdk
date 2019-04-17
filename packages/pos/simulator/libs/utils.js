@@ -15,3 +15,5 @@ export function error(...args) {
 export function warn(...args) {
   console.warn([LOG_PREFIX, ...args].join(' '));
 }
+
+export const deepCopy = o => JSON.parse(JSON.stringify(o));

@@ -3,9 +3,15 @@
   on:keydown="_onKeydown(event)"
 />
 
-<div class="app">
+<div
+  class="mamba-app"
+  class:no-scroll="!scrollable"
+  class:has-appbar="hasAppbar"
+>
   <slot></slot>
 </div>
+
+<AdminLock ref:adminLock/>
 
 <script>
   import App from '@mamba/pos/api/app.js';
@@ -13,24 +19,33 @@
   import { hasActiveHandlerFor } from './includes/KeystrokeRegister.js';
 
   /** Return if a certain shortcut key is valid */
-  const isInputFocused = (keyName, e) =>
-    keyName &&
-    e.target.tagName !== 'INPUT' &&
-    e.target.tagName !== 'TEXTAREA' &&
-    document.activeElement.tagName !== 'INPUT' &&
-    document.activeElement.tagName !== 'TEXTAREA';
+  const isEditableInputOnFocus = () => {
+    const targetEl = document.activeElement;
+    const isTextInputEl =
+      targetEl.tagName === 'INPUT' || targetEl.tagName === 'TEXTAREA';
+    const isEditable = targetEl.disabled !== true && targetEl.readOnly !== true;
+
+    return isTextInputEl && isEditable;
+  };
 
   export default {
+    components: {
+      AdminLock: './AdminLock.html',
+    },
     data() {
       return {
         navigable: { home: true, back: true },
         shortcuts: true,
         scrollable: true,
-        _hasAppbar: false,
+        hasAppbar: false,
+        askPasswordOnClose: false,
       };
     },
     oncreate() {
       const { root } = this;
+
+      /** Add the mamba-app-container class to the root element */
+      this.root.options.target.classList.add('mamba-app-container');
 
       // TODO: Deprecate this sometime
       root.on('navigation', isEnabled => {
@@ -53,10 +68,26 @@
         this.setShortcuts(isEnabled);
       });
 
-      root.close = () => {
+      root.close = async () => {
+        const { askPasswordOnClose } = this.get();
+
+        if (askPasswordOnClose) {
+          const auth = await this.askAdminPassword();
+          if (auth === false) return;
+        }
+
         /** Allow to override the default app close process */
         if (typeof root.onClose === 'function') {
-          return root.onClose();
+          const closingPromise = root.onClose();
+
+          /**
+           * If the `onClose` returns a promise, let's wait for its resolution and close the app.
+           * If not, return and assume the method will be responsible to close the app.
+           */
+          if (!closingPromise || typeof closingPromise.then !== 'function') {
+            return;
+          }
+          await closingPromise;
         }
         App.close();
       };
@@ -72,40 +103,34 @@
         root.close();
       });
 
+      const resetScroll = () => {
+        /**
+         * Check for __browser__ for scrolling the virtual screen
+         * instead of the <html> element
+         * */
+        if (__BROWSER__ && window.innerWidth > 401) {
+          root.options.target.scrollTo(0, 0);
+        } else {
+          window.scrollTo(0, 0);
+        }
+      };
+
+      /** Needed for projects with svelte-page < v2.2.0 */
       /* istanbul ignore next */
       if (root.router) {
         root.router.on('update', ({ changed, previous }) => {
-          /* istanbul ignore next */
           if (changed.context && previous) {
-            /**
-             * Check for __browser__ for scrolling the virtual screen
-             * instead of the <html> element
-             * */
-            /* istanbul ignore else */
-            if (__BROWSER__ && window.innerWidth > 401) {
-              root.options.target.scrollTo(0, 0);
-            } else {
-              window.scrollTo(0, 0);
-            }
+            resetScroll();
           }
         });
+      } else {
+        root.on('router:change', resetScroll);
       }
     },
     onstate({ previous }) {
       /** Set a reference on the root component to the <App/> meta component */
       if (!previous) {
         this.root.meta = this;
-      }
-    },
-    onupdate({ changed, current }) {
-      const { target: rootEl } = this.root.options;
-
-      if (changed.scrollable) {
-        rootEl.classList.toggle('no-scroll', !current.scrollable);
-      }
-
-      if (changed._hasAppbar) {
-        rootEl.classList.toggle('has-appbar', current._hasAppbar);
       }
     },
     methods: {
@@ -127,22 +152,42 @@
           });
         }
       },
+      askAdminPassword() {
+        this.refs.adminLock.open();
+        return new Promise(resolve => {
+          const listener = this.refs.adminLock.on('authentication', event => {
+            if (event.success) {
+              resolve(true);
+              listener.cancel();
+            }
+          });
+        });
+      },
       /** Prevent default back/enter button behaviour */
       _onKeydown(e) {
         /* istanbul ignore next */
-        if (
-          !__TEST__ &&
-          __BROWSER__ &&
-          !e.path.find(node => node.id === 'app-root')
-        ) {
-          return;
+        if (!__TEST__ && __BROWSER__) {
+          const eventPath = e.path || (e.composedPath && e.composedPath());
+          const isInsideApp =
+            eventPath &&
+            eventPath.some(
+              node => node.nodeType === 1 && node.classList.contains('mamba-app'),
+            );
+
+          if (!isInsideApp) {
+            return;
+          }
         }
 
         const keyName = Keyboard.getKeyName(e.keyCode);
 
+        /**
+         * Should cancel the native actions for enter/back keys
+         * if pressed anywhere but within a editable input
+         * */
         if (
           (keyName === 'back' || keyName === 'enter') &&
-          isInputFocused(keyName, e)
+          !isEditableInputOnFocus()
         ) {
           e.preventDefault();
           e.stopPropagation();
@@ -158,14 +203,21 @@
          * allow it to pass through.
          * */
         /* istanbul ignore next */
-        if (
-          !__TEST__ &&
-          __BROWSER__ &&
-          !e.path.find(node => node.id === 'app-root') &&
-          (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') &&
-          !Keyboard.isActionKey(keyCode)
-        ) {
-          return;
+        if (!__TEST__ && __BROWSER__) {
+          const eventPath = e.path || (e.composedPath && e.composedPath());
+          const isInsideApp =
+            eventPath &&
+            eventPath.some(
+              node => node.nodeType === 1 && node.classList.contains('mamba-app'),
+            );
+
+          if (
+            !isInsideApp &&
+            (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') &&
+            !Keyboard.isActionKey(keyCode)
+          ) {
+            return;
+          }
         }
 
         const keyName = Keyboard.getKeyName(keyCode);
@@ -191,7 +243,7 @@
         }
 
         /** If the key is not mapped or a input is focused, do nothing */
-        if (!isInputFocused(keyName, e)) {
+        if (isEditableInputOnFocus()) {
           return;
         }
 
@@ -200,7 +252,7 @@
           /** Guarantees that the 'back' button is enabled and navigable is enabled */
           if (Keyboard.isBackspaceEnabled() && this.get().navigable.back) {
             e.preventDefault();
-            if (this.root.router && this.root.router.get().path !== '/') {
+            if (this.root.router && this.root.router.get().context.path !== '/') {
               this.root.router.back();
             }
           }
@@ -257,13 +309,19 @@
 </script>
 
 <style type="text/postcss">
-  @import '@mamba/styles/theme.pcss';
+  :global(body) {
+    height: 100%;
+  }
 
-  :global(#app-root) {
+  :global(.mamba-app-container) {
     background-color: $app-bg-color;
+  }
+
+  .mamba-app {
+    height: 100%;
 
     &.no-scroll {
-      overflow: hidden;
+      overflow: hidden !important; /* stylelint-disable-line */
     }
   }
 </style>
