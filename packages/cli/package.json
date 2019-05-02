@@ -18,7 +18,7 @@
     "case": "^1.6.1",
     "chalk": "^2.4.2",
     "cross-env": "^5.2.0",
-    "global-dirs": "^0.1.1",
+    "global-dirs": "^1.0.0",
     "import-global": "^0.1.0",
     "inquirer": "^6.2.2",
     "quickenv": "^0.0.6",
