@@ -141,10 +141,34 @@ Payment.getAuthorizationDateTime(); // '2018-05-03:00:00:00.00'
 
 Retorna a Bandeira da transação.
 
+- OUTROS
+- MASTERCARD
+- VISA
+- TICKET
+- VR
+- ELO
+- ALELO
+- SODEXO
+- HIPERCARD
+- HIPER
+- COOPER
+- SENFF
+- AMEX
+- GREENCARD
+- VALECARD
+- VEROCARD
+- VERDECARD
+- CABAL
+- UP BRASIL
+- SOROCRED
+- BANESCARD
+
 ```js
 import Payment from '@mamba/pos/api/payment.js';
 
 Payment.getBrand(); // 'MASTER'
+
+
 ```
 
 ### getOrderId()
