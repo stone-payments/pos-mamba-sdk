@@ -52,9 +52,10 @@
     oncreate() {
       if (this.options.data) {
         /**
-         * Override the Input default validation method. The input's cents is related to masks.
          * Since the money input doesn't use masks, it's necessary to override the "validation"
-         * property (if exists) with a method that has access to the money input real cents.
+         * property (if exists) with a method that has access to cents in a number format.
+         * The original Input validation uses the "rawValue", which would be "R$ 1,20", and not "120",
+         * since the Money Input doesn't use a mask.
          */
         const { validation } = this.options.data;
         // istanbul ignore next

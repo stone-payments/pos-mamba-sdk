@@ -25,7 +25,7 @@ interface Payment {
   getPan: () => string;
   getType: () => string;
   getCardReferrer: () => string;
-  cancel: (atk: string) => Promise;
+  cancel: (atk?: string) => Promise;
   failedCancellation: () => boolean;
 }
 
@@ -207,6 +207,22 @@ Retorna a referência única do cartão.
 import Payment from '@mamba/pos/api/payment.js';
 
 Payment.getCardReferrer(); // '3c20a6a7f1a5690cd1df016b58625772d2f2a127925ba7dd4b966bccfc9ab945'
+```
+
+### cancel()
+
+Abre o app de cancelamento com todas as transações realizadas pelo seu app.
+
+```js
+import Payment from '@mamba/pos/api/payment.js';
+
+Payment.cancel()
+  .then(amountCanceled => {
+    console.log(amountCancelled); // 50
+  })
+  .catch(error => {
+    console.log(error); // 'Cancellation Failed.'
+  });
 ```
 
 ### cancel(atk)

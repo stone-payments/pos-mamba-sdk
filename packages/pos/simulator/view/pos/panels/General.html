@@ -29,6 +29,7 @@
         stoneCode,
         serialNumber,
         adminPassword,
+        printerHasPaper: Registry.get().$Printer.panel.shouldFail,
       };
     },
     oncreate() {
@@ -44,6 +45,13 @@
       if (!previous) {
         return;
       }
+
+      Registry.set(draft => {
+        if (changed.printerHasPaper) {
+          console.log(current.printerHasPaper);
+          draft.$Printer.panel.shouldFail = !current.printerHasPaper;
+        }
+      });
 
       Registry.persistent.set(draft => {
         if (changed.serialNumber) {

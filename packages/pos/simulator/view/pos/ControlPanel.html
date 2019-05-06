@@ -14,7 +14,7 @@
 
 <script>
   import GeneralPanel from './panels/General.html';
-  import PrinterPanel from './panels/Printer.html';
+  import FlowsPanel from './panels/Flows.html';
   import HttpPanel from './panels/Http.html';
 
   let lastKeypressTime = 0;
@@ -25,7 +25,7 @@
     },
     data() {
       return {
-        panels: [GeneralPanel, PrinterPanel, HttpPanel],
+        panels: [GeneralPanel, FlowsPanel, HttpPanel],
       };
     },
     oncreate() {
