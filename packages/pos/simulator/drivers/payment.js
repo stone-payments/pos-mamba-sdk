@@ -168,7 +168,7 @@ export function setup(Payment) {
 
   /**
    * Return the unique reference of the card in case of success
-   * Return empty string if payment failed
+   * Return -1 string if payment failed
    * @memberof Payment
    * @return {string} type
    */
