@@ -24,6 +24,7 @@ interface Payment {
   getInstallmentCount: () => number;
   getPan: () => string;
   getType: () => string;
+  getCardReferrer: () => string;
   cancel: (atk: string) => Promise;
   failedCancellation: () => boolean;
 }
@@ -196,6 +197,16 @@ Retorna o tipo da transação `Crédito` ou `Débito`.
 import Payment from '@mamba/pos/api/payment.js';
 
 Payment.getType(); // 'Crédito'
+```
+
+### getCardReferrer()
+
+Retorna a referência única do cartão.
+
+```js
+import Payment from '@mamba/pos/api/payment.js';
+
+Payment.getCardReferrer(); // '3c20a6a7f1a5690cd1df016b58625772d2f2a127925ba7dd4b966bccfc9ab945'
 ```
 
 ### cancel(atk)

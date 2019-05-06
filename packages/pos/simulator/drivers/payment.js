@@ -15,6 +15,8 @@ export const SETTINGS = {
   itk: '11111111111111',
   orderId: '111111111',
   authorizedAmount: 0,
+  cardReferrer:
+    '3c20a6a7f1a5690cd1df016b58625772d2f2a127925ba7dd4b966bccfc9ab945',
 };
 
 export const SIGNALS = ['cardEvent', 'paymentDone'];
@@ -163,4 +165,13 @@ export function setup(Payment) {
    */
   Payment.getType = () =>
     !Payment.failedPaying() ? '' : Registry.get().$Payment.type;
+
+  /**
+   * Return the unique reference of the card in case of success
+   * Return empty string if payment failed
+   * @memberof Payment
+   * @return {string} type
+   */
+  Payment.getCardReferrer = () =>
+    !Payment.failedPaying() ? '' : Registry.get().$Payment.cardReferrer;
 }
