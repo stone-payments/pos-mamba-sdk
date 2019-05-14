@@ -14,7 +14,8 @@ export const PERSISTENT_SETTINGS = {
   street: 'Avenida Rio Branco',
   number: '131',
   displayName: 'Stoninho',
-  taxationIdentificationNumber: '8651',
+  taxationIdentificationType: 'CNPJ',
+  taxationIdentificationNumber: '16.501.555/0001-57',
 };
 
 export function setup(Merchant) {

@@ -18,6 +18,7 @@ interface MerchantInfo {
   street: string,
   number: string,
   displayName: string,
+  taxationIdentificationType: string,
   taxationIdentificationNumber: string,
   acquirerIssuedMerchantId: string,
 }
