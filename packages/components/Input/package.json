@@ -1,6 +1,6 @@
 {
   "name": "@mamba/input",
-  "version": "2.8.0",
+  "version": "2.8.1",
   "svelte": "Input.html",
   "author": "Stone Payments - Mamba Team",
   "contributors": [
@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@mamba/icon": "^2.7.1",
-    "@mamba/utils": "^2.8.0"
+    "@mamba/utils": "^2.8.1"
   },
   "gitHead": "0daaddf15510894989750580009daa93e1fbb6db"
 }
