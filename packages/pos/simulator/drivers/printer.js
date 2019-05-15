@@ -27,31 +27,31 @@ export function setup(Printer) {
     });
 
     /** Fire the printing signal for the browser mamba simulation */
-    if (!Printer.failedPrinting()) {
-      /**
-       * Take a snapshot of the element / clone the node for the virtual printer.
-       * If we don't clone it, if the <Printable/> is destroyed before the
-       * paper is printed, it will print nothing because the content element was
-       * destroyed.
-       * */
-      HardwareManager.fire('startPrinting', content.cloneNode(true), options);
-      HardwareManager.once('endPrinting', () => {
-        Registry.set(draft => {
-          draft.$Printer.isPrinting = false;
-        });
-        Printer.printerDone();
+    if (Printer.failedPrinting()) {
+      Registry.set(draft => {
+        draft.$Printer.isPrinting = false;
       });
-
-      /** Fire endPrinting if no Virtual POS found */
-      if (!View.getInstance() || window.innerWidth <= 480) {
-        setTimeout(() => HardwareManager.fire('endPrinting'), 1000);
-      }
+      Printer.printerDone();
       return;
     }
 
-    Registry.set(draft => {
-      draft.$Printer.isPrinting = false;
+    /**
+     * Take a snapshot of the element / clone the node for the virtual printer.
+     * If we don't clone it, if the <Printable/> is destroyed before the
+     * paper is printed, it will print nothing because the content element was
+     * destroyed.
+     * */
+    HardwareManager.fire('startPrinting', content.cloneNode(true), options);
+    HardwareManager.once('endPrinting', () => {
+      Registry.set(draft => {
+        draft.$Printer.isPrinting = false;
+      });
+      Printer.printerDone();
     });
-    Printer.printerDone();
+
+    /** Fire endPrinting if no Virtual POS found */
+    if (!View.getInstance() || window.innerWidth <= 400) {
+      setTimeout(() => HardwareManager.fire('endPrinting'), 1000);
+    }
   };
 }

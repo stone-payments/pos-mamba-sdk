@@ -185,10 +185,11 @@
          * Should cancel the native actions for enter/back keys
          * if pressed anywhere but within a editable input
          * */
-        if (
-          (keyName === 'back' || keyName === 'enter') &&
-          !isEditableInputOnFocus()
-        ) {
+        if (keyName === 'back' || keyName === 'enter') {
+          if (isEditableInputOnFocus()) {
+            return;
+          }
+
           e.preventDefault();
           e.stopPropagation();
           return false;

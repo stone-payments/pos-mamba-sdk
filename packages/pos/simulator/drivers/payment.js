@@ -3,6 +3,9 @@ import { Registry, AppManager } from '../index.js';
 export const NAMESPACE = '$Payment';
 
 export const SETTINGS = {
+  panel: {
+    shouldFail: false,
+  },
   paymentFailed: false,
   isPaying: false,
   installmentCount: 0,
@@ -46,7 +49,7 @@ export function setup(Payment) {
       AppManager.open('1-payment', { openMode: 'selection', ...params });
     } else {
       Registry.set(draft => {
-        draft.$Payment.paymentFailed = false;
+        draft.$Payment.paymentFailed = draft.$Payment.panel.shouldFail;
       });
       finishPayment(params);
     }

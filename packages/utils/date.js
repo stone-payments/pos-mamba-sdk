@@ -44,3 +44,34 @@ export function format(date, mask) {
     return flags[match] || match;
   });
 }
+
+export function isValidDate(date) {
+  return (
+    typeof date === 'object' &&
+    typeof date.getTime === 'function' &&
+    !Number.isNaN(date.getTime())
+  );
+}
+
+export function isValidTime(time) {
+  return /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/.test(time);
+}
+
+export function compareTime(timeA, timeB) {
+  if (isValidTime(timeA) && isValidTime(timeB)) {
+    const datetimeA = new Date();
+    datetimeA.setHours(...timeA.split(':'));
+    const datetimeB = new Date();
+    datetimeB.setHours(...timeB.split(':'));
+    const timeDiff = datetimeA - datetimeB;
+
+    if (timeDiff > 0) {
+      return 1;
+    }
+    if (timeDiff < 0) {
+      return -1;
+    }
+    return 0;
+  }
+  return NaN;
+}
