@@ -53,7 +53,7 @@ export function setup(Http) {
     };
 
     xhttp.onloadend = function onloadend() {
-      if (this.status === 404) {
+      if (this.status >= 300) {
         _errorData = {
           status: this.status,
           msg: this.responseText,
@@ -64,7 +64,7 @@ export function setup(Http) {
 
     xhttp.onreadystatechange = function onreadystatechange() {
       /** On success state code 4 */
-      if (this.readyState === 4 && this.status === 200) {
+      if (this.readyState === 4 && (this.status >= 200 && this.status < 300)) {
         _data = {
           status: this.status,
           body: this.responseText,
