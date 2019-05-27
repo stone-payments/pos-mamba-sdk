@@ -1,6 +1,6 @@
 {
   "name": "@mamba/tabs",
-  "version": "2.6.4",
+  "version": "2.8.2",
   "svelte": "Tabs.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -12,9 +12,10 @@
     "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w"
   },
   "devDependencies": {
-    "@mamba/button": "^2.6.4",
-    "@mamba/collection": "^2.6.4",
-    "@mamba/styles": "^2.6.4"
+    "@mamba/button": "^2.8.2",
+    "@mamba/collection": "^2.8.2",
+    "@mamba/pos": "^2.8.2",
+    "@mamba/styles": "^2.8.2"
   },
   "peerDependencies": {
     "@mamba/styles": "^2.4.0",

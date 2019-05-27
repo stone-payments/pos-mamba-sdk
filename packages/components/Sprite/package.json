@@ -1,6 +1,6 @@
 {
   "name": "@mamba/sprite",
-  "version": "2.7.2",
+  "version": "2.8.2",
   "svelte": "Sprite.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -11,7 +11,8 @@
     "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w"
   },
   "devDependencies": {
-    "@mamba/styles": "^2.6.4"
+    "@mamba/pos": "^2.8.2",
+    "@mamba/styles": "^2.8.2"
   },
   "peerDependencies": {
     "@mamba/pos": "^2.7.2"
