@@ -12,7 +12,6 @@
   },
   "devDependencies": {
     "@mamba/button": "^2.8.2",
-    "@mamba/pos": "^2.8.2",
     "@mamba/styles": "^2.8.2"
   },
   "peerDependencies": {

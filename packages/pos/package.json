@@ -17,8 +17,5 @@
     "@mamba/switch": "^2.8.2",
     "immer": "^2.1.0"
   },
-  "peerDependencies": {
-    "@mamba/app": "^2.8.2"
-  },
   "gitHead": "869644effc7b7347a2ff75c956c57d69ee8236a5"
 }
