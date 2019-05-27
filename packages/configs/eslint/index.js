@@ -35,6 +35,7 @@ module.exports = {
     __APP_MANIFEST__: true,
   },
   rules: {
+    'import/no-cycle': 'off',
     // ! Code
     /** Allow to use new for side effects */
     'no-new': 'off', // disallow dangling underscores in identifiers
