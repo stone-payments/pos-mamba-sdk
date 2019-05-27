@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.7.2...v2.8.2) (2019-05-27)
+
+
+### Bug Fixes
+
+* 🐛 HTTP Status Codes do wrapper do simulador ([#433](https://github.com/stone-payments/pos-mamba-sdk/issues/433)) ([81f8f02](https://github.com/stone-payments/pos-mamba-sdk/commit/81f8f02))
+
+
+
+
+
 ## [2.6.4](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.6.3...v2.6.4) (2019-04-03)
 
 **Note:** Version bump only for package @mamba/configs
