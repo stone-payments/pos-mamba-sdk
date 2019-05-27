@@ -3,9 +3,6 @@
   "version": "2.7.2",
   "svelte": "App.html",
   "author": "Stone Payments - Mamba Team",
-  "contributors": [
-    "Christian Kaisermann <christian.kaisermann@stone.com.br>"
-  ],
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"
@@ -15,11 +12,10 @@
   },
   "devDependencies": {
     "@mamba/button": "^2.7.2",
-    "@mamba/pos": "^2.7.2",
     "@mamba/styles": "^2.6.4"
   },
   "peerDependencies": {
-    "@mamba/pos": "^2.1.0"
+    "@mamba/pos": "^2.7.2"
   },
   "gitHead": "869644effc7b7347a2ff75c956c57d69ee8236a5"
 }
