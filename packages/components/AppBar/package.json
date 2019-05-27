@@ -13,14 +13,11 @@
   "dependencies": {
     "@mamba/icon": "^2.8.2"
   },
-  "devDependencies": {
-    "@mamba/styles": "^2.6.4"
-  },
   "peerDependencies": {
     "@mamba/styles": "^2.1.0",
     "svelte": "^2.16.0"
   },
-  "devDependencies": {
+  "peerDependencies": {
     "@mamba/pos": "^2.8.2",
     "@mamba/styles": "^2.8.2"
   },
