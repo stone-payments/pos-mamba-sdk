@@ -43,18 +43,32 @@ export function setup(Merchant) {
     password === Registry.persistent.get().$Merchant.adminPassword;
 
   Merchant.getInfo = () => {
+    const {
+      $Merchant: {
+        street,
+        number,
+        complement,
+        zipCode,
+        city,
+        state,
+        country,
+        stoneCode,
+        displayName,
+        taxationIdentificationNumber,
+      },
+    } = Registry.persistent.get();
+
     return {
-      street: Registry.persistent.get().$Merchant.street,
-      number: Registry.persistent.get().$Merchant.number,
-      complement: Registry.persistent.get().$Merchant.complement,
-      zipCode: Registry.persistent.get().$Merchant.zipCode,
-      city: Registry.persistent.get().$Merchant.city,
-      state: Registry.persistent.get().$Merchant.state,
-      country: Registry.persistent.get().$Merchant.country,
-      acquirerIssuedMerchantId: Registry.persistent.get().$Merchant.stoneCode,
-      displayName: Registry.persistent.get().$Merchant.displayName,
-      taxationIdentificationNumber: Registry.persistent.get().$Merchant
-        .taxationIdentificationNumber,
+      street,
+      number,
+      complement,
+      zipCode,
+      city,
+      state,
+      country,
+      displayName,
+      taxationIdentificationNumber,
+      acquirerIssuedMerchantId: stoneCode,
     };
   };
 }
