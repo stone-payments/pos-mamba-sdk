@@ -15,7 +15,7 @@
   },
   "peerDependencies": {
     "@mamba/styles": "^2.1.0",
-    "svelte": "^2.16.0"
+    "svelte": "^3.4.4"
   },
   "peerDependencies": {
     "@mamba/pos": "^2.8.2",
