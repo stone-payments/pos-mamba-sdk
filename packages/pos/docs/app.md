@@ -11,6 +11,7 @@ interface App {
   close: () => void;
   getAppKey: () => string;
   isRunningOnDevice: () => boolean;
+  getVersion: () => string;
 }
 
 ```
@@ -34,6 +35,16 @@ Retorna a chave da aplicação em andamento.
 import App from '@mamba/pos/api/app.js'
 
 App.getAppKey() // '124563'
+```
+
+### getVersion()
+
+Retorna a versão do seu aplicativo.
+
+```js
+import App from '@mamba/pos/api/app.js'
+
+App.getVersion() // '1.0.0'
 ```
 
 ### isRunningOnDevice()
