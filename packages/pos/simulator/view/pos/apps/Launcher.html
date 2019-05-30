@@ -9,7 +9,7 @@
     {#if STATE === STATES.LOCKSCREEN}
       <div class="lockscreen">
         <time>{time}</time>
-        <div class="merchant">SIMULAÇÃO</div>
+        <div class="merchant">{ displayName }</div>
         <div class="actions"></div>
 
         <Button size="full" bottom on:click="gotoHome()" shortcut="enter">
@@ -43,7 +43,12 @@
 {/if}
 
 <script>
-  import { AppManager, System, HardwareManager } from '../../../index.js';
+  import {
+    AppManager,
+    System,
+    HardwareManager,
+    Registry,
+  } from '../../../index.js';
   import { warn } from '../../../libs/utils.js';
 
   const STATES = {
@@ -80,11 +85,13 @@
     },
     data() {
       const { hours: initHours, minutes: initMinutes } = System.getCurrentTime();
+      const { displayName } = Registry.persistent.get().$Merchant;
 
       return {
         STATE: STATES.LOCKSCREEN,
         time: `${initHours}:${initMinutes}`,
         apps: { ...AppManager.getInstalledApps() },
+        displayName,
       };
     },
     computed: {
