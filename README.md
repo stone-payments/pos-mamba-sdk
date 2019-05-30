@@ -1,7 +1,5 @@
 # [Mamba SDK](https://mambasdk-docs.stone.com.br/)
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/stone-payments/pos-mamba-sdk.svg)](https://greenkeeper.io/)
-
 ## Requirements
 
 Make sure all dependencies have been installed before moving on:
