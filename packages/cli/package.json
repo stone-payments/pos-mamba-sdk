@@ -3,10 +3,6 @@
   "version": "2.5.2",
   "description": "Mamba CLI",
   "author": "Stone Payments - Mamba Team",
-  "contributors": [
-    "Christian Kaisermann <christian.kaisermann@stone.com.br>",
-    "Pedro Gabriel <pedro.lancelloti@stone.com.br>"
-  ],
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"

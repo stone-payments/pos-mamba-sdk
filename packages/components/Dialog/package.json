@@ -3,9 +3,6 @@
   "version": "2.8.2",
   "svelte": "Dialog.html",
   "author": "Stone Payments - Mamba Team",
-  "contributors": [
-    "Christian Kaisermann <christian.kaisermann@stone.com.br>"
-  ],
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"
@@ -14,12 +11,14 @@
     "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w"
   },
   "devDependencies": {
-    "@mamba/pos": "^2.8.2",
     "@mamba/sprite": "^2.8.2"
   },
   "dependencies": {
     "@mamba/icon": "^2.8.2",
     "@mamba/styles": "^2.8.2"
+  },
+  "peerDependencies": {
+    "@mamba/pos": "^2.8.2"
   },
   "gitHead": "869644effc7b7347a2ff75c956c57d69ee8236a5"
 }
