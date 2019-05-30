@@ -19,6 +19,7 @@ interface System {
   getSerialNumber: () => string
   getBatteryStatus: () => BatteryStatus
   getBatteryLevel: () => number
+  getVersion: () => string
   changeAdapter: (desiredAdapter: string) => boolean
   Tones: Tones
   PowerSupply: PowerSupply
@@ -227,6 +228,17 @@ System.getBatteryStatus(); // 'DISCHARGE'
 
 /** When the battery is not connected */
 System.getBatteryStatus(); // 'ABSENT'
+```
+
+
+### getVersion()
+
+Retorna a porcentagem da carga da bateria do dispositivo.
+
+```js
+import System from '@mamba/pos/api/system.js'
+
+System.getVersion(); // '3.0.0'
 ```
 
 ### changeAdapter: (desiredAdapter: string)

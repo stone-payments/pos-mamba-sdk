@@ -193,6 +193,12 @@ export function setup(System) {
    */
   System.getBatteryLevel = () => Registry.get().$System.Battery.level;
 
+    /**
+   * Gets version system
+   * @return {string} The version system
+   */
+  System.getVersion() = () => '3.0.0';
+
   /**
    * Performs a beep. Note that this function blocks the execution on the real device
    * until it's finished. If {@link tone} and {@link duration} are both undefined, the default beep
