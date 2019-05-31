@@ -16,5 +16,5 @@ export function setup(App) {
 
   App.isRunningOnDevice = () => false;
 
-  App.getVersion() = () => Registry.persistent.get().$App.appVersion;
+  App.getVersion = () => Registry.persistent.get().$App.appVersion;
 }
