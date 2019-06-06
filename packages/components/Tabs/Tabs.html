@@ -3,7 +3,7 @@
   <table class="tab-navigation">
     <tr>
       {#each _tabs as tab, key}
-      <td on:click="set({index: key})" class:active="key === index">
+      <td on:click="_selectTab(key)" class:active="key === index">
         {tab.title}
         <div class="line"></div>
       </td>
@@ -19,45 +19,111 @@
 </div>
 
 <script>
+  const CHANGEON = {
+    STATE: 'state',
+    ROUTER: 'route',
+  };
+
   export default {
     data() {
       return {
         _tabs: [],
         _lastIndex: 0,
+        _routes: [],
         index: 0,
+        changeOn: CHANGEON.STATE,
+        CHANGEON,
       };
     },
     oncreate() {
       const _tabs = [].filter.call(
         this.refs.container.children,
         element =>
-          element.classList.contains('tab-pane') && element.title !== 'undefined',
+          element.classList.contains('tab-pane') &&
+          element.title !== 'undefined',
       );
 
       this.set({ _tabs });
-    },
-    onupdate({ changed, current }) {
-      if (changed.index || changed._tabs) {
-        // Update tab position
-        this._changeTab(current.index);
+
+      const { changeOn } = this.get();
+
+      if (changeOn === CHANGEON.ROUTER && this.root.router) {
+        const _routes = _tabs.map(tab => tab.getAttribute('data-route'));
+        const { pageInstance } = this.root.router;
+        if (pageInstance && pageInstance.current && _routes.length) {
+          const index = _routes.indexOf(pageInstance.current);
+          if (index > -1) {
+            this.set({ index });
+          }
+        }
+        this.set({ _routes });
       }
+
+      this.on('update', this._stateUpdate);
     },
     methods: {
       _validIndex(index) {
         const { _tabs } = this.get();
-        if (index < 0) return 0;
+        if (!index || index < 0) return 0;
         if (index >= _tabs.length) return _tabs.length - 1;
         return index;
       },
-      _changeTab(index) {
-        const { _tabs: _tabElements, _lastIndex: lastIndex } = this.get();
-        if (_tabElements.length) {
-          _tabElements[lastIndex].hidden = true;
+      _selectTab(key) {
+        const { changeOn } = this.get();
+        if (changeOn === CHANGEON.ROUTER) {
+          this._changeTab(key, true);
+        } else {
+          this.set({ index: key });
+        }
+      },
+      _changeTab(rawIndex, useRouter = false) {
+        const { _tabs, _routes, _lastIndex } = this.get();
+        if (_tabs.length) {
+          const index = this._validIndex(rawIndex);
+          const route = _routes[index];
+          const props = {
+            index,
+            _lastIndex,
+          };
 
-          const currentIdx = this._validIndex(index);
-          _tabElements[currentIdx].hidden = false;
-          this.set({ index: currentIdx, _lastIndex: currentIdx });
-          this.fire('change', { index: currentIdx, lastIndex });
+          const { router } = this.root;
+
+          if (useRouter && router && typeof route === 'string') {
+            const {
+              context: { page, title, state },
+            } = router.get();
+
+            // Change router without push the history
+            state.path = route;
+            window.history.replaceState(
+              { ...state, ...props },
+              title,
+              page._hashbang && this.path !== '/' ? `#!${route}` : route,
+            );
+          }
+
+          this._showContentOf(props);
+        }
+      },
+      _showContentOf({ index, _lastIndex }) {
+        const { _tabs } = this.get();
+        if (_lastIndex !== index) _tabs[_lastIndex].hidden = true;
+        _tabs[index].hidden = false;
+        this.set({ index, _lastIndex: index });
+        this.fire('change', { index, _lastIndex });
+      },
+      _stateUpdate({ changed, current }) {
+        if (changed.index || changed._tabs) {
+          // Update tab position
+          if (
+            current.changeOn === CHANGEON.ROUTER &&
+            current.index &&
+            current._lastIndex
+          ) {
+            this._showContentOf(current);
+          } else {
+            this._changeTab(current.index, false);
+          }
         }
       },
     },
