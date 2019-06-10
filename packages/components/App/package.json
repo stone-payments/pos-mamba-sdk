@@ -7,9 +7,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {
-    "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w"
-  },
   "devDependencies": {
     "@mamba/button": "^2.8.2",
     "@mamba/styles": "^2.8.2"
