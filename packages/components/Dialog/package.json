@@ -7,9 +7,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {
-    "start": "rollup -c ../../../tools/rollup/config.component.watch.js -w"
-  },
   "devDependencies": {
     "@mamba/sprite": "^2.8.2"
   },
