@@ -79,7 +79,7 @@ describe(`${name}/Tab.html`, () => {
       const spy = jest.fn();
       tabs.on('change', spy);
       tabs.set({ index: 0 });
-      expect(spy).toHaveBeenCalledWith({ index: 0, lastIndex: 1 });
+      expect(spy).toHaveBeenCalledWith({ _lastIndex: 1, index: 0 });
     });
 
     it('should not able to set index greater than tabs quantity', () => {
