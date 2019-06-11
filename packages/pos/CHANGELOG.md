@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.8.2...v2.8.3) (2019-06-10)
+
+
+### Bug Fixes
+
+* 🐛 adjust dependency cycles of [@mamba](https://github.com/mamba)/pos -> [@mamba](https://github.com/mamba)/app ([ef0e9c8](https://github.com/stone-payments/pos-mamba-sdk/commit/ef0e9c8))
+* 🐛 getVersion system invalid left-hand ([2562178](https://github.com/stone-payments/pos-mamba-sdk/commit/2562178))
+* 🐛 getVersion with invalid lef-hand ([d99a000](https://github.com/stone-payments/pos-mamba-sdk/commit/d99a000))
+* 🐛 lerna circular dependency ([ff17a32](https://github.com/stone-payments/pos-mamba-sdk/commit/ff17a32))
+
+
+### Features
+
+* 🎸 Add getInfo to Merchant and panel ([ecdc967](https://github.com/stone-payments/pos-mamba-sdk/commit/ecdc967))
+* 🎸 add identification type for merchant ([75e416b](https://github.com/stone-payments/pos-mamba-sdk/commit/75e416b))
+* 🎸 List brands docs ([13d85bf](https://github.com/stone-payments/pos-mamba-sdk/commit/13d85bf))
+
+
+
+
+
 ## [2.8.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.7.2...v2.8.2) (2019-05-27)
 
 
