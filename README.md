@@ -4,8 +4,6 @@
   </a>
 </p>
 
-<h1 align="center">Mamba SDK</h1>
-
 <div align="center">
 
 The solution that turns a POS(point of Sale) into much more than payment!
@@ -15,19 +13,116 @@ Develop applications using only web technology, without worrying about the compl
 <br/>
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 <br/>
+</div>
 <br/>
-📝 [Documentation](https://mambasdk-docs.stone.com.br/)
 
+📝 [Documentation](https://mambasdk-docs.stone.com.br/)<br/>
+<div align="center">
+<img height="21" align="top" src="https://www.stone.com.br/static/images/favicon.png" hspace="1"><a href="https://www.stone.co" target="_blank">&nbsp;Stone.co</a>
+</div>
+<br/>
+<br/>
+
+<div align="center">
+<a href="https://www.stone.com.br" target="_blank"><img width="500" src="https://www.stone.com.br/static/images/everyBusiness.png"></a>
 </div>
 
-## Requirements
+<br/>
+<br/>
+
+## ✅ Requirements
 
 Make sure all dependencies have been installed before moving on:
 
 - [Node.js](http://nodejs.org/) >= v8.11.3
 - [Lerna](https://github.com/lerna/lerna) >= v3.0.0
 
-### Commands
+
+
+## 📦 Getting Started
+
+### With `@mamba/cli`
+
+```shell
+# Install the mamba cli globally if doesn't already have it
+npm i -g @mamba/cli
+
+# Create a new mamba app at 'my-mamba-app' directory
+mamba new app my-mamba-app
+
+? Name: My Mamba App
+? Version: 0.0.1
+? Description: My new Mamba app
+
+```
+
+
+### Manually
+
+```shell
+# Create and enter your new app directory
+mkdir my-mamba-app
+cd my-mamba-app
+
+# Install the standard mamba app template
+npx degit stone-payments/pos-mamba-app-template
+
+```
+
+## ⌨️ Development
+
+Once you have completed the installation step, you are ready to start the project!
+
+```bash
+cd my-mamba-app # Your project folder
+
+# Install its dependencies
+npm i
+
+# Run the development server
+npm run start
+```
+
+Open your browser and visit http://127.0.0.1:8080 , see more at [Development](https://mambasdk-docs.stone.com.br/guide#desenvolvendo).
+
+
+
+## 🔨 Components usage
+
+For Web Components, install the component / package that you want to use in the project:
+
+```bash
+npm install @mamba/button # Button component
+
+
+# If you want to use the dialog component for example:
+
+npm install @mamba/dialog
+
+```
+
+To import the installed component, simply do one of the following:
+
+
+```bash
+<script>
+import Button from '@mamba/button';
+
+export default {
+  components: { Button }
+}
+
+<script>
+export default {
+  components: {
+    Button: '@mamba/button'
+  }
+}
+</script>
+```
+
+
+## 🧰 Commands
 
 - `npm run lint` - Lint all style and script files;
 - `npm run format` - Format all style and script files;
@@ -38,9 +133,9 @@ Make sure all dependencies have been installed before moving on:
 - `lerna run x` - Execute the `x` script in all packages;
 - `lerna run start --scope=@mamba/component --stream` - Run the dev server for a specific component;
 
-### Contributing
+## Contributing
 
-#### Commiting
+### ✏️ Commiting
 
 Our commits follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0-beta.3/) standard:
 
@@ -48,7 +143,7 @@ Our commits follow the [Conventional Commits](https://www.conventionalcommits.or
 
 By installing `git-cz` _globally_ (`npm i -g git-cz`) it's possible to use `git cz` instead of `git commit` for a interactive commit helper.
 
-## Useful
+## 🔗 Useful links
 
 - [Conventional commits](https://www.conventionalcommits.org/en/v1.0.0-beta.3/)
 - [Mamba App Template](https://github.com/stone-payments/pos-mamba-app-template)
