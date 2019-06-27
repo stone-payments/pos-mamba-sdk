@@ -1,4 +1,24 @@
-# [Mamba SDK](https://mambasdk-docs.stone.com.br/)
+<p align="center">
+  <a href="http://ant.design">
+    <img width="300" src="https://mambasdk-docs.stone.com.br/images/logoMamba.svg">
+  </a>
+</p>
+
+<h1 align="center">Mamba SDK</h1>
+
+<div align="center">
+
+The solution that turns a POS(point of Sale) into much more than payment!
+
+Develop applications using only web technology, without worrying about the complications of the capabilities of a POS.
+<br/>
+<br/>
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+<br/>
+<br/>
+📝 [Documentation](https://mambasdk-docs.stone.com.br/)
+
+</div>
 
 ## Requirements
 
