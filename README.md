@@ -106,6 +106,9 @@ import Button from '@mamba/button';
 export default {
   components: { Button }
 }
+</script>
+
+// or
 
 <script>
 export default {
