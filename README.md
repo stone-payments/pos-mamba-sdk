@@ -99,7 +99,7 @@ npm install @mamba/dialog
 To import the installed component, simply do one of the following:
 
 
-```bash
+```js
 <script>
 import Button from '@mamba/button';
 
