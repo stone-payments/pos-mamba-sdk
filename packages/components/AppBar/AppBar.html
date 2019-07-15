@@ -5,7 +5,7 @@
     <Icon symbol="chevron-left" width="10px" color="{textColor}" />
   </div>
   {/if} {#if title}
-  <div class="title">{title} {remove}</div>
+  <div class="title">{title}</div>
   {/if} {#if _showHome}
   <div class="icon-right" on:click="_goHome()">
     <Icon symbol={_isAtHome ? 'home' : 'app-home'} color={textColor}/>
