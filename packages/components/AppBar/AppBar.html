@@ -1,21 +1,18 @@
+{#if remove === "false"}
 <header class="appbar" {style}>
   {#if _showBack}
-    <div class="icon-left" on:click="_goBack()">
-      <Icon symbol="chevron-left" width="10px" color={textColor} />
-    </div>
-  {/if}
-
-  {#if title}
-    <div class="title">{title}</div>
-  {/if}
-
-  {#if _showHome}
-    <div class="icon-right" on:click="_goHome()">
-      <Icon symbol={_isAtHome ? 'home' : 'app-home'} color={textColor}/>
-    </div>
+  <div class="icon-left" on:click="_goBack()">
+    <Icon symbol="chevron-left" width="10px" color="{textColor}" />
+  </div>
+  {/if} {#if title}
+  <div class="title">{title} {remove}</div>
+  {/if} {#if _showHome}
+  <div class="icon-right" on:click="_goHome()">
+    <Icon symbol={_isAtHome ? 'home' : 'app-home'} color={textColor}/>
+  </div>
   {/if}
 </header>
-
+{/if}
 <script>
   export default {
     components: {
@@ -29,6 +26,7 @@
         textColor: '#425963',
         bgColor: '#f2f2f2',
         border: true,
+        remove: false,
       };
     },
     computed: {
@@ -85,6 +83,9 @@
     onstate({ changed, current }) {
       if (changed.title) {
         document.title = current.title;
+      }
+      if (changed.remove) {
+        document.remove = current.remove;
       }
     },
     methods: {

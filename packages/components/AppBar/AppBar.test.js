@@ -68,6 +68,19 @@ describe('title', () => {
   });
 });
 
+describe('remove', () => {
+  beforeAll(() => {
+    appBar = newAppBar();
+  });
+  console.log(AppBar);
+  it('should display header', () => {
+    expect(appBar.get().remove).toBe(true);
+  });
+  it('should not display header', () => {
+    expect(appBar.get().remove).toBe(false);
+  });
+});
+
 describe('navigation', () => {
   beforeAll(() => {
     appBar = newAppBar();
