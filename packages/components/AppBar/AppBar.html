@@ -1,4 +1,4 @@
-{#if remove === "false"}
+{#if _hideAppBar === false}
 <header class="appbar" {style}>
   {#if _showBack}
   <div class="icon-left" on:click="_goBack()">
@@ -26,7 +26,7 @@
         textColor: '#425963',
         bgColor: '#f2f2f2',
         border: true,
-        remove: false,
+        _hideAppBar: false,
       };
     },
     computed: {
@@ -71,6 +71,9 @@
           if (changed.navigable) {
             this.set({ _isNavigationEnabled: current.navigable });
           }
+          if (changed.hideAppBar) {
+            this.set({ _hideAppBar: current.hideAppBar });
+          }
         });
       }
     },
@@ -83,9 +86,6 @@
     onstate({ changed, current }) {
       if (changed.title) {
         document.title = current.title;
-      }
-      if (changed.remove) {
-        document.remove = current.remove;
       }
     },
     methods: {

@@ -37,7 +37,7 @@
         navigable: { home: true, back: true },
         shortcuts: true,
         scrollable: true,
-        hasAppbar: false,
+        hideAppBar: false,
         askPasswordOnClose: false,
       };
     },
@@ -134,6 +134,16 @@
       }
     },
     methods: {
+      hideAppBar(isHideAppBar) {
+        if (typeof isHideAppBar === 'boolean') {
+          this.set({ hideAppBar: isHideAppBar });
+        } else{
+          this.set({
+            hideAppBar: false,
+          });
+        }
+
+      },
       setShortcuts(isEnabled) {
         this.set({ shortcuts: isEnabled });
       },

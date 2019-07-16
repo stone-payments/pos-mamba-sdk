@@ -68,16 +68,20 @@ describe('title', () => {
   });
 });
 
-describe('remove', () => {
+describe('hideAppBar', () => {
   beforeAll(() => {
     appBar = newAppBar();
   });
-  console.log(AppBar);
   it('should display header', () => {
-    expect(appBar.get().remove).toBe(true);
+    const headerDOM = root.query('.appbar');
+    expect(headerDOM).not.toBeNull();
+    expect(appBar.get()._hideAppBar).toBe(false);
   });
-  it('should not display header', () => {
-    expect(appBar.get().remove).toBe(false);
+  it('should display header', () => {
+    const headerDOM = root.query('.appbar');
+    appBar.set({ _hideAppBar: false });
+    expect(headerDOM).not.toBeNull();
+    expect(appBar.get()._hideAppBar).toBe(false);
   });
 });
 
