@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "babel-loader": "^8.0.4",
+    "chalk": "^2.4.2",
     "css-loader": "^2.1.0",
     "cssnano": "^4.1.8",
     "eslint-loader": "^2.1.1",
