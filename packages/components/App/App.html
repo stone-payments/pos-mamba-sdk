@@ -35,6 +35,7 @@
     data() {
       return {
         navigable: { home: true, back: true },
+        navigableRoute: { routeBack: undefined , paramsBack: undefined },
         shortcuts: true,
         scrollable: true,
         hasAppbar: false,
@@ -149,6 +150,27 @@
               ...this.get().navigable,
               ...navigable,
             },
+          });
+        }
+      },
+      setNavigableRoute(route, params = {}) {
+        if (route && typeof route === 'string') {
+          if (params && typeof params === 'object') {
+            this.set({ navigableRoute: {
+              routeBack: route, paramsBack: params } });
+          } else {
+            this.set({ navigableRoute: { routeBack: route } });
+          }
+        }
+      },
+      resetRouteParams({ route = undefined, paramsBack = undefined } = {}) {
+        if (route) {
+          this.set({ navigableRoute: { routeBack: undefined } });
+        } else if (paramsBack) {
+          this.set({ navigableRoute: { paramsBack: undefined } });
+        } else {
+          this.set({ navigableRoute: {
+            routeBack: undefined, paramsBack: undefined },
           });
         }
       },
