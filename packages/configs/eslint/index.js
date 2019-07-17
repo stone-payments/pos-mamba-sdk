@@ -1,4 +1,6 @@
+const merge = require('webpack-merge');
 const { lineLength } = require('../shared.js');
+const additionalGlobals = require('../helpers/clientEnvironment.js');
 
 const IS_PROD = process.env.NODE_ENV === 'production';
 
@@ -22,7 +24,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2018,
   },
-  globals: {
+  globals: merge(additionalGlobals, {
     __APP_ENV__: true,
     __NODE_ENV__: true,
     __BROWSER__: true,
@@ -33,7 +35,7 @@ module.exports = {
     __DEBUG_LVL__: true,
     __SIMULATOR__: true,
     __APP_MANIFEST__: true,
-  },
+  }),
   rules: {
     'import/no-cycle': 'off',
     // ! Code
