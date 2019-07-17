@@ -163,16 +163,10 @@
           }
         }
       },
-      resetRouteParams({ route = undefined, paramsBack = undefined } = {}) {
-        if (route) {
-          this.set({ navigableRoute: { routeBack: undefined } });
-        } else if (paramsBack) {
-          this.set({ navigableRoute: { paramsBack: undefined } });
-        } else {
-          this.set({ navigableRoute: {
-            routeBack: undefined, paramsBack: undefined },
-          });
-        }
+      resetRouteParams() {
+        this.set({ navigableRoute: {
+          routeBack: undefined, paramsBack: undefined },
+        });
       },
       askAdminPassword() {
         this.refs.adminLock.open();
