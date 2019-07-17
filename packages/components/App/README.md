@@ -58,6 +58,20 @@ O componente `<App/>` se registra como a propriedade `meta` no [componente raiz]
 
 Habilita/desabilita a navegação do app. Passa-se um objeto composto por `back` e `home` com um valor _booleano_ ou um valor _booleano_ único que será usado para ambos os casos.
 
+
+#### Esconde/mostra o `AppBar`
+
+`this.root.meta.hideAppBar(boolean)`
+
+Esconde/mostra o componete appBar. Passa-se um valor _booleano_.
+
+#### Navegação da `AppBar` no botão de voltar com rota customizada e passagem de parâmetros
+
+`this.root.meta.setNavigableRoute({ route: '/', params: { name: 'Mamba' } })`
+
+Customiza a rota quando for clicado no botão de voltar no `AppBar`. Passa-se um objeto composto por `route` e `params`, a propriedade `route` é obrigatória e precisa receber uma _string_, a propriedade `params` é opcional e o valor precisa ser um _object_.
+
+
 #### Atalhos de tecla automáticos (`shortcut="nomeDaTecla"`)
 
 `this.root.meta.setShortcuts(boolean)`;
