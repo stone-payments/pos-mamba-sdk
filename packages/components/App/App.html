@@ -38,7 +38,7 @@
         navigableRoute: { routeBack: undefined , paramsBack: undefined },
         shortcuts: true,
         scrollable: true,
-        hasAppbar: false,
+        hideAppBar: false,
         askPasswordOnClose: false,
       };
     },
@@ -135,6 +135,9 @@
       }
     },
     methods: {
+      hideAppBar(isHideAppBar) {
+        this.set({ hideAppBar: isHideAppBar || false });
+      },
       setShortcuts(isEnabled) {
         this.set({ shortcuts: isEnabled });
       },
