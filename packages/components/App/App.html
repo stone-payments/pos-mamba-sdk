@@ -163,10 +163,8 @@
           }
         }
       },
-      resetRouteParams() {
-        this.set({ navigableRoute: {
-          routeBack: undefined, paramsBack: undefined },
-        });
+      resetRoute() {
+        this.set({ navigableRoute: { routeBack: undefined } });
       },
       askAdminPassword() {
         this.refs.adminLock.open();
