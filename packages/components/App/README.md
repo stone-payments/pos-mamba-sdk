@@ -61,7 +61,7 @@ Habilita/desabilita a navegação do app. Passa-se um objeto composto por `back`
 
 #### Esconde/mostra o `AppBar`
 
-`this.root.meta.hideAppBar(boolean`
+`this.root.meta.hideAppBar(boolean)`
 
 Esconde/mostra o componete appBar. Passa-se um valor _booleano_.
 
