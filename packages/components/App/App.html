@@ -35,6 +35,7 @@
     data() {
       return {
         navigable: { home: true, back: true },
+        navigableRoute: { routeBack: undefined , paramsBack: undefined },
         shortcuts: true,
         scrollable: true,
         hasAppbar: false,
@@ -151,6 +152,19 @@
             },
           });
         }
+      },
+      setNavigableRoute(route, params = {}) {
+        if (route && typeof route === 'string') {
+          if (params && typeof params === 'object') {
+            this.set({ navigableRoute: {
+              routeBack: route, paramsBack: params } });
+          } else {
+            this.set({ navigableRoute: { routeBack: route } });
+          }
+        }
+      },
+      resetRoute() {
+        this.set({ navigableRoute: { routeBack: undefined } });
       },
       askAdminPassword() {
         this.refs.adminLock.open();
