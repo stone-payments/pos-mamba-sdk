@@ -22,6 +22,7 @@
       return {
         _location: undefined,
         _isNavigationEnabled: { back: false, home: true },
+        _navigableRoute: { routeBack: undefined , paramsBack: undefined },
         title: undefined,
         textColor: '#425963',
         bgColor: '#f2f2f2',
@@ -70,9 +71,10 @@
           /* istanbul ignore else */
           if (changed.navigable) {
             this.set({ _isNavigationEnabled: current.navigable });
-          }
-          if (changed.hideAppBar) {
+          } else if (changed.hideAppBar) {
             this.set({ _hideAppBar: current.hideAppBar });
+          } else if (changed.navigableRoute) {
+            this.set({ _navigableRoute: current.navigableRoute });
           }
         });
       }
@@ -104,8 +106,18 @@
         }
       },
       _goBack() {
+        const { _navigableRoute } = this.get();
         /* istanbul ignore else */
-        if (this.root.router) {
+        if (_navigableRoute.routeBack) {
+          if (_navigableRoute.paramsBack) {
+            this.root.router.go(
+              _navigableRoute.routeBack,
+              _navigableRoute.paramsBack,
+            );
+          } else {
+            this.root.router.go(_navigableRoute.routeBack);
+          }
+        } else if (this.root.router) {
           this.root.fire('appbar:goBack');
           this.root.router.back();
         }
