@@ -135,14 +135,7 @@
     },
     methods: {
       hideAppBar(isHideAppBar) {
-        if (typeof isHideAppBar === 'boolean') {
-          this.set({ hideAppBar: isHideAppBar });
-        } else{
-          this.set({
-            hideAppBar: false,
-          });
-        }
-
+        this.set({ hideAppBar: isHideAppBar || false });
       },
       setShortcuts(isEnabled) {
         this.set({ shortcuts: isEnabled });
