@@ -1,6 +1,6 @@
-# RadioButton
+# Radio
 
-O módulo `RadioButton` é usado para ativar opções predefinida.
+O módulo `Radio` é usado para selecionar uma opção dentre as alternadas.
 
 <!-- @example ./example/Example.Html -->
 
@@ -8,13 +8,4 @@ O módulo `RadioButton` é usado para ativar opções predefinida.
 
 | Parâmetro | Descrição                                         | Tipo            | Padrão     |
 | :-------- | :------------------------------------------------ | :-------------- | :--------- |
-| change    | lança um evento quando o componente é modificado  | `function`      | `undefined`|
 | checked   | deixa o switch ativado                            | `undefined`     | `true`     |
-| disabled  | desabilita o switch                               | `undefined`     | `true`     |
-
-
-## Métodos
-
-### RadioButton.toggle(value)
-
-Alterna o valor de `checked` do switch, caso `value` seja passado como parâmtro define `checked` para este valor.

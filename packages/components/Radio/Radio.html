@@ -1,8 +1,7 @@
 <label>
   <input
     type="radio"
-    name="radio-sdk"
-    ref:radioComponent
+    name="radio"
     {checked}
 	/>
   <div class="radio"></div>
@@ -15,23 +14,12 @@
         checked: false,
       };
     },
-    methods: {
-      toggleRadio(e) {
-
-        console.log('disparou!');
-
-        this.set({
-          checked: e.target.checked,
-        });
-      },
-    },
   };
 </script>
 
 <style>
   input {
     display: none;
-    /* margin-left: -20px; */
   }
 
   .radio {
@@ -59,7 +47,6 @@
 
   input:checked + div {
     background-color: transparent;
-    /* border-color: $radio-checked-border; */
     border-color: $green;
 
     &::after {

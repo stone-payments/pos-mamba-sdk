@@ -2,17 +2,12 @@
 
   <h4>Padrão</h4>
   <div class="row">
-    <Switch on:change="console.log(event)"/>
+    <Radio />
   </div>
 
   <h4>Selecionado</h4>
   <div class="row">
-    <Switch checked on:change="console.log(event)"/>
-  </div>
-
-  <h4>Desativado</h4>
-  <div class="row">
-    <Switch disabled on:change="console.log(event)"/>
+    <Radio checked />
   </div>
 
 </div>
@@ -39,7 +34,7 @@
 <script>
   export default {
     components: {
-      Switch: '@mamba/switch',
+      Radio: '@mamba/radio',
     },
   };
 </script>
