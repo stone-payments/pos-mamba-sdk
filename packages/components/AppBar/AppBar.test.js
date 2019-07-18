@@ -68,6 +68,23 @@ describe('title', () => {
   });
 });
 
+describe('hideAppBar', () => {
+  beforeAll(() => {
+    appBar = newAppBar();
+  });
+  it('should display header', () => {
+    const headerDOM = root.query('.appbar');
+    expect(headerDOM).not.toBeNull();
+    expect(appBar.get()._hideAppBar).toBe(false);
+  });
+  it('should display header', () => {
+    const headerDOM = root.query('.appbar');
+    appBar.set({ _hideAppBar: false });
+    expect(headerDOM).not.toBeNull();
+    expect(appBar.get()._hideAppBar).toBe(false);
+  });
+});
+
 describe('navigation', () => {
   beforeAll(() => {
     appBar = newAppBar();

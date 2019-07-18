@@ -38,7 +38,7 @@
         navigableRoute: { routeBack: undefined , paramsBack: undefined },
         shortcuts: true,
         scrollable: true,
-        hasAppbar: false,
+        hideAppBar: false,
         askPasswordOnClose: false,
       };
     },
@@ -135,6 +135,9 @@
       }
     },
     methods: {
+      hideAppBar(isHideAppBar) {
+        this.set({ hideAppBar: isHideAppBar || false });
+      },
       setShortcuts(isEnabled) {
         this.set({ shortcuts: isEnabled });
       },
@@ -163,16 +166,8 @@
           }
         }
       },
-      resetRouteParams({ route = undefined, paramsBack = undefined } = {}) {
-        if (route) {
-          this.set({ navigableRoute: { routeBack: undefined } });
-        } else if (paramsBack) {
-          this.set({ navigableRoute: { paramsBack: undefined } });
-        } else {
-          this.set({ navigableRoute: {
-            routeBack: undefined, paramsBack: undefined },
-          });
-        }
+      resetRoute() {
+        this.set({ navigableRoute: { routeBack: undefined } });
       },
       askAdminPassword() {
         this.refs.adminLock.open();

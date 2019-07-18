@@ -233,3 +233,22 @@ describe('shortcuts', () => {
       setTimeout(res, 500);
     }));
 });
+
+describe('hideAppBar', () => {
+  beforeEach(() => {
+    const docFrag = document.createDocumentFragment();
+    meta = root.createComponent(App, {
+      unique: true,
+      slots: { default: docFrag },
+    });
+  });
+  it('should set AppBar hide properties to true', () => {
+    meta.hideAppBar(true);
+    expect(meta.get().hideAppBar).toEqual(true);
+  });
+
+  it('should set AppBar hide properties to false', () => {
+    meta.hideAppBar(false);
+    expect(meta.get().hideAppBar).toEqual(false);
+  });
+});

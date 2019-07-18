@@ -11,7 +11,7 @@ The solution that turns a POS(point of Sale) into much more than payment!
 Develop applications using only web technology, without worrying about the complications of the capabilities of a POS.
 <br/>
 <br/>
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![npm package](https://img.shields.io/npm/v/@mamba/app.svg?style=flat-square)](https://www.npmjs.org/package/mamba) 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![npm package](https://img.shields.io/npm/v/@mamba/app.svg?style=flat-square)](https://www.npmjs.com/package/@mamba/app) 
 <br/>
 </div>
 <br/>

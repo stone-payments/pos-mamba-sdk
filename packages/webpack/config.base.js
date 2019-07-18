@@ -1,6 +1,7 @@
 /**
  * Common webpack configuration
  */
+const merge = require('webpack-merge');
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin');
 const WebpackBar = require('webpackbar');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -126,17 +127,20 @@ module.exports = {
       context: { title: 'Application' },
       template: getHTMLTemplate,
     }),
-    new webpack.DefinePlugin({
-      __NODE_ENV__: JSON.stringify(NODE_ENV),
-      __APP_ENV__: JSON.stringify(APP_ENV),
-      __PROD__: IS_PROD,
-      __TEST__: NODE_ENV === 'test',
-      __DEV__: IS_DEV,
-      __DEBUG_LVL__: DEBUG_LVL,
-      __POS__: IS_POS,
-      __SIMULATOR__: ADD_MAMBA_SIMULATOR,
-      __BROWSER__: IS_BROWSER,
-    }),
+    new webpack.DefinePlugin(
+      // eslint-disable-next-line
+      merge(require('@mamba/configs/helpers/clientEnvironment.js'), {
+        __NODE_ENV__: JSON.stringify(NODE_ENV),
+        __APP_ENV__: JSON.stringify(APP_ENV),
+        __PROD__: IS_PROD,
+        __TEST__: NODE_ENV === 'test',
+        __DEV__: IS_DEV,
+        __DEBUG_LVL__: DEBUG_LVL,
+        __POS__: IS_POS,
+        __SIMULATOR__: ADD_MAMBA_SIMULATOR,
+        __BROWSER__: IS_BROWSER,
+      }),
+    ),
   ],
   /** Minimal useful output log */
   stats: {
@@ -144,6 +148,7 @@ module.exports = {
     chunks: false,
     colors: true,
     children: false,
+    env: true,
   },
   optimization: {
     namedChunks: true,

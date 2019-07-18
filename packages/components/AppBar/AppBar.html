@@ -1,21 +1,18 @@
+{#if _hideAppBar === false}
 <header class="appbar" {style}>
   {#if _showBack}
-    <div class="icon-left" on:click="_goBack()">
-      <Icon symbol="chevron-left" width="10px" color={textColor} />
-    </div>
-  {/if}
-
-  {#if title}
-    <div class="title">{title}</div>
-  {/if}
-
-  {#if _showHome}
-    <div class="icon-right" on:click="_goHome()">
-      <Icon symbol={_isAtHome ? 'home' : 'app-home'} color={textColor}/>
-    </div>
+  <div class="icon-left" on:click="_goBack()">
+    <Icon symbol="chevron-left" width="10px" color="{textColor}" />
+  </div>
+  {/if} {#if title}
+  <div class="title">{title}</div>
+  {/if} {#if _showHome}
+  <div class="icon-right" on:click="_goHome()">
+    <Icon symbol={_isAtHome ? 'home' : 'app-home'} color={textColor}/>
+  </div>
   {/if}
 </header>
-
+{/if}
 <script>
   export default {
     components: {
@@ -30,6 +27,7 @@
         textColor: '#425963',
         bgColor: '#f2f2f2',
         border: true,
+        _hideAppBar: false,
       };
     },
     computed: {
@@ -73,6 +71,10 @@
           /* istanbul ignore else */
           if (changed.navigable) {
             this.set({ _isNavigationEnabled: current.navigable });
+          } else if (changed.hideAppBar) {
+            this.set({ _hideAppBar: current.hideAppBar });
+          } else if (changed.navigableRoute) {
+            this.set({ _navigableRoute: current.navigableRoute });
           }
           if (changed.navigableRoute) {
             this.set({ _navigableRoute: current.navigableRoute });
