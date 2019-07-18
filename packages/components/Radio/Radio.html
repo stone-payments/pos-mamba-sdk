@@ -1,8 +1,10 @@
-<label>
+<label >
   <input
     type="radio"
     name="radio"
     {checked}
+    on:change="fire('change')"
+    on:click="fire('click')"
 	/>
   <div class="radio"></div>
 </label>
