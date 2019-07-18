@@ -1,10 +1,11 @@
-<label class="radio" {checked} >
+<label>
   <input
     type="radio"
     name="radio-sdk"
     ref:radioComponent
-    on:change="toggleRadio(event)"
+    {checked}
 	/>
+  <div class="radio"></div>
 </label>
 
 <script>
@@ -17,7 +18,7 @@
     methods: {
       toggleRadio(e) {
 
-        console.log(e);
+        console.log('disparou!');
 
         this.set({
           checked: e.target.checked,
@@ -27,10 +28,10 @@
   };
 </script>
 
-<style type="text/postcss">
+<style>
   input {
-    /* display: none; */
-    margin-left: -20px;
+    display: none;
+    /* margin-left: -20px; */
   }
 
   .radio {
@@ -41,38 +42,28 @@
     vertical-align: middle;
     border-radius: 100%;
     border: 2px solid $radio-unchecked-border;
+  }
+
+  input + div::after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: none;
+    background-color: transparent;
+  }
+
+  input:checked + div {
+    background-color: transparent;
+    /* border-color: $radio-checked-border; */
+    border-color: $green;
 
     &::after {
-      content: '';
-      display: inline-block;
-      position: absolute;
-      left: 3px;
-      top: 3px;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      border: none;
-      background-color: transparent;
-    }
-
-    /** Checked switch style */
-    &[checked='true'] {
-      background-color: transparent;
-      /* border-color: $radio-checked-border; */
-      border-color: $green;
-
-      &::after {
-        background-color: $green;
-      }
-    }
-
-    /** Disabled switch style */
-    &[disabled='true'] {
-      background-color: $switch-disabled-bg;
-
-      &::after {
-        background-color: $switch-disabled-color;
-      }
+      background-color: $green;
     }
   }
 </style>
