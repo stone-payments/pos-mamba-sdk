@@ -47,6 +47,50 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+## [2.9.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.8.3...v2.9.1) (2019-07-19)
+
+
+### Bug Fixes
+
+* 🐛 method hide app bar updated ([0a58288](https://github.com/stone-payments/pos-mamba-sdk/commit/0a58288))
+* 🐛 npm badge link ([7afa671](https://github.com/stone-payments/pos-mamba-sdk/commit/7afa671))
+* 🐛 script syntax ([1b786d6](https://github.com/stone-payments/pos-mamba-sdk/commit/1b786d6))
+* 🐛 script tag ([53b5875](https://github.com/stone-payments/pos-mamba-sdk/commit/53b5875))
+* 🐛 unwanted text removed ([fcb4147](https://github.com/stone-payments/pos-mamba-sdk/commit/fcb4147))
+
+
+### Features
+
+* 🎸 adds the ability to configure feature flags ([#444](https://github.com/stone-payments/pos-mamba-sdk/issues/444)) ([b512e31](https://github.com/stone-payments/pos-mamba-sdk/commit/b512e31))
+* 🎸 New feature add AppBar back icon override method | this.root.meta.setNavigableRoute ([#445](https://github.com/stone-payments/pos-mamba-sdk/issues/445)) ([9a9a0bb](https://github.com/stone-payments/pos-mamba-sdk/commit/9a9a0bb))
+* 🎸 New feature remove header appBar ([e636d2d](https://github.com/stone-payments/pos-mamba-sdk/commit/e636d2d))
+
+
+### Performance Improvements
+
+* ⚡️ remove Boolean check ([2b52cf5](https://github.com/stone-payments/pos-mamba-sdk/commit/2b52cf5))
+
+
+* release/2.8.2 (#441) ([847ed7a](https://github.com/stone-payments/pos-mamba-sdk/commit/847ed7a)), closes [#441](https://github.com/stone-payments/pos-mamba-sdk/issues/441) [#439](https://github.com/stone-payments/pos-mamba-sdk/issues/439)
+
+
+### BREAKING CHANGES
+
+* Feature Flags
+* add `changeOn` param at Tabs; add `route` param at TabPane
+
+* docs: ✏️ update docs description and for the new params
+
+* fix: 🐛 Remove useless scripts
+
+* fix: 🐛 Fix test case
+
+* chore(release): :robot: publish
+
+
+
+
+
 ## [2.8.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.8.2...v2.8.3) (2019-06-10)
 
 
