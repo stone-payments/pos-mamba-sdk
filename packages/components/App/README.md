@@ -67,7 +67,7 @@ Esconde/mostra o componete appBar. Passa-se um valor _booleano_.
 
 #### Navegação da `AppBar` no botão de voltar com rota customizada e passagem de parâmetros
 
-`this.root.meta.setNavigableRoute({ route: '/', params: { name: 'Mamba' } })`
+`this.root.meta.setNavigableRoute('/', { name: 'Mamba' })`
 
 Customiza a rota quando for clicado no botão de voltar no `AppBar`. Passa-se um objeto composto por `route` e `params`, a propriedade `route` é obrigatória e precisa receber uma _string_, a propriedade `params` é opcional e o valor precisa ser um _object_.
 

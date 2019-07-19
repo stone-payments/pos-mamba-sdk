@@ -1,6 +1,6 @@
 {
   "name": "@mamba/configs",
-  "version": "2.8.3",
+  "version": "2.9.1",
   "description": "Tooling config presets to use in mamba projects.",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -31,6 +31,7 @@
     "@tivac/eslint-plugin-svelte": "^1.2.1",
     "babel-eslint": "^10.0.1",
     "babel-plugin-dynamic-import-node": "^2.2.0",
+    "chalk": "^2.4.2",
     "css-mqpacker": "^7.0.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-prettier": "^4.0.0",
@@ -51,7 +52,8 @@
     "postcss-syntax": "^0.36.2",
     "quickenv": "^0.0.6",
     "resolve": "^1.10.0",
-    "stylelint-config-standard": "^18.2.0"
+    "stylelint-config-standard": "^18.2.0",
+    "webpack-merge": "^4.2.1"
   },
   "gitHead": "869644effc7b7347a2ff75c956c57d69ee8236a5"
 }
