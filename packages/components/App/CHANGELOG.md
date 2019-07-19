@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.8.3...v2.9.1) (2019-07-19)
+
+
+### Bug Fixes
+
+* 🐛 method hide app bar updated ([0a58288](https://github.com/stone-payments/pos-mamba-sdk/commit/0a58288))
+
+
+### Features
+
+* 🎸 New feature add AppBar back icon override method | this.root.meta.setNavigableRoute ([#445](https://github.com/stone-payments/pos-mamba-sdk/issues/445)) ([9a9a0bb](https://github.com/stone-payments/pos-mamba-sdk/commit/9a9a0bb))
+
+
+### Performance Improvements
+
+* ⚡️ remove Boolean check ([2b52cf5](https://github.com/stone-payments/pos-mamba-sdk/commit/2b52cf5))
+
+
+
+
+
 ## [2.8.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.8.2...v2.8.3) (2019-06-10)
 
 
