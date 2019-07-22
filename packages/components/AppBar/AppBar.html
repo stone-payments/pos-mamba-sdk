@@ -1,6 +1,6 @@
 {#if _hideAppBar === false}
 <header class="appbar" {style}>
-  {#if _showBack}
+  {#if _navigableRoute.routeBack || _showBack }
   <div class="icon-left" on:click="_goBack()">
     <Icon symbol="chevron-left" width="10px" color="{textColor}" />
   </div>
@@ -74,9 +74,6 @@
           } else if (changed.hideAppBar) {
             this.set({ _hideAppBar: current.hideAppBar });
           } else if (changed.navigableRoute) {
-            this.set({ _navigableRoute: current.navigableRoute });
-          }
-          if (changed.navigableRoute) {
             this.set({ _navigableRoute: current.navigableRoute });
           }
         });
