@@ -1,6 +1,6 @@
 {#if _hideAppBar === false}
 <header class="appbar" {style}>
-  {#if _showBack}
+  {#if _navigableRoute.routeBack || _showBack }
   <div class="icon-left" on:click="_goBack()">
     <Icon symbol="chevron-left" width="10px" color="{textColor}" />
   </div>
@@ -42,7 +42,7 @@
       },
       _isAtHome: ({ _location }) => _location === '/' || !_location,
       _showBack: ({ _isAtHome, _isNavigationEnabled }) =>
-        !_isAtHome && _isNavigationEnabled.back,
+      !_isAtHome && _isNavigationEnabled.back,
       _showHome: ({ _isNavigationEnabled }) => _isNavigationEnabled.home,
     },
     oncreate() {
@@ -74,9 +74,6 @@
           } else if (changed.hideAppBar) {
             this.set({ _hideAppBar: current.hideAppBar });
           } else if (changed.navigableRoute) {
-            this.set({ _navigableRoute: current.navigableRoute });
-          }
-          if (changed.navigableRoute) {
             this.set({ _navigableRoute: current.navigableRoute });
           }
         });
@@ -112,6 +109,7 @@
         const { _navigableRoute } = this.get();
         /* istanbul ignore else */
         if (_navigableRoute.routeBack) {
+          console.log(_navigableRoute.routeBack);
           if (_navigableRoute.paramsBack) {
             this.root.router.go(
               _navigableRoute.routeBack,
