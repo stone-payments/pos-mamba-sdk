@@ -26,6 +26,7 @@
       this.meta = this.createDummy({
         data: {
           navigable: { home: true, back: true },
+          navigableRoute: { routeBack: undefined, paramsBack: undefined },
           shortcuts: true,
           scrollable: true,
           hasAppbar: false,
@@ -33,6 +34,14 @@
         methods: {
           setNavigable(o) {
             this.set({ navigable: o });
+          },
+          setNavigableRoute(route, params = {}) {
+            this.set({
+              navigableRoute: {
+                routeBack: route,
+                paramsBack: params,
+              },
+            });
           },
         },
       });

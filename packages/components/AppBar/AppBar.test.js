@@ -6,7 +6,6 @@ let appBar;
 
 const newAppBar = data => {
   root = newTestRoot();
-
   return root.createComponent(AppBar, { data });
 };
 
@@ -157,6 +156,28 @@ describe('navigation', () => {
         clickOn(root.query('.icon-right'));
       }),
     ]);
+  });
+
+  it('should update back button route', () => {
+    root.meta.setNavigable({ back: true, home: true });
+
+    root.meta.setNavigableRoute('/');
+
+    expect(root.meta.get().navigableRoute.routeBack).toBe('/');
+  });
+
+  it('should update back button route with params', () => {
+    root.meta.setNavigable({ back: true, home: true });
+
+    root.meta.setNavigableRoute('/', { name: 'Mamba' });
+
+    expect(root.meta.get().navigableRoute.paramsBack).toBe({ name: 'Mamba' });
+  });
+
+  it('should show back button when the method setNavigableRoute is called', () => {
+    root.meta.setNavigableRoute('/');
+
+    expect(root.query('.icon-left')).not.toBeNull();
   });
 
   it('should go back when back is clicked', () => {
