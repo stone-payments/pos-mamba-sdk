@@ -1,7 +1,7 @@
-<label >
+<label>
   <input
     type="radio"
-    name="radio"
+    {name}
     {checked}
     on:change="fire('change')"
     on:click="fire('click')"
@@ -14,7 +14,17 @@
     data() {
       return {
         checked: false,
+        name: name || 'radio'
       };
+    },
+    methods: {
+      toggle(value) {
+        if (value === true) {
+          this.set({ checked: true });
+        } else if (value === false) {
+          this.set({ checked: false });
+        }
+      },
     },
   };
 </script>
