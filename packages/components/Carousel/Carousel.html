@@ -1,0 +1,138 @@
+<div class="carousel">
+
+  <input type="radio" name="images" id="radio1" checked>
+  <input type="radio" name="images" id="radio2">
+  <input type="radio" name="images" id="radio3">
+  <input type="radio" name="images" id="radio4">
+  <input type="radio" name="images" id="radio5">
+
+  <div class="carousel-item" id="one">
+    <img src="http://placehold.it/147x187/293462/fff" alt="">
+
+    <label for="radio5" class="prev"></label>
+    <label for="radio2" class="next"></label>
+  </div>
+
+  <div class="carousel-item" id="two">
+    <img src="http://placehold.it/147x187/216583/fff" alt="">
+
+    <label for="radio1" class="prev"></label>
+    <label for="radio3" class="next"></label>
+  </div>
+
+  <div class="carousel-item" id="three">
+    <img src="http://placehold.it/147x187/00818a/fff" alt="">
+
+    <label for="radio2" class="prev"></label>
+    <label for="radio4" class="next"></label>
+  </div>
+
+  <div class="carousel-item" id="four">
+    <img src="http://placehold.it/147x187/f7be16/fff" alt="">
+
+    <label for="radio3" class="prev"></label>
+    <label for="radio5" class="next"></label>
+  </div>
+
+  <div class="carousel-item" id="five">
+    <img src="http://placehold.it/147x187/f67e7d/fff" alt="">
+
+    <label for="radio4" class="prev"></label>
+    <label for="radio1" class="next"></label>
+  </div>
+
+  <div class="nav">
+    <label class="dots" id="dot1" for="radio1"></label>
+    <label class="dots" id="dot2" for="radio2"></label>
+    <label class="dots" id="dot3" for="radio3"></label>
+    <label class="dots" id="dot4" for="radio4"></label>
+    <label class="dots" id="dot5" for="radio5"></label>
+  </div>
+
+</div>
+
+<script>
+  export default {
+    data() {
+      return {
+      };
+    },
+    // methods: {
+    // },
+  };
+</script>
+
+<style>
+.carousel {
+  width: 100%;
+  border: 1px solid black;
+}
+
+.carousel-item {
+  position: absolute;
+  width: 100%;
+  height: auto;
+  z-index: -1;
+}
+
+.carousel-item img {
+  width: inherit;
+  height: inherit;
+}
+
+/* stylelint-disable-next-line */
+#radio1,
+ #radio2,
+ #radio3,
+ #radio4,
+ #radio5 {
+  display: none;
+}
+
+.prev,
+.next {
+  width: 12%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  background: rgba(88, 88, 88, 0.4);
+  z-index: 99;
+}
+
+.prev {
+  left: 0;
+}
+
+.next {
+  right: 0;
+}
+
+.nav {
+  width: 100%;
+  height: 11px;
+  bottom: 12%;
+  position: absolute;
+  text-align: center;
+  z-index: 99;
+}
+
+.dots {
+  top: -5px;
+  width: 100%;
+  height: 100%;
+  margin: 0 4px;
+  position: relative;
+  border-radius: 50%;
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+/* stylelint-disable-next-line */
+#radio1:checked ~ #one,
+#radio2:checked ~ #two,
+#radio3:checked ~ #three,
+#radio4:checked ~ #four,
+#radio5:checked ~ #five {
+  z-index: 9;
+}
+</style>
