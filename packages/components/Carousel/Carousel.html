@@ -1,60 +1,85 @@
 <div class="carousel">
 
-  <input type="radio" name="images" id="radio1" checked>
-  <input type="radio" name="images" id="radio2">
-  <input type="radio" name="images" id="radio3">
-  <input type="radio" name="images" id="radio4">
-  <input type="radio" name="images" id="radio5">
-
-  <button ref:Previous>anterior</button>
+  {#each slides as slide, index}
+    <!-- <input type="radio" name="images" id={`slide${index+1}`} checked={index === 0}> -->
+    <input type="radio" name="images" id={`slide${index+1}`} checked="true">
+  {/each}
 
   <div class="wrapper">
 
     <div class="carousel-item" id="one">
-      <img src="http://placehold.it/147x187/293462/fff" alt="">
+      <img src="http://placehold.it/145x184/293462/fff" alt="">
 
-      <label for="radio5" class="prev"></label>
-      <label for="radio2" class="next"></label>
+      <label for="slide5" class="prev">
+        <Icon symbol='chevron-left'  color="#ffffff" />
+      </label>
+      <label for="slide2" class="next">
+        <Icon symbol='chevron-right'  color="#ffffff" />
+      </label>
     </div>
 
     <div class="carousel-item" id="two">
-      <img src="http://placehold.it/147x187/216583/fff" alt="">
+      <img src="http://placehold.it/145x184/216583/fff" alt="">
 
-      <label for="radio1" class="prev"></label>
-      <label for="radio3" class="next"></label>
+      <label for="slide1" class="prev">
+        <Icon symbol='chevron-left'  color="#ffffff" />
+      </label>
+      <label for="slide3" class="next">
+        <Icon symbol='chevron-right'  color="#ffffff" />
+      </label>
     </div>
 
     <div class="carousel-item" id="three">
-      <img src="http://placehold.it/147x187/00818a/fff" alt="">
+      <img src="http://placehold.it/145x184/00818a/fff" alt="">
 
-      <label for="radio2" class="prev"></label>
-      <label for="radio4" class="next"></label>
+      <label for="slide2" class="prev">
+        <Icon symbol='chevron-left'  color="#ffffff" />
+      </label>
+      <label for="slide4" class="next">
+        <Icon symbol='chevron-right'  color="#ffffff" />
+      </label>
     </div>
 
     <div class="carousel-item" id="four">
-      <img src="http://placehold.it/147x187/f7be16/fff" alt="">
+      <img src="http://placehold.it/145x184/f7be16/fff" alt="">
 
-      <label for="radio3" class="prev"></label>
-      <label for="radio5" class="next"></label>
+      <label for="slide3" class="prev">
+        <Icon symbol='chevron-left'  color="#ffffff" />
+      </label>
+      <label for="slide5" class="next">
+        <Icon symbol='chevron-right'  color="#ffffff" />
+      </label>
     </div>
 
     <div class="carousel-item" id="five">
-      <img src="http://placehold.it/147x187/f67e7d/fff" alt="">
+      <img src="http://placehold.it/145x184/f67e7d/fff" alt="">
 
-      <label for="radio4" class="prev"></label>
-      <label for="radio1" class="next"></label>
+      <label for="slide4" class="prev">
+        <Icon symbol='chevron-left'  color="#ffffff" />
+      </label>
+      <label for="slide1" class="next">
+        <Icon symbol='chevron-right'  color="#ffffff" />
+      </label>
     </div>
 
   </div>
-
-  <button ref:Next on:click="changeSlider()">próximo</button>
 
 </div>
 
 <script>
   export default {
+    components: {
+      Icon: '@mamba/icon/Icon.html',
+    },
     data() {
       return {
+        slides: [
+          'http://placehold.it/145x184/293462/fff',
+          'http://placehold.it/145x184/216583/fff',
+          'http://placehold.it/145x184/00818a/fff',
+          'http://placehold.it/145x184/f7be16/fff',
+          'http://placehold.it/145x184/f67e7d/fff',
+        ],
       };
     },
     methods: {
@@ -65,46 +90,50 @@
   };
 </script>
 
-<style>
+<style type="text/postcss">
 .carousel {
   width: 100%;
-  border: 1px solid black;
 }
 
 .wrapper {
-  border: 1px solid black;
   position: relative;
 }
 
 .carousel-item {
-  /* position: absolute; */
-  /* width: 100%; */
-  /* height: auto; */
   display: none;
-}
 
-.carousel-item img {
-  width: 100%;
-  height: inherit;
+  img {
+    max-width: 145px;
+    height: inherit;
+    margin: 0 auto;
+    display: block;
+  }
+
+  label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 /* stylelint-disable-next-line */
-#radio1,
-#radio2,
-#radio3,
-#radio4,
-#radio5 {
+#slide1,
+#slide2,
+#slide3,
+#slide4,
+#slide5 {
   display: none;
 }
 
 .prev,
 .next {
-  width: 12%;
-  height: 100%;
+  width: 32px;
+  height: 32px;
   position: absolute;
-  top: 0;
-  background: rgba(88, 88, 88, 0.4);
-  z-index: 99;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #425963;
+  border-radius: 50%;
 }
 
 .prev {
@@ -116,11 +145,11 @@
 }
 
 /* stylelint-disable-next-line */
-#radio1:checked ~ .wrapper #one,
-#radio2:checked ~ .wrapper #two,
-#radio3:checked ~ .wrapper #three,
-#radio4:checked ~ .wrapper #four,
-#radio5:checked ~ .wrapper #five {
+#slide1:checked ~ .wrapper #one,
+#slide2:checked ~ .wrapper #two,
+#slide3:checked ~ .wrapper #three,
+#slide4:checked ~ .wrapper #four,
+#slide5:checked ~ .wrapper #five {
   display: block;
 }
 </style>
