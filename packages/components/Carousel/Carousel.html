@@ -1,65 +1,18 @@
 <div class="carousel">
 
-  {#each slides as slide, index}
-    <input type="radio" name="images" id={`slide${index+1}`} checked={index === 0}>
-  {/each}
+  <button class="prev" on:click="previousSlide()">
+    <Icon symbol='chevron-left'  color="#ffffff" />
+  </button>
+
+  <button class="next" on:click="nextSlide()">
+    <Icon symbol='chevron-right'  color="#ffffff" />
+  </button>
 
   <div class="wrapper">
 
-    <div class="carousel-item" id="one">
-      <img src="http://placehold.it/145x184/293462/fff" alt="">
-
-      <label for="slide5" class="prev">
-        <Icon symbol='chevron-left'  color="#ffffff" />
-      </label>
-      <label for="slide2" class="next">
-        <Icon symbol='chevron-right'  color="#ffffff" />
-      </label>
-    </div>
-
-    <div class="carousel-item" id="two">
-      <img src="http://placehold.it/145x184/216583/fff" alt="">
-
-      <label for="slide1" class="prev">
-        <Icon symbol='chevron-left'  color="#ffffff" />
-      </label>
-      <label for="slide3" class="next">
-        <Icon symbol='chevron-right'  color="#ffffff" />
-      </label>
-    </div>
-
-    <div class="carousel-item" id="three">
-      <img src="http://placehold.it/145x184/00818a/fff" alt="">
-
-      <label for="slide2" class="prev">
-        <Icon symbol='chevron-left'  color="#ffffff" />
-      </label>
-      <label for="slide4" class="next">
-        <Icon symbol='chevron-right'  color="#ffffff" />
-      </label>
-    </div>
-
-    <div class="carousel-item" id="four">
-      <img src="http://placehold.it/145x184/f7be16/fff" alt="">
-
-      <label for="slide3" class="prev">
-        <Icon symbol='chevron-left'  color="#ffffff" />
-      </label>
-      <label for="slide5" class="next">
-        <Icon symbol='chevron-right'  color="#ffffff" />
-      </label>
-    </div>
-
-    <div class="carousel-item" id="five">
-      <img src="http://placehold.it/145x184/f67e7d/fff" alt="">
-
-      <label for="slide4" class="prev">
-        <Icon symbol='chevron-left'  color="#ffffff" />
-      </label>
-      <label for="slide1" class="next">
-        <Icon symbol='chevron-right'  color="#ffffff" />
-      </label>
-    </div>
+    {#each slides as slide, index}
+      <img class="carousel-item" class:show="count === index" src={slide} alt="">
+    {/each}
 
   </div>
 
@@ -79,10 +32,34 @@
           'http://placehold.it/145x184/f7be16/fff',
           'http://placehold.it/145x184/f67e7d/fff',
         ],
+        count: 0,
       };
     },
     methods: {
-      changeSlider() {
+      previousSlide() {
+
+        const { slides } = this.get();
+        let { count } = this.get();
+
+        if ( count === 0 ) {
+          this.set({ count: slides.length - 1 });
+        } else {
+          const newCount = --count;
+          this.set({ count: newCount });
+        }
+
+      },
+      nextSlide() {
+
+        const { slides } = this.get();
+        let { count } = this.get();
+
+        if ( count >= (slides.length - 1) ) {
+          this.set({ count: 0 });
+        } else {
+          const newCount = ++count;
+          this.set({ count: newCount });
+        }
 
       },
     },
@@ -99,28 +76,9 @@
 }
 
 .carousel-item {
-  display: none;
-
-  img {
-    max-width: 145px;
-    height: inherit;
-    margin: 0 auto;
-    display: block;
-  }
-
-  label {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-}
-
-/* stylelint-disable-next-line */
-#slide1,
-#slide2,
-#slide3,
-#slide4,
-#slide5 {
+  max-width: 145px;
+  height: inherit;
+  margin: 0 auto;
   display: none;
 }
 
@@ -143,12 +101,7 @@
   right: 0;
 }
 
-/* stylelint-disable-next-line */
-#slide1:checked ~ .wrapper #one,
-#slide2:checked ~ .wrapper #two,
-#slide3:checked ~ .wrapper #three,
-#slide4:checked ~ .wrapper #four,
-#slide5:checked ~ .wrapper #five {
+.show {
   display: block;
 }
 </style>
