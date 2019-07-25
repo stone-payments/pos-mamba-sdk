@@ -1,11 +1,11 @@
 <div class="carousel">
 
-  <button class="prev" on:click="previousSlide()">
-    <Icon symbol='chevron-left'  color="#ffffff" />
+  <button class="prev" {style} on:click="previousSlide()">
+    <Icon symbol='chevron-left'  color="{navColor}" />
   </button>
 
-  <button class="next" on:click="nextSlide()">
-    <Icon symbol='chevron-right'  color="#ffffff" />
+  <button class="next" {style} on:click="nextSlide()">
+    <Icon symbol='chevron-right'  color="{navColor}" />
   </button>
 
   <div class="wrapper">
@@ -33,7 +33,14 @@
           'http://placehold.it/145x184/f67e7d/fff?text=Component',
         ],
         count: 0,
+        navBg: '#425963',
+        navColor: '#ffffff',
       };
+    },
+    computed: {
+      style({ navBg }) {
+        return `background-color: ${navBg}`;
+      },
     },
     methods: {
       previousSlide() {
