@@ -18,6 +18,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+- docs: ✏️ update docs description and for the new params
 
 ## [2.9.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.8.3...v2.9.1) (2019-07-19)
 
