@@ -1,10 +1,10 @@
 <div class="carousel">
 
-  <button class="prev" {style} on:click="previousSlide()">
+  <button class="prev" {style} on:click="_previousSlide()">
     <Icon symbol='chevron-left'  color="{navColor}" />
   </button>
 
-  <button class="next" {style} on:click="nextSlide()">
+  <button class="next" {style} on:click="_nextSlide()">
     <Icon symbol='chevron-right'  color="{navColor}" />
   </button>
 
@@ -43,7 +43,7 @@
       },
     },
     methods: {
-      previousSlide() {
+      _previousSlide() {
 
         const { slides } = this.get();
         let { count } = this.get();
@@ -56,7 +56,7 @@
         }
 
       },
-      nextSlide() {
+      _nextSlide() {
 
         const { slides } = this.get();
         let { count } = this.get();
@@ -90,11 +90,10 @@
 .next {
   width: 32px;
   height: 32px;
-  background: $gray-dark;
   border-radius: 50%;
   border: 0;
   display: flex;
-  /* vertical-align */
+  /* vertical align */
   position: absolute;
   top: 50%;
   transform: translateY(-50%);

@@ -1,15 +1,15 @@
 # Carousel
 
-O módulo `Radio` é usado para selecionar uma opção dentre as alternadas.
+O módulo `Carousel` recebe um array de imagens e cria um carrossel para a exibição de imagens.
+
+<!-- @example ./example/Example.html -->
 
 ## Parâmetros
 
+`<Carousel ...props/>`
 | Parâmetro | Descrição                                         | Tipo            | Padrão     |
 | :-------- | :------------------------------------------------ | :-------------- | :--------- |
-| checked   | deixa o switch ativado                            | `undefined`     | `true`     |
+| slides    | array com as imagens exibidas                     | `array`         | `undefined`|
+| navBg     | Cor de fundo dos botões de navegação              | `string` (hex)  | `#425963`  |
+| navColor  | Cor do ícone dos botões de nav                    | `string` (hex)  | `#ffffff`  |
 
-## Métodos
-
-### Radio.toggle(value)
-
-Booleano. Alterna o valor de `checked` do radio, para o valor passado através de `value`.
