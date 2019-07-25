@@ -26,11 +26,11 @@
     data() {
       return {
         slides: [
-          'http://placehold.it/145x184/293462/fff',
-          'http://placehold.it/145x184/216583/fff',
-          'http://placehold.it/145x184/00818a/fff',
-          'http://placehold.it/145x184/f7be16/fff',
-          'http://placehold.it/145x184/f67e7d/fff',
+          'http://placehold.it/145x184/293462/fff?text=Component',
+          'http://placehold.it/145x184/216583/fff?text=Component',
+          'http://placehold.it/145x184/00818a/fff?text=Component',
+          'http://placehold.it/145x184/f7be16/fff?text=Component',
+          'http://placehold.it/145x184/f67e7d/fff?text=Component',
         ],
         count: 0,
       };
@@ -69,9 +69,6 @@
 <style type="text/postcss">
 .carousel {
   width: 100%;
-}
-
-.wrapper {
   position: relative;
 }
 
@@ -86,11 +83,14 @@
 .next {
   width: 32px;
   height: 32px;
+  background: $gray-dark;
+  border-radius: 50%;
+  border: 0;
+  display: flex;
+  /* vertical-align */
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: #425963;
-  border-radius: 50%;
 }
 
 .prev {
