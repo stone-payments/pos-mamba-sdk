@@ -1,6 +1,6 @@
 {#if _hideAppBar === false}
 <header class="appbar" {style}>
-  {#if _showBack}
+  {#if _navigableRoute.routeBack || _showBack }
   <div class="icon-left" on:click="_goBack()">
     <Icon symbol="chevron-left" width="10px" color="{textColor}" />
   </div>

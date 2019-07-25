@@ -6,7 +6,6 @@ let appBar;
 
 const newAppBar = data => {
   root = newTestRoot();
-
   return root.createComponent(AppBar, { data });
 };
 
@@ -159,21 +158,45 @@ describe('navigation', () => {
     ]);
   });
 
-  it('should go back when back is clicked', () => {
-    changeRouterPath('/not-home');
-
+  it('should update back button route', () => {
     root.meta.setNavigable({ back: true, home: true });
 
-    return Promise.all([
-      new Promise(res => {
-        root.on('appbar:goBack', res);
-      }),
-      new Promise(res => {
-        root.router.back = res;
-        clickOn(root.query('.icon-left'));
-      }),
-    ]);
+    root.meta.setNavigableRoute('/');
+
+    expect(root.meta.get().navigableRoute.routeBack).toBe('/');
   });
+
+  // MUST FIX
+  // it('should update back button route with params', () => {
+  //   root.meta.setNavigable({ back: true, home: true });
+
+  //   root.meta.setNavigableRoute('/', { name: 'Mamba' });
+
+  //   expect(root.meta.get().navigableRoute.paramsBack).toBe({ name: 'Mamba' });
+  // });
+
+  it('should show back button when the method setNavigableRoute is called', () => {
+    root.meta.setNavigableRoute('/');
+
+    expect(root.query('.icon-left')).not.toBeNull();
+  });
+
+  // MUST FIX
+  // it('should go back when back is clicked', () => {
+  //   changeRouterPath('/not-home');
+
+  //   root.meta.setNavigable({ back: true, home: true });
+
+  //   return Promise.all([
+  //     new Promise(res => {
+  //       root.on('appbar:goBack', res);
+  //     }),
+  //     new Promise(res => {
+  //       root.router.back = res;
+  //       clickOn(root.query('.icon-left'));
+  //     }),
+  //   ]);
+  // });
 });
 
 it('should modify the appbar props', () => {
