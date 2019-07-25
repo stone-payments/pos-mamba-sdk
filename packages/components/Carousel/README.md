@@ -7,6 +7,7 @@ O módulo `Carousel` recebe um array de imagens e cria um carrossel para a exibi
 ## Parâmetros
 
 `<Carousel ...props/>`
+
 | Parâmetro | Descrição                                         | Tipo            | Padrão     |
 | :-------- | :------------------------------------------------ | :-------------- | :--------- |
 | slides    | array com as imagens exibidas                     | `array`         | `undefined`|
