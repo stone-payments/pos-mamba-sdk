@@ -2,12 +2,12 @@
 
   <h4>Padrão</h4>
   <div class="row">
-    <Radio />
+    <Carousel />
   </div>
 
-  <h4>Selecionado</h4>
+  <h4>Personalizado</h4>
   <div class="row">
-    <Radio checked on:click="console.log(event)" on:change="console.log(event)"/>
+    <Carousel slides={slides} navBg="#4ebf1a" navColor="#425963" />
   </div>
 
 </div>
@@ -34,7 +34,17 @@
 <script>
   export default {
     components: {
-      Radio: '@mamba/radio',
+      Carousel: '@mamba/carousel',
+    },
+
+    data() {
+      return {
+        slides: ['http://placehold.it/145x184/293462/fff?text=Images+via+props',
+          'http://placehold.it/145x184/216583/fff?text=Images+via+props',
+          'http://placehold.it/145x184/00818a/fff?text=Images+via+props',
+          'http://placehold.it/145x184/f7be16/fff?text=Images+via+props',
+          'http://placehold.it/145x184/f67e7d/fff?text=Images+via+props'],
+      };
     },
   };
 </script>

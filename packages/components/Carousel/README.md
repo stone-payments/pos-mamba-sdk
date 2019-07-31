@@ -1,6 +1,6 @@
 # Carousel
 
-O módulo `Carousel` recebe um array de imagens e cria um carrossel para a exibição de imagens.
+O módulo `Carousel` recebe um array de imagens e cria um carrossel para a exibição delas.
 
 <!-- @example ./example/Example.html -->
 
