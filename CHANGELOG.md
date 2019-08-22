@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.10.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.9.1...v2.10.0) (2019-07-25)
+
+
+### Bug Fixes
+
+* 🐛 changelog duplicate ([97fc20b](https://github.com/stone-payments/pos-mamba-sdk/commit/97fc20b))
+
+
+### Features
+
+* 🎸 Implement readonlyOnEnter attr on money input ([#452](https://github.com/stone-payments/pos-mamba-sdk/issues/452)) ([ff5df7a](https://github.com/stone-payments/pos-mamba-sdk/commit/ff5df7a))
+
+
+
+
+- docs: ✏️ update docs description and for the new params
+
 ## [2.9.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.8.3...v2.9.1) (2019-07-19)
 
 ### Bug Fixes

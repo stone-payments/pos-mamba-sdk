@@ -4,7 +4,7 @@
     <tr>
       {#each _tabs as tab, key}
       <td on:click="_selectTab(key)" class:active="key === index">
-        {tab.title}
+        {tab.attributes.label.value}
         <div class="line"></div>
       </td>
       {/each}
@@ -40,7 +40,7 @@
         this.refs.container.children,
         element =>
           element.classList.contains('tab-pane') &&
-          element.title !== 'undefined',
+          element.attributes.label.value !== 'undefined',
       );
 
       this.set({ _tabs });

@@ -1,20 +1,17 @@
 {
-  "name": "@mamba/tabs",
-  "version": "2.10.0",
-  "svelte": "Tabs.html",
+  "name": "@mamba/radio",
+  "version": "2.9.0",
+  "svelte": "Radio.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
-    "@mamba/button": "^2.10.0",
-    "@mamba/collection": "^2.10.0",
-    "@mamba/styles": "^2.10.0"
+    "@mamba/styles": "^2.9.0"
   },
   "peerDependencies": {
-    "@mamba/pos": "^2.8.2",
-    "@mamba/styles": "^2.4.0"
+    "@mamba/pos": "^2.9.0"
   },
   "gitHead": "869644effc7b7347a2ff75c956c57d69ee8236a5"
 }
