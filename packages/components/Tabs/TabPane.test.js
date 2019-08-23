@@ -38,15 +38,15 @@ describe(`${name}/TabPane.html`, () => {
   });
 
   describe('props', () => {
-    tabPane = newTabPane({ title: 'title text' });
+    tabPane = newTabPane({ label: 'label text' });
 
     it('should be hidden by default', () => {
       expect(root.query('.tab-pane').hidden).toBeTruthy();
     });
 
-    it('should set the `title` prop', () => {
-      tabPane = newTabPane({ title: 'title text' });
-      expect(tabPane.get().title).toBe('title text');
+    it('should set the `label` prop', () => {
+      tabPane = newTabPane({ label: 'label text' });
+      expect(tabPane.get().label).toBe('label text');
     });
   });
 });

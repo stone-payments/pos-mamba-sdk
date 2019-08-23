@@ -13,7 +13,7 @@ const newTabPane = data => root.createComponent(TabPane, { data });
 const slotFragment = document.createDocumentFragment();
 
 ['Tab 1', 'Tab 2', 'Tab 3', 'undefined'].forEach(item =>
-  newTabPane({ title: item })._mount(slotFragment),
+  newTabPane({ label: item })._mount(slotFragment),
 );
 
 describe(`${name}/Tab.html`, () => {
