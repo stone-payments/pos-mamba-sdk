@@ -1,0 +1,19 @@
+<div class="container">
+  <slot></slot>
+</div>
+
+<script>
+  export default {
+    data() {
+      return {
+        padding: '10',
+      };
+    },
+  };
+</script>
+
+<style type="text/postcss">
+  .container {
+    padding: 10px;
+  }
+</style>
