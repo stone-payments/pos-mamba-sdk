@@ -1,6 +1,6 @@
 # Container
 
-O Componente `Container` é um espaçamento de respiro para a tela, facilitando leitura e montagem de componentes.
+O Componente `Container` é um espaçamento de respiro para a tela, facilitando leitura e montagem de componentes. Aceita qualquer valor de css como `10px 0`, `10px 20px 30px 50px` e `1em 2em`.
 
 <!-- @example ./example/Example.html-->
 
@@ -8,10 +8,4 @@ O Componente `Container` é um espaçamento de respiro para a tela, facilitando 
 
 | Parâmetro      | Descrição                              | Tipo              | Padrão      |
 | :------------- | :------------------------------------- | :---------------- | :---------- |
-| bottom         | Fixa o botão na parte inferior da tela | `boolean`         | `false`     |
-| disabled       | Desabilita o botão                     | `boolean`         | `false`     |
-| secondary      | Habilita o estilo de botão secundário  | `boolean`         | `false`     |
-| size           | Tamanho do botão (opções: `small`, `normal`, `fill`, `full`)       | `string` | `normal`|
-| bgColor   | Cor primária do botão                  | `string` (hex)    | `''`        |
-| textColor      | Cor do texto no botão                  | `string` (hex)    | `''`        |
-
+| padding        | Define o espaçamento do container      | `string`         | `10px`     |
