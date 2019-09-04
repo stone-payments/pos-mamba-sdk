@@ -28,12 +28,12 @@
       </table> -->
       <div class="key-row">
         {#each layout.firstRowKeys as key}
-          <div class="key" on:click="insertKey(key)">{key}</div>
+          <div class="key" on:click="insertKey(key, event)">{key}</div>
         {/each}
       </div>
       <div class="key-row">
         {#each layout.secondRowKeys as key}
-          <div class="key" on:click="insertKey(key)">{key}</div>
+          <div class="key" on:click="insertKey(key, event)">{key}</div>
         {/each}
       </div>
       <div class="key-row">
@@ -41,7 +41,7 @@
           <div class="utility-key capslock"></div>
         </div>
         {#each layout.thirdRowKeys as key}
-          <div class="key" on:click="insertKey(key)">{key}</div>
+          <div class="key" on:click="insertKey(key, event)">{key}</div>
         {/each}
         <div class="key bigger" on:click="backspace()">
           <div class="utility-key backspace"></div>
@@ -51,11 +51,11 @@
         <div class="key bigger" on:click="toggleSymbols()">
           {specialLabel}
         </div>
-        <div class="key bigger" on:click="insertKey(layout.utilityKeys[0])">
+        <div class="key bigger" on:click="insertKey(layout.utilityKeys[0], event)">
           {layout.utilityKeys[0]}
         </div>
-        <div class="key space" on:click="insertKey(' ')">___</div>
-        <div class="key bigger" on:click="insertKey(layout.utilityKeys[1])">
+        <div class="key space" on:click="insertKey(' ', event)">___</div>
+        <div class="key bigger" on:click="insertKey(layout.utilityKeys[1], event)">
           {layout.utilityKeys[1]}
         </div>
         <div class="key bigger" on:click="submit()">OK</div>
@@ -128,6 +128,24 @@
         this.capitalizeNextLetter();
       }
     },
+    onupdate() {
+
+      const { input } = this.refs.keyboardInput.refs;
+
+      // characters typed on input
+      const inputTyped = input.value.length;
+
+      if (inputTyped <= 19) this.refs.keyboardInput.refs.input.style.fontSize = '20px';
+
+      if (inputTyped >= 20) this.refs.keyboardInput.refs.input.style.fontSize = '16px';
+
+      if (inputTyped >= 26) this.refs.keyboardInput.refs.input.style.fontSize = '12px';
+
+      if (inputTyped >= 31) this.refs.keyboardInput.refs.input.style.fontSize = '8px';
+
+      // console.log(inputTyped);
+
+    },
     methods: {
       _moveCursor(position) {
         const { input } = this.refs.keyboardInput.refs;
@@ -176,10 +194,19 @@
         this.set({ active: false });
         this.root.meta.setScrollable(true);
       },
-      insertKey(key) {
+      insertKey(key, event) {
         const { value, capitalizeWords } = this.get();
         const { input } = this.refs.keyboardInput.refs;
         const position = input.selectionStart;
+        const keyFromEvent = event.target;
+
+        keyFromEvent.classList.add('is-active');
+
+        setTimeout(
+          () => {
+            keyFromEvent.classList.remove('is-active');
+          }, 100,
+        );
 
         this.set({
           value: value.slice(0, position) + key + value.slice(position),
@@ -193,6 +220,7 @@
           delete this._tempCaptalize;
           this.toggleCapitalize(false);
         }
+
       },
       insertSuggestion(suggestion) {
         const inputValue = this.get().value;
@@ -327,7 +355,7 @@
     justify-content: center;
     z-index: 1;
 
-    &:active {
+    &.is-active {
       background-color: #c5c5c5;
       border-color: #f2f2f2;
     }
