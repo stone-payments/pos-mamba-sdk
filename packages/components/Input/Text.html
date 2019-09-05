@@ -58,7 +58,9 @@
         <div class="key bigger" on:click="insertKey(layout.utilityKeys[1], event)">
           {layout.utilityKeys[1]}
         </div>
-        <div class="key bigger" on:click="submit()">OK</div>
+        <div class="key bigger enter-key" on:click="submit()">
+          <div class="utility-key enter"></div>
+        </div>
       </div>
     </div>
     {/if}
@@ -362,6 +364,10 @@
 
     &.bigger {
       width: 34px;
+
+      &.enter-key {
+        background-color: $green;
+      }
     }
 
     &.space {
@@ -381,7 +387,7 @@
   }
 
   .capslock {
-    mask-image: url(./assets/capslock.svg);
+    mask-image: url(./assets/caps.png);
     background-color: black;
     opacity: 0.35;
 
@@ -391,7 +397,12 @@
   }
 
   .backspace {
-    mask-image: url(./assets/backspace.svg);
+    mask-image: url(./assets/delete.png);
     background-color: black;
+  }
+
+  .enter {
+    mask-image: url(./assets/simboloStone.png);
+    background-color: white;
   }
 </style>
