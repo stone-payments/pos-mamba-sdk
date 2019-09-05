@@ -6,34 +6,34 @@ const root = newTestRoot();
 
 const newRadio = data => root.createComponent(Radio, { unique: true, data });
 
-let switchComp;
+let radioComp;
 
-const getCheckboxNode = () => root.query('input[type=radio]');
+const getRadioNode = () => root.query('input[type=radio]');
 
 it('should be not start checked', () => {
-  switchComp = newRadio({ checked: false });
-  expect(getCheckboxNode().checked).toBe(false);
+  radioComp = newRadio({ checked: false });
+  expect(radioComp.get().checked).toBe(false);
 });
 
 it('should fire a change event when value is modified', () => {
-  switchComp = newRadio();
+  radioComp = newRadio();
   return new Promise(res => {
-    switchComp.on('change', res);
-    getCheckboxNode().click();
+    radioComp.on('change', res);
+    getRadioNode().click();
   });
 });
 
 it('should toggle its checked value', () => {
-  switchComp = newRadio();
+  radioComp = newRadio();
 
-  switchComp.toggle();
+  radioComp.toggle();
 
-  switchComp.toggle(true);
-  expect(getCheckboxNode().checked).toBe(true);
+  radioComp.toggle(true);
+  expect(radioComp.get().checked).toBe(true);
 
-  switchComp.toggle(false);
-  expect(getCheckboxNode().checked).toBe(false);
+  radioComp.toggle(false);
+  expect(radioComp.get().checked).toBe(false);
 
-  switchComp.toggle(null);
-  expect(getCheckboxNode().checked).toBe(false);
+  radioComp.toggle(null);
+  expect(radioComp.get().checked).toBe(false);
 });
