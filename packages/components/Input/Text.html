@@ -141,19 +141,23 @@
     onupdate() {
 
       const { input } = this.refs.keyboardInput.refs;
+      const inputTyped = input.value.length; // characters typed on input
 
-      // characters typed on input
-      const inputTyped = input.value.length;
+      const { value } = this.get();
 
-      if (inputTyped <= 19) this.refs.keyboardInput.refs.input.style.fontSize = '20px';
+      if (inputTyped <= 19) input.style.fontSize = '20px';
 
-      if (inputTyped >= 20) this.refs.keyboardInput.refs.input.style.fontSize = '16px';
+      if (inputTyped >= 20) input.style.fontSize = '16px';
 
-      if (inputTyped >= 24) this.refs.keyboardInput.refs.input.style.fontSize = '12px';
+      if (inputTyped >= 28) input.style.fontSize = '12px';
 
-      if (inputTyped >= 37) this.refs.keyboardInput.refs.input.style.fontSize = '10px';
+      if (inputTyped >= 30) {
 
-      // console.log(inputTyped);
+        this.set({
+          value: value.slice(-30),
+        });
+
+      }
 
     },
     methods: {
