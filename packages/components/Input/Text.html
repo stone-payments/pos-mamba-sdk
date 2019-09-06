@@ -17,15 +17,15 @@
       class="keyboard mode-{mode}"
       class:is-active="active"
     >
-      <!-- <table class="suggestions">
+      <table class="suggestions">
         <tr>
-          {#each targetSuggestions as suggestion}
+          {#each filteredSuggestions as suggestion}
             <td class="suggestion" on:click="insertSuggestion(suggestion)">
-              {suggestion}
+            {suggestion}
             </td>
           {/each}
         </tr>
-      </table> -->
+      </table>
       <div class="key-row">
         {#each layout.firstRowKeys as key}
           <div class="key" on:click="insertKey(key, event)">{key}</div>
@@ -73,9 +73,7 @@
 
 
 <script>
-  // TODO: press backspace wipe multiple keys
-
-  import { KEYBOARD_LAYOUTS } from './libs/virtualKeyboard.js';
+  import { KEYBOARD_LAYOUTS, DEFAULT_SUGGESTIONS } from './libs/virtualKeyboard.js';
 
   const MODES = {
     DEFAULT: 'default',
@@ -96,16 +94,30 @@
         fullscreen: false,
         capitalizeWords: false,
         bgColor: undefined,
-        // suggestions: [],
       };
     },
     computed: {
       layout: ({ mode }) => KEYBOARD_LAYOUTS[mode],
       specialLabel: ({ mode }) => (mode === MODES.SYMBOLS ? 'abc' : '?123'),
-      // targetSuggestions: ({ suggestions, value }) => {
-      //   const lastChar = value[value.length - 1];
-      //   return suggestions[lastChar] || [];
-      // },
+      filteredSuggestions: ({ value }) => {
+
+        // get last clicked key
+        const lastChar = value[value.length - 1];
+
+        const defaultSuggestions = DEFAULT_SUGGESTIONS;
+
+        // finds index that matches with clicked key
+        const filteredSuggestion = defaultSuggestions.find(
+          suggestObj => (suggestObj.target === lastChar),
+        );
+
+        if (filteredSuggestion) {
+          return filteredSuggestion.suggestions;
+        }
+        return [];
+
+
+      },
       _inputProps: ({
         value,
         mode,
@@ -121,10 +133,6 @@
     },
     oncreate() {
       const { capitalizeWords } = this.get();
-
-      // this.set({
-      //   suggestions: Object.assign({}, DEFAULT_SUGGESTIONS, suggestions),
-      // });
 
       if (capitalizeWords) {
         this.capitalizeNextLetter();
