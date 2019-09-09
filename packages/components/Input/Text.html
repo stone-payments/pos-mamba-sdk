@@ -37,18 +37,18 @@
         {/each}
       </div>
       <div class="key-row">
-        <div class="key bigger" on:click="toggleCapitalize()">
+        <div class="key bigger" on:click="toggleCapitalize('', event)">
           <div class="utility-key capslock"></div>
         </div>
         {#each layout.thirdRowKeys as key}
           <div class="key" on:click="insertKey(key, event)">{key}</div>
         {/each}
-        <div class="key bigger" on:click="backspace()">
+        <div class="key bigger" on:click="backspace(event)">
           <div class="utility-key backspace"></div>
         </div>
       </div>
       <div class="key-row">
-        <div class="key bigger" on:click="toggleSymbols()">
+        <div class="key bigger" on:click="toggleSymbols('', event)">
           {specialLabel}
         </div>
         <div class="key bigger" on:click="insertKey(layout.utilityKeys[0], event)">
@@ -213,15 +213,8 @@
         const { value, capitalizeWords } = this.get();
         const { input } = this.refs.keyboardInput.refs;
         const position = input.selectionStart;
-        const keyFromEvent = event.target;
 
-        keyFromEvent.classList.add('is-active');
-
-        setTimeout(
-          () => {
-            keyFromEvent.classList.remove('is-active');
-          }, 100,
-        );
+        this.inputFeedback(event);
 
         this.set({
           value: value.slice(0, position) + key + value.slice(position),
@@ -243,10 +236,12 @@
         this.set({ value: inputValue.slice(0, -1) + suggestion });
         this._moveCursor();
       },
-      backspace() {
+      backspace(event) {
         const { input } = this.refs.keyboardInput.refs;
         const { value } = this.get();
         const position = input.selectionStart;
+
+        this.inputFeedback(event);
 
         if (position - 1 < 0) {
           return;
@@ -268,7 +263,10 @@
       isSymbolsState() {
         return this.get().mode === MODES.SYMBOLS;
       },
-      toggleCapitalize(force) {
+      toggleCapitalize(force, event) {
+
+        this.inputFeedback(event);
+
         if (force !== true && this.get().mode === MODES.CAPITALIZED) {
           this.set({ mode: MODES.DEFAULT });
         } else if (force !== false) {
@@ -276,11 +274,25 @@
         }
       },
       toggleSymbols(force) {
+
         if (force !== true && this.get().mode === MODES.SYMBOLS) {
           this.set({ mode: MODES.DEFAULT });
         } else if (force !== false) {
           this.set({ mode: MODES.SYMBOLS });
         }
+      },
+      inputFeedback(event) {
+
+        const keyFromEvent = event.target;
+
+        keyFromEvent.classList.add('is-active');
+
+        setTimeout(
+          () => {
+            keyFromEvent.classList.remove('is-active');
+          }, 100,
+        );
+
       },
       submit() {
         const { value } = this.get();
