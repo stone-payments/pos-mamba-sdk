@@ -151,10 +151,11 @@
 
       if (inputTyped >= 28) input.style.fontSize = '12px';
 
+      // 30 is a magic number from the max characters limit
       if (inputTyped >= 30) {
 
         this.set({
-          value: value.slice(-30),
+          value: value.slice(0,30),
         });
 
       }
