@@ -89,6 +89,7 @@
     data() {
       return {
         value: '',
+        maxLength: 30, // 30 is a magic number from the max characters limit
         mode: MODES.DEFAULT,
         type: 'text',
         fullscreen: false,
@@ -143,7 +144,7 @@
       const { input } = this.refs.keyboardInput.refs;
       const inputTyped = input.value.length; // characters typed on input
 
-      const { value } = this.get();
+      const { value, maxLength } = this.get();
 
       if (inputTyped <= 19) input.style.fontSize = '20px';
 
@@ -151,11 +152,10 @@
 
       if (inputTyped >= 28) input.style.fontSize = '12px';
 
-      // 30 is a magic number from the max characters limit
-      if (inputTyped >= 30) {
+      if (inputTyped >= maxLength) {
 
         this.set({
-          value: value.slice(0,30),
+          value: value.slice(0, maxLength),
         });
 
       }
