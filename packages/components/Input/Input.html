@@ -11,25 +11,27 @@
     <span class="label">{label}</span>
   {/if}
 
-  <input
-    ref:input
-    class="align-{align}"
-    type={_inputType}
-    style="color: {textColor};"
-    {readonly}
-    {placeholder}
-    on:keydown
-    on:focus="_onFocus(event)"
-    on:blur="_onBlur(event)"
-    on:keyup="_onKeyUp(event)"
-    on:input="_onInput(event)"
-  />
+  <div class="wrapper-input">
+    <input
+      ref:input
+      class="align-{align}"
+      type={_inputType}
+      style="color: {textColor};"
+      {readonly}
+      {placeholder}
+      on:keydown
+      on:focus="_onFocus(event)"
+      on:blur="_onBlur(event)"
+      on:keyup="_onKeyUp(event)"
+      on:input="_onInput(event)"
+    />
 
-  {#if type === 'password' && readable}
-    <div class="type-toggle">
-      <Icon symbol="{_visible ? 'eye' : 'eye-off'}" />
-    </div>
-  {/if}
+    {#if type === 'password' && readable}
+      <div class="type-toggle">
+        <Icon symbol="{_visible ? 'eye' : 'eye-off'}" />
+      </div>
+    {/if}
+  </div>
 
   {#if !isValid && !!_errorMsg}
     <div class="validation-msg" style="color: {errorColor};">
@@ -419,8 +421,9 @@
 
   .type-toggle {
     position: absolute;
-    right: 20px;
-    top: 38px;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   .validation-msg {
@@ -429,5 +432,9 @@
     /* border-top: 2px solid; */
     padding-top: 5px;
     font-size: 12px;
+  }
+
+  .wrapper-input {
+    position: relative;
   }
 </style>
