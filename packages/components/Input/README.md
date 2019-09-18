@@ -16,6 +16,12 @@ import Input from '@mamba/input';
 import MoneyInput from '@mamba/input/Money.html';
 ```
 
+#### Keyboard
+
+```js
+import Input from '@mamba/input/Text.html';
+```
+
 <!-- @example ./example/Example.html -->
 
 ## Parâmetros
