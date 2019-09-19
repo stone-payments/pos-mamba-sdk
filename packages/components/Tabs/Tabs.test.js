@@ -16,7 +16,7 @@ const slotFragment = document.createDocumentFragment();
   newTabPane({ title: item })._mount(slotFragment),
 );
 
-describe(`${name}/Tab.html`, () => {
+describe(`${name}/Tabs.html`, () => {
   describe('navigation', () => {
     tabs = newTabs({}, { default: slotFragment });
 
@@ -53,6 +53,8 @@ describe(`${name}/Tab.html`, () => {
   });
 
   describe('props', () => {
+    tabs = newTabs({}, { default: slotFragment });
+
     it('should have index prop defined to 0(start)', () => {
       expect(tabs.get().index).toBe(0);
     });
