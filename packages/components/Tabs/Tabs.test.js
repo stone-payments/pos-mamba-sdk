@@ -10,15 +10,19 @@ let tabs;
 const newTabs = (data, slots) => root.createComponent(Tabs, { data, slots });
 const newTabPane = data => root.createComponent(TabPane, { data });
 
-const slotFragment = document.createDocumentFragment();
+const generateTabPane = () => {
+  const slotFragment = document.createDocumentFragment();
 
-['Tab 1', 'Tab 2', 'Tab 3', 'undefined'].forEach(item =>
-  newTabPane({ title: item })._mount(slotFragment),
-);
+  ['Tab 1', 'Tab 2', 'Tab 3', 'undefined'].forEach(item =>
+    newTabPane({ label: item })._mount(slotFragment),
+  );
+
+  return slotFragment;
+};
 
 describe(`${name}/Tabs.html`, () => {
   describe('navigation', () => {
-    tabs = newTabs({}, { default: slotFragment });
+    tabs = newTabs({}, { default: generateTabPane() });
 
     it('should render tabs navigation', () => {
       expect(tabs.refs.navigation).not.toBeNull();
@@ -52,8 +56,8 @@ describe(`${name}/Tabs.html`, () => {
     });
   });
 
-  describe('props', () => {
-    tabs = newTabs({}, { default: slotFragment });
+  describe('initial state', () => {
+    tabs = newTabs({}, { default: generateTabPane() });
 
     it('should have index prop defined to 0(start)', () => {
       expect(tabs.get().index).toBe(0);
@@ -71,6 +75,10 @@ describe(`${name}/Tabs.html`, () => {
       tabs.set({ index: 2 });
       expect(tabs.get().index).toBe(2);
     });
+  });
+
+  describe('props', () => {
+    tabs = newTabs({}, { default: generateTabPane() });
 
     it('should able to hidden last visible tab', () => {
       tabs.set({ index: 1, _lastIndex: 2 });
