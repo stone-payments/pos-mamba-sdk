@@ -4,7 +4,7 @@
     <tr>
       {#each _tabs as tab, key}
       <td on:click="_selectTab(key)" class:active="key === index">
-        {tab.attributes.label.value}
+        {tab.dataset.label}
         <div class="line"></div>
       </td>
       {/each}
@@ -36,11 +36,12 @@
       };
     },
     oncreate() {
+
       const _tabs = [].filter.call(
         this.refs.container.children,
         element =>
           element.classList.contains('tab-pane') &&
-          element.attributes.label.value !== 'undefined',
+          element.dataset.label !== 'undefined',
       );
 
       this.set({ _tabs });
