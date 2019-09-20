@@ -3,6 +3,79 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.13.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.9.1...v2.13.0) (2019-09-20)
+
+
+* Fix develop wrong branch flow (#460) ([cd577dd](https://github.com/stone-payments/pos-mamba-sdk/commit/cd577dd)), closes [#460](https://github.com/stone-payments/pos-mamba-sdk/issues/460) [#448](https://github.com/stone-payments/pos-mamba-sdk/issues/448) [#444](https://github.com/stone-payments/pos-mamba-sdk/issues/444) [#454](https://github.com/stone-payments/pos-mamba-sdk/issues/454) [#444](https://github.com/stone-payments/pos-mamba-sdk/issues/444) [#449](https://github.com/stone-payments/pos-mamba-sdk/issues/449) [#452](https://github.com/stone-payments/pos-mamba-sdk/issues/452)
+* develop -> Release/v2.10.0 (#453) ([af211c3](https://github.com/stone-payments/pos-mamba-sdk/commit/af211c3)), closes [#453](https://github.com/stone-payments/pos-mamba-sdk/issues/453) [#448](https://github.com/stone-payments/pos-mamba-sdk/issues/448) [#444](https://github.com/stone-payments/pos-mamba-sdk/issues/444)
+
+
+### Bug Fixes
+
+* 🐛 arrow align & min-height (w/o images) ([b893aff](https://github.com/stone-payments/pos-mamba-sdk/commit/b893aff))
+* 🐛 changed attribute label to data-label, due to bugs ([eb29c61](https://github.com/stone-payments/pos-mamba-sdk/commit/eb29c61))
+* 🐛 changelog duplicate ([97fc20b](https://github.com/stone-payments/pos-mamba-sdk/commit/97fc20b))
+* 🐛 Refactored TabPane props that caused tooltip bugs on POS ([cac0bc8](https://github.com/stone-payments/pos-mamba-sdk/commit/cac0bc8))
+
+
+### Features
+
+* 🎸 component working ([f768bd0](https://github.com/stone-payments/pos-mamba-sdk/commit/f768bd0))
+* 🎸 Implement readonlyOnEnter attr on money input ([#452](https://github.com/stone-payments/pos-mamba-sdk/issues/452)) ([ff5df7a](https://github.com/stone-payments/pos-mamba-sdk/commit/ff5df7a))
+* 🎸 Radio test done! ([7ad11be](https://github.com/stone-payments/pos-mamba-sdk/commit/7ad11be))
+* 🎸 started new component 'Container' ([3c7304e](https://github.com/stone-payments/pos-mamba-sdk/commit/3c7304e))
+
+
+### BREAKING CHANGES
+
+* Feature Flags
+
+* Update README.md
+
+Removed wrong text.
+
+* chore(release): :robot: publish
+
+* chore(release): :robot: publish
+
+* chore(release): :robot: publish
+
+* fix: 🐛 changelog duplicate
+* Feature Flags
+
+* Update README.md
+
+Removed wrong text.
+
+* chore(release): :robot: publish
+
+* chore(release): :robot: publish
+
+* chore(release): :robot: publish
+
+* fix: 🐛 changelog duplicate
+* Feature Flags
+
+* Update README.md
+
+Removed wrong text.
+
+* chore(release): :robot: publish
+
+* chore(release): :robot: publish
+
+* chore(release): :robot: publish
+
+* fix: 🐛 changelog duplicate
+
+* test: 💍 remove some appBar test temporally
+
+* chore(release): :robot: publish
+
+
+
+
+
 # [2.10.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.9.1...v2.10.0) (2019-07-25)
 
 
