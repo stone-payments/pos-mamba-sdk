@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+
+# [2.13.0](https://github.com/stone-payments/pos-mamba-sdk/compare/2.1.0...2.13.0) (2019-09-20)
+
+
+* master -> Release/v2.10.0 (#454) ([95f4e1d](https://github.com/stone-payments/pos-mamba-sdk/commit/95f4e1d)), closes [#454](https://github.com/stone-payments/pos-mamba-sdk/issues/454) [#444](https://github.com/stone-payments/pos-mamba-sdk/issues/444) [#449](https://github.com/stone-payments/pos-mamba-sdk/issues/449) [#452](https://github.com/stone-payments/pos-mamba-sdk/issues/452)
+
+
+### Bug Fixes
+
+* 🐛 remove unpublished version ([97f6b3c](https://github.com/stone-payments/pos-mamba-sdk/commit/97f6b3c))
+
+
+### BREAKING CHANGES
+
+* Feature Flags
+
+* Update README.md
+
+Removed wrong text.
+
+* chore(release): :robot: publish
+
+* chore(release): :robot: publish
+
+* chore(release): :robot: publish
+
+* fix: 🐛 changelog duplicate
+
+
+
+
+
 # [2.10.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.9.1...v2.10.0) (2019-07-25)
 
 
@@ -52,8 +84,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - fix: 🐛 Remove useless scripts
 
 - fix: 🐛 Fix test case
-
-- chore(release): :robot: publish
 
 ## [2.8.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.8.2...v2.8.3) (2019-06-10)
 

@@ -42,7 +42,7 @@
       },
       _isAtHome: ({ _location }) => _location === '/' || !_location,
       _showBack: ({ _isAtHome, _isNavigationEnabled }) =>
-        !_isAtHome && _isNavigationEnabled.back,
+      !_isAtHome && _isNavigationEnabled.back,
       _showHome: ({ _isNavigationEnabled }) => _isNavigationEnabled.home,
     },
     oncreate() {
@@ -112,6 +112,7 @@
         const { _navigableRoute } = this.get();
         /* istanbul ignore else */
         if (_navigableRoute.routeBack) {
+          console.log(_navigableRoute.routeBack);
           if (_navigableRoute.paramsBack) {
             this.root.router.go(
               _navigableRoute.routeBack,
