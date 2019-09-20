@@ -4,13 +4,6 @@
   "description": "SDK for developing in the Mamba web environment",
   "repository": "https://github.com/stone-payments/pos-mamba-sdk.git",
   "author": "Stone Payments - Mamba Team",
-  "contributors": [
-    "Christian Kaisermann <christian.kaisermann@stone.com.br>",
-    "Pedro Lancelloti <pedro.lancelloti@stone.com.br>",
-    "Jaime Costa Marques <cmarques@stone.com.br>",
-    "Jackson Garcia <jackson.garcia@stone.com.br>",
-    "Vitor Paladini <vitor.paladini@stone.com.br>"
-  ],
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 8.10.0",
@@ -24,8 +17,8 @@
     "format:js": "prettier --write \"*.js\" \"{tools,packages}/**/*.js\" && eslint --fix \"*.js\" \"{tools,packages}/**/*.{js,html,svelte}\"",
     "format:css": "prettier --write \"packages/**/*.{css,pcss}\" && stylelint --fix \"packages/**/*.{html,svelte,css,pcss}\"",
     "format": "npm run format:css; npm run format:js",
-    "test": "jest --no-cache",
-    "test:watch": "jest --watch",
+    "test": "jest --no-cache --collect-coverage",
+    "test:watch": "jest --watch --collect-coverage",
     "test:ci": "jest --no-cache --verbose",
     "link:packages": "lerna exec npm link",
     "check-next-version": "echo 'n' | lerna version",

@@ -43,9 +43,10 @@ import MoneyInput from '@mamba/input/Money.html';
 
 ### Money
 
-| Parâmetro | Descrição                  | Tipo                 | Padrão |
-| --------- | -------------------------- | -------------------- | ------ |
-| cents     | Valor do input em centavos | `string` or `number` | `0`    |
+| Parâmetro       | Descrição                                                                                                     | Tipo                 | Padrão  |
+| --------------- | ------------------------------------------------------------------------------------------------------------- | -------------------- | ------- |
+| cents           | Valor do input em centavos                                                                                    | `string` or `number` | `0`     |
+| readonlyOnEnter | Faz com que o campo se torne somente leitura no keypress do `enter` e se o valor em centavos for igual a zero | `boolean`            | `false` |
 
 ## Eventos
 
@@ -110,6 +111,14 @@ Força a validação do Input e retorna um _booleano_ representando o resultado 
 ### invalidate(message)
 
 Define que o input está com conteúdo inválido e mostra uma mensagem de erro opcional.
+
+### makeReadOnly()
+
+Desabilita o preenchimento do campo
+
+### makeWritable()
+
+Habilita o preenchimento do campo
 
 ## Máscara
 
