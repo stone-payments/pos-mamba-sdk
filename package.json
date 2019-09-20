@@ -4,13 +4,6 @@
   "description": "SDK for developing in the Mamba web environment",
   "repository": "https://github.com/stone-payments/pos-mamba-sdk.git",
   "author": "Stone Payments - Mamba Team",
-  "contributors": [
-    "Christian Kaisermann <christian.kaisermann@stone.com.br>",
-    "Pedro Lancelloti <pedro.lancelloti@stone.com.br>",
-    "Jaime Costa Marques <cmarques@stone.com.br>",
-    "Jackson Garcia <jackson.garcia@stone.com.br>",
-    "Vitor Paladini <vitor.paladini@stone.com.br>"
-  ],
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 8.10.0",
