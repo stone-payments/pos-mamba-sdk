@@ -25,8 +25,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * 🎸 Radio test done! ([7ad11be](https://github.com/stone-payments/pos-mamba-sdk/commit/7ad11be))
 * 🎸 started new component 'Container' ([3c7304e](https://github.com/stone-payments/pos-mamba-sdk/commit/3c7304e))
 
+### Performance Improvements
 
-### BREAKING CHANGES
+- ⚡️ remove Boolean check ([2b52cf5](https://github.com/stone-payments/pos-mamba-sdk/commit/2b52cf5))
 
 * Feature Flags
 
@@ -53,8 +54,11 @@ Removed wrong text.
 * test: 💍 remove some appBar test temporally
 
 
+### BREAKING CHANGES
 
+- add `changeOn` param at Tabs; add `route` param at TabPane
 
+- docs: ✏️ update docs description and for the new params
 
 # [2.10.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.9.1...v2.10.0) (2019-07-25)
 
@@ -63,12 +67,14 @@ Removed wrong text.
 
 * 🐛 changelog duplicate ([97fc20b](https://github.com/stone-payments/pos-mamba-sdk/commit/97fc20b))
 
+### Features
 
 ### Features
 
 * 🎸 Implement readonlyOnEnter attr on money input ([#452](https://github.com/stone-payments/pos-mamba-sdk/issues/452)) ([ff5df7a](https://github.com/stone-payments/pos-mamba-sdk/commit/ff5df7a))
 
 
+# [2.8.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.7.2...v2.8.0) (2019-05-15)
 
 
 - docs: ✏️ update docs description and for the new params
