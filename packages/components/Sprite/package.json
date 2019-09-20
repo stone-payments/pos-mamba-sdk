@@ -1,6 +1,6 @@
 {
   "name": "@mamba/sprite",
-  "version": "2.13.0",
+  "version": "2.10.0",
   "svelte": "Sprite.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -8,7 +8,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@mamba/styles": "^2.13.0"
+    "@mamba/styles": "^2.10.0"
   },
   "peerDependencies": {
     "@mamba/pos": "^2.8.2"
