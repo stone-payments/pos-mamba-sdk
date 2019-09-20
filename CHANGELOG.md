@@ -34,12 +34,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 Removed wrong text.
 
-* chore(release): :robot: publish
-
-* chore(release): :robot: publish
-
-* chore(release): :robot: publish
-
 * fix: 🐛 changelog duplicate
 * Feature Flags
 
@@ -47,30 +41,16 @@ Removed wrong text.
 
 Removed wrong text.
 
-* chore(release): :robot: publish
-
-* chore(release): :robot: publish
-
-* chore(release): :robot: publish
-
 * fix: 🐛 changelog duplicate
 * Feature Flags
 
 * Update README.md
 
 Removed wrong text.
-
-* chore(release): :robot: publish
-
-* chore(release): :robot: publish
-
-* chore(release): :robot: publish
 
 * fix: 🐛 changelog duplicate
 
 * test: 💍 remove some appBar test temporally
-
-* chore(release): :robot: publish
 
 
 
@@ -125,8 +105,6 @@ Removed wrong text.
 - fix: 🐛 Remove useless scripts
 
 - fix: 🐛 Fix test case
-
-- chore(release): :robot: publish
 
 ## [2.8.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.8.2...v2.8.3) (2019-06-10)
 
