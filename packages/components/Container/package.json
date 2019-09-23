@@ -1,17 +1,20 @@
 {
-  "name": "@mamba/switch",
+  "name": "@mamba/container",
   "version": "2.13.0",
-  "svelte": "Switch.html",
+  "svelte": "Container.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
+    "@mamba/icon": "^2.13.0"
+  },
+  "dependencies": {
     "@mamba/styles": "^2.13.0"
   },
   "peerDependencies": {
-    "@mamba/pos": "^2.8.2"
+    "@mamba/pos": "^2.10.2"
   },
   "gitHead": "869644effc7b7347a2ff75c956c57d69ee8236a5"
 }
