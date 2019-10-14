@@ -1,3 +1,5 @@
+export const REGEX_PARSE = /^(\d{4})-?(\d{1,2})-?(\d{0,2})[^0-9]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?.?(\d{1,3})?$/;
+
 function pad(val, len = 2) {
   return String(val).padStart(len, '0');
 }
@@ -74,4 +76,41 @@ export function compareTime(timeA, timeB) {
     return 0;
   }
   return NaN;
+}
+
+const isUndefined = s => s === undefined;
+
+export function parse(date, utc) {
+  if (date === null) return new Date(NaN); // null is invalid
+  if (isUndefined(date)) return new Date(); // today
+  if (date instanceof Date) return new Date(date);
+  if (typeof date === 'string' && !/Z$/i.test(date)) {
+    const d = date.match(REGEX_PARSE);
+    if (d) {
+      if (utc) {
+        return new Date(
+          Date.UTC(
+            d[1],
+            d[2] - 1,
+            d[3] || 1,
+            d[4] || 0,
+            d[5] || 0,
+            d[6] || 0,
+            d[7] || 0,
+          ),
+        );
+      }
+      return new Date(
+        d[1],
+        d[2] - 1,
+        d[3] || 1,
+        d[4] || 0,
+        d[5] || 0,
+        d[6] || 0,
+        d[7] || 0,
+      );
+    }
+  }
+
+  return new Date(date); // everything else
 }
