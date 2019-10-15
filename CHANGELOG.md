@@ -3,6 +3,63 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.14.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.13.0...v2.14.0) (2019-10-15)
+
+
+* master -> Release/v2.10.0 (#454) ([95f4e1d](https://github.com/stone-payments/pos-mamba-sdk/commit/95f4e1da2f1ca8b59fc11b7573c3cbd4b1add4a7)), closes [#454](https://github.com/stone-payments/pos-mamba-sdk/issues/454) [#444](https://github.com/stone-payments/pos-mamba-sdk/issues/444) [#449](https://github.com/stone-payments/pos-mamba-sdk/issues/449) [#452](https://github.com/stone-payments/pos-mamba-sdk/issues/452)
+* Release/v2.9.1 (#448) ([f54e177](https://github.com/stone-payments/pos-mamba-sdk/commit/f54e1779081c2cdcd854023746c5d1a136496010)), closes [#448](https://github.com/stone-payments/pos-mamba-sdk/issues/448) [#444](https://github.com/stone-payments/pos-mamba-sdk/issues/444)
+
+
+### Bug Fixes
+
+* 🐛 It has been fixed height row's component ([dc7a443](https://github.com/stone-payments/pos-mamba-sdk/commit/dc7a44353ee41ec706a6941204dbcfb58296e723))
+* 🐛 remove unpublished version ([97f6b3c](https://github.com/stone-payments/pos-mamba-sdk/commit/97f6b3cfdcfa9f3d5fbd01168057a74d3c38ef2c))
+* Radio component: error on css variable, causing failed tests ([609e616](https://github.com/stone-payments/pos-mamba-sdk/commit/609e616a4c3da3d6fe4b71fec73961b13b80328b))
+
+
+### Features
+
+* 🎸 input feedback also on Capitalize and Backspace keys ([d2e1207](https://github.com/stone-payments/pos-mamba-sdk/commit/d2e120754d9aa7d9a30db222440e5577680c9dbf))
+* 🎸 Input now supports maxLength props ([3d0c6c5](https://github.com/stone-payments/pos-mamba-sdk/commit/3d0c6c5ab17a6a75fc585d4569a24506391a05dc))
+* 🎸 keyboard now has max length ([a2abe83](https://github.com/stone-payments/pos-mamba-sdk/commit/a2abe83b757656b8962a59551410bea0db10a0e8))
+* 🎸 keyboard now has special characters as suggestions ([3da3e40](https://github.com/stone-payments/pos-mamba-sdk/commit/3da3e40a8fc90a188d2a5749185a8760bd17e6c9))
+* 🎸 Keyboard with new icons and green submit button ([a243b77](https://github.com/stone-payments/pos-mamba-sdk/commit/a243b77c561b19ea492617aab27b8b5bebd2edc3))
+* 🎸 visual feedback & font size changes on length ([04e1d74](https://github.com/stone-payments/pos-mamba-sdk/commit/04e1d7442d224c5f85330979b6865ae3c6b03d11))
+
+
+### BREAKING CHANGES
+
+* Feature Flags
+
+* Update README.md
+
+Removed wrong text.
+
+* chore(release): :robot: publish
+
+* chore(release): :robot: publish
+
+* chore(release): :robot: publish
+
+* fix: 🐛 changelog duplicate
+* Feature Flags
+
+* Update README.md
+
+Removed wrong text.
+
+* chore(release): :robot: publish
+
+* chore(release): :robot: publish
+
+* chore(release): :robot: publish
+
+* fix: 🐛 changelog duplicate
+
+
+
+
+
 
 # [2.13.0](https://github.com/stone-payments/pos-mamba-sdk/compare/2.1.0...2.13.0) (2019-09-20)
 
