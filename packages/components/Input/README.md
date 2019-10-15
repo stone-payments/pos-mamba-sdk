@@ -19,7 +19,7 @@ import MoneyInput from '@mamba/input/Money.html';
 #### Keyboard
 
 ```js
-import Input from '@mamba/input/Text.html';
+import KeyboardInput from '@mamba/input/Keyboard.html';
 ```
 
 <!-- @example ./example/Example.html -->
