@@ -29,7 +29,7 @@
   };
 </script>
 
-<style>
+<style type="text/postcss">
   input {
     display: none;
   }
@@ -41,7 +41,7 @@
     height: 24px;
     vertical-align: middle;
     border-radius: 100%;
-    border: 2px solid $radio-unchecked-border;
+    border: 2px solid #7e7e7e;
   }
 
   input + div::after {
@@ -59,10 +59,10 @@
 
   input:checked + div {
     background-color: transparent;
-    border-color: $green;
+    border-color: #4ebf1a;
 
     &::after {
-      background-color: $green;
+      background-color: #4ebf1a;
     }
   }
 </style>
