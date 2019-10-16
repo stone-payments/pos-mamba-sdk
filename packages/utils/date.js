@@ -143,7 +143,7 @@ export function parsePOSLocalDatetime(dateString) {
     return parse({
       date: dateString,
       utc: true,
-      timezone: Number(offsetHour),
+      offsetHour: Number(offsetHour),
     });
   }
 
