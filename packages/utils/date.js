@@ -1,5 +1,3 @@
-export const REGEX_PARSE = /^(\d{4})-?(\d{1,2})-?(\d{0,2})[^0-9]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?.?(\d{1,3})?$/;
-
 function pad(val, len = 2) {
   return String(val).padStart(len, '0');
 }
@@ -80,15 +78,19 @@ export function compareTime(timeA, timeB) {
 
 const isUndefined = s => s === undefined;
 
-export function parse(date, utc) {
+export const REGEX_PARSE = /^(\d{4})-?(\d{1,2})-?(\d{0,2})[^0-9]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?.?(\d{1,3})?$/;
+
+export function parse(duo) {
+  const { date, utc, offsetHour } = duo;
   if (date === null) return new Date(NaN); // null is invalid
   if (isUndefined(date)) return new Date(); // today
   if (date instanceof Date) return new Date(date);
+  let outputDate;
   if (typeof date === 'string' && !/Z$/i.test(date)) {
     const d = date.match(REGEX_PARSE);
     if (d) {
       if (utc) {
-        return new Date(
+        outputDate = new Date(
           Date.UTC(
             d[1],
             d[2] - 1,
@@ -100,7 +102,7 @@ export function parse(date, utc) {
           ),
         );
       }
-      return new Date(
+      outputDate = new Date(
         d[1],
         d[2] - 1,
         d[3] || 1,
@@ -112,5 +114,25 @@ export function parse(date, utc) {
     }
   }
 
-  return new Date(date); // everything else
+  outputDate = new Date(date);
+
+  if (typeof offsetHour === 'number') {
+    const offset =
+      (outputDate.getTimezoneOffset() + offsetHour * 60) * 60 * 1000;
+    outputDate.setTime(outputDate.getTime() + offset);
+  }
+
+  return outputDate;
+}
+
+export function parsePOSLocalDatetime(dateString) {
+  if (window.Clock) {
+    return parse({
+      date: dateString,
+      utc: true,
+      timezone: Number(window.Clock.getCurrentTimeZone()),
+    });
+  }
+
+  return parse({ date: dateString });
 }
