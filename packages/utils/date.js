@@ -126,11 +126,24 @@ export function parse(duo) {
 }
 
 export function parsePOSLocalDatetime(dateString) {
-  if (window.Clock) {
+  if (
+    typeof window.Clock === 'object' &&
+    typeof window.Clock.getCurrentTimeZone === 'function'
+  ) {
+    /* getCurrentTimeZone()
+      area: "São Paulo"
+      id: "404"
+      isDst: false
+      location: "América"
+      offsetHour: "-03"
+      offsetMin: "00"
+    */
+
+    const { offsetHour } = window.Clock.getCurrentTimeZone();
     return parse({
       date: dateString,
       utc: true,
-      timezone: Number(window.Clock.getCurrentTimeZone()),
+      timezone: Number(offsetHour),
     });
   }
 
