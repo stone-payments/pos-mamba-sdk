@@ -44,6 +44,16 @@ export function compareTime(timeA, timeB) {
   return NaN;
 }
 
+/**
+ *
+ * @param {string} dateString - Date that it will parse
+ * @param {string} dateFormat - Mask to convert date
+ *
+ * @example
+ *
+ *  parsePOSLocalDatetime('2019-10-18T17:46:12Z')
+ *  parsePOSLocalDatetime('2019-10-18T17:46:12Z', 'dd/MM/yyyy')
+ */
 export function parsePOSLocalDatetime(dateString, dateFormat = '') {
   if (
     typeof window.Clock === 'object' &&
