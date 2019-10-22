@@ -47,6 +47,7 @@ export function compareTime(timeA, timeB) {
 /**
  *
  * @param {string} dateString - Date that it will parse
+ * @param {string} timezone - Specific timezone
  * @param {string} dateFormat - Mask to convert date
  *
  * @example
@@ -54,7 +55,11 @@ export function compareTime(timeA, timeB) {
  *  parsePOSLocalDatetime('2019-10-18T17:46:12Z')
  *  parsePOSLocalDatetime('2019-10-18T17:46:12Z', 'dd/MM/yyyy')
  */
-export function parsePOSLocalDatetime(dateString, dateFormat = '') {
+export function parsePOSLocalDatetime(
+  dateString,
+  timezone = '-03:00',
+  dateFormat = '',
+) {
   if (
     typeof window.Clock === 'object' &&
     typeof window.Clock.getCurrentTimeZone === 'function'
@@ -79,6 +84,6 @@ export function parsePOSLocalDatetime(dateString, dateFormat = '') {
   }
 
   if (dateFormat)
-    return format(utcToZonedTime(dateString, '-3000'), dateFormat);
-  return utcToZonedTime(dateString, '-3000');
+    return format(utcToZonedTime(dateString, timezone), dateFormat);
+  return utcToZonedTime(dateString, timezone);
 }
