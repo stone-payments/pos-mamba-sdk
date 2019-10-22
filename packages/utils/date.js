@@ -1,3 +1,4 @@
+import { parseISO, parse } from 'date-fns';
 import { utcToZonedTime, format as formatDate } from 'date-fns-tz';
 
 export function format(date, mask) {
@@ -47,6 +48,32 @@ export function compareTime(timeA, timeB) {
 /**
  *
  * @param {string} dateString - Date that it will parse
+ *
+ * @example
+ *
+ *  parseISO('2019-10-18T17:46:12Z')
+ */
+export function parseDateISO(dateString) {
+  return parseISO(dateString);
+}
+
+/**
+ *
+ * @param {string} dateString - Date that it will parse
+ * @param {string} formatDateString - Date format tha will show
+ * @param {Date | Number} backupDate - Backup date when dateString is missed
+ *
+ * @example
+ *
+ *  parseDate('18/06/1996', 'dd/MM/yyyy', new Date('2019-5-23'))
+ */
+export function parseDate(dateString, formatDateString, backupDate) {
+  return parse(dateString, formatDateString, backupDate);
+}
+
+/**
+ *
+ * @param {string} dateString - Date that it will parse
  * @param {string} timezone - Specific timezone
  * @param {string} dateFormat - Mask to convert date
  *
@@ -55,11 +82,7 @@ export function compareTime(timeA, timeB) {
  *  parsePOSLocalDatetime('2019-10-18T17:46:12Z')
  *  parsePOSLocalDatetime('2019-10-18T17:46:12Z', 'dd/MM/yyyy')
  */
-export function parsePOSLocalDatetime(
-  dateString,
-  timezone = '-03:00',
-  dateFormat = '',
-) {
+export function parsePOSLocalDatetime(dateString, dateFormat = '') {
   if (
     typeof window.Clock === 'object' &&
     typeof window.Clock.getCurrentTimeZone === 'function'
@@ -83,7 +106,6 @@ export function parsePOSLocalDatetime(
     return utcToZonedTime(dateString, `${offsetHour}${offsetMin}`);
   }
 
-  if (dateFormat)
-    return format(utcToZonedTime(dateString, timezone), dateFormat);
-  return utcToZonedTime(dateString, timezone);
+  if (dateFormat) return format(parseDateISO(dateString), dateFormat);
+  return parseDateISO(dateString);
 }
