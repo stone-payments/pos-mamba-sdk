@@ -13,8 +13,8 @@ import TabPane from '@mamba/tabs/TabPane.html';
 ...
 
 <Tabs>
-  <TabPane title="Tab 1">Your content</TabPane>
-  <TabPane title="Tab 2">Another content</TabPane>
+  <TabPane label="Tab 1">Your content</TabPane>
+  <TabPane label="Tab 2">Another content</TabPane>
   ...
 </Tabs>
 ```
@@ -23,8 +23,8 @@ import TabPane from '@mamba/tabs/TabPane.html';
 
 O `TabPane` é um wrapper sem funcionalidades, gerenciado pelo seu componente pai `Tabs`. Os items da `Tabs` são renderizados na ordem em que os `TabPane` são declarados.
 <br/><br/>
-O atributo `title` será usado como label no item da aba.
-Omitir o attributo `title`, resulta a aba e seu contúdo correspondente não ser exibido.
+O atributo `label` será usado como label no item da aba.
+Omitir o attributo `label`, resulta a aba e seu contúdo correspondente não ser exibido.
 Para que o parâmetro `route` funcionar corretamente, é necessário que o caminho da aba seja completo e absoluto, incluindo a rota do pai.
 
 <!-- @example ./example/Example.html -->
@@ -41,7 +41,7 @@ Para que o parâmetro `route` funcionar corretamente, é necessário que o camin
 
 | Parâmetro | Descrição                                                                   | Tipo     | Padrão      |
 | --------- | --------------------------------------------------------------------------- | -------- | ----------- |
-| title     | Título a ser utilizado para criar o item na navegação de abas               | `string` | `undefined` |
+| label     | Título a ser utilizado para criar o item na navegação de abas               | `string` | `undefined` |
 | route     | Rota da aba para ser usada com modo de troca por `route` do modo `changeOn` | `string` | `undefined` |
 
 ## Eventos
