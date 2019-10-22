@@ -68,7 +68,10 @@ export function parseDateISO(dateString) {
  *  parseDate('18/06/1996', 'dd/MM/yyyy', new Date('2019-5-23'))
  */
 export function parseDate(dateString, formatDateString, backupDate) {
-  return parse(dateString, formatDateString, backupDate);
+  if (dateString && formatDateString && backupDate) {
+    return parse(dateString, formatDateString, backupDate);
+  }
+  return 'Invalid Date';
 }
 
 /**
