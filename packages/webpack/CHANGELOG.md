@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.15.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.14.0...v2.15.0) (2019-10-23)
+
+**Note:** Version bump only for package @mamba/webpack
+
+
+
+
+
 # [2.13.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.9.1...v2.13.0) (2019-09-20)
 
 
