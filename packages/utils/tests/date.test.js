@@ -1,7 +1,7 @@
 import {
   format,
-  // parsePOSLocalDatetime,
-  // parseDateISO,
+  parsePOSLocalDatetime,
+  parseDateISO,
   parseDate,
 } from '../date.js';
 
@@ -17,12 +17,6 @@ describe('date', () => {
   it('should throw if an empty mask is not passed', () => {
     expect(() => format(new Date())).toThrow();
   });
-
-  // it('should not format invalid tokens', () => {
-  //   expect(format(new Date(2019, 1, 20), 'GG/TTTT/AAAA')).toBe(
-  //     'RangeError: Format string contains an unescaped latin alphabet character `A`',
-  //   );
-  // });
 
   it('should format a date as dd/MM/yyyy', () => {
     expect(format(new Date(2019, 1, 20), 'dd/MM/yyyy')).toBe('20/02/2019');
@@ -106,182 +100,78 @@ describe('date parse', () => {
     expect(parsed.getTime()).not.toBe(NaN);
   });
 
-  // it('MM/dd/yyyy hh:mm tt <-> 05/29/2015 05:50 AM', () => {
-  //   const parsed = parse({ date: '05/29/2015 05:50 AM' });
-  //   expect(parsed).toBeInstanceOf(Object);
-  //   expect(parsed.getTime()).not.toBe(NaN);
-  // });
+  it('MM/dd/yyyy H:mm <-> 05/29/2015 5:50', () => {
+    const parsed = parseDate('05/29/2015 5:50', 'MM/dd/yyyy K:mm', new Date());
+    expect(parsed.getTime()).not.toBe(NaN);
+  });
 
-  // it('MM/dd/yyyy H:mm <-> 05/29/2015 5:50', () => {
-  //   const parsed = parse({ date: '5/29/2015 5:50' });
-  //   expect(parsed).toBeInstanceOf(Object);
-  //   expect(parsed.getTime()).not.toBe(NaN);
-  // });
+  it('MM/dd/yyyy HH:mm:ss <-> 05/29/2015 05:50:06', () => {
+    const parsed = parseDate(
+      '05/29/2015 05:50:06',
+      'MM/dd/yyyy HH:mm:ss',
+      new Date(),
+    );
+    expect(parsed.getTime()).not.toBe(NaN);
+  });
 
-  // it('MM/dd/yyyy h:mm tt <-> 05/29/2015 5:50 AM', () => {
-  //   const parsed = parse({ date: '05/29/2015 5:50 AM' });
-  //   expect(parsed).toBeInstanceOf(Object);
-  //   expect(parsed.getTime()).not.toBe(NaN);
-  // });
+  it('MMMM dd <-> May 29', () => {
+    const parsed = parseDate('May 29', 'MMM dd', new Date());
+    expect(parsed.getTime()).not.toBe(NaN);
+  });
 
-  // it('MM/dd/yyyy HH:mm:ss <-> 05/29/2015 05:50:06', () => {
-  //   const parsed = parse({ date: '05/29/2015 05:50:06' });
-  //   expect(parsed).toBeInstanceOf(Object);
-  //   expect(parsed.getTime()).not.toBe(NaN);
-  // });
+  it('HH:mm <-> 05:50', () => {
+    const parsed = parseDate('05:50', 'HH:mm', new Date());
+    expect(parsed.getTime()).not.toBe(NaN);
+  });
 
-  // it('MMMM dd <-> May 29', () => {
-  //   const parsed = parse({ date: 'May 29' });
-  //   expect(parsed).toBeInstanceOf(Object);
-  //   expect(parsed.getTime()).not.toBe(NaN);
-  // });
+  it('H:mm <-> 5:50', () => {
+    const parsed = parseDate('5:50', 'K:mm', new Date());
+    expect(parsed.getTime()).not.toBe(NaN);
+  });
 
-  // // Critical format for POS
-  // it('yyyy’-‘MM’-‘dd’T’HH’:’mm’:’ss.fffffffK <-> 2015-05-16T05:50:06.7199222-04:00', () => {
-  //   const parsed = parse({ date: '2015-05-16T05:50:06.7199222-04:00' });
-  //   expect(parsed).toBeInstanceOf(Object);
-  //   expect(parsed.getTime()).not.toBe(NaN);
-  // });
+  it('HH:mm:ss <-> 05:50:06', () => {
+    const parsed = parseDate('05:50:06', 'HH:mm:ss', new Date());
+    expect(parsed.getTime()).not.toBe(NaN);
+  });
 
-  // it('ddd, dd MMM yyy HH’:’mm’:’ss ‘GMT’ <-> Fri, 16 May 2015 05:50:06 GMT', () => {
-  //   const parsed = parse({ date: 'Fri, 16 May 2015 05:50:06 GMT' });
-  //   expect(parsed).toBeInstanceOf(Object);
-  //   expect(parsed.getTime()).not.toBe(NaN);
-  // });
+  it('yyyy MMMM <-> 2015 May', () => {
+    const parsed = parseDate('2015 May', 'yyyy MMM', new Date());
+    expect(parsed.getTime()).not.toBe(NaN);
+  });
 
-  // it('yyyy’-‘MM’-‘dd’T’HH’:’mm’:’ss <-> 2015-05-16T05:50:06', () => {
-  //   const parsed = parse({ date: '2015-05-16T05:50:06' });
-  //   expect(parsed).toBeInstanceOf(Object);
-  //   expect(parsed.getTime()).not.toBe(NaN);
-  // });
+  it('Parse ISO 2015-05-16T05:50:06.7199222-04:00 <-> Sat May 16 2015 06:50:06', () => {
+    const parsed = parseDateISO('2015-05-16T05:50:06.7199222-04:00');
+    expect(parsed.getTime()).not.toBe(NaN);
+  });
 
-  // it('HH:mm <-> 05:50', () => {
-  //   const parsed = parse('05:50');
-  //   expect(parsed).toBeInstanceOf(Object);
-  //   expect(parsed.getTime()).not.toBe(NaN);
-  // });
-
-  // it('hh:mm tt <-> 05:50 AM', () => {
-  //   const parsed = parse('05:50 AM');
-  //   expect(parsed).toBeInstanceOf(Object);
-  //   expect(parsed.getTime()).not.toBe(NaN);
-  // });
-
-  // it('H:mm <-> 5:50', () => {
-  //   const parsed = parse('5:50');
-  //   expect(parsed).toBeInstanceOf(Object);
-  //   expect(parsed.getTime()).not.toBe(NaN);
-  // });
-
-  // it('h:mm tt <-> 5:50 AM', () => {
-  //   const parsed = parse('5:50 AM');
-  //   expect(parsed).toBeInstanceOf(Object);
-  //   expect(parsed.getTime()).not.toBe(NaN);
-  // });
-
-  // it('HH:mm:ss <-> 05:50:06', () => {
-  //   const parsed = parse('05:50:06');
-  //   expect(parsed).toBeInstanceOf(Object);
-  //   expect(parsed.getTime()).not.toBe(NaN);
-  // });
-
-  // it('yyyy MMMM <-> 2015 May', () => {
-  //   const parsed = parse({ date: '2015 May' });
-  //   expect(parsed).toBeInstanceOf(Object);
-  //   expect(parsed.getTime()).not.toBe(NaN);
-  // });
-
-  // it('2019-10-15T00:00:00', () => {
-  //   const parsed = parse({ date: '2019-10-15T00:00:00' });
-  //   expect(parsed).toBeInstanceOf(Object);
-  //   expect(parsed.getTime()).not.toBe(NaN);
-  // });
-
-  // it('UTC 2019-10-15T15:20:20Z', () => {
-  //   const parsed = parse({ date: '2019-10-15T15:20:20Z', utc: true });
-  //   expect(parsed).toBeInstanceOf(Object);
-  //   expect(parsed.getTime()).not.toBe(NaN);
-  // });
-
-  // it('UTC 2019-10-15T15:20:20-0300', () => {
-  //   const parsed = parse({ date: '2019-10-15T15:20:20-0300', utc: true });
-  //   expect(parsed).toBeInstanceOf(Object);
-  //   expect(parsed.getTime()).not.toBe(NaN);
-  // });
-
-  // it('UTC 2019-10-15T15:20:20+06:00', () => {
-  //   const parsed = parse({ date: '2019-10-15T15:20:20+06:00', utc: true });
-  //   expect(parsed).toBeInstanceOf(Object);
-  //   expect(parsed.getTime()).not.toBe(NaN);
-  // });
-
-  // it('UTC 2019-10-15T15:20:20.180Z', () => {
-  //   const parsed = parse({ date: '2019-10-15T15:20:20.180Z', utc: true });
-  //   expect(parsed).toBeInstanceOf(Object);
-  //   expect(parsed.getTime()).not.toBe(NaN);
-  // });
-
-  // it('UTC 2019-10-15T15:20:20.56', () => {
-  //   const parsed = parse({ date: '2019-10-15T15:20:20.56', utc: true });
-  //   expect(parsed).toBeInstanceOf(Object);
-  //   expect(parsed.getTime()).not.toBe(NaN);
-  // });
-
-  // it('UTC 2019-10-15T16:51:20Z', () => {
-  //   const parsed = parse({
-  //     date: '2019-10-15T16:51:20Z',
-  //     utc: true,
-  //     timezone: -3,
-  //   });
-  //   expect(parsed).toBeInstanceOf(Object);
-  //   expect(parsed.getTime()).not.toBe(NaN);
-  //   expect(parsed.getHours()).toBe(16 - 3);
-  // });
-
-  // it('UTC 2019-10-15T16:51:20Z', () => {
-  //   const parsed = parse({
-  //     date: '2019-10-15T01:30:00Z',
-  //     utc: true,
-  //     timezone: -3,
-  //   });
-  //   expect(parsed).toBeInstanceOf(Object);
-  //   expect(parsed.getTime()).not.toBe(NaN);
-  //   expect(parsed.getDate()).toBe(14);
-  //   expect(parsed.getHours()).toBe(22);
-  // });
-
-  // it('UTC 2019-10-02T11:53:40.325+00:00', () => {
-  //   const parsed = parse({
-  //     date: '2019-10-02T11:53:40.325+00:00',
-  //     utc: true,
-  //     timezone: -3,
-  //   });
-
-  //   expect(parsed).toBeInstanceOf(Object);
-  //   expect(parsed.getTime()).not.toBe(NaN);
-  //   expect(parsed.getHours()).toBe(8);
-  // });
+  it('Parse ISO 2015-05-16T05:50:06 <-> Sat May 16 2015 05:50:06', () => {
+    const parsed = parseDateISO('2015-05-16T05:50:06');
+    expect(parsed.getTime()).not.toBe(NaN);
+  });
 });
 
-// describe('Parse date timezone using date-fns lib', () => {
-//   it('Invalid Date', () => {
-//     const date = parsePOSLocalDatetime(null);
-//     expect(date).not.toBe(new Date());
-//   });
+describe('Parse date timezone using date-fns lib', () => {
+  it('2019-10-18T17:46:12Z <-> Fri Oct 18 2019 14:46:12', () => {
+    const date = parsePOSLocalDatetime('2019-10-18T17:46:12Z');
+    expect(date.getTime()).not.toBe(NaN);
+    expect(date.getDate()).toBe(18);
+    expect(date.getHours()).toBe(14);
+    expect(date.getMinutes()).toBe(46);
+  });
 
-//   it('Convert 2019-10-18T17:46:12Z to Brazil timezone', () => {
-//     const date = parsePOSLocalDatetime('2019-10-18T17:46:12Z');
-//     expect(date.toString()).toBe(
-//       'Thu Oct 17 2019 11:46:12 GMT-0300 (Brasilia Standard Time)',
-//     );
-//     expect(date.getHours()).toBe(11);
-//     expect(date.getMinutes()).toBe(46);
-//   });
+  it('2015-05-16T05:50:06.7199222 is valid date', () => {
+    const date = parsePOSLocalDatetime('2015-05-16T05:50:06.7199222');
+    expect(date.getTime()).not.toBe(NaN);
+  });
 
-//   it('Convert 2019-10-18T17:46:12Z to Tokyo timezone', () => {
-//     const date = parsePOSLocalDatetime('2019-10-22T14:53:46Z');
-//     expect(date.toString()).toBe(
-//       'Thu Oct 17 2019 11:46:12 GMT-0300 (Brasilia Standard Time)',
-//     );
-//   });
-// });
+  it('Hour is equal 10 <-> 2015-05-16T10:50:06', () => {
+    const date = parsePOSLocalDatetime('2015-05-16T10:50:06');
+    expect(date.getTime()).not.toBe(NaN);
+    expect(date.getHours()).toBe(10);
+  });
+
+  it('1997-07-16T19:20+01:00 is valid date', () => {
+    const date = parsePOSLocalDatetime('1997-07-16T19:20+01:00');
+    expect(date.getTime()).not.toBe(NaN);
+  });
+});
