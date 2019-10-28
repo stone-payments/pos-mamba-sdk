@@ -1,6 +1,6 @@
 <div class="container">
 
-  <h4>Padrão</h4>
+  <h4>Padrão Jaime</h4>
   <div class="row">
     <Carousel />
   </div>
@@ -20,9 +20,22 @@
     font-weight: bold;
   }
 
-  .Code-run.svelte-1jfjrz6 .container.svelte-57cckp {
+  /*  @@ example only @@  */
+  :global(.Examples .Code-run .container) {
     width: 300px;
     margin: 80px auto;
+  }
+
+  /*  @@ example only @@  */
+  :global(.Code-run .carousel .prev, .Code-run .carousel .next) {
+    border-radius: 50%;
+  }
+
+  /*  @@ example only @@  */
+  :global(.carousel .icon) {
+    position: absolute;
+    left: 2px;
+    top: 3px;
   }
 
   .row {
