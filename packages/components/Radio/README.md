@@ -2,6 +2,8 @@
 
 O módulo `Radio` é usado para selecionar uma opção dentre as alternadas.
 
+<!-- @example ./example/Example.html-->
+
 ## Parâmetros
 
 | Parâmetro | Descrição                                         | Tipo            | Padrão     |
