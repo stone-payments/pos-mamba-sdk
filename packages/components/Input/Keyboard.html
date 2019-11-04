@@ -138,6 +138,10 @@
       if (capitalizeWords) {
         this.capitalizeNextLetter();
       }
+
+      // const setScrollableDefault = this.root.meta.setScrollable();
+      // console.log(this.root.meta.setScrollable(), this.root.meta.get(), this.get());
+
     },
     onupdate() {
 
@@ -159,6 +163,12 @@
         });
 
       }
+
+    },
+    ondestroy() {
+
+      // unbug scrolling after quit
+      this.root.meta.setScrollable(true);
 
     },
     methods: {
