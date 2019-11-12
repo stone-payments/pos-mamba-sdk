@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.16.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.15.0...v2.16.0) (2019-11-08)
+
+
+### Bug Fixes
+
+* 🐛 add offsetHour correct ([c389b38](https://github.com/stone-payments/pos-mamba-sdk/commit/c389b38fb72756f93f7529b730f1bff1eb8a24e4))
+* 🐛 fix timezone to offsetHour ([0067da2](https://github.com/stone-payments/pos-mamba-sdk/commit/0067da27058de6afbc068e0580a54327289b9920))
+* 🐛 Fixed date method ([d291e37](https://github.com/stone-payments/pos-mamba-sdk/commit/d291e3781cf022be9c444cb511dfc00f889cfd4d))
+* bug from route not being scrollable after open keyboard ([ef0af6d](https://github.com/stone-payments/pos-mamba-sdk/commit/ef0af6daab34e2696c896e6f7f5fa188145ab5ac))
+* date and radio component ([ebb0002](https://github.com/stone-payments/pos-mamba-sdk/commit/ebb00026c046403e7fcb93828b5c4129046e284f))
+
+
+### Features
+
+* 🎸 add date parse method; initial tests ([87779b7](https://github.com/stone-payments/pos-mamba-sdk/commit/87779b7c360b0efb9bcdbae0d8396c67c614f2c5))
+* 🎸 add date parser with timezone and utc POS compatible ([cc09c10](https://github.com/stone-payments/pos-mamba-sdk/commit/cc09c108525da690e3687dc20e7a95e6a6a4c313))
+* 🎸 included example to Radio page ([9631890](https://github.com/stone-payments/pos-mamba-sdk/commit/963189044883feda60c0abe22b34b06d6c9aaa80))
+* 🎸 It has been created date parse functions ([e795fa0](https://github.com/stone-payments/pos-mamba-sdk/commit/e795fa0c75454133c7ad6a5016e9ec097d9b7a91))
+* 🎸 It has been included date-fns and date-fns-tz ([9e6f3ef](https://github.com/stone-payments/pos-mamba-sdk/commit/9e6f3efbcdd1a0bf6be2a52cd06ce1348d795ab1))
+
+
+
+
+
 # [2.15.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.14.0...v2.15.0) (2019-10-23)
 
 

@@ -39,13 +39,11 @@
   "lint-staged": {
     "linters": {
       "*.{html,svelte}": [
-        "eslint --fix",
         "stylelint --fix",
         "git add"
       ],
       "*.js": [
         "prettier --write",
-        "eslint --fix",
         "git add"
       ],
       "*.{pcss,css}": [

@@ -138,6 +138,7 @@
       if (capitalizeWords) {
         this.capitalizeNextLetter();
       }
+
     },
     onupdate() {
 
@@ -159,6 +160,12 @@
         });
 
       }
+
+    },
+    ondestroy() {
+
+      // unbug scrolling after quit
+      this.root.meta.setScrollable(true);
 
     },
     methods: {
