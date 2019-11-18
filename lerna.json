@@ -4,8 +4,6 @@
   "command": {
     "publish": {
       "ignoreChanges": [
-        "{.*,*}.{txt,md,yml}",
-        "{!readme.md}",
         "{.*,*}{.config,rc,ignore}{,.js}",
         "LICENSE",
         "lerna.json"
