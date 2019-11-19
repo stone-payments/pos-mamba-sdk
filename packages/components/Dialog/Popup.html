@@ -1,0 +1,124 @@
+{#if isOpen}
+<div class="popup">
+  <div class="content">
+    <div class="icon-container" on:click="close()">
+      <Icon symbol="close" size="small" />
+    </div>
+    <slot></slot>
+  </div>
+</div>
+{/if}
+
+<script>
+  /** Static variables */
+  /** Number of dialogs currently opened */
+  let dialogsOpened = 0;
+  /** Previous navigable (app meta) object */
+  let previousNavigable = null;
+
+  export default {
+    components: {
+      Icon: '@mamba/icon',
+    },
+    data() {
+      return {
+        isOpen: false,
+      };
+    },
+    ondestroy() {
+      /** If the component is being destroyed and the dialog is still opened, let's unlock the app */
+      if (this.get().isOpen) {
+        this._close();
+      }
+    },
+    onupdate({ changed, current, previous }) {
+      /* istanbul ignore next */
+      if (changed.isOpen) {
+        if (current.isOpen) {
+          dialogsOpened++;
+          this.fire('open');
+
+          /**
+           * Unfocus whatever is focused on the current page.
+           * ! This may not work properly if a <Input/> has forcefocus={true}
+           */
+          document.activeElement.blur();
+
+          if (dialogsOpened === 1 && this.root.meta) {
+            const { scrollable, navigable } = this.root.meta.get();
+
+            /** Disable app scroll when opening a dialog */
+            /* istanbul ignore else */
+            if (scrollable) {
+              this.root.meta.set({ scrollable: false });
+            }
+
+            previousNavigable = navigable;
+
+            this.root.meta.setNavigable(false);
+          }
+        } else if (previous) {
+          this._close();
+          dialogsOpened--;
+          this.fire('close');
+        }
+      }
+    },
+    methods: {
+      open() {
+        this.set({ isOpen: true });
+      },
+      close() {
+        this.set({ isOpen: false });
+      },
+      /** Private close method. Used on .close() and ondestroy() */
+      _close() {
+        /** Allow app to scroll again */
+        /* istanbul ignore else */
+        if (
+          dialogsOpened === 1 &&
+          this.root.meta &&
+          previousNavigable != null
+        ) {
+          /** Let's unlock the app */
+          this.root.meta.set({
+            navigable: previousNavigable,
+            scrollable: true,
+          });
+
+          previousNavigable = null;
+        }
+      },
+    },
+  };
+</script>
+
+<style>
+  .popup {
+    width: 100%;
+    position: fixed;
+    z-index: 1101;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background: #0000009c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .content {
+      width: 90%;
+      background: #f0f0f0;
+      border-radius: 2px;
+      margin: 7px;
+      padding: 8px;
+    }
+
+    .icon-container {
+      text-align: right;
+      width: 24px;
+      margin: 0 0px 0 auto;
+      cursor: pointer;
+    }
+  }
+</style>
