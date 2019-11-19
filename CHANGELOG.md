@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.17.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.16.0...v2.17.0) (2019-11-18)
+
+
+### Bug Fixes
+
+* 🐛 App test ([d444a0b](https://github.com/stone-payments/pos-mamba-sdk/commit/d444a0befeae363a28e2c66fab49bc6f7d740f08))
+
+
+### Features
+
+* 🎸 add value to validation callback ([2737e93](https://github.com/stone-payments/pos-mamba-sdk/commit/2737e930b98696961c65752f4f38caa475b06ec1))
+
+
+
+
+
 # [2.16.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.15.0...v2.16.0) (2019-11-08)
 
 
