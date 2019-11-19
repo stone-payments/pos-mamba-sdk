@@ -56,13 +56,13 @@ O `PromisedDialog` é exibido durante a execução de uma `Promise` e após sua 
 Chama `myMethod()` quando o diálogo for exibido.
 
 ```html
-<dialog on:open="myMethod()" />
+<Dialog on:open="myMethod()" />
 ```
 
 Chama o `console.log` quando o diálogo fechar.
 
 ```html
-<dialog on:close="console.log('Dialog fechou')" />
+<Dialog on:close="console.log('Dialog fechou')" />
 ```
 
 ---
@@ -177,10 +177,10 @@ Fecha o `Popup`.
 Exemplo:
 
 ```html
-<dialog>
+<Dialog>
   Minha mensagem
   <slot name="extra">Conteúdo extra</slot>
-</dialog>
+</Dialog>
 ```
 
 ---
