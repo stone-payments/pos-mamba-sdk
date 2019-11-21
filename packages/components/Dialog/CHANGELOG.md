@@ -3,6 +3,62 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.18.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.17.0...v2.18.0) (2019-11-21)
+
+
+### Bug Fixes
+
+* 🐛 fix name lowercase ([a2fdfba](https://github.com/stone-payments/pos-mamba-sdk/commit/a2fdfbafb64b9653cc87ec120f3faecdacd3ceb4))
+
+
+### Features
+
+* 🎸 new popup component ([aed694a](https://github.com/stone-payments/pos-mamba-sdk/commit/aed694a3c3ce4afe4b0e52286f8bfe82a49df8fe))
+
+
+
+
+
+# [2.14.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.13.0...v2.14.0) (2019-10-15)
+
+
+* master -> Release/v2.10.0 (#454) ([95f4e1d](https://github.com/stone-payments/pos-mamba-sdk/commit/95f4e1da2f1ca8b59fc11b7573c3cbd4b1add4a7)), closes [#454](https://github.com/stone-payments/pos-mamba-sdk/issues/454) [#444](https://github.com/stone-payments/pos-mamba-sdk/issues/444) [#449](https://github.com/stone-payments/pos-mamba-sdk/issues/449) [#452](https://github.com/stone-payments/pos-mamba-sdk/issues/452)
+* Release/v2.9.1 (#448) ([f54e177](https://github.com/stone-payments/pos-mamba-sdk/commit/f54e1779081c2cdcd854023746c5d1a136496010)), closes [#448](https://github.com/stone-payments/pos-mamba-sdk/issues/448) [#444](https://github.com/stone-payments/pos-mamba-sdk/issues/444)
+
+
+### BREAKING CHANGES
+
+* Feature Flags
+
+* Update README.md
+
+Removed wrong text.
+
+* chore(release): :robot: publish
+
+* chore(release): :robot: publish
+
+* chore(release): :robot: publish
+
+* fix: 🐛 changelog duplicate
+* Feature Flags
+
+* Update README.md
+
+Removed wrong text.
+
+* chore(release): :robot: publish
+
+* chore(release): :robot: publish
+
+* chore(release): :robot: publish
+
+* fix: 🐛 changelog duplicate
+
+
+
+
+
 # [2.13.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.9.1...v2.13.0) (2019-09-20)
 
 

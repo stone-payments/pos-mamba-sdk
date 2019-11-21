@@ -3,6 +3,130 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.18.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.17.0...v2.18.0) (2019-11-21)
+
+
+### Bug Fixes
+
+* 🐛 fix name lowercase ([a2fdfba](https://github.com/stone-payments/pos-mamba-sdk/commit/a2fdfbafb64b9653cc87ec120f3faecdacd3ceb4))
+
+
+### Features
+
+* 🎸 new popup component ([aed694a](https://github.com/stone-payments/pos-mamba-sdk/commit/aed694a3c3ce4afe4b0e52286f8bfe82a49df8fe))
+
+
+
+
+
+# [2.17.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.16.0...v2.17.0) (2019-11-18)
+
+
+### Bug Fixes
+
+* 🐛 App test ([d444a0b](https://github.com/stone-payments/pos-mamba-sdk/commit/d444a0befeae363a28e2c66fab49bc6f7d740f08))
+
+
+### Features
+
+* 🎸 add value to validation callback ([2737e93](https://github.com/stone-payments/pos-mamba-sdk/commit/2737e930b98696961c65752f4f38caa475b06ec1))
+
+
+
+
+
+# [2.16.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.15.0...v2.16.0) (2019-11-08)
+
+
+### Bug Fixes
+
+* 🐛 add offsetHour correct ([c389b38](https://github.com/stone-payments/pos-mamba-sdk/commit/c389b38fb72756f93f7529b730f1bff1eb8a24e4))
+* 🐛 fix timezone to offsetHour ([0067da2](https://github.com/stone-payments/pos-mamba-sdk/commit/0067da27058de6afbc068e0580a54327289b9920))
+* 🐛 Fixed date method ([d291e37](https://github.com/stone-payments/pos-mamba-sdk/commit/d291e3781cf022be9c444cb511dfc00f889cfd4d))
+* bug from route not being scrollable after open keyboard ([ef0af6d](https://github.com/stone-payments/pos-mamba-sdk/commit/ef0af6daab34e2696c896e6f7f5fa188145ab5ac))
+* date and radio component ([ebb0002](https://github.com/stone-payments/pos-mamba-sdk/commit/ebb00026c046403e7fcb93828b5c4129046e284f))
+
+
+### Features
+
+* 🎸 add date parse method; initial tests ([87779b7](https://github.com/stone-payments/pos-mamba-sdk/commit/87779b7c360b0efb9bcdbae0d8396c67c614f2c5))
+* 🎸 add date parser with timezone and utc POS compatible ([cc09c10](https://github.com/stone-payments/pos-mamba-sdk/commit/cc09c108525da690e3687dc20e7a95e6a6a4c313))
+* 🎸 included example to Radio page ([9631890](https://github.com/stone-payments/pos-mamba-sdk/commit/963189044883feda60c0abe22b34b06d6c9aaa80))
+* 🎸 It has been created date parse functions ([e795fa0](https://github.com/stone-payments/pos-mamba-sdk/commit/e795fa0c75454133c7ad6a5016e9ec097d9b7a91))
+* 🎸 It has been included date-fns and date-fns-tz ([9e6f3ef](https://github.com/stone-payments/pos-mamba-sdk/commit/9e6f3efbcdd1a0bf6be2a52cd06ce1348d795ab1))
+
+
+
+
+
+# [2.15.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.14.0...v2.15.0) (2019-10-23)
+
+
+### Bug Fixes
+
+* docs url ([53a7bce](https://github.com/stone-payments/pos-mamba-sdk/commit/53a7bceea1bebee3a516e1ab580d78af024a3031))
+
+
+
+
+
+# [2.14.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.13.0...v2.14.0) (2019-10-15)
+
+
+* master -> Release/v2.10.0 (#454) ([95f4e1d](https://github.com/stone-payments/pos-mamba-sdk/commit/95f4e1da2f1ca8b59fc11b7573c3cbd4b1add4a7)), closes [#454](https://github.com/stone-payments/pos-mamba-sdk/issues/454) [#444](https://github.com/stone-payments/pos-mamba-sdk/issues/444) [#449](https://github.com/stone-payments/pos-mamba-sdk/issues/449) [#452](https://github.com/stone-payments/pos-mamba-sdk/issues/452)
+* Release/v2.9.1 (#448) ([f54e177](https://github.com/stone-payments/pos-mamba-sdk/commit/f54e1779081c2cdcd854023746c5d1a136496010)), closes [#448](https://github.com/stone-payments/pos-mamba-sdk/issues/448) [#444](https://github.com/stone-payments/pos-mamba-sdk/issues/444)
+
+
+### Bug Fixes
+
+* 🐛 It has been fixed height row's component ([dc7a443](https://github.com/stone-payments/pos-mamba-sdk/commit/dc7a44353ee41ec706a6941204dbcfb58296e723))
+* 🐛 remove unpublished version ([97f6b3c](https://github.com/stone-payments/pos-mamba-sdk/commit/97f6b3cfdcfa9f3d5fbd01168057a74d3c38ef2c))
+* Radio component: error on css variable, causing failed tests ([609e616](https://github.com/stone-payments/pos-mamba-sdk/commit/609e616a4c3da3d6fe4b71fec73961b13b80328b))
+
+
+### Features
+
+* 🎸 input feedback also on Capitalize and Backspace keys ([d2e1207](https://github.com/stone-payments/pos-mamba-sdk/commit/d2e120754d9aa7d9a30db222440e5577680c9dbf))
+* 🎸 Input now supports maxLength props ([3d0c6c5](https://github.com/stone-payments/pos-mamba-sdk/commit/3d0c6c5ab17a6a75fc585d4569a24506391a05dc))
+* 🎸 keyboard now has max length ([a2abe83](https://github.com/stone-payments/pos-mamba-sdk/commit/a2abe83b757656b8962a59551410bea0db10a0e8))
+* 🎸 keyboard now has special characters as suggestions ([3da3e40](https://github.com/stone-payments/pos-mamba-sdk/commit/3da3e40a8fc90a188d2a5749185a8760bd17e6c9))
+* 🎸 Keyboard with new icons and green submit button ([a243b77](https://github.com/stone-payments/pos-mamba-sdk/commit/a243b77c561b19ea492617aab27b8b5bebd2edc3))
+* 🎸 visual feedback & font size changes on length ([04e1d74](https://github.com/stone-payments/pos-mamba-sdk/commit/04e1d7442d224c5f85330979b6865ae3c6b03d11))
+
+
+### BREAKING CHANGES
+
+* Feature Flags
+
+* Update README.md
+
+Removed wrong text.
+
+* chore(release): :robot: publish
+
+* chore(release): :robot: publish
+
+* chore(release): :robot: publish
+
+* fix: 🐛 changelog duplicate
+* Feature Flags
+
+* Update README.md
+
+Removed wrong text.
+
+* chore(release): :robot: publish
+
+* chore(release): :robot: publish
+
+* chore(release): :robot: publish
+
+* fix: 🐛 changelog duplicate
+
+
+
+
+
 
 # [2.13.0](https://github.com/stone-payments/pos-mamba-sdk/compare/2.1.0...2.13.0) (2019-09-20)
 

@@ -168,7 +168,8 @@
       },
       /** Execute the validation method and return a boolean as a result */
       validate() {
-        const validationResult = this._validate(this.get().rawValue);
+        const { rawValue, value } = this.get();
+        const validationResult = this._validate(rawValue, value);
         this.set(validationResult);
         return validationResult.isValid;
       },
@@ -187,7 +188,7 @@
         }
         return value;
       },
-      _validate(value) {
+      _validate(rawValue, value) {
         const { validation } = this.get();
         const validateObj = {
           isValid: true,
@@ -198,7 +199,7 @@
           return validateObj;
         }
 
-        const result = validation(value);
+        const result = validation(rawValue, value);
 
         if (typeof result === 'boolean') {
           validateObj.isValid = result;
@@ -256,7 +257,7 @@
 
           /* istanbul ignore else */
           if (validateOn === 'submit') {
-            const result = this._validate(rawValue);
+            const result = this._validate(rawValue, value);
 
             this.set(result);
 
@@ -323,7 +324,7 @@
             };
           } else {
             const rawValue = mask ? masker(value, mask, true, tokens) : value;
-            validationUpdate = this._validate(rawValue);
+            validationUpdate = this._validate(rawValue, value);
           }
 
           /** Validation state must be set at the same time as the 'value' */

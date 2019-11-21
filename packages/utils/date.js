@@ -1,9 +1,6 @@
-function pad(val, len = 2) {
-  return String(val).padStart(len, '0');
-}
+import { parseISO, parse } from 'date-fns';
+import { utcToZonedTime, format as formatDate } from 'date-fns-tz';
 
-/** Adapted from http://blog.stevenlevithan.com/archives/date-time-format */
-const maskPattern = /dd?|mm?|yy(?:yy)?|([HhMs])\1?/g;
 export function format(date, mask) {
   if (typeof date.getFullYear !== 'function') {
     throw new Error('Must pass a Date object to format it');
@@ -14,35 +11,7 @@ export function format(date, mask) {
       "Invalid mask passed. Must be a string of these characters: 'dd', 'm', 'mm', 'yy', 'yyyy', 'h', 'hh', 'H', 'HH', 'M', 'MM', 's', 'ss'",
     );
   }
-  const d = date.getDate();
-  const year = date.getFullYear();
-  const m = date.getMonth() + 1;
-  const H = date.getHours();
-  const M = date.getMinutes();
-  const s = date.getSeconds();
-
-  /** Support for: dd, m, mm, yy, yyyy, h, hh, H, HH, M, MM, s, ss */
-  const flags = {
-    d,
-    dd: pad(d),
-    m,
-    mm: pad(m),
-    yy: String(year).substring(2),
-    yyyy: year,
-    h: H % 12 || 12,
-    hh: pad(H % 12 || 12),
-    H,
-    HH: pad(H),
-    M,
-    MM: pad(M),
-    s,
-    ss: pad(s),
-  };
-
-  return mask.replace(maskPattern, match => {
-    /* istanbul ignore next */
-    return flags[match] || match;
-  });
+  return formatDate(date, mask);
 }
 
 export function isValidDate(date) {
@@ -74,4 +43,69 @@ export function compareTime(timeA, timeB) {
     return 0;
   }
   return NaN;
+}
+
+/**
+ *
+ * @param {string} dateString - Date that it will parse
+ *
+ * @example
+ *
+ *  parseISO('2019-10-18T17:46:12Z')
+ */
+export function parseDateISO(dateString) {
+  return parseISO(dateString);
+}
+
+/**
+ *
+ * @param {string} dateString - Date that it will parse
+ * @param {string} formatDateString - Date format tha will show
+ * @param {Date | Number} backupDate - Backup date when dateString is missed
+ *
+ * @example
+ *
+ *  parseDate('18/06/1996', 'dd/MM/yyyy', new Date('2019-5-23'))
+ */
+export function parseDate(dateString, formatDateString, backupDate) {
+  return parse(dateString, formatDateString, backupDate);
+}
+
+/**
+ *
+ * @param {string} dateString - Date that it will parse
+ * @param {string} timezone - Specific timezone
+ * @param {string} dateFormat - Mask to convert date
+ *
+ * @example
+ *
+ *  parsePOSLocalDatetime('2019-10-18T17:46:12Z')
+ *  parsePOSLocalDatetime('2019-10-18T17:46:12Z', 'dd/MM/yyyy')
+ */
+export function parsePOSLocalDatetime(dateString, dateFormat = '') {
+  if (
+    typeof window.Clock === 'object' &&
+    typeof window.Clock.getCurrentTimeZone === 'function'
+  ) {
+    /* getCurrentTimeZone()
+      area: "São Paulo"
+      id: "404"
+      isDst: false
+      location: "América"
+      offsetHour: "-03"
+      offsetMin: "00"
+    */
+
+    const { offsetHour, offsetMin } = window.Clock.getCurrentTimeZone();
+    if (dateFormat) {
+      return format(
+        utcToZonedTime(dateString, `${offsetHour}${offsetMin}`),
+        dateFormat,
+      );
+    }
+    return utcToZonedTime(dateString, `${offsetHour}${offsetMin}`);
+  }
+
+  if (dateFormat) return format(parseDateISO(dateString), dateFormat);
+  return parseDateISO(dateString);
 }

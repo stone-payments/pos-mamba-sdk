@@ -18,7 +18,7 @@ Develop applications using only web technology, without worrying about the compl
 
 <br/>
 <div align="center">
-<div><a href="https://www.stone.co" target="_blank">📝 Documentation</a></div><br/>
+<div><a href="https://mambasdk-docs.stone.com.br" target="_blank">📝 Documentation</a></div><br/>
 <div><img height="21" align="top" src="https://www.stone.com.br/static/images/favicon.png" hspace="1"><a href="https://www.stone.co" target="_blank">&nbsp;Stone.co</a></div> 
 </div>
 <br/>

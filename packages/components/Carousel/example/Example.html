@@ -20,10 +20,22 @@
     font-weight: bold;
   }
 
-  .container {
-    max-width: 80%;
-    width: 700px;
+  /*  @@ example only @@  */
+  :global(.Examples .Code-run .container) {
+    width: 300px;
     margin: 80px auto;
+  }
+
+  /*  @@ example only @@  */
+  :global(.Code-run .carousel .prev, .Code-run .carousel .next) {
+    border-radius: 50%;
+  }
+
+  /*  @@ example only @@  */
+  :global(.carousel .icon) {
+    position: absolute;
+    left: 2px;
+    top: 3px;
   }
 
   .row {

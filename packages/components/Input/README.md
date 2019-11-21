@@ -16,6 +16,12 @@ import Input from '@mamba/input';
 import MoneyInput from '@mamba/input/Money.html';
 ```
 
+#### Keyboard
+
+```js
+import KeyboardInput from '@mamba/input/Keyboard.html';
+```
+
 <!-- @example ./example/Example.html -->
 
 ## Parâmetros
@@ -47,6 +53,12 @@ import MoneyInput from '@mamba/input/Money.html';
 | --------------- | ------------------------------------------------------------------------------------------------------------- | -------------------- | ------- |
 | cents           | Valor do input em centavos                                                                                    | `string` or `number` | `0`     |
 | readonlyOnEnter | Faz com que o campo se torne somente leitura no keypress do `enter` e se o valor em centavos for igual a zero | `boolean`            | `false` |
+
+## Keyboard
+
+| Parâmetro    | Descrição                                                   | Tipo           | Padrão      |
+| ------------ | ----------------------------------------------------------- | -------------- | ----------- |
+| maxLength    | Limita o número de caracteres do teclado                    | `number`       | `30`        |
 
 ## Eventos
 

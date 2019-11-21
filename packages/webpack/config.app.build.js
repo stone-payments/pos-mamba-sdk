@@ -9,6 +9,9 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const cssProcessor = require('cssnano');
 const { BUNDLE_NAME, IS_PROD, IS_POS } = require('./helpers/consts.js');
 const MambaManifestPlugin = require('./plugins/MambaManifestPlugin.js');
+const { getPkg } = require('quickenv');
+
+const PKG = getPkg();
 
 module.exports = merge(require('./config.app.js'), {
   devtool: false,
@@ -16,7 +19,11 @@ module.exports = merge(require('./config.app.js'), {
     IS_POS && new MambaManifestPlugin(),
     new FileManagerPlugin({
       onStart: {
-        delete: [`./dist/${BUNDLE_NAME}`, `./dist/${BUNDLE_NAME}.tar.gz`],
+        delete: [
+          `./dist/${BUNDLE_NAME}`,
+          `./dist/${BUNDLE_NAME}.tar.gz`,
+          `./dist/${BUNDLE_NAME}.ppk`,
+        ],
       },
       onEnd: {
         copy: [
@@ -30,6 +37,16 @@ module.exports = merge(require('./config.app.js'), {
             source: `./dist/${BUNDLE_NAME}/`,
             destination: `./dist/${BUNDLE_NAME}.tar.gz`,
             format: 'tar',
+            options: {
+              gzip: true,
+              gzipOptions: { level: 1 },
+              globOptions: { nomount: true },
+            },
+          },
+          {
+            source: `./dist/${BUNDLE_NAME}/`,
+            destination: `./dist/${PKG.name}_v${PKG.version}.ppk`,
+            format: 'zip',
             options: {
               gzip: true,
               gzipOptions: { level: 1 },
