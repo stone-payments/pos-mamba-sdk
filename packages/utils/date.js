@@ -23,7 +23,12 @@ export function isValidDate(date) {
 }
 
 export function isValidTime(time) {
-  return /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/.test(time);
+  if (/^24:([0-5][0-9](:[0-5][0-9]))?$/g.test(time)) {
+    // check if hour has 24
+    return false;
+  } else {
+    return /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/.test(time);
+  }
 }
 
 export function compareTime(timeA, timeB) {
