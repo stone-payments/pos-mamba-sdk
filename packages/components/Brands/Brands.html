@@ -1,0 +1,130 @@
+<img src={brand(icon)} alt="" />
+
+<script>
+
+  import alelo from './assets/alelo.png'
+  import amex from './assets/amex.png'
+  import cabal from './assets/cabal.png'
+  import cooperCard from './assets/cooper-card.png'
+  import dinersClub from './assets/diners-club.png'
+  import elo from './assets/elo.png'
+  import greencard from './assets/greencard.png'
+  import hiper from './assets/hiper.png'
+  import hipercard from './assets/hipercard.png'
+  import mastercard from './assets/mastercard.png'
+  import senff from './assets/senff.svg'
+  import sodexo from './assets/sodexo.png'
+  import ticket from './assets/ticket.svg'
+  import up from './assets/up.png'
+  import verdecard from './assets/verdecard.png'
+  import verocard from './assets/verocard.png'
+  import visa from './assets/visa.png'
+  import vr from './assets/vr.png'
+
+  export default {
+    data() {
+      return {
+        icon: null,
+      };
+    },
+    computed: {
+      brand({ brand }) {
+
+        switch (brand) {
+          case 'alelo':
+            return alelo
+          case 'amex':
+            return amex
+          case 'cabal':
+            return cabal
+          case 'coopercard':
+            return cooperCard
+          case 'dinersclub':
+            return dinersClub
+          case 'elo':
+            return elo
+          case 'greencard':
+            return greencard
+          case 'hiper':
+            return hiper
+          case 'hipercard':
+            return hipercard
+          case 'mastercard':
+            return mastercard
+          case 'senff':
+            return senff
+          case 'sodexo':
+            return sodexo
+          case 'ticket':
+            return ticket
+          case 'up':
+            return up
+          case 'verdecard':
+            return verdecard
+          case 'verocard':
+            return verocard
+          case 'visa':
+            return visa
+          case 'vr':
+            return vr
+          default:
+            return verdecard
+        }
+
+
+      },
+    },
+  };
+</script>
+
+<style type="text/postcss">
+  button {
+    min-height: 34px;
+    /* padding: 10px 16px; */
+    padding: 0 16px;
+    vertical-align: middle;
+    color: $button-text-color;
+    background-color: $button-primary-color;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    appearance: none;
+    border: 1px solid transparent;
+    border-radius: 3px;
+
+    &.is-secondary {
+      background-color: transparent;
+      border-color: $button-primary-color;
+      color: $button-primary-color;
+    }
+
+    &.size-small {
+      width: 103px;
+    }
+
+    &.size-normal {
+      max-width: 216px;
+      width: 90%;
+    }
+
+    &.size-fill {
+      width: 100%;
+    }
+
+    &.size-full {
+      width: 100%;
+      border-radius: 0;
+    }
+
+    &[disabled] {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    &.at-bottom {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+    }
+  }
+</style>
