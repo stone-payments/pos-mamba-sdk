@@ -1,4 +1,4 @@
-<img src={brand(icon)} alt="" />
+<img src={brand} alt={icon} />
 
 <script>
   import alelo from './assets/alelo.png'
@@ -21,15 +21,9 @@
   import vr from './assets/vr.png'
 
   export default {
-    data() {
-      return {
-        icon: null,
-      };
-    },
     computed: {
-      brand({ brand }) {
-
-        switch (brand) {
+      brand({ icon }) {
+        switch (icon) {
           case 'alelo':
             return alelo
           case 'amex':
@@ -69,8 +63,6 @@
           default:
             return verdecard
         }
-
-
       },
     },
   };
