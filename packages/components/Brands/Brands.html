@@ -1,0 +1,88 @@
+<img src={brand} alt={icon} />
+
+<script>
+  import alelo from './assets/alelo.png'
+  import amex from './assets/amex.png'
+  import banescard from 'banescard.png'
+  import benVisaVale from 'ben-visa-vale.png'
+  import blank from './assets/blank.png'
+  import cabal from './assets/cabal.png'
+  import cooperCard from './assets/cooper-card.png'
+  import dinersClub from './assets/diners-club.png'
+  import elo from './assets/elo.png'
+  import greencard from './assets/greencard.png'
+  import hiper from './assets/hiper.png'
+  import hipercard from './assets/hipercard.png'
+  import mastercard from './assets/mastercard.png'
+  import redecompras from 'redecompras.png';
+  import senff from './assets/senff.png'
+  import sodexo from './assets/sodexo.png'
+  import sorocred from 'sorocred.png';
+  import ticket from './assets/ticket.png'
+  import unionpay from 'unionpay.png';
+  import up from './assets/up.png'
+  import valecard from 'valecard.png';
+  import verdecard from './assets/verdecard.png'
+  import verocard from './assets/verocard.png'
+  import visa from './assets/visa.png'
+  import vr from './assets/vr.png'
+
+  export default {
+    computed: {
+      brand({ icon }) {
+        switch (icon) {
+          case 'alelo':
+            return alelo
+          case 'amex':
+            return amex
+          case 'banescard':
+            return banescard
+          case 'benvisavale':
+            return benVisaVale
+          case 'cabal':
+            return cabal
+          case 'coopercard':
+            return cooperCard
+          case 'dinersclub':
+            return dinersClub
+          case 'elo':
+            return elo
+          case 'greencard':
+            return greencard
+          case 'hiper':
+            return hiper
+          case 'hipercard':
+            return hipercard
+          case 'mastercard':
+            return mastercard
+          case 'redecompras':
+            return redecompras
+          case 'senff':
+            return senff
+          case 'sodexo':
+            return sodexo
+          case 'sorocred':
+            return sorocred
+          case 'ticket':
+            return ticket
+          case 'unionpay':
+            return unionpay
+          case 'up':
+            return up
+          case 'valecard':
+            return valecard
+          case 'verdecard':
+            return verdecard
+          case 'verocard':
+            return verocard
+          case 'visa':
+            return visa
+          case 'vr':
+            return vr
+          default:
+            return blank
+        }
+      },
+    },
+  };
+</script>

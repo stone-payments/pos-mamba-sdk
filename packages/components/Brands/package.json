@@ -1,0 +1,16 @@
+{
+  "name": "@mamba/brands",
+  "version": "2.18.0",
+  "svelte": "Brands.html",
+  "author": "Stone Payments - Mamba Team",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@mamba/styles": "^2.14.0"
+  },
+  "peerDependencies": {
+    "@mamba/pos": "^2.8.2"
+  }
+}
