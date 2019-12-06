@@ -1,6 +1,6 @@
 {
   "name": "@mamba/brands",
-  "version": "2.19.0",
+  "version": "2.20.0",
   "svelte": "Brands.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
