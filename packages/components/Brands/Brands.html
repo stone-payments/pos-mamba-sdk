@@ -1,7 +1,6 @@
 <img src={brand(icon)} alt="" />
 
 <script>
-
   import alelo from './assets/alelo.png'
   import amex from './assets/amex.png'
   import cabal from './assets/cabal.png'
@@ -76,55 +75,3 @@
     },
   };
 </script>
-
-<style type="text/postcss">
-  button {
-    min-height: 34px;
-    /* padding: 10px 16px; */
-    padding: 0 16px;
-    vertical-align: middle;
-    color: $button-text-color;
-    background-color: $button-primary-color;
-    font-size: 13px;
-    font-weight: bold;
-    cursor: pointer;
-    appearance: none;
-    border: 1px solid transparent;
-    border-radius: 3px;
-
-    &.is-secondary {
-      background-color: transparent;
-      border-color: $button-primary-color;
-      color: $button-primary-color;
-    }
-
-    &.size-small {
-      width: 103px;
-    }
-
-    &.size-normal {
-      max-width: 216px;
-      width: 90%;
-    }
-
-    &.size-fill {
-      width: 100%;
-    }
-
-    &.size-full {
-      width: 100%;
-      border-radius: 0;
-    }
-
-    &[disabled] {
-      cursor: not-allowed;
-      opacity: 0.5;
-    }
-
-    &.at-bottom {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-    }
-  }
-</style>
