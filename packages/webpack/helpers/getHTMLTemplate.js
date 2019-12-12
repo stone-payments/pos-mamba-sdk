@@ -34,7 +34,7 @@ module.exports = ({ css, js, title, publicPath }) => {
             '\n\n 🕵️‍♂️ Weinre(WEb INspector REmote) is enabled. \n To start server, run: ',
           ),
           chalk.yellow(
-            'weinre --boundHost=-all- --httpPort=9000 --readTimeout=8 --deathTimeout=60',
+            'weinre --boundHost=-all- --httpPort=9000 --readTimeout=8 --deathTimeout=60 \n\n',
           ),
         ),
       );
