@@ -12,6 +12,6 @@
   },
   "gitHead": "869644effc7b7347a2ff75c956c57d69ee8236a5",
   "peerDependencies": {
-    "@mamba/pos": "^2.8.2"
+    "@mamba/pos": "^2.14.0"
   }
 }
