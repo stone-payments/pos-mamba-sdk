@@ -1,6 +1,6 @@
 # Radio
 
-O módulo `Radio` é usado para selecionar uma opção dentre as alternadas.
+O componente `Radio` é usado para selecionar uma opção dentre as alternadas.
 
 <!-- @example ./example/Example.html-->
 
