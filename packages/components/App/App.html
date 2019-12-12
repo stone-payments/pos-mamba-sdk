@@ -296,10 +296,7 @@
          * If a shortcut element was found.
          * If 'enter' was clicked, check if the shortcut element isn't already focused
          */
-        if (
-          shortcutEl && shortcutEl === e.target &&
-          (keyName !== 'enter' || document.activeElement !== shortcutEl)
-        ) {
+        if (keyName !== 'enter' || document.activeElement !== shortcutEl) {
           /**
            * Adapted from:
            * https://stackoverflow.com/questions/15739263/phantomjs-click-an-element
