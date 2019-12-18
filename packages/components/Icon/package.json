@@ -1,6 +1,6 @@
 {
   "name": "@mamba/icon",
-  "version": "2.14.0",
+  "version": "2.22.0",
   "svelte": "Icon.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",

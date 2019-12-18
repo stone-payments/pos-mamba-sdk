@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.22.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.18.0...v2.22.0) (2019-12-18)
+
+
+### Features
+
+* 🎸 date validation now denies 24 as hour ([cc2860d](https://github.com/stone-payments/pos-mamba-sdk/commit/cc2860dd2a2ab3c666041a9d56af86a4d94edadc))
+
+
+
+
+
 # [2.18.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.17.0...v2.18.0) (2019-11-21)
 
 **Note:** Version bump only for package @mamba/utils
