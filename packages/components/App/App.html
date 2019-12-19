@@ -157,13 +157,15 @@
         }
       },
       setNavigableRoute(route, params = {}) {
-        if (route && typeof route === 'string') {
+        if (route !== false && route && typeof route === 'string') {
           if (params && typeof params === 'object') {
             this.set({ navigableRoute: {
               routeBack: route, paramsBack: params } });
           } else {
             this.set({ navigableRoute: { routeBack: route } });
           }
+        } else {
+          this.resetRoute();
         }
       },
       resetRoute() {
