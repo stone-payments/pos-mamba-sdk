@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.22.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.18.0...v2.22.0) (2019-12-18)
+
+
+### Bug Fixes
+
+* 🐛 remover getBrands from utils ([0b6a0a7](https://github.com/stone-payments/pos-mamba-sdk/commit/0b6a0a7117dce9477baca3d823b88f5c76d1ec9e))
+* 🐛 revert check element target ([e16214a](https://github.com/stone-payments/pos-mamba-sdk/commit/e16214a25a99cb85379c0a87ca3a8633abc7ce24))
+* 🐛 wrong path to images ([206fb61](https://github.com/stone-payments/pos-mamba-sdk/commit/206fb6197c04c54290198b789b9ab314b1050d99))
+
+
+### Features
+
+* 🎸 added Sorocred to Brands ([f3a00a5](https://github.com/stone-payments/pos-mamba-sdk/commit/f3a00a563850c27414ff5d25b60c506feee347d7))
+* 🎸 automatic add weinre for development builds ([2ed7941](https://github.com/stone-payments/pos-mamba-sdk/commit/2ed794199672d0b72b0d41ff9ad1897d780c6454))
+* 🎸 Brand bump version ([25ac233](https://github.com/stone-payments/pos-mamba-sdk/commit/25ac2335cdc79b5721e90d0be9ab5b487912a927))
+* 🎸 date validation now denies 24 as hour ([cc2860d](https://github.com/stone-payments/pos-mamba-sdk/commit/cc2860dd2a2ab3c666041a9d56af86a4d94edadc))
+* 🎸 finished Brand component ([a7d137a](https://github.com/stone-payments/pos-mamba-sdk/commit/a7d137a21c875bbbbe104943898ac90023173c9e))
+* 🎸 first version of getBrands() ([b1c326d](https://github.com/stone-payments/pos-mamba-sdk/commit/b1c326dd084c9a73401e34e76376d35ba9ba6bb2))
+* 🎸 Included Blank brand (default) ([b270dcf](https://github.com/stone-payments/pos-mamba-sdk/commit/b270dcfa2ecc5d1e8e4ba2d5884ffacbaea91939))
+* 🎸 included more brands ([b7fe10c](https://github.com/stone-payments/pos-mamba-sdk/commit/b7fe10cbc6e886a6f7a4d38e48038f0120f5d7e6))
+* 🎸 re-Started project, now exporting Brands as component ([b06db8d](https://github.com/stone-payments/pos-mamba-sdk/commit/b06db8d82fad4d3493b4b939da6c6809c5d6faa5))
+
+
+
+
+
 # [2.21.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.18.0...v2.21.0) (2019-12-06)
 
 
