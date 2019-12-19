@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.22.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.22.0...v2.22.1) (2019-12-19)
+
+**Note:** Version bump only for package @mamba/webpack
+
+
+
+
+
+# [2.22.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.18.0...v2.22.0) (2019-12-18)
+
+
+### Features
+
+* 🎸 automatic add weinre for development builds ([2ed7941](https://github.com/stone-payments/pos-mamba-sdk/commit/2ed794199672d0b72b0d41ff9ad1897d780c6454))
+
+
+
+
+
 # [2.15.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.14.0...v2.15.0) (2019-10-23)
 
 **Note:** Version bump only for package @mamba/webpack
