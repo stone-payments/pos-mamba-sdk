@@ -1,7 +1,9 @@
-import { format, padZero, floor, round, ceil } from '../money.js';
+import { format, padZero, floor, round, ceil, toFixedDown } from '../money.js';
 
 describe('formatting', () => {
   it('should format a number as currency', () => {
+    expect(format(0.025687)).toBe('0,02');
+    expect(format(300.98451)).toBe('300,98');
     expect(format(1000)).toBe('1.000,00');
     expect(format(1000.1)).toBe('1.000,10');
     expect(format(100000)).toBe('100.000,00');
@@ -57,5 +59,15 @@ describe('approximations', () => {
 
     expect(Math.ceil(127.77 / 10)).toBe(13);
     expect(ceil(127.77 / 10)).toBe(12.78);
+  });
+});
+
+describe('Low Float numbers when there are installments in payment', () => {
+  it('should installment value with more than 2 decimal places cannot round', () => {
+    expect(toFixedDown(0.025, 2)).toBe('0.02');
+    expect(toFixedDown(0.03594, 2)).toBe('0.03');
+    expect(toFixedDown(1.1596, 2)).toBe('1.15');
+    expect(toFixedDown(20.45864151, 2)).toBe('20.45');
+    expect(toFixedDown(300.942365, 2)).toBe('300.94');
   });
 });

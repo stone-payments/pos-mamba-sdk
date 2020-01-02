@@ -1,11 +1,17 @@
+export const toFixedDown = (number, digits) => {
+  const re = new RegExp(`(\\d+\\.\\d{${digits}})(\\d)`);
+  const m = number.toString().match(re);
+  const result = m ? parseFloat(m[1]) : number.valueOf();
+  return result.toFixed(digits).toString();
+};
+
 /** Format a number to XXX.XXX,XX format */
 export const format = n => {
   if (typeof n !== 'number') {
     throw new Error('format() only accepts a number as a parameter');
   }
 
-  return n
-    .toFixed(2)
+  return toFixedDown(n, 2)
     .replace('.', ',')
     .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 };
