@@ -8,6 +8,7 @@
     "access": "public"
   },
   "devDependencies": {
+    "@mamba/icon": "^2.23.0",
     "@mamba/styles": "^2.14.0"
   },
   "dependencies": {

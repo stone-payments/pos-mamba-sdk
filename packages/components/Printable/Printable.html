@@ -16,19 +16,22 @@
 {/if}
 
 {#if _state === STATES.FAILURE}
-  <ConfirmationDialog
+  <Dialog
     ref:failureDialog
-    title="IMPRESSORA SEM PAPEL"
-    on:positive="print()"
-    on:negative="fire('finish', false)"
-    fullscreen
   >
-    Tentar imprimir novamente?
-  </ConfirmationDialog>
+    <img src={alertIcon} alt="" />
+    <h1 class="title-dialog">ERRO NA IMPRESSÃO</h1>
+    <p class="failure-dialog-txt">
+      A filipeta ainda está disponível no app <strong>Reimpressão</strong>.
+    </p>
+    <Button width="100%" on:click="fire('finish', true)">Voltar</Button>
+  </Dialog>
 {/if}
 
 <script>
   import Printer from '@mamba/pos/api/printer.js';
+
+  import alertIcon from './assets/images/icon-alert.png';
 
   const STATES = Object.freeze({
     IDLE: 0,
@@ -42,11 +45,12 @@
 
   export default {
     components: {
+      Button: '@mamba/button',
       Dialog: '@mamba/dialog',
-      ConfirmationDialog: '@mamba/dialog/Confirmation.html',
     },
     helpers: {
       STATES,
+      alertIcon,
     },
     data() {
       return {
@@ -62,7 +66,7 @@
       if (changed._state) {
         if (current._state === STATES.FAILURE) {
           this.refs.failureDialog.open();
-          this.fire('error');
+          // this.fire('error');
         } else if (current._state === STATES.SUCCESS) {
           this.fire('finish', true);
         }
@@ -128,6 +132,15 @@
     height: 110px;
     margin: auto;
     animation: printingAnimation 2s steps(65) infinite;
+  }
+
+  .title-dialog {
+    font-weight: 600;
+    margin-top: 10px;
+  }
+
+  .failure-dialog-txt {
+    margin: 10px 0;
   }
 
   .content {
