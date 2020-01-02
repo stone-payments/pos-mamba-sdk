@@ -5,7 +5,6 @@
   class:is-focused="isFocused"
   class:is-disabled="disabled"
   style="background-color: {bgColor}; color: {labelColor};"
-  on:mousedown="_onMousedown(event)"
 >
   {#if label}
     <span class="label">{label}</span>
@@ -27,7 +26,7 @@
     />
 
     {#if type === 'password' && readable}
-      <div class="type-toggle">
+      <div class="type-toggle" on:mousedown="_onMousedown(event)">
         <Icon symbol="{_visible ? 'eye' : 'eye-off'}" />
       </div>
     {/if}
