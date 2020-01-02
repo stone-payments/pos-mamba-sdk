@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.22.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.22.0...v2.22.2) (2020-01-02)
+
+**Note:** Version bump only for package @mamba/radio
+
+
+
+
+
 ## [2.22.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.22.0...v2.22.1) (2019-12-19)
 
 **Note:** Version bump only for package @mamba/radio
