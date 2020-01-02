@@ -241,16 +241,16 @@ describe('behaviour', () => {
       expect(input.get()._visible).toBe(false);
     });
 
-    it('should make a "readable:true" password visible on "click"', () => {
-      input.set({ readable: true });
-      input.focus();
+    // it('should make a "readable:true" password visible on "click"', () => {
+    //   input.set({ readable: true });
+    //   input.focus();
 
-      clickOn(root.query('.input'));
+    //   clickOn(root.query('.type-toggle'));
 
-      expect(input.get()._visible).toBe(true);
-      expect(input.refs.input.getAttribute('type')).toBe('text');
-      expect(root.query('.input').classList.contains('is-readable')).toBe(true);
-    });
+    //   expect(input.get()._visible).toBe(true);
+    //   expect(input.refs.input.getAttribute('type')).toBe('text');
+    //   expect(root.query('.type-toggle').classList.contains('is-readable')).toBe(true);
+    // });
   });
 
   describe('mask', () => {
