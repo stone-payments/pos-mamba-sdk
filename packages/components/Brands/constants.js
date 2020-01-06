@@ -1,3 +1,4 @@
+import BLANK from './assets/blank.png';
 import ALELO from './assets/alelo.png';
 import AMEX from './assets/amex.png';
 import CABAL from './assets/cabal.png';
@@ -22,8 +23,6 @@ import REDECOMPRAS from './assets/redecompras.png';
 import UNIONPAY from './assets/unionpay.png';
 import SOROCRED from './assets/sorocred.png';
 import BANESCARD from './assets/banescard.png';
-
-export BLANK from './assets/blank.png';
 
 // POS Mapped brand names, don't change it deliberately
 export const BRANDS = {
@@ -52,3 +51,5 @@ export const BRANDS = {
   BANESCARD,
   SOROCRED,
 };
+
+export { BLANK };
