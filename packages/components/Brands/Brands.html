@@ -1,9 +1,14 @@
-<img src={brand} alt={icon} />
+<img src={brand} alt={icon} width={width} />
 
 <script>
-  import getBrand from '@mamba/brands/getBrand.js';
+  import getBrand from './getBrand.js';
 
   export default {
+    data() {
+      return {
+        width: 30,
+      };
+    },
     computed: {
       brand({ icon }) {
         return getBrand(icon);
