@@ -20,11 +20,13 @@
     ref:failureDialog
     on:close="fire('finish', true)"
   >
-    <img class="failure-dialog-icon" src={alertIcon} alt="" />
-    <h1 class="title-dialog">ERRO NA IMPRESSÃO</h1>
-    <p class="failure-dialog-txt">
-      A filipeta ainda está disponível no app <strong>Reimpressão</strong>.
-    </p>
+    {#if $transactionType}
+      <img class="failure-dialog-icon" src={alertIcon} alt="" />
+      <h1 class="title-dialog">ERRO NA IMPRESSÃO</h1>
+      <p class="failure-dialog-txt">
+        A filipeta ainda está disponível no app <strong>Reimpressão</strong>.
+      </p>
+    {/if}
   </Dialog>
 {/if}
 
