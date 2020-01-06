@@ -18,13 +18,13 @@
 {#if _state === STATES.FAILURE}
   <Dialog
     ref:failureDialog
+    on:close="fire('finish', true)"
   >
-    <img src={alertIcon} alt="" />
+    <img class="failure-dialog-icon" src={alertIcon} alt="" />
     <h1 class="title-dialog">ERRO NA IMPRESSÃO</h1>
     <p class="failure-dialog-txt">
       A filipeta ainda está disponível no app <strong>Reimpressão</strong>.
     </p>
-    <Button width="100%" on:click="fire('finish', true)">Voltar</Button>
   </Dialog>
 {/if}
 
@@ -45,7 +45,6 @@
 
   export default {
     components: {
-      Button: '@mamba/button',
       Dialog: '@mamba/dialog',
     },
     helpers: {
@@ -65,7 +64,7 @@
       /* istanbul ignore next */
       if (changed._state) {
         if (current._state === STATES.FAILURE) {
-          this.refs.failureDialog.open();
+          this.refs.failureDialog.open(5000);
           // this.fire('error');
         } else if (current._state === STATES.SUCCESS) {
           this.fire('finish', true);
@@ -135,12 +134,21 @@
   }
 
   .title-dialog {
+    font-size: 22px;
     font-weight: 600;
-    margin-top: 10px;
+    line-height: 26px;
+    text-transform: uppercase;
+    margin: 10px 0;
+  }
+
+  .failure-dialog-icon {
+    width: 75px;
+    height: auto;
   }
 
   .failure-dialog-txt {
-    margin: 10px 0;
+    font-size: 16px;
+    line-height: 21px;
   }
 
   .content {
