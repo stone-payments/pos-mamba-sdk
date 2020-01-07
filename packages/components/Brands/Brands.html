@@ -3,18 +3,6 @@
 <script>
   import getBrand from './getBrand.js';
 
-  // { deprecated str : replace str }
-  const deprecates = {
-    up: 'up brasil',
-    dinersclub: 'diners',
-    coopercard: 'cooper',
-    benvisavale: 'ben visa vale',
-  };
-  const shouldDeprecate = icon => {
-    const repl = deprecates[icon];
-    if(repl) console.warn(`Icon "${icon}" is deprecated. Use "${repl}"`);
-  };
-
   export default {
     data() {
       return {
@@ -23,7 +11,6 @@
     },
     computed: {
       brand({ icon }) {
-        shouldDeprecate(icon);
         return getBrand(icon);
       },
     },
