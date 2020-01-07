@@ -17,7 +17,7 @@ Caso não haja a bandeira especificada, ele exibe a bandeira padrão `blank`.
 
 As bandeiras compatíveis com o POS podem ser:
 
-`ALELO`, `AMEX`, `CABAL`, `DINERS`, `ELO`, `HIPERCARD`, `MASTERCARD`, `SENFF`, `SODEXO`, `TICKET`, `VERDECARD`, `VISA`, `VR`, `HIPER`, `GREENCARD`, `COOPER`, `VALECARD`, `VEROCARD`, `UP BRASIL`, `BEN VISA VALE`, `REDECOMPRAS`, `UNIONPAY`, `BANESCARD` e `SOROCRED`
+`alelo`, `amex`, `cabal`, `diners`, `elo`, `hipercard`, `mastercard`, `senff`, `sodexo`, `ticket`, `verdecard`, `visa`, `vr`, `hiper`, `greencard`, `cooper`, `valecard`, `verocard`, `up brasil`, `ben visa vale`, `redecompras`, `unionpay`, `banescard` e `sorocred`
 
 <br />
 
