@@ -8,6 +8,10 @@ export const hasActiveHandlerFor = key =>
   !!register[key] && register[key].length > 0;
 
 export const hasKeystrokeToPrevent = () => {
+  /**
+   * Get the element with focus.
+   * ! This will only work with focusable elements, (ex: with tabindex = -1)
+   */
   const targetEl = document.activeElement;
   return targetEl.dataset.freezeKeystrokes || false;
 };
