@@ -7,15 +7,25 @@ const register = {
 export const hasActiveHandlerFor = key =>
   !!register[key] && register[key].length > 0;
 
+export const hasKeystrokeToPrevent = () => {
+  const targetEl = document.activeElement;
+  return targetEl.dataset.freezeKeystrokes || false;
+};
+
 const keystrokeHandler = e => {
   const keyName = Keyboard.getKeyName(e.charCode || e.which || e.keyCode);
   const keyHandlers = register[keyName];
 
   if (hasActiveHandlerFor(keyName)) {
     e.preventDefault();
-    e.stopImmediatePropagation(); // prevent the <App /> key up event from firing
+    e.stopImmediatePropagation(); // prevent the <App /> key up event from firing, this also will prevent shortcuts
 
-    keyHandlers.forEach(handlers => handlers(e));
+    keyHandlers.forEach(handlers => {
+      // This prevent keystroke registered actions to be called, ex.: if a dialog was opened.
+      if (!hasKeystrokeToPrevent() && e.type !== 'keydown') {
+        handlers(e);
+      }
+    });
   }
 };
 
