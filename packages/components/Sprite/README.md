@@ -3,6 +3,9 @@
 O componente `Sprite` ajuda na criação de animações utilizando uma *SpriteSheet*. É recomendado que se utilize este componente no lugar de arquivos `.gif` por ter um desempenho melhor.
 
 <!-- @example ./example/Example.html -->
+<div class="iframe-wrapper">
+  <iframe src="http://bundlebrowser.didiraja.now.sh/#!/sprite"></iframe>
+</div>
 
 ## Parâmetros
 

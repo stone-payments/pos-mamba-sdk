@@ -28,6 +28,9 @@ Omitir o attributo `label`, resulta a aba e seu contúdo correspondente não ser
 Para que o parâmetro `route` funcionar corretamente, é necessário que o caminho da aba seja completo e absoluto, incluindo a rota do pai.
 
 <!-- @example ./example/Example.html -->
+<div class="iframe-wrapper">
+  <iframe src="http://bundlebrowser.didiraja.now.sh/#!/button"></iframe>
+</div>
 
 ## Parâmetros
 

@@ -5,6 +5,9 @@ imagens padrões já disponíveis em nossa SDK. Além das imagens, também é po
 do ícone e utilizar uma imagem própria.
 
 <!-- @example ./example/Example.Html -->
+<div class="iframe-wrapper">
+  <iframe src="http://bundlebrowser.didiraja.now.sh/#!/icon"></iframe>
+</div>
 
 ## Parâmetros
 

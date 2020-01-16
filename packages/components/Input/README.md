@@ -23,6 +23,9 @@ import KeyboardInput from '@mamba/input/Keyboard.html';
 ```
 
 <!-- @example ./example/Example.html -->
+<div class="iframe-wrapper">
+  <iframe src="http://bundlebrowser.didiraja.now.sh/#!/input"></iframe>
+</div>
 
 ## Parâmetros
 
