@@ -3,6 +3,9 @@
 O Componente `Barcode` permite de modo fácil criar códigos de barras, além de permitir estilizá-los. 
 
 <!-- @example ./example/Example.html-->
+<div class="iframe-wrapper">
+  <iframe src="http://bundlebrowser.didiraja.now.sh/#!/barcode"></iframe>
+</div>
 
 ## Parâmetros
 
