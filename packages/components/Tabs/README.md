@@ -29,7 +29,7 @@ Para que o parâmetro `route` funcionar corretamente, é necessário que o camin
 
 <!-- @example ./example/Example.html -->
 <div class="iframe-wrapper">
-  <iframe src="http://bundlebrowser.didiraja.now.sh/#!/button"></iframe>
+  <iframe src="http://bundlebrowser.didiraja.now.sh/#!/tabs"></iframe>
 </div>
 
 ## Parâmetros
