@@ -5,7 +5,7 @@ utilizados para representar a execução de uma tarefa, que pode ter etapas defi
 
 <!-- @example ./example/Example.Html -->
 <div class="iframe-wrapper">
-  <iframe src="http://bundlebrowser.didiraja.now.sh/#!/progress"></iframe>
+  <iframe src="http://bundlebrowser.mambaweb.now.sh/#!/progress"></iframe>
 </div>
 
 ## Parâmetros

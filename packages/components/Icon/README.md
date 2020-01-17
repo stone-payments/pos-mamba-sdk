@@ -6,7 +6,7 @@ do ícone e utilizar uma imagem própria.
 
 <!-- @example ./example/Example.Html -->
 <div class="iframe-wrapper">
-  <iframe src="http://bundlebrowser.didiraja.now.sh/#!/icon"></iframe>
+  <iframe src="http://bundlebrowser.mambaweb.now.sh/#!/icon"></iframe>
 </div>
 
 ## Parâmetros

@@ -4,7 +4,7 @@ O componente `Sprite` ajuda na criação de animações utilizando uma *SpriteSh
 
 <!-- @example ./example/Example.html -->
 <div class="iframe-wrapper">
-  <iframe src="http://bundlebrowser.didiraja.now.sh/#!/sprite"></iframe>
+  <iframe src="http://bundlebrowser.mambaweb.now.sh/#!/sprite"></iframe>
 </div>
 
 ## Parâmetros
