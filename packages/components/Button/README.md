@@ -6,7 +6,7 @@ Além disso, os botões também podem ser acionados por um shortcut e executar m
 
 <!-- @example ./example/Example.html-->
 <div class="iframe-wrapper">
-  <iframe src="http://bundlebrowser.didiraja.now.sh/#!/button"></iframe>
+  <iframe src="http://bundlebrowser.mambaweb.now.sh/#!/button"></iframe>
 </div>
 
 ## Parâmetros
