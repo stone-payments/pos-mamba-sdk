@@ -1,7 +1,7 @@
 {#if isOpen}
   <div
     ref:_dialog
-    class="dialog"
+    class="dialog{_class}"
     class:is-fullscreen="fullscreen"
     {style}
     tabindex="-1"
@@ -41,6 +41,7 @@
         textColor: '#353535',
         align: 'center',
         fullscreen: false,
+        className: undefined,
       };
     },
     computed: {
@@ -48,6 +49,9 @@
         return [`background-color:${bgColor}`, `color:${textColor}`]
           .filter(Boolean)
           .join(';');
+      },
+      _class({ className }) {
+        return className ? ` ${className}` : '';
       },
     },
     ondestroy() {
