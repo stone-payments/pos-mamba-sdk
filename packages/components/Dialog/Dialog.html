@@ -29,6 +29,8 @@
   /** Previous navigable (app meta) object */
   let previousNavigable = null;
 
+  let lastShortcutsState = undefined;
+
   export default {
     data() {
       return {
@@ -60,7 +62,15 @@
       if (changed.isOpen) {
         const { isOpen } = current;
         const { _dialog } = this.refs;
-        if(this.root.meta) this.root.meta.setShortcuts(!isOpen);
+
+        if(this.root.meta) {
+          if(isOpen) {
+            lastShortcutsState = this.root.meta.get().shortcuts;
+            this.root.meta.setShortcuts(true);
+          } else if(lastShortcutsState != undefined) {
+            this.root.meta.setShortcuts(lastShortcutsState);
+          }
+        }
 
         if (isOpen) {
           dialogsOpened++;
