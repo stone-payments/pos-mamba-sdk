@@ -1,4 +1,5 @@
 import Keyboard from '@mamba/pos/api/keyboard.js';
+import { dispatchEventOn } from './EventDispatcher.js';
 
 const register = {
   length: 0,
@@ -10,23 +11,28 @@ export const hasActiveHandlerFor = key =>
 export const hasKeystrokeToPrevent = () => {
   /**
    * Get the element with focus.
-   * ! This will only work with focusable elements, (ex: with tabindex = -1)
+   * ! This will only work with focusable elements, (ie: with tabindex = -1)
    */
-  const targetEl = document.activeElement;
-  return targetEl.dataset.freezeKeystrokes || false;
+  // eslint-disable-next-line prefer-destructuring
+  const activeElement = document.activeElement;
+  const hasTarget = activeElement !== window.document.body;
+  const notPrevent = hasTarget
+    ? !(activeElement.dataset.freezeKeystrokes || false)
+    : true;
+  return { notPrevent, handlerContext: hasTarget ? activeElement : document };
 };
 
 const keystrokeHandler = e => {
   const keyName = Keyboard.getKeyName(e.charCode || e.which || e.keyCode);
   const keyHandlers = register[keyName];
-
-  if (hasActiveHandlerFor(keyName)) {
+  const { notPrevent } = hasKeystrokeToPrevent(e);
+  // handlerContext: Do not execute keystroke handlers for non global(window target) events
+  if (notPrevent && hasActiveHandlerFor(keyName)) {
     e.preventDefault();
-    e.stopImmediatePropagation(); // prevent the <App /> key up event from firing, this also will prevent shortcuts
+    e.stopImmediatePropagation();
 
     keyHandlers.forEach(handlers => {
-      // This prevent keystroke registered actions to be called, ex.: if a dialog was opened.
-      if (!hasKeystrokeToPrevent() && e.type !== 'keydown') {
+      if (e.type !== 'keydown') {
         handlers(e);
       }
     });
