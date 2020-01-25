@@ -1,5 +1,4 @@
 import Keyboard from '@mamba/pos/api/keyboard.js';
-import { dispatchEventOn } from './EventDispatcher.js';
 
 const register = {
   length: 0,
