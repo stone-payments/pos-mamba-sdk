@@ -5,9 +5,9 @@ const register = {
 };
 
 /** Return if a certain shortcut key is valid */
-export const isEditableInputOnFocus = (target = document.activeElement) => {
+export const isEditableInputOnFocus = target => {
   const targetEl =
-    target !== window.document.body ? target : document.activeElement;
+    target && target !== window.document.body ? target : document.activeElement;
   const isTextInputEl =
     targetEl.tagName === 'INPUT' || targetEl.tagName === 'TEXTAREA';
   const isEditable = targetEl.disabled !== true && targetEl.readOnly !== true;
