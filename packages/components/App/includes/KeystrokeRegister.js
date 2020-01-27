@@ -5,8 +5,9 @@ const register = {
 };
 
 /** Return if a certain shortcut key is valid */
-export const isEditableInputOnFocus = () => {
-  const targetEl = document.activeElement;
+export const isEditableInputOnFocus = (target = document.activeElement) => {
+  const targetEl =
+    target !== window.document.body ? target : document.activeElement;
   const isTextInputEl =
     targetEl.tagName === 'INPUT' || targetEl.tagName === 'TEXTAREA';
   const isEditable = targetEl.disabled !== true && targetEl.readOnly !== true;
@@ -46,7 +47,8 @@ const keystrokeHandler = e => {
     isInputOnFocus && (keyName === 'back' || keyName === 'enter');
 
   // foward close event for registered keystrokes
-  const inputEventOnClose = isInputOnFocus && keyName === 'close';
+  const inputEventOnClose =
+    isInputOnFocus && keyName === 'close' && hasActiveHandlerFor(keyName);
 
   if (
     inputEventOnClose ||
