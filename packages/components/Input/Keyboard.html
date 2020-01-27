@@ -10,6 +10,7 @@
     label={hideLabel && !active ? undefined : label}
     {..._inputProps}
     on:focus="openKeyboard()"
+    on:submit
   />
 
   {#if active}
@@ -328,7 +329,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      padding-top: 16px;
+      padding-top: 0;
     }
 
     &.is-fullscreen {
