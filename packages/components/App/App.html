@@ -179,7 +179,6 @@
       },
       /** Prevent default back/enter button behaviour */
       _onKeydown(e) {
-        console.log('_onKeydown');
         /* istanbul ignore next */
         if (!__TEST__ && __BROWSER__) {
           const eventPath = e.path || (e.composedPath && e.composedPath());
@@ -211,7 +210,6 @@
         }
       },
       _onKeyup(e) {
-        console.log('_onKeyup');
         const keyCode = e.charCode || e.which || e.keyCode;
 
         /**
