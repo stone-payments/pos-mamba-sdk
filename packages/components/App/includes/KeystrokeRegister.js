@@ -20,7 +20,7 @@ export const hasActiveHandlerFor = key =>
 export const hasKeystrokeToPrevent = () => {
   /**
    * Get the element with focus.
-   * ! This will only work with focusable elements, (ie: with tabindex = -1)
+   * ! This will only work with focusable elements, (ie: with tabindex = -1 or input)
    */
   // eslint-disable-next-line prefer-destructuring
   const activeElement = document.activeElement;
@@ -34,12 +34,24 @@ export const hasKeystrokeToPrevent = () => {
 const keystrokeHandler = e => {
   const keyName = Keyboard.getKeyName(e.charCode || e.which || e.keyCode);
   const keyHandlers = register[keyName];
-  const { notPrevent } = hasKeystrokeToPrevent(e);
-  const inputEventOnFocus =
-    isEditableInputOnFocus() && (keyName === 'back' || keyName === 'enter');
 
   // handlerContext: Do not execute keystroke handlers for non global(window target) events
-  if (notPrevent && hasActiveHandlerFor(keyName) && !inputEventOnFocus) {
+  const { notPrevent } = hasKeystrokeToPrevent(e);
+
+  // Check if we have a editable input with focus
+  const isInputOnFocus = isEditableInputOnFocus();
+
+  // prevent back or enter keystrokes to execute simultaneously with on:submit event
+  const inputEventOnFocus =
+    isInputOnFocus && (keyName === 'back' || keyName === 'enter');
+
+  // foward close event for registered keystrokes
+  const inputEventOnClose = isInputOnFocus && keyName === 'close';
+
+  if (
+    inputEventOnClose ||
+    (notPrevent && hasActiveHandlerFor(keyName) && !inputEventOnFocus)
+  ) {
     e.preventDefault();
     e.stopImmediatePropagation();
 
