@@ -23,7 +23,7 @@ const enIp = () => {
 
 module.exports = ({ css, js, title, publicPath }) => {
   let weinre = false;
-  if (IS_DEV) {
+  if (IS_DEV && !IS_BROWSER) {
     const weinreIp = enIp();
     if (weinreIp) {
       weinre = `<script src="http://${weinreIp}:9000/target/target-script-min.js#anonymous"></script>`;
