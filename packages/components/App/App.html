@@ -16,17 +16,12 @@
 <script>
   import App from '@mamba/pos/api/app.js';
   import Keyboard from '@mamba/pos/api/keyboard.js';
-  import { hasActiveHandlerFor, hasKeystrokeToPrevent, dispatchEventOn } from './includes/index.js';
-
-  /** Return if a certain shortcut key is valid */
-  const isEditableInputOnFocus = () => {
-    const targetEl = document.activeElement;
-    const isTextInputEl =
-      targetEl.tagName === 'INPUT' || targetEl.tagName === 'TEXTAREA';
-    const isEditable = targetEl.disabled !== true && targetEl.readOnly !== true;
-
-    return isTextInputEl && isEditable;
-  };
+  import {
+    hasActiveHandlerFor,
+    hasKeystrokeToPrevent,
+    dispatchEventOn,
+    isEditableInputOnFocus,
+  } from './includes/index.js';
 
   export default {
     components: {
@@ -245,10 +240,9 @@
         const { notPrevent, handlerContext } = hasKeystrokeToPrevent();
         const keyName = Keyboard.getKeyName(keyCode);
 
-        if(notPrevent) {
-          if (e.defaultPrevented || hasActiveHandlerFor(keyName)) {
-            return;
-          }
+
+        if ((e.defaultPrevented || hasActiveHandlerFor(keyName)) || notPrevent) {
+          return;
         }
 
         const { shortcuts: shortcutsEnabled } = this.get();

@@ -4,6 +4,7 @@ import {
   removeHandler,
   hasKeystrokeToPrevent,
   hasActiveHandlerFor,
+  isEditableInputOnFocus,
 } from './KeystrokeRegister.js';
 
 export {
@@ -11,5 +12,6 @@ export {
   removeHandler,
   hasKeystrokeToPrevent,
   hasActiveHandlerFor,
+  isEditableInputOnFocus,
 };
 export { dispatchEventOn };

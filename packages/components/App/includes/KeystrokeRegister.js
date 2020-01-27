@@ -4,6 +4,16 @@ const register = {
   length: 0,
 };
 
+/** Return if a certain shortcut key is valid */
+export const isEditableInputOnFocus = () => {
+  const targetEl = document.activeElement;
+  const isTextInputEl =
+    targetEl.tagName === 'INPUT' || targetEl.tagName === 'TEXTAREA';
+  const isEditable = targetEl.disabled !== true && targetEl.readOnly !== true;
+
+  return isTextInputEl && isEditable;
+};
+
 export const hasActiveHandlerFor = key =>
   !!register[key] && register[key].length > 0;
 
@@ -25,8 +35,11 @@ const keystrokeHandler = e => {
   const keyName = Keyboard.getKeyName(e.charCode || e.which || e.keyCode);
   const keyHandlers = register[keyName];
   const { notPrevent } = hasKeystrokeToPrevent(e);
+  const inputEventOnFocus =
+    isEditableInputOnFocus() && (keyName === 'back' || keyName === 'enter');
+
   // handlerContext: Do not execute keystroke handlers for non global(window target) events
-  if (notPrevent && hasActiveHandlerFor(keyName)) {
+  if (notPrevent && hasActiveHandlerFor(keyName) && !inputEventOnFocus) {
     e.preventDefault();
     e.stopImmediatePropagation();
 
