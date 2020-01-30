@@ -3,6 +3,9 @@
 O módulo `Range` pode ser usado para representar um valor dentro de um intervalo, que pode ser alterado a partir dos botões nas laterais.
 
 <!-- @example ./example/Example.Html -->
+<div class="iframe-wrapper">
+  <iframe src="http://bundlebrowser.mambaweb.now.sh/#!/range"></iframe>
+</div>
 
 ## Parâmetros
 

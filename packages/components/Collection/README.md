@@ -4,6 +4,9 @@ O módulo `Collection` é composto por dois componentes: `Collection` e `Row`, q
 `Collection` é um conjunto de `Row` de um assunto comum, semelhante a uma tabela com apenas uma coluna e diversas linhas.
 
 <!-- @example ./example/Example.html -->
+<div class="iframe-wrapper">
+  <iframe src="http://bundlebrowser.mambaweb.now.sh/#!/collection"></iframe>
+</div>
 
 ## Parâmetros
 

@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.23.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.23.1...v2.23.2) (2020-01-27)
+
+
+### Bug Fixes
+
+* 🐛 embed app link to another package ([f19bfeb](https://github.com/stone-payments/pos-mamba-sdk/commit/f19bfebfc17ec76677ea727b34c85dd76e8e525e))
+
+
+
+
+
+## [2.23.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.23.0...v2.23.1) (2020-01-07)
+
+**Note:** Version bump only for package mamba-sdk
+
+
+
+
+
+# [2.23.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.22.0...v2.23.0) (2020-01-02)
+
+
+### Bug Fixes
+
+* 🐛 add way to reset navigable route to default ([6031cc6](https://github.com/stone-payments/pos-mamba-sdk/commit/6031cc673d494971e848ef09ff04b6a59a858008))
+
+
+
+
+
+## [2.22.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.22.0...v2.22.2) (2020-01-02)
+
+
+### Bug Fixes
+
+* 🐛 add way to reset navigable route to default ([6031cc6](https://github.com/stone-payments/pos-mamba-sdk/commit/6031cc673d494971e848ef09ff04b6a59a858008))
+
+
+
+
+
 ## [2.22.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.22.0...v2.22.1) (2019-12-19)
 
 
