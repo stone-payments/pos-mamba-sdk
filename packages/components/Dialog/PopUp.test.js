@@ -11,6 +11,9 @@ root.meta = root.createDummy({
     setNavigable(o) {
       this.set({ navigable: o });
     },
+    setShortcuts(isEnabled) {
+      this.set({ shortcuts: isEnabled });
+    },
   },
 });
 

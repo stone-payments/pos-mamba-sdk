@@ -19,7 +19,7 @@
           go(path) {
             this.set({ context: { path }, path });
           },
-          back() {},
+          back() { },
         },
       });
 
@@ -32,6 +32,9 @@
           hasAppbar: false,
         },
         methods: {
+          setShortcuts(isEnabled) {
+            this.set({ shortcuts: isEnabled });
+          },
           setNavigable(o) {
             this.set({ navigable: o });
           },
