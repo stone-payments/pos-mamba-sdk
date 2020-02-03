@@ -4,6 +4,9 @@ O módulo `Progress` é composto por dois componentes: `ProgressBar` e `Circular
 utilizados para representar a execução de uma tarefa, que pode ter etapas definidas ou não.
 
 <!-- @example ./example/Example.Html -->
+<div class="iframe-wrapper">
+  <iframe src="http://bundlebrowser.mambaweb.now.sh/#!/progress"></iframe>
+</div>
 
 ## Parâmetros
 

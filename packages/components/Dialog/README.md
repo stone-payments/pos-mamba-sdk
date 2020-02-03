@@ -4,6 +4,9 @@ O módulo `Dialog` é composto por 3 componentes: `Dialog`, `ConfirmationDialog`
 O `PromisedDialog` é exibido durante a execução de uma `Promise` e após sua conclusão fecha o modal. Já o `ConfirmationDialog` exibe uma tela com dois botões que controlam o fluxo da aplicação. Para casos de apenas uma exibição de mensagem durante um período de tempo, o uso do `Dialog` é aconselhável.
 
 <!-- @example ./example/Example.html -->
+<div class="iframe-wrapper">
+  <iframe src="http://bundlebrowser.mambaweb.now.sh/#!/dialog"></iframe>
+</div>
 
 ## Parâmetros
 
