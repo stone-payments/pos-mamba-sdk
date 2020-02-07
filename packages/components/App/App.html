@@ -16,17 +16,12 @@
 <script>
   import App from '@mamba/pos/api/app.js';
   import Keyboard from '@mamba/pos/api/keyboard.js';
-  import { hasActiveHandlerFor } from './includes/KeystrokeRegister.js';
-
-  /** Return if a certain shortcut key is valid */
-  const isEditableInputOnFocus = () => {
-    const targetEl = document.activeElement;
-    const isTextInputEl =
-      targetEl.tagName === 'INPUT' || targetEl.tagName === 'TEXTAREA';
-    const isEditable = targetEl.disabled !== true && targetEl.readOnly !== true;
-
-    return isTextInputEl && isEditable;
-  };
+  import {
+    hasActiveHandlerFor,
+    hasKeystrokeToPrevent,
+    dispatchEventOn,
+    isEditableInputOnFocus,
+  } from './includes/index.js';
 
   export default {
     components: {
@@ -240,9 +235,14 @@
           }
         }
 
+        const { notPrevent, handlerContext } = hasKeystrokeToPrevent();
         const keyName = Keyboard.getKeyName(keyCode);
-        if (e.defaultPrevented || hasActiveHandlerFor(keyName)) {
-          return;
+
+
+        if(handlerContext === document) {
+          if (e.defaultPrevented || hasActiveHandlerFor(keyName)) {
+            return;
+          }
         }
 
         const { shortcuts: shortcutsEnabled } = this.get();
@@ -262,8 +262,9 @@
           }
         }
 
+
         /** If the key is not mapped or a input is focused, do nothing */
-        if (isEditableInputOnFocus()) {
+        if (isEditableInputOnFocus(e.target)) {
           return;
         }
 
@@ -280,7 +281,7 @@
         }
 
         /** Find the first element with shortcurt='keyName' */
-        const shortcutEls = document.querySelectorAll(`[shortcut='${keyName}']`);
+        const shortcutEls = handlerContext.querySelectorAll(`[shortcut='${keyName}']`);
 
         /** If shortcuts are disabled or no shortcut element found, do nothing */
         if (!shortcutsEnabled || shortcutEls.length === 0) {
@@ -298,30 +299,13 @@
          * If a shortcut element was found.
          * If 'enter' was clicked, check if the shortcut element isn't already focused
          */
-        if (keyName !== 'enter' || document.activeElement !== shortcutEl) {
-          /**
-           * Adapted from:
-           * https://stackoverflow.com/questions/15739263/phantomjs-click-an-element
-           */
-          const clickEvent = document.createEvent('MouseEvent');
-          clickEvent.initMouseEvent(
-            'click',
-            true,
-            true,
-            window,
-            null,
-            0,
-            0,
-            0,
-            0,
-            false,
-            false,
-            false,
-            false,
-            0,
-            null,
-          );
-          shortcutEl.dispatchEvent(clickEvent);
+        if(!notPrevent && handlerContext !== document) {
+          dispatchEventOn(shortcutEl);
+          return;
+        }
+
+        if ( (keyName !== 'enter' || document.activeElement !== shortcutEl)) {
+          dispatchEventOn(shortcutEl);
         }
       },
     },
