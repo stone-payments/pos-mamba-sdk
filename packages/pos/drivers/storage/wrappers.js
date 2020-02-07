@@ -1,9 +1,9 @@
 export default function(driver) {
-  driver.setItem = (key, value, idAppStorage = -1) => {
+  driver.setItem = (key, value) => {
     if (typeof value !== 'string') {
       value = JSON.stringify(value);
     }
-    driver.set(key, value, idAppStorage);
+    driver.set(key, value);
     return true;
   };
 
