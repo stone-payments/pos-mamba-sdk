@@ -4,37 +4,43 @@ O módulo `Dialog` é composto por 3 componentes: `Dialog`, `ConfirmationDialog`
 O `PromisedDialog` é exibido durante a execução de uma `Promise` e após sua conclusão fecha o modal. Já o `ConfirmationDialog` exibe uma tela com dois botões que controlam o fluxo da aplicação. Para casos de apenas uma exibição de mensagem durante um período de tempo, o uso do `Dialog` é aconselhável.
 
 <!-- @example ./example/Example.html -->
+<div class="iframe-wrapper">
+  <iframe src="http://bundlebrowser.mambaweb.now.sh/#!/dialog"></iframe>
+</div>
 
 ## Parâmetros
 
 `<Dialog ...props />`
 
-| Parâmetro  | Descrição                                          | Tipo      | Padrão      |
-| ---------- | -------------------------------------------------- | --------- | ----------- |
-| align      | Alinhamento vertical do conteúdo (`top`, `center`) | `string`  | `center`    |
-| bgColor    | Define a cor de fundo do modal                     | `string`  | `'#e3e3e3'` |
-| textColor  | Define a cor do texto do modal                     | `boolean` | `'#4a4a4a'` |
-| isOpen     | Define se o modal vai estar aberto por padrão      | `boolean` | `'false'`   |
-| title      | Título do modal                                    | `string`  | `undefined` |
-| fullscreen | Define se o modal ocupará a tela inteira           | `boolean` | `false`     |
+| Parâmetro  | Descrição                                             | Tipo      | Padrão      |
+| ---------- | --------------------------------------------------    | --------- | ----------- |
+| align      | Alinhamento vertical do conteúdo (`top`, `center`)    | `string`  | `center`    |
+| bgColor    | Define a cor de fundo do modal                        | `string`  | `'#e3e3e3'` |
+| textColor  | Define a cor do texto do modal                        | `boolean` | `'#4a4a4a'` |
+| isOpen     | Define se o modal vai estar aberto por padrão         | `boolean` | `'false'`   |
+| title      | Título do modal                                       | `string`  | `undefined` |
+| fullscreen | Define se o modal ocupará a tela inteira              | `boolean` | `false`     |
+| className  | Classe a ser adicionado ao elemento pai do componente | `string`  | ``          |
 
 `<ConfirmationDialog ...props />`
 
-| Parâmetro     | Descrição                                     | Tipo      | Padrão        |
-| ------------- | --------------------------------------------- | --------- | ------------- |
-| negativeLabel | Texto no Botão de Confirmação Negativa        | `string`  | `'Cancelar'`  |
-| positiveLabel | Texto no Botão de Confirmação Positiva        | `string`  | `'Confirmar'` |
-| isOpen        | Define se o modal vai estar aberto por padrão | `boolean` | `'false'`     |
-| title         | Título do modal                               | `string`  | `undefined`   |
+| Parâmetro     | Descrição                                             | Tipo      | Padrão        |
+| ------------- | ---------------------------------------------         | --------- | ------------- |
+| negativeLabel | Texto no Botão de Confirmação Negativa                | `string`  | `'Cancelar'`  |
+| positiveLabel | Texto no Botão de Confirmação Positiva                | `string`  | `'Confirmar'` |
+| isOpen        | Define se o modal vai estar aberto por padrão         | `boolean` | `'false'`     |
+| title         | Título do modal                                       | `string`  | `undefined`   |
+| className     | Classe a ser adicionado ao elemento pai do componente | `string`  | ``            |
 
 `<PromisedDialog ...props />`
 
-| Parâmetro | Descrição                                      | Tipo      | Padrão      |
-| --------- | ---------------------------------------------- | --------- | ----------- |
-| delay     | Tempo de espera depois de executar a `Promise` | `string`  | `'right'`   |
-| promise   | A `Promise` a ser executada                    | `boolean` | `false`     |
-| isOpen    | Define se o modal vai estar aberto por padrão  | `boolean` | `'false'`   |
-| title     | Título do modal                                | `string`  | `undefined` |
+| Parâmetro | Descrição                                             | Tipo      | Padrão      |
+| --------- | ----------------------------------------------        | --------- | ----------- |
+| delay     | Tempo de espera depois de executar a `Promise`        | `string`  | `'right'`   |
+| promise   | A `Promise` a ser executada                           | `boolean` | `false`     |
+| isOpen    | Define se o modal vai estar aberto por padrão         | `boolean` | `'false'`   |
+| title     | Título do modal                                       | `string`  | `undefined` |
+| className | Classe a ser adicionado ao elemento pai do componente | `string`  | ``          |
 
 `<Popup ...props />`
 
