@@ -5,7 +5,10 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.25.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.23.4...v2.25.0) (2020-02-17)
 
-**Note:** Version bump only for package @mamba/switch
+
+### Features
+
+* 🎸 created Toast component ([97c1fae](https://github.com/stone-payments/pos-mamba-sdk/commit/97c1fae3ef7ae91fbc45977ac908006197282571))
 
 
 
@@ -13,7 +16,10 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.24.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.23.4...v2.24.0) (2020-02-17)
 
-**Note:** Version bump only for package @mamba/switch
+
+### Features
+
+* 🎸 created Toast component ([97c1fae](https://github.com/stone-payments/pos-mamba-sdk/commit/97c1fae3ef7ae91fbc45977ac908006197282571))
 
 
 
@@ -21,7 +27,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.23.4](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.23.2...v2.23.4) (2020-01-30)
 
-**Note:** Version bump only for package @mamba/switch
+**Note:** Version bump only for package @mamba/button
 
 
 
@@ -29,7 +35,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.23.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.23.1...v2.23.2) (2020-01-27)
 
-**Note:** Version bump only for package @mamba/switch
+**Note:** Version bump only for package @mamba/button
 
 
 
@@ -37,7 +43,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.23.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.23.0...v2.23.1) (2020-01-07)
 
-**Note:** Version bump only for package @mamba/switch
+**Note:** Version bump only for package @mamba/button
 
 
 
@@ -45,7 +51,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.23.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.22.0...v2.23.0) (2020-01-02)
 
-**Note:** Version bump only for package @mamba/switch
+**Note:** Version bump only for package @mamba/button
 
 
 
@@ -53,7 +59,23 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.22.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.22.0...v2.22.2) (2020-01-02)
 
-**Note:** Version bump only for package @mamba/switch
+**Note:** Version bump only for package @mamba/button
+
+
+
+
+
+## [2.22.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.22.0...v2.22.1) (2019-12-19)
+
+**Note:** Version bump only for package @mamba/button
+
+
+
+
+
+# [2.22.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.18.0...v2.22.0) (2019-12-18)
+
+**Note:** Version bump only for package @mamba/button
 
 
 
@@ -141,7 +163,7 @@ Removed wrong text.
 
 
 
-**Note:** Version bump only for package @mamba/switch
+**Note:** Version bump only for package @mamba/button
 
 
 
@@ -149,7 +171,7 @@ Removed wrong text.
 
 # [2.10.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.9.1...v2.10.0) (2019-07-25)
 
-**Note:** Version bump only for package @mamba/switch
+**Note:** Version bump only for package @mamba/button
 
 
 
@@ -157,7 +179,7 @@ Removed wrong text.
 
 ## [2.9.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.8.3...v2.9.1) (2019-07-19)
 
-**Note:** Version bump only for package @mamba/switch
+**Note:** Version bump only for package @mamba/button
 
 
 
@@ -165,7 +187,7 @@ Removed wrong text.
 
 ## [2.9.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.8.3...v2.9.1) (2019-07-19)
 
-**Note:** Version bump only for package @mamba/switch
+**Note:** Version bump only for package @mamba/button
 
 
 
@@ -173,7 +195,7 @@ Removed wrong text.
 
 ## [2.9.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.8.3...v2.9.1) (2019-07-19)
 
-**Note:** Version bump only for package @mamba/switch
+**Note:** Version bump only for package @mamba/button
 
 
 
@@ -206,7 +228,7 @@ Removed wrong text.
 
 ## [2.8.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.7.2...v2.8.2) (2019-05-27)
 
-**Note:** Version bump only for package @mamba/switch
+**Note:** Version bump only for package @mamba/button
 
 
 
@@ -214,7 +236,7 @@ Removed wrong text.
 
 ## [2.7.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.7.1...v2.7.2) (2019-04-12)
 
-**Note:** Version bump only for package @mamba/switch
+**Note:** Version bump only for package @mamba/button
 
 
 
@@ -222,7 +244,7 @@ Removed wrong text.
 
 ## [2.7.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.7.0...v2.7.1) (2019-04-10)
 
-**Note:** Version bump only for package @mamba/switch
+**Note:** Version bump only for package @mamba/button
 
 
 
@@ -230,7 +252,7 @@ Removed wrong text.
 
 # [2.7.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.6.4...v2.7.0) (2019-04-10)
 
-**Note:** Version bump only for package @mamba/switch
+**Note:** Version bump only for package @mamba/button
 
 
 
@@ -238,7 +260,7 @@ Removed wrong text.
 
 ## [2.6.4](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.6.3...v2.6.4) (2019-04-03)
 
-**Note:** Version bump only for package @mamba/switch
+**Note:** Version bump only for package @mamba/button
 
 
 
@@ -246,7 +268,7 @@ Removed wrong text.
 
 ## [2.6.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.6.2...v2.6.3) (2019-04-02)
 
-**Note:** Version bump only for package @mamba/switch
+**Note:** Version bump only for package @mamba/button
 
 
 
@@ -254,7 +276,7 @@ Removed wrong text.
 
 # [2.6.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.5.3...v2.6.0) (2019-03-21)
 
-**Note:** Version bump only for package @mamba/switch
+**Note:** Version bump only for package @mamba/button
 
 
 
@@ -262,7 +284,7 @@ Removed wrong text.
 
 ## [2.5.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.5.2...v2.5.3) (2019-02-22)
 
-**Note:** Version bump only for package @mamba/switch
+**Note:** Version bump only for package @mamba/button
 
 
 
@@ -270,7 +292,10 @@ Removed wrong text.
 
 ## [2.5.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.4.1...v2.5.2) (2019-02-21)
 
-**Note:** Version bump only for package @mamba/switch
+
+### Features
+
+* 🎸 add size=fill for 100% buttons with no border-radius ([b62136a](https://github.com/stone-payments/pos-mamba-sdk/commit/b62136a))
 
 
 
@@ -278,7 +303,7 @@ Removed wrong text.
 
 ## [2.5.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.4.1...v2.5.1) (2019-02-21)
 
-**Note:** Version bump only for package @mamba/switch
+**Note:** Version bump only for package @mamba/button
 
 
 
@@ -286,7 +311,7 @@ Removed wrong text.
 
 # [2.5.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.4.1...v2.5.0) (2019-02-21)
 
-**Note:** Version bump only for package @mamba/switch
+**Note:** Version bump only for package @mamba/button
 
 
 
@@ -294,4 +319,4 @@ Removed wrong text.
 
 # 2.4.0 (2019-02-12)
 
-**Note:** Version bump only for package @mamba/switch
+**Note:** Version bump only for package @mamba/button

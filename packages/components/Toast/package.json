@@ -1,18 +1,20 @@
 {
-  "name": "@mamba/barcode",
+  "name": "@mamba/toast",
   "version": "2.25.0",
-  "svelte": "Barcode.html",
+  "svelte": "Toast.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {
-    "@mamba/styles": "^2.25.0",
-    "jsbarcode": "^3.11.0"
+  "devDependencies": {
+    "@mamba/icon": "^2.25.0"
   },
-  "gitHead": "869644effc7b7347a2ff75c956c57d69ee8236a5",
+  "dependencies": {
+    "@mamba/styles": "^2.25.0"
+  },
   "peerDependencies": {
     "@mamba/pos": "^2.8.2"
-  }
+  },
+  "gitHead": "869644effc7b7347a2ff75c956c57d69ee8236a5"
 }
