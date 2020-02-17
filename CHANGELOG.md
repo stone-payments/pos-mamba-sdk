@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.25.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.23.4...v2.25.0) (2020-02-17)
+
+
+### Bug Fixes
+
+* 🐛 confirmation dialog triggers beneath events ([5a77bb4](https://github.com/stone-payments/pos-mamba-sdk/commit/5a77bb4f927e2f4b42207dd2a5f32590caa58af8))
+* 🐛 do not prevent row shortcut; better control for focus el ([6aae85a](https://github.com/stone-payments/pos-mamba-sdk/commit/6aae85a39867c7c35d8365af3809695a60fb4c84))
+* 🐛 elements on focus be triggered by beneath keystroke/shortcut ([686e7f0](https://github.com/stone-payments/pos-mamba-sdk/commit/686e7f0b5261144313a2607d483c49280b9d71ae))
+* 🐛 prevent next keystroke to trigger on input focus ([d642749](https://github.com/stone-payments/pos-mamba-sdk/commit/d642749b67e131b1f7032c2bc5c2df1ba8221b65))
+
+
+### Features
+
+* 🎸 add className prop ([952b434](https://github.com/stone-payments/pos-mamba-sdk/commit/952b434cd1e0c1fd38a0fbb3b76a92a0c6a7d462))
+* 🎸 created Toast component ([97c1fae](https://github.com/stone-payments/pos-mamba-sdk/commit/97c1fae3ef7ae91fbc45977ac908006197282571))
+
+
+
+
+
 # [2.24.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.23.4...v2.24.0) (2020-02-17)
 
 
