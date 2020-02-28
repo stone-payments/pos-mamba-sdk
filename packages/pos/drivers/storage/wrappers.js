@@ -7,8 +7,8 @@ export default function(driver) {
     return true;
   };
 
-  driver.getItem = key => {
-    const value = driver.get(key) || null;
+  driver.getItem = (key, idAppStorage = -1) => {
+    const value = driver.get(key, idAppStorage) || null;
     try {
       return JSON.parse(value);
     } catch (e) {
