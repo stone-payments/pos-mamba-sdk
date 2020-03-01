@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.26.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.26.0...v2.26.1) (2020-03-01)
+
+
+### Bug Fixes
+
+* 🐛 Reimpression message change to NOT SHOW on PreAuth ([54eb88d](https://github.com/stone-payments/pos-mamba-sdk/commit/54eb88d1053752025c0917b1e162928d052af6f0))
+
+
+
+
+
 # [2.26.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.25.0...v2.26.0) (2020-02-28)
 
 
