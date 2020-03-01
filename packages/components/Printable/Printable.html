@@ -20,13 +20,14 @@
     ref:failureDialog
     on:close="fire('finish', true)"
   >
-    {#if $transactionType}
       <img class="failure-dialog-icon" src={alertIcon} alt="" />
       <h1 class="title-dialog">ERRO NA IMPRESSÃO</h1>
-      <p class="failure-dialog-txt">
-        A filipeta ainda está disponível no app <strong>Reimpressão</strong>.
-      </p>
-    {/if}
+        <!-- *** Shows when is Payment AND is not PreAuth ***  -->
+        {#if $transactionType && !$config.isPreAuth}
+          <p class="failure-dialog-txt">
+            A filipeta ainda está disponível no app <strong>Reimpressão</strong>.
+          </p>
+        {/if}
   </Dialog>
 {/if}
 
@@ -52,6 +53,9 @@
     helpers: {
       STATES,
       alertIcon,
+    },
+    oncreate() {
+      console.log(`STATE => ${JSON.stringify(this.get())}`);
     },
     data() {
       return {
