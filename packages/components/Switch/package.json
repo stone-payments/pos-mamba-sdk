@@ -1,6 +1,6 @@
 {
   "name": "@mamba/switch",
-  "version": "2.26.0",
+  "version": "2.26.1",
   "svelte": "Switch.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -8,7 +8,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@mamba/styles": "^2.26.0"
+    "@mamba/styles": "^2.26.1"
   },
   "peerDependencies": {
     "@mamba/pos": "^2.8.2"
