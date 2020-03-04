@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.26.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.26.0...v2.26.1) (2020-03-01)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+# [2.26.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.25.0...v2.26.0) (2020-02-28)
+
+
+### Bug Fixes
+
+* 🐛 Fix merge ([584ad10](https://github.com/stone-payments/pos-mamba-sdk/commit/584ad100bab1ad42108710972920794d90c71160))
+* 🐛 Removed default parameter on set method storage ([7cff753](https://github.com/stone-payments/pos-mamba-sdk/commit/7cff753ab17b79fcfb6a3ceb0f8677bee00abf9f))
+
+
+### Features
+
+* 🎸 Updated storage method ([142d82a](https://github.com/stone-payments/pos-mamba-sdk/commit/142d82a143f90b73c8a72bc4759d621513e72759))
+
+
+
+
+
+# [2.25.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.23.4...v2.25.0) (2020-02-17)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+# [2.24.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.23.4...v2.24.0) (2020-02-17)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
 ## [2.23.4](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.23.2...v2.23.4) (2020-01-30)
 
 **Note:** Version bump only for package @mamba/pos
