@@ -2,7 +2,7 @@
 
 O módulo `Switch` é usado para ativar opções predefinida.
 
-<!-- @example ./example/Example.Html -->
+
 <div class="iframe-wrapper">
   <iframe src="http://bundlebrowser.mambaweb.now.sh/#!/switch"></iframe>
 </div>
