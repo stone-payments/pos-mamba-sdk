@@ -2,7 +2,7 @@
 
 O componente `Radio` é usado para selecionar uma opção dentre as alternadas.
 
-<!-- @example ./example/Example.html-->
+
 <div class="iframe-wrapper">
   <iframe src="http://bundlebrowser.mambaweb.now.sh/#!/radio"></iframe>
 </div>

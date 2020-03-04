@@ -4,7 +4,7 @@ O módulo Icon possui dois componentes: `Icon` e `RoundIcon`. Ambos facilitam a 
 imagens padrões já disponíveis em nossa SDK. Além das imagens, também é possível customizar o estilo
 do ícone e utilizar uma imagem própria.
 
-<!-- @example ./example/Example.Html -->
+
 <div class="iframe-wrapper">
   <iframe src="http://bundlebrowser.mambaweb.now.sh/#!/icon"></iframe>
 </div>
