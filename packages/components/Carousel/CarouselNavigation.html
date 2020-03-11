@@ -1,12 +1,4 @@
 <div class="carousel">
-  <button class="prev" {style} on:click="_previousSlide()">
-    <Icon symbol="chevron-left" color="{navColor}" />
-  </button>
-
-  <button class="next" {style} on:click="_nextSlide()">
-    <Icon symbol="chevron-right" color="{navColor}" />
-  </button>
-
   <div class="wrapper">
     {#each slides as slide, index}
     <img
@@ -17,6 +9,20 @@
     />
     {/each}
   </div>
+  <div class="navigation">
+    <button class="prev" {style} on:click="_previousSlide()">
+      <Icon symbol="chevron-left" color="{navColor}" />
+    </button>
+      <div class="dots">
+      {#each Array(slides.length) as dots, index}
+        <div  style="background-color: {count === index ? navBg : '#E1DFDF'};"></div>
+      {/each}
+    </div>
+    <button class="next" {style} on:click="_nextSlide()">
+      <Icon symbol="chevron-right" color="{navColor}" />
+    </button>
+  </div>
+
 </div>
 
 <script>
@@ -36,6 +42,7 @@
         count: 0,
         navBg: '#425963',
         navColor: '#ffffff',
+        infinity: true,
       };
     },
     computed: {
@@ -45,27 +52,34 @@
     },
     methods: {
       _previousSlide() {
-        const { slides } = this.get();
+        const { slides, infinity } = this.get();
         let { count } = this.get();
 
         if (count === 0) {
-          this.set({ count: slides.length - 1 });
+          if(infinity){
+            this.set({ count: slides.length - 1 });
+          }
         } else {
           const newCount = --count;
           this.set({ count: newCount });
         }
       },
       _nextSlide() {
-        const { slides } = this.get();
+        const { slides, infinity } = this.get();
         let { count } = this.get();
 
         if (count >= slides.length - 1) {
-          this.set({ count: 0 });
+          if(infinity){
+            this.set({ count: 0 });
+          } else {
+            this.fire('finish');
+          }
         } else {
           const newCount = ++count;
           this.set({ count: newCount });
         }
       },
+
     },
   };
 </script>
@@ -73,11 +87,34 @@
 <style type="text/postcss">
   .carousel {
     width: 100%;
-    position: relative;
+
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 9px;
+      margin: 2px 0;
+
+      .dots {
+        display: flex;
+        margin: 0 11px;
+        flex: 1;
+        flex-wrap: wrap;
+        align-items: center;
+
+        div {
+          background: #e1dfdf;
+          margin: 2px;
+          width: 15px;
+          height: 3px;
+          border-radius: 5px;
+        }
+      }
+    }
   }
 
   .carousel-item {
-    max-width: 145px;
+    max-width: 100%;
     height: inherit;
     margin: 0 auto;
     display: none;
@@ -90,10 +127,6 @@
     border-radius: 50%;
     border: 0;
     padding: 0;
-    /* vertical align */
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
   }
 
   .prev {
