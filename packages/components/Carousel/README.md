@@ -2,9 +2,9 @@
 
 O módulo `Carousel` recebe um array de imagens e cria um carrossel para a exibição delas.
 
-<!-- @example ./example/Example.html -->
+
 <div class="iframe-wrapper">
-  <iframe src="http://bundlebrowser.mambaweb.now.sh/#!/carousel"></iframe>
+  <iframe src="https://bundlebrowser.mambaweb.now.sh/#!/carousel"></iframe>
 </div>
 
 ## Parâmetros
