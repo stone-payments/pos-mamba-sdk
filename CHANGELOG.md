@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.26.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.26.1...v2.26.2) (2020-03-12)
+
+
+### Bug Fixes
+
+* 🐛 Fixed eye button to show password when input is disabled ([8b93eaa](https://github.com/stone-payments/pos-mamba-sdk/commit/8b93eaa1cdc96f83a859d98a43efe07dfd600d34))
+* 🐛 iframe embed https ([a5a5ede](https://github.com/stone-payments/pos-mamba-sdk/commit/a5a5ede812cd34b82e4c4a851b984a87c1671095))
+* 🐛 remove log ([6539a59](https://github.com/stone-payments/pos-mamba-sdk/commit/6539a59ff09838b36d50058695917fc1be5ca02f))
+
+
+
+
+
 ## [2.26.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.26.0...v2.26.1) (2020-03-01)
 
 
