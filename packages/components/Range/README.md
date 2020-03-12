@@ -4,7 +4,7 @@ O módulo `Range` pode ser usado para representar um valor dentro de um interval
 
 
 <div class="iframe-wrapper">
-  <iframe src="http://bundlebrowser.mambaweb.now.sh/#!/range"></iframe>
+  <iframe src="https://bundlebrowser.mambaweb.now.sh/#!/range"></iframe>
 </div>
 
 ## Parâmetros

@@ -3,7 +3,7 @@
 O Componente `Barcode` permite de modo fácil criar códigos de barras, além de permitir estilizá-los.
 
 <div class="iframe-wrapper">
-  <iframe src="http://bundlebrowser.mambaweb.now.sh/#!/barcode"></iframe>
+  <iframe src="https://bundlebrowser.mambaweb.now.sh/#!/barcode"></iframe>
 </div>
 
 ## Parâmetros

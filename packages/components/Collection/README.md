@@ -5,7 +5,7 @@ O módulo `Collection` é composto por dois componentes: `Collection` e `Row`, q
 
 
 <div class="iframe-wrapper">
-  <iframe src="http://bundlebrowser.mambaweb.now.sh/#!/collection"></iframe>
+  <iframe src="https://bundlebrowser.mambaweb.now.sh/#!/collection"></iframe>
 </div>
 
 ## Parâmetros

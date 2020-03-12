@@ -4,7 +4,7 @@ O componente `QRCode` ajuda na criação de códigos `QR` e ainda permite estili
 
 
 <div class="iframe-wrapper">
-  <iframe src="http://bundlebrowser.mambaweb.now.sh/#!/qrcode"></iframe>
+  <iframe src="https://bundlebrowser.mambaweb.now.sh/#!/qrcode"></iframe>
 </div>
 
 ## Parâmetros

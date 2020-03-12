@@ -4,7 +4,7 @@ O Componente `Container` é um espaçamento de respiro para a tela, facilitando 
 
 
 <div class="iframe-wrapper">
-  <iframe src="http://bundlebrowser.mambaweb.now.sh/#!/container"></iframe>
+  <iframe src="https://bundlebrowser.mambaweb.now.sh/#!/container"></iframe>
 </div>
 
 ## Parâmetros

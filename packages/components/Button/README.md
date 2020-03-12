@@ -5,7 +5,7 @@ de customização, podendo até mesmo englobar um outro componente, como pode se
 Além disso, os botões também podem ser acionados por um shortcut e executar métodos por este atalho ou quando clicados.
 
 <div class="iframe-wrapper">
-  <iframe src="http://bundlebrowser.mambaweb.now.sh/#!/button"></iframe>
+  <iframe src="https://bundlebrowser.mambaweb.now.sh/#!/button"></iframe>
 </div>
 
 ## Parâmetros

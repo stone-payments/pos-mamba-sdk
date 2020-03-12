@@ -4,7 +4,7 @@ O módulo `AppBar` é composto por dois componentes: `AppBar` e `AppBarModifier`
 
 
 <div class="iframe-wrapper">
-  <iframe src="http://bundlebrowser.mambaweb.now.sh/#!/appbar"></iframe>
+  <iframe src="https://bundlebrowser.mambaweb.now.sh/#!/appbar"></iframe>
 </div>
 
 ## Parâmetros
