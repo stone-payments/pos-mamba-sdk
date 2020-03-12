@@ -18,6 +18,7 @@
       style="color: {textColor};"
       {readonly}
       {placeholder}
+      {disabled}
       on:keydown
       on:focus="_onFocus(event)"
       on:blur="_onBlur(event)"
@@ -339,11 +340,7 @@
         const { type, _visible, readable } = this.get();
         /** Change password visibility only if element is focused */
         /* istanbul ignore else */
-        if (
-          type === 'password' &&
-          readable &&
-          document.activeElement === this.refs.input
-        ) {
+        if (type === 'password' && readable) {
           this.set({ _visible: !_visible });
           /** We must check for the existence of the input element in case */
           /* istanbul ignore next */
@@ -373,11 +370,6 @@
 
     &.is-invalid {
       border-bottom-color: $input-invalid-border-color;
-    }
-
-    /** disabled inputs should not be allowed to focus (by clicking) */
-    &.is-disabled {
-      pointer-events: none;
     }
   }
 
