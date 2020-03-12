@@ -5,7 +5,7 @@ O `PromisedDialog` é exibido durante a execução de uma `Promise` e após sua 
 
 <!-- @example ./example/Example.html -->
 <div class="iframe-wrapper">
-  <iframe src="http://bundlebrowser.mambaweb.now.sh/#!/dialog"></iframe>
+  <iframe src="https://bundlebrowser.mambaweb.now.sh/#!/dialog"></iframe>
 </div>
 
 ## Parâmetros
