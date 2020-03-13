@@ -3,7 +3,6 @@
   class:is-readable="readable"
   class:is-invalid="!isValid && !!_errorMsg"
   class:is-focused="isFocused"
-  class:is-disabled="disabled"
   style="background-color: {bgColor}; color: {labelColor};"
 >
   {#if label}
@@ -404,6 +403,10 @@
 
     &::placeholder {
       color: #e3e6e7;
+    }
+
+    &:disabled {
+      opacity: 0.61;
     }
   }
 
