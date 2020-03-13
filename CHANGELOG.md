@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.26.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.26.2...v2.26.3) (2020-03-13)
+
+
+### Bug Fixes
+
+* 🐛 fixed input test ([60c305e](https://github.com/stone-payments/pos-mamba-sdk/commit/60c305e82dd6d5dadb1f90bf2b0daaf22b2a09d8))
+* 🐛 Fixed input text color when itś disabled ([6a2ee58](https://github.com/stone-payments/pos-mamba-sdk/commit/6a2ee5839a343f7ccb689c32d7f12162d4d70076))
+
+
+
+
+
 ## [2.26.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.26.1...v2.26.2) (2020-03-12)
 
 
