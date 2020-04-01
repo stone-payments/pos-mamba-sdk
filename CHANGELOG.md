@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.27.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.26.3...v2.27.0) (2020-04-01)
+
+
+### Features
+
+* 🎸 add soSendRequest to not encode uris ([3318ac5](https://github.com/stone-payments/pos-mamba-sdk/commit/3318ac58b7a53d518fd95c737fac794864472aa6))
+
+
+
+
+
 ## [2.26.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.26.2...v2.26.3) (2020-03-13)
 
 
