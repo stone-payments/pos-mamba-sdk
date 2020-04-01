@@ -45,7 +45,11 @@ export default function(driver) {
       ]);
 
       /** Asynchronously make a request at the backend */
-      driver.doSend(opts, refSignal);
+      if (typeof opts === 'object' && opts.encodeURI === false) {
+        driver.doSendRequest(opts, refSignal);
+      } else {
+        driver.doSend(opts, refSignal);
+      }
     });
   };
 

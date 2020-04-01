@@ -31,6 +31,7 @@ export function setup(Http) {
   Http.doSend = function send(
     { method = 'GET', url = '', data, headers, timeout = 30000 },
     refSignal,
+    shouldEncode = false,
   ) {
     const xhttp = new XMLHttpRequest();
 
@@ -64,7 +65,7 @@ export function setup(Http) {
 
     xhttp.onreadystatechange = function onreadystatechange() {
       /** On success state code 4 */
-      if (this.readyState === 4 && (this.status >= 200 && this.status < 300)) {
+      if (this.readyState === 4 && this.status >= 200 && this.status < 300) {
         _data = {
           status: this.status,
           body: this.responseText,
@@ -108,9 +109,11 @@ export function setup(Http) {
       return;
     }
     if (panel.activeProxy) {
-      url = `https://poiproxy.stone.com.br/v1/proxy?url=${encodeURIComponent(
-        url,
-      )}`;
+      if (shouldEncode === true) {
+        url = `https://poiproxy.stone.com.br/v1/proxy?url=${encodeURIComponent(
+          url,
+        )}`;
+      }
       headers['X-Mamba-App'] = panel.appKey;
       headers['X-Mamba-SN'] = Registry.persistent.get().$System.serialNumber;
       headers['X-Stone-Code'] = Registry.persistent.get().$Merchant.stoneCode;
@@ -131,5 +134,9 @@ export function setup(Http) {
     } catch (e) {
       setError.call(xhttp, refSignal);
     }
+  };
+
+  Http.doSendRequest = function send(...args) {
+    Http.doSend.apply(this, [...args, true]);
   };
 }
