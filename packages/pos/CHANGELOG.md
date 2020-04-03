@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.27.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.27.0...v2.27.1) (2020-04-03)
+
+
+### Bug Fixes
+
+* 🐛 check the available of doSendRequest before use it ([b22d8eb](https://github.com/stone-payments/pos-mamba-sdk/commit/b22d8ebd79d4d3e5f7748499f971ae0816b31435))
+
+
+
+
+
 # [2.27.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.26.3...v2.27.0) (2020-04-01)
 
 
