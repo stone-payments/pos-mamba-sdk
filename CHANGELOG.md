@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.27.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.27.1...v2.27.2) (2020-04-15)
+
+
+### Bug Fixes
+
+* 🐛 Fixed print bug ([816bafe](https://github.com/stone-payments/pos-mamba-sdk/commit/816bafe5610e595544c1ba2c21d836f6e62a2395))
+* 🐛 Included id on if statement ([2c1dcb4](https://github.com/stone-payments/pos-mamba-sdk/commit/2c1dcb4e3eaaba8b488507bd2aed925020d3e3e6))
+
+
+
+
+
 ## [2.27.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.27.0...v2.27.1) (2020-04-03)
 
 
