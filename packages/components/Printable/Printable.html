@@ -24,7 +24,7 @@
       <h1 class="title-dialog">ERRO NA IMPRESSÃO</h1>
       <!-- showInfoPrinter works independent of payment app -->
       <!-- You can use whenever you want if the app makes sense to show this info -->
-      {#if showInfoPrinter || ($transactionType && !$config.isPreAuth)}
+      {#if (showInfoPrinter && id) || ($transactionType && !$config.isPreAuth)}
         <p class="failure-dialog-txt">
           A filipeta ainda está disponível no app <strong>Reimpressão</strong>.
         </p>
