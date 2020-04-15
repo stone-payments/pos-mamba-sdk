@@ -22,12 +22,13 @@
   >
       <img class="failure-dialog-icon" src={alertIcon} alt="" />
       <h1 class="title-dialog">ERRO NA IMPRESSÃO</h1>
-        <!-- *** Shows when is Payment AND is not PreAuth ***  -->
-        {#if $transactionType && !$config.isPreAuth}
-          <p class="failure-dialog-txt">
-            A filipeta ainda está disponível no app <strong>Reimpressão</strong>.
-          </p>
-        {/if}
+      <!-- showInfoPrinter works independent of payment app -->
+      <!-- You can use whenever you want if the app makes sense to show this info -->
+      {#if showInfoPrinter || ($transactionType && !$config.isPreAuth)}
+        <p class="failure-dialog-txt">
+          A filipeta ainda está disponível no app <strong>Reimpressão</strong>.
+        </p>
+      {/if}
   </Dialog>
 {/if}
 
@@ -61,6 +62,7 @@
         showPrintingDialog: true,
         dithering: false,
         id: null,
+        showInfoPrinter: false,
       };
     },
     onupdate({ changed, current }) {
