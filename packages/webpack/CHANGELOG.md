@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.27.4](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.27.3...v2.27.4) (2020-04-17)
+
+
+### Bug Fixes
+
+* 🐛 Include publisherName on mambamanifestplugin ([9321d61](https://github.com/stone-payments/pos-mamba-sdk/commit/9321d61d3c83616506dd4594ae0c05ada1472a72))
+* 🐛 Include publisherName on manifest code ([03911b6](https://github.com/stone-payments/pos-mamba-sdk/commit/03911b6df48567285c90143beb03d9be71c54b39))
+
+
+
+
+
 ## [2.27.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.27.2...v2.27.3) (2020-04-17)
 
 **Note:** Version bump only for package @mamba/webpack
