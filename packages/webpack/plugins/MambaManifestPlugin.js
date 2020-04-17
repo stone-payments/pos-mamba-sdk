@@ -26,20 +26,24 @@ const createXmlManifest = () => {
   const isoDate = date.toISOString();
   const modificationDate = isoDate.slice(0, isoDate.length - 5);
 
-  const manifestEntries = Object.entries({
+  const manifestObject = {
     appName: PKG.name,
     defaultName: PKG.name,
     displayedName: PKG.mamba.appName, // Deprecated
     appVersion: PKG.version,
     appDescription: PKG.description,
     appLastModificationDate: modificationDate,
-    publisherName: PKG.author,
     ...DEFAULT_FIELDS,
     ...PKG.mamba,
-  }).map(([name, text]) => ({
-    '@Name': name,
-    '#text': text,
-  }));
+  };
+  if (PKG.author) manifestObject.publisherName = PKG.author;
+
+  const manifestEntries = Object.entries(manifestObject).map(
+    ([name, text]) => ({
+      '@Name': name,
+      '#text': text,
+    }),
+  );
 
   return xmlBuilder
     .create(
