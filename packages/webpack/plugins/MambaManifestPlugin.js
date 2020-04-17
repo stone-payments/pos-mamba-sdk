@@ -33,6 +33,7 @@ const createXmlManifest = () => {
     appVersion: PKG.version,
     appDescription: PKG.description,
     appLastModificationDate: modificationDate,
+    publisherName: PKG.author,
     ...DEFAULT_FIELDS,
     ...PKG.mamba,
   }).map(([name, text]) => ({
