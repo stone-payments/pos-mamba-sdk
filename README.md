@@ -18,7 +18,7 @@ Develop applications using only web technology, without worrying about the compl
 
 <br/>
 <div align="center">
-<div><a href="https://mambasdk-docs.stone.com.br" target="_blank">📝 Documentation</a></div><br/>
+<div><a href="" target="_blank">TODO: Update Docs (📝 Documentation)</a></div><br/>
 <div><img height="21" align="top" src="https://www.stone.com.br/static/images/favicon.png" hspace="1"><a href="https://www.stone.co" target="_blank">&nbsp;Stone.co</a></div> 
 </div>
 <br/>
@@ -36,100 +36,39 @@ Make sure all dependencies have been installed before moving on:
 
 ## 📦 Getting Started
 
-### With `@mamba/cli`
 
 ```shell
-# Install the mamba cli globally if doesn't already have it
-npm i -g @mamba/cli
-
-# Create a new mamba app at 'my-mamba-app' directory
-mamba new app my-mamba-app
-
-? Name: My Mamba App
-? Version: 0.0.1
-? Description: My new Mamba app
-
+  TODO
 ```
 
-
-### Manually
-
-```shell
-# Create and enter your new app directory
-mkdir my-mamba-app
-cd my-mamba-app
-
-# Install the standard mamba app template
-npx degit stone-payments/pos-mamba-app-template
-
-```
 
 ## ⌨️ Development
 
 Once you have completed the installation step, you are ready to start the project!
 
 ```bash
-cd my-mamba-app # Your project folder
-
-# Install its dependencies
-npm i
-
-# Run the development server
-npm run start
+  TODO
 ```
-
-Open your browser and visit http://127.0.0.1:8080 , see more at [Development](https://mambasdk-docs.stone.com.br/guide#desenvolvendo).
-
-
 
 ## 🔨 Components usage
 
 For Web Components, install the component / package that you want to use in the project:
 
 ```bash
-npm install @mamba/button # Button component
-
-
-# If you want to use the dialog component for example:
-
-npm install @mamba/dialog
-
+  TODO
 ```
 
 To import the installed component, simply do one of the following:
 
 
 ```js
-<script>
-import Button from '@mamba/button';
-
-export default {
-  components: { Button }
-}
-</script>
-
-// or
-
-<script>
-export default {
-  components: {
-    Button: '@mamba/button'
-  }
-}
-</script>
+  TODO: Uses example
 ```
 
 
 ## 🧰 Commands
 
-- `npm run lint` - Lint all style and script files;
-- `npm run format` - Format all style and script files;
-- `npm run link:packages` - Create a local link of every package for local developing;
-- `npm run test` - Run all tests once;
-- `npm run test:watch` - Run all tests and keep watching for changes;
-- `npm run release` - Release a new version of the SDK;
-- `lerna run x` - Execute the `x` script in all packages;
-- `lerna run start --scope=@mamba/component --stream` - Run the dev server for a specific component;
+- TODO
 
 ## Contributing
 
@@ -143,7 +82,4 @@ By installing `git-cz` _globally_ (`npm i -g git-cz`) it's possible to use `git 
 
 ## 🔗 Useful links
 
-- [Conventional commits](https://www.conventionalcommits.org/en/v1.0.0-beta.3/)
-- [Mamba App Template](https://github.com/stone-payments/pos-mamba-app-template)
-- [Mamba SDK documentation](https://mambasdk-docs.stone.com.br/)
-- [Lerna documentation](https://github.com/lerna/lerna#readme)
+- TODO
