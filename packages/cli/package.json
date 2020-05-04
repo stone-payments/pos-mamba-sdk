@@ -1,0 +1,7 @@
+{
+  "name": "@mamba/cli",
+  "version": "3.0.0-alpha",
+  "description": "Tools for creating, running, and deploying POS Mamba SDK projects",
+  "author": "Stone Payments",
+  "license": "Apache-2.0"
+}
