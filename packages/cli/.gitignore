@@ -1,0 +1,11 @@
+# Dependency directory
+node_modules
+
+# Logs
+logs
+*.log
+
+# Test coverage directory
+coverage
+
+/build

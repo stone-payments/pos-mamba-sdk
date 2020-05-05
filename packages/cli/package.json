@@ -3,5 +3,50 @@
   "version": "3.0.0-alpha",
   "description": "Tools for creating, running, and deploying POS Mamba SDK projects",
   "author": "Stone Payments",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=6.9.1"
+  },
+  "files": [
+    "build",
+    "bin"
+  ],
+  "scripts": {
+    "start": "yarn run prepare && yarn run watch",
+    "build": "babel lib --out-dir build --extensions \".ts\" --source-maps --ignore \"lib/**/__mocks__/*\",\"lib/**/__tests__/*\"",
+    "watch": "tsc --watch",
+    "prepare": "yarn run clean && yarn run build",
+    "clean": "rimraf build ./tsconfig.tsbuildinfo"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stone-payments/pos-mamba-sdk.git",
+    "directory": "packages/cli"
+  },
+  "keywords": [
+    "sdk",
+    "pos",
+    "stone",
+    "mamba",
+    "svelte"
+  ],
+  "bugs": {
+    "url": "https://github.com/stone-payments/pos-mamba-sdk/issues"
+  },
+  "homepage": "https://github.com/stone-payments/pos-mamba-sdk/blob/develop/packages/cli/README.md",
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.6",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-optional-chaining": "^7.9.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "@babel/preset-typescript": "^7.9.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "@oclif/command": "^1.6.1",
+    "@oclif/config": "^1.15.1"
+  }
 }

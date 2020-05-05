@@ -1,2 +1,6 @@
 node_modules/
+**/ts-declarations/*
+
+# Ignore build artifacts
+/packages/*/build
 dist/
