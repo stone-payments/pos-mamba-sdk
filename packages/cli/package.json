@@ -33,7 +33,7 @@
   "bugs": {
     "url": "https://github.com/stone-payments/pos-mamba-sdk/issues"
   },
-  "homepage": "https://github.com/stone-payments/pos-mamba-sdk/blob/develop/packages/cli/README.md",
+  "homepage": "https://github.com/stone-payments/pos-mamba-sdk/tree/master/packages/cli#readme",
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.6",
