@@ -1,23 +1,24 @@
 {
   "compilerOptions": {
     "outDir": "build",
-    "rootDir": "lib",
-
+    "rootDir": "src",
     "declaration": true,
     "composite": true,
+    // Import non-ES modules as default imports.
     "esModuleInterop": true,
     "inlineSources": true,
     "target": "ES2017",
     "lib": ["ES2017"],
     "module": "CommonJS",
-
+    // Search under node_modules for non-relative imports.
     "moduleResolution": "node",
     "noImplicitReturns": true,
     "resolveJsonModule": true,
     "sourceMap": true,
+    // Enable strictest settings like strictNullChecks & noImplicitAny.
     "strict": true,
     "skipLibCheck": true,
     "typeRoots": ["node_modules/@types", "../../node_modules/@types"]
   },
-  "include": ["lib"]
+  "include": ["src"]
 }
