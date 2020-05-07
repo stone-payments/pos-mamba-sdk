@@ -2,14 +2,18 @@
 .idea
 .DS_Store
 .directory
+.tags*
 npm-debug.log
+.npm-cache
 yarn*.log
 lerna-*
+*.log
+.history
+.idea/*
 /coverage.data
 /coverage
 
 ## Directories
-log/
-dist/
-node_modules/
-bower_components/
+log
+node_modules
+bower_components
