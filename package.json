@@ -13,7 +13,7 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "lint:js": "eslint \"{internal,packages}/**/*.{js,html,svelte}\"",
+    "lint:js": "eslint \"{internal,packages}/**/*.{js,html,svelte}\""
   },
   "husky": {
     "hooks": {
