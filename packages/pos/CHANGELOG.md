@@ -3,6 +3,60 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.27.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.27.2...v2.27.3) (2020-04-17)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+## [2.27.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.27.1...v2.27.2) (2020-04-15)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+## [2.27.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.27.0...v2.27.1) (2020-04-03)
+
+
+### Bug Fixes
+
+* 🐛 check the available of doSendRequest before use it ([b22d8eb](https://github.com/stone-payments/pos-mamba-sdk/commit/b22d8ebd79d4d3e5f7748499f971ae0816b31435))
+
+
+
+
+
+# [2.27.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.26.3...v2.27.0) (2020-04-01)
+
+
+### Features
+
+* 🎸 add soSendRequest to not encode uris ([3318ac5](https://github.com/stone-payments/pos-mamba-sdk/commit/3318ac58b7a53d518fd95c737fac794864472aa6))
+
+
+
+
+
+## [2.26.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.26.2...v2.26.3) (2020-03-13)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+## [2.26.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.26.1...v2.26.2) (2020-03-12)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
 ## [2.26.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.26.0...v2.26.1) (2020-03-01)
 
 **Note:** Version bump only for package @mamba/pos

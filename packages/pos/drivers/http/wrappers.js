@@ -43,9 +43,17 @@ export default function(driver) {
           },
         ],
       ]);
-
+      const hasDoSendRequest = typeof window.$Http.doSendRequest === 'function';
       /** Asynchronously make a request at the backend */
-      driver.doSend(opts, refSignal);
+      if (
+        hasDoSendRequest &&
+        typeof opts === 'object' &&
+        opts.encodeURI === false
+      ) {
+        driver.doSendRequest(opts, refSignal);
+      } else {
+        driver.doSend(opts, refSignal);
+      }
     });
   };
 

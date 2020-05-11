@@ -3,6 +3,60 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.27.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.27.2...v2.27.3) (2020-04-17)
+
+
+### Bug Fixes
+
+* 🐛 Fix brand component when the parameter brandName doesn't exist ([274c55d](https://github.com/stone-payments/pos-mamba-sdk/commit/274c55d96a8c370e0b2f7812725ed694b996351e))
+
+
+
+
+
+## [2.27.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.27.1...v2.27.2) (2020-04-15)
+
+**Note:** Version bump only for package @mamba/brands
+
+
+
+
+
+## [2.27.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.27.0...v2.27.1) (2020-04-03)
+
+**Note:** Version bump only for package @mamba/brands
+
+
+
+
+
+# [2.27.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.26.3...v2.27.0) (2020-04-01)
+
+**Note:** Version bump only for package @mamba/brands
+
+
+
+
+
+## [2.26.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.26.2...v2.26.3) (2020-03-13)
+
+**Note:** Version bump only for package @mamba/brands
+
+
+
+
+
+## [2.26.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.26.1...v2.26.2) (2020-03-12)
+
+
+### Bug Fixes
+
+* 🐛 iframe embed https ([a5a5ede](https://github.com/stone-payments/pos-mamba-sdk/commit/a5a5ede812cd34b82e4c4a851b984a87c1671095))
+
+
+
+
+
 ## [2.26.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.26.0...v2.26.1) (2020-03-01)
 
 **Note:** Version bump only for package @mamba/brands

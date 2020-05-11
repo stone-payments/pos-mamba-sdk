@@ -3,6 +3,62 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.27.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.27.2...v2.27.3) (2020-04-17)
+
+**Note:** Version bump only for package @mamba/printable
+
+
+
+
+
+## [2.27.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.27.1...v2.27.2) (2020-04-15)
+
+
+### Bug Fixes
+
+* 🐛 Fixed print bug ([816bafe](https://github.com/stone-payments/pos-mamba-sdk/commit/816bafe5610e595544c1ba2c21d836f6e62a2395))
+* 🐛 Included id on if statement ([2c1dcb4](https://github.com/stone-payments/pos-mamba-sdk/commit/2c1dcb4e3eaaba8b488507bd2aed925020d3e3e6))
+
+
+
+
+
+## [2.27.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.27.0...v2.27.1) (2020-04-03)
+
+**Note:** Version bump only for package @mamba/printable
+
+
+
+
+
+# [2.27.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.26.3...v2.27.0) (2020-04-01)
+
+**Note:** Version bump only for package @mamba/printable
+
+
+
+
+
+## [2.26.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.26.2...v2.26.3) (2020-03-13)
+
+**Note:** Version bump only for package @mamba/printable
+
+
+
+
+
+## [2.26.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.26.1...v2.26.2) (2020-03-12)
+
+
+### Bug Fixes
+
+* 🐛 iframe embed https ([a5a5ede](https://github.com/stone-payments/pos-mamba-sdk/commit/a5a5ede812cd34b82e4c4a851b984a87c1671095))
+* 🐛 remove log ([6539a59](https://github.com/stone-payments/pos-mamba-sdk/commit/6539a59ff09838b36d50058695917fc1be5ca02f))
+
+
+
+
+
 ## [2.26.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.26.0...v2.26.1) (2020-03-01)
 
 
