@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.28.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.27.2...v2.28.0) (2020-05-11)
+
+
+### Bug Fixes
+
+* 🐛 Fix brand component when the parameter brandName doesn't exist ([274c55d](https://github.com/stone-payments/pos-mamba-sdk/commit/274c55d96a8c370e0b2f7812725ed694b996351e))
+
+
+
+
+
 ## [2.27.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.27.2...v2.27.3) (2020-04-17)
 
 
