@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.29.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.28.0...v2.29.1) (2020-05-18)
+
+
+### Bug Fixes
+
+* 🐛 Fix merge ([2d581ad](https://github.com/stone-payments/pos-mamba-sdk/commit/2d581ada674daa56f9b5d360986e3aa4ae818d62))
+* 🐛 Remove comment ([54a16e1](https://github.com/stone-payments/pos-mamba-sdk/commit/54a16e1e02b09f269a303c8e71d04b63cfc5c0d8))
+
+
+### Features
+
+* 🎸 State to allow to do something before app close or back to home ([9b6ed8c](https://github.com/stone-payments/pos-mamba-sdk/commit/9b6ed8c11a485cf5713fdc13e5823d2f8db591a8))
+* 🎸 Update back function ([49bd1f5](https://github.com/stone-payments/pos-mamba-sdk/commit/49bd1f58e32da9a2de38601af5d1a20ad95db1cb))
+
+
+
+
+
 # [2.28.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.27.2...v2.28.0) (2020-05-11)
 
 

@@ -133,8 +133,8 @@
         } else if (this.root.router) {
           this.root.fire('appbar:goBack');
           // Usando doBeforeClose como true, você consegue fazer ações antes de fechar o app
-          // Usando o evento appbar:goBack, seja para validação
-          // ou seja para salvar dados ao clicar no botão back
+          // Usando o evento appbar:goBack, seja para validação ou
+          // para salvar dados ao clicar no botão back
           if (doBeforeClose) return;
           this.root.router.back();
         }
