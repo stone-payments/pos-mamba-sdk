@@ -3,18 +3,6 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [2.28.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.27.2...v2.28.0) (2020-05-11)
-
-
-### Features
-
-* 🎸 CarouselNavigation ([218b18b](https://github.com/stone-payments/pos-mamba-sdk/commit/218b18ba712f2898e185d6d8baa1faad00623d6f))
-* 🎸 component-CarouselNavigation ([ada4715](https://github.com/stone-payments/pos-mamba-sdk/commit/ada4715d777a50264c06ae2a3098787cafb0912d))
-
-
-
-
-
 ## [2.27.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.27.2...v2.27.3) (2020-04-17)
 
 **Note:** Version bump only for package @mamba/carousel

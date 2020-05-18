@@ -3,25 +3,6 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [2.28.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.27.2...v2.28.0) (2020-05-11)
-
-
-### Bug Fixes
-
-* 🐛 Fix brand component when the parameter brandName doesn't exist ([274c55d](https://github.com/stone-payments/pos-mamba-sdk/commit/274c55d96a8c370e0b2f7812725ed694b996351e))
-* 🐛 Include publisherName on mambamanifestplugin ([9321d61](https://github.com/stone-payments/pos-mamba-sdk/commit/9321d61d3c83616506dd4594ae0c05ada1472a72))
-* 🐛 Include publisherName on manifest code ([03911b6](https://github.com/stone-payments/pos-mamba-sdk/commit/03911b6df48567285c90143beb03d9be71c54b39))
-
-
-### Features
-
-* 🎸 CarouselNavigation ([218b18b](https://github.com/stone-payments/pos-mamba-sdk/commit/218b18ba712f2898e185d6d8baa1faad00623d6f))
-* 🎸 component-CarouselNavigation ([ada4715](https://github.com/stone-payments/pos-mamba-sdk/commit/ada4715d777a50264c06ae2a3098787cafb0912d))
-
-
-
-
-
 ## [2.27.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.27.2...v2.27.3) (2020-04-17)
 
 

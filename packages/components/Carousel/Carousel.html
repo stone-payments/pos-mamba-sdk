@@ -1,22 +1,21 @@
 <div class="carousel">
+
   <button class="prev" {style} on:click="_previousSlide()">
-    <Icon symbol="chevron-left" color="{navColor}" />
+    <Icon symbol='chevron-left'  color="{navColor}" />
   </button>
 
   <button class="next" {style} on:click="_nextSlide()">
-    <Icon symbol="chevron-right" color="{navColor}" />
+    <Icon symbol='chevron-right'  color="{navColor}" />
   </button>
 
   <div class="wrapper">
+
     {#each slides as slide, index}
-    <img
-      class="carousel-item"
-      class:show="count === index"
-      src="{slide}"
-      alt=""
-    />
+      <img class="carousel-item" class:show="count === index" src={slide} alt="">
     {/each}
+
   </div>
+
 </div>
 
 <script>
@@ -45,75 +44,80 @@
     },
     methods: {
       _previousSlide() {
+
         const { slides } = this.get();
         let { count } = this.get();
 
-        if (count === 0) {
+        if ( count === 0 ) {
           this.set({ count: slides.length - 1 });
         } else {
           const newCount = --count;
           this.set({ count: newCount });
         }
+
       },
       _nextSlide() {
+
         const { slides } = this.get();
         let { count } = this.get();
 
-        if (count >= slides.length - 1) {
+        if ( count >= (slides.length - 1) ) {
           this.set({ count: 0 });
         } else {
           const newCount = ++count;
           this.set({ count: newCount });
         }
+
       },
     },
   };
 </script>
 
 <style type="text/postcss">
-  .carousel {
-    width: 100%;
-    position: relative;
-  }
+.carousel {
+  width: 100%;
+  position: relative;
+}
 
-  .carousel-item {
-    max-width: 145px;
-    height: inherit;
-    margin: 0 auto;
-    display: none;
-  }
+.carousel-item {
+  max-width: 145px;
+  height: inherit;
+  margin: 0 auto;
+  display: none;
+}
 
-  .prev,
-  .next {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    border: 0;
-    padding: 0;
-    /* vertical align */
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-  }
+.prev,
+.next {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 0;
+  padding: 0;
+  /* vertical align */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
 
-  .prev {
-    left: 0;
-  }
+.prev {
+  left: 0;
+}
 
-  .next {
-    right: 0;
-  }
+.next {
+  right: 0;
+}
 
-  :global(.carousel .prev .icon, .carousel .next .icon) {
-    line-height: 32px;
-    text-align: center;
-  }
+:global(.carousel .prev .icon,
+.carousel .next .icon) {
+  line-height: 32px;
+  text-align: center;
+}
 
-  .show {
-    display: block;
-  }
+.show {
+  display: block;
+}
 
-  .wrapper {
-    min-height: 100px;
-  }
+.wrapper {
+  min-height: 100px;
+}
 </style>
