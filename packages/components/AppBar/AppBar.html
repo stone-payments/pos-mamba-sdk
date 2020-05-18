@@ -28,6 +28,7 @@
         bgColor: '#f2f2f2',
         border: true,
         _hideAppBar: false,
+        doBeforeClose: false,
       };
     },
     computed: {
@@ -42,7 +43,7 @@
       },
       _isAtHome: ({ _location }) => _location === '/' || !_location,
       _showBack: ({ _isAtHome, _isNavigationEnabled }) =>
-      !_isAtHome && _isNavigationEnabled.back,
+        !_isAtHome && _isNavigationEnabled.back,
       _showHome: ({ _isNavigationEnabled }) => _isNavigationEnabled.home,
     },
     oncreate() {
@@ -95,21 +96,29 @@
     },
     methods: {
       _goHome() {
-        const { _isAtHome } = this.get();
+        const { _isAtHome, doBeforeClose } = this.get();
 
         if (_isAtHome) {
           this.root.fire('appbar:closeApp');
+          // Usando doBeforeClose como true, você consegue fazer ações antes de fechar o app
+          // Usando o evento appbar:closeApp, seja para validação
+          // ou seja para salvar dados ao clicar no botão de home
+          if (doBeforeClose) return;
           return this.root.close();
         }
 
         /* istanbul ignore else */
         if (this.root.router) {
           this.root.fire('appbar:goHome');
+          // Usando doBeforeClose como true, você consegue fazer ações antes de fechar o app
+          // Usando o evento appbar:goHome, seja para validação
+          // ou seja para salvar dados ao clicar no botão de home
+          if (doBeforeClose) return;
           this.root.router.go('/');
         }
       },
       _goBack() {
-        const { _navigableRoute } = this.get();
+        const { _navigableRoute, doBeforeClose } = this.get();
         /* istanbul ignore else */
         if (_navigableRoute.routeBack) {
           console.log(_navigableRoute.routeBack);
@@ -123,6 +132,10 @@
           }
         } else if (this.root.router) {
           this.root.fire('appbar:goBack');
+          // Usando doBeforeClose como true, você consegue fazer ações antes de fechar o app
+          // Usando o evento appbar:goBack, seja para validação
+          // ou seja para salvar dados ao clicar no botão back
+          if (doBeforeClose) return;
           this.root.router.back();
         }
       },
