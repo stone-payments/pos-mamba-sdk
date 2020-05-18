@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.29.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.29.1...v2.29.3) (2020-05-18)
+
+
+### Bug Fixes
+
+* 🐛 Fix master ([06fe548](https://github.com/stone-payments/pos-mamba-sdk/commit/06fe54871a891822919c786aa6673c9e816d9331))
+
+
+
+
+
 ## [2.29.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.28.0...v2.29.1) (2020-05-18)
 
 
