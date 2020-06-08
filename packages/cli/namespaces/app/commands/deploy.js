@@ -20,7 +20,7 @@ module.exports = {
     const { id } = PKG.mamba;
     const appSlug = `${id}-${PKG.name}`;
 
-    const REMOTE_APP_DIR = `POS:/data/app/MAINAPP/apps/${appSlug}.stone`;
+    const REMOTE_APP_DIR = `POS:/data/app/MAINAPP/apps/${appSlug}`;
     const DIST_DIR = fromCwd(legacy ? 'ui/dist' : 'dist/bundle.pos');
 
     console.log(`Deploying "${appSlug}" to "${REMOTE_APP_DIR}"`);
