@@ -74,7 +74,7 @@
       /* istanbul ignore next */
       if (changed._state) {
         if (current._state === STATES.FAILURE) {
-          this.refs.failureDialog.open(50000000);
+          this.refs.failureDialog.open(5000);
           // this.fire('error');
         } else if (current._state === STATES.SUCCESS) {
           this.fire('finish', true);
