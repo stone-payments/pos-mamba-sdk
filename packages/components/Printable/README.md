@@ -12,6 +12,7 @@ O componente `Printable` encapsula o fluxo de impressão do POS, permitindo a im
 | :------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------- | :------ |
 | [dithering](https://pt.wikipedia.org/wiki/Dither) | Define se deve ser aplicado um algoritmo de dithering na impressão. Use esta função somente para imprimir imagens, pois o dithering diminui a qualidade da impressão de texto | `boolean` | `false` |
 | showPrintingDialog                                | define se o diálogo de "Imprimindo" deve aparecer ou não                                                                                                                      | `boolean` | `true`  |
+| showNoPaperErrorMessage | Exibir mensagem opcional `Verifique a impressora e tente novamente.` | `boolean` | `false` |
 
 ## Eventos
 
