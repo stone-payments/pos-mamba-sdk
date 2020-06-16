@@ -28,8 +28,7 @@
         <p class="failure-dialog-txt">
           A filipeta ainda está disponível no app <strong>Reimpressão</strong>.
         </p>
-      {/if}
-      {#if showNoPaperErrorMessage}
+      {:elseif showNoPaperErrorMessage}
         <p class="failure-dialog-txt">
           Verifique a impressora e tente novamente.
         </p>
@@ -75,7 +74,7 @@
       /* istanbul ignore next */
       if (changed._state) {
         if (current._state === STATES.FAILURE) {
-          this.refs.failureDialog.open(5000);
+          this.refs.failureDialog.open(50000000);
           // this.fire('error');
         } else if (current._state === STATES.SUCCESS) {
           this.fire('finish', true);
