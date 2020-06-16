@@ -38,7 +38,7 @@
     "editor.formatOnSave": true
   },
   "[html]": {
-    "editor.formatOnSave": true
+    "editor.formatOnSave": false
   },
   "[javascript]": {
     "editor.formatOnSave": true
@@ -49,13 +49,4 @@
   "[postcss]": {
     "editor.formatOnSave": true
   },
-
-  /** Auto-fix on save */
-  "eslint.autoFixOnSave": true,
-  /** Validate html/svelte files */
-  "eslint.validate": [
-    { "language": "javascript", "autoFix": true },
-    { "language": "html", "autoFix": true },
-    { "language": "svelte", "autoFix": true }
-  ],
 }
