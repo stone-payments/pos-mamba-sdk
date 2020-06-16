@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.29.4](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.29.3...v2.29.4) (2020-06-16)
+
+
+### Bug Fixes
+
+* 🐛 timeout value ([3b71319](https://github.com/stone-payments/pos-mamba-sdk/commit/3b7131948fc382151ffb066af595fac7fbb41b88))
+
+
+### Features
+
+* 🎸 add optional printable message for no paper error ([804cd59](https://github.com/stone-payments/pos-mamba-sdk/commit/804cd5926ac03b5402d0eaf12311a08e64a6cb66))
+
+
+
+
+
 ## [2.29.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.29.1...v2.29.3) (2020-05-18)
 
 **Note:** Version bump only for package @mamba/printable

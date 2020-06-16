@@ -1,6 +1,6 @@
 {
   "name": "@mamba/tabs",
-  "version": "2.29.3",
+  "version": "2.29.4",
   "svelte": "Tabs.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -8,9 +8,9 @@
     "access": "public"
   },
   "devDependencies": {
-    "@mamba/button": "^2.29.3",
-    "@mamba/collection": "^2.29.3",
-    "@mamba/styles": "^2.29.3"
+    "@mamba/button": "^2.29.4",
+    "@mamba/collection": "^2.29.4",
+    "@mamba/styles": "^2.29.4"
   },
   "peerDependencies": {
     "@mamba/pos": "^2.8.2",
