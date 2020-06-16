@@ -29,6 +29,11 @@
           A filipeta ainda está disponível no app <strong>Reimpressão</strong>.
         </p>
       {/if}
+      {#if showNoPaperErrorMessage}
+        <p class="failure-dialog-txt">
+          Verifique a impressora e tente novamente.
+        </p>
+      {/if}
   </Dialog>
 {/if}
 
@@ -63,6 +68,7 @@
         dithering: false,
         id: null,
         showInfoPrinter: false,
+        showNoPaperErrorMessage: false,
       };
     },
     onupdate({ changed, current }) {
