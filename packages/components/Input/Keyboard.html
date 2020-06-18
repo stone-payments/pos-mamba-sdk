@@ -69,7 +69,6 @@
 
 {#if active}
   <Keystroke key="enter" on:keystroke="submit()"/>
-  <Keystroke key="close" on:keystroke="closeKeyboard()"/>
 {/if}
 
 
@@ -140,6 +139,15 @@
         this.capitalizeNextLetter();
       }
 
+      const event = (evt) => {
+        evt.preventDefault();
+        evt.stopPropagation();
+        console.log(evt);
+        if (evt.keyCode === 27) this.closeKeyboard();
+      };
+
+      this.set({ event });
+
     },
     onupdate() {
 
@@ -195,6 +203,7 @@
         }
       },
       openKeyboard() {
+        document.body.addEventListener('keyup', this.get().event);
         if (this.get().active) {
           return;
         }
@@ -216,6 +225,7 @@
 
         this.set({ active: false });
         this.root.meta.setScrollable(true);
+        document.body.removeEventListener('keyup', this.get().event);
       },
       insertKey(key, event) {
         const { value, capitalizeWords } = this.get();
