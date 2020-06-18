@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.29.6](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.29.5...v2.29.6) (2020-06-18)
+
+
+### Bug Fixes
+
+* 🐛 Remove event when ondestroy is called ([cb01a95](https://github.com/stone-payments/pos-mamba-sdk/commit/cb01a9567848e4dbd59b335a1559f1ceccfdb856))
+* 🐛 Update package-lock ([9b47755](https://github.com/stone-payments/pos-mamba-sdk/commit/9b477550d5fff5cedc2fa51ab9d02c803fd7b05e))
+
+
+
+
+
 ## [2.29.5](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.29.3...v2.29.5) (2020-06-18)
 
 
