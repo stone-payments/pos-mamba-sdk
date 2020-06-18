@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.29.5](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.29.3...v2.29.5) (2020-06-18)
+
+
+### Bug Fixes
+
+* 🐛 Fix input bugs ([d935a44](https://github.com/stone-payments/pos-mamba-sdk/commit/d935a4478c53a11dab014f1f72b342314a65764f))
+* 🐛 Update code ([9f6ed03](https://github.com/stone-payments/pos-mamba-sdk/commit/9f6ed03fa9f830a83d5447d3e434c232ee3c9940))
+
+
+
+
+
 ## [2.29.4](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.29.3...v2.29.4) (2020-06-16)
 
 **Note:** Version bump only for package @mamba/input
