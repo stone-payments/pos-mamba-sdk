@@ -171,9 +171,9 @@
 
     },
     ondestroy() {
-
       // unbug scrolling after quit
       this.root.meta.setScrollable(true);
+      document.body.removeEventListener('keyup', this.get().event);
 
     },
     methods: {
