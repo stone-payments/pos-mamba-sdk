@@ -127,7 +127,7 @@
     onupdate({ changed, current }) {
       // This code remove error message if the length i 0
       if (current.value.length <= 0) {
-        this.set({ isValid: true, _errorMsg: '' });
+        this.set({ isValid: false, _errorMsg: undefined });
       }
 
       if (changed.value) {
