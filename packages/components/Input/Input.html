@@ -125,6 +125,11 @@
       }
     },
     onupdate({ changed, current }) {
+      // This code remove error message if the length i 0
+      if (current.value.length <= 0) {
+        this.set({ isValid: true, _errorMsg: '' });
+      }
+
       if (changed.value) {
         this.refs.input.value = current.value;
       }
