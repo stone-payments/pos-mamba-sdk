@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.30.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.29.6...v2.30.0) (2020-07-06)
+
+
+### Bug Fixes
+
+* 🐛 Fix merge ([d4d3b55](https://github.com/stone-payments/pos-mamba-sdk/commit/d4d3b550a9313bca041b113c795208eb4c65a32e))
+* 🐛 Update text exception ([5b0fbb7](https://github.com/stone-payments/pos-mamba-sdk/commit/5b0fbb743f98cee770f5200a0f95a3ac235f1cd3))
+
+
+### Features
+
+* 🎸 Create a new method to activate another stonecode ([be87d06](https://github.com/stone-payments/pos-mamba-sdk/commit/be87d06f7d19f28ddfcdc231654822204663c90d))
+
+
+
+
+
 ## [2.29.6](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.29.5...v2.29.6) (2020-06-18)
 
 **Note:** Version bump only for package @mamba/pos
