@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.29.6](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.29.5...v2.29.6) (2020-06-18)
+
+
+### Bug Fixes
+
+* 🐛 Remove event when ondestroy is called ([cb01a95](https://github.com/stone-payments/pos-mamba-sdk/commit/cb01a9567848e4dbd59b335a1559f1ceccfdb856))
+* 🐛 Update package-lock ([9b47755](https://github.com/stone-payments/pos-mamba-sdk/commit/9b477550d5fff5cedc2fa51ab9d02c803fd7b05e))
+
+
+
+
+
+## [2.29.5](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.29.3...v2.29.5) (2020-06-18)
+
+
+### Bug Fixes
+
+* 🐛 Fix input bugs ([d935a44](https://github.com/stone-payments/pos-mamba-sdk/commit/d935a4478c53a11dab014f1f72b342314a65764f))
+* 🐛 rmeove deprecated vscode setting ([fa5be98](https://github.com/stone-payments/pos-mamba-sdk/commit/fa5be9803c6f5b464e5aee2f31031fd0c72eacd3))
+* 🐛 timeout value ([3b71319](https://github.com/stone-payments/pos-mamba-sdk/commit/3b7131948fc382151ffb066af595fac7fbb41b88))
+* 🐛 Update code ([9f6ed03](https://github.com/stone-payments/pos-mamba-sdk/commit/9f6ed03fa9f830a83d5447d3e434c232ee3c9940))
+* remove lagacy .stone from app deploy ([841b8ea](https://github.com/stone-payments/pos-mamba-sdk/commit/841b8ead029fafef35d447606f42d6d763e5ef02))
+
+
+### Features
+
+* 🎸 add optional printable message for no paper error ([804cd59](https://github.com/stone-payments/pos-mamba-sdk/commit/804cd5926ac03b5402d0eaf12311a08e64a6cb66))
+* 🎸 Update package-lock ([4380ddc](https://github.com/stone-payments/pos-mamba-sdk/commit/4380ddcd57ef08e8a9c3d49d03907f818a4074ba))
+
+
+
+
+
 ## [2.29.4](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.29.3...v2.29.4) (2020-06-16)
 
 
