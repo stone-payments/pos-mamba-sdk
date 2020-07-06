@@ -27,7 +27,7 @@ export default function(driver) {
         ]);
         driver.activateStoneCode(stonecode);
       } else {
-        reject(new Error('Método não suportado para esta versão do kernel.'));
+        reject(new Error('Método não suportado para esta versão do sistema.'));
       }
     });
   };
