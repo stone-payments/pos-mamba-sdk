@@ -64,6 +64,17 @@ System.beep(System.Tones.TONE3, 500) // Beep: tone = 2000, duration = 500
 System.beep(System.Tones.TONE7, 800) // Beep: tone = 2800, duration = 800
 ```
 
+### activateStonecode()
+
+Permite ativar algum Stonecode dentro de Apps (por ex: usá-lo em operações Split)
+
+```js
+import System from '@mamba/pos/api/system.js'
+
+
+System.activateStonecode();
+```
+
 ### hasEthernet()
 
 Informa se o POS tem Conexão via Ethernet. Caso esteja em ambiente de desenvolvimento, retorna true.
