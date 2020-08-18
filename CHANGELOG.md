@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.32.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.31.2...v2.32.0) (2020-08-18)
+
+
+### Features
+
+* 🎸 New Brands: Ame, Dotz, E-ctare, iFood, MercadoPago e Picpay ([1e7c77d](https://github.com/stone-payments/pos-mamba-sdk/commit/1e7c77d48ea83412f308a486bade4112ebb80c8a))
+
+
+
+
+
 ## [2.31.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.31.0...v2.31.2) (2020-08-03)
 
 **Note:** Version bump only for package mamba-sdk
