@@ -21,7 +21,7 @@ export default function(driver) {
           [
             'failure',
             error => {
-              reject(new Error(error));
+              reject(error);
             },
           ],
         ]);
