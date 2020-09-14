@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.32.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.32.1...v2.32.2) (2020-09-14)
+
+
+### Bug Fixes
+
+* 🐛 run npm i ([4e38e4e](https://github.com/stone-payments/pos-mamba-sdk/commit/4e38e4ef0986d99b0a4448887f2e495da2f64b7c))
+
+
+### Features
+
+* 🎸 Include two new properties to customize qrcode ([80e43b4](https://github.com/stone-payments/pos-mamba-sdk/commit/80e43b436d514eb28afa2c2039ccdff831a7df49))
+
+
+
+
+
 ## [2.32.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.32.0...v2.32.1) (2020-08-19)
 
 
