@@ -26,10 +26,12 @@
         color: 'black',
         value: '',
         logo: undefined,
+        bgColorAlpha: 1.0,
+        bgColor: 'white',
       };
     },
     onupdate({ current }) {
-      const { size, color, value, level } = current;
+      const { size, color, value, level, bgColorAlpha, bgColor } = current;
 
       /* istanbul ignore next */
       qrEl.set({
@@ -37,6 +39,8 @@
         foreground: color,
         value,
         level: String(level).toUpperCase() || 'M',
+        backgroundAlpha: bgColorAlpha,
+        background: bgColor,
       });
       this.refs.qrImg.setAttribute('src', qrEl.toDataURL('image/jpeg'));
     },
