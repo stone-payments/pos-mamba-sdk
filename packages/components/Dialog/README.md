@@ -102,7 +102,7 @@ Chama o método `promiseFailed` quando o Promise falhar.
 
 | Evento   | Descrição                                                                                                        | Tipo         |
 | -------- | ---------------------------------------------------------------------------------------------------------------- | ------------ |
-| nagative | Especifique uma função que será chamada quando o diálogo receber a ação negativa ou do botão vermelho do teclado | `function()` |
+| negative | Especifique uma função que será chamada quando o diálogo receber a ação negativa ou do botão vermelho do teclado | `function()` |
 | positive | Especifique uma função que será chamada quando o diálogo receber a ação positiva ou do botão verde do teclado    | `function()` |
 
 #### Exemplos:
@@ -116,7 +116,7 @@ Chama `myMethod()` quando o diálogo receber ação positiva.
 Chama o `console.log` quando o diálogo receber ação negativa.
 
 ```html
-<ConfirmationDialog on:nagative="console.log('on:negative')" />
+<ConfirmationDialog on:negative="console.log('on:negative')" />
 ```
 
 ---
