@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.32.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.32.2...v2.32.3) (2020-09-15)
+
+
+### Bug Fixes
+
+* 🐛 Update negative event from confirmation dialog ([e27fa68](https://github.com/stone-payments/pos-mamba-sdk/commit/e27fa68152914163e255cd7300a95262cafd4de5))
+* 🐛 update package-lock ([4a05047](https://github.com/stone-payments/pos-mamba-sdk/commit/4a05047637e07ab7aefb212fcffe2e2651f6b634))
+
+
+
+
+
 ## [2.32.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.32.1...v2.32.2) (2020-09-14)
 
 
