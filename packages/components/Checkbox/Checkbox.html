@@ -1,0 +1,67 @@
+<label>
+  <input
+    type="checkbox"
+    {name}
+    {checked}
+    ref:Checkbox
+    on:change="toggle()"
+    on:click
+  />
+
+  <div class="check">
+    <Icon symbol="check" />
+  </div>
+</label>
+
+<script>
+  export default {
+    components: {
+      Icon: '@mamba/icon/Icon.html',
+    },
+    data() {
+      return {
+        checked: false,
+        name: name || 'checkbox',
+      };
+    },
+    methods: {
+      toggle() {
+        const value = this.refs.Checkbox.checked
+        this.fire('change', {checked: value});
+      },
+      click() {
+        this.refs.Checkbox.click();
+      },
+    },
+  };
+</script>
+
+<style type="text/postcss">
+
+  input {
+    display: none;
+  }
+  .check {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 2px;
+    border: 2px solid #7e7e7e;
+    :global(.icon) {
+      display: none;
+    }
+  }
+
+  input:checked + div {
+    background-color: #4ebf1a;
+    border-color: #4ebf1a;
+
+    :global(.icon) {
+      display: block;
+      color: #fff;
+    }
+  }
+</style>

@@ -3,8 +3,9 @@
     type="radio"
     {name}
     {checked}
-    on:change="fire('change')"
-    on:click="fire('click')"
+    ref:Radio
+    on:change="toggle()"
+    on:click
 	/>
   <div class="radio"></div>
 </label>
@@ -18,12 +19,12 @@
       };
     },
     methods: {
-      toggle(value) {
-        if (value === true) {
-          this.set({ checked: true });
-        } else if (value === false) {
-          this.set({ checked: false });
-        }
+      toggle() {
+        const value = this.refs.Radio.checked
+        this.fire('change', {checked: value});
+      },
+      click() {
+        this.refs.Radio.click();
       },
     },
   };
