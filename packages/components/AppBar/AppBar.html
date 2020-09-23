@@ -121,8 +121,7 @@
         const { _navigableRoute } = this.get();
         const { doBeforeClose } = this.root.meta.get();
         /* istanbul ignore else */
-        if (_navigableRoute.routeBack) {
-          console.log(_navigableRoute.routeBack);
+        if (_navigableRoute.routeBack && !doBeforeClose) {
           if (_navigableRoute.paramsBack) {
             this.root.router.go(
               _navigableRoute.routeBack,

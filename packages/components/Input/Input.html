@@ -125,11 +125,6 @@
       }
     },
     onupdate({ changed, current }) {
-      // This code remove error message if the length i 0
-      if (current.value.length <= 0) {
-        this.set({ isValid: false, _errorMsg: undefined });
-      }
-
       if (changed.value) {
         this.refs.input.value = current.value;
       }
@@ -162,6 +157,9 @@
       },
       focus() {
         this.refs.input.focus();
+      },
+      clearInput() {
+        this.set({ isValid: false, _errorMsg: undefined, value: '' });
       },
       blur() {
         const { forcefocus } = this.get();
