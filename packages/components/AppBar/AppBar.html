@@ -28,7 +28,6 @@
         bgColor: '#f2f2f2',
         border: true,
         _hideAppBar: false,
-        doBeforeClose: false,
       };
     },
     computed: {
@@ -96,7 +95,8 @@
     },
     methods: {
       _goHome() {
-        const { _isAtHome, doBeforeClose } = this.get();
+        const { _isAtHome } = this.get();
+        const { doBeforeClose } = this.root.meta.get();
 
         if (_isAtHome) {
           this.root.fire('appbar:closeApp');
@@ -118,7 +118,8 @@
         }
       },
       _goBack() {
-        const { _navigableRoute, doBeforeClose } = this.get();
+        const { _navigableRoute } = this.get();
+        const { doBeforeClose } = this.root.meta.get();
         /* istanbul ignore else */
         if (_navigableRoute.routeBack) {
           console.log(_navigableRoute.routeBack);
