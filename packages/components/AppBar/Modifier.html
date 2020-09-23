@@ -6,5 +6,8 @@
         this.root.fire('appbar:modify', { ...this.options.data });
       }
     },
+    ondestroy() {
+      this.root.meta.setActionBeforeClose(false);
+    },
   };
 </script>
