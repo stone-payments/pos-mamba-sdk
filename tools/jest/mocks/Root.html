@@ -30,6 +30,7 @@
           shortcuts: true,
           scrollable: true,
           hasAppbar: false,
+          doBeforeClose: false,
         },
         methods: {
           setNavigable(o) {
@@ -42,6 +43,9 @@
                 paramsBack: params,
               },
             });
+          },
+          setActionBeforeClose(param) {
+            this.set({ doBeforeClose: param });
           },
         },
       });
