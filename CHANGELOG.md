@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.32.4](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.32.3...v2.32.4) (2020-09-23)
+
+
+### Bug Fixes
+
+* 🐛 Fix doBeforeClose state ([22064b8](https://github.com/stone-payments/pos-mamba-sdk/commit/22064b88dcfdfebb6833c39cc61bfac77fe6f991))
+
+
+
+
+
 ## [2.32.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.32.2...v2.32.3) (2020-09-15)
 
 

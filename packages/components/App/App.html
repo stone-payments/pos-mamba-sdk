@@ -35,6 +35,7 @@
         scrollable: true,
         hideAppBar: false,
         askPasswordOnClose: false,
+        doBeforeClose: false,
       };
     },
     oncreate() {
@@ -165,6 +166,9 @@
       },
       resetRoute() {
         this.set({ navigableRoute: { routeBack: undefined } });
+      },
+      setActionBeforeClose(param) {
+        this.set({ doBeforeClose: param });
       },
       askAdminPassword() {
         this.refs.adminLock.open();
