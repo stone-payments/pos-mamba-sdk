@@ -1,4 +1,4 @@
-# Radio
+# Checkbox
 
 O componente `Checkbox` é usado para selecionar uma opção dentre as alternadas.
 
