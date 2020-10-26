@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.30.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.29.3...v2.30.0) (2020-10-26)
+
+
+### Bug Fixes
+
+* remove lagacy .stone from app deploy ([841b8ea](https://github.com/stone-payments/pos-mamba-sdk/commit/841b8ead029fafef35d447606f42d6d763e5ef02))
+
+
+
+
+
 ## [2.29.4](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.29.3...v2.29.4) (2020-06-16)
 
 
