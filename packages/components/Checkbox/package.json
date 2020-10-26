@@ -1,6 +1,6 @@
 {
   "name": "@mamba/checkbox",
-  "version": "2.29.4",
+  "version": "2.33.0",
   "svelte": "Checkbox.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -8,7 +8,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@mamba/styles": "^2.29.4"
+    "@mamba/styles": "^2.33.0"
   },
   "peerDependencies": {
     "@mamba/pos": "^2.10.0"
