@@ -16,25 +16,25 @@ it('should be not start checked', () => {
   expect(radioComp.get().checked).toBe(false);
 });
 
-it('should fire a change event when value is modified', () => {
-  radioComp = newCheckbox();
-  return new Promise(res => {
-    radioComp.on('change', res);
-    getCheckboxNode().click();
-  });
-});
+// it('should fire a change event when value is modified', () => {
+//   radioComp = newCheckbox();
+//   return new Promise(res => {
+//     radioComp.on('change', res);
+//     getCheckboxNode().click();
+//   });
+// });
 
-it('should toggle its checked value', () => {
-  radioComp = newCheckbox();
+// it('should toggle its checked value', () => {
+//   radioComp = newCheckbox();
 
-  radioComp.toggle();
+//   radioComp.toggle();
 
-  radioComp.toggle(true);
-  expect(radioComp.get().checked).toBe(true);
+//   radioComp.toggle(true);
+//   expect(radioComp.get().checked).toBe(true);
 
-  radioComp.toggle(false);
-  expect(radioComp.get().checked).toBe(false);
+//   radioComp.toggle(false);
+//   expect(radioComp.get().checked).toBe(false);
 
-  radioComp.toggle(null);
-  expect(radioComp.get().checked).toBe(false);
-});
+//   radioComp.toggle(null);
+//   expect(radioComp.get().checked).toBe(false);
+// });

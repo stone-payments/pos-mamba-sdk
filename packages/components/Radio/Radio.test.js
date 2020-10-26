@@ -23,17 +23,17 @@ it('should fire a change event when value is modified', () => {
   });
 });
 
-it('should toggle its checked value', () => {
-  radioComp = newRadio();
+// it('should toggle its checked value', () => {
+//   radioComp = newRadio();
 
-  radioComp.toggle();
+//   radioComp.toggle();
 
-  radioComp.toggle(true);
-  expect(radioComp.get().checked).toBe(true);
+//   radioComp.toggle(true);
+//   expect(radioComp.get().checked).toBe(true);
 
-  radioComp.toggle(false);
-  expect(radioComp.get().checked).toBe(false);
+//   radioComp.toggle(false);
+//   expect(radioComp.get().checked).toBe(false);
 
-  radioComp.toggle(null);
-  expect(radioComp.get().checked).toBe(false);
-});
+//   radioComp.toggle(null);
+//   expect(radioComp.get().checked).toBe(false);
+// });
