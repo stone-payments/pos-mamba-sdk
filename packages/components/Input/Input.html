@@ -158,6 +158,9 @@
       focus() {
         this.refs.input.focus();
       },
+      clearInput() {
+        this.set({ isValid: false, _errorMsg: undefined, value: '' });
+      },
       blur() {
         const { forcefocus } = this.get();
 

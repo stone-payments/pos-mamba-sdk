@@ -15,7 +15,8 @@
   </Dialog>
 {/if}
 
-{#if _state === STATES.FAILURE}
+<!-- Mamba default behavior is not allow instant Reprint -->
+{#if _state === STATES.FAILURE && !$reprintException}
   <Dialog
     ref:failureDialog
     on:close="fire('finish', true)"
@@ -36,9 +37,21 @@
   </Dialog>
 {/if}
 
+<!-- $reprintException is the exception for Reprint purposes -->
+{#if _state === STATES.FAILURE && $reprintException}
+  <ConfirmationDialog
+    ref:failureDialog
+    title="IMPRESSORA SEM PAPEL"
+    on:positive="print()"
+    on:negative="fire('finish', false)"
+    fullscreen
+  >
+    Tentar imprimir novamente?
+  </ConfirmationDialog>
+{/if}
+
 <script>
   import Printer from '@mamba/pos/api/printer.js';
-
   import alertIcon from './assets/images/icon-alert.png';
 
   const STATES = Object.freeze({
@@ -54,6 +67,7 @@
   export default {
     components: {
       Dialog: '@mamba/dialog',
+      ConfirmationDialog: '@mamba/dialog/Confirmation.html',
     },
     helpers: {
       STATES,

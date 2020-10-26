@@ -4,7 +4,12 @@ import systemEnums from '../../drivers/system/enums.js';
 
 export const NAMESPACE = '$System';
 
-export const SIGNALS = ['batteryCritical', 'batteryNormal'];
+export const SIGNALS = [
+  'batteryCritical',
+  'batteryNormal',
+  'success',
+  'failure',
+];
 
 export const SETTINGS = {
   Connections: {
@@ -223,5 +228,12 @@ export function setup(System) {
     if (!__TEST__ && typeof window.AudioContext !== 'undefined') {
       doBeep(duration, toneFrequency);
     }
+  };
+
+  System.activateStoneCode = stonecode => {
+    console.log(stonecode);
+    setTimeout(() => {
+      System.fire('success');
+    }, 1000);
   };
 }

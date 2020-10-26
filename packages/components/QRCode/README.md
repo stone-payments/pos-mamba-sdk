@@ -16,3 +16,5 @@ O componente `QRCode` ajuda na criação de códigos `QR` e ainda permite estili
 | logo      | Caminho para a imagem de logo               | `string`        | `undefined`|
 | size      | Tamanho do QR (`medium`, `small`, `large`)  | `string`        | `medium`   |
 | value     | Valor codificado                            | `string`        | `''`       |
+| bgColor   | Cor do background do QR Code                | `string`        | `'white'`  |
+| bgColorAlpha  | Opacidade do background do QR Code      | `float`         | `1.0`      |

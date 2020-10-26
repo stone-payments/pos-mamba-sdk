@@ -3,6 +3,106 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.32.4](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.32.3...v2.32.4) (2020-09-23)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+## [2.32.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.32.2...v2.32.3) (2020-09-15)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+## [2.32.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.32.1...v2.32.2) (2020-09-14)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+## [2.32.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.32.0...v2.32.1) (2020-08-19)
+
+
+### Bug Fixes
+
+* 🐛 Update activateStonecode ([3cc601b](https://github.com/stone-payments/pos-mamba-sdk/commit/3cc601b94a33ded03f447d0ba66f3737cac8feba))
+
+
+
+
+
+# [2.32.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.31.2...v2.32.0) (2020-08-18)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+## [2.31.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.31.0...v2.31.2) (2020-08-03)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+## [2.31.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.31.0...v2.31.1) (2020-08-03)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+# [2.31.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.30.0...v2.31.0) (2020-07-21)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+# [2.30.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.29.6...v2.30.0) (2020-07-06)
+
+
+### Bug Fixes
+
+* 🐛 Fix merge ([d4d3b55](https://github.com/stone-payments/pos-mamba-sdk/commit/d4d3b550a9313bca041b113c795208eb4c65a32e))
+* 🐛 Update text exception ([5b0fbb7](https://github.com/stone-payments/pos-mamba-sdk/commit/5b0fbb743f98cee770f5200a0f95a3ac235f1cd3))
+
+
+### Features
+
+* 🎸 Create a new method to activate another stonecode ([be87d06](https://github.com/stone-payments/pos-mamba-sdk/commit/be87d06f7d19f28ddfcdc231654822204663c90d))
+
+
+
+
+
+## [2.29.6](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.29.5...v2.29.6) (2020-06-18)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+## [2.29.5](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.29.3...v2.29.5) (2020-06-18)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
 ## [2.29.4](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.29.3...v2.29.4) (2020-06-16)
 
 **Note:** Version bump only for package @mamba/pos

@@ -113,6 +113,11 @@ it('should merge navigable objects', () => {
   expect(meta.get().navigable).toEqual({ home: true, back: true });
 });
 
+it('should activate flag to control back and home button', () => {
+  meta.setActionBeforeClose(true);
+  expect(meta.get().doBeforeClose).toBe(true);
+});
+
 it('should set both `home` and `back` navigable properties if passed a boolean', () => {
   meta.setNavigable(false);
   expect(meta.get().navigable).toEqual({ home: false, back: false });

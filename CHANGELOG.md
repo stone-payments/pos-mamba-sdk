@@ -3,6 +3,145 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.32.4](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.32.3...v2.32.4) (2020-09-23)
+
+
+### Bug Fixes
+
+* 🐛 Fix doBeforeClose state ([22064b8](https://github.com/stone-payments/pos-mamba-sdk/commit/22064b88dcfdfebb6833c39cc61bfac77fe6f991))
+
+
+
+
+
+## [2.32.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.32.2...v2.32.3) (2020-09-15)
+
+
+### Bug Fixes
+
+* 🐛 Update negative event from confirmation dialog ([e27fa68](https://github.com/stone-payments/pos-mamba-sdk/commit/e27fa68152914163e255cd7300a95262cafd4de5))
+* 🐛 update package-lock ([4a05047](https://github.com/stone-payments/pos-mamba-sdk/commit/4a05047637e07ab7aefb212fcffe2e2651f6b634))
+
+
+
+
+
+## [2.32.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.32.1...v2.32.2) (2020-09-14)
+
+
+### Bug Fixes
+
+* 🐛 run npm i ([4e38e4e](https://github.com/stone-payments/pos-mamba-sdk/commit/4e38e4ef0986d99b0a4448887f2e495da2f64b7c))
+
+
+### Features
+
+* 🎸 Include two new properties to customize qrcode ([80e43b4](https://github.com/stone-payments/pos-mamba-sdk/commit/80e43b436d514eb28afa2c2039ccdff831a7df49))
+
+
+
+
+
+## [2.32.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.32.0...v2.32.1) (2020-08-19)
+
+
+### Bug Fixes
+
+* 🐛 run npm i ([fa6fc82](https://github.com/stone-payments/pos-mamba-sdk/commit/fa6fc820b9fc04c74308446618536015f031acad))
+* 🐛 Update activateStonecode ([3cc601b](https://github.com/stone-payments/pos-mamba-sdk/commit/3cc601b94a33ded03f447d0ba66f3737cac8feba))
+
+
+
+
+
+# [2.32.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.31.2...v2.32.0) (2020-08-18)
+
+
+### Features
+
+* 🎸 New Brands: Ame, Dotz, E-ctare, iFood, MercadoPago e Picpay ([1e7c77d](https://github.com/stone-payments/pos-mamba-sdk/commit/1e7c77d48ea83412f308a486bade4112ebb80c8a))
+
+
+
+
+
+## [2.31.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.31.0...v2.31.2) (2020-08-03)
+
+**Note:** Version bump only for package mamba-sdk
+
+
+
+
+
+## [2.31.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.31.0...v2.31.1) (2020-08-03)
+
+**Note:** Version bump only for package mamba-sdk
+
+
+
+
+
+# [2.31.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.30.0...v2.31.0) (2020-07-21)
+
+
+### Features
+
+* 🎸 Printable componente now supports ReprintException ([6352bc1](https://github.com/stone-payments/pos-mamba-sdk/commit/6352bc1caf4b3e57c7bc1f2376acf6fbf1f934ee))
+
+
+
+
+
+# [2.30.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.29.6...v2.30.0) (2020-07-06)
+
+
+### Bug Fixes
+
+* 🐛 Update package-lock ([b0fd7b0](https://github.com/stone-payments/pos-mamba-sdk/commit/b0fd7b0c766f3b4f140eabdb575cd4b6f3978c7e))
+* 🐛 Update text exception ([5b0fbb7](https://github.com/stone-payments/pos-mamba-sdk/commit/5b0fbb743f98cee770f5200a0f95a3ac235f1cd3))
+
+
+### Features
+
+* 🎸 Create a new method to activate another stonecode ([be87d06](https://github.com/stone-payments/pos-mamba-sdk/commit/be87d06f7d19f28ddfcdc231654822204663c90d))
+
+
+
+
+
+## [2.29.6](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.29.5...v2.29.6) (2020-06-18)
+
+
+### Bug Fixes
+
+* 🐛 Remove event when ondestroy is called ([cb01a95](https://github.com/stone-payments/pos-mamba-sdk/commit/cb01a9567848e4dbd59b335a1559f1ceccfdb856))
+* 🐛 Update package-lock ([9b47755](https://github.com/stone-payments/pos-mamba-sdk/commit/9b477550d5fff5cedc2fa51ab9d02c803fd7b05e))
+
+
+
+
+
+## [2.29.5](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.29.3...v2.29.5) (2020-06-18)
+
+
+### Bug Fixes
+
+* 🐛 Fix input bugs ([d935a44](https://github.com/stone-payments/pos-mamba-sdk/commit/d935a4478c53a11dab014f1f72b342314a65764f))
+* 🐛 rmeove deprecated vscode setting ([fa5be98](https://github.com/stone-payments/pos-mamba-sdk/commit/fa5be9803c6f5b464e5aee2f31031fd0c72eacd3))
+* 🐛 timeout value ([3b71319](https://github.com/stone-payments/pos-mamba-sdk/commit/3b7131948fc382151ffb066af595fac7fbb41b88))
+* 🐛 Update code ([9f6ed03](https://github.com/stone-payments/pos-mamba-sdk/commit/9f6ed03fa9f830a83d5447d3e434c232ee3c9940))
+* remove lagacy .stone from app deploy ([841b8ea](https://github.com/stone-payments/pos-mamba-sdk/commit/841b8ead029fafef35d447606f42d6d763e5ef02))
+
+
+### Features
+
+* 🎸 add optional printable message for no paper error ([804cd59](https://github.com/stone-payments/pos-mamba-sdk/commit/804cd5926ac03b5402d0eaf12311a08e64a6cb66))
+* 🎸 Update package-lock ([4380ddc](https://github.com/stone-payments/pos-mamba-sdk/commit/4380ddcd57ef08e8a9c3d49d03907f818a4074ba))
+
+
+
+
+
 ## [2.29.4](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.29.3...v2.29.4) (2020-06-16)
 
 
