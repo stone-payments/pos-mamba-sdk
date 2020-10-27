@@ -26,7 +26,7 @@
       <!-- You can use whenever you want if the app makes sense to show this info -->
       {#if (showInfoPrinter && id) || ($transactionType && !$config.isPreAuth)}
         <p class="failure-dialog-txt">
-          A filipeta ainda está disponível no app <strong>Reimpressão</strong>.
+          <slot name="error-message">A filipeta ainda está disponível no app <strong>Reimpressão</strong>.</slot>
         </p>
       {:elseif showNoPaperErrorMessage}
         <p class="failure-dialog-txt">
