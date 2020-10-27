@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.33.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.32.4...v2.33.1) (2020-10-27)
+
+**Note:** Version bump only for package @mamba/progress
+
+
+
+
+
 ## [2.32.4](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.32.3...v2.32.4) (2020-09-23)
 
 **Note:** Version bump only for package @mamba/progress

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.33.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.32.4...v2.33.1) (2020-10-27)
+
+
+### Bug Fixes
+
+* 🐛 Fix input and app component ([8702f55](https://github.com/stone-payments/pos-mamba-sdk/commit/8702f553f21546de0f1178d0a1adedfcf8bd4a20))
+
+
+### Features
+
+* 🎸 enable customizable printable error message ([23cfe99](https://github.com/stone-payments/pos-mamba-sdk/commit/23cfe99d4149384c67945af7a2d740c1eed9cf09))
+
+
+
+
+
 ## [2.32.4](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.32.3...v2.32.4) (2020-09-23)
 
 
