@@ -1,6 +1,6 @@
 {
   "name": "@mamba/range",
-  "version": "2.33.1",
+  "version": "2.33.2",
   "svelte": "Range.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -8,7 +8,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@mamba/styles": "^2.33.1"
+    "@mamba/styles": "^2.33.2"
   },
   "gitHead": "869644effc7b7347a2ff75c956c57d69ee8236a5",
   "peerDependencies": {

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.33.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.33.1...v2.33.2) (2020-11-14)
+
+
+### Bug Fixes
+
+* 🐛 Include padding bottom on input ([8ee2413](https://github.com/stone-payments/pos-mamba-sdk/commit/8ee24134a063e69d51b8dc99d8ad1c357cc54e51))
+
+
+
+
+
 ## [2.33.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.32.4...v2.33.1) (2020-10-27)
 
 
