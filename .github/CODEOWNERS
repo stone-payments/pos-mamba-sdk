@@ -2,7 +2,7 @@
 # Each line is a file pattern followed by one or more owners.
 
 # These owners will be the default owners for everything in the repo.
-* frodrigues@stone.com.br pedro.souza@stone.com.br diego.martins@stone.com.br jonas.bezerra@stone.com.br jcmarques@stone.com.br fteixeira@stone.com.br
+* pedro.souza@stone.com.br diego.martins@stone.com.br jonas.bezerra@stone.com.br jcmarques@stone.com.br
 
 # Order is important. The last matching pattern has the most precedence.
 # So if a pull request only touches javascript files, only these owners
