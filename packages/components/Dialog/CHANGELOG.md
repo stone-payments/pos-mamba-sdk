@@ -3,6 +3,113 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.33.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.33.1...v2.33.2) (2020-11-14)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+## [2.33.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.32.4...v2.33.1) (2020-10-27)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+## [2.32.4](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.32.3...v2.32.4) (2020-09-23)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+## [2.32.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.32.2...v2.32.3) (2020-09-15)
+
+
+### Bug Fixes
+
+* 🐛 Update negative event from confirmation dialog ([e27fa68](https://github.com/stone-payments/pos-mamba-sdk/commit/e27fa68152914163e255cd7300a95262cafd4de5))
+
+
+
+
+
+## [2.32.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.32.1...v2.32.2) (2020-09-14)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+## [2.32.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.32.0...v2.32.1) (2020-08-19)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+# [2.32.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.31.2...v2.32.0) (2020-08-18)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+## [2.31.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.31.0...v2.31.2) (2020-08-03)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+## [2.31.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.31.0...v2.31.1) (2020-08-03)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+# [2.31.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.30.0...v2.31.0) (2020-07-21)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+# [2.30.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.29.6...v2.30.0) (2020-07-06)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+## [2.29.6](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.29.5...v2.29.6) (2020-06-18)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+## [2.29.5](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.29.3...v2.29.5) (2020-06-18)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
 ## [2.29.4](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.29.3...v2.29.4) (2020-06-16)
 
 **Note:** Version bump only for package @mamba/dialog

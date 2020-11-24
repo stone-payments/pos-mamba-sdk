@@ -7,4 +7,28 @@ export default function(driver) {
 
     return driver.changeAdapterTo(desiredAdapter);
   };
+
+  driver.activateStonecode = stonecode => {
+    return new Promise((resolve, reject) => {
+      if (typeof driver.activateStoneCode === 'function') {
+        driver.race([
+          [
+            'success',
+            () => {
+              resolve(true);
+            },
+          ],
+          [
+            'failure',
+            error => {
+              reject(error);
+            },
+          ],
+        ]);
+        driver.activateStoneCode(stonecode);
+      } else {
+        reject(new Error('Método não suportado para esta versão do sistema.'));
+      }
+    });
+  };
 }
