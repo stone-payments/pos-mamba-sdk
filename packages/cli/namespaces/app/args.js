@@ -25,4 +25,10 @@ module.exports = {
     default: false,
     type: 'boolean',
   },
+  platform: {
+    description: 'Choose the platform to build artifact',
+    alias: ['pl'],
+    default: 'S920',
+    choices: ['S920', 'MP35P', 'Q92', 'V240M'],
+  },
 };

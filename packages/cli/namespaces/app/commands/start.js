@@ -6,7 +6,7 @@ const shell = require('../../../lib/shell.js');
 module.exports = {
   command: 'start',
   desc: 'Start the development server',
-  handler({ debug, port }) {
+  handler({ debug, port, platform }) {
     const webpackConfigPath = getWebpackConfigPath('app.dev');
 
     console.log(
@@ -19,6 +19,7 @@ module.exports = {
       'cross-env',
       /** If development flag has a numeric value */
       Number.isInteger(debug) && `DEBUG_LVL=${debug}`,
+      `PLATFORM=${platform}`,
       `webpack-dev-server --port ${port} --config "${webpackConfigPath}"`,
     ]
       .filter(Boolean)
@@ -38,6 +39,12 @@ module.exports = {
         alias: ['d'],
         default: false,
         choices: [false, 1, 2, 3],
+      },
+      platform: {
+        description: 'Choose the platform to build artifact',
+        alias: ['pl'],
+        default: 'S920',
+        choices: ['S920', 'MP35P', 'Q92', 'V240M'],
       },
     }),
 };

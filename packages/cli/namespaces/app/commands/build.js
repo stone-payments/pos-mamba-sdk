@@ -7,7 +7,7 @@ const cliArgs = require('../args.js');
 module.exports = {
   command: 'build',
   desc: 'Build the app',
-  handler({ target, development, simulator }) {
+  handler({ target, development, simulator, platform }) {
     const IS_DEV =
       development === true ||
       (typeof development === 'number' && development > 0);
@@ -21,6 +21,7 @@ module.exports = {
       /** If development flag has a numeric value */
       IS_DEBUG && `DEBUG_LVL=${development}`,
       ADD_SIMULATOR && 'MAMBA_SIMULATOR=true',
+      `PLATFORM=${platform}`,
       `webpack --config "${getWebpackConfigPath('app.build')}"`,
     ]
       .filter(Boolean)
@@ -33,6 +34,7 @@ module.exports = {
         (development ? 'development' : 'production').toUpperCase(),
       )}`,
     );
+    if (platform) console.log(`  PLATFORM: ${chalk.yellow(platform)}`);
 
     if (IS_DEBUG) {
       console.log(`  Debug Level: ${chalk.yellow(development)}`);
@@ -49,5 +51,6 @@ module.exports = {
       target: cliArgs.target,
       development: cliArgs.development,
       simulator: cliArgs.simulator,
+      platform: cliArgs.platform,
     }),
 };
