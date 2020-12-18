@@ -1,4 +1,6 @@
 /** Reusable yargs options */
+const { PLATFORMS } = require('../../consts.js');
+
 module.exports = {
   lintType: {
     description: "The type of file to lint: 'css' or 'js'",
@@ -28,7 +30,8 @@ module.exports = {
   platform: {
     description: 'Choose the platform to build artifact',
     alias: ['pl'],
-    default: 'S920',
-    choices: ['S920', 'MP35P', 'Q92', 'V240M'],
+    type: 'array',
+    default: ['S920'],
+    choices: [...PLATFORMS, 'all'],
   },
 };

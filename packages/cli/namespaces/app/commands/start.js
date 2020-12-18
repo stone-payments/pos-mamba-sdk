@@ -1,6 +1,7 @@
 const chalk = require('chalk');
 const { getWebpackConfigPath } = require('../utils.js');
 const shell = require('../../../lib/shell.js');
+const { PLATFORMS } = require('../../../consts.js');
 
 /** Start the webpack development server */
 module.exports = {
@@ -44,7 +45,7 @@ module.exports = {
         description: 'Choose the platform to build artifact',
         alias: ['pl'],
         default: 'S920',
-        choices: ['S920', 'MP35P', 'Q92', 'V240M'],
+        choices: [...PLATFORMS],
       },
     }),
 };
