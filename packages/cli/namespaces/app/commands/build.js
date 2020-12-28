@@ -49,7 +49,8 @@ module.exports = {
         console.log(chalk.yellow('  Adding the Mamba simulator to the bundle'));
       }
 
-      shell(cmd);
+      // When exit is false the build script keeps working to another platform even though build error.
+      shell(cmd, { exit: !(choseAllPlatforms || platform.length > 1) });
     });
   },
   builder: yargs =>
