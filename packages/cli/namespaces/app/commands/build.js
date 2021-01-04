@@ -50,7 +50,7 @@ module.exports = {
       }
 
       // When exit is false the build script keeps working to another platform even though build error.
-      shell(cmd, { exit: !(choseAllPlatforms || platform.length > 1) });
+      shell(cmd);
     });
   },
   builder: yargs =>
