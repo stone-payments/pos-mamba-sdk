@@ -44,6 +44,9 @@ View.setDevice = device => {
   });
 };
 
-View.getDevice = () => View.drivers.device;
+View.getDevice = () => {
+  const { device: devicePOS } = View.driver || {};
+  return devicePOS || device;
+};
 
 export default View;
