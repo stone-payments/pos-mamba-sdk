@@ -1,22 +1,37 @@
 
 <div class="pos-wrapper">
-  <div class="shadow"></div>
-  <div class="pos">
+  <div class="shadow shadow-{device}"></div>
+  <div class="pos {device}">
     <Printer ref:printer />
-      <Screen ref:screen>
+      <Screen ref:screen device={device}>
         <slot></slot>
       </Screen>
-    <Keypad ref:keypad />
+    <Keypad ref:keypad device={device}/>
   </div>
 </div>
 
 <script>
+
+  import { View } from '../../index.js';
+
   export default {
     components: {
       Printer: './hardware/Printer.html',
       Keypad: './hardware/Keypad.html',
       Screen: './hardware/Screen.html',
     },
+    data() {
+      return {
+        device: View.getDevice(),
+      };
+    },
+    oncreate(){
+      // const { classDeviceShadow, classDevice } = this.refs;
+      // const device = View.getDevice();
+
+      // classDevice.classList.add(device);
+      // classDeviceShadow.classList.add(device);
+    }
   };
 </script>
 
@@ -38,10 +53,22 @@
       position: relative;
       z-index: 2;
       margin: 0 auto;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+
+    .S920,
+    .shadow-S920 {
       width: 347px;
       height: 761px;
       background-image: url(./assets/POS.png);
-      background-size: cover;
+    }
+
+    .MP35P,
+    .shadow-MP35P {
+      width: 390px;
+      height: 755px;
+      background-image: url(./assets/MP35P.png);
     }
 
     .pos {

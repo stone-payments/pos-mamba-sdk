@@ -1,7 +1,7 @@
 <svelte:window on:keyup="_onKeyup(event)" />
 
 <div
-  class="credit-card"
+  class="credit-card {View.getDevice()}"
   class:is-inserted="isInserted"
   class:is-dragging="isDragging"
   class:is-above-screen="isAboveScreen"
@@ -10,8 +10,12 @@
 
 <script>
   import { HardwareManager } from '../../index.js';
+  import { View } from '../../index.js';
 
   export default {
+    helpers: {
+      View,
+    },
     data() {
       return {
         isInserted: false,
@@ -149,6 +153,10 @@
 
     &:hover {
       transform: scale(1.04);
+    }
+
+    &.MP35P {
+      left: 75px;
     }
 
     &:not(:hover):not(.is-inserted) {

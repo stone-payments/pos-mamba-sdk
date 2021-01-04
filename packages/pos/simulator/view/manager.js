@@ -6,6 +6,7 @@ const View = extend({}, EventTarget());
 
 let instance;
 let panelsToAdd = [];
+let device = 'S920';
 
 const updatePanels = () => {
   const { panels } = instance.refs.controlPanel.get();
@@ -36,5 +37,13 @@ View.show = () => {
 };
 
 View.getInstance = () => instance;
+
+View.setDevice = device => {
+  return (View.drivers = {
+    device,
+  });
+};
+
+View.getDevice = () => View.drivers.device;
 
 export default View;

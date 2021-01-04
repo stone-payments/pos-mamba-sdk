@@ -47,6 +47,9 @@
         1 - rescale(brightnessLevel, [1, 10], [0.4, 1]),
     },
     oncreate() {
+
+      console.log(this.get());
+
       if (localStorage) {
         const { ScreenBrightness } = Registry.persistent.get();
         if (ScreenBrightness && typeof ScreenBrightness.level !== 'undefined') {
@@ -103,6 +106,14 @@
       @supports (-moz-appearance: none) {
         filter: none;
       }
+    }
+
+    :global(.MP35P .screen) {
+      top: 238px;
+      left: 73px;
+      border-radius: 2px;
+      width: 245px;
+      height: 184px;
     }
 
     .content {
