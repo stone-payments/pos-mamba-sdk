@@ -45,11 +45,11 @@ module.exports = {
     /** Disallow 'console.log' on production */
     'no-console': IS_PROD
       ? [
-        'warn',
-        {
-          allow: ['info', 'warn', 'error'],
-        },
-      ]
+          'warn',
+          {
+            allow: ['info', 'warn', 'error'],
+          },
+        ]
       : 'off',
 
     /** Allow implicit return */
@@ -172,8 +172,10 @@ module.exports = {
         ImportDeclaration: 1,
         flatTernaryExpressions: false,
         ignoreComments: false,
+        ignoredNodes: ['TemplateLiteral'],
       },
     ],
+    'template-curly-spacing': ['off'],
 
     // ! Svelte eslint
 
