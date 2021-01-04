@@ -18,9 +18,7 @@ module.exports = {
     if (typeof PKG.mamba === 'undefined') {
       console.error(
         chalk.red(
-          `No "mamba" property found at "${
-            PKG.rootDir
-          }" Is this an mamba app directory?"`,
+          `No "mamba" property found at "${PKG.rootDir}" Is this an mamba app directory?"`,
         ),
       );
       process.exit(1);
