@@ -8,6 +8,18 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
+* 🎸 Update packages ([b8044fe](https://github.com/stone-payments/pos-mamba-sdk/commit/b8044fe52daa682e98b71c275f509acd60c77f40))
+* 🎸 Updating core sdk ([712bd78](https://github.com/stone-payments/pos-mamba-sdk/commit/712bd7806456386a6b92a2415e0df81ce34eded2))
+
+
+
+
+
+# [2.34.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/configs@2.33.3...@mamba/configs@2.34.0) (2021-01-04)
+
+
+### Features
+
 * 🎸 Updating core sdk ([712bd78](https://github.com/stone-payments/pos-mamba-sdk/commit/712bd7806456386a6b92a2415e0df81ce34eded2))
 
 

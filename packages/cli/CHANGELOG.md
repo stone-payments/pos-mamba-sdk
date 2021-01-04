@@ -15,6 +15,25 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Features
 
 * 🎸 Include build for all platforms ([e4f0a6f](https://github.com/stone-payments/pos-mamba-sdk/commit/e4f0a6f4748a91e6137ffad004ce23ffc2074f9e))
+* 🎸 Update packages ([b8044fe](https://github.com/stone-payments/pos-mamba-sdk/commit/b8044fe52daa682e98b71c275f509acd60c77f40))
+* 🎸 Updating core sdk ([712bd78](https://github.com/stone-payments/pos-mamba-sdk/commit/712bd7806456386a6b92a2415e0df81ce34eded2))
+
+
+
+
+
+# [2.34.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@2.33.3...@mamba/cli@2.34.0) (2021-01-04)
+
+
+### Bug Fixes
+
+* 🐛 Remove code from shell ([32f0255](https://github.com/stone-payments/pos-mamba-sdk/commit/32f0255ff90c6d1d36aff9919de4bc3e44c77b4e))
+* 🐛 Update build webpack to keep build event error ([bae8663](https://github.com/stone-payments/pos-mamba-sdk/commit/bae8663290c59500edc3559d7849e2165b329e07))
+
+
+### Features
+
+* 🎸 Include build for all platforms ([e4f0a6f](https://github.com/stone-payments/pos-mamba-sdk/commit/e4f0a6f4748a91e6137ffad004ce23ffc2074f9e))
 * 🎸 Updating core sdk ([712bd78](https://github.com/stone-payments/pos-mamba-sdk/commit/712bd7806456386a6b92a2415e0df81ce34eded2))
 
 

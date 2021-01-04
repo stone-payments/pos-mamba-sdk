@@ -5,6 +5,17 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.34.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/carousel@2.33.3...@mamba/carousel@2.34.0) (2021-01-04)
 
+
+### Features
+
+* 🎸 Update packages ([b8044fe](https://github.com/stone-payments/pos-mamba-sdk/commit/b8044fe52daa682e98b71c275f509acd60c77f40))
+
+
+
+
+
+# [2.34.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/carousel@2.33.3...@mamba/carousel@2.34.0) (2021-01-04)
+
 **Note:** Version bump only for package @mamba/carousel
 
 
