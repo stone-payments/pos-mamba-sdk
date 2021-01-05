@@ -6,7 +6,11 @@ const View = extend({}, EventTarget());
 
 let instance;
 let panelsToAdd = [];
-let device = 'S920';
+// let device = 'S920';
+
+View.drivers = Object.freeze({
+  device: 'S920',
+});
 
 const updatePanels = () => {
   const { panels } = instance.refs.controlPanel.get();
@@ -39,14 +43,14 @@ View.show = () => {
 View.getInstance = () => instance;
 
 View.setDevice = device => {
-  return (View.drivers = {
+  View.drivers = Object.freeze({
+    ...View.drivers,
     device,
   });
 };
 
 View.getDevice = () => {
-  const { device: devicePOS } = View.driver || {};
-  return devicePOS || device;
+  return View.drivers.device;
 };
 
 export default View;

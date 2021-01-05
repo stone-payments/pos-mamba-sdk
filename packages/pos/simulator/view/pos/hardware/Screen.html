@@ -47,9 +47,6 @@
         1 - rescale(brightnessLevel, [1, 10], [0.4, 1]),
     },
     oncreate() {
-
-      console.log(this.get());
-
       if (localStorage) {
         const { ScreenBrightness } = Registry.persistent.get();
         if (ScreenBrightness && typeof ScreenBrightness.level !== 'undefined') {

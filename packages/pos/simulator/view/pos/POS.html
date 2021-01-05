@@ -3,9 +3,9 @@
   <div class="shadow shadow-{device}"></div>
   <div class="pos {device}">
     <Printer ref:printer />
-      <Screen ref:screen device={device}>
-        <slot></slot>
-      </Screen>
+    <Screen ref:screen device={device}>
+      <slot></slot>
+    </Screen>
     <Keypad ref:keypad device={device}/>
   </div>
 </div>
@@ -17,7 +17,7 @@
   export default {
     components: {
       Printer: './hardware/Printer.html',
-      Keypad: './hardware/Keypad.html',
+      Keypad: './hardware/Keypad/index.html',
       Screen: './hardware/Screen.html',
     },
     data() {
@@ -25,13 +25,6 @@
         device: View.getDevice(),
       };
     },
-    oncreate(){
-      // const { classDeviceShadow, classDevice } = this.refs;
-      // const device = View.getDevice();
-
-      // classDevice.classList.add(device);
-      // classDeviceShadow.classList.add(device);
-    }
   };
 </script>
 
