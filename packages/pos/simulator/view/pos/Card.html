@@ -1,7 +1,7 @@
 <svelte:window on:keyup="_onKeyup(event)" />
 
 <div
-  class="credit-card {View.getDevice()}"
+  class="credit-card {device}"
   class:is-inserted="isInserted"
   class:is-dragging="isDragging"
   class:is-above-screen="isAboveScreen"
@@ -13,14 +13,12 @@
   import { View } from '../../index.js';
 
   export default {
-    helpers: {
-      View,
-    },
     data() {
       return {
         isInserted: false,
         isDragging: false,
         isAboveScreen: false,
+        device: View.getDevice(),
       };
     },
     oncreate() {
