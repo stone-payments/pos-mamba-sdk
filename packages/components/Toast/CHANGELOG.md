@@ -3,6 +3,132 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.34.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/toast@2.33.3...@mamba/toast@2.34.0) (2021-01-04)
+
+
+### Features
+
+* 🎸 Update packages ([b8044fe](https://github.com/stone-payments/pos-mamba-sdk/commit/b8044fe52daa682e98b71c275f509acd60c77f40))
+
+
+
+
+
+# [2.34.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/toast@2.33.3...@mamba/toast@2.34.0) (2021-01-04)
+
+**Note:** Version bump only for package @mamba/toast
+
+
+
+
+
+## 2.33.3 (2020-11-24)
+
+
+
+## 2.33.2 (2020-11-14)
+
+
+
+## 2.33.1 (2020-10-27)
+
+
+
+## 2.32.4 (2020-09-23)
+
+
+
+## 2.32.3 (2020-09-15)
+
+
+
+## 2.32.2 (2020-09-14)
+
+
+
+## 2.32.1 (2020-08-19)
+
+
+
+# 2.32.0 (2020-08-18)
+
+
+
+## 2.31.2 (2020-08-03)
+
+
+
+# 2.31.0 (2020-07-21)
+
+
+
+# 2.30.0 (2020-07-06)
+
+
+
+## 2.29.6 (2020-06-18)
+
+
+
+## 2.29.5 (2020-06-18)
+
+
+
+## 2.29.4 (2020-06-16)
+
+
+
+## 2.29.3 (2020-05-18)
+
+
+
+## 2.29.1 (2020-05-18)
+
+
+
+# 2.28.0 (2020-05-11)
+
+
+
+## 2.27.2 (2020-04-15)
+
+
+
+## 2.27.1 (2020-04-03)
+
+
+
+# 2.27.0 (2020-04-01)
+
+
+
+## 2.26.3 (2020-03-13)
+
+
+
+## 2.26.2 (2020-03-12)
+
+
+
+## 2.26.1 (2020-03-01)
+
+
+
+# 2.26.0 (2020-02-28)
+
+
+
+# 2.25.0 (2020-02-17)
+
+
+### Features
+
+* 🎸 created Toast component ([97c1fae](https://github.com/stone-payments/pos-mamba-sdk/commit/97c1fae3ef7ae91fbc45977ac908006197282571))
+
+
+
+
+
 ## [2.33.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.33.1...v2.33.2) (2020-11-14)
 
 **Note:** Version bump only for package @mamba/toast

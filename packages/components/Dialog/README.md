@@ -185,8 +185,24 @@ Exemplo:
 ```html
 <Dialog>
   Minha mensagem
-  <slot name="extra">Conteúdo extra</slot>
+  <div slot="extra">Conteúdo extra</div>
 </Dialog>
+```
+
+`<ConfirmationDialog ... />`
+
+| Slot   | Descrição                                                                                       |
+| ------ | ----------------------------------------------------------------------------------------------- |
+| footer | O slot `footer` pode ser usado para adicionar conteúdo no final do diálogo, ou terceiro botão.  |
+
+<br/>
+
+Exemplo:
+
+```html
+<ConfirmationDialog>
+  <div slot="footer">Conteúdo final</div>
+</ConfirmationDialog>
 ```
 
 ---

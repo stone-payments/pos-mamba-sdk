@@ -1,12 +1,13 @@
 const chalk = require('chalk');
 const { getWebpackConfigPath } = require('../utils.js');
 const shell = require('../../../lib/shell.js');
+const { PLATFORMS } = require('../../../consts.js');
 
 /** Start the webpack development server */
 module.exports = {
   command: 'start',
   desc: 'Start the development server',
-  handler({ debug, port }) {
+  handler({ debug, port, platform }) {
     const webpackConfigPath = getWebpackConfigPath('app.dev');
 
     console.log(
@@ -19,6 +20,7 @@ module.exports = {
       'cross-env',
       /** If development flag has a numeric value */
       Number.isInteger(debug) && `DEBUG_LVL=${debug}`,
+      `PLATFORM=${platform}`,
       `webpack-dev-server --port ${port} --config "${webpackConfigPath}"`,
     ]
       .filter(Boolean)
@@ -38,6 +40,12 @@ module.exports = {
         alias: ['d'],
         default: false,
         choices: [false, 1, 2, 3],
+      },
+      platform: {
+        description: 'Choose the platform to build artifact',
+        alias: ['pl'],
+        default: 'S920',
+        choices: [...PLATFORMS],
       },
     }),
 };
