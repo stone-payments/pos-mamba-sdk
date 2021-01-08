@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.34.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@2.34.0...@mamba/webpack@2.34.1) (2021-01-08)
+
+
+### Bug Fixes
+
+* 🐛 Fixed build multiplatform to s920 and included redecompras logo ([da7b139](https://github.com/stone-payments/pos-mamba-sdk/commit/da7b13941f1d057dcddcee21577045e8a9f0a1cc))
+
+
+
+
+
 # [2.34.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@2.33.3...@mamba/webpack@2.34.0) (2021-01-04)
 
 
