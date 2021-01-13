@@ -13,13 +13,7 @@ const { getPkg } = require('quickenv');
 
 const PKG = getPkg();
 
-const { PLATFORM } = process.env;
-
-/**
- * @todo Remove when develop app and multiplatform feature would be done.
- */
-// Solution to prevent possible bugs before update develop app.
-const isS920 = PLATFORM === 'S920';
+const { PLATFORM, BUILD_ALL } = process.env;
 
 module.exports = merge(require('./config.app.js'), {
   devtool: false,
@@ -29,8 +23,8 @@ module.exports = merge(require('./config.app.js'), {
       onStart: {
         delete: [
           `./dist/${BUNDLE_NAME}`,
-          `./dist/${BUNDLE_NAME}${!isS920 ? `.${PLATFORM}` : ''}.tar.gz`,
-          `./dist/${BUNDLE_NAME}${!isS920 ? `.${PLATFORM}` : ''}.ppk`,
+          `./dist/${BUNDLE_NAME}${BUILD_ALL ? `.${PLATFORM}` : ''}.tar.gz`,
+          `./dist/${BUNDLE_NAME}${BUILD_ALL ? `.${PLATFORM}` : ''}.ppk`,
         ],
       },
       onEnd: {
@@ -44,7 +38,7 @@ module.exports = merge(require('./config.app.js'), {
           {
             source: `./dist/${BUNDLE_NAME}/`,
             destination: `./dist/${BUNDLE_NAME}${
-              !isS920 ? `.${PLATFORM}` : ''
+              BUILD_ALL ? `.${PLATFORM}` : ''
             }.tar.gz`,
             format: 'tar',
             options: {
@@ -56,7 +50,7 @@ module.exports = merge(require('./config.app.js'), {
           {
             source: `./dist/${BUNDLE_NAME}/`,
             destination: `./dist/${PKG.name}_v${PKG.version}${
-              !isS920 ? `.${PLATFORM}` : ''
+              BUILD_ALL ? `.${PLATFORM}` : ''
             }.ppk`,
             format: 'zip',
             options: {
