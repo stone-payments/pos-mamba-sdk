@@ -19,7 +19,7 @@
 
     <Row
       label="Hoje, 13/06/2018"
-      secondaryColor="#4EBF1A"
+      secondaryColor={green500}
       rightLabel="Alterar"
     >
     </Row>
@@ -27,29 +27,29 @@
     <Row
       leftLabel="Hoje, 13/06/2018"
       rightLabel="Alterar"
-      secondaryColor="#4EBF1A"
+      secondaryColor={green500}
     >
       <div slot="left-sign">
-        <Icon symbol="calendar" color="#4EBF1A" />
+        <Icon symbol="calendar" color={green500} />
       </div>
       <div slot="right-sign">
-        <Icon symbol="chevron-right" color="#4EBF1A" width="10px" />
+        <Icon symbol="chevron-right" color={green500} width="10px" />
       </div>
     </Row>
 
     <Row
       label="Conectado"
-      primaryColor="#4EBF1A"
+      primaryColor={green500}
     >
       <div slot="left-sign">
-        <Icon symbol="wifi" color="#4EBF1A" level="2" />
+        <Icon symbol="wifi" color={green500} level="2" />
       </div>
     </Row>
 
     <Row
       label="Conectado"
       primaryColor="white"
-      bgColor="#4EBF1A"
+      bgColor={green500}
     />
 
     <Row label="1 - Opção">
@@ -100,12 +100,17 @@
   </Collection>
 </div>
 <script>
+  import { green500 } from '@mamba/styles/colors';
+
   export default {
     components: {
       Icon: '@mamba/icon',
       Row: '@mamba/collection/Row.html',
       Collection: '@mamba/collection/Collection.html',
       Switch: '@mamba/switch',
+    },
+    helpers: {
+      green500,
     },
   };
 </script>

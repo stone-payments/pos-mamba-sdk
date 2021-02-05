@@ -24,6 +24,8 @@
 </div>
 
 <script>
+  import { green700, neutral700 } from '@mamba/styles/colors';
+
   export default {
     data() {
       return {
@@ -34,8 +36,8 @@
         value: 0,
         unit: '%',
         validation: undefined,
-        mainColor: '#3da10f',
-        textColor: '#494949',
+        mainColor: green700,
+        textColor: neutral700,
         barColor: '#000',
       };
     },
@@ -128,7 +130,7 @@
 
   .bar {
     height: 6px;
-    background-color: $green-700;
+    background-color: $green700;
   }
 
   button {
