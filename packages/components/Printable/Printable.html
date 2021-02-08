@@ -11,7 +11,7 @@
     fullscreen
   >
     <div class="printing-sprite"></div>
-    <div style="margin-top: 16px;">Imprimindo</div>
+    <div style="margin-top: 16px;">{printingText}</div>
   </Dialog>
 {/if}
 
@@ -82,6 +82,7 @@
         id: null,
         showInfoPrinter: false,
         showNoPaperErrorMessage: false,
+        printingText: 'Imprimindo',
       };
     },
     onupdate({ changed, current }) {

@@ -26,6 +26,7 @@ module.exports = {
         /** If development flag has a numeric value */
         IS_DEBUG && `DEBUG_LVL=${development}`,
         ADD_SIMULATOR && 'MAMBA_SIMULATOR=true',
+        (choseAllPlatforms || platforms.length > 1) && 'BUILD_ALL=true',
         `PLATFORM=${plat}`,
         `webpack --config "${getWebpackConfigPath('app.build')}"`,
       ]
