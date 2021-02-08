@@ -1,6 +1,6 @@
 {
   "name": "@mamba/radio",
-  "version": "2.35.0",
+  "version": "2.36.0",
   "svelte": "Radio.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -8,7 +8,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@mamba/styles": "^2.35.0"
+    "@mamba/styles": "^2.36.0"
   },
   "peerDependencies": {
     "@mamba/pos": "^2.10.0"
