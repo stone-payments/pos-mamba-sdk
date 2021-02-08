@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.34.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@2.34.2...@mamba/cli@2.34.3) (2021-01-26)
+
+**Note:** Version bump only for package @mamba/cli
+
+
+
+
+
+## [2.34.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@2.34.1...@mamba/cli@2.34.2) (2021-01-13)
+
+
+### Features
+
+* 🎸 Included BUILD_ALL invironment variable ([fe7d0de](https://github.com/stone-payments/pos-mamba-sdk/commit/fe7d0de56b9f79c6f5efb32b460f409f9dd7c8a4))
+
+
+
+
+
+## [2.34.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@2.34.0...@mamba/cli@2.34.1) (2021-01-08)
+
+**Note:** Version bump only for package @mamba/cli
+
+
+
+
+
 # [2.34.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@2.33.3...@mamba/cli@2.34.0) (2021-01-04)
 
 

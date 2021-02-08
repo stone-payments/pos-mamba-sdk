@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.34.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/brands@2.34.2...@mamba/brands@2.34.3) (2021-01-26)
+
+**Note:** Version bump only for package @mamba/brands
+
+
+
+
+
+## [2.34.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/brands@2.34.1...@mamba/brands@2.34.2) (2021-01-13)
+
+**Note:** Version bump only for package @mamba/brands
+
+
+
+
+
+## [2.34.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/brands@2.34.0...@mamba/brands@2.34.1) (2021-01-08)
+
+
+### Bug Fixes
+
+* 🐛 Fixed build multiplatform to s920 and included redecompras logo ([da7b139](https://github.com/stone-payments/pos-mamba-sdk/commit/da7b13941f1d057dcddcee21577045e8a9f0a1cc))
+* 🐛 Remove console.log ([dfd2e3b](https://github.com/stone-payments/pos-mamba-sdk/commit/dfd2e3b0d0e82628fb3eb0d07bb8f7b16d4c3601))
+
+
+
+
+
 # [2.34.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/brands@2.33.3...@mamba/brands@2.34.0) (2021-01-04)
 
 
