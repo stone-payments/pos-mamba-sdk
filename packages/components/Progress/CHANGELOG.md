@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.36.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/progress@2.34.3...@mamba/progress@2.36.0) (2021-02-08)
+
+
+### Bug Fixes
+
+* 🐛 update variables to camcelCase ([87bbeeb](https://github.com/stone-payments/pos-mamba-sdk/commit/87bbeeb494eeba68991d04361d304b20f3e29ce8))
+* 🐛 wrong replace ([03654c2](https://github.com/stone-payments/pos-mamba-sdk/commit/03654c229cb7e51bb27b681bf81d1bbb3c58922b))
+
+
+
+
+
+# [2.35.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/progress@2.34.3...@mamba/progress@2.35.0) (2021-02-08)
+
+
+### Bug Fixes
+
+* 🐛 update variables to camcelCase ([87bbeeb](https://github.com/stone-payments/pos-mamba-sdk/commit/87bbeeb494eeba68991d04361d304b20f3e29ce8))
+* 🐛 wrong replace ([03654c2](https://github.com/stone-payments/pos-mamba-sdk/commit/03654c229cb7e51bb27b681bf81d1bbb3c58922b))
+
+
+
+
+
 ## [2.34.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/progress@2.34.2...@mamba/progress@2.34.3) (2021-01-26)
 
 **Note:** Version bump only for package @mamba/progress

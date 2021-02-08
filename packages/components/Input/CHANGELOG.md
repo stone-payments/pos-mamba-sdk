@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.36.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@2.34.3...@mamba/input@2.36.0) (2021-02-08)
+
+
+### Bug Fixes
+
+* 🐛 old variables remnants ([c5cb2df](https://github.com/stone-payments/pos-mamba-sdk/commit/c5cb2dff0350752286b973bd401a0d5d952d501d))
+* 🐛 update variables to camcelCase ([87bbeeb](https://github.com/stone-payments/pos-mamba-sdk/commit/87bbeeb494eeba68991d04361d304b20f3e29ce8))
+
+
+
+
+
+# [2.35.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@2.34.3...@mamba/input@2.35.0) (2021-02-08)
+
+
+### Bug Fixes
+
+* 🐛 old variables remnants ([c5cb2df](https://github.com/stone-payments/pos-mamba-sdk/commit/c5cb2dff0350752286b973bd401a0d5d952d501d))
+* 🐛 update variables to camcelCase ([87bbeeb](https://github.com/stone-payments/pos-mamba-sdk/commit/87bbeeb494eeba68991d04361d304b20f3e29ce8))
+
+
+
+
+
 ## [2.34.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@2.34.2...@mamba/input@2.34.3) (2021-01-26)
 
 **Note:** Version bump only for package @mamba/input
