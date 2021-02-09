@@ -1,6 +1,6 @@
 {
   "name": "@mamba/container",
-  "version": "2.36.0",
+  "version": "2.36.1",
   "svelte": "Container.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -8,10 +8,10 @@
     "access": "public"
   },
   "devDependencies": {
-    "@mamba/icon": "^2.36.0"
+    "@mamba/icon": "^2.36.1"
   },
   "dependencies": {
-    "@mamba/styles": "^2.36.0"
+    "@mamba/styles": "^2.36.1"
   },
   "peerDependencies": {
     "@mamba/pos": "^2.10.2"
