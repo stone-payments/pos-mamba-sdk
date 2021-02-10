@@ -18,9 +18,9 @@ describe('Component Standards', () => {
     moneyInput = newMoneyInput();
   });
 
-  it('should have maximum value of 99999999.99', () => {
+  it('should have maximum value of 999999.99', () => {
     const { limit } = moneyInput.get();
-    expect(limit).toBe(99999999.99);
+    expect(limit).toBe(999999.99);
   });
 
   it('should have by default prefix in BRL', () => {
@@ -87,8 +87,8 @@ describe('Behavior', () => {
 
     it('should not accept values bigger than limit', () => {
       moneyInput.set({ readonly: false });
-      type('9999999999999');
-      expect(moneyInput.get().cents).toBe(9999999999);
+      type('99999999999');
+      expect(moneyInput.get().cents).toBe(99999999);
     });
 
     it('should move the caret to the right side of the input on every focus', () => {
