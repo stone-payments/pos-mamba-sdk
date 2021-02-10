@@ -3,7 +3,6 @@
 .DS_Store
 .directory
 npm-debug.log
-package-lock.json
 lerna-*
 /coverage.data
 /coverage

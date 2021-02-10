@@ -6,6 +6,34 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 # [2.37.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@2.34.3...@mamba/dialog@2.37.0) (2021-02-10)
 
 **Note:** Version bump only for package @mamba/dialog
+## [2.36.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@2.36.0...@mamba/dialog@2.36.1) (2021-02-09)
+
+
+### Bug Fixes
+
+* 🐛 wrong color importing ([1ad1e17](https://github.com/stone-payments/pos-mamba-sdk/commit/1ad1e176030d7865e2ac20d5055719ad56e697fc))
+
+
+
+
+
+# [2.36.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@2.34.3...@mamba/dialog@2.36.0) (2021-02-08)
+
+
+### Bug Fixes
+
+* 🐛 update variables to camcelCase ([87bbeeb](https://github.com/stone-payments/pos-mamba-sdk/commit/87bbeeb494eeba68991d04361d304b20f3e29ce8))
+
+
+
+
+
+# [2.35.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@2.34.3...@mamba/dialog@2.35.0) (2021-02-08)
+
+
+### Bug Fixes
+
+* 🐛 update variables to camcelCase ([87bbeeb](https://github.com/stone-payments/pos-mamba-sdk/commit/87bbeeb494eeba68991d04361d304b20f3e29ce8))
 
 
 
