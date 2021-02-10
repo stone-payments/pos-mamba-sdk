@@ -1,6 +1,6 @@
 {
   "name": "@mamba/utils",
-  "version": "2.34.3",
+  "version": "2.37.0",
   "description": "Utility methods for mamba apps",
   "module": "index.js",
   "sideEffects": false,
