@@ -46,8 +46,6 @@
   import masker from './libs/masker.js';
   import defaultTokens from './libs/tokens.js';
 
-  import { neutral500, red700 } from '@mamba/styles/colors';
-
   export default {
     components: {
       Icon: '@mamba/icon',
@@ -77,8 +75,8 @@
         type: 'text',
         align: 'right',
         bgColor: '#fff',
-        textColor: neutral500,
-        labelColor: neutral500,
+        textColor: '#7e7e7e',
+        labelColor: '#7e7e7e',
         errorColor: red700,
         /** Validation */
         validateOn: 'submit',
@@ -407,7 +405,7 @@
     }
 
     &::placeholder {
-      color: $neutral100;
+      color: #e3e6e7;
     }
 
     &:disabled {

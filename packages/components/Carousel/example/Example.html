@@ -7,7 +7,7 @@
 
   <h4>Personalizado</h4>
   <div class="row">
-    <Carousel slides={slides} navBg={green500} navColor={neutral700} />
+    <Carousel slides={slides} navBg="#4ebf1a" navColor="#425963" />
   </div>
 
 </div>
@@ -44,15 +44,9 @@
 </style>
 
 <script>
-  import { green500, neutral700 } from '@mamba/styles/colors';
-
   export default {
     components: {
       Carousel: '@mamba/carousel',
-    },
-    helpers: {
-      green500,
-      neutral700,
     },
     data() {
       return {
