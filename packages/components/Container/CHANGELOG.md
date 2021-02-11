@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.37.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@2.37.0...@mamba/container@2.37.1) (2021-02-11)
+
+
+### Bug Fixes
+
+* 🐛 merge conflicts ([a87b071](https://github.com/stone-payments/pos-mamba-sdk/commit/a87b07144dda857e3529bf1aafb8524f70a8c6c4))
+
+
+
+
+
 # [2.37.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@2.34.3...@mamba/container@2.37.0) (2021-02-10)
 ## [2.36.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@2.36.0...@mamba/container@2.36.1) (2021-02-09)
 

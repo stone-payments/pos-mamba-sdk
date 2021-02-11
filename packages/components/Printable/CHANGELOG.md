@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.37.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/printable@2.37.0...@mamba/printable@2.37.1) (2021-02-11)
+
+
+### Bug Fixes
+
+* 🐛 merge conflicts ([a87b071](https://github.com/stone-payments/pos-mamba-sdk/commit/a87b07144dda857e3529bf1aafb8524f70a8c6c4))
+* 🐛 update variables to camcelCase ([87bbeeb](https://github.com/stone-payments/pos-mamba-sdk/commit/87bbeeb494eeba68991d04361d304b20f3e29ce8))
+
+
+
+
+
 # [2.37.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/printable@2.34.3...@mamba/printable@2.37.0) (2021-02-10)
 ## [2.36.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/printable@2.36.0...@mamba/printable@2.36.1) (2021-02-09)
 

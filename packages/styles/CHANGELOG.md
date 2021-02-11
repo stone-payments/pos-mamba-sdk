@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.37.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/styles@2.37.0...@mamba/styles@2.37.1) (2021-02-11)
+
+
+### Bug Fixes
+
+* 🐛 @mamba/styles dependency pointing to npm ([009e011](https://github.com/stone-payments/pos-mamba-sdk/commit/009e0111cadca5fe25056e3b747bd74919d40eda))
+* 🐛 merge conflicts ([a87b071](https://github.com/stone-payments/pos-mamba-sdk/commit/a87b07144dda857e3529bf1aafb8524f70a8c6c4))
+* 🐛 old variable last remnant ([c0eaabc](https://github.com/stone-payments/pos-mamba-sdk/commit/c0eaabcf955094f0aee76b1571ca4b1ab7b7a0a1))
+* 🐛 old variables remnants ([c5cb2df](https://github.com/stone-payments/pos-mamba-sdk/commit/c5cb2dff0350752286b973bd401a0d5d952d501d))
+* 🐛 revert remnants ([1bebb18](https://github.com/stone-payments/pos-mamba-sdk/commit/1bebb18832717b14c2080e3159d65e5af6059e39))
+* 🐛 update variables to camcelCase ([87bbeeb](https://github.com/stone-payments/pos-mamba-sdk/commit/87bbeeb494eeba68991d04361d304b20f3e29ce8))
+
+
+### Features
+
+* 🎸 Sharon, new font included on SDK ([bff1832](https://github.com/stone-payments/pos-mamba-sdk/commit/bff183226c3b27582eff515e6ee960ce8c5f2ec2))
+
+
+
+
+
 # [2.37.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/styles@2.34.3...@mamba/styles@2.37.0) (2021-02-10)
 ## [2.36.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/styles@2.36.0...@mamba/styles@2.36.1) (2021-02-09)
 
