@@ -22,7 +22,7 @@
             </button>
           {:else}
             <div class="action" on:click="close('negative')" shortcut="close">
-              <RoundIcon symbol="close" size="giant" borderRadius="15px" bgColor="#ff1a1a" />
+              <RoundIcon symbol="close" size="giant" borderRadius="15px" bgColor={red600} />
             </div>
           {/if}
         </td>
@@ -39,7 +39,7 @@
             </button>
           {:else}
             <div class="action" on:click="close('positive')" shortcut="enter">
-              <RoundIcon symbol="check" size="giant" borderRadius="15px" bgColor="#4ebf1a" />
+              <RoundIcon symbol="check" size="giant" borderRadius="15px" bgColor={green500} />
             </div>
           {/if}
         </td>
