@@ -22,7 +22,7 @@
             </button>
           {:else}
             <div class="action" on:click="close('negative')" shortcut="close">
-              <RoundIcon symbol="close" size="giant" borderRadius="15px" bgColor={red600} />
+              <RoundIcon symbol="close" size="giant" borderRadius="15px" bgColor="#ff1a1a" />
             </div>
           {/if}
         </td>
@@ -39,7 +39,7 @@
             </button>
           {:else}
             <div class="action" on:click="close('positive')" shortcut="enter">
-              <RoundIcon symbol="check" size="giant" borderRadius="15px" bgColor={green500} />
+              <RoundIcon symbol="check" size="giant" borderRadius="15px" bgColor="#4ebf1a" />
             </div>
           {/if}
         </td>
@@ -50,8 +50,6 @@
 </Dialog>
 
 <script>
-  import { red600, green500 } from '@mamba/styles/colors';
-
   export default {
     components: {
       RoundIcon: '@mamba/icon/Round.html',
@@ -64,10 +62,6 @@
         negativeLabel: null,
         primaryColor: undefined,
       };
-    },
-    helpers: {
-      red600,
-      green500,
     },
     computed: {
       _dialogProps: ({ positiveLabel, negativeLabel, primaryColor, ...props }) =>
