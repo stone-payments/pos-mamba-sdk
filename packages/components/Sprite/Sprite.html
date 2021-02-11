@@ -1,6 +1,6 @@
 <div
   ref:sprite
-  style="background-position: {_position - 19}px -17px;"
+  style="background-position: {_position}px 0px;"
   class="sprite"
 ></div>
 
@@ -42,7 +42,7 @@
           return;
         }
 
-        // background-position on center: -20px -17px
+
         const { spriteWidth } = this;
         const { _position } = this.get();
 
@@ -59,7 +59,7 @@
           }
           positionAux = positionAux;
           this.set({ _position: positionAux });
-        }, 1500 / FPS);
+        }, 1000 / FPS);
 
         this.interval = interval;
       },

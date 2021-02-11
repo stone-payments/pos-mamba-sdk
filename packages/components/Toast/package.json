@@ -1,6 +1,6 @@
 {
   "name": "@mamba/toast",
-  "version": "2.37.1",
+  "version": "2.37.2",
   "svelte": "Toast.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -8,10 +8,10 @@
     "access": "public"
   },
   "devDependencies": {
-    "@mamba/icon": "^2.37.1"
+    "@mamba/icon": "^2.37.2"
   },
   "dependencies": {
-    "@mamba/styles": "^2.37.1"
+    "@mamba/styles": "^2.37.2"
   },
   "peerDependencies": {
     "@mamba/pos": "^2.8.2"
