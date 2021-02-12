@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/sprite@2.37.2...@mamba/sprite@3.0.0) (2021-02-12)
+
+
+### Bug Fixes
+
+* 🐛 missing imports ([b78a71f](https://github.com/stone-payments/pos-mamba-sdk/commit/b78a71fde15bf98e99c05e5c214819f98a128cc4))
+* 🐛 sprint wrong position ([7915731](https://github.com/stone-payments/pos-mamba-sdk/commit/79157315849e21f394bd0b8777ab56d6af0700f9))
+* 🐛 sprite wrong import ([66de6bb](https://github.com/stone-payments/pos-mamba-sdk/commit/66de6bbfe0bb69783b20424d857ceaa0ce320f2e))
+
+
+
+
+
 ## [2.37.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/sprite@2.37.1...@mamba/sprite@2.37.2) (2021-02-11)
 
 

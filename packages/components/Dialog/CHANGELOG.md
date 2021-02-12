@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@2.37.2...@mamba/dialog@3.0.0) (2021-02-12)
+
+
+### Bug Fixes
+
+* 🐛 merge conflicts ([7ade8ac](https://github.com/stone-payments/pos-mamba-sdk/commit/7ade8ac3f487fd4c2b26b5febf9fee76afa0a2fc))
+* 🐛 refix wrong replace ([55c7d42](https://github.com/stone-payments/pos-mamba-sdk/commit/55c7d42458cf583186d4fcc640989359f4f07cd5))
+* 🐛 update variables to camcelCase ([ae7e14a](https://github.com/stone-payments/pos-mamba-sdk/commit/ae7e14a9b18bb5373d5f508096134b3a6d343321))
+* 🐛 wrong color importing ([a994113](https://github.com/stone-payments/pos-mamba-sdk/commit/a994113bfabe2a734e5cfbb906cd7a44711c28ee))
+
+
+
+
+
 ## [2.37.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@2.37.1...@mamba/dialog@2.37.2) (2021-02-11)
 
 **Note:** Version bump only for package @mamba/dialog

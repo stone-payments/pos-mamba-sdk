@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/toast@2.37.2...@mamba/toast@3.0.0) (2021-02-12)
+
+
+### Bug Fixes
+
+* 🐛 update variables to camcelCase ([ae7e14a](https://github.com/stone-payments/pos-mamba-sdk/commit/ae7e14a9b18bb5373d5f508096134b3a6d343321))
+
+
+
+
+
 ## [2.37.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/toast@2.37.1...@mamba/toast@2.37.2) (2021-02-11)
 
 **Note:** Version bump only for package @mamba/toast

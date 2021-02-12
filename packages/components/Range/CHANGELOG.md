@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/range@2.37.2...@mamba/range@3.0.0) (2021-02-12)
+
+
+### Bug Fixes
+
+* 🐛 merge conflicts ([7ade8ac](https://github.com/stone-payments/pos-mamba-sdk/commit/7ade8ac3f487fd4c2b26b5febf9fee76afa0a2fc))
+* 🐛 missing imports ([b78a71f](https://github.com/stone-payments/pos-mamba-sdk/commit/b78a71fde15bf98e99c05e5c214819f98a128cc4))
+* 🐛 refix wrong replace ([55c7d42](https://github.com/stone-payments/pos-mamba-sdk/commit/55c7d42458cf583186d4fcc640989359f4f07cd5))
+* 🐛 update variables to camcelCase ([ae7e14a](https://github.com/stone-payments/pos-mamba-sdk/commit/ae7e14a9b18bb5373d5f508096134b3a6d343321))
+
+
+
+
+
 ## [2.37.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/range@2.37.1...@mamba/range@2.37.2) (2021-02-11)
 
 **Note:** Version bump only for package @mamba/range
