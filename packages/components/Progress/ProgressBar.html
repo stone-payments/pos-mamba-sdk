@@ -7,10 +7,12 @@
 </div>
 
 <script>
+  import { green500 } from '@mamba/styles/colors';
+
   export default {
     data() {
       return {
-        color: '#4ebf1a',
+        color: green500,
         height: '6px',
         progress: undefined,
       };
@@ -31,7 +33,7 @@
     display: block;
     width: 100%;
     overflow: hidden;
-    background-color: #4ebf1a;
+    background-color: $green500;
   }
 
   .progress {

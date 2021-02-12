@@ -32,7 +32,7 @@
 
   <h4>Custom colored labeled input</h4>
   <div class="row">
-    <Input bgColor="#b5b5b5" textColor="white" label="Text"/>
+    <Input bgColor={neutral300} textColor="white" label="Text"/>
   </div>
 
   <h4>Validated input</h4>
@@ -103,11 +103,16 @@
 </style>
 
 <script>
+  import { neutral300 } from '@mamba/styles/colors';
+
   export default {
     components: {
       Input: '@mamba/input/Input.html',
       KeyboardInput: '@mamba/input/Keyboard.html',
       MoneyInput: '@mamba/input/Money.html',
+    },
+    helpers: {
+      neutral300,
     },
     data() {
       return {

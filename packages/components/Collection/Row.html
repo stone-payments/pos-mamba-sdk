@@ -164,80 +164,80 @@
 </script>
 
 <style type="text/postcss">
-  .row {
-    margin: 0;
-    background: #fff;
-    color: $row-primary-color;
-    border-bottom: 1px solid $row-border-color;
-  }
+.row {
+  margin: 0;
+  background: #fff;
+  color: $row-primary-color;
+  border-bottom: 1px solid $row-border-color;
+}
 
-  .row :global(.row):last-child {
-    border-bottom: none;
-  }
+.row :global(.row):last-child {
+  border-bottom: none;
+}
 
-  .main {
-    padding: $row-padding;
-    background: $row-bg-color;
-  }
+.main {
+  padding: $row-padding;
+  background: $row-bg-color;
+}
 
-  .top {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-    height: $row-top-height;
-  }
+.top {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  height: $row-top-height;
+}
 
-  .left-area {
-    flex-grow: 1;
-  }
+.left-area {
+  flex-grow: 1;
+}
 
-  .label {
-    font-size: $row-font-size;
-    font-weight: 500;
-    word-wrap: break-word;
-    flex-grow: 1;
+.label {
+  font-size: $row-font-size;
+  font-weight: 500;
+  word-wrap: break-word;
+  flex-grow: 1;
 
-    .left-area & {
-      .top.has-right-sign & {
-        max-width: 90%;
-      }
-
-      .top.has-left-sign & {
-        margin-left: 10px;
-      }
+  .left-area & {
+    .top.has-right-sign & {
+      max-width: 90%;
     }
 
-    .right-area & {
-      max-width: 110px;
-      color: $row-secondary-color;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-
-      .top.has-right-sign & {
-        margin-right: 8px;
-      }
+    .top.has-left-sign & {
+      margin-left: 10px;
     }
   }
 
-  .right-area,
-  .left-area {
-    display: flex;
-    align-items: center;
-  }
+  .right-area & {
+    max-width: 110px;
+    color: $row-secondary-color;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 
-  .right-area {
-    justify-content: flex-end;
-  }
-
-  .description {
-    &,
-    & :global(*) {
-      color: #7e7e7e;
-      margin: 4px 0 0;
-      font-size: 12px;
-      line-height: 16px;
+    .top.has-right-sign & {
+      margin-right: 8px;
     }
   }
+}
+
+.right-area,
+.left-area {
+  display: flex;
+  align-items: center;
+}
+
+.right-area {
+  justify-content: flex-end;
+}
+
+.description {
+  &,
+  & :global(*) {
+    color: $neutral500;
+    margin: 4px 0 0;
+    font-size: 12px;
+    line-height: 16px;
+  }
+}
 </style>

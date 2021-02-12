@@ -14,6 +14,8 @@
 </header>
 {/if}
 <script>
+  import { neutral700 } from '@mamba/styles/colors';
+
   export default {
     components: {
       Icon: '@mamba/icon',
@@ -24,7 +26,7 @@
         _isNavigationEnabled: { back: false, home: true },
         _navigableRoute: { routeBack: undefined , paramsBack: undefined },
         title: undefined,
-        textColor: '#425963',
+        textcolor: neutral700,
         bgColor: '#f2f2f2',
         border: true,
         _hideAppBar: false,
