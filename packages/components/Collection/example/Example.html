@@ -100,12 +100,17 @@
   </Collection>
 </div>
 <script>
+  import { green500 } from '@mamba/styles/colors';
+
   export default {
     components: {
       Icon: '@mamba/icon',
       Row: '@mamba/collection/Row.html',
       Collection: '@mamba/collection/Collection.html',
       Switch: '@mamba/switch',
+    },
+    helpers: {
+      green500,
     },
   };
 </script>

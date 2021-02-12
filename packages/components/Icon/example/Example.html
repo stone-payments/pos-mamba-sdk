@@ -70,10 +70,16 @@
 </style>
 
 <script>
+  import { green500, neutral700 } from '@mamba/styles/colors';
+
   export default {
     components: {
       Icon: '@mamba/icon/Icon.html',
       RoundIcon: '@mamba/icon/Round.html',
+    },
+    helpers: {
+      green500,
+      neutral700,
     },
     data() {
       return {

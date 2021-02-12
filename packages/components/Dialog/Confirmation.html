@@ -50,6 +50,8 @@
 </Dialog>
 
 <script>
+  import { green500, red600 } from '@mamba/styles/colors';
+
   export default {
     components: {
       RoundIcon: '@mamba/icon/Round.html',
@@ -62,6 +64,10 @@
         negativeLabel: null,
         primaryColor: undefined,
       };
+    },
+    helpers: {
+      green500,
+      red600,
     },
     computed: {
       _dialogProps: ({ positiveLabel, negativeLabel, primaryColor, ...props }) =>

@@ -31,14 +31,16 @@
 
   let lastShortcutsState = undefined;
 
+  import { neutral100, neutral900 } from '@mamba/styles/colors';
+
   export default {
     data() {
       return {
         /** Dialog open state */
         isOpen: false,
         title: undefined,
-        bgColor: neutral100,
-        textColor: neutral900,
+        bgcolor: $neutral100,
+        textcolor: $neutral900,
         align: 'center',
         fullscreen: false,
         className: undefined,

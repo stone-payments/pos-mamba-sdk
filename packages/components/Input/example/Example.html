@@ -103,11 +103,16 @@
 </style>
 
 <script>
+  import { neutral300 } from '@mamba/styles/colors';
+
   export default {
     components: {
       Input: '@mamba/input/Input.html',
       KeyboardInput: '@mamba/input/Keyboard.html',
       MoneyInput: '@mamba/input/Money.html',
+    },
+    helpers: {
+      neutral300,
     },
     data() {
       return {

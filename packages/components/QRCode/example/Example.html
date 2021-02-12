@@ -37,9 +37,16 @@
 </style>
 
 <script>
+  import { green300, green500, green700 } from '@mamba/styles/colors';
+
   export default {
     components: {
       QRCode: '@mamba/qrcode/QRCode.html',
+    },
+    helpers: {
+      green300,
+      green500,
+      green700,
     },
   };
 </script>
