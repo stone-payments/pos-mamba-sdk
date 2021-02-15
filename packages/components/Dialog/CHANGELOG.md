@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@3.0.0...@mamba/dialog@3.0.1) (2021-02-15)
+
+
+### Bug Fixes
+
+* 🐛 crash on Dialog ([d35bf1f](https://github.com/stone-payments/pos-mamba-sdk/commit/d35bf1faa7ee3630a06bcf065f89548aee7ce10d))
+
+
+
+
+
 # [3.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@2.37.2...@mamba/dialog@3.0.0) (2021-02-12)
 
 
