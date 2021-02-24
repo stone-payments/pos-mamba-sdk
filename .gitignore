@@ -6,7 +6,7 @@ npm-debug.log
 lerna-*
 /coverage.data
 /coverage
-/packages/**/*-lock.json
+/packages/**/package-lock.json
 
 ## Components examples
 /packages/components/*/example/*
