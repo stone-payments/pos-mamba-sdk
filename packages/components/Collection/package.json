@@ -8,14 +8,14 @@
     "access": "public"
   },
   "devDependencies": {
-    "@mamba/switch": "^3.0.1"
+    "@mamba/switch": ">3.0.0"
   },
   "dependencies": {
-    "@mamba/icon": "^3.0.1",
-    "@mamba/styles": "^3.0.1"
+    "@mamba/icon": ">3.0.0",
+    "@mamba/styles": ">3.0.0"
   },
   "peerDependencies": {
-    "@mamba/pos": "^2.8.2"
+    "@mamba/pos": ">3.0.0"
   },
   "gitHead": "869644effc7b7347a2ff75c956c57d69ee8236a5"
 }
