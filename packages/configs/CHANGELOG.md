@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/configs@3.0.1...@mamba/configs@3.0.2) (2021-02-24)
+
+
+### Bug Fixes
+
+* 🐛 lock preset-env compatible to mamba ecosystem ([3faa85a](https://github.com/stone-payments/pos-mamba-sdk/commit/3faa85a57754f85831a68819457e49dbd48cba6a))
+
+
+
+
+
 ## [3.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/configs@3.0.0...@mamba/configs@3.0.1) (2021-02-15)
 
 **Note:** Version bump only for package @mamba/configs
