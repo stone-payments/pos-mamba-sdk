@@ -19,7 +19,7 @@
     "prepublish": "npm run build"
   },
   "devDependencies": {
-    "@mamba/configs": "^3.0.2",
+    "@mamba/configs": ">3.0.0",
     "ncp": "^2.0.0",
     "postcss-cli": "^6.1.0",
     "rimraf": "^2.6.3"

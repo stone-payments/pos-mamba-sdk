@@ -8,8 +8,8 @@
     "access": "public"
   },
   "devDependencies": {
-    "@mamba/button": "^3.0.2",
-    "@mamba/styles": "^3.0.2"
+    "@mamba/button": ">3.0.0",
+    "@mamba/styles": ">3.0.0"
   },
   "peerDependencies": {
     "@mamba/pos": ">3.0.0"
