@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "@mamba/configs": ">3.0.0",
+    "@mamba/pos": ">3.0.0",
     "webpack": "^4.28.3",
     "webpack-cli": "^3.2.0"
   },
