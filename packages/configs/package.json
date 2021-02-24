@@ -26,7 +26,7 @@
   "dependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/plugin-transform-runtime": "^7.2.0",
-    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-env": "~7.12.17",
     "@babel/runtime": "^7.3.1",
     "@tivac/eslint-plugin-svelte": "^1.2.1",
     "babel-eslint": "^10.0.1",
