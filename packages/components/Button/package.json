@@ -1,6 +1,6 @@
 {
   "name": "@mamba/button",
-  "version": "2.4.0",
+  "version": "2.40.0",
   "svelte": "Button.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -8,10 +8,10 @@
     "access": "public"
   },
   "devDependencies": {
-    "@mamba/icon": "^2.4.0"
+    "@mamba/icon": "^2.40.0"
   },
   "dependencies": {
-    "@mamba/styles": "^2.4.0"
+    "@mamba/styles": "^2.40.0"
   },
   "peerDependencies": {
     "@mamba/pos": "^2.8.2"
