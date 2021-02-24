@@ -105,8 +105,8 @@
           if(isClose) this.close('negative');
         }
       },
-      open() {
-        return this.refs.dialog.open();
+      open(duration) {
+        return this.refs.dialog.open(duration);
       },
       close(event) {
         return this.refs.dialog.close().then(() => {
