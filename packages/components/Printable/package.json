@@ -1,6 +1,6 @@
 {
   "name": "@mamba/printable",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "svelte": "Printable.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -8,11 +8,11 @@
     "access": "public"
   },
   "devDependencies": {
-    "@mamba/icon": ">3.0.0",
-    "@mamba/styles": ">3.0.0"
+    "@mamba/icon": "^3.0.3",
+    "@mamba/styles": "^3.0.3"
   },
   "dependencies": {
-    "@mamba/dialog": ">3.0.0"
+    "@mamba/dialog": "^3.0.3"
   },
   "peerDependencies": {
     "@mamba/pos": ">3.0.0"
