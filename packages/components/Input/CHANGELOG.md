@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.41.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@2.40.0...@mamba/input@2.41.0) (2021-02-25)
+
+
+### Features
+
+* 🎸 Keyboard now has invalidate() method ([e9e2295](https://github.com/stone-payments/pos-mamba-sdk/commit/e9e2295db7b01e74a7510c84b5607d8948add3ae))
+
+
+
+
+
 # [2.40.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@2.4.0...@mamba/input@2.40.0) (2021-02-24)
 
 **Note:** Version bump only for package @mamba/input
