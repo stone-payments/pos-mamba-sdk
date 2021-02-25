@@ -320,6 +320,9 @@
         /* istanbul ignore next */
         this.refs.keyboardInput.focus();
       },
+      invalidate(msg) {
+        return this.refs.keyboardInput.invalidate(msg);
+      },
     },
   };
 </script>
