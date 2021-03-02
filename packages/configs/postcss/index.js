@@ -14,7 +14,7 @@ const postcssHexRGBA = require('postcss-hexrgba');
 
 const postcssUniqueImports = require('./includes/uniqueImports.js');
 const unthrow = require('./includes/unthrow.js');
-const colorsMamba = require('./includes/colors.js');
+const colorsMamba = require('../../styles/colors.js');
 
 const isBuildingApp = typeof process.env.APP_ENV !== 'undefined';
 
