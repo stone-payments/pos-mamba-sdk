@@ -22,7 +22,6 @@
     "test:ci": "jest --no-cache --verbose",
     "link:packages": "lerna exec npm link",
     "check-next-version": "echo 'n' | lerna version",
-    "preversion": "npm run test",
     "release": "lerna publish"
   },
   "config": {

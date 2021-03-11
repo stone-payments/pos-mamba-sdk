@@ -19,12 +19,16 @@ it('should apply inline style', () => {
   appBar = newAppBar({
     title: 'teste',
     textColor: 'blue',
+    iconColor: 'teal',
     bgColor: 'red',
     border: false,
+    borderColor: 'purple',
   });
 
   expect(root.query('.appbar').style.color).toBe('blue');
   expect(root.query('.appbar').style.backgroundColor).toBe('red');
+  expect(root.query('.appbar').style.borderColor).toBe('purple');
+  expect(root.query('.appbar [symbol~="home"]').style.color).toBe('teal');
   expect(root.query('.appbar').style.borderBottom).toBe('');
 });
 

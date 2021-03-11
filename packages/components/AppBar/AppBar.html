@@ -2,19 +2,19 @@
 <header class="appbar" {style}>
   {#if _navigableRoute.routeBack || _showBack }
   <div class="icon-left" on:click="_goBack()">
-    <Icon symbol="chevron-left" width="10px" color="{textColor}" />
+    <Icon symbol="chevron-left" width="10px" color="{iconColor}" />
   </div>
   {/if} {#if title}
   <div class="title">{title}</div>
   {/if} {#if _showHome}
   <div class="icon-right" on:click="_goHome()">
-    <Icon symbol={_isAtHome ? 'home' : 'app-home'} color={textColor}/>
+    <Icon symbol={_isAtHome ? 'home' : 'app-home'} color={iconColor}/>
   </div>
   {/if}
 </header>
 {/if}
 <script>
-  import { neutral700 } from '@mamba/styles/colors';
+  import { neutral700, neutral300 } from '@mamba/styles/colors.js';
 
   export default {
     components: {
@@ -26,18 +26,22 @@
         _isNavigationEnabled: { back: false, home: true },
         _navigableRoute: { routeBack: undefined , paramsBack: undefined },
         title: undefined,
-        textcolor: neutral700,
-        bgColor: '#f2f2f2',
+        textColor: neutral700,
+        iconColor: neutral700,
+        bgColor: '#ffffff',
         border: true,
+        borderColor: neutral300,
         _hideAppBar: false,
       };
     },
     computed: {
-      style({ bgColor, textColor, border }) {
+      style({ bgColor, textColor, border, borderColor }) {
+        console.log();
         return [
-          `color:${textColor}`,
-          `background-color:${bgColor}`,
+          `color: ${textColor}`,
+          `background-color: ${bgColor}`,
           !border && 'border-bottom: none;',
+          `border-color: ${borderColor}`
         ]
           .filter(Boolean)
           .join(';');
@@ -154,7 +158,7 @@
     width: 100%;
     position: relative;
     z-index: $layer-appbar;
-    border-bottom: 2px solid #d0d0d0;
+    border-bottom: 2px solid;
     height: $appbar-height;
     overflow: hidden;
   }

@@ -15,7 +15,7 @@ utilizados para representar a execução de uma tarefa, que pode ter etapas defi
 
 | Parâmetro | Descrição           | Tipo            | Padrão    |
 | :-------- | :------------------ | :-------------- | :-------- |
-| color     | Cor da barra        | `string` (hex)    | `#6ebf1a` |
+| color     | Cor da barra        | `string` (hex)    | `#00A868` |
 | height    | Espessura da barra  | `string` (px)     | `6px`     |
 | progress  | Porcentagem atual   | `string` (0 a 100)| `undefined` |
 
@@ -24,7 +24,7 @@ utilizados para representar a execução de uma tarefa, que pode ter etapas defi
 
 | Parâmetro | Descrição               | Tipo            | Padrão     |
 | :-------- | :---------------------- | :-------------- | :--------- |
-| color     | Cor do círculo          | `string` (hex)    | `#6ebf1a`  |
+| color     | Cor do círculo          | `string` (hex)    | `#00A868`  |
 | height    | Raio do círculo         | `string` (px)     | `25px`     |
 | progress  | Porcentagem atual       | `string` (0 a 100)| `undefined`  |
 | speed     | Velocidade de rotação   | `string` (0 a 10) | `10`       |
