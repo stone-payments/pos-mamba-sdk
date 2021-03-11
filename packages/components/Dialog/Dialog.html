@@ -31,7 +31,7 @@
 
   let lastShortcutsState = undefined;
 
-  import { neutral100, neutral900 } from '@mamba/styles/colors';
+  import { neutral50, neutral900 } from '@mamba/styles/colors';
 
   export default {
     data() {
@@ -39,7 +39,7 @@
         /** Dialog open state */
         isOpen: false,
         title: undefined,
-        bgcolor: neutral100,
+        bgcolor: neutral50,
         textcolor: neutral900,
         align: 'center',
         fullscreen: false,
@@ -164,7 +164,7 @@
     left: 0;
     width: 100%;
     bottom: 0;
-    background-color: $neutral100;
+    background-color: $neutral50;
 
     :global(.mamba-app.has-appbar) &:not(.is-fullscreen) {
       top: $appbar-height;
