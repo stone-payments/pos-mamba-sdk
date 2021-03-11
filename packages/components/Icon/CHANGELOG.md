@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.6](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/icon@3.0.5...@mamba/icon@3.0.6) (2021-03-11)
+
+
+### Bug Fixes
+
+* 🐛 default color like doc reference ([381df50](https://github.com/stone-payments/pos-mamba-sdk/commit/381df50892d4d2ee558c7c520763b600cc06ae9f))
+
+
+
+
+
 ## [3.0.5](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/icon@3.0.4...@mamba/icon@3.0.5) (2021-03-11)
 
 **Note:** Version bump only for package @mamba/icon
