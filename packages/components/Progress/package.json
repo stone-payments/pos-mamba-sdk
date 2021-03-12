@@ -1,6 +1,6 @@
 {
   "name": "@mamba/progress",
-  "version": "3.0.7",
+  "version": "3.0.8",
   "svelte": "ProgressBar.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -8,7 +8,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@mamba/styles": "^3.0.7"
+    "@mamba/styles": "^3.0.8"
   },
   "gitHead": "869644effc7b7347a2ff75c956c57d69ee8236a5",
   "peerDependencies": {
