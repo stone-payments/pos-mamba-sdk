@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.8](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/printable@3.0.7...@mamba/printable@3.0.8) (2021-03-12)
+
+
+### Bug Fixes
+
+* 🐛 Printable error trigger ([0fbb91d](https://github.com/stone-payments/pos-mamba-sdk/commit/0fbb91db9f901b91f434adc467a75920e0941b7e))
+
+
+
+
+
 ## [3.0.7](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/printable@3.0.6...@mamba/printable@3.0.7) (2021-03-12)
 
 **Note:** Version bump only for package @mamba/printable
