@@ -113,7 +113,7 @@ export function setup(System) {
   /**
    * Returns on which network is connected
    * @memberOf System
-   * @return {string} Wifi or 3G
+   * @return {string} Wifi or 4G, 3G, 2G, USSD, and unknow( empty string ""), depends on the POS model.
    */
   System.getCurrentConnectionType = () =>
     Registry.get().$System.Connections.currentType;
