@@ -32,4 +32,5 @@ module.exports = {
   IS_POS: env.APP_ENV === 'pos',
   BUNDLE_NAME: `bundle.${env.APP_ENV}`,
   ADD_MAMBA_SIMULATOR: env.MAMBA_SIMULATOR === 'true',
+  WEINRE_IP: env.WEINRE_IP,
 };
