@@ -5,6 +5,9 @@
   on:open
   on:close
   on:keyup|capture="keyHandler(event)"
+  contentStyle={[
+    'padding: 0 12px'
+  ]}
 >
   <slot></slot>
   <div slot="extra">
@@ -62,7 +65,7 @@
         isOpen: false,
         positiveLabel: null,
         negativeLabel: null,
-        primaryColor: undefined,
+        primaryColor: green500,
       };
     },
     helpers: {
@@ -120,8 +123,15 @@
 </script>
 
 <style>
-  .actions {
+  :global(.dialog):not(.is-wide) .actions {
     margin: 28px auto 0;
+  }
+
+  :global(.dialog.is-wide) [slot='extra'] {
+    margin-bottom: 10px;
+  }
+
+  .actions {
     table-layout: fixed;
 
     &.has-labels {
