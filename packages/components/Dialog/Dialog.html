@@ -113,10 +113,10 @@
       }
     },
     methods: {
-      open(duration) {
+      open(duration = undefined) {
         this.set({ isOpen: true });
 
-        if (typeof duration !== 'undefined') {
+        if (typeof duration === 'number') {
           return this.close(duration);
         }
 
