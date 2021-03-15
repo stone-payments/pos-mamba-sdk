@@ -5,7 +5,7 @@
     class:is-fullscreen="fullscreen"
     {style}
     tabindex="-1"
-    data-freeze-keystrokes="true"
+    data-freeze-keystrokes="{freezeKeystrokes}"
     on:keyup
   >
     <div class="content -align-{align}">
@@ -44,6 +44,7 @@
         align: 'center',
         fullscreen: false,
         className: undefined,
+        freezeKeystrokes: true,
       };
     },
     computed: {
