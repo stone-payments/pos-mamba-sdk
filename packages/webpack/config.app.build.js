@@ -21,11 +21,7 @@ module.exports = merge(require('./config.app.js'), {
     IS_POS && new MambaManifestPlugin(),
     new FileManagerPlugin({
       onStart: {
-        delete: [
-          `./dist/${BUNDLE_NAME}`,
-          `./dist/${BUNDLE_NAME}${BUILD_ALL ? `.${PLATFORM}` : ''}.tar.gz`,
-          `./dist/${BUNDLE_NAME}${BUILD_ALL ? `.${PLATFORM}` : ''}.ppk`,
-        ],
+        delete: [`./dist/*`],
       },
       onEnd: {
         copy: [
@@ -52,6 +48,18 @@ module.exports = merge(require('./config.app.js'), {
             destination: `./dist/${PKG.name}_v${PKG.version}${
               BUILD_ALL ? `.${PLATFORM}` : ''
             }.ppk`,
+            format: 'zip',
+            options: {
+              gzip: true,
+              gzipOptions: { level: 1 },
+              globOptions: { nomount: true },
+            },
+          },
+          {
+            source: `./dist/${BUNDLE_NAME}/`,
+            destination: `./dist/${PKG.mamba.id}-${PKG.name}${
+              BUILD_ALL ? `.${PLATFORM}` : ''
+            }.aup`,
             format: 'zip',
             options: {
               gzip: true,
