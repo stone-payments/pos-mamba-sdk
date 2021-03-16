@@ -1,5 +1,6 @@
 const { readdirSync, existsSync } = require('fs');
 const path = require('path');
+const os = require('os');
 const chalk = require('chalk');
 const { fromCwd, getPkg } = require('quickenv');
 const shell = require('../../../lib/shell.js');
@@ -186,17 +187,14 @@ module.exports = {
       let sshConfig = customSSH;
 
       // TODO: Implement deploy for V240m
-      if (isQ92) {
-        sshConfig = MODELS.Q92;
-        toolArgs = '-arvc';
-      }
+      if (isQ92) sshConfig = MODELS.Q92;
 
       if (toolArgs === '') {
-        toolArgs = '-zzaPR';
+        let _defaultsArgs = os.platform() === 'darwin' ? '-arvc' : '-zzaP';
+        toolArgs = legacy ? '-zzaPR' : _defaultsArgs;
       }
 
       const REMOTE_APP_DIR = `${sshConfig}:${APPS_DIR}`;
-      console.log(`Deploying "${appSlug}" to "${REMOTE_APP_DIR}"`);
 
       let rsyncCmd = command(
         toolArgs,
@@ -205,6 +203,9 @@ module.exports = {
         `${DIST_DIR}/`,
         `${REMOTE_APP_DIR}`,
       );
+
+      console.log(chalk.dim(`Deploying with: \n${chalk.cyan(rsyncCmd)}\n`));
+      console.log(`Deploying "${appSlug}" to "${REMOTE_APP_DIR}"`);
 
       shell(rsyncCmd);
 
