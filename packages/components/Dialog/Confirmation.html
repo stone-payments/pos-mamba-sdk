@@ -4,6 +4,7 @@
   bind:isOpen
   on:open
   on:close
+  className="mb-confirmation-dialog"
   on:keyup|capture="keyHandler(event)"
   contentStyle={[
     'padding: 0 12px'
@@ -123,12 +124,17 @@
 </script>
 
 <style>
-  :global(.dialog):not(.is-wide) .actions {
+  :global(.mb-confirmation-dialog:not(.is-wide)) .actions {
     margin: 28px auto 0;
   }
 
-  :global(.dialog.is-wide) [slot='extra'] {
+  :global(.mb-confirmation-dialog.is-wide .message) {
     margin-bottom: 10px;
+  }
+
+  :global(.mb-confirmation-dialog.is-wide .extra) {
+    margin-bottom: 10px;
+    width: 100%;
   }
 
   .actions {
