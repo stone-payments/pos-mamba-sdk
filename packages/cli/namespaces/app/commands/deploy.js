@@ -141,9 +141,7 @@ module.exports = {
         shell('sleep 1');
         shell(adbCmd);
         shell('sleep 1');
-        shell(
-          'adb shell ls -R /data/users/10004/apps/5-report | grep -E ".js|.html|.css|assets"',
-        );
+        shell(`adb shell ls -R ${APPS_DIR} | grep -E ".js|.html|.css|assets"`);
       } else {
         console.log(
           `Error: ${chalk.red(
