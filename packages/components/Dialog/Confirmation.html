@@ -4,7 +4,11 @@
   bind:isOpen
   on:open
   on:close
+  className="mb-confirmation-dialog"
   on:keyup|capture="keyHandler(event)"
+  contentStyle={[
+    'padding: 0 12px'
+  ]}
 >
   <slot></slot>
   <div slot="extra">
@@ -62,7 +66,7 @@
         isOpen: false,
         positiveLabel: null,
         negativeLabel: null,
-        primaryColor: undefined,
+        primaryColor: green500,
       };
     },
     helpers: {
@@ -120,8 +124,20 @@
 </script>
 
 <style>
-  .actions {
+  :global(.mb-confirmation-dialog:not(.is-wide)) .actions {
     margin: 28px auto 0;
+  }
+
+  :global(.mb-confirmation-dialog.is-wide .message) {
+    margin-bottom: 10px;
+  }
+
+  :global(.mb-confirmation-dialog.is-wide .extra) {
+    margin-bottom: 10px;
+    width: 100%;
+  }
+
+  .actions {
     table-layout: fixed;
 
     &.has-labels {

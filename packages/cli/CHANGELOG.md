@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@3.0.8...@mamba/cli@3.1.0) (2021-03-16)
+
+
+### Bug Fixes
+
+* 🐛 rsync for darwin os ([be9e73d](https://github.com/stone-payments/pos-mamba-sdk/commit/be9e73d2c3025bf9f577e79ceb184dd1435830b1))
+
+
+### Features
+
+* 🎸 (cli) multiplataform  deploy ([2b3ff45](https://github.com/stone-payments/pos-mamba-sdk/commit/2b3ff45d55ac99adeb00b2802380d8c89a3ef9b0))
+
+
+
+
+
 ## [3.0.8](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@3.0.7...@mamba/cli@3.0.8) (2021-03-12)
 
 **Note:** Version bump only for package @mamba/cli
