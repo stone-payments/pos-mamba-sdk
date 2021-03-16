@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@3.0.8...@mamba/dialog@3.1.0) (2021-03-16)
+
+
+### Bug Fixes
+
+* 🐛 camelcase props ([b6db695](https://github.com/stone-payments/pos-mamba-sdk/commit/b6db695baa6cd05826f8de393b0c3020b0210152))
+* 🐛 duration type check ([7fec03b](https://github.com/stone-payments/pos-mamba-sdk/commit/7fec03be2b34d28297895b25fa8ee59a83264f01))
+* 🐛 Q92 layout ([ad32128](https://github.com/stone-payments/pos-mamba-sdk/commit/ad32128f661eff98e5ad0f2a2f63d2ec0aca9929))
+
+
+### Features
+
+* 🎸 add new Warning dialog ([1aa5e66](https://github.com/stone-payments/pos-mamba-sdk/commit/1aa5e66a8da0e35830d0b5e0d87b20361d96e01c))
+
+
+### BREAKING CHANGES
+
+* 🧨 New Warning component
+
+
+
+
+
 ## [3.0.8](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@3.0.7...@mamba/dialog@3.0.8) (2021-03-12)
 
 **Note:** Version bump only for package @mamba/dialog
