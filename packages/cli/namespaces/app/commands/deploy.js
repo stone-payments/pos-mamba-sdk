@@ -68,14 +68,18 @@ module.exports = {
     usage,
   }) {
     if (usage === true) {
-      console.log(chalk.yellow(`Examples:`));
+      console.log(chalk.yellow(`\n  Examples:\n`));
       console.log(
-        `Build for MP35P: ${chalk.cyan(
+        `    Build for MP35P: ${chalk.cyan(
           `mamba app deploy -p MP35P -f /data/users/10004/apps/`,
-        )}`,
+        )}\n`,
       );
-      console.log(`Build with Q92: ${chalk.cyan(`mamba app deploy -p Q92`)}`);
-      console.log(`Build with XCB: ${chalk.cyan(`mamba app deploy -t xcb`)}`);
+      console.log(
+        `    Build with Q92: ${chalk.cyan(`mamba app deploy -p Q92`)}\n`,
+      );
+      console.log(
+        `    Build with XCB: ${chalk.cyan(`mamba app deploy -t xcb`)}\n`,
+      );
       return;
     }
     const { id } = PKG.mamba;
