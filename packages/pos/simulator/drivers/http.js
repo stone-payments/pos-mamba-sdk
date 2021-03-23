@@ -1,5 +1,6 @@
 import { log } from '../libs/utils.js';
 import { Registry } from '../index.js';
+import { useAddHeaderHook } from '../events/hooks.js';
 
 export const NAMESPACE = '$Http';
 
@@ -17,6 +18,8 @@ export function setup(Http) {
   let _errorData = null;
   let _data = null;
 
+  const headerHook = useAddHeaderHook();
+
   const setError = function onerror(refSignal) {
     _errorData = {
       status: this.status,
@@ -29,11 +32,13 @@ export function setup(Http) {
   Http.getData = () => _data;
 
   Http.doSend = function send(
-    { method = 'GET', url = '', data, headers, timeout = 30000 },
+    { method = 'GET', url = '', data, headers, timeout = 30000, hmac = false },
     refSignal,
     shouldEncode = false,
   ) {
     const xhttp = new XMLHttpRequest();
+
+    let hookUnsubscribe = () => null;
 
     Http.fire('requestRefSinal', refSignal, refSignal);
 
@@ -108,7 +113,18 @@ export function setup(Http) {
 
       return;
     }
-    if (panel.activeProxy) {
+    const canAddHeaders = typeof headers === 'object' && headers !== null;
+
+    if (hmac === true && canAddHeaders) {
+      const requester = headerHook(({ key, value }) => {
+        if (typeof key === 'string' && typeof value === 'string') {
+          headers[key] = value;
+        }
+      });
+      requester(method, data, url);
+    }
+
+    if (panel.activeProxy && canAddHeaders) {
       if (shouldEncode === true) {
         url = `https://poiproxy.stone.com.br/v1/proxy?url=${encodeURIComponent(
           url,
@@ -123,14 +139,16 @@ export function setup(Http) {
 
     xhttp.timeout = timeout;
 
-    if (headers) {
+    if (canAddHeaders) {
       Object.keys(headers).forEach(key => {
         xhttp.setRequestHeader(key, headers[key]);
       });
     }
 
     try {
-      xhttp.send(data);
+      setTimeout(() => {
+        xhttp.send(data);
+      });
     } catch (e) {
       setError.call(xhttp, refSignal);
     }

@@ -1,6 +1,6 @@
 {
   "name": "@mamba/configs",
-  "version": "3.1.1",
+  "version": "3.2.0",
   "description": "Tooling config presets to use in mamba projects.",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -31,6 +31,7 @@
     "@tivac/eslint-plugin-svelte": "^1.2.1",
     "babel-eslint": "^10.0.1",
     "babel-plugin-dynamic-import-node": "^2.2.0",
+    "babel-plugin-module-resolver": "^4.1.0",
     "chalk": "^2.4.2",
     "css-mqpacker": "^7.0.0",
     "eslint-config-airbnb-base": "^13.1.0",

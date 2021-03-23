@@ -7,6 +7,11 @@ import extend from '../../../extend.js';
 import initData from './includes/data.js';
 import initPersistent from './includes/persistent.js';
 
-const Registry = extend({}, initPersistent, initData, EventTarget());
+const Registry = extend(
+  { Addons: {} },
+  initPersistent,
+  initData,
+  EventTarget(),
+);
 
 export default Registry;
