@@ -1,15 +1,16 @@
 import ViewWrapper from './pos/Wrapper.html';
 import EventTarget from '../libs/EventTarget.js';
 import extend from '../../extend.js';
+import { Registry } from '../index.js';
 
 const View = extend({}, EventTarget());
 
 let instance;
 let panelsToAdd = [];
-// let device = 'S920';
+const { device } = Registry.persistent.get().$Device;
 
 View.drivers = Object.freeze({
-  device: 'S920',
+  device,
 });
 
 const updatePanels = () => {
@@ -41,13 +42,6 @@ View.show = () => {
 };
 
 View.getInstance = () => instance;
-
-View.setDevice = device => {
-  View.drivers = Object.freeze({
-    ...View.drivers,
-    device,
-  });
-};
 
 View.getDevice = () => {
   return View.drivers.device;

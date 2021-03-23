@@ -1,18 +1,17 @@
-
 <div class="pos-wrapper">
-  <div class="shadow shadow-{device}"></div>
-  <div class="pos {device}">
+  <div class="shadow shadow-{$device}"></div>
+  <div class="pos {$device}">
     <Printer ref:printer />
-    <Screen ref:screen device={device}>
+    <Screen ref:screen device={$device}>
       <slot></slot>
     </Screen>
-    <Keypad ref:keypad device={device}/>
+    <Keypad ref:keypad device={$device}/>
   </div>
 </div>
 
 <script>
-
-  import { View } from '../../index.js';
+  import { Registry } from '../../index.js';
+  import store from './store.js';
 
   export default {
     components: {
@@ -20,11 +19,7 @@
       Keypad: './hardware/Keypad/index.html',
       Screen: './hardware/Screen.html',
     },
-    data() {
-      return {
-        device: View.getDevice(),
-      };
-    },
+    store: () => store,
   };
 </script>
 

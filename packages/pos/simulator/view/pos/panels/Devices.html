@@ -3,45 +3,38 @@
 <ul class="controllers">
   <li class="controller">
     <span>S920</span>
-    <Switch checked={devicePOS === 'S920'} on:change="setS920(event)" />
+    <Switch checked={$device === 'S920'} on:change="setS920(event)" />
   </li>
   <li class="controller">
     <span>MP35P</span>
-    <Switch checked={devicePOS === 'MP35P'} on:change="setMP35P(event)" />
+    <Switch checked={$device === 'MP35P'} on:change="setMP35P(event)" />
   </li>
 </ul>
 
 <script>
   import { Registry } from '../../../index.js';
+  import store from '../store.js';
 
   export default {
     components: {
       Switch: '@mamba/switch',
     },
-    data() {
-      const { $Device } = Registry.get();
-
-      return {
-        devicePOS: $Device.device
-      };
-    },
-    // onupdate({ previous, changed, current }) {
-    //   if (changed.devicePOS) {
-    //     Registry.set(draft => draft.$Device.device = current.devicePOS);
-    //   }
-    // },
+    store: () => store,
+    // REFACTOR METHODS TO UPDATE
+    // allow keep device persistent
     methods: {
       setS920(event) {
-        if (event.value)
-          this.set({
-            devicePOS: 'S920',
-          })
+        const s920 = 'S920';
+
+        if (event.value){
+          this.store.setDevice(s920)
+        }
       },
       setMP35P(event) {
+        const mp35p = 'MP35P';
+
         if (event.value)
-          this.set({
-            devicePOS: 'MP35P',
-          })
+          this.store.setDevice(mp35p)
       },
     },
   };
