@@ -24,9 +24,8 @@ module.exports = merge(require('./config.base.js'), {
     alias: (() => {
       const aliases = {
         page: fromCwd('node_modules', 'page'),
-        // 'core-js': path.resolve(__dirname, 'node_modules', 'core-js'),
+        'core-js': fromCwd('node_modules', 'core-js'),
         '@mamba/pos': fromCwd('node_modules', '@mamba', 'pos'),
-        '@vendors': fromCwd('vendors/packages'),
         '../vendors': fromCwd('vendors'),
       };
 
