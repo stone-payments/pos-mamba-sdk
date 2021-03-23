@@ -11,8 +11,6 @@ export const SETTINGS = {
     simulateRequest: false,
     requestMsg: '{}',
     requestPayload: '{}',
-    hmacClient: '',
-    hmacSalt: '',
   },
 };
 
