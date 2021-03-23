@@ -7,6 +7,7 @@ export const SIGNALS = ['opened', 'closed'];
 export const PERSISTENT_SETTINGS = {
   appKey: '',
   appVersion: '1.0.0',
+  device: 'S920',
 };
 
 export function setup(App) {
