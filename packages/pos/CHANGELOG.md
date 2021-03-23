@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.1.1...@mamba/pos@3.2.0) (2021-03-23)
+
+
+### Features
+
+* 🎸 implement http header hook and hooks ([6e330c2](https://github.com/stone-payments/pos-mamba-sdk/commit/6e330c2a3c3320caef29da0e4f7a797a624224e8))
+
+
+
+
+
 ## [3.1.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.1.0...@mamba/pos@3.1.1) (2021-03-22)
 
 **Note:** Version bump only for package @mamba/pos
