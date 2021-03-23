@@ -29,6 +29,7 @@ export const SETTINGS = {
 
 export const PERSISTENT_SETTINGS = {
   serialNumber: '00000000',
+  posModel: 'S920',
 };
 
 /**
@@ -203,6 +204,13 @@ export function setup(System) {
    * @return {string} The version system
    */
   System.getVersion = () => '3.0.0';
+
+  /**
+   * Gets POS model
+   * @memberOf System
+   * @return {string} The pos model
+   */
+  System.getPosModel = () => Registry.persistent.get().$System.posModel;
 
   /**
    * Performs a beep. Note that this function blocks the execution on the real device
