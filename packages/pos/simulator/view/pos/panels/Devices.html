@@ -1,14 +1,12 @@
 <div class="title">POS</div>
 
 <ul class="controllers">
-  <li class="controller">
-    <span>S920</span>
-    <Switch checked={$device === 'S920'} on:change="setS920(event)" />
-  </li>
-  <li class="controller">
-    <span>MP35P</span>
-    <Switch checked={$device === 'MP35P'} on:change="setMP35P(event)" />
-  </li>
+  {#each deviceList as device}
+    <li class="controller">
+      <span>{device}</span>
+      <Switch checked={$device === device} on:change="setDevice(event, device)" />
+    </li>
+  {/each}
 </ul>
 
 <script>
@@ -20,19 +18,16 @@
       Switch: '@mamba/switch',
     },
     store: () => store,
+    data() {
+      return {
+        deviceList: store.getDeviceList(),
+      };
+    },
     methods: {
-      setS920(event) {
-        const s920 = 'S920';
-
+      setDevice(event, device) {
         if (event.value){
-          this.store.setDevice(s920)
+          this.store.setDevice(device)
         }
-      },
-      setMP35P(event) {
-        const mp35p = 'MP35P';
-
-        if (event.value)
-          this.store.setDevice(mp35p)
       },
     },
   };

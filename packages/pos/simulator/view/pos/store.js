@@ -7,6 +7,8 @@ export const INITIAL_DATA = {
 
 const store = new Store(INITIAL_DATA);
 
+store.getDeviceList = () => Device.getList();
+
 store.getDevice = () => Device.getDevice();
 
 store.setDevice = model => {
