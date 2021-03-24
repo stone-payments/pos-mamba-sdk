@@ -2,10 +2,12 @@ import { Store } from 'svelte/store.js';
 import Device from '../../../api/device.js';
 
 export const INITIAL_DATA = {
-  device: 'S920',
+  device: Device.getDevice(),
 };
 
 const store = new Store(INITIAL_DATA);
+
+store.getDevice = () => Device.getDevice();
 
 store.setDevice = model => {
   Device.setDevice(model);
