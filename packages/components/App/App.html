@@ -16,6 +16,8 @@
 <script>
   import App from '@mamba/pos/api/app.js';
   import Keyboard from '@mamba/pos/api/keyboard.js';
+  import System from '@mamba/pos/api/system.js';
+
   import {
     hasActiveHandlerFor,
     hasKeystrokeToPrevent,
@@ -36,7 +38,7 @@
         hideAppBar: false,
         askPasswordOnClose: false,
         doBeforeClose: false,
-        device: 'S920'
+        device: System.getPosModel(),
       };
     },
     oncreate() {
