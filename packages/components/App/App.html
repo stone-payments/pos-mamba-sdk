@@ -4,7 +4,7 @@
 />
 
 <div
-  class="mamba-app"
+  class="mamba-app {device}"
   class:no-scroll="!scrollable"
   class:has-appbar="hasAppbar"
 >
@@ -36,6 +36,7 @@
         hideAppBar: false,
         askPasswordOnClose: false,
         doBeforeClose: false,
+        device: 'S90'
       };
     },
     oncreate() {
