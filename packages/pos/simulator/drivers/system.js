@@ -29,6 +29,7 @@ export const SETTINGS = {
 
 export const PERSISTENT_SETTINGS = {
   serialNumber: '00000000',
+  posModel: 'S920',
 };
 
 /**
@@ -113,7 +114,7 @@ export function setup(System) {
   /**
    * Returns on which network is connected
    * @memberOf System
-   * @return {string} Wifi or 3G
+   * @return {string} Wifi or 4G, 3G, 2G, USSD, and unknow( empty string ""), depends on the POS model.
    */
   System.getCurrentConnectionType = () =>
     Registry.get().$System.Connections.currentType;
@@ -203,6 +204,13 @@ export function setup(System) {
    * @return {string} The version system
    */
   System.getVersion = () => '3.0.0';
+
+  /**
+   * Gets POS model
+   * @memberOf System
+   * @return {string} The pos model
+   */
+  System.getPosModel = () => Registry.persistent.get().$System.posModel;
 
   /**
    * Performs a beep. Note that this function blocks the execution on the real device

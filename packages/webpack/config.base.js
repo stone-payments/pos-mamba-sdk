@@ -1,6 +1,7 @@
 /**
  * Common webpack configuration
  */
+const fs = require('fs');
 const merge = require('webpack-merge');
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin');
 const WebpackBar = require('webpackbar');
@@ -24,6 +25,12 @@ const {
   APP_ENV,
   ADD_MAMBA_SIMULATOR,
 } = require('./helpers/consts.js');
+
+const baseInclude = [fromCwd('src')];
+const vendors = fromCwd('vendors/packages');
+if (fs.existsSync(vendors)) {
+  baseInclude.push(vendors);
+}
 
 module.exports = {
   mode: IS_PROD ? 'production' : 'development',
@@ -51,13 +58,13 @@ module.exports = {
        * */
       {
         test: /\.(htmlx?|svelte)$/,
-        include: [fromCwd('src')],
+        include: baseInclude,
         exclude: [/node_modules/],
         use: [loaders.babelEsNext, loaders.svelte, loaders.eslint],
       },
       {
         test: /\.js$/,
-        include: [fromCwd('src')],
+        include: baseInclude,
         exclude: [/node_modules/],
         use: [loaders.babelEsNext, loaders.eslint],
       },

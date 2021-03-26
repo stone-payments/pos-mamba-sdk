@@ -3,10 +3,25 @@ import Registry from '../registry/manager.js';
 import Signal from '../../libs/signal.js';
 import { LOG_PREFIX, deepCopy } from '../../libs/utils.js';
 import extend from '../../../extend.js';
+import { HMAC } from './addons.js';
 
 const DriverManager = extend({}, EventTarget());
 
 DriverManager.drivers = Object.freeze({});
+
+DriverManager.Addons = {
+  enable(addon, addonInitializer) {
+    if (typeof addon !== 'string' || !addon) return;
+
+    // Inferring HMAC
+    const { Addons = {} } = Registry.persistent.get();
+    Addons[HMAC] = addon === HMAC;
+    Registry.persistent.set(draft => {
+      draft.Addons = { ...Addons };
+    });
+    if (typeof addonInitializer === 'function') addonInitializer();
+  },
+};
 
 DriverManager.attachDrivers = driverModules => {
   if (__DEBUG_LVL__ >= 1 && __BROWSER__)

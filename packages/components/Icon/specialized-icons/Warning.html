@@ -1,0 +1,59 @@
+<span>
+  <svg
+    class={_classes}
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    style="width: {_width}px; height: {_height}px;"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M23.1219 9.53884e-05H0.877978C0.6441 -0.0033682 0.418781 0.0876184 0.253386 0.252313C0.087991 0.417008 -0.00338252 0.641373 9.57939e-05 0.874261V23.1257C-0.00338252 23.3586 0.087991 23.583 0.253386 23.7477C0.418781 23.9124 0.6441 24.0034 0.877978 23.9999H23.1219C23.3558 24.0034 23.5811 23.9124 23.7465 23.7477C23.9119 23.583 24.0033 23.3586 23.9998 23.1257V0.912406C24.0049 0.675489 23.9153 0.44625 23.7507 0.275147C23.586 0.104043 23.3598 0.00510013 23.1219 9.53884e-05V9.53884e-05Z"
+      fill={background} width="100%" height="100%"  />
+    <path
+      d="M11.3326 4.45021C11.3326 4.01131 11.69 3.65552 12.1307 3.65552C12.5715 3.65552 12.9288 4.01131 12.9288 4.45021V14.492C12.9288 14.9309 12.5715 15.2867 12.1307 15.2867C11.69 15.2867 11.3326 14.9309 11.3326 14.492V4.45021Z"
+      fill={color} />
+    <path
+      d="M12.1307 19.7084C12.6596 19.7084 13.0884 19.2814 13.0884 18.7547C13.0884 18.2281 12.6596 17.8011 12.1307 17.8011C11.6018 17.8011 11.173 18.2281 11.173 18.7547C11.173 19.2814 11.6018 19.7084 12.1307 19.7084Z"
+      fill={color} />
+  </svg>
+</span>
+
+<script>
+  import { yellow500 } from '@mamba/styles/colors.js';
+  import getNumberWithDefault from '../utils/getNumberWithDefault.js';
+
+  export default {
+    computed: {
+      _width({ width }) {
+        return getNumberWithDefault(width, 25);
+      },
+      _height({ height }) {
+        return getNumberWithDefault(height, 25);
+      },
+      _classes({ classnames }) {
+        return [...classnames]
+          .filter(Boolean)
+          .join(' ');
+      },
+    },
+    data() {
+      return {
+        classnames: [],
+        background: yellow500,
+        color: '#ffffff',
+        width: 25,
+        height: 25,
+      };
+    },
+  }
+</script>
+
+<style>
+  span {
+    display: inline-block;
+    line-height: 0;
+    vertical-align: bottom;
+  }
+</style>

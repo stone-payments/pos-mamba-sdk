@@ -3,12 +3,13 @@
     ref:_dialog
     class="dialog{_class}"
     class:is-fullscreen="fullscreen"
+    class:is-wide="wide"
     {style}
     tabindex="-1"
-    data-freeze-keystrokes="true"
+    data-freeze-keystrokes="{freezeKeystrokes}"
     on:keyup
   >
-    <div class="content -align-{align}">
+    <div class="content -align-{align}" style={_contentStyle}>
       <div class="message">
         {#if title}
           <div class="title">{title}</div>
@@ -31,20 +32,28 @@
 
   let lastShortcutsState = undefined;
 
+  import { neutral50, neutral900 } from '@mamba/styles/colors';
+
   export default {
     data() {
       return {
         /** Dialog open state */
         isOpen: false,
         title: undefined,
-        bgColor: '#e3e3e3',
-        textColor: '#353535',
+        bgColor: neutral50,
+        textColor: neutral900,
         align: 'center',
         fullscreen: false,
+        wide: false,
         className: undefined,
+        freezeKeystrokes: true,
       };
     },
     computed: {
+      _contentStyle({ contentStyle = [] }) {
+        if(!Array.isArray(contentStyle)) return '';
+        return contentStyle.filter(Boolean).join(';');
+      },
       style({ bgColor, textColor }) {
         return [`background-color:${bgColor}`, `color:${textColor}`]
           .filter(Boolean)
@@ -111,10 +120,10 @@
       }
     },
     methods: {
-      open(duration) {
+      open(duration = undefined) {
         this.set({ isOpen: true });
 
-        if (typeof duration !== 'undefined') {
+        if (typeof duration === 'number') {
           return this.close(duration);
         }
 
@@ -162,6 +171,7 @@
     left: 0;
     width: 100%;
     bottom: 0;
+    background-color: $neutral50;
 
     :global(.mamba-app.has-appbar) &:not(.is-fullscreen) {
       top: $appbar-height;
@@ -182,25 +192,65 @@
       top: 0;
       z-index: $layer-dialog-fullscreen;
     }
+
+    &.is-wide {
+      .content {
+        width: 100%;
+      }
+    }
   }
 
-  .content {
+  .dialog:not(.is-wide) .content {
     width: 90%;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
+
+    &.-align-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+  }
+
+  .is-wide {
+    .content {
+      &.-align-center {
+        text-align: center;
+        justify-content: center;
+
+        &,
+        .message {
+          display: flex;
+          align-items: center;
+        }
+      }
+    }
+
+    .message {
+      flex-grow: 1;
+    }
+
+    .extra {
+      flex: 0 1 auto;
+    }
+  }
+
+  .is-wide.is-fullscreen,
+  .is-wide.is-fullscreen .content {
+    flex: 1;
+  }
+
+  .is-wide,
+  .is-wide .content.-align-center {
+    display: flex;
+    flex-direction: column;
   }
 
   .content.-align-top {
     margin-top: 15px;
-  }
-
-  .content.-align-center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
   }
 
   .message {

@@ -3,6 +3,184 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@3.1.1...@mamba/webpack@3.2.0) (2021-03-23)
+
+
+### Bug Fixes
+
+* 🐛 revert core-js alias ([b008654](https://github.com/stone-payments/pos-mamba-sdk/commit/b008654d943bd0f963d2662ea10f06f66da34791))
+
+
+
+
+
+## [3.1.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@3.1.0...@mamba/webpack@3.1.1) (2021-03-22)
+
+**Note:** Version bump only for package @mamba/webpack
+
+
+
+
+
+# [3.1.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@3.0.8...@mamba/webpack@3.1.0) (2021-03-16)
+
+**Note:** Version bump only for package @mamba/webpack
+
+
+
+
+
+## [3.0.8](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@3.0.7...@mamba/webpack@3.0.8) (2021-03-12)
+
+**Note:** Version bump only for package @mamba/webpack
+
+
+
+
+
+## [3.0.7](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@3.0.6...@mamba/webpack@3.0.7) (2021-03-12)
+
+**Note:** Version bump only for package @mamba/webpack
+
+
+
+
+
+## [3.0.6](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@3.0.5...@mamba/webpack@3.0.6) (2021-03-11)
+
+**Note:** Version bump only for package @mamba/webpack
+
+
+
+
+
+## [3.0.5](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@3.0.4...@mamba/webpack@3.0.5) (2021-03-11)
+
+**Note:** Version bump only for package @mamba/webpack
+
+
+
+
+
+## [3.0.4](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@3.0.2...@mamba/webpack@3.0.4) (2021-03-02)
+
+**Note:** Version bump only for package @mamba/webpack
+
+
+
+
+
+## [3.0.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@3.0.2...@mamba/webpack@3.0.3) (2021-02-25)
+
+**Note:** Version bump only for package @mamba/webpack
+
+
+
+
+
+## [3.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@3.0.1...@mamba/webpack@3.0.2) (2021-02-24)
+
+**Note:** Version bump only for package @mamba/webpack
+
+
+
+
+
+## [3.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@3.0.0...@mamba/webpack@3.0.1) (2021-02-15)
+
+**Note:** Version bump only for package @mamba/webpack
+
+
+
+
+
+# [3.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@2.37.2...@mamba/webpack@3.0.0) (2021-02-12)
+
+**Note:** Version bump only for package @mamba/webpack
+
+
+
+
+
+## [2.37.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@2.37.1...@mamba/webpack@2.37.2) (2021-02-11)
+
+**Note:** Version bump only for package @mamba/webpack
+
+
+
+
+
+## [2.37.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@2.37.0...@mamba/webpack@2.37.1) (2021-02-11)
+
+**Note:** Version bump only for package @mamba/webpack
+
+
+
+
+
+# [2.37.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@2.34.3...@mamba/webpack@2.37.0) (2021-02-10)
+
+**Note:** Version bump only for package @mamba/webpack
+
+
+
+
+
+## [2.34.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@2.34.2...@mamba/webpack@2.34.3) (2021-01-26)
+
+**Note:** Version bump only for package @mamba/webpack
+
+
+
+
+
+## [2.34.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@2.34.1...@mamba/webpack@2.34.2) (2021-01-13)
+
+
+### Features
+
+* 🎸 Included BUILD_ALL invironment variable ([fe7d0de](https://github.com/stone-payments/pos-mamba-sdk/commit/fe7d0de56b9f79c6f5efb32b460f409f9dd7c8a4))
+
+
+
+
+
+## [2.34.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@2.34.0...@mamba/webpack@2.34.1) (2021-01-08)
+
+
+### Bug Fixes
+
+* 🐛 Fixed build multiplatform to s920 and included redecompras logo ([da7b139](https://github.com/stone-payments/pos-mamba-sdk/commit/da7b13941f1d057dcddcee21577045e8a9f0a1cc))
+
+
+
+
+
+# [2.34.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@2.33.3...@mamba/webpack@2.34.0) (2021-01-04)
+
+
+### Features
+
+* 🎸 Include build for all platforms ([e4f0a6f](https://github.com/stone-payments/pos-mamba-sdk/commit/e4f0a6f4748a91e6137ffad004ce23ffc2074f9e))
+* 🎸 Update packages ([b8044fe](https://github.com/stone-payments/pos-mamba-sdk/commit/b8044fe52daa682e98b71c275f509acd60c77f40))
+* 🎸 Updating core sdk ([712bd78](https://github.com/stone-payments/pos-mamba-sdk/commit/712bd7806456386a6b92a2415e0df81ce34eded2))
+
+
+
+
+
+# [2.34.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@2.33.3...@mamba/webpack@2.34.0) (2021-01-04)
+
+
+### Features
+
+* 🎸 Include build for all platforms ([e4f0a6f](https://github.com/stone-payments/pos-mamba-sdk/commit/e4f0a6f4748a91e6137ffad004ce23ffc2074f9e))
+* 🎸 Updating core sdk ([712bd78](https://github.com/stone-payments/pos-mamba-sdk/commit/712bd7806456386a6b92a2415e0df81ce34eded2))
+
+
+
+
+
 ## 2.33.3 (2020-11-24)
 
 

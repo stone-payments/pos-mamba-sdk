@@ -320,6 +320,9 @@
         /* istanbul ignore next */
         this.refs.keyboardInput.focus();
       },
+      invalidate(msg) {
+        return this.refs.keyboardInput.invalidate(msg);
+      },
     },
   };
 </script>
@@ -402,7 +405,7 @@
     color: $neutral900;
 
     &.is-active {
-      background-color: #c5c5c5;
+      background-color: $neutral300;
       border-color: #f2f2f2;
     }
 

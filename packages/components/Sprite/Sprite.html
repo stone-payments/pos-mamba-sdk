@@ -1,6 +1,6 @@
 <div
   ref:sprite
-  style="background-position: {_position}px 0;"
+  style="background-position: {_position}px -3px;"
   class="sprite"
 ></div>
 
@@ -42,11 +42,13 @@
           return;
         }
 
+
         const { spriteWidth } = this;
         const { _position } = this.get();
 
         /* istanbul ignore next */
         const STEP = spriteWidth ? spriteWidth / FPS : 0;
+
         let positionAux = _position;
 
         /* istanbul ignore next */
@@ -55,6 +57,7 @@
           if (positionAux < -spriteWidth) {
             positionAux = 0;
           }
+          positionAux = positionAux;
           this.set({ _position: positionAux });
         }, 1000 / FPS);
 

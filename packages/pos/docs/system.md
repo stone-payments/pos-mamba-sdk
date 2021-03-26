@@ -133,7 +133,8 @@ System.isBatteryPresent(); // false
 
 ### getCurrentConnectionType()
 
-Informa em qual rede o POS está conectado.
+Informa em qual adaptador de rede o POS está conectado.
+
 
 ```js
 import System from '@mamba/pos/api/system.js'
@@ -141,8 +142,8 @@ import System from '@mamba/pos/api/system.js'
 /** With wifi */
 System.getCurrentConnectionType(); // wifi
 
-/** Without 3G */
-System.getCurrentConnectionType(); // 3G
+/** With Mobile broadband, depends on the POS model. */
+System.getCurrentConnectionType(); // Can be 4G, 3G, 2G, USSD, and unknow( empty string "")
 ```
 
 ### getTimeFromBoot()
