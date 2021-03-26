@@ -3,6 +3,70 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/tabs@3.1.1...@mamba/tabs@3.2.0) (2021-03-23)
+
+**Note:** Version bump only for package @mamba/tabs
+
+
+
+
+
+## [3.1.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/tabs@3.1.0...@mamba/tabs@3.1.1) (2021-03-22)
+
+**Note:** Version bump only for package @mamba/tabs
+
+
+
+
+
+# [3.1.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/tabs@3.0.8...@mamba/tabs@3.1.0) (2021-03-16)
+
+**Note:** Version bump only for package @mamba/tabs
+
+
+
+
+
+## [3.0.8](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/tabs@3.0.7...@mamba/tabs@3.0.8) (2021-03-12)
+
+**Note:** Version bump only for package @mamba/tabs
+
+
+
+
+
+## [3.0.7](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/tabs@3.0.6...@mamba/tabs@3.0.7) (2021-03-12)
+
+**Note:** Version bump only for package @mamba/tabs
+
+
+
+
+
+## [3.0.6](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/tabs@3.0.5...@mamba/tabs@3.0.6) (2021-03-11)
+
+**Note:** Version bump only for package @mamba/tabs
+
+
+
+
+
+## [3.0.5](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/tabs@3.0.4...@mamba/tabs@3.0.5) (2021-03-11)
+
+**Note:** Version bump only for package @mamba/tabs
+
+
+
+
+
+## [3.0.4](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/tabs@3.0.2...@mamba/tabs@3.0.4) (2021-03-02)
+
+**Note:** Version bump only for package @mamba/tabs
+
+
+
+
+
 ## [3.0.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/tabs@3.0.2...@mamba/tabs@3.0.3) (2021-02-25)
 
 **Note:** Version bump only for package @mamba/tabs

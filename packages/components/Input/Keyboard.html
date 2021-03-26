@@ -49,14 +49,14 @@
         </div>
       </div>
       <div class="key-row">
-        <div class="key bigger" on:click="toggleSymbols('', event)">
+        <div class="key change-keyboard" on:click="toggleSymbols('', event)">
           {specialLabel}
         </div>
-        <div class="key bigger" on:click="insertKey(layout.utilityKeys[0], event)">
+        <div class="key symbol" on:click="insertKey(layout.utilityKeys[0], event)">
           {layout.utilityKeys[0]}
         </div>
-        <div class="key space" on:click="insertKey(' ', event)">___</div>
-        <div class="key bigger" on:click="insertKey(layout.utilityKeys[1], event)">
+        <div class="key space" on:click="insertKey(' ', event)">espaço</div>
+        <div class="key dot" on:click="insertKey(layout.utilityKeys[1], event)">
           {layout.utilityKeys[1]}
         </div>
         <div class="key bigger enter-key" on:click="submit()">
@@ -358,8 +358,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: silver;
-    padding: 4px 0;
+    background-color: $neutral100;
 
     &:not(.is-active) {
       display: none;
@@ -370,6 +369,7 @@
     display: flex;
     justify-content: center;
     width: 100%;
+    flex-wrap: wrap;
   }
 
   .suggestions {
@@ -383,7 +383,7 @@
     margin: 0 auto;
     padding: 8px 2px;
     border-radius: 3px;
-    background-color: #f2f2f2;
+    background-color: #fff;
     text-align: center;
     font-size: 14px;
     overflow: hidden;
@@ -392,31 +392,45 @@
 
   .key {
     display: flex;
-    width: 24px;
+    font-size: 1.15rem;
+    flex: 1;
     height: 36px;
-    background-color: #f2f2f2;
+    background-color: #fff;
     cursor: pointer;
-    border: 1px solid silver;
-    border-radius: 4px;
+    border: 1px solid $neutral100;
+    border-radius: 2px;
     align-items: center;
     justify-content: center;
     z-index: 1;
+    color: $neutral900;
 
     &.is-active {
       background-color: $neutral300;
       border-color: #f2f2f2;
     }
 
+    &.change-keyboard {
+      width: 45px;
+    }
+
+    &.symbol,
+    &.dot {
+      max-width: 30px;
+    }
+
     &.bigger {
-      width: 34px;
+      min-width: 34px;
 
       &.enter-key {
         background-color: $green500;
+        min-width: 60px;
+        border-bottom-right-radius: 12px;
       }
     }
 
     &.space {
-      width: 100px;
+      min-width: 75px;
+      color: $neutral500;
     }
   }
 
@@ -425,7 +439,7 @@
     vertical-align: middle;
     width: 18px;
     height: 18px;
-    background-color: silver;
+    background-color: $neutral900;
     mask-size: contain;
     mask-repeat: no-repeat;
     mask-position: center;
@@ -433,8 +447,7 @@
 
   .capslock {
     mask-image: url(./assets/caps.png);
-    background-color: black;
-    opacity: 0.35;
+    background-color: $neutral900;
 
     .keyboard.mode-capitalized & {
       opacity: 0.8;
@@ -443,7 +456,7 @@
 
   .backspace {
     mask-image: url(./assets/delete.png);
-    background-color: black;
+    background-color: $neutral900;
   }
 
   .enter {

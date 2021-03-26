@@ -3,6 +3,89 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@3.1.2...@mamba/cli@3.2.0) (2021-03-23)
+
+**Note:** Version bump only for package @mamba/cli
+
+
+
+
+
+## [3.1.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@3.1.1...@mamba/cli@3.1.2) (2021-03-22)
+
+**Note:** Version bump only for package @mamba/cli
+
+
+
+
+
+## [3.1.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@3.1.0...@mamba/cli@3.1.1) (2021-03-16)
+
+
+### Bug Fixes
+
+* 🐛 adb shell listing dir ([da2297a](https://github.com/stone-payments/pos-mamba-sdk/commit/da2297a57a52d4ec55c12e8958aa31bdccad5236))
+
+
+
+
+
+# [3.1.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@3.0.8...@mamba/cli@3.1.0) (2021-03-16)
+
+
+### Bug Fixes
+
+* 🐛 rsync for darwin os ([be9e73d](https://github.com/stone-payments/pos-mamba-sdk/commit/be9e73d2c3025bf9f577e79ceb184dd1435830b1))
+
+
+### Features
+
+* 🎸 (cli) multiplataform  deploy ([2b3ff45](https://github.com/stone-payments/pos-mamba-sdk/commit/2b3ff45d55ac99adeb00b2802380d8c89a3ef9b0))
+
+
+
+
+
+## [3.0.8](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@3.0.7...@mamba/cli@3.0.8) (2021-03-12)
+
+**Note:** Version bump only for package @mamba/cli
+
+
+
+
+
+## [3.0.7](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@3.0.6...@mamba/cli@3.0.7) (2021-03-12)
+
+**Note:** Version bump only for package @mamba/cli
+
+
+
+
+
+## [3.0.6](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@3.0.5...@mamba/cli@3.0.6) (2021-03-11)
+
+**Note:** Version bump only for package @mamba/cli
+
+
+
+
+
+## [3.0.5](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@3.0.4...@mamba/cli@3.0.5) (2021-03-11)
+
+**Note:** Version bump only for package @mamba/cli
+
+
+
+
+
+## [3.0.4](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@3.0.2...@mamba/cli@3.0.4) (2021-03-02)
+
+**Note:** Version bump only for package @mamba/cli
+
+
+
+
+
 ## [3.0.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@3.0.2...@mamba/cli@3.0.3) (2021-02-25)
 
 **Note:** Version bump only for package @mamba/cli
