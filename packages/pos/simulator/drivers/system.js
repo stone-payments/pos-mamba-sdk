@@ -95,6 +95,13 @@ export function setup(System) {
   System.getVersion = () => SimulatorSystem.getVersion();
 
   /**
+   * Get POS Model
+   * @memberOf System
+   * @return {String} Pos Model
+   */
+   System.getPosModel = () => Registry.persistent.get().$Device.device;
+
+  /**
    * Change adapter network wifi or 3g
    * @memberOf System
    * @return {boolean} true or false

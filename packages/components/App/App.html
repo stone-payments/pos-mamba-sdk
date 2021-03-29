@@ -4,7 +4,7 @@
 />
 
 <div
-  class="mamba-app"
+  class="mamba-app {device}"
   class:no-scroll="!scrollable"
   class:has-appbar="hasAppbar"
 >
@@ -16,6 +16,8 @@
 <script>
   import App from '@mamba/pos/api/app.js';
   import Keyboard from '@mamba/pos/api/keyboard.js';
+  import System from '@mamba/pos/api/system.js';
+
   import {
     hasActiveHandlerFor,
     hasKeystrokeToPrevent,
@@ -36,6 +38,7 @@
         hideAppBar: false,
         askPasswordOnClose: false,
         doBeforeClose: false,
+        device: System.getPosModel(),
       };
     },
     oncreate() {
