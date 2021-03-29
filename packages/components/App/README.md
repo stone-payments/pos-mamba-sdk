@@ -88,7 +88,9 @@ Habilita/desabilita o _scroll_ do app.
 
 ### Keystroke
 
-`import Keystroke from '@mamba/app/Keystroke.html';`
+```js
+import Keystroke from '@mamba/app/Keystroke.html';
+```
 
 O componente `Keystroke` associa um evento de tecla á uma tecla específica e o desassocia automaticamente quando é destruído. Quando a tecla é apertada, o componente dispara um evento de `keystroke`.
 
