@@ -94,7 +94,7 @@ O componente `Keystroke` associa um evento de tecla á uma tecla específica e o
 
 É importante ressaltar que, enquanto algum `<Keystroke/>` estiver associado a uma tecla e `ativo`, nenhum atalho de teclado automático (`shortcut="nomeDaTecla"`) desta tecla estará ativo.
 
-#### Parâmetros
+### Parâmetros
 
 `<Keystroke ...props/>`
 
