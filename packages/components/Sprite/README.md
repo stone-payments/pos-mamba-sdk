@@ -2,11 +2,6 @@
 
 O componente `Sprite` ajuda na criação de animações utilizando uma *SpriteSheet*. É recomendado que se utilize este componente no lugar de arquivos `.gif` por ter um desempenho melhor.
 
-
-<div class="iframe-wrapper">
-  <iframe src="https://bundlebrowser.mambaweb.now.sh/#!/sprite"></iframe>
-</div>
-
 ## Parâmetros
 
 | Parâmetro   | Descrição                         | Tipo               | Padrão        |

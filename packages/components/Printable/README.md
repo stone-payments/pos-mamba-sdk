@@ -2,10 +2,6 @@
 
 O componente `Printable` encapsula o fluxo de impressão do POS, permitindo a impressão de qualquer conteúdo HTML estático.
 
-<div class="iframe-wrapper">
-  <iframe src="https://bundlebrowser.mambaweb.now.sh/#!/printable"></iframe>
-</div>
-
 ## Parâmetros
 
 | Parâmetro                                         | Descrição                                                                                                                                                                     | Tipo      | Padrão  |

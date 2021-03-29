@@ -4,11 +4,6 @@ O componente `Brands` permite de modo fácil exibir o ícone das principais band
 
 Caso não haja a bandeira especificada, ele exibe a bandeira padrão `blank`.
 
-
-<div class="iframe-wrapper">
-  <iframe src="https://bundlebrowser.mambaweb.now.sh/#!/brands"></iframe>
-</div>
-
 ## Parâmetros
 
 | Parâmetro | Descrição                      | Tipo     | Padrão  |

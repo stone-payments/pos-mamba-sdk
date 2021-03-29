@@ -21,6 +21,7 @@
     "test:watch": "jest --watch --collect-coverage",
     "test:ci": "jest --no-cache --verbose",
     "link:packages": "lerna exec npm link",
+    "packages:clear": "lerna exec -- rm -rf node_modules package-lock.json",
     "check-next-version": "echo 'n' | lerna version",
     "release": "lerna publish"
   },

@@ -27,11 +27,6 @@ O atributo `label` será usado como label no item da aba.
 Omitir o attributo `label`, resulta a aba e seu contúdo correspondente não ser exibido.
 Para que o parâmetro `route` funcionar corretamente, é necessário que o caminho da aba seja completo e absoluto, incluindo a rota do pai.
 
-
-<div class="iframe-wrapper">
-  <iframe src="https://bundlebrowser.mambaweb.now.sh/#!/tabs"></iframe>
-</div>
-
 ## Parâmetros
 
 `<Tabs ...props />`

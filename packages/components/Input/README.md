@@ -22,11 +22,6 @@ import MoneyInput from '@mamba/input/Money.html';
 import KeyboardInput from '@mamba/input/Keyboard.html';
 ```
 
-
-<div class="iframe-wrapper">
-  <iframe src="https://bundlebrowser.mambaweb.now.sh/#!/input"></iframe>
-</div>
-
 ## Parâmetros
 
 | Parâmetro    | Descrição                                                   | Tipo           | Padrão      |

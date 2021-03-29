@@ -5,10 +5,6 @@ imagens padrões já disponíveis em nossa SDK. Além das imagens, também é po
 do ícone e utilizar uma imagem própria.
 
 
-<div class="iframe-wrapper">
-  <iframe src="https://bundlebrowser.mambaweb.now.sh/#!/icon"></iframe>
-</div>
-
 ## Parâmetros
 
 `<Icon ...props/>`
