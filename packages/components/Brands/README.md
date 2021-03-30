@@ -4,9 +4,8 @@ O componente `Brands` permite de modo fácil exibir o ícone das principais band
 
 Caso não haja a bandeira especificada, ele exibe a bandeira padrão `blank`.
 
-## Parâmetros
 
-| Parâmetro | Descrição                      | Tipo     | Padrão  |
+| Parâmetros | Descrição                      | Tipo     | Padrão  |
 | :-------- | :----------------------------- | :------- | :------ |
 | icon      | Nome (caixa baixa) da bandeira | `string` | `blank` |
 | width     | Largura da imagem              | `string` | `30`    |

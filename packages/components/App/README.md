@@ -122,11 +122,10 @@ O componente `Keystroke` associa um evento de tecla á uma tecla específica e o
 </script>
 ```
 
-## Parâmetros
 
 `<Keystroke ...props/>`
 
-| Parâmetro | Descrição                                    | Tipo      | Padrão |
+| Parâmetros | Descrição                                    | Tipo      | Padrão |
 | --------- | -------------------------------------------- | --------- | ------ |
 | key       | Define a tecla associada ao handler          | `string`  | `null` |
 | active    | Define ser o handler deve estar ativo ou não | `boolean` | `true` |

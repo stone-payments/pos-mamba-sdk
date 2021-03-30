@@ -4,17 +4,16 @@ O módulo `Collection` é composto por dois componentes: `Collection` e `Row`, q
 `Collection` é um conjunto de `Row` de um assunto comum, semelhante a uma tabela com apenas uma coluna e diversas linhas.
 
 
-## Parâmetros
 
 `<Collection ...props />`
 
-| Parâmetro   | Descrição                         | Tipo               | Padrão        |
+| Parâmetros   | Descrição                         | Tipo               | Padrão        |
 |-------------|-----------------------------------|--------------------|---------------|
 | title       | Título da coleção                 | `string`           | `undefined`   |
 
 `<Row ...props />`
 
-| Parâmetro   | Descrição                         | Tipo               | Padrão        |
+| Parâmetros   | Descrição                         | Tipo               | Padrão        |
 |-------------|-----------------------------------|--------------------|---------------|
 | label        | Texto da linha  | `string`           | `''`   |
 | leftLabel        | Igual a prop `label`   | `string`           | `''`   |

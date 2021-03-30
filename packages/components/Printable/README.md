@@ -2,9 +2,8 @@
 
 O componente `Printable` encapsula o fluxo de impressão do POS, permitindo a impressão de qualquer conteúdo HTML estático.
 
-## Parâmetros
 
-| Parâmetro                                         | Descrição                                                                                                                                                                     | Tipo      | Padrão  |
+| Parâmetross                                         | Descrição                                                                                                                                                                     | Tipo      | Padrão  |
 | :------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------- | :------ |
 | [dithering](https://pt.wikipedia.org/wiki/Dither) | Define se deve ser aplicado um algoritmo de dithering na impressão. Use esta função somente para imprimir imagens, pois o dithering diminui a qualidade da impressão de texto | `boolean` | `false` |
 | showPrintingDialog                                | define se o diálogo de "Imprimindo" deve aparecer ou não                                                                                                                      | `boolean` | `true`  |

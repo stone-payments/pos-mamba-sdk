@@ -27,7 +27,7 @@ Recebe um `HTMLElement` e o imprime. Este método retorna uma [`Promise`](https:
 
 #### Opções
 
-| Parâmetro | Descrição           | Tipo            | Padrão    |
+| Parâmetros | Descrição           | Tipo            | Padrão    |
 | :-------- | :------------------ | :-------------- | :-------- |
 | use_dithering | Define se deve ser aplicado um algoritmo de dithering na impressão. Use esta função somente para imprimir imagens, pois o dithering diminui a qualidade da impressão de texto | `boolean` | `false` |
 

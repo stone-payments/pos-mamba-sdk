@@ -2,9 +2,8 @@
 
 O módulo `Range` pode ser usado para representar um valor dentro de um intervalo, que pode ser alterado a partir dos botões nas laterais.
 
-## Parâmetros
 
-| Parâmetro  | Descrição                                                          | Tipo              | Padrão      |
+| Parâmetross | Descrição                                                          | Tipo              | Padrão      |
 | :--------- | :----------------------------------------------------------------- | :---------------- | :---------- |
 | value      | valor escolhido                                                    | `int`             | `50`        |
 | step       | intervalo entre valores                                            | `int`             | `10`        |

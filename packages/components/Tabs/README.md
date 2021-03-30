@@ -30,17 +30,16 @@ O atributo `label` será usado como label no item da aba.
 Omitir o attributo `label`, resulta a aba e seu contúdo correspondente não ser exibido.
 Para que o parâmetro `route` funcionar corretamente, é necessário que o caminho da aba seja completo e absoluto, incluindo a rota do pai.
 
-## Parâmetros
 
 `<Tabs ...props />`
 
-| Parâmetro | Descrição                                                            | Tipo     | Padrão  |
+| Parâmetros | Descrição                                                            | Tipo     | Padrão  |
 | --------- | -------------------------------------------------------------------- | -------- | ------- |
 | changeOn  | Define qual o modo de funcionamento das abas: por `state` ou `route` | `string` | `state` |
 
 `<TabPane ...props />`
 
-| Parâmetro | Descrição                                                                   | Tipo     | Padrão      |
+| Parâmetros | Descrição                                                                   | Tipo     | Padrão      |
 | --------- | --------------------------------------------------------------------------- | -------- | ----------- |
 | label     | Título a ser utilizado para criar o item na navegação de abas               | `string` | `undefined` |
 | route     | Rota da aba para ser usada com modo de troca por `route` do modo `changeOn` | `string` | `undefined` |

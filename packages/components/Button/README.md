@@ -4,9 +4,8 @@ O Componente `Button` permite de modo fácil criar botões seguindo um estilo pa
 de customização, podendo até mesmo englobar um outro componente, como pode ser visto nos exemplos abaixo.
 Além disso, os botões também podem ser acionados por um shortcut e executar métodos por este atalho ou quando clicados.
 
-## Parâmetros
 
-| Parâmetro      | Descrição                              | Tipo              | Padrão      |
+| Parâmetros      | Descrição                              | Tipo              | Padrão      |
 | :------------- | :------------------------------------- | :---------------- | :---------- |
 | bottom         | Fixa o botão na parte inferior da tela | `boolean`         | `false`     |
 | disabled       | Desabilita o botão                     | `boolean`         | `false`     |
