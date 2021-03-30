@@ -55,6 +55,16 @@ const colors = {
   yellow300: '#FFDB80',
   yellow200: '#FFECB3',
   yellow100: '#FFF4D1',
+  gray10: '#f4f4f4',
+  gray20: '#e0e0e0',
+  gray30: '#c6c6c6',
+  gray40: '#a8a8a8',
+  gray50: '#8d8d8d',
+  gray60: '#6f6f6f',
+  gray70: '#525252',
+  gray80: '#393939',
+  gray90: '#262626',
+  gray100: '#161616',
 };
 
 module.exports = colors;
