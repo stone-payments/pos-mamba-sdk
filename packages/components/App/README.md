@@ -54,57 +54,73 @@ Entretanto, também é possível sobrescrever este comportamento através de um 
 O componente `<App/>` se registra como a propriedade `meta` no [componente raiz](https://svelte.technology/guide#component-root). Possibilitando o acesso meta informações de estado e fluxos do aplicativo:
 <br/>
 <br/>
-- Navegação da `AppBar` e da tecla de `back`:<br/>
-Habilita/desabilita a navegação do app. Passa-se um objeto composto por `back` e `home` com um valor _booleano_ ou um valor _booleano_ único que será usado para ambos os casos.
-<br/>
 
-```js
-this.root.meta.setNavigable({ home: boolean, back: boolean } | boolean)
-```
+- Navegação da `AppBar` e da tecla de `back`:
 
+  Habilita/desabilita a navegação do app. Passa-se um objeto composto por `back` e `home` com um valor _booleano_ ou um valor _booleano_ único que será usado para ambos os casos.
 
-- Esconde/mostra o `AppBar`. Passa-se um valor _booleano_:<br/>
-
-```js
-this.root.meta.hideAppBar(boolean)
-```
+  ```js
+  this.root.meta.setNavigable({ home: boolean, back: boolean } | boolean)
+  ```
 
 
-- Navegação da `AppBar` no botão de voltar com rota customizada e passagem de parâmetros:<br/>
-Customiza a rota quando for clicado no botão de voltar no `AppBar`. Passa-se um objeto composto por `route` e `params`, a propriedade `route` é obrigatória e precisa receber uma _string_, a propriedade `params` é opcional e o valor precisa ser um _object_.
+- Esconde/mostra o `AppBar`. Passa-se um valor _booleano_:
 
-```js
-this.root.meta.setNavigableRoute('/', { name: 'Mamba' })
-```
-
-
-- Atalhos de tecla automáticos ( `shortcut="nomeDaTecla"` )<br/>
-Habilita/desabilita os atalhos automáticos de teclado. Passa-se um parâmetro _booleano_.
-
-```js
-this.root.meta.setShortcuts(boolean);
-```
+  ```js
+  this.root.meta.hideAppBar(boolean)
+  ```
 
 
-- Bloqueio de _scroll_. Habilita/desabilita o _scroll_ do app.<br/>
+- Navegação da `AppBar` no botão de voltar com rota customizada e passagem de parâmetros:
 
-```js
-this.root.meta.setScrollable(boolean);
-```
+  Customiza a rota quando for clicado no botão de voltar no `AppBar`. Passa-se um objeto composto por `route` e `params`, a propriedade `route` é obrigatória e precisa receber uma _string_, a propriedade `params` é opcional e o valor precisa ser um _object_.
+
+  ```js
+  this.root.meta.setNavigableRoute('/', { name: 'Mamba' })
+  ```
+
+
+- Atalhos de tecla automáticos `shortcut="nomeDaTecla"`
+
+  Habilita/desabilita os atalhos automáticos de teclado. Passa-se um parâmetro _booleano_.
+
+  ```js
+  this.root.meta.setShortcuts(boolean);
+  ```
+
+
+- Bloqueio de _scroll_. Habilita/desabilita o _scroll_ do app.
+
+  ```js
+  this.root.meta.setScrollable(boolean);
+  ```
 
 
 ## Sub componentes
 
 ### Keystroke
 
-
-```js
-import Keystroke from '@mamba/app/Keystroke.html';
-```
+<br/>
 
 O componente `Keystroke` associa um evento de tecla á uma tecla específica e o desassocia automaticamente quando é destruído. Quando a tecla é apertada, o componente dispara um evento de `keystroke`.
 
 É importante ressaltar que, enquanto algum `<Keystroke/>` estiver associado a uma tecla e `ativo`, nenhum atalho de teclado automático (`shortcut="nomeDaTecla"`) desta tecla estará ativo.
+
+<br/>
+
+#### Uso
+
+```html
+<Keystroke key="back" on:keystroke="this.root.router.go('/')" />
+
+<script>
+  export default {
+    components: {
+      Keystroke: '@mamba/app/Keystroke.html',
+    },
+  };
+</script>
+```
 
 ## Parâmetros
 

@@ -6,17 +6,20 @@ Usar o modo de funcionamento `route` do parâmetro `changeOn`, faz com que a tro
 
 ## Como utilizar
 
-```js
-import Tabs from '@mamba/tabs/Tabs.html';
-import TabPane from '@mamba/tabs/TabPane.html';
-
-...
-
+```html
 <Tabs>
   <TabPane label="Tab 1">Your content</TabPane>
   <TabPane label="Tab 2">Another content</TabPane>
-  ...
 </Tabs>
+
+<script>
+  export default {
+    components: {
+      Tabs: '@mamba/tabs/Tabs.html',
+      TabPane: '@mamba/tabs/TabPane.html',
+    },
+  };
+</script>
 ```
 
 ## TabPane

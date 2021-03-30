@@ -32,8 +32,8 @@ Caso use tag `img`, utilize o componenent `@mamba/brands/Brands.html`.
 
 <br />
 
-```
-<div style="background-image: url({getBrand('visa')});"></div>
+```html
+<img src="{getBrand('visa')}" />
 
 <script>
   import getBrand from '@mamba/brands/getBrand.js';
