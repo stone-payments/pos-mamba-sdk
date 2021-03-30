@@ -1,16 +1,11 @@
 # App
 
-```js
-import App from '@mamba';
-```
-
-## Descrição
-
 O componente `<App>` é responsável por encapsular toda a aplicação. Sem ele a aplicação perderá algumas funcionalidades básicas, o que o torna **obrigatório**.
 
 Vale ressaltar também, que este componente não deve ser utilizado em nenhum outro lugar da aplicação além do ponto de entrada.
 <br/>
 <br/>
+
 ```html
 <App>
   <!--
@@ -51,52 +46,52 @@ Por padrão, quando o usuário clicar no botão `close`/`x` o fluxo se inicia au
 
 Entretanto, também é possível sobrescrever este comportamento através de um método `onClose` no [componente raiz](https://svelte.technology/guide#component-root) de seu aplicativo. Deste modo, é possível customizar o fluxo de fechamento da sua maneira, adicionando uma tela, um diálogo, algum tipo de lógica, etc.
 
+<br/>
+
+---
 ### Meta informações
 
 O componente `<App/>` se registra como a propriedade `meta` no [componente raiz](https://svelte.technology/guide#component-root). Possibilitando o acesso meta informações de estado e fluxos do aplicativo:
-
-#### Navegação da `AppBar` e da tecla de `back`
+<br/>
+<br/>
+- Navegação da `AppBar` e da tecla de `back`:<br/>
+Habilita/desabilita a navegação do app. Passa-se um objeto composto por `back` e `home` com um valor _booleano_ ou um valor _booleano_ único que será usado para ambos os casos.
+<br/>
 
 ```js
 this.root.meta.setNavigable({ home: boolean, back: boolean } | boolean)
 ```
 
-Habilita/desabilita a navegação do app. Passa-se um objeto composto por `back` e `home` com um valor _booleano_ ou um valor _booleano_ único que será usado para ambos os casos.
 
-
-#### Esconde/mostra o `AppBar`
+- Esconde/mostra o `AppBar`. Passa-se um valor _booleano_:<br/>
 
 ```js
 this.root.meta.hideAppBar(boolean)
 ```
 
-Esconde/mostra o componete appBar. Passa-se um valor _booleano_.
 
-
-#### Navegação da `AppBar` no botão de voltar com rota customizada e passagem de parâmetros
+- Navegação da `AppBar` no botão de voltar com rota customizada e passagem de parâmetros:<br/>
+Customiza a rota quando for clicado no botão de voltar no `AppBar`. Passa-se um objeto composto por `route` e `params`, a propriedade `route` é obrigatória e precisa receber uma _string_, a propriedade `params` é opcional e o valor precisa ser um _object_.
 
 ```js
 this.root.meta.setNavigableRoute('/', { name: 'Mamba' })
 ```
 
-Customiza a rota quando for clicado no botão de voltar no `AppBar`. Passa-se um objeto composto por `route` e `params`, a propriedade `route` é obrigatória e precisa receber uma _string_, a propriedade `params` é opcional e o valor precisa ser um _object_.
 
-
-#### Atalhos de tecla automáticos (`shortcut="nomeDaTecla"`)
+- Atalhos de tecla automáticos ( `shortcut="nomeDaTecla"` )<br/>
+Habilita/desabilita os atalhos automáticos de teclado. Passa-se um parâmetro _booleano_.
 
 ```js
 this.root.meta.setShortcuts(boolean);
 ```
 
-Habilita/desabilita os atalhos automáticos de teclado. Passa-se um parâmetro _booleano_.
 
-#### Bloqueio de _scroll_
+- Bloqueio de _scroll_. Habilita/desabilita o _scroll_ do app.<br/>
 
 ```js
 this.root.meta.setScrollable(boolean);
 ```
 
-Habilita/desabilita o _scroll_ do app.
 
 ## Sub componentes
 
