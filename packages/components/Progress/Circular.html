@@ -1,11 +1,13 @@
 <canvas ref:canvas></canvas>
 
 <script>
+  import { green500 } from '@mamba/styles/colors';
+
   export default {
     data() {
       return {
         _interval: null,
-        color: '#6ebf1a',
+        color: green500,
         progress: undefined,
         height: 25,
         speed: 10,

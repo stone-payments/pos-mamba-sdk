@@ -154,9 +154,9 @@ Abre o `Dialog` e o mantém aberto pelo tempo (`duration` em milissegundos) espe
 
 Fecha o `Dialog` após o tempo (`delay` em milissegundos) especificado.
 
-### ConfirmationDialog.open()
+### ConfirmationDialog.open(duration)
 
-Abre o `ConfirmationDialog`.
+Abre o `ConfirmationDialog` e o mantém aberto pelo tempo (`duration` em milissegundos) especificado.
 
 ### ConfirmationDialog.close()
 

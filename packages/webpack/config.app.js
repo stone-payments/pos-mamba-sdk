@@ -14,19 +14,19 @@ const { BUNDLE_NAME, IS_BROWSER } = require('./helpers/consts.js');
 const loaders = require('./helpers/loaders.js');
 
 const PKG = getPkg();
-
 module.exports = merge(require('./config.base.js'), {
   entry: getEntrypoints(),
   output: {
     path: fromCwd('dist', BUNDLE_NAME),
   },
   resolve: {
-    modules: [fromCwd('src'), 'node_modules'],
+    modules: [fromCwd('src'), 'node_modules', fromCwd('vendors/packages')],
     alias: (() => {
       const aliases = {
         page: fromCwd('node_modules', 'page'),
         'core-js': fromCwd('node_modules', 'core-js'),
         '@mamba/pos': fromCwd('node_modules', '@mamba', 'pos'),
+        '../vendors': fromCwd('vendors'),
       };
 
       if (IS_BROWSER) {

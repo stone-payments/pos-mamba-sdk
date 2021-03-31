@@ -7,10 +7,12 @@
 </div>
 
 <script>
+  import { green500 } from '@mamba/styles/colors';
+
   export default {
     data() {
       return {
-        color: '#6ebf1a',
+        color: green500,
         height: '6px',
         progress: undefined,
       };
@@ -27,13 +29,11 @@
 </script>
 
 <style type="text/postcss">
-  @import '@mamba/styles/colors.pcss';
-
   .progress-bar {
     display: block;
     width: 100%;
     overflow: hidden;
-    background-color: $green;
+    background-color: $green500;
   }
 
   .progress {

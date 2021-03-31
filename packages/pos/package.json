@@ -1,6 +1,6 @@
 {
   "name": "@mamba/pos",
-  "version": "2.33.3",
+  "version": "3.2.0",
   "description": "Mamba web environment wrapper and simulator",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
