@@ -11,7 +11,7 @@
     { "title": "Pequeno", "path": "example/Small.html", "ih": 100 },
     { "title": "Tela cheia", "path": "example/FullScreen.html", "ih": 100 },
     { "title": "Largura personalizada", "path": "example/CustomWidth.html", "ih": 100 },
-    { "title": "Custom", "path": "example/Custom.html", "ih": 100 },
+    { "title": "Botão inferior", "path": "example/Bottom.html", "ih": 100 },
     { "title": "Com Ícone", "path": "example/ButtonIcon.html", "ih": 100 }
   ],
   "publishConfig": {
