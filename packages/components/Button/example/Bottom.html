@@ -1,0 +1,26 @@
+<div ref:text>
+  Human-centered, mass incarceration B-corp; sustainable social enterprise; green space disrupt natural resources circular unprecedented challenge.
+</div>
+
+<Button bgColor={green600} size="full" bottom >Bottom</Button>
+
+<script>
+  import { green600 } from '@mamba/styles/colors.js';
+
+  export default {
+    components: {
+      Button: '@mamba/button/Button.html',
+    },
+    helpers: {
+      green600,
+    },
+  };
+</script>
+
+<style>
+  ref:text {
+    /* bottom button height */
+    padding-bottom: calc(34px);
+    color: $neutral600;
+  }
+</style>
