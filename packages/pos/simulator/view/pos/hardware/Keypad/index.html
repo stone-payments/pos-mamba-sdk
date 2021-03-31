@@ -25,7 +25,6 @@
       };
     },
     oncreate(){
-      console.log(this.store.get())
       const { ACTIVE_MODEL } = this.store.get();
 
       const { component } = devices.find(({title}) => title === ACTIVE_MODEL);
