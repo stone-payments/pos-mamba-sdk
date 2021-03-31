@@ -25,9 +25,10 @@
       };
     },
     oncreate(){
-      const { device } = this.get();
+      console.log(this.store.get())
+      const { ACTIVE_MODEL } = this.store.get();
 
-      const { component } = devices.find(({title}) => title === device);
+      const { component } = devices.find(({title}) => title === ACTIVE_MODEL);
 
       this.set({
         keyboardDevice: component

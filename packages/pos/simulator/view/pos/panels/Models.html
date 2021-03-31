@@ -1,10 +1,11 @@
 <div class="title">POS</div>
 
 <ul class="controllers">
-  {#each deviceList as device}
+  {#each MODELS as model}
     <li class="controller">
-      <span>{device}</span>
-      <Switch checked={$device === device} on:change="setDevice(event, device)" />
+      <span>{model}</span>
+      <Radio checked={$ACTIVE_MODEL === model} on:click="setPosModel(model)" />
+
     </li>
   {/each}
 </ul>
@@ -15,19 +16,17 @@
 
   export default {
     components: {
-      Switch: '@mamba/switch',
+      Radio: '@mamba/radio/Radio.html',
     },
     store: () => store,
     data() {
       return {
-        deviceList: store.getDeviceList(),
+        MODELS: ['S920', 'MP35P'],
       };
     },
     methods: {
-      setDevice(event, device) {
-        if (event.value){
-          this.store.setDevice(device)
-        }
+      setPosModel(model) {
+        this.store.setDevice(model)
       },
     },
   };

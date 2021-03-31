@@ -1,11 +1,11 @@
 <div class="pos-wrapper">
-  <div class="shadow shadow-{$device}"></div>
-  <div class="pos {$device}">
+  <div class="shadow shadow-{$ACTIVE_MODEL}"></div>
+  <div class="pos {$ACTIVE_MODEL}">
     <Printer ref:printer />
-    <Screen ref:screen device={$device}>
+    <Screen ref:screen >
       <slot></slot>
     </Screen>
-    <Keypad ref:keypad device={$device}/>
+    <Keypad ref:keypad />
   </div>
 </div>
 

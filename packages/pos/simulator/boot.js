@@ -2,7 +2,6 @@ import { DriverManager } from './plugins/index.js';
 
 import * as $Printer from './drivers/printer.js';
 import * as $App from './drivers/app.js';
-import * as $Device from './drivers/device.js';
 import * as $Storage from './drivers/storage.js';
 import * as $Keyboard from './drivers/keyboard.js';
 import * as $Merchant from './drivers/merchant.js';
@@ -15,7 +14,6 @@ import * as $Card from './drivers/card.js';
 DriverManager.attachDrivers([
   $Printer,
   $App,
-  $Device,
   $Storage,
   $Keyboard,
   $Merchant,

@@ -12,9 +12,10 @@
     "@mamba/button": "^2.33.3",
     "@mamba/dialog": "^2.33.3",
     "@mamba/icon": "^2.33.3",
+    "@mamba/radio": "^3.2.1",
     "@mamba/sprite": "^2.33.3",
     "@mamba/styles": "^2.33.3",
-    "@mamba/switch": "^2.33.3",
+    "@mamba/utils": "^3.2.1",
     "immer": "^2.1.0",
     "svelte": "^2.16.1"
   },
