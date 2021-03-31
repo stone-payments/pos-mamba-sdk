@@ -100,13 +100,6 @@ export function setup(System) {
    * @memberOf System
    * @return {String} String 'S920' || 'MP35P' || 'Q92' || 'V240M'
    */
-   System.getPosModel = () => Registry.persistent.get().$Device.device;
-
-  /**
-   * Get POS Model
-   * @memberOf System
-   * @return {String} String 'S920' || 'MP35P' || 'Q92' || 'V240M'
-   */
   System.getPosModel = () => Registry.persistent.get().$System.model;
 
   /**
