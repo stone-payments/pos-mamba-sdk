@@ -10,9 +10,10 @@
 
 <script>
   import { HardwareManager } from '../../index.js';
-  import { View } from '../../index.js';
+  import store from './store.js';
 
   export default {
+    store: () => store,
     data() {
       return {
         isInserted: false,
