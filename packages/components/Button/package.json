@@ -8,7 +8,11 @@
     { "title": "Padrão", "path": "example/Default.html", "ih": 100 },
     { "title": "Desativado", "path": "example/Disabled.html", "ih": 100 },
     { "title": "Secundário", "path": "example/Secondary.html", "ih": 100 },
-    { "title": "Pequeno", "path": "example/Small.html", "ih": 100 }
+    { "title": "Pequeno", "path": "example/Small.html", "ih": 100 },
+    { "title": "Tela cheia", "path": "example/FullScreen.html", "ih": 100 },
+    { "title": "Largura personalizada", "path": "example/CustomWidth.html", "ih": 100 },
+    { "title": "Custom", "path": "example/Custom.html", "ih": 100 },
+    { "title": "Com Ícone", "path": "example/ButtonIcon.html", "ih": 100 }
   ],
   "publishConfig": {
     "access": "public"
