@@ -5,7 +5,10 @@
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
   "examples": [
-    { "title": "Padrão", "path": "example/Default.html", "ih": 100 }
+    { "title": "Padrão", "path": "example/Default.html", "ih": 100 },
+    { "title": "Desativado", "path": "example/Disabled.html", "ih": 100 },
+    { "title": "Secundário", "path": "example/Secondary.html", "ih": 100 },
+    { "title": "Pequeno", "path": "example/Small.html", "ih": 100 },
   ],
   "publishConfig": {
     "access": "public"
