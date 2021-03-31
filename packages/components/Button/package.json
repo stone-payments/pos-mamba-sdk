@@ -4,6 +4,9 @@
   "svelte": "Button.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
+  "examples": [
+    { "title": "Padrão", "path": "example/Default.html", "ih": 100 }
+  ],
   "publishConfig": {
     "access": "public"
   },
