@@ -1,0 +1,37 @@
+
+<slot>
+  <svelte:component this="{keyboardDevice}" />
+</slot>
+
+<script>
+  import MP35P from './MP35P.html';
+  import S920 from './S920.html';
+
+  const devices = [
+    {
+      title: 'S920',
+      component: S920
+    },
+    {
+      title: 'MP35P',
+      component: MP35P
+    },
+  ];
+
+  export default {
+    data() {
+      return {
+        keyboardDevice: S920,
+      };
+    },
+    oncreate(){
+      const { ACTIVE_MODEL } = this.store.get();
+
+      const { component } = devices.find(({title}) => title === ACTIVE_MODEL);
+
+      this.set({
+        keyboardDevice: component
+      })
+    }
+  };
+</script>

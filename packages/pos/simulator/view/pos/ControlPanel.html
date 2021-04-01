@@ -17,6 +17,7 @@
   import FlowsPanel from './panels/Flows.html';
   import HttpPanel from './panels/Http.html';
   import Merchant from './panels/Merchant.html';
+  import Models from './panels/Models.html';
 
   let lastKeypressTime = 0;
 
@@ -26,7 +27,7 @@
     },
     data() {
       return {
-        panels: [GeneralPanel, Merchant, FlowsPanel, HttpPanel],
+        panels: [Models, GeneralPanel, Merchant, FlowsPanel, HttpPanel],
       };
     },
     oncreate() {
