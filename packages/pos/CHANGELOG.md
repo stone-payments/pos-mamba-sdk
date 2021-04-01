@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.3.1...@mamba/pos@3.3.2) (2021-04-01)
+
+
+### Bug Fixes
+
+* 🐛 wrong import ([9239129](https://github.com/stone-payments/pos-mamba-sdk/commit/92391297aee8d0366b0d5ec17ff2a8f45577e42b))
+
+
+
+
+
 ## [3.3.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.3.0...@mamba/pos@3.3.1) (2021-04-01)
 
 
