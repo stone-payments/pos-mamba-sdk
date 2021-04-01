@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@3.2.0...@mamba/webpack@3.3.0) (2021-04-01)
+
+
+### Bug Fixes
+
+* 🐛 fix ([2c634dd](https://github.com/stone-payments/pos-mamba-sdk/commit/2c634dd3ffa7c6ad9a08f0ed6c917286b136d79b))
+* 🐛 fix conflict ([8dacdbb](https://github.com/stone-payments/pos-mamba-sdk/commit/8dacdbbd89651f7f374f7bec1aad03f67b0ee005))
+
+
+### Features
+
+* 🎸 Update of multiple platforms in simulator ([fca8e94](https://github.com/stone-payments/pos-mamba-sdk/commit/fca8e94785b15d9bb15397c52e977b98cfdb52e3))
+
+
+
+
+
 ## [3.2.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@3.2.0...@mamba/webpack@3.2.1) (2021-03-31)
 
 **Note:** Version bump only for package @mamba/webpack

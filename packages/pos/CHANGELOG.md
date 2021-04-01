@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.2.0...@mamba/pos@3.3.0) (2021-04-01)
+
+
+### Bug Fixes
+
+* 🐛 fix cancelation wrapper ([11856da](https://github.com/stone-payments/pos-mamba-sdk/commit/11856da2d2493038cbfa2e51172a6dce86ffe91e))
+* 🐛 fix conflict ([1962db6](https://github.com/stone-payments/pos-mamba-sdk/commit/1962db6889870b57d95e754c4cfafe04184b167d))
+* 🐛 fix conflict ([8dacdbb](https://github.com/stone-payments/pos-mamba-sdk/commit/8dacdbbd89651f7f374f7bec1aad03f67b0ee005))
+* 🐛 fix method inline ([eee599b](https://github.com/stone-payments/pos-mamba-sdk/commit/eee599b4d4ad3dc680ec7b0e62c0223f9faa0454))
+* 🐛 Fix pr ([89a789b](https://github.com/stone-payments/pos-mamba-sdk/commit/89a789b42b674e6df04803f1fe31e385acaae45b))
+* 🐛 fix trigger card ([e6b642d](https://github.com/stone-payments/pos-mamba-sdk/commit/e6b642db37fd9876c35a71c243fcbd1339070c4a))
+* 🐛 green 50 to 500 ([d51252d](https://github.com/stone-payments/pos-mamba-sdk/commit/d51252dbe0bd366e4be41788c4920bb5cca8a69c))
+* 🐛 Included default value ([fac2f45](https://github.com/stone-payments/pos-mamba-sdk/commit/fac2f453b2f33599d183055f238068a12c2481a9))
+* 🐛 remove package-lock ([314928d](https://github.com/stone-payments/pos-mamba-sdk/commit/314928d2a88f46212d0644d1a660144ecf4e0e55))
+
+
+### Features
+
+* 🎸 New structure ([180d071](https://github.com/stone-payments/pos-mamba-sdk/commit/180d0710140a08454787ac7a45b6007de2d0a0ba))
+* 🎸 Simulator ([d4e5d16](https://github.com/stone-payments/pos-mamba-sdk/commit/d4e5d16239a20048258d7269f804bccfbc12ce5a))
+* 🎸 Update of multiple platforms in simulator ([fca8e94](https://github.com/stone-payments/pos-mamba-sdk/commit/fca8e94785b15d9bb15397c52e977b98cfdb52e3))
+
+
+
+
+
 ## [3.2.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.2.0...@mamba/pos@3.2.1) (2021-03-31)
 
 
