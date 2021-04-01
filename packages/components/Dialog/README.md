@@ -4,15 +4,9 @@ O módulo `Dialog` é composto por 3 componentes: `Dialog`, `ConfirmationDialog`
 O `PromisedDialog` é exibido durante a execução de uma `Promise` e após sua conclusão fecha o modal. Já o `ConfirmationDialog` exibe uma tela com dois botões que controlam o fluxo da aplicação. Para casos de apenas uma exibição de mensagem durante um período de tempo, o uso do `Dialog` é aconselhável.
 
 
-<div class="iframe-wrapper">
-  <iframe src="https://bundlebrowser.mambaweb.now.sh/#!/dialog"></iframe>
-</div>
-
-## Parâmetros
-
 `<Dialog ...props />`
 
-| Parâmetro  | Descrição                                             | Tipo      | Padrão      |
+| Parâmetros  | Descrição                                             | Tipo      | Padrão      |
 | ---------- | --------------------------------------------------    | --------- | ----------- |
 | align      | Alinhamento vertical do conteúdo (`top`, `center`)    | `string`  | `center`    |
 | bgColor    | Define a cor de fundo do modal                        | `string`  | `'#e3e3e3'` |
@@ -24,7 +18,7 @@ O `PromisedDialog` é exibido durante a execução de uma `Promise` e após sua 
 
 `<ConfirmationDialog ...props />`
 
-| Parâmetro     | Descrição                                             | Tipo      | Padrão        |
+| Parâmetros     | Descrição                                             | Tipo      | Padrão        |
 | ------------- | ---------------------------------------------         | --------- | ------------- |
 | negativeLabel | Texto no Botão de Confirmação Negativa                | `string`  | `'Cancelar'`  |
 | positiveLabel | Texto no Botão de Confirmação Positiva                | `string`  | `'Confirmar'` |
@@ -34,7 +28,7 @@ O `PromisedDialog` é exibido durante a execução de uma `Promise` e após sua 
 
 `<PromisedDialog ...props />`
 
-| Parâmetro | Descrição                                             | Tipo      | Padrão      |
+| Parâmetros | Descrição                                             | Tipo      | Padrão      |
 | --------- | ----------------------------------------------        | --------- | ----------- |
 | delay     | Tempo de espera depois de executar a `Promise`        | `string`  | `'right'`   |
 | promise   | A `Promise` a ser executada                           | `boolean` | `false`     |
@@ -44,7 +38,7 @@ O `PromisedDialog` é exibido durante a execução de uma `Promise` e após sua 
 
 `<Popup ...props />`
 
-| Parâmetro | Descrição                                      | Tipo      | Padrão    |
+| Parâmetros | Descrição                                      | Tipo      | Padrão    |
 | --------- | ---------------------------------------------- | --------- | --------- |
 | isOpen    | Define se o pop-up vai estar aberto por padrão | `boolean` | `'false'` |
 
@@ -52,7 +46,7 @@ O `PromisedDialog` é exibido durante a execução de uma `Promise` e após sua 
 
 `<Dialog ... on:event="..." />`
 
-| Evento | Disparado quando ...  | Tipo         |
+| Eventos | Disparado quando ...  | Tipo         |
 | ------ | --------------------- | ------------ |
 | open   | O diálogo for exibido | `function()` |
 | close  | O diálogo fechar      | `function()` |
@@ -75,7 +69,7 @@ Chama o `console.log` quando o diálogo fechar.
 
 `<PromisedDialog ... on:event="..." />`
 
-| Evento  | Descrição                                                                                                                        | Tipo              |
+| Eventos  | Descrição                                                                                                                        | Tipo              |
 | ------- | -------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
 | success | Especifique uma função que será chamada quando a Promise do diálogo for de sucesso(`.then`). Recebe o valor da `Promise.resolve` | `function(event)` |
 | failure | Especifique uma função que será chamada quando a Promise do diálogo for de falha(`.catch`). Recebe o valor da `Promise.reject`   | `function(event)` |
@@ -100,7 +94,7 @@ Chama o método `promiseFailed` quando o Promise falhar.
 
 `<ConfirmationDialog ... on:event="..." />`
 
-| Evento   | Descrição                                                                                                        | Tipo         |
+| Eventos   | Descrição                                                                                                        | Tipo         |
 | -------- | ---------------------------------------------------------------------------------------------------------------- | ------------ |
 | negative | Especifique uma função que será chamada quando o diálogo receber a ação negativa ou do botão vermelho do teclado | `function()` |
 | positive | Especifique uma função que será chamada quando o diálogo receber a ação positiva ou do botão verde do teclado    | `function()` |
@@ -123,7 +117,7 @@ Chama o `console.log` quando o diálogo receber ação negativa.
 
 `<Popup ... on:event="..." />`
 
-| Evento | Disparado quando ... | Tipo         |
+| Eventos | Disparado quando ... | Tipo         |
 | ------ | -------------------- | ------------ |
 | open   | O pop-up for exibido | `function()` |
 | close  | O pop-up fechar      | `function()` |

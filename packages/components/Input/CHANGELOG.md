@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@3.2.0...@mamba/input@3.3.0) (2021-03-31)
+
+
+### Bug Fixes
+
+* 🐛 remove global body from examples ([0f64e61](https://github.com/stone-payments/pos-mamba-sdk/commit/0f64e61f28eec0a18c3405dad78520a53e04335c))
+
+
+### Features
+
+* 🎸 Rebrand keyboard ([426d98f](https://github.com/stone-payments/pos-mamba-sdk/commit/426d98fe7c62ca3746460ed2ee44eae21b68c2cd))
+
+
+
+
+
 # [3.2.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@3.1.1...@mamba/input@3.2.0) (2021-03-23)
 
 **Note:** Version bump only for package @mamba/input

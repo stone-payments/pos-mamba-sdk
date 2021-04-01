@@ -3,13 +3,7 @@
 O componente `Radio` é usado para selecionar uma opção dentre as alternadas.
 
 
-<div class="iframe-wrapper">
-  <iframe src="https://bundlebrowser.mambaweb.now.sh/#!/radio"></iframe>
-</div>
-
-## Parâmetros
-
-| Parâmetro | Descrição                                         | Tipo            | Padrão     |
+| Parâmetros | Descrição                                         | Tipo            | Padrão     |
 | :-------- | :------------------------------------------------ | :-------------- | :--------- |
 | checked   | deixa o switch ativado                            | `undefined`     | `true`     |
 

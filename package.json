@@ -21,6 +21,7 @@
     "test:watch": "jest --watch --collect-coverage",
     "test:ci": "jest --no-cache --verbose",
     "link:packages": "lerna exec npm link",
+    "packages:clear": "lerna exec -- rm -rf node_modules package-lock.json",
     "check-next-version": "echo 'n' | lerna version",
     "release": "lerna publish"
   },
@@ -93,6 +94,7 @@
     "rollup-plugin-url": "^2.1.0",
     "rollup-plugin-virtual": "^1.0.1",
     "stylelint": "^9.10.0",
+    "stylelint-config-standard": "^21.0.0",
     "svelte": "^2.16.0",
     "svelte-preprocess": "^2.4.3",
     "webpack-merge": "^4.2.2"

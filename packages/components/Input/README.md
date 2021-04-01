@@ -23,13 +23,7 @@ import KeyboardInput from '@mamba/input/Keyboard.html';
 ```
 
 
-<div class="iframe-wrapper">
-  <iframe src="https://bundlebrowser.mambaweb.now.sh/#!/input"></iframe>
-</div>
-
-## Parâmetros
-
-| Parâmetro    | Descrição                                                   | Tipo           | Padrão      |
+| Parâmetross   | Descrição                                                   | Tipo           | Padrão      |
 | ------------ | ----------------------------------------------------------- | -------------- | ----------- |
 | align        | Alinha a entrada de acordo com parâmetro (`left`, `right`)  | `string`       | `'right'`   |
 | alphanumeric | Define o modo de entrada como alfanumérico                  | `boolean`      | `false`     |
@@ -52,14 +46,14 @@ import KeyboardInput from '@mamba/input/Keyboard.html';
 
 ### Money
 
-| Parâmetro       | Descrição                                                                                                     | Tipo                 | Padrão  |
+| Parâmetross      | Descrição                                                                                                     | Tipo                 | Padrão  |
 | --------------- | ------------------------------------------------------------------------------------------------------------- | -------------------- | ------- |
 | cents           | Valor do input em centavos                                                                                    | `string` or `number` | `0`     |
 | readonlyOnEnter | Faz com que o campo se torne somente leitura no keypress do `enter` e se o valor em centavos for igual a zero | `boolean`            | `false` |
 
 ## Keyboard
 
-| Parâmetro    | Descrição                                                   | Tipo           | Padrão      |
+| Parâmetross   | Descrição                                                   | Tipo           | Padrão      |
 | ------------ | ----------------------------------------------------------- | -------------- | ----------- |
 | maxLength    | Limita o número de caracteres do teclado                    | `number`       | `30`        |
 
@@ -67,7 +61,7 @@ import KeyboardInput from '@mamba/input/Keyboard.html';
 
 `<Input ... on:event="..." />`
 
-| Evento        | Disparado quando ...                                                              | Tipo              |
+| Eventos       | Disparado quando ...                                                              | Tipo              |
 | ------------- | --------------------------------------------------------------------------------- | ----------------- |
 | submit        | A validação( se houver ) do campo for bem-sucedida, quando o campo for submetido. | `function(event)` |
 | submitValid   | O campo for **inválido** no momento do `submit`                                   | `function(event)` |

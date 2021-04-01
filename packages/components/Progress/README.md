@@ -4,27 +4,21 @@ O módulo `Progress` é composto por dois componentes: `ProgressBar` e `Circular
 utilizados para representar a execução de uma tarefa, que pode ter etapas definidas ou não.
 
 
-<div class="iframe-wrapper">
-  <iframe src="https://bundlebrowser.mambaweb.now.sh/#!/progress"></iframe>
-</div>
-
-## Parâmetros
-
 
 `<ProgressBar ...props />`
 
-| Parâmetro | Descrição           | Tipo            | Padrão    |
-| :-------- | :------------------ | :-------------- | :-------- |
-| color     | Cor da barra        | `string` (hex)    | `#00A868` |
-| height    | Espessura da barra  | `string` (px)     | `6px`     |
-| progress  | Porcentagem atual   | `string` (0 a 100)| `undefined` |
+| Parâmetross | Descrição           | Tipo            | Padrão    |
+| :--------- | :------------------ | :-------------- | :-------- |
+| color      | Cor da barra        | `string` (hex)    | `#00A868` |
+| height     | Espessura da barra  | `string` (px)     | `6px`     |
+| progress   | Porcentagem atual   | `string` (0 a 100)| `undefined` |
 
 
 `<CircularProgress ...props />`
 
-| Parâmetro | Descrição               | Tipo            | Padrão     |
-| :-------- | :---------------------- | :-------------- | :--------- |
-| color     | Cor do círculo          | `string` (hex)    | `#00A868`  |
-| height    | Raio do círculo         | `string` (px)     | `25px`     |
-| progress  | Porcentagem atual       | `string` (0 a 100)| `undefined`  |
-| speed     | Velocidade de rotação   | `string` (0 a 10) | `10`       |
+| Parâmetross | Descrição               | Tipo            | Padrão     |
+| :--------- | :---------------------- | :-------------- | :--------- |
+| color      | Cor do círculo          | `string` (hex)    | `#00A868`  |
+| height     | Raio do círculo         | `string` (px)     | `25px`     |
+| progress   | Porcentagem atual       | `string` (0 a 100)| `undefined`  |
+| speed      | Velocidade de rotação   | `string` (0 a 10) | `10`       |
