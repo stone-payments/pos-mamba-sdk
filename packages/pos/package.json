@@ -15,6 +15,7 @@
     "@mamba/radio": "^3.3.0",
     "@mamba/sprite": "^3.3.0",
     "@mamba/styles": "^3.4.0",
+    "@mamba/switch": "^3.3.0",
     "@mamba/utils": "^3.3.0",
     "immer": "^2.1.0",
     "svelte": "^2.16.1"
