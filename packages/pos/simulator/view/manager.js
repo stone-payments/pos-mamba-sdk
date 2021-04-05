@@ -1,6 +1,7 @@
 import ViewWrapper from './pos/Wrapper.html';
 import EventTarget from '../libs/EventTarget.js';
 import extend from '../../extend.js';
+import { Registry } from '../index.js';
 
 const View = extend({}, EventTarget());
 

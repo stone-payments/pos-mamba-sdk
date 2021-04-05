@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.4.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/styles@3.2.0...@mamba/styles@3.4.0) (2021-04-01)
+
+
+### Features
+
+* 🎸 add grays ([a0ec450](https://github.com/stone-payments/pos-mamba-sdk/commit/a0ec4503842827d2b6b128a61b9649179ea45e81))
+
+
+
+
+
 # [3.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/styles@3.2.0...@mamba/styles@3.3.0) (2021-03-31)
 
 

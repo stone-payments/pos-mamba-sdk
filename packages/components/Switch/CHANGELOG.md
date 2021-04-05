@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/switch@3.2.0...@mamba/switch@3.3.0) (2021-04-01)
+
+**Note:** Version bump only for package @mamba/switch
+
+
+
+
+
 ## [3.2.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/switch@3.2.0...@mamba/switch@3.2.1) (2021-03-31)
 
 **Note:** Version bump only for package @mamba/switch
