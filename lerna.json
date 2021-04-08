@@ -1,18 +1,16 @@
 {
   "lerna": "3.22.0",
   "npmClient": "yarn",
+  "npmClientArgs": ["--frozen-lockfile"],
   "useWorkspaces": true,
   "version": "independent",
-  "command": {
-    "publish": {
-      "ignoreChanges": [
-        "{.*,*}.{txt,md,yml}",
-        "{.*,*}{.config,rc,ignore}{,.js}",
-        "LICENSE",
-        "lerna.json"
-      ],
-      "message": "chore(release): publish",
-      "conventionalCommits": true
-    }
-  }
+  "ignoreChanges": [
+    "**/__fixtures__/**",
+    "**/__tests__/**",
+    "**/docs/**",
+    "**/e2e/**",
+    "**/examples/**",
+    "**/example/**",
+    "**/*.md"
+  ]
 }
