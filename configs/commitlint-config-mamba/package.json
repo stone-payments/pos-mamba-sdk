@@ -1,0 +1,36 @@
+{
+  "name": "commitlint-config-mamba",
+  "description": "Custom Conventional Commits for git-cz and commitlint",
+  "version": "1.0.0",
+  "license": "Apache-2.0",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "cz.js",
+    "types.js"
+  ],
+  "keywords": [
+    "conventional-commits",
+    "commitlintplugin",
+    "stone-payments",
+    "commitlint",
+    "git-cz",
+    "mamba",
+    "sdk",
+    "git"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stone-payments/pos-mamba-sdk.git",
+    "directory": "configs/commitlint-config-mamba"
+  },
+  "dependencies": {
+    "@commitlint/cli": "^12.1.1",
+    "@commitlint/config-conventional": "^12.1.1"
+  },
+  "peerDependencies": {
+    "git-cz": "^4.7.6"
+  }
+}

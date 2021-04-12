@@ -10,17 +10,15 @@
     "packages/*"
   ],
   "scripts": {
+    "commit": "cz",
     "lint": "eslint '{tools,packages}/**/*.{js,ts,tsx}' --quiet --fix",
     "lint:css": "stylelint packages/**/*.{css,html,svelte,svg}"
   },
   "dependencies": {
-    "@commitlint/cli": "^11.0.0",
-    "@commitlint/config-conventional": "^11.0.0",
-    "@commitlint/config-lerna-scopes": "^11.0.0",
-    "commitizen": "^4.2.3",
-    "cz-conventional-changelog": "3.3.0",
+    "commitlint-config-mamba": "file:./configs/commitlint-config-mamba",
     "eslint": ">=6.0.0",
     "eslint-config-prettier": "^8.1.0",
+    "git-cz": "^4.7.6",
     "husky": "^4.3.8",
     "lerna": "^3.22.1",
     "lint-staged": "^10.5.3",
