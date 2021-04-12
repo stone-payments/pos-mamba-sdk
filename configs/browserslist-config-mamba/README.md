@@ -9,7 +9,7 @@ The default [Browserslist](https://github.com/browserslist/browserslist) config 
 > ecosystem.
 
 ```bash
-yarn add browserslist-config-mamba
+yarn add -D browserslist-config-mamba
 ```
 
 ## 📑 License

@@ -13,7 +13,7 @@ yarn add -D prettier-config-mamba prettier
 
 2. Add the the `.prettierrc.js` at your project root:
 
-```
+```js
 module.exports = {
   ...require('prettier-config-mamba'),
   // semi: false, // Override some property
@@ -33,7 +33,7 @@ Install VSCode
 [Prettier extension](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode),
 and add `.vscode/settings.json` file to your workspace, add the following settings:
 
-```
+```json
 "editor.formatOnSave": true,
 
 "editor.defaultFormatter": "esbenp.prettier-vscode",

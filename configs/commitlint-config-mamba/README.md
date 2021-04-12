@@ -5,13 +5,13 @@ command line configurations of [Stone Payments - Mamba SDK](https://mambasdk-doc
 
 Minimal questions config:
 
-```
+```bash
 type(scope): subject # scope can be overwritten to make more sense to your project, see step 4...
 ```
 
 Commit types with disabled Emoji:
 
-```
+```js
 {
   chore: {
     description: "Build process or auxiliary tool changes, that don't modify src or test files",
@@ -93,7 +93,7 @@ yarn add -D commitlint-config-mamba git-cz
 
 2. Add in your `package.json` add:
 
-```
+```json
 {
   "config": {
     "commitizen": {
@@ -106,29 +106,28 @@ yarn add -D commitlint-config-mamba git-cz
 3. Add [Commitlint](https://commitlint.js.org) config file `commitlint.config.js` at your project
    root:
 
-```
+```js
 // commitlint.config.js
 
 module.exports = {
-  extends: [ "mamba" ],
+  extends: ['mamba'],
 };
 ```
 
 4. Finally add the the `changelog.config.js` at your project root, that git-cz will read:
 
-```
+```js
 // changelog.config.js
 
 module.exports = {
   ...require('commitlint-config-mamba/cz'),
   // scopes: [] // Overrides scopes
 };
-
 ```
 
 5. Run in your terminal:
 
-```
+```bash
 git cz
 ```
 
