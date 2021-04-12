@@ -1,3 +1,7 @@
-node_modules/
-dist/
-/packages/components/*/example/*.js
+node_modules
+dist
+
+packages/*/example/*
+packages/*/examples/*
+packages/*/build/*
+
