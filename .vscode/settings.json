@@ -21,6 +21,9 @@
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "[svelte]": {
+    "editor.defaultFormatter": "svelte.svelte-vscode"
+  },
 
   "svelte.plugin.typescript.enable": true,
   "svelte.plugin.typescript.definitions.enable": true,
