@@ -18,3 +18,4 @@ log/
 dist/
 node_modules/
 bower_components/
+configs/**/*.lock
