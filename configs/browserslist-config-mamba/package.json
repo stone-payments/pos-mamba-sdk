@@ -12,6 +12,7 @@
     "browserslist",
     "babel",
     "config",
+    "svelte",
     "mamba",
     "sdk",
     "git"

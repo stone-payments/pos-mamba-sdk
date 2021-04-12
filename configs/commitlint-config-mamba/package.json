@@ -16,6 +16,7 @@
     "commitlintplugin",
     "stone-payments",
     "commitlint",
+    "svelte",
     "git-cz",
     "mamba",
     "sdk",
