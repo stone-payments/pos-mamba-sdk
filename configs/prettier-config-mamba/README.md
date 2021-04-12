@@ -47,6 +47,26 @@ Now every time you save your code, it will be formatted by Prettier...
 > For more info about editor and other integrations check the
 > [Prettier Docs ](https://prettier.io/docs/en/editors.html)
 
+#### Svelte 3 integration
+
+In order to provide syntax highlighting and rich intellisense for Svelte components in VS Code,
+using the svelte language server you need to make some adjustments to your editor.
+
+1. Install the
+   [Svelte for VS Code](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode)
+   extension
+
+2. then at your `.vscode/settings.json` file of your workspace, add the following settings:
+
+```json
+"[svelte]": {
+  "editor.defaultFormatter": "svelte.svelte-vscode"
+}
+```
+
+> You can read all the features it provides at his
+> [GitHub Repo](https://github.com/sveltejs/language-tools/tree/master/packages/svelte-vscode)
+
 ## 📑 License
 
 Licensed under the [Apache 2.0 License](/LICENSE).
