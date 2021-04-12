@@ -9,6 +9,9 @@
   "workspaces": [
     "packages/*"
   ],
+  "engines": {
+    "node": ">=10.x"
+  },
   "scripts": {
     "commit": "cz",
     "lint": "eslint '{tools,packages}/**/*.{js,ts,tsx}' --quiet --fix",
