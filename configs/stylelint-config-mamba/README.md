@@ -23,7 +23,7 @@ module.exports = {
 };
 ```
 
-This shareable config contains the following:
+This shareable config expands to the following:
 
 ```js
 // stylelint-config-mamba/index.js
