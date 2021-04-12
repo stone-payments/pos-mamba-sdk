@@ -1,0 +1,37 @@
+{
+  "name": "stylelint-config-mamba",
+  "description": "Stylelint configuration for Mamba SDK",
+  "version": "1.0.0",
+  "license": "Apache-2.0",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "stone-payments",
+    "stylelint",
+    "svelte",
+    "mamba",
+    "sdk",
+    "git"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stone-payments/pos-mamba-sdk.git",
+    "directory": "configs/stylelint-config-mamba"
+  },
+  "devDependencies": {
+    "prettier": "^2.0.0",
+    "stylelint": "^13.12.0"
+  },
+  "peerDependencies": {
+    "stylelint": "^13.0.0"
+  },
+  "dependencies": {
+    "stylelint-config-prettier": "^8.0.2",
+    "stylelint-config-rational-order": "^0.1.2",
+    "stylelint-config-standard": "^21.0.0",
+    "stylelint-order": "^4.1.0",
+    "stylelint-prettier": "^1.2.0"
+  }
+}
