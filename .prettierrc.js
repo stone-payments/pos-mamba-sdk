@@ -1,3 +1,3 @@
 module.exports = {
-  ...require('prettier-config-mamba'),
+  ...require('./configs/prettier-config-mamba'),
 };
