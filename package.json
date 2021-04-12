@@ -16,7 +16,7 @@
   "scripts": {
     "commit": "cz",
     "lint": "eslint '{tools,packages}/**/*.{js,ts,tsx}' --quiet --fix",
-    "lint:css": "stylelint packages/**/*.{css,html,svelte,svg}"
+    "lint:styles": "stylelint **/*.{css,scss,html,svelte,svg}"
   },
   "dependencies": {
     "commitlint-config-mamba": "file:./configs/commitlint-config-mamba",
@@ -28,7 +28,7 @@
     "lint-staged": "^10.5.3",
     "prettier": "^2.2.1",
     "prettier-config-mamba": "file:./configs/prettier-config-mamba",
-    "stylelint": "^13.9.0"
+    "stylelint": "^13.12.0"
   },
   "husky": {
     "hooks": {
