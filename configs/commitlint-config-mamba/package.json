@@ -30,6 +30,9 @@
     "@commitlint/cli": "^12.1.1",
     "@commitlint/config-conventional": "^12.1.1"
   },
+  "devDependencies": {
+    "prettier": "^2.0.0"
+  },
   "peerDependencies": {
     "git-cz": "^4.7.6"
   }

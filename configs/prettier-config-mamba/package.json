@@ -19,6 +19,9 @@
     "url": "https://github.com/stone-payments/pos-mamba-sdk.git",
     "directory": "configs/prettier-config-mamba"
   },
+  "devDependencies": {
+    "prettier": "^2.0.0"
+  },
   "peerDependencies": {
     "prettier": "^2.0.0"
   }
