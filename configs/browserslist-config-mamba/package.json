@@ -1,0 +1,24 @@
+{
+  "name": "browserslist-config-mamba",
+  "description": "The default Browserslist config that targets WebKit 534.48.3 - Safari 5.1 equivalent, for Stone Payment point of sale browser",
+  "version": "1.0.0",
+  "license": "Apache-2.0",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "stone-payments",
+    "browserslist",
+    "babel",
+    "config",
+    "mamba",
+    "sdk",
+    "git"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stone-payments/pos-mamba-sdk.git",
+    "directory": "configs/browserslist-config-mamba"
+  }
+}
