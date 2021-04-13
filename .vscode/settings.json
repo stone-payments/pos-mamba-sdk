@@ -1,12 +1,16 @@
 {
-  "emmet.showExpandedAbbreviation": "always",
+  // Enable/disable suggestion diagnostics for JavaScript files in the editor.
+  "javascript.suggestionActions.enabled": false,
+
+  // Tab complete will insert the best matching suggestion when pressing tab
+  "editor.tabCompletion": "on",
 
   /** Associate css files to postcss language */
   "files.associations": {
     "*.css": "postcss"
   },
 
-  /** Emmet completion in postcss context */
+  /** Emmet completion */
   "emmet.includeLanguages": {
     "svelte": "html",
     "postcss": "css"
@@ -14,20 +18,34 @@
   "emmet.syntaxProfiles": {
     "postcss": "css"
   },
+  "emmet.showExpandedAbbreviation": "always",
 
+  /* Format a file on save. A formatter must be available, the file must not be saved after delay, and the editor must not be shutting down. */
   "editor.formatOnSave": true,
 
+  /* Ensure esbenp.prettier-vscode extension is used over other extensions to enforces a consistent style by parsing your code and re-printing it with its own rules that take the maximum line length into account, wrapping code when necessary */
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+
+  /* svelte.svelte-vscode extension comes bundled with a formatter for Svelte files with prettier. To let this extension format Svelte files, adjust your VS Code settings: */
   "[svelte]": {
     "editor.defaultFormatter": "svelte.svelte-vscode"
   },
 
+  "editor.codeActionsOnSave": {
+    /* https://github.com/microsoft/vscode-eslint - Improved Auto Fix on Save - Auto Fix on Save is now part of VS Code's Code Action on Save infrastructure and computes all possible fixes in one round. It is customized via the editor.codeActionsOnSave setting. The setting supports the ESLint specific property source.fixAll.eslint */
+    "source.fixAll.eslint": true
+  },
+
+  /* https://github.com/sveltejs/language-tools - Svelte Language Tools */
+  // Enable the TypeScript plugin
   "svelte.plugin.typescript.enable": true,
+  // Enable go to definition for TypeScript
   "svelte.plugin.typescript.definitions.enable": true,
-  "javascript.suggestionActions.enabled": false,
+  // Enable diagnostic messages for CSS
   "svelte.plugin.css.diagnostics.enable": false,
-  "editor.tabCompletion": "on"
+  // Enable completions for TypeScript
+  "svelte.plugin.typescript.completions.enable": true
 }
