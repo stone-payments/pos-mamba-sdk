@@ -15,7 +15,7 @@
   },
   "scripts": {
     "commit": "cz",
-    "lint": "eslint '{tools,packages}/**/*.{js,ts,tsx}' --quiet --fix",
+    "postinstall": "lerna bootstrap --ignore packages",
     "lint:styles": "stylelint **/*.{css,scss,html,svelte,svg}"
   },
   "dependencies": {
