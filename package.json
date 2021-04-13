@@ -8,7 +8,7 @@
   "private": true,
   "workspaces": [
     "packages/*",
-    "config/*"
+    "configs/*"
   ],
   "engines": {
     "node": ">=10.x"
