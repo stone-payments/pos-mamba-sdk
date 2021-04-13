@@ -36,8 +36,8 @@ This shareable config expands to the following:
   plugins: ['stylelint-prettier'],
   rules: {
     'prettier/prettier': true,
-  },
-  // rules ...
+    // other rules ...
+  }
 }
 ```
 

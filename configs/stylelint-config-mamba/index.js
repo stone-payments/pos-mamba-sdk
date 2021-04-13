@@ -16,9 +16,9 @@ module.exports = {
   ],
   plugins: ['stylelint-prettier'],
   rules: {
+    /** Allow prettier */
     'prettier/prettier': true,
-  },
-  rules: {
+
     /** Allow postcss @at-rules */
     'at-rule-no-unknown': [
       true,
