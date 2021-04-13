@@ -1,3 +1,5 @@
+# stylelint-config-mamba
+
 [Stylelint](https://stylelint.io/) configuration for [Mamba SDK](https://mambasdk-docs.stone.com.br)
 projects
 
