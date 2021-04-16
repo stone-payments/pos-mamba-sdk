@@ -30,7 +30,6 @@
       getModel({$ACTIVE_MODEL, keyboardDevices, defaultKeyboard}) {
         try {
           const { component } = keyboardDevices.find(({title}) => title === $ACTIVE_MODEL);
-          console.log(component, ' - jonassss');
           return component;
 
         } catch (error) {
