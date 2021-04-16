@@ -5,7 +5,6 @@ import System from '@mamba/pos/api/system.js';
  * @returns {String} return Pos Model.
  */
  export const getPosModel = () => {
-   console.log('jonas')
   const { getPosModel } = System;
   if (typeof getPosModel === 'function') {
     return getPosModel();

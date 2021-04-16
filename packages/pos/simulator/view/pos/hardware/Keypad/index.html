@@ -9,7 +9,6 @@
   import MP35P from './MP35P.html';
   import S920 from './S920.html';
 
-
   export default {
     data() {
       return {
@@ -20,7 +19,7 @@
             component: S920
           },
           {
-            title: 'MP35P',
+            title: 'GERTEC - MP35P',
             component: MP35P
           },
         ],
@@ -31,6 +30,7 @@
       getModel({$ACTIVE_MODEL, keyboardDevices, defaultKeyboard}) {
         try {
           const { component } = keyboardDevices.find(({title}) => title === $ACTIVE_MODEL);
+          console.log(component, ' - jonassss');
           return component;
 
         } catch (error) {
