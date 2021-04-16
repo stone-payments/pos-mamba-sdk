@@ -87,13 +87,17 @@
 
 <style type="text/postcss">
   .keypad {
-    position: absolute;
-    width: 297px;
-    height: 226px;
-    bottom: 54px;
-    left: 47px;
+    /* position: absolute;
+    width: 312px;
+    height: 239px;
+    bottom: 57px;
+    left: 49px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; */
+    position: absolute;
+    bottom: 59px;
+    left: 51px;
+    display: flex;
 
     @media (max-width: 400px) {
       display: none;
@@ -101,20 +105,28 @@
   }
 
   .column {
-    width: 66px;
+    width: 73px;
+    /*
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-between; */
+    & + .column {
+      margin-left: 10px;
+    }
+    button + button {
+      margin-top: 12px;
+    }
   }
+
 
   button {
     width: 100%;
-    height: 40px;
+    height: 43px;
     border: 0;
     appearance: none;
     cursor: pointer;
     background: none;
-    border-radius: 8px;
+    border-radius: 5px;
     color: transparent;
     font-weight: bold;
     font-size: 18px;
@@ -132,18 +144,20 @@
   }
 
   .shortcuts,
- .camera {
+  .camera {
     font-size: 10px;
   }
 
   .shortcuts,
- .camera,
- .help,
- .menu {
-    height: 25px;
+  .camera,
+  .help,
+  .menu {
+    height: 27px;
+    position: relative;
+    top: 4px;
   }
 
   .enter {
-    height: 90px;
+    height: 97px;
   }
 </style>

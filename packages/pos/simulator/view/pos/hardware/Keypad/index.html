@@ -1,37 +1,45 @@
 
 <slot>
-  <svelte:component this="{keyboardDevice}" />
+  <svelte:component this="{getModel}" />
 </slot>
 
 <script>
+  import store from '../../store.js';
+
   import MP35P from './MP35P.html';
   import S920 from './S920.html';
 
-  const devices = [
-    {
-      title: 'S920',
-      component: S920
-    },
-    {
-      title: 'MP35P',
-      component: MP35P
-    },
-  ];
 
   export default {
     data() {
       return {
-        keyboardDevice: S920,
+        defaultKeyboard: S920,
+        keyboardDevices: [
+          {
+            title: 'S920',
+            component: S920
+          },
+          {
+            title: 'MP35P',
+            component: MP35P
+          },
+        ],
       };
     },
+    store: () => store,
+    computed: {
+      getModel({$ACTIVE_MODEL, keyboardDevices, defaultKeyboard}) {
+        try {
+          const { component } = keyboardDevices.find(({title}) => title === $ACTIVE_MODEL);
+          return component;
+
+        } catch (error) {
+          return defaultKeyboard
+        }
+      }
+    },
     oncreate(){
-      const { ACTIVE_MODEL } = this.store.get();
 
-      const { component } = devices.find(({title}) => title === ACTIVE_MODEL);
-
-      this.set({
-        keyboardDevice: component
-      })
     }
   };
 </script>
