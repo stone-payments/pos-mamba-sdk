@@ -1,40 +1,50 @@
-<div class="container">
+<h4>Flatlist</h4>
+<Flatlist data={list} renderItem={Line} on:active="getActive(event)" />
 
-  <h4>Padrão</h4>
-  <div class="row">
-    <Radio />
-  </div>
-
-  <h4>Selecionado</h4>
-  <div class="row">
-    <Radio checked on:click="console.log(event)" on:change="console.log(event)"/>
-  </div>
-
-</div>
-
-<style>
-  h4 {
-    display: inline-block;
-    vertical-align: middle;
-    font-size: 14px;
-    font-weight: bold;
-  }
-
-  .container {
-    max-width: 80%;
-    width: 700px;
-    margin: 80px auto;
-  }
-
-  .row {
-    margin: 20px 0px 20px 0px;
-  }
-</style>
+<h4>Flatlist com sessões</h4>
+<Flatlist dataSection={sectionList} renderItem={Line} />
 
 <script>
   export default {
     components: {
       Radio: '@mamba/radio',
+    },
+    data() {
+      return {
+        sectionList: [
+          {
+            title: 'Main dishes',
+            data: ['Pizza', 'Burger', 'Risotto'],
+          },
+        ],
+        list: [
+          {
+            label: 'Item 1',
+            shortcut: 1,
+          },
+          {
+            label: 'Item 2',
+            shortcut: 2,
+          },
+          {
+            label: 'Item 3',
+            shortcut: 3,
+          },
+          {
+            label: 'Item 4',
+            shortcut: 4,
+          },
+          {
+            label: 'Item 5',
+            shortcut: 5,
+          }
+        ],
+      };
+    },
+    methods: {
+      getActive(event) {
+        console.log(event);
+      },
     },
   };
 </script>
