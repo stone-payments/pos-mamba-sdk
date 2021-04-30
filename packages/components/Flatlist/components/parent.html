@@ -1,24 +1,18 @@
 <div ref:element>
-  <svelte:component this="{renderItem}" key={key} {...data} isActive={isActive} />
+  <svelte:component this="{renderItem}" key={key} {...data} bind:isActive />
 </div>
 
 <script>
   export default {
     data() {
       return {
+        key: undefined,
         renderItem: null,
-        data: null,
-        isActive: false,
+        data: {},
       };
     },
     oncreate(){
-      console.log(this.get())
       this.fire('create');
-
     }
   };
 </script>
-
-<style type="text/postcss">
-
-</style>

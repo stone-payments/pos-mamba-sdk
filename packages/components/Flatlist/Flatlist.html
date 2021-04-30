@@ -18,7 +18,6 @@
           <Parent
             on:create="register(this, index)"
             data={item}
-            isActive={isActive}
             key={index}
             renderItem={renderItem}
           />
@@ -26,8 +25,8 @@
 
         {#if separator}
           <svelte:component this="{separator}"/>
-          {:else}
-            <div class="separator"></div>
+        {:else}
+          <div class="separator"></div>
         {/if}
       {/if}
     {/each}
@@ -50,7 +49,6 @@
         dataSection: null,
         data: null,
         separator: null,
-        isActive: false,
         elementsRefs: [],
         selectedIndex: null,
       };
@@ -66,9 +64,6 @@
           }]
         })
       }
-
-      console.log(this.get())
-
     },
     methods: {
       register(element, index) {
@@ -78,10 +73,15 @@
           element,
           index,
         });
+
+        setTimeout(() => {
+          if(index === 0) {
+            selectRowItem(elementsRefs, null);
+          }
+        });
       },
       selectRowItems(event) {
         const { keyCode } = event;
-
         /**
          * KeyCode -> KeyName dictionary
          *
@@ -122,6 +122,7 @@
       font-size: 1.2rem;
     }
   }
+
   .separator {
     margin-bottom: 15px;
   }
