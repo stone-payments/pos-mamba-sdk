@@ -33,9 +33,9 @@ module.exports = merge(require('./config.app.js'), {
     port: 8080,
     publicPath: 'http://localhost:8080/',
     hot: true,
-    before: app => {
+    before: function BeforeMid(app) {
       app.use(bodyParser.json());
-      app.post('/POS_LOGGER', (req, res) => {
+      app.post('/POS_LOGGER', function POS_LOGGER(req, res) {
         const { level, text } = req.body;
         switch (level) {
           case 'info':
