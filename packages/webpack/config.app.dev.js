@@ -22,6 +22,7 @@ module.exports = merge(require('./config.app.js'), {
     headers: {
       'X-Content-Type-Options': 'nosniff',
       'X-Frame-Options': 'DENY',
+      'Access-Control-Allow-Origin': '*',
     },
     host: '0.0.0.0',
     open: false,
@@ -35,6 +36,15 @@ module.exports = merge(require('./config.app.js'), {
     hot: true,
     before: function BeforeMid(app) {
       app.use(bodyParser.json());
+      app.use((req, res, next) => {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'POST');
+        res.setHeader(
+          'Access-Control-Allow-Headers',
+          'Content-Type, Authorization',
+        );
+        next();
+      });
       app.post('/POS_LOGGER', function POS_LOGGER(req, res) {
         const { level, text } = req.body;
         switch (level) {
