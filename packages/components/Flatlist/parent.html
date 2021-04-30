@@ -1,0 +1,22 @@
+<div ref:element>
+  <svelte:component this="{renderItem}" key={index} {...data} isActive={isActive} />
+</div>
+
+<script>
+  export default {
+    data() {
+      return {
+        renderItem: null,
+        data: null,
+        isActive: false,
+      };
+    },
+    oncreate(){
+      this.fire('create');
+    }
+  };
+</script>
+
+<style type="text/postcss">
+
+</style>

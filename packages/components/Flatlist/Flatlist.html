@@ -1,0 +1,98 @@
+<svelte:window on:keyup="selectRowItems(event)" bind:scrollY="scrollY" />
+
+<div>
+  {#each data as item, index}
+    <Parent
+      on:create="register(this, index)"
+      data={item}
+      isActive={isActive}
+      key={index}
+      renderItem={renderItem}
+    />
+  {/each}
+</div>
+
+<script>
+
+  import { selectRowItem } from './helpers.js';
+
+  export default {
+    components: {
+      Parent: './parent.html',
+    },
+    data() {
+      return {
+        renderItem: null,
+        data: null,
+        isActive: false,
+        elementsRefs: [],
+        selectedIndex: 0,
+      };
+    },
+    oncreate(){
+      const { data } = this.get();
+    },
+    methods: {
+      register(element, index) {
+        const { elementsRefs, data } = this.get();
+
+        if(elementsRefs.length <=  data.length) {
+          elementsRefs.push({
+            element,
+            index,
+          });
+        }
+      },
+      selectRowItems(event) {
+        const { keyCode } = event;
+
+        /**
+         * KeyCode <-> KeyName dictionary
+         *
+         *  38: 'keyup'
+         *  40: 'keydown'
+         *
+        */
+        if(keyCode === 38 || keyCode === 40) {
+          const { scrollY, selectedIndex, elementsRefs } = this.get();
+
+          const screenY = scrollY // __BROWSER__ ? document.querySelector('#apps-container') : scrollY ;
+
+          const keyAction = keyCode === 38 ? 'up' : 'down';
+
+          const itemSelected = selectRowItem(elementsRefs, selectedIndex, scrollY, keyAction);
+
+          this.fire('active', {item: elementsRefs[itemSelected]});
+
+          this.set({ selectedIndex: itemSelected });
+        }
+
+        // const { POS } = this.store.get();
+        // const { selectedIndex: index, y, classSelected, classRow } = this.get();
+
+        // if (POS.IS_MP35P) {
+        //   if (keyCode === 38 || keyCode === 40) {
+        //     const items = document.querySelectorAll(classRow);
+        //     console.log(items);
+
+        //     const selectedIndex = selectRowItem(items, index, y, keyCode === 38 ? 'up' : 'down');
+
+        //     const getRowSelected = document.querySelector(`.${classSelected}`);
+
+        //     if(getRowSelected  !== null ) {
+        //       getRowSelected.classList.remove(classSelected);
+        //     }
+        //     const itemRef = items[selectedIndex];
+        //     itemRef.classList.add(classSelected);
+
+        //     this.set({ itemRef, selectedIndex });
+        //   }
+        // }
+      },
+    },
+  };
+</script>
+
+<style type="text/postcss">
+
+</style>

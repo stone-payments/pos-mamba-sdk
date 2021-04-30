@@ -7,6 +7,8 @@ const KEYMAP = Object.freeze({
   27: 'close',
   17: 'help',
   16: 'shortcuts',
+  38: 'keyup',
+  40: 'keydown',
   48: '0',
   49: '1',
   50: '2',
