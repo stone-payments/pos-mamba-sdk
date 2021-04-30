@@ -1,14 +1,19 @@
-# Radio
+# Flatlist
 
-O componente `Radio` é usado para selecionar uma opção dentre as alternadas.
+O componente `Flatlist` serve para renderizar listas simples e básicas:
 
 
-| Parâmetros | Descrição                                         | Tipo            | Padrão     |
-| :-------- | :------------------------------------------------ | :-------------- | :--------- |
-| checked   | deixa o switch ativado                            | `undefined`     | `true`     |
+| Parâmetross  | Descrição                                                   | Tipo           | Padrão      |
+| ------------ | ----------------------------------------------------------- | -------------- | ----------- |
+| renderIte    | Recbe o Component onde os items serão renderizados          | `Component`    | `'right'`   |
+| data         | Recebe um objeto com os itens que seram renderizados        | `object`       | `nul`       |
 
-## Métodos
 
-### Radio.toggle(value)
+## Eventos
 
-Booleano. Alterna o valor de `checked` do radio, para o valor passado através de `value`.
+`<Flatlist ... on:active="..." />`
+
+| Eventos       | Disparado quando ...                                                              | Tipo              |
+| ------------- | --------------------------------------------------------------------------------- | ----------------- |
+| active        | Recebe os propriedades do item que esta ativo/selecionado                         | `function(event)` |
+

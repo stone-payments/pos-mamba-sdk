@@ -1,15 +1,36 @@
 <svelte:window on:keyup="selectRowItems(event)" bind:scrollY="scrollY" />
 
 <div>
-  {#each data as item, index}
-    <Parent
-      on:create="register(this, index)"
-      data={item}
-      isActive={isActive}
-      key={index}
-      renderItem={renderItem}
-    />
-  {/each}
+  {#if dataSection}
+    {#each dataSection as section }
+      {#if section.data}
+        {#if section.title}
+          {#if renderTitle}
+            <svelte:component this="{renderTitle}" title={section.title} />
+            {:else}
+              <div class="row">
+                <div class="title">{section.title}</div>
+              </div>
+          {/if}
+        {/if}
+
+        {#each section.data as item, index}
+          <Parent
+            on:create="register(this, index)"
+            data={item}
+            isActive={isActive}
+            key={index}
+            renderItem={renderItem}
+          />
+        {/each}
+
+        {#if separator}
+          <svelte:component this="{separator}"/>
+        {/if}
+      {/if}
+    {/each}
+  {/if}
+
 </div>
 
 <script>
@@ -23,31 +44,44 @@
     data() {
       return {
         renderItem: null,
+        renderTitle: null,
+        dataSection: null,
         data: null,
+        separator: null,
         isActive: false,
         elementsRefs: [],
-        selectedIndex: 0,
+        selectedIndex: null,
       };
     },
     oncreate(){
-      const { data } = this.get();
+      const { data, dataSection } = this.get();
+
+      if(data && !dataSection) {
+        this.set({
+          dataSection: [{
+            title: null,
+            data
+          }]
+        })
+      }
+
+      console.log(this.get())
+
     },
     methods: {
       register(element, index) {
-        const { elementsRefs, data } = this.get();
+        const { elementsRefs, dataSection } = this.get();
 
-        if(elementsRefs.length <=  data.length) {
-          elementsRefs.push({
-            element,
-            index,
-          });
-        }
+        elementsRefs.push({
+          element,
+          index,
+        });
       },
       selectRowItems(event) {
         const { keyCode } = event;
 
         /**
-         * KeyCode <-> KeyName dictionary
+         * KeyCode -> KeyName dictionary
          *
          *  38: 'keyup'
          *  40: 'keydown'
@@ -66,33 +100,27 @@
 
           this.set({ selectedIndex: itemSelected });
         }
-
-        // const { POS } = this.store.get();
-        // const { selectedIndex: index, y, classSelected, classRow } = this.get();
-
-        // if (POS.IS_MP35P) {
-        //   if (keyCode === 38 || keyCode === 40) {
-        //     const items = document.querySelectorAll(classRow);
-        //     console.log(items);
-
-        //     const selectedIndex = selectRowItem(items, index, y, keyCode === 38 ? 'up' : 'down');
-
-        //     const getRowSelected = document.querySelector(`.${classSelected}`);
-
-        //     if(getRowSelected  !== null ) {
-        //       getRowSelected.classList.remove(classSelected);
-        //     }
-        //     const itemRef = items[selectedIndex];
-        //     itemRef.classList.add(classSelected);
-
-        //     this.set({ itemRef, selectedIndex });
-        //   }
-        // }
       },
     },
   };
 </script>
 
 <style type="text/postcss">
+  .row {
+    display: block;
+    padding: 10px 20px;
+    margin: 0;
+    line-height: 1.5rem;
+    background: #fff;
+    border-bottom: 1px solid #f4f4f4;
+    color: #494949;
 
+    .title {
+      color: $green500;
+      font-size: 1.2rem;
+    }
+  }
+  /* .separator {
+    margin-bottom: 15px;
+  } */
 </style>

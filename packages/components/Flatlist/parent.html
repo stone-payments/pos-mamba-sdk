@@ -1,5 +1,5 @@
 <div ref:element>
-  <svelte:component this="{renderItem}" key={index} {...data} isActive={isActive} />
+  <svelte:component this="{renderItem}" key={key} {...data} isActive={isActive} />
 </div>
 
 <script>
@@ -12,7 +12,9 @@
       };
     },
     oncreate(){
+      console.log(this.get())
       this.fire('create');
+
     }
   };
 </script>
