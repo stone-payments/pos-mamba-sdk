@@ -1,0 +1,15 @@
+
+<Row label={label} shortcut={shortcut} bgColor="{isActive ? '#DDE2E9' : '#fff'}" />
+
+<script>
+  export default {
+    components: {
+      Row: '@mamba/collection/Row.html',
+    },
+    data() {
+      return {
+        isActive: false,
+      };
+    },
+  };
+</script>

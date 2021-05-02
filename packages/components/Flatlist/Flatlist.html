@@ -20,6 +20,7 @@
             data={item}
             key={index}
             renderItem={renderItem}
+            on:click="setSelected(item)"
           />
         {/each}
 
@@ -34,6 +35,8 @@
 
 </div>
 
+<Keystroke key="enter" on:keystroke="setSelected(dataSection[selectedIndex])" />
+
 <script>
 
   import { selectRowItem } from './helpers.js';
@@ -41,6 +44,8 @@
   export default {
     components: {
       Parent: './components/parent.html',
+      Keystroke: '@mamba/app/Keystroke.html',
+
     },
     data() {
       return {
@@ -50,7 +55,7 @@
         data: null,
         separator: null,
         elementsRefs: [],
-        selectedIndex: null,
+        selectedIndex: 0,
       };
     },
     oncreate(){
@@ -66,6 +71,11 @@
       }
     },
     methods: {
+      setSelected(item) {
+        if('onClick' in item) {
+          return item.onClick()
+        }
+      },
       register(element, index) {
         const { elementsRefs, dataSection } = this.get();
 
@@ -74,11 +84,11 @@
           index,
         });
 
-        setTimeout(() => {
-          if(index === 0) {
+        if(index === 0) {
+          setTimeout(() => {
             selectRowItem(elementsRefs, null);
-          }
-        });
+          });
+        }
       },
       selectRowItems(event) {
         const { keyCode } = event;

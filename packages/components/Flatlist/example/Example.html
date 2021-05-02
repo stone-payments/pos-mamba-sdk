@@ -1,20 +1,35 @@
 <h4>Flatlist</h4>
-<Flatlist data={list} renderItem={Line} on:active="getActive(event)" />
+<Flatlist data={list} on:selected={} renderItem={Line} on:active="getActive(event)" />
 
 <h4>Flatlist com sessões</h4>
 <Flatlist dataSection={sectionList} renderItem={Line} />
 
 <script>
+  import Line from "./Line.html";
+
   export default {
+
     components: {
       Radio: '@mamba/radio',
+    },
+    helpers: {
+      Line,
     },
     data() {
       return {
         sectionList: [
           {
-            title: 'Main dishes',
-            data: ['Pizza', 'Burger', 'Risotto'],
+            title: 'Dispositivo',
+            data: [
+              {
+                label: '1. Som do teclado',
+                shortcut: 1,
+              },
+              {
+                label: '2. Luz do teclado',
+                shortcut: 2,
+              },
+            ],
           },
         ],
         list: [
