@@ -20,7 +20,7 @@
             data={item}
             key={index}
             renderItem={renderItem}
-            on:click="setSelected()"
+            on:click="setSelected(index)"
           />
         {/each}
 
@@ -81,7 +81,7 @@
       }
     },
     methods: {
-      setSelected() {
+      setSelected(touchIndex) {
         const {
           elementsRefs,
           selectedIndex,
@@ -89,7 +89,7 @@
           intersectSelectedEvents: intersect,
         } = this.get();
 
-        const { element, index } = elementsRefs[selectedIndex]
+        const { element, index } = elementsRefs[touchIndex || selectedIndex]
 
         const { data } = element.options.data;
 
