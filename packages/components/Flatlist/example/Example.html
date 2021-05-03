@@ -1,14 +1,9 @@
 <h4>Flatlist</h4>
-
-{#if menu.length > 0}
-  <Flatlist data={menu} renderItem={Line} on:active="getActive(event)" />
-{/if}
+<Flatlist data={list} renderItem={Line} on:active="getActive(event)" />
 
 
 <h4>Flatlist com sessões</h4>
-{#if sectionList.length > 0}
-  <Flatlist dataSection={sectionList} renderItem={Line} />
-{/if}
+<Flatlist dataSection={sectionList} renderItem={Line} />
 
 <script>
   import Line from './Line.html';
@@ -22,23 +17,17 @@
     },
     data() {
       return {
-        menu: [],
+        list: [],
         sectionList: [],
       };
     },
     oncreate() {
-      const menuList = this.getList();
-      const sectionList = this.getSectionList();
-
-      this.set({
-        menu: menuList,
-        sectionList,
-      });
-
+      this.getList();
+      this.getSectionList();
     },
     methods: {
       getSectionList() {
-        const section = [
+        const sectionList = [
           {
             title: 'Dispositivo',
             data: [
@@ -53,48 +42,31 @@
             ],
           },
         ];
-        return section;
+
+        this.set({
+          sectionList,
+        });
       },
       getList(){
         const list = [
           {
             label: 'Item 1',
             shortcut: 1,
-            onClick: () => {
-              console.log(this);
-            },
+            onClick: () => this.runFunction(),
           },
           {
             label: 'Item 2',
             shortcut: 2,
-            onClick: () => this.goItemThow(),
-          },
-          {
-            label: 'Item 3',
-            shortcut: 3,
-            onClick: () => {
-              console.log(this);
-            },
-          },
-          {
-            label: 'Item 4',
-            shortcut: 4,
-            onClick: () => {
-              console.log(this);
-            },
           },
         ];
 
-        return list;
+        this.set({
+          list,
+        });
       },
-      goItemThow() {
+      runFunction() {
         console.log('Row 2');
       },
-      getActive(event) {
-        console.log('getActive');
-        console.log(event);
-      },
-    },
   };
 </script>
 

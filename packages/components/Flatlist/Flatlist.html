@@ -1,7 +1,7 @@
 <svelte:window on:keyup="selectRowItems(event)" bind:scrollY="scrollY" />
 
 <div>
-  {#if dataSection}
+  {#if dataSection && dataSection.length > 0}
     {#each dataSection as section }
       {#if section.data}
         {#if section.title}
@@ -61,7 +61,7 @@
     oncreate(){
       const { data, dataSection } = this.get();
 
-      if(data && !dataSection) {
+      if(data && data.length > 0  && !dataSection) {
         this.set({
           dataSection: [{
             title: null,
