@@ -40,12 +40,12 @@ export default {
             {
               label: 'Item 1',
               shortcut: 1,
-              onSelected: (index) => {
+              onSelected: (item) => {
                 /*
                 * Using `itemHandler` Flatlist property, so you can call methods of a desired class or object directly
                 * In this case we use the methods os this page
                 */
-                this.itemClickHandler(index);
+                this.itemClickHandler(item);
               },
             },
             {
