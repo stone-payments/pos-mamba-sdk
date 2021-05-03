@@ -1,23 +1,44 @@
 <h4>Flatlist</h4>
-<Flatlist data={list} on:selected={} renderItem={Line} on:active="getActive(event)" />
+
+{#if menu.length > 0}
+  <Flatlist data={menu} renderItem={Line} on:active="getActive(event)" />
+{/if}
+
 
 <h4>Flatlist com sessões</h4>
-<Flatlist dataSection={sectionList} renderItem={Line} />
+{#if sectionList.length > 0}
+  <Flatlist dataSection={sectionList} renderItem={Line} />
+{/if}
 
 <script>
-  import Line from "./Line.html";
+  import Line from './Line.html';
 
   export default {
-
     components: {
-      Radio: '@mamba/radio',
+      Flatlist: '@mamba/flatlist',
     },
     helpers: {
       Line,
     },
     data() {
       return {
-        sectionList: [
+        menu: [],
+        sectionList: [],
+      };
+    },
+    oncreate() {
+      const menuList = this.getList();
+      const sectionList = this.getSectionList();
+
+      this.set({
+        menu: menuList,
+        sectionList,
+      });
+
+    },
+    methods: {
+      getSectionList() {
+        const section = [
           {
             title: 'Dispositivo',
             data: [
@@ -31,35 +52,52 @@
               },
             ],
           },
-        ],
-        list: [
+        ];
+        return section;
+      },
+      getList(){
+        const list = [
           {
             label: 'Item 1',
             shortcut: 1,
+            onClick: () => {
+              console.log(this);
+            },
           },
           {
             label: 'Item 2',
             shortcut: 2,
+            onClick: () => this.goItemThow(),
           },
           {
             label: 'Item 3',
             shortcut: 3,
+            onClick: () => {
+              console.log(this);
+            },
           },
           {
             label: 'Item 4',
             shortcut: 4,
+            onClick: () => {
+              console.log(this);
+            },
           },
-          {
-            label: 'Item 5',
-            shortcut: 5,
-          }
-        ],
-      };
-    },
-    methods: {
+        ];
+
+        return list;
+      },
+      goItemThow() {
+        console.log('Row 2');
+      },
       getActive(event) {
+        console.log('getActive');
         console.log(event);
       },
     },
   };
 </script>
+
+<style type="text/postcss">
+
+</style>
