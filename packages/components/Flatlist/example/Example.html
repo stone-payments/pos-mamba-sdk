@@ -1,72 +1,88 @@
-<h4>Flatlist</h4>
-<Flatlist data={list} renderItem={Line} />
-
-<h4>Flatlist com sessões</h4>
-<Flatlist dataSection={sectionList} renderItem={Line} />
+{#if sectionList.length > 0}
+<Flatlist
+  dataSection={sectionList}
+  renderItem={Line}
+  on:itemActive="itemActive(event)"
+  on:itemSelected="itemSelected(event)"
+  itemHandler={this}
+/>
+{/if}
 
 <script>
-  import Line from '../components/Line.html';
+import Line from './Line.html';
 
-  export default {
-    components: {
-      Flatlist: '@mamba/flatlist',
-    },
-    helpers: {
-      Line,
-    },
-    data() {
-      return {
-        list: [],
-        sectionList: [],
-      };
-    },
-    oncreate() {
-      this.getList();
-      this.getSectionList();
-    },
-    methods: {
-      getSectionList() {
-        const sectionList = [
-          {
-            title: 'Dispositivo',
-            data: [
-              {
-                label: '1. Som do teclado',
-                shortcut: 1,
+export default {
+  components: {
+    Flatlist: '@mamba/flatlist',
+  },
+  helpers: {
+    Line,
+  },
+  data() {
+    return {
+      sectionList: [],
+    };
+  },
+  oncreate() {
+    const sectionList = this.getSectionList();
+
+    this.set({
+      sectionList,
+    });
+
+  },
+  methods: {
+    getSectionList() {
+      const section = [
+        {
+          title: 'Dispositivo',
+          data: [
+            {
+              label: 'Item 1',
+              shortcut: 1,
+              onSelected: (index) => {
+                /*
+                * Using `itemHandler` Flatlist property, so you can call methods of a desired class or object directly
+                * In this case we use the methods os this page
+                */
+                this.itemClickHandler(index);
               },
-              {
-                label: '2. Luz do teclado',
-                shortcut: 2,
-                onClick: () => this.myFunction(),
-              },
-            ],
-          },
-        ];
-
-        this.set({
-          sectionList,
-        });
-      },
-      getList(){
-        const list = [
-          {
-            label: 'Item 1',
-            shortcut: 1,
-            onClick: () => this.myFunction(),
-          },
-          {
-            label: 'Item 2',
-            shortcut: 2,
-          },
-        ];
-
-        this.set({
-          list,
-        });
-      },
-      myFunction() {
-        console.log('My Function');
-      },
+            },
+            {
+              label: 'Item 2',
+              shortcut: 2,
+              /*
+              * Wrong! Using `this` without a function wrapper or referencing doesn't work,
+              * unless the method returns another function
+              */
+              onSelected: this.itemClickHandler(),
+            },
+            {
+              label: 'Item 3',
+              shortcut: 3,
+              /*
+              * Just referencing a function, `itemHandler` will have effect. The `this` will be this script
+              */
+              onSelected: this.itemClickHandler,
+            },
+            {
+              label: 'Item 4',
+              shortcut: 4,
+            },
+          ],
+        },
+      ];
+      return section;
     },
-  };
+    itemClickHandler({ index, data } = {}) {
+      console.log(`Row ${index}`, data);
+    },
+    itemSelected({ index, data }) {
+      console.log(`itemSelected ${index}`, data);
+    },
+    itemActive({ index, data }) {
+      console.log(`itemActive ${index}`, data);
+    },
+  },
+};
 </script>

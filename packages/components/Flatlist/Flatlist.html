@@ -6,7 +6,7 @@
       {#if section.data}
         {#if section.title}
           {#if renderTitle}
-            <svelte:component this="{renderTitle}" title={section.title} />
+            <svelte:component this="{renderTitle}" title={section.title}/>
             {:else}
               <div class="row">
                 <div class="title">{section.title}</div>
@@ -37,8 +37,12 @@
 <Keystroke key="enter" on:keystroke="setSelected()" />
 
 <script>
-
   import { selectRowItem } from './helpers.js';
+
+  const EVENTS = {
+    ITEM_SELECTED: 'itemSelected',
+    ITEM_ACTIVE: 'itemActive',
+  };
 
   export default {
     components: {
@@ -48,6 +52,8 @@
     },
     data() {
       return {
+        intersectSelectedEvents: false,
+        itemHandler: null,
         renderItem: null,
         renderTitle: null,
         dataSection: null,
@@ -58,8 +64,7 @@
         className: '',
       };
     },
-
-    onupdate({changed, current}){
+    onupdate({changed, current}) {
       if(changed.data && current.data.length > 0) {
 
         if(current.data && !current.dataSection) {
@@ -77,16 +82,26 @@
     },
     methods: {
       setSelected() {
-        const { elementsRefs, selectedIndex } = this.get();
+        const {
+          elementsRefs,
+          selectedIndex,
+          itemHandler,
+          intersectSelectedEvents: intersect,
+        } = this.get();
 
-        const item = elementsRefs[selectedIndex]
+        const { element, index } = elementsRefs[selectedIndex]
 
-        const { data } = item.element.options.data;
+        const { data } = element.options.data;
 
-        if('onClick' in data) {
-          return data.onClick()
+        const eventData = { data, index };
+
+        if(!intersect) this.fire(EVENTS.ITEM_SELECTED, eventData);
+
+        if('onSelected' in data && typeof data.onSelected === 'function') {
+          return data.onSelected.apply(itemHandler, [eventData]);
         }
 
+        if(intersect) this.fire(EVENTS.ITEM_SELECTED, eventData);
       },
       register(element, index) {
         const { elementsRefs, dataSection } = this.get();
@@ -116,20 +131,20 @@
 
           const keyAction = keyCode === 38 ? 'up' : 'down';
 
-          const itemSelected = selectRowItem(elementsRefs, selectedIndex, scrollY, keyAction);
+          const index = selectRowItem(elementsRefs, selectedIndex, scrollY, keyAction);
 
-          const { data: item }  = elementsRefs[itemSelected].element.options.data
+          const { data }  = elementsRefs[index].element.options.data;
 
-          this.fire('active', { ...item });
+          this.fire(EVENTS.ITEM_ACTIVE, { index, data });
 
-          this.set({ selectedIndex: itemSelected });
+          this.set({ selectedIndex: index });
         }
       },
     },
   };
 </script>
 
-<style type="text/postcss">
+<style>
   .row {
     display: block;
     padding: 10px 20px;
