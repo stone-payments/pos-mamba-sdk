@@ -12,7 +12,8 @@ O componente `Flatlist` serve para renderizar listas simples e básicas com util
 | className    | Classe a ser adicionado ao elemento pai do componente	               | `string`       | ``          |
 | separator    | Define um separador para as seções. Caso seja omitido, sera renderizado o separador padrão | `Component`    | `null`   |
 | intersectSelectedEvents | Previne chamadas iguais de eventos: `itemSelected` ∩ `onSelected`           | `boolean`      | `false`     |
-| itemHandler | Objeto ou componente que irá ser usado no parâmetro `this` quando o `onSelected` for um método de objeto. | `function`      | `null`     |
+| itemHandler | Objeto ou componente que irá ser usado no parâmetro `this` quando o `onSelected` for um método de objeto | `function`      | `null`     |
+| autoSelectOnTouch | Define se dispara a classe para realçar o item quando for selecionado por touch | `boolean` | `true` |
 
 
 ## Eventos
