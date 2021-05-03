@@ -20,7 +20,7 @@
             data={item}
             key={index}
             renderItem={renderItem}
-            on:click="setSelected(item)"
+            on:click="setSelected()"
           />
         {/each}
 
@@ -35,7 +35,7 @@
 
 </div>
 
-<Keystroke key="enter" on:keystroke="setSelected(dataSection[selectedIndex])" />
+<Keystroke key="enter" on:keystroke="setSelected()" />
 
 <script>
 
@@ -52,29 +52,41 @@
         renderItem: null,
         renderTitle: null,
         dataSection: null,
-        data: null,
+        data: [],
         separator: null,
         elementsRefs: [],
         selectedIndex: 0,
       };
     },
-    oncreate(){
-      const { data, dataSection } = this.get();
 
-      if(data && data.length > 0  && !dataSection) {
-        this.set({
-          dataSection: [{
-            title: null,
-            data
-          }]
-        })
+    onupdate({changed, current}){
+      if(changed.data && current.data.length > 0) {
+
+        if(current.data && !current.dataSection) {
+
+          this.set({
+            elementsRefs: [],
+            dataSection: [{
+              title: null,
+              data: current.data
+            }]
+          })
+        }
+
       }
     },
     methods: {
-      setSelected(item) {
-        if('onClick' in item) {
-          return item.onClick()
+      setSelected() {
+        const { elementsRefs, selectedIndex } = this.get();
+
+        const item = elementsRefs[selectedIndex]
+
+        const { data } = item.element.options.data;
+
+        if('onClick' in data) {
+          return data.onClick()
         }
+
       },
       register(element, index) {
         const { elementsRefs, dataSection } = this.get();
@@ -108,7 +120,9 @@
 
           const itemSelected = selectRowItem(elementsRefs, selectedIndex, scrollY, keyAction);
 
-          this.fire('active', {item: elementsRefs[itemSelected]});
+          const { data: item }  = elementsRefs[itemSelected].element.options.data
+
+          this.fire('active', { ...item });
 
           this.set({ selectedIndex: itemSelected });
         }

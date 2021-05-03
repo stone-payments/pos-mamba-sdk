@@ -1,12 +1,11 @@
 <h4>Flatlist</h4>
-<Flatlist data={list} renderItem={Line} on:active="getActive(event)" />
-
+<Flatlist data={list} renderItem={Line} />
 
 <h4>Flatlist com sessões</h4>
 <Flatlist dataSection={sectionList} renderItem={Line} />
 
 <script>
-  import Line from './Line.html';
+  import Line from '../components/Line.html';
 
   export default {
     components: {
@@ -38,6 +37,7 @@
               {
                 label: '2. Luz do teclado',
                 shortcut: 2,
+                onClick: () => this.myFunction(),
               },
             ],
           },
@@ -52,7 +52,7 @@
           {
             label: 'Item 1',
             shortcut: 1,
-            onClick: () => this.runFunction(),
+            onClick: () => this.myFunction(),
           },
           {
             label: 'Item 2',
@@ -64,9 +64,10 @@
           list,
         });
       },
-      runFunction() {
-        console.log('Row 2');
+      myFunction() {
+        console.log('My Function');
       },
+    },
   };
 </script>
 
