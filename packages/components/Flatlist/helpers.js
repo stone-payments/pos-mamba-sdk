@@ -1,6 +1,8 @@
+import KEY_ACTION from './const.js';
+
 let lastActive;
 
-const toggleActive = (items, index, action) => {
+const toggleActive = (items, index) => {
   let hasActive;
 
   if (typeof lastActive === 'object' && lastActive.get) {
@@ -44,19 +46,24 @@ const scrollTo = (yaxis, item) => {
   }
 };
 
-const getPosition = (index, event) => {
-  if (event === 'up') {
+const getPosition = (index, keyAction) => {
+  if (keyAction === KEY_ACTION.UP) {
     return index !== null && index > 0 ? index - 1 : index;
   }
   return index !== null ? index + 1 : 0;
 };
 
-export const selectRowItem = (nodeList, index, yaxis, event = 'down') => {
-  const selectIndex = getPosition(index, event);
+export const selectRowItem = (
+  nodeList,
+  index,
+  yaxis,
+  keyAction = KEY_ACTION.DOWN,
+) => {
+  const selectIndex = getPosition(index, keyAction);
 
   if (nodeList[selectIndex]) {
     scrollTo(yaxis, nodeList[selectIndex]);
-    toggleActive(nodeList, selectIndex, 'up');
+    toggleActive(nodeList, selectIndex);
     return selectIndex;
   }
 
