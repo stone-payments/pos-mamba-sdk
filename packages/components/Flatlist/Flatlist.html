@@ -1,7 +1,7 @@
 <svelte:window on:keyup="selectRowItems(event)" bind:scrollY="scrollY" />
 
-<div>
-  {#if dataSection && dataSection.length > 0}
+{#if dataSection && dataSection.length > 0}
+  <div class="{className}">
     {#each dataSection as section }
       {#if section.data}
         {#if section.title}
@@ -31,9 +31,8 @@
         {/if}
       {/if}
     {/each}
-  {/if}
-
-</div>
+  </div>
+{/if}
 
 <Keystroke key="enter" on:keystroke="setSelected()" />
 
@@ -56,6 +55,7 @@
         separator: null,
         elementsRefs: [],
         selectedIndex: 0,
+        className: '',
       };
     },
 
@@ -113,8 +113,6 @@
         */
         if(keyCode === 38 || keyCode === 40) {
           const { scrollY, selectedIndex, elementsRefs } = this.get();
-
-          const screenY = scrollY // __BROWSER__ ? document.querySelector('#apps-container') : scrollY ;
 
           const keyAction = keyCode === 38 ? 'up' : 'down';
 
