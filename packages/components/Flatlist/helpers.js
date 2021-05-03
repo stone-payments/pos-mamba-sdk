@@ -1,12 +1,26 @@
+let lastActive;
+
 const toggleActive = (items, index, action) => {
-  const hasActive = items.find(el => el.element.get().isActive);
+  let hasActive;
+
+  if (typeof lastActive === 'object' && lastActive.get) {
+    hasActive = lastActive;
+  }
+
+  if (!hasActive) {
+    lastActive = undefined;
+    hasActive = items.find(el => el.element.get().isActive);
+  }
+
   if (hasActive) {
-    hasActive.element.set({
+    (hasActive.element || hasActive).set({
       isActive: false,
     });
   }
 
   const item = items[index].element;
+
+  lastActive = item;
 
   item.set({
     isActive: true,
