@@ -1,8 +1,8 @@
 <svelte:window on:keyup="selectRowItems(event)" bind:scrollY="scrollY" />
 
 {#if dataSection && dataSection.length > 0}
-  <div class="{className}">
-    {#each dataSection as section }
+  <div class="flatlist {className}">
+    {#each dataSection as section, sectionIndex}
       {#if section.data}
         {#if section.title}
           {#if renderTitle}
