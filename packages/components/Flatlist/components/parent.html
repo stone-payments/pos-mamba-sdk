@@ -7,13 +7,6 @@
 
 <script>
   export default {
-    computed: {
-      _shortcut({ key }) {
-        if(key > 9) return undefined;
-        if(key === 9) return 0;
-        return key + 1;
-      },
-    },
     data() {
       return {
         key: undefined,
@@ -21,9 +14,16 @@
         data: {},
       };
     },
+    computed: {
+      _shortcut({ key }) {
+        if(key > 9) return undefined;
+        if(key === 9) return 0;
+        return key + 1;
+      },
+    },
     oncreate() {
       console.log(this.get().useAutoShortcuts);
       this.fire('create');
-    }
+    },
   };
 </script>
