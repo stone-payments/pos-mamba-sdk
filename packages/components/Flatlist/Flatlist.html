@@ -16,11 +16,12 @@
 
         {#each section.data as item, index}
           <Parent
-            on:create="register(this, index)"
+            on:create="register(this, index, sectionIndex)"
             data={item}
             key={index}
+            sectionIndex={sectionIndex}
             renderItem={renderItem}
-            on:click="setSelected(index)"
+            on:_click="setSelected(event)"
           />
         {/each}
 
@@ -34,10 +35,11 @@
   </div>
 {/if}
 
-<Keystroke key="enter" on:keystroke="setSelected()" />
+<Keystroke key="enter" on:keystroke="setSelected(undefined, true)" />
 
 <script>
-  import { selectRowItem } from './helpers.js';
+  import { selectRowItem, toggleActive } from './helpers.js';
+  import KEY_ACTION from './const.js';
 
   const EVENTS = {
     ITEM_SELECTED: 'itemSelected',
@@ -53,13 +55,14 @@
     data() {
       return {
         intersectSelectedEvents: false,
+        autoSelectOnTouch: true,
         itemHandler: null,
         renderItem: null,
         renderTitle: null,
         dataSection: null,
         data: [],
         separator: null,
-        elementsRefs: [],
+        _elementsRefs: [],
         selectedIndex: 0,
         className: '',
       };
@@ -70,7 +73,7 @@
         if(current.data && !current.dataSection) {
 
           this.set({
-            elementsRefs: [],
+            _elementsRefs: [],
             dataSection: [{
               title: null,
               data: current.data
@@ -81,19 +84,35 @@
       }
     },
     methods: {
-      setSelected(touchIndex) {
+      setSelected(parentProps, isKeystroke = false) {
         const {
-          elementsRefs,
+          _elementsRefs,
           selectedIndex,
           itemHandler,
+          autoSelectOnTouch,
           intersectSelectedEvents: intersect,
         } = this.get();
 
-        const { element, index } = elementsRefs[touchIndex || selectedIndex]
+        let eventData = parentProps;
 
-        const { data } = element.options.data;
+        if(!eventData) {
+          const {
+            sectionIndex,
+            element,
+            index,
+            position,
+          } = _elementsRefs[selectedIndex];
 
-        const eventData = { data, index };
+          eventData = { data: element.options.data.data, index, position, sectionIndex };
+        }
+
+        const { data, position: internalIndex } = eventData;
+
+        this.set({ selectedIndex: internalIndex });
+
+        if(autoSelectOnTouch && !(isKeystroke === true)) {
+          toggleActive(_elementsRefs, internalIndex);
+        }
 
         if(!intersect) this.fire(EVENTS.ITEM_SELECTED, eventData);
 
@@ -103,17 +122,23 @@
 
         if(intersect) this.fire(EVENTS.ITEM_SELECTED, eventData);
       },
-      register(element, index) {
-        const { elementsRefs, dataSection } = this.get();
+      register(element, index, sectionIndex) {
+        const { _elementsRefs, dataSection } = this.get();
 
-        elementsRefs.push({
+        const position = _elementsRefs.length;
+
+        _elementsRefs.push({
+          sectionIndex,
           element,
           index,
+          position,
         });
+
+        element.set({ position });
 
         if(index === 0) {
           setTimeout(() => {
-            selectRowItem(elementsRefs, null);
+            selectRowItem(_elementsRefs, null);
           });
         }
       },
@@ -127,17 +152,24 @@
          *
         */
         if(keyCode === 38 || keyCode === 40) {
-          const { scrollY, selectedIndex, elementsRefs } = this.get();
+          const { scrollY, selectedIndex, _elementsRefs } = this.get();
 
-          const keyAction = keyCode === 38 ? 'up' : 'down';
+          const keyAction = keyCode === 38 ? KEY_ACTION.UP : KEY_ACTION.DOWN;
 
-          const index = selectRowItem(elementsRefs, selectedIndex, scrollY, keyAction);
+          const internalIndex = selectRowItem(_elementsRefs, selectedIndex, scrollY, keyAction);
 
-          const { data }  = elementsRefs[index].element.options.data;
+          const {
+            sectionIndex,
+            element,
+            index,
+            position,
+          } = _elementsRefs[internalIndex];
 
-          this.fire(EVENTS.ITEM_ACTIVE, { index, data });
+          const { data }  = element.options.data;
 
-          this.set({ selectedIndex: index });
+          this.fire(EVENTS.ITEM_ACTIVE, { index, sectionIndex, position, data });
+
+          this.set({ selectedIndex: internalIndex });
         }
       },
     },
