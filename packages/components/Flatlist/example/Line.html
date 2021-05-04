@@ -1,14 +1,16 @@
-<Row label={label} shortcut={shortcut} bgColor="{isActive ? '#DDE2E9' : '#fff'}" />
+<div class:active="isActive">
+  <!-- Recebe `label` do `data` -->
+  {label}
+</div>
 
-<script>
-  export default {
-    components: {
-      Row: '@mamba/collection/Row.html',
-    },
-    data() {
-      return {
-        isActive: false,
-      };
-    },
-  };
-</script>
+<style>
+  div {
+    height: 30px;
+    line-height: 30px;
+    padding: 0 20px;
+  }
+
+  .active {
+    background: rgba(0, 0, 0, 0.2);
+  }
+</style>
