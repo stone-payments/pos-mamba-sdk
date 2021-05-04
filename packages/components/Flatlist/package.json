@@ -4,10 +4,15 @@
   "svelte": "Flatlist.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
+  "module": "index.js",
+  "main": "index.js",
   "publishConfig": {
     "access": "public"
   },
-  "devDependencies": {
+  "dependencies": {
     "@mamba/styles": "^3.4.0"
+  },
+  "peerDependencies": {
+    "@mamba/icon": "^3.3.0"
   }
 }
