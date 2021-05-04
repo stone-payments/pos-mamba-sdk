@@ -68,7 +68,7 @@
       };
     },
     onupdate({changed, current}) {
-      if(changed.data && current.data.length > 0) {
+      if(changed.data && current.data && current.data.length > 0) {
 
         if(current.data && !current.dataSection) {
 
