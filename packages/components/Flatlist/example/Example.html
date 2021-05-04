@@ -1,4 +1,4 @@
-<Flatlist
+<FlatList
   dataSection={sectionList}
   renderItem={Line}
   on:itemActive="itemActive(event)"
@@ -11,7 +11,7 @@ import Line from './Line.html';
 
 export default {
   components: {
-    Flatlist: '@mamba/flatlist',
+    FlatList: '@mamba/flatlist',
   },
   helpers: {
     Line,
