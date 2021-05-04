@@ -14,7 +14,7 @@ O componente `Flatlist` serve para renderizar listas simples e básicas com util
 | intersectSelectedEvents | Previne chamadas iguais de eventos: `itemSelected` ∩ `onSelected`           | `boolean`      | `false`     |
 | itemHandler | Objeto ou componente que irá ser usado no parâmetro `this` quando o `onSelected` for um método de objeto | `function`      | `null`     |
 | autoSelectOnTouch | Define se dispara a classe para realçar o item quando for selecionado por touch | `boolean` | `true` |
-
+| autoShortcuts | Define se os shortcuts serão gerados automaticamente com base nos índices (max. 0-9)| `boolean` | `false` |
 
 ## Eventos
 
