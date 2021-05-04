@@ -21,6 +21,7 @@
             key={index}
             sectionIndex={sectionIndex}
             renderItem={renderItem}
+            useAutoShortcuts={useAutoShortcuts}
             on:_click="setSelected(event)"
           />
         {/each}
@@ -52,19 +53,25 @@
       Keystroke: '@mamba/app/Keystroke.html',
 
     },
+    computed: {
+      useAutoShortcuts({ dataSection, data, autoShortcuts }) {
+        return autoShortcuts === true && dataSection && dataSection.length === 1;
+      },
+    },
     data() {
       return {
         intersectSelectedEvents: false,
         autoSelectOnTouch: true,
+        autoShortcuts: false,
         itemHandler: null,
         renderItem: null,
         renderTitle: null,
         dataSection: null,
         data: [],
         separator: null,
-        _elementsRefs: [],
         selectedIndex: 0,
         className: '',
+        _elementsRefs: [],
       };
     },
     onupdate({changed, current}) {
