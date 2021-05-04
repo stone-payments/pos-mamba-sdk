@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.3.2...@mamba/pos@3.3.3) (2021-04-16)
+
+
+### Bug Fixes
+
+* 🐛 fix in layout and method get Post Model ([7a5fe62](https://github.com/stone-payments/pos-mamba-sdk/commit/7a5fe625a4ec0d27254ede9c14d9afec07ae35f1))
+* 🐛 fix in model name ([11499d0](https://github.com/stone-payments/pos-mamba-sdk/commit/11499d04a55e9d41a223f7876c43016796c26b0e))
+
+
+
+
+
 ## [3.3.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.3.1...@mamba/pos@3.3.2) (2021-04-01)
 
 
