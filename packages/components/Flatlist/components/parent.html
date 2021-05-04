@@ -1,4 +1,7 @@
-<div ref:element on:click shortcut={data.shortcut || -1}>
+<div
+  ref:element
+  on:click="fire('_click', { data, index: key, sectionIndex, position })"
+  shortcut={data.shortcut || -1}>
   <svelte:component this="{renderItem}" key={key} {...data} bind:isActive />
 </div>
 

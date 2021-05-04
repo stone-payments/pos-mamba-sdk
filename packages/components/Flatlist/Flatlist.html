@@ -8,7 +8,7 @@
           {#if renderTitle}
             <svelte:component this="{renderTitle}" title={section.title}/>
             {:else}
-              <div class="row">
+              <div class="row row-title">
                 <div class="title">{section.title}</div>
               </div>
           {/if}
@@ -153,6 +153,10 @@
     background: #fff;
     border-bottom: 1px solid #f4f4f4;
     color: #494949;
+
+    &-title {
+      border-bottom: 1px solid $neutral100;
+    }
 
     .title {
       color: $green500;

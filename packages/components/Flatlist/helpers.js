@@ -2,7 +2,7 @@ import KEY_ACTION from './const.js';
 
 let lastActive;
 
-const toggleActive = (items, index) => {
+const unActiveLeast = items => {
   let hasActive;
 
   if (typeof lastActive === 'object' && lastActive.get) {
@@ -19,6 +19,10 @@ const toggleActive = (items, index) => {
       isActive: false,
     });
   }
+};
+
+export const toggleActive = (items, index) => {
+  unActiveLeast(items);
 
   const item = items[index].element;
 
