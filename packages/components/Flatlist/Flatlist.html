@@ -70,7 +70,7 @@
       };
     },
     computed: {
-      useAutoShortcuts({ dataSection, data, autoShortcuts }) {
+      useAutoShortcuts({ dataSection, autoShortcuts }) {
         return autoShortcuts === true && dataSection && dataSection.length === 1;
       },
     },
@@ -110,7 +110,12 @@
             position,
           } = _elementsRefs[selectedIndex];
 
-          eventData = { data: element.options.data.data, index, position, sectionIndex };
+          eventData = {
+            data: element.options.data.data,
+            index,
+            position,
+            sectionIndex,
+          };
         }
 
         const { data, position: internalIndex } = eventData;
@@ -130,7 +135,7 @@
         if(intersect) this.fire(EVENTS.ITEM_SELECTED, eventData);
       },
       register(element, index, sectionIndex) {
-        const { _elementsRefs, dataSection } = this.get();
+        const { _elementsRefs } = this.get();
 
         const position = _elementsRefs.length;
 
@@ -163,7 +168,12 @@
 
           const keyAction = keyCode === 38 ? KEY_ACTION.UP : KEY_ACTION.DOWN;
 
-          const internalIndex = selectRowItem(_elementsRefs, selectedIndex, scrollY, keyAction);
+          const internalIndex = selectRowItem(
+            _elementsRefs,
+            selectedIndex,
+            scrollY,
+            keyAction,
+          );
 
           const {
             sectionIndex,
