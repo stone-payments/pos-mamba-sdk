@@ -95,10 +95,7 @@ export const shouldReturnComponent = obj => {
   if (isFunc(objValue)) {
     const value = objValue();
 
-    if (
-      isFunc(value) &&
-      value.prototype.constructor.name === 'proxyComponent'
-    ) {
+    if (isFunc(value)) {
       return { hasComponent: true, value, props };
     }
 
