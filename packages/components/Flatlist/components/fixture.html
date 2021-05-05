@@ -1,16 +1,18 @@
 {#if _fixture.value}
-  <div class="mb-fixture" style={getStyles(fixture.contentStyle || {})}>
-    {#if _fixture.hasComponent}
-      <svelte:component
-        this="{_fixture.value}"
-        {..._fixture.props}
-        style={_fixtureStyle}
-      />
-    {:else}
-      <span style={_fixtureStyle}>
-        {_fixture.value}
-      </span>
-    {/if}
+  <div class="mb-fixture" style={getStyles(fixture.wrapperStyle)}>
+    <div style={getStyles(fixture.contentStyle)}>
+      {#if _fixture.hasComponent}
+        <svelte:component
+          this="{_fixture.value}"
+          {..._fixture.props}
+          style={_fixtureStyle}
+        />
+      {:else}
+        <span style={_fixtureStyle}>
+          {_fixture.value}
+        </span>
+      {/if}
+    </div>
   </div>
 {/if}
 
