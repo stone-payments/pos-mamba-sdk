@@ -2,7 +2,7 @@ import Icon from '@mamba/icon';
 import { MODELS, getPosModel } from '@mamba/utils/index.js';
 import { neutral800 } from '@mamba/styles/colors.js';
 
-const getSlugModel = currentModel => {
+const _getModelSlug = currentModel => {
   let val = 'S920';
   Object.keys(MODELS).forEach(key => {
     if (currentModel === MODELS[key]) {
@@ -13,7 +13,7 @@ const getSlugModel = currentModel => {
 };
 
 let ACTIVE_MODEL = getPosModel();
-let ACTIVE_MODEL_SLUG = getSlugModel(ACTIVE_MODEL);
+let ACTIVE_MODEL_SLUG;
 let DefaultRowDecorator = {};
 
 const SetDefaultRowDecorator = ({ label }) => {
@@ -32,7 +32,6 @@ const SetDefaultRowDecorator = ({ label }) => {
 
 const GetDefaultDecorator = rowProps => {
   ACTIVE_MODEL = getPosModel();
-  ACTIVE_MODEL_SLUG = getSlugModel(ACTIVE_MODEL);
 
   const defaultProps = rowProps || { label: {} };
   const labelData = (defaultProps && defaultProps.label) || {};
@@ -58,9 +57,12 @@ const GetDefaultDecorator = rowProps => {
   );
 };
 
+const getModelSlug = () => _getModelSlug(ACTIVE_MODEL);
+
 export {
   GetDefaultDecorator,
   DefaultRowDecorator,
   ACTIVE_MODEL,
   ACTIVE_MODEL_SLUG,
+  getModelSlug,
 };
