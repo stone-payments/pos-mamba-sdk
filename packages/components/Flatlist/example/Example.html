@@ -1,3 +1,15 @@
+<h5>Default rows</h5>
+<FlatList
+  data={dataList}
+  renderItem={DefaultRow}
+  on:itemActive="itemActive(event)"
+  on:itemSelected="itemSelected(event)"
+  itemHandler={this}
+  autoShortcuts={true}
+  decorator={GetDefaultDecorator}
+/>
+
+<h5>Custom</h5>
 <FlatList
   dataSection={sectionList}
   renderItem={Line}
@@ -6,14 +18,18 @@
   itemHandler={this}
 />
 
+
 <script>
+import { DefaultRow, FlatList, GetDefaultDecorator } from '@mamba/flatlist/index.js';
 import Line from './Line.html';
 
 export default {
   components: {
-    FlatList: '@mamba/flatlist',
+    FlatList,
   },
   helpers: {
+    DefaultRow,
+    GetDefaultDecorator,
     Line,
   },
   data() {

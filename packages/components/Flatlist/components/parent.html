@@ -1,8 +1,9 @@
 <div
   ref:element
+  class={ACTIVE_MODEL_SLUG}
   on:click="fire('_click', { data, index: key, sectionIndex, position })"
   shortcut={useAutoShortcuts ? _shortcut : data.shortcut || undefined}>
-  <svelte:component this="{renderItem}" key={key} {...data} {..._decorator} bind:isActive />
+  <svelte:component this="{renderItem}" key={key} {...data} position={position + 1} {..._decorator} bind:isActive />
 </div>
 
 <script>

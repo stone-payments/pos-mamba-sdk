@@ -126,5 +126,5 @@ export const getStyles = obj => {
 
   if (typeof obj === 'string') return obj;
 
-  return '';
+  return undefined;
 };

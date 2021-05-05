@@ -16,8 +16,22 @@
     <div class="mb-row-label">
 
       <!-- Label - always render -->
-      <div class="mb-label">
-        {_label.value || ''}
+      <div class="mb-label" style={_label.style ? getStyles(_label.style) : undefined}>
+
+        <!-- Prefix decorator -->
+
+        {#if _label.prefix}
+          <Decorator
+            position={position}
+            value={_label.prefix}
+            style={_label.prefixStyle}
+          />
+        {/if}
+
+        <!-- Label -->
+        <span>
+          {_label.value || ''}
+        </span>
       </div>
 
       <!-- Label Description  -->
@@ -67,6 +81,7 @@
   export default {
     components: {
       Fixture: './components/fixture.html',
+      Decorator: './components/decorator.html',
     },
     helpers: {
       getStyles,
@@ -77,7 +92,7 @@
       },
 
       _label({ label }) {
-        if(!label) return {};
+        if(!label) return { prefix: {}};
         return label;
       },
     },
@@ -116,9 +131,9 @@
       align-items: center;
     }
 
-    &-label {
+    /* &-label {
       font-weight: 500;
-    }
+    } */
 
     &-desc {
       margin-top: 8px;

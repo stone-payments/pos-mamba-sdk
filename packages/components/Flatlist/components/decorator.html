@@ -1,0 +1,27 @@
+{#if _decorator}
+  <span
+    style={_decoratorStyle || undefined}
+  >
+    {#if typeof _decorator === 'function'}
+      {_decorator(position)}
+    {:else}
+      {_decorator || ''}
+    {/if}
+  </span>
+{/if}
+
+<script>
+  import { getStyles } from '../helpers.js';
+
+  export default {
+    computed: {
+      _decorator({ value }) {
+        if(!value) return {};
+        return value;
+      },
+      _decoratorStyle({ style = {} }) {
+        return getStyles(style);
+      },
+    },
+  };
+</script>

@@ -22,7 +22,8 @@
             sectionIndex={sectionIndex}
             renderItem={renderItem}
             useAutoShortcuts={useAutoShortcuts}
-            decorator={decorator}
+            decorator={typeof decorator === 'function'? decorator(item) : decorator}
+            ACTIVE_MODEL_SLUG={ACTIVE_MODEL_SLUG}
             on:_click="setSelected(event)"
           />
         {/each}
@@ -41,6 +42,7 @@
 
 <script>
   import { selectRowItem, toggleActive } from './helpers.js';
+  import { ACTIVE_MODEL_SLUG } from './decorators.js';
   import KEY_ACTION from './const.js';
 
   const EVENTS = {
@@ -53,6 +55,9 @@
       Parent: './components/parent.html',
       Keystroke: '@mamba/app/Keystroke.html',
 
+    },
+    helpers: {
+      ACTIVE_MODEL_SLUG,
     },
     data() {
       return {
