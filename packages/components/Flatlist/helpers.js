@@ -105,7 +105,7 @@ export const shouldReturnComponent = obj => {
   return obj;
 };
 
-export const getStyles = obj => {
+export const getStyles = (obj, blackList = []) => {
   if (!obj) return '';
   if (typeof obj === 'object') {
     if (Array.isArray(obj)) {
@@ -115,6 +115,7 @@ export const getStyles = obj => {
     return Object.getOwnPropertyNames(obj)
       .map(str => {
         const rule = str.replace(/[A-Z]/g, repChar);
+        if (blackList.indexOf(rule) !== -1) return '';
         const value = repColor(obj[str]);
         return `${rule}: ${value};`;
       })
@@ -123,5 +124,5 @@ export const getStyles = obj => {
 
   if (typeof obj === 'string') return obj;
 
-  return undefined;
+  return '';
 };

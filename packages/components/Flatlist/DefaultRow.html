@@ -1,8 +1,8 @@
 <div
   class="mb-default-row{_className}"
-  class:mb-active="highlight && isActive"
+  class:mb-active="highlightSelect && isActive"
   class:mb-small="small"
-  style={wrapperStyle ? getStyles(wrapperStyle) : undefined}
+  style={[_wrapperStyle, _stateStyle].join('')}
 >
 
   <!-- Start fixture -->
@@ -89,14 +89,24 @@
     },
     data() {
       return {
-        highlight: false,
+        highlightSelect: false,
+        highlightColor: '$neutral200',
       };
     },
     computed: {
       _className({ className }) {
         return typeof className === 'string' ? ` ${className}` : '';
       },
-
+      _stateStyle({ highlightColor, highlightSelect, isActive }) {
+        const styles = {};
+        if(isActive && highlightSelect) {
+          styles.backgroundColor = highlightColor;
+        }
+        return getStyles(styles);
+      },
+      _wrapperStyle({ wrapperStyle }) {
+        return  getStyles(wrapperStyle);
+      },
       _label({ label }) {
         if(!label) return { prefix: {}};
         return label;
@@ -106,21 +116,14 @@
 </script>
 
 <style>
-  /* div {
-    outline: 1px solid red;
-  } */
-
   .mb {
-    &-active {
-      background-color: $neutral200;
-    }
-
     &-default-row {
       color: $neutral700;
       font-size: 14px;
       font-weight: 500;
       padding: 12px 0;
       border-bottom: solid $neutral200;
+      background: #fff;
 
       &:not(.mb-small) {
         min-height: 48px;
@@ -134,7 +137,8 @@
     }
 
     &-default-row,
-    &-row-main {
+    &-row-main,
+    &-label {
       display: flex;
       flex-direction: row;
       line-height: 1;
@@ -146,9 +150,14 @@
       align-items: center;
     }
 
-    /* &-label {
+    &-label {
       font-weight: 500;
-    } */
+      word-break: break-all;
+
+      span {
+        display: inline-block;
+      }
+    }
 
     &-desc {
       margin-top: 8px;

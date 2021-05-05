@@ -68,7 +68,7 @@ const GetDefaultDecorator = (rowProps, overrides = {}) => {
     {
       [MODELS.MP35P]: {
         small: true,
-        highlight: true,
+        highlightSelect: true,
         label: {
           ...labelData,
           style: {
