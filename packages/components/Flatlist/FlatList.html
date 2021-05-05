@@ -22,7 +22,7 @@
             sectionIndex={sectionIndex}
             renderItem={renderItem}
             useAutoShortcuts={useAutoShortcuts}
-            decorator={typeof decorator === 'function'? decorator(item) : decorator}
+            decorator={_setDecorator(decorator, item, decoratorOverrides)}
             on:_click="setSelected(event)"
           />
         {/each}
@@ -53,6 +53,12 @@
       Parent: './components/parent.html',
       Keystroke: '@mamba/app/Keystroke.html',
 
+    },
+    helpers: {
+      _setDecorator(decorator, item, decoratorOptions) {
+        const isFunc = typeof decorator === 'function';
+        return isFunc ? decorator(item, decoratorOptions) : decorator;
+      },
     },
     data() {
       return {

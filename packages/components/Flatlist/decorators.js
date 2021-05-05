@@ -16,7 +16,12 @@ let ACTIVE_MODEL = getPosModel();
 let ACTIVE_MODEL_SLUG;
 let DefaultRowDecorator = {};
 
-const SetDefaultRowDecorator = ({ label }) => {
+const SetDefaultRowDecorator = ({ label }, overrides = {}) => {
+  const defaultOptions = {
+    prefix: position => `${position}. `,
+    ...overrides,
+  };
+
   DefaultRowDecorator = {
     endFixture: {
       value: () => Icon,
@@ -24,13 +29,13 @@ const SetDefaultRowDecorator = ({ label }) => {
     },
     label: {
       ...label,
-      prefix: position => `${position}. `,
+      ...defaultOptions,
     },
   };
   return DefaultRowDecorator;
 };
 
-const GetDefaultDecorator = rowProps => {
+const GetDefaultDecorator = (rowProps, overrides) => {
   ACTIVE_MODEL = getPosModel();
 
   const defaultProps = rowProps || { label: {} };
@@ -52,8 +57,9 @@ const GetDefaultDecorator = rowProps => {
             color: '$green500',
           },
         },
+        ...overrides,
       },
-    }[ACTIVE_MODEL] || SetDefaultRowDecorator(defaultProps)
+    }[ACTIVE_MODEL] || SetDefaultRowDecorator(defaultProps, overrides)
   );
 };
 
