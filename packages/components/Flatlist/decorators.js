@@ -47,7 +47,6 @@ const GetDefaultDecorator = rowProps => {
           style: {
             ...labelData.style,
             fontWeight: '700',
-            borderBottomWidth: '1px',
           },
           prefix: position => `${position}. `,
           prefixStyle: {

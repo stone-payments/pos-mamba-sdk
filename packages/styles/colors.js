@@ -2,7 +2,7 @@ const colors = {
   seashell: '#f1f1f1',
   neutral900: '#181D25',
   neutral800: '#252C37',
-  neutral700: '#353E4B',
+  neutral700: '#333B47',
   neutral600: '#5C6A7F',
   neutral500: '#7D8BA1',
   neutral400: '#A3ADBD',
