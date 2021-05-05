@@ -25,11 +25,11 @@ const DefaultRowDecorator = {
   },
 };
 
-const GetDefaultDecorator = itemData => {
+const GetDefaultDecorator = rowProps => {
   ACTIVE_MODEL = getPosModel();
   ACTIVE_MODEL_SLUG = getSlugModel(ACTIVE_MODEL);
 
-  const labelData = itemData.label || {};
+  const labelData = rowProps.label || {};
   const style = labelData.style || {};
   style.fontWeight = 'bold';
 
