@@ -11,7 +11,7 @@
   {/if}
 
   <!-- Main wrapper -->
-  <div class="mb-row-main">
+  <div class="mb-row-main" style={getStyles(mainRowStyle)}>
 
     <!-- Label wrapper -->
     <div class="mb-row-label">
@@ -121,17 +121,16 @@
       color: $neutral700;
       font-size: 14px;
       font-weight: 500;
-      padding: 12px 0;
       border-bottom: solid $neutral200;
       background: #fff;
 
       &:not(.mb-small) {
-        min-height: 48px;
+        padding: 12px 0;
         border-bottom-width: 2px;
       }
 
       &.mb-small {
-        min-height: 38px;
+        padding: 8px 0;
         border-bottom-width: 1px;
       }
     }
@@ -146,15 +145,16 @@
 
     &-row-main {
       flex: 1;
-      padding: 0 15px;
-      align-items: center;
+      padding-left: 15px;
     }
 
     &-label {
       font-weight: 500;
       word-break: break-all;
+      line-height: 15px;
 
       span {
+        line-height: 15px;
         display: inline-block;
       }
     }

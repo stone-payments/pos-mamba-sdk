@@ -46,6 +46,13 @@ const SetDefaultRowDecorator = ({ label }, overrides = {}) => {
     endFixture: {
       value: () => Icon,
       props: { symbol: 'chevron-right', color: neutral800 },
+      contentStyle: {
+        paddingRight: '5px',
+        overflow: 'hidden',
+        height: '15px',
+        display: 'flex',
+        flexDirection: 'column',
+      },
     },
     label: {
       ...label,
@@ -84,6 +91,10 @@ const GetDefaultDecorator = (rowProps, overrides = {}) => {
             },
             SEPARATORS.MP35P,
           ),
+        },
+        mainRowStyle: {
+          alignItems: 'center',
+          paddingRight: '15px',
         },
         ...currentOverride,
       },
