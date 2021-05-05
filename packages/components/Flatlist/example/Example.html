@@ -21,6 +21,7 @@
 
 <script>
 import { DefaultRow, FlatList, GetDefaultDecorator } from '@mamba/flatlist/index.js';
+import * as Colors from '@mamba/styles/colors.js';
 import Line from './Line.html';
 
 export default {
@@ -39,13 +40,35 @@ export default {
   },
   oncreate() {
     const sectionList = this.getSectionList();
+    const dataList = this.getData();
 
     this.set({
       sectionList,
+      dataList,
     });
 
   },
   methods: {
+    getData() {
+      const data = [
+        {
+          label: {
+            value: 'Histórico de antecipações',
+          },
+        },
+        {
+          onSelected: this.itemClickHandler,
+          label: {
+            value: 'Parcelado com juros',
+            description: 'Comprador assume as taxas do parcelamento',
+            style: {
+              color: Colors.purple700,
+            },
+          },
+        },
+      ];
+      return data;
+    },
     getSectionList() {
       const section = [
         {
