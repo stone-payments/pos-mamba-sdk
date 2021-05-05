@@ -14,38 +14,48 @@ const getSlugModel = currentModel => {
 
 let ACTIVE_MODEL = getPosModel();
 let ACTIVE_MODEL_SLUG = getSlugModel(ACTIVE_MODEL);
+let DefaultRowDecorator = {};
 
-const DefaultRowDecorator = {
-  endFixture: {
-    value: () => Icon,
-    props: { symbol: 'chevron-right', color: neutral800 },
-  },
-  labelPrefix: {
-    value: position => `${position}. `,
-  },
+const SetDefaultRowDecorator = ({ label }) => {
+  DefaultRowDecorator = {
+    endFixture: {
+      value: () => Icon,
+      props: { symbol: 'chevron-right', color: neutral800 },
+    },
+    label: {
+      ...label,
+      prefix: position => `${position}. `,
+    },
+  };
+  return DefaultRowDecorator;
 };
 
 const GetDefaultDecorator = rowProps => {
   ACTIVE_MODEL = getPosModel();
   ACTIVE_MODEL_SLUG = getSlugModel(ACTIVE_MODEL);
 
-  const labelData = rowProps.label || {};
-  const style = labelData.style || {};
-  style.fontWeight = 'bold';
+  const defaultProps = rowProps || { label: {} };
+  const labelData = (defaultProps && defaultProps.label) || {};
 
   return (
     {
       [MODELS.MP35P]: {
+        small: true,
+        highlight: true,
         label: {
           ...labelData,
-          style,
+          style: {
+            ...labelData.style,
+            fontWeight: '700',
+            borderBottomWidth: '1px',
+          },
           prefix: position => `${position}. `,
           prefixStyle: {
             color: '$green500',
           },
         },
       },
-    }[ACTIVE_MODEL] || DefaultRowDecorator
+    }[ACTIVE_MODEL] || SetDefaultRowDecorator(defaultProps)
   );
 };
 
