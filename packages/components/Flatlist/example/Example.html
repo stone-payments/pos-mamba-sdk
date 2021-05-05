@@ -11,11 +11,28 @@
 
 <!-- To Override default decorator props, you can pass a `decoratorOverrides` object  -->
 <!--
-  decorator={GetDefaultDecorator}
-  decoratorOverrides={{
-    prefix: null
-  }}
- -->
+  <FlatList
+    ...
+    decorator={GetDefaultDecorator}
+    decoratorOverrides={{
+      prefix: null
+    }}
+  />
+-->
+
+<!-- or override by model -->
+<!--
+  <FlatList
+    ...
+    decorator={GetDefaultDecorator}
+    decoratorOverrides={{
+      S920: {
+        prefix: null
+      }
+    }}
+  />
+-->
+
 
 <h5>Custom</h5>
 <FlatList
