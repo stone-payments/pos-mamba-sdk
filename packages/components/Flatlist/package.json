@@ -10,9 +10,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@mamba/styles": "^3.4.0"
-  },
-  "peerDependencies": {
+    "@mamba/styles": "^3.4.0",
     "@mamba/icon": "^3.3.0"
   }
 }
