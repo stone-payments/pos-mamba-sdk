@@ -1,6 +1,7 @@
 <div
   class="mb-default-row{_className}"
-  class:mb-active="isActive"
+  class:mb-active="highlight && isActive"
+  class:mb-small="small"
   style={wrapperStyle ? getStyles(wrapperStyle) : undefined}
 >
 
@@ -86,6 +87,11 @@
     helpers: {
       getStyles,
     },
+    data() {
+      return {
+        highlight: false,
+      };
+    },
     computed: {
       _className({ className }) {
         return typeof className === 'string' ? ` ${className}` : '';
@@ -113,9 +119,19 @@
       color: $neutral700;
       font-size: 14px;
       font-weight: 500;
-      min-height: 48px;
-      padding: 15px 0;
-      border-bottom: 2px solid $neutral200;
+      border-bottom: solid $neutral200;
+
+      &:not(.mb-small) {
+        min-height: 48px;
+        padding: 15px 0;
+        border-bottom-width: 2px;
+      }
+
+      &.mb-small {
+        min-height: 38px;
+        padding: 12px 0;
+        border-bottom-width: 1px;
+      }
     }
 
     &-default-row,
