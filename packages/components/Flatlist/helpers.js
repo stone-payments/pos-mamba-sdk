@@ -1,3 +1,4 @@
+import * as Colors from '@mamba/styles/colors.js';
 import KEY_ACTION from './const.js';
 
 let lastActive;
@@ -72,4 +73,58 @@ export const selectRowItem = (
   }
 
   return index;
+};
+
+// Post processing
+
+const isFunc = f => typeof f === 'function';
+const repChar = char => `-${char.toLowerCase()}`;
+
+const repColor = value => {
+  if (value.indexOf('$') !== -1) {
+    return value.replace(/\$.+/g, char => Colors[char.slice(1)]);
+  }
+  return value;
+};
+
+export const shouldReturnComponent = obj => {
+  if (!obj) return undefined;
+
+  const { value: objValue, props = {} } = obj || {};
+
+  if (isFunc(objValue)) {
+    const value = objValue();
+
+    if (
+      isFunc(value) &&
+      value.prototype.constructor.name === 'proxyComponent'
+    ) {
+      return { hasComponent: true, value, props };
+    }
+
+    return { hasComponent: false, value };
+  }
+  if (typeof objValue === 'object') return JSON.stringify(objValue);
+  return obj;
+};
+
+export const getStyles = obj => {
+  if (!obj) return '';
+  if (typeof obj === 'object') {
+    if (Array.isArray(obj)) {
+      return obj.join('; ');
+    }
+
+    return Object.getOwnPropertyNames(obj)
+      .map(str => {
+        const rule = str.replace(/[A-Z]/g, repChar);
+        const value = repColor(obj[str]);
+        return `${rule}: ${value};`;
+      })
+      .join('');
+  }
+
+  if (typeof obj === 'string') return obj;
+
+  return '';
 };

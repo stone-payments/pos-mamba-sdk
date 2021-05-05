@@ -15,6 +15,7 @@ O componente `Flatlist` serve para renderizar listas simples e básicas com util
 | itemHandler | Objeto ou componente que irá ser usado no parâmetro `this` quando o `onSelected` for um método de objeto | `function`      | `null`     |
 | autoSelectOnTouch | Define se dispara a classe para realçar o item quando for selecionado por touch | `boolean` | `true` |
 | autoShortcuts | Define se os shortcuts serão gerados automaticamente com base nos índices (max. 0-9)| `boolean` | `false` |
+| decorator | Define um objeto padrão que irá para todos os items da listagem | `object` | `undefined` |
 
 ## Eventos
 
@@ -96,3 +97,48 @@ const dataSection = [
 
 ```
 
+
+```js
+{
+  onSelected: this.itemClickHandler,
+  wrapperStyle: {
+    border: '3px solid $green500',
+  },
+  startFixture: {
+    value: () => '13x',
+    style: {
+      color: 'red',
+    },
+    contentStyle: {
+      backgroundColor: '#ddd',
+      borderRightWidth: '4px',
+      borderRightStyle: 'solid',
+      borderRightColor: '$gray1000',
+    },
+  },
+  label: {
+    value: '3 - Parcelado com juros',
+    description: 'Comprador assume as taxas do parcelamento',
+    style: {
+      color: Colors.purple700,
+    },
+  },
+  rightLabel: {
+    value: '',
+    description: '',
+    style: {
+      color: Colors.orange700,
+    },
+  },
+  endFixture: {
+    value: () => Icon,
+    props: { symbol: 'chevron-right' },
+    style: {
+      color: 'blue',
+    },
+    contentStyle: {
+      backgroundColor: '#fdd',
+    },
+  },
+}
+```

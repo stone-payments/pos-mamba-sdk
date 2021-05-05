@@ -1,0 +1,33 @@
+{#if _fixture.value}
+  <div class="mb-start-fixture" style={getStyles(fixture.contentStyle || {})}>
+    {#if _fixture.hasComponent}
+      <svelte:component
+        this="{_fixture.value}"
+        {..._fixture.props}
+        style={_fixtureStyle}
+      />
+    {:else}
+      <span style={_fixtureStyle}>
+        {_fixture.value}
+      </span>
+    {/if}
+  </div>
+{/if}
+
+<script>
+  import { shouldReturnComponent, getStyles } from '../helpers.js';
+
+  export default {
+    helpers: {
+      getStyles,
+    },
+    computed: {
+      _fixture({ fixture }) {
+        return shouldReturnComponent(fixture);
+      },
+      _fixtureStyle({ fixture = {} }) {
+        return getStyles(fixture.style);
+      },
+    },
+  };
+</script>
