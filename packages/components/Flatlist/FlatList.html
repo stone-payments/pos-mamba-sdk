@@ -2,7 +2,7 @@
 
 {#if dataSection && dataSection.length > 0}
   <div class="flatlist {className}">
-    {#each dataSection as section, sectionIndex}
+    {#each dataSection.filter(Boolean) as section, sectionIndex}
       {#if section.data}
         {#if section.title}
           {#if renderTitle}
@@ -14,7 +14,7 @@
           {/if}
         {/if}
 
-        {#each section.data as item, index}
+        {#each section.data.filter(Boolean) as item, index}
           <Parent
             on:create="register(this, index, sectionIndex)"
             data={item}
