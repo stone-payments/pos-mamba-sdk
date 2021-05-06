@@ -23,8 +23,9 @@ const SEPARATORS = {
   DEFAULT: ' - ',
 };
 
-const withPosPrefixSeparator = separator => position =>
-  (position && `${position}${separator}`) || null;
+const withPosPrefixSeparator = separator => position => {
+  return (position && `${position}${separator}`) || null;
+};
 
 const getPrefixOverride = (
   overrides = {},
@@ -41,7 +42,7 @@ const getPrefixOverride = (
   };
 };
 
-const SetDefaultRowDecorator = ({ label }, overrides = {}) => {
+const SetDefaultRowDecorator = (defaultProps, overrides = {}) => {
   DefaultRowDecorator = {
     endFixture: {
       value: () => Icon,
@@ -54,8 +55,9 @@ const SetDefaultRowDecorator = ({ label }, overrides = {}) => {
         flexDirection: 'column',
       },
     },
+    ...defaultProps,
     label: {
-      ...label,
+      ...defaultProps.label,
       ...getPrefixOverride(overrides),
     },
     ...overrides,

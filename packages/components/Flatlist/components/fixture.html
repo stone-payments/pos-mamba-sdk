@@ -1,5 +1,5 @@
 {#if _fixture.value}
-  <div class="mb-fixture{className && ' ' + className || ''}" style={getStyles(fixture.wrapperStyle)}>
+  <div class="mb-fixture{className || ''}" style={getStyles(fixture.wrapperStyle)}>
     <div style={getStyles(fixture.contentStyle)}>
       {#if _fixture.hasComponent}
         <svelte:component

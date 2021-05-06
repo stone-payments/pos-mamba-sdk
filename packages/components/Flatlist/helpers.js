@@ -3,6 +3,18 @@ import KEY_ACTION from './const.js';
 
 let lastActive;
 
+export const ALIGN_CLASS = {
+  start: 'mb-align-start',
+  center: 'mb-align-center',
+  end: 'mb-align-end',
+};
+
+export const getAlignClass = verticalAlign => {
+  if (!verticalAlign) return '';
+  const value = ALIGN_CLASS[verticalAlign];
+  return (value && ` ${value}`) || '';
+};
+
 const unActiveLeast = items => {
   let hasActive;
 

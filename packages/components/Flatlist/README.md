@@ -307,6 +307,9 @@ A estrutura do objeto que irá compor o array para o `DefaultRow` é diferente, 
   // If the row should have minimal spaces
   small: boolean,
 
+  // Vertical items align
+  align: 'start' | 'center' | 'end',
+
   // Useful to put anything before the label
   startFixture: {
     value: () => Component | any,

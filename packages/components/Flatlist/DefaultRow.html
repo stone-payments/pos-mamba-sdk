@@ -1,5 +1,5 @@
 <div
-  class="mb-default-row{_className}"
+  class="mb-default-row{_className}{_classAlign}"
   class:mb-active="highlightSelect && isActive"
   class:mb-small="small"
   style={[_wrapperStyle, _stateStyle].join('')}
@@ -7,7 +7,7 @@
 
   <!-- Start fixture -->
   {#if startFixture}
-    <Fixture fixture={startFixture} />
+    <Fixture fixture={startFixture} className="{_classAlign}"/>
   {/if}
 
   <!-- Main wrapper -->
@@ -87,13 +87,13 @@
 
   <!-- End fixture -->
   {#if endFixture}
-    <Fixture fixture={endFixture} />
+    <Fixture fixture={endFixture} className="{_classAlign}" />
   {/if}
 
 </div>
 
 <script>
-  import { getStyles } from './helpers.js';
+  import { getStyles, getAlignClass } from './helpers.js';
 
   export default {
     components: {
@@ -105,11 +105,15 @@
     },
     data() {
       return {
+        align: undefined,
         highlightSelect: false,
         highlightColor: '$neutral200',
       };
     },
     computed: {
+      _classAlign({ verticalAlign }) {
+        return getAlignClass(verticalAlign);
+      },
       _className({ className }) {
         return typeof className === 'string' ? ` ${className}` : '';
       },
@@ -180,5 +184,17 @@
       font-size: 13px;
       color: $neutral500;
     }
+  }
+
+  :global(.mb-align-start) {
+    align-items: flex-start;
+  }
+
+  :global(.mb-align-center) {
+    align-items: center;
+  }
+
+  :global(.mb-align-end) {
+    align-items: flex-end;
   }
 </style>
