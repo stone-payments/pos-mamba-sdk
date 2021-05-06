@@ -4,7 +4,6 @@
   renderItem={DefaultRow}
   on:itemActive="itemActive(event)"
   on:itemSelected="itemSelected(event)"
-  itemHandler={this}
   autoShortcuts={true}
   decorator={GetDefaultDecorator}
 />
@@ -40,7 +39,6 @@
   renderItem={Line}
   on:itemActive="itemActive(event)"
   on:itemSelected="itemSelected(event)"
-  itemHandler={this}
 />
 
 
@@ -61,6 +59,7 @@ export default {
   data() {
     return {
       sectionList: [],
+      dataList: [],
     };
   },
   oncreate() {
@@ -97,35 +96,49 @@ export default {
     getSectionList() {
       const section = [
         {
-          title: 'Disks',
+          title: 'Items',
           data: [
             {
-              label: 'Disk 1',
+              label: {
+                value: 'Item 1',
+              },
               shortcut: 1,
               onSelected: (item) => {
                 /*
-                * Using `itemHandler` Flatlist property, so you can call methods of a desired class or object directly
-                * In this case we use the methods os this page
+                * In this case, this anonymous function can call this script methods
                 */
                 this.itemClickHandler(item);
               },
             },
             {
-              label: 'Disk 2',
+              label: {
+                value: 'Item 2',
+              },
               shortcut: 2,
               /*
-              * Wrong! Using `this` without a function wrapper or referencing doesn't work,
-              * unless the method returns another function
+              * Executing a method on `onSelect`, will call the desired
+              * function when the list is mounted, making it possible to return a dynamic function.
               */
               onSelected: this.itemClickHandler(),
             },
             {
-              label: 'Disk 3',
+              label: {
+                value: 'Item 3',
+              },
               shortcut: 3,
               /*
-              * Just referencing a function, `itemHandler` will have effect. The `this` will be this script
+              * Just referencing a function, The `this` will be of this script, but the `this` inside function scope, will be this object reference.
+              * To refer methods of this script inside the function reference, use bind:
+              * Eg.: this.itemClickHandler.bind(this)
+              *
+              * itemClickHandler() {
+              *   // Without bind
+              *   console.log(this) // { label: 'Disk 3', shortcut: 3, itemClickHandler: function... }
+              *   // With bind
+              *   this.anotherMethod();
+              * }
               */
-              onSelected: this.itemClickHandler,
+              onSelected: this.itemClickHandler.bind(this),
             },
           ],
         },
@@ -133,13 +146,17 @@ export default {
           title: 'Devices',
           data: [
             {
-              label: 'Device 1',
-              shortcut: 4,
+              label: {
+                value: 'Device 1',
+              },
+              shortcut: 1,
             },
             {
-              label: 'Device 2',
-              shortcut: 5,
-              onSelected: this.itemClickHandler,
+              label: {
+                value: 'Device 2',
+              },
+              shortcut: 2,
+              onSelected: () => this.itemClickHandler(),
             },
           ],
         },
