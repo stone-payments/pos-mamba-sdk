@@ -1,7 +1,7 @@
 <svelte:window on:keyup="selectRowItems(event)" bind:scrollY="scrollY" />
 
 {#if dataSection && dataSection.length > 0}
-  <div class="flatlist {className}">
+  <div class="flatlist {className}" style={_styles} ref:flatListRef >
     {#each dataSection.filter(Boolean) as section, sectionIndex}
       {#if section.data}
         {#if section.title}
@@ -35,12 +35,17 @@
       {/if}
     {/each}
   </div>
+
+  <Keystroke
+    key="enter"
+    active="_isKeystrokeActive"
+    on:keystroke="setSelected(undefined, true)"
+  />
+
 {/if}
 
-<Keystroke key="enter" on:keystroke="setSelected(undefined, true)" />
-
 <script>
-  import { selectRowItem, toggleActive } from './helpers.js';
+  import { selectRowItem, toggleActive, getStyles } from './helpers.js';
   import KEY_ACTION from './const.js';
 
   const EVENTS = {
@@ -48,11 +53,12 @@
     ITEM_ACTIVE: 'itemActive',
   };
 
+  let _flatListElement;
+
   export default {
     components: {
       Parent: './components/parent.html',
       Keystroke: '@mamba/app/Keystroke.html',
-
     },
     helpers: {
       _setDecorator(decorator, item, decoratorOptions) {
@@ -72,10 +78,21 @@
         separator: null,
         selectedIndex: 0,
         className: '',
+        _hasElement: false,
         _elementsRefs: [],
       };
     },
     computed: {
+      _isKeystrokeActive({ _hasElement }) {
+        if(_flatListElement && _hasElement) {
+          return _flatListElement.offsetParent === null;
+        }
+        return false;
+      },
+      _styles({ style }) {
+        if(typeof style === 'string') return style;
+        return getStyles(style);
+      },
       useAutoShortcuts({ dataSection, autoShortcuts }) {
         return autoShortcuts === true && dataSection && dataSection.length === 1;
       },
@@ -85,7 +102,11 @@
       if(changed.data && current.data && current.data.length > 0) {
 
         if(current.data && !current.dataSection) {
-
+          setTimeout(() => {
+            const { flatListRef } = this.refs;
+            _flatListElement = flatListRef;
+            this.set({ _hasElement: typeof flatListRef !== 'undefined' });
+          }, 10);
           this.set({
             _elementsRefs: [],
             dataSection: [{
@@ -124,7 +145,8 @@
           };
         }
 
-        const { data, position: internalIndex } = eventData;
+        const { data, position } = eventData;
+        const internalIndex = position - 1;
 
         this.set({ selectedIndex: internalIndex });
 
@@ -143,7 +165,7 @@
       register(element, index, sectionIndex) {
         const { _elementsRefs } = this.get();
 
-        const position = _elementsRefs.length;
+        const position = _elementsRefs.length + 1;
 
         _elementsRefs.push({
           sectionIndex,
@@ -154,6 +176,10 @@
 
         element.set({ position });
 
+        if(__DEV__ || __DEBUG_LVL__ >= 2) {
+          console.log(_elementsRefs);
+        }
+
         if(index === 0) {
           setTimeout(() => {
             selectRowItem(_elementsRefs, null);
@@ -161,6 +187,8 @@
         }
       },
       selectRowItems(event) {
+        if(this.get()._isKeystrokeActive) return;
+
         const { keyCode } = event;
         /**
          * KeyCode -> KeyName dictionary
