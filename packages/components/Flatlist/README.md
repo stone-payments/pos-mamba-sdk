@@ -12,20 +12,19 @@ O componente `Flatlist` serve para renderizar listas simples e básicas com util
 | className    | Classe a ser adicionado ao elemento pai do componente	               | `string`       | ``          |
 | separator    | Define um separador para as seções. Caso seja omitido, sera renderizado o separador padrão | `Component`    | `null`   |
 | intersectSelectedEvents | Previne chamadas iguais de eventos: `itemSelected` ∩ `onSelected`           | `boolean`      | `false`     |
-| itemHandler | Objeto ou componente que irá ser usado no parâmetro `this` quando o `onSelected` for um método de objeto | `function`      | `null`     |
 | autoSelectOnTouch | Define se dispara a classe para realçar o item quando for selecionado por touch | `boolean` | `true` |
 | autoShortcuts | Define se os shortcuts serão gerados automaticamente com base nos índices (max. 0-9)| `boolean` | `false` |
 | decorator | Define um objeto padrão que irá para todos os items da listagem | `object` | `undefined` |
+| decoratorOverrides | Define um objeto que irá sobrescrever a propriedade `decorator`. | `object` | `undefined` |
 
 ## Eventos
 
-`<Flatlist ... on:active="..." />`
+`<Flatlist ... on:active="itemActive(event)" on:selected="itemSelected(event)" />`
 
 | Eventos       | Disparado quando ...                                                              | Tipo              |
 | ------------- | --------------------------------------------------------------------------------- | ----------------- |
 | itemActive    | Recebe os propriedades do item que esta ativo/selecionado                     | `function(event)` |
 | itemSelected  | Recebe os propriedades do item que foi selecionado por click ou teclado     | `function(event)` |
-
 
 
 ## Passando Data:
@@ -35,37 +34,148 @@ Todas as propriedades do objeto serão repassadas para o componente `renderItem`
 
 - O `shortcut` que você definir será usado para criar atalhos do teclado no component.
 - O `onSelected` é usado como método para quando o item for selecionado.
+- Outras propriedades serão passadas normalmente para o componente declarado no `renderItem`.
 
 ```js
 const data = [
   {
-    label: 'Item 1',
-    shortcut: 1, /* Ex: Tecla 1 irá tentar disparar `onSelected` e `itemSelected` */
-    onSelected: (item) => {
-      /*
-      * Usando a propriedade `itemHandler` do Flatlist,
-      * você pode chamar métodos de uma classe ou objeto diretamente.
-      * `O `this` sera o `itemHandler` declarado no <FlatList />.
-      */
-      this.itemClickHandler(item);
+    label: {
+      value: 'Row 1',
     },
-    otherProp: 'foo',
+    shortcut: 1,
+    onSelected: ({ sectionIndex, index, position, data } ) => {
+      /*
+      * In this case, this anonymous function can call this script methods
+      */
+      console.log(index, sectionIndex, position, data) // 0 0 1 {label: {…}, shortcut: 1, onSelected: ƒ}
+    },
   },
   {
-    label: 'Item 2',
-    shortcut: 1,
-    /*
-    * Apenas referencia uma função.
-    * O `this` será o script pai.
-    * `itemHandler` não terá efeito.
-    */
-    onSelected: this.itemClickHandler,
-    otherProp: 'foo',
+    label: {
+      value: 'Row 2',
+    },
+    shortcut: 2,
+  },
+  false && { // Conditional item
+    label: {
+      value: 'Row 3',
+    },
+    shortcut: 3,
   },
 ]
 ```
 
-#### Múltiplas seções:
+#### Método `onSelect` da row:
+
+##### Função anônima:
+
+- A função anônima pode chamar qualquer método da página:
+  ```js
+  // FlatList data
+  const data = [
+    {
+      shortcut: 1
+      label: {
+        value: 'My Row',
+      },
+      onSelected: (item) => {
+        const { someProp } = this.get();
+
+        this.itemHandler(item, someProp);
+      },
+    }
+  ];
+  ```
+
+  ```js
+  // ... Page methods
+  methods: {
+    itemHandler(item, someProp) {
+      // ... do something with item and someProp
+    },
+  },
+  ```
+
+##### Executar um método que retorne uma função:
+
+- Executando um método no `onSelect`, irá chamar a função desejada quando a lista for montada, possibilitando retornar uma função dinâmica.
+  ```js
+  // FlatList data
+  const data = [
+    {
+      shortcut: 1
+      label: {
+        value: 'Choose your destiny',
+      },
+      onSelected: this.getSelectedHandler(),
+    }
+  ];
+  ```
+
+  ```js
+  // ... Page methods
+  methods: {
+    getSelectedHandler() {
+      if(myCondition) return (itemData) => {
+        console.log('Condition function', itemData);
+      };
+
+      return (itemData) => {
+        console.log('Default function', itemData);
+      };
+    },
+  },
+  ```
+
+##### Referênciando um método da página:
+
+- Você pode referenciar um método da página para ser usado no `onSelected`, mas o `this` de dentro do escopo da função referenciada, será a referência de seu objeto.
+  ```js
+  // FlatList data
+  const data = [
+    {
+      shortcut: 1
+      label: {
+        value: 'Some row',
+      },
+      onSelected: this.itemHandler,
+    }
+  ];
+  ```
+
+  ```js
+  // ... Page methods
+  methods: {
+    itemHandler() { // Without bind
+      console.log(this) // { label: { value: 'Some row' }}, shortcut: 1, onSelected: function... }
+    },
+  },
+  ```
+
+- Para referenciar métodos do mesmo componente/página, quando executada de dentro do escopo da função, use `bind` na referência do `onSelect`:
+  ```js
+  // FlatList data
+  const data = [
+    {
+      label: 'Item row',
+      onSelected: this.itemHandler.bind(this),
+    }
+  ];
+  ```
+
+  ```js
+  // ... Page methods
+  methods: {
+    anotherMethod() {
+      // ...
+    },
+    itemHandler() { // With bind
+      this.anotherMethod();
+    },
+  },
+  ```
+
+### Múltiplas seções:
 
 Útil para renderizar múltiplas listas com contextos diferentes.
 
@@ -82,7 +192,7 @@ const dataSection = [
 | Parâmetros   | Descrição                                                             | Tipo           |
 | ------------ | --------------------------------------------------------------------- | -------------- |
 | title        | É usada para renderizar um título antes da lista. A omissão dela faz com que nenhum título seja renderizado.                    | `string`    |
-| data         | Array de objetos que irão compor os items da seção, como a declada acima | `array` |
+| data         | Array de objetos que irão compor os items da seção. | `array` |
 
 
 #### Exemplo de `renderItem`:
@@ -91,54 +201,164 @@ const dataSection = [
 
 <!-- <FlatList /> envia `isActive` para seu component, podendo ser udado para realçar o elemento selecionado -->
 <div class:active="isActive">
-  <!-- Recebe `label` do `data` -->
+  <!-- Recebe `label` do `data`  -->
   {label}
 </div>
 
+<style>
+  .active {
+    background: #f00;
+  }
+</style>
 ```
 
 
+## Item de lista padrão
+
+O `FlatList` exporta um componente padrão para ser usado na propriedade `renderItem` dele:
+
+Exemplo:
+```html
+<FlatList
+  data={dataList}
+  renderItem={DefaultRow}
+  decorator={GetDefaultDecorator}
+/>
+
+<script>
+  import { DefaultRow, FlatList, GetDefaultDecorator } from '@mamba/flatlist/index.js';
+  export default {
+    components: {
+      FlatList,
+    },
+    helpers: {
+      DefaultRow,
+      GetDefaultDecorator,
+    },
+    data() {
+      return {
+        // Row items
+        dataList: [],
+      };
+    },
+  }
+</script>
+```
+
+### Decoradores
+
+Como decoradores define um objeto padrão que irá aplicar para todos os items da listagem sem a necessidade de colocar manualmente em cada objeto de sua lista, o FlatList exporta um decorador padrão, o  `GetDefaultDecorator`:
+
+
 ```js
+import { GetDefaultDecorator } from '@mamba/flatlist/index.js';
+```
+
+`GetDefaultDecorator` é um objeto pré-definido que ja entrega os padrões de layout para cada modelo de POS.
+- Se alguma lista tiver muitas variações do padrão, você pode definir seu prórpio `decorator`, ou se precisar alterar algum detalhe do padrão, use o `decoratorOverrides`.
+- `decoratorOverrides` pode ser usado para sobrescrever alguma propriedade padrão para todas as linhas, ou por modelo de POS específico, como por exemplo, tirar os prefixos:
+
+```html
+<FlatList
+  ...
+  decorator={GetDefaultDecorator}
+  decoratorOverrides={{
+    prefix: null
+  }}
+/>
+```
+Por modelo:
+```html
+<FlatList
+  ...
+  decorator={GetDefaultDecorator}
+  decoratorOverrides={{
+    S920: {
+      prefix: null
+    }
+  }}
+/>
+```
+
+### Estrutura do `DefaultRow`
+
+A estrutura do objeto que irá compor o array para o `DefaultRow` é diferente, tendo várias propriedades para customiza-lo:
+
+```ts
 {
-  onSelected: this.itemClickHandler,
-  wrapperStyle: {
-    border: '3px solid $green500',
-  },
+  // Action when selected with touch, keyboard action, or shortcut.
+  onSelected: (item) => {},
+
+  // The keyboard shortcut
+  shortcut: number | string,
+
+  // Row top level style
+  wrapperStyle: object,
+
+  // Row content container style (don't include and/start fixtures container)
+  contentStyle: object,
+
+  // If row should highlighted or not
+  highlightSelect: boolean,
+
+  // The highlight color
+  highlightColor: string,
+
+  // If the row should have minimal spaces
+  small: boolean,
+
+  // Useful to put anything before the label
   startFixture: {
-    value: () => '13x',
-    style: {
-      color: 'red',
-    },
-    contentStyle: {
-      backgroundColor: '#ddd',
-      borderRightWidth: '4px',
-      borderRightStyle: 'solid',
-      borderRightColor: '$gray1000',
-    },
+    value: () => Component | any,
+    props: object, // Component prop
+    style: object,
+    wrapperStyle: object,
+    contentStyle: object,
   },
+
+  // Row labels
   label: {
-    value: '3 - Parcelado com juros',
-    description: 'Comprador assume as taxas do parcelamento',
-    style: {
-      color: Colors.purple700,
-    },
+    value: string,
+    description: string,
+    style: object,
+
+    // Anything immediate before label.
+    prefix: (position) => {} | string,
+    prefixStyle: object,
   },
   rightLabel: {
-    value: '',
-    description: '',
-    style: {
-      color: Colors.orange700,
-    },
+    value: string,
+    description: string,
+    style: object,
+
+    // Anything immediate next to righLabel.
+    sufix: () => {} | string,
+    sufixStyle: object,
   },
+
+  // Useful to put anything after the label or rightLabel block
   endFixture: {
-    value: () => Icon,
-    props: { symbol: 'chevron-right' },
-    style: {
-      color: 'blue',
-    },
-    contentStyle: {
-      backgroundColor: '#fdd',
-    },
+    value: () => Component | any,
+    props: object, // Component prop
+    style: object,
+    wrapperStyle: object,
+    contentStyle: object,
+  },
+}
+```
+
+### Estilos
+
+O `DefaultRow` possúi propriedades de estilo para customizar suas partes como `style`, `wrapperStyle` e `contentStyle`. O valor delas é um objeto de [propriedades CSS em JavaScript](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Properties_Reference#common_css_properties_reference):
+
+```js
+{
+  label: {
+    value: 'Item',
+  },
+  style: {
+    fontSize: '14px',
+    borderBottomWidth: '2px',
   },
 }
 ```
