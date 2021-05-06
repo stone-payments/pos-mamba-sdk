@@ -71,6 +71,7 @@
         separator: null,
         selectedIndex: 0,
         className: '',
+        overrideEnterKeystroke: true,
         _hasElement: false,
         _elementsRefs: [],
       };
@@ -191,14 +192,20 @@
          *  13: 'enter'
          *
         */
-        const { _isKeystrokeActive } = this.get();
+        const { _isKeystrokeActive, overrideEnterKeystroke } = this.get();
         if(!_isKeystrokeActive) return;
 
         if(keyCode === 13) {
-          event.preventDefault();
-          event.stopPropagation();
+          if(overrideEnterKeystroke === true) {
+            event.preventDefault();
+            event.stopPropagation();
+            this.setSelected(undefined, true);
+            return;
+          }
+
           this.setSelected(undefined, true);
           return;
+
         }
 
         if(keyCode === 38 || keyCode === 40) {

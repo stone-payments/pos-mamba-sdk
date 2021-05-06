@@ -17,6 +17,8 @@ O componente `Flatlist` serve para renderizar listas simples e básicas com util
 | autoShortcuts | Define se os shortcuts serão gerados automaticamente com base nos índices (max. 0-9)| `boolean` | `false` |
 | decorator | Define um objeto padrão que irá para todos os items da listagem | `object` | `undefined` |
 | decoratorOverrides | Define um objeto que irá sobrescrever a propriedade `decorator`. | `object` | `undefined` |
+| overrideEnterKeystroke | Define se o FlatList sempre vai ter prioridade no evento de `enter` do teclado | `boolean` | `true` |
+
 
 ## Eventos
 
