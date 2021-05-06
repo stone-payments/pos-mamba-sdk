@@ -10,6 +10,7 @@ O componente `Flatlist` serve para renderizar listas simples e básicas com util
 | data         | Recebe um objeto com os itens que seram renderizados                  | `object`       | `null`       |
 | dataSection  | Recebe um objeto com os itens que seram renderizados em sessões       | `object`       | `null`       |
 | className    | Classe a ser adicionado ao elemento pai do componente	               | `string`       | ``          |
+| style        | Define os estilos para o container pai do FlatList, podendo ser uma `string` ou um objeto de [propriedades CSS em JavaScript](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Properties_Reference#common_css_properties_reference)	               | `string` | `object`      | ``          |
 | separator    | Define um separador para as seções. Caso seja omitido, sera renderizado o separador padrão | `Component`    | `null`   |
 | intersectSelectedEvents | Previne chamadas iguais de eventos: `itemSelected` ∩ `onSelected`           | `boolean`      | `false`     |
 | autoSelectOnTouch | Define se dispara a classe para realçar o item quando for selecionado por touch | `boolean` | `true` |
