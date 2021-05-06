@@ -44,14 +44,31 @@
     </div>
 
     <!-- Right wrapper -->
-    {#if rightLabel}
+    {#if rightLabel && typeof rightLabel === 'object'}
       <div class="mb-row-right">
 
         <!-- Right Label -->
         {#if rightLabel.value}
-          <div class="mb-label">
-            {rightLabel.value}
+          <div
+            class="mb-label"
+            style={rightLabel.style ? getStyles(rightLabel.style) : undefined}
+          >
+
+            <!-- Right Label -->
+            <span>
+              {rightLabel.value || ''}
+            </span>
+
+            <!-- Sufix decorator -->
+            {#if rightLabel.sufix}
+              <Decorator
+                value={rightLabel.sufix}
+                style={rightLabel.sufixStyle}
+              />
+            {/if}
+
           </div>
+
         {/if}
 
         <!-- Right Description -->

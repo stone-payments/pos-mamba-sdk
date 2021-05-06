@@ -2,8 +2,10 @@
   <span
     style={_decoratorStyle || undefined}
   >
-    {#if typeof _decorator === 'function'}
+    {#if typeof _decorator === 'function' && position}
       {_decorator(position)}
+    {:elseif typeof _decorator === 'function'}
+      {_decorator()}
     {:else}
       {_decorator || ''}
     {/if}
