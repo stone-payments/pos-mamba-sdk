@@ -120,6 +120,8 @@
     },
     methods: {
       setSelected(parentProps, isKeystroke = false) {
+        if(this.get()._isKeystrokeActive) return;
+
         const {
           _elementsRefs,
           selectedIndex,
@@ -187,8 +189,6 @@
         }
       },
       selectRowItems(event) {
-        if(this.get()._isKeystrokeActive) return;
-
         const { keyCode } = event;
         /**
          * KeyCode -> KeyName dictionary
