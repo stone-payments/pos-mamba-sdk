@@ -92,7 +92,7 @@ const GetDefaultDecorator = (rowProps, overrides = {}) => {
             SEPARATORS.MP35P,
           ),
         },
-        mainRowStyle: {
+        contentStyle: {
           alignItems: 'center',
           paddingRight: '15px',
         },

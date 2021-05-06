@@ -11,7 +11,7 @@
   {/if}
 
   <!-- Main wrapper -->
-  <div class="mb-row-main" style={getStyles(mainRowStyle)}>
+  <div class="mb-row-main" style={getStyles(contentStyle)}>
 
     <!-- Label wrapper -->
     <div class="mb-row-label">
@@ -20,7 +20,6 @@
       <div class="mb-label" style={_label.style ? getStyles(_label.style) : undefined}>
 
         <!-- Prefix decorator -->
-
         {#if _label.prefix}
           <Decorator
             position={position}
