@@ -1,12 +1,21 @@
-<h5>Default rows</h5>
+<h5>With Section</h5>
 <FlatList
-  data={dataList}
+  data={sectionList}
   renderItem={DefaultRow}
   on:itemActive="itemActive(event)"
   on:itemSelected="itemSelected(event)"
   autoShortcuts={true}
   decorator={GetDefaultDecorator}
 />
+
+<h5>With Custom row component</h5>
+<FlatList
+  dataSection={dataList}
+  renderItem={Line}
+  on:itemActive="itemActive(event)"
+  on:itemSelected="itemSelected(event)"
+/>
+
 
 <!-- To Override default decorator props, you can pass a `decoratorOverrides` object  -->
 <!--
@@ -33,13 +42,6 @@
 -->
 
 
-<h5>Custom</h5>
-<FlatList
-  dataSection={sectionList}
-  renderItem={Line}
-  on:itemActive="itemActive(event)"
-  on:itemSelected="itemSelected(event)"
-/>
 
 
 <script>
@@ -62,6 +64,11 @@ export default {
       dataList: [],
     };
   },
+  computed: {
+    _someComputedProp({ dataList }) {
+      return dataList[0];
+    },
+  },
   oncreate() {
     const sectionList = this.getSectionList();
     const dataList = this.getData();
@@ -77,14 +84,14 @@ export default {
       const data = [
         {
           label: {
-            value: 'Histórico de antecipações',
+            value: 'Row Label 1',
           },
         },
         {
-          onSelected: this.itemClickHandler,
+          onSelected: (itemData) => this.itemHandler(itemData),
           label: {
-            value: 'Parcelado com juros',
-            description: 'Comprador assume as taxas do parcelamento',
+            value: 'Row Label 2',
+            description: 'Row Description',
             style: {
               color: Colors.purple700,
             },
@@ -96,49 +103,58 @@ export default {
     getSectionList() {
       const section = [
         {
-          title: 'Items',
+          title: 'Rows',
           data: [
             {
               label: {
-                value: 'Item 1',
+                value: 'Row 1',
               },
               shortcut: 1,
               onSelected: (item) => {
                 /*
                 * In this case, this anonymous function can call this script methods
                 */
-                this.itemClickHandler(item);
+                const { _someComputedProp } = this.get();
+                console.log(_someComputedProp);
+
+                this.itemHandler(item);
               },
             },
             {
               label: {
-                value: 'Item 2',
+                value: 'Row 2',
               },
               shortcut: 2,
               /*
               * Executing a method on `onSelect`, will call the desired
               * function when the list is mounted, making it possible to return a dynamic function.
               */
-              onSelected: this.itemClickHandler(),
+              onSelected: this.getClickHandler(),
             },
             {
               label: {
-                value: 'Item 3',
+                value: 'Row 3',
               },
               shortcut: 3,
               /*
               * Just referencing a function, The `this` will be of this script, but the `this` inside function scope, will be this object reference.
               * To refer methods of this script inside the function reference, use bind:
-              * Eg.: this.itemClickHandler.bind(this)
+              * Eg.: this.itemHandler.bind(this)
               *
-              * itemClickHandler() {
+              * itemHandler() {
               *   // Without bind
-              *   console.log(this) // { label: 'Disk 3', shortcut: 3, itemClickHandler: function... }
+              *   console.log(this) // { label: 'Row 3', shortcut: 3, itemHandler: function... }
               *   // With bind
               *   this.anotherMethod();
               * }
               */
-              onSelected: this.itemClickHandler.bind(this),
+              onSelected: this.itemHandler.bind(this),
+            },
+            false && { // Conditional row
+              label: {
+                value: 'Row 4',
+              },
+              shortcut: 4,
             },
           ],
         },
@@ -156,14 +172,23 @@ export default {
                 value: 'Device 2',
               },
               shortcut: 2,
-              onSelected: () => this.itemClickHandler(),
+              onSelected: (item) => this.itemHandler(item),
             },
           ],
         },
       ];
       return section;
     },
-    itemClickHandler({ index, sectionIndex, position, data } = {}) {
+    getClickHandler() {
+      if(__DEV__) return (item) => {
+        console.log('Condition function', item);
+      };
+
+      return (item) => {
+        console.log('Default function', item);
+      };
+    },
+    itemHandler({ index, sectionIndex, position, data } = {}) {
       console.log(`Row ${sectionIndex}-${index},`, `position: ${position}`, data);
     },
     itemSelected({ index, sectionIndex, position, data }) {
