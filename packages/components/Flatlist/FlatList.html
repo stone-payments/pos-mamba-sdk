@@ -35,14 +35,8 @@
       {/if}
     {/each}
   </div>
-
-  <Keystroke
-    key="enter"
-    active="_isKeystrokeActive"
-    on:keystroke="setSelected(undefined, true)"
-  />
-
 {/if}
+
 
 <script>
   import { selectRowItem, toggleActive, getStyles } from './helpers.js';
@@ -58,7 +52,6 @@
   export default {
     components: {
       Parent: './components/parent.html',
-      Keystroke: '@mamba/app/Keystroke.html',
     },
     helpers: {
       _setDecorator(decorator, item, decoratorOptions) {
@@ -85,9 +78,9 @@
     computed: {
       _isKeystrokeActive({ _hasElement }) {
         if(_flatListElement && _hasElement) {
-          return _flatListElement.offsetParent === null;
+          return _flatListElement.offsetParent !== null;
         }
-        return false;
+        return true;
       },
       _styles({ style }) {
         if(typeof style === 'string') return style;
@@ -120,7 +113,7 @@
     },
     methods: {
       setSelected(parentProps, isKeystroke = false) {
-        if(this.get()._isKeystrokeActive) return;
+        if(!this.get()._isKeystrokeActive) return;
 
         const {
           _elementsRefs,
@@ -195,8 +188,19 @@
          *
          *  38: 'keyup'
          *  40: 'keydown'
+         *  13: 'enter'
          *
         */
+        const { _isKeystrokeActive } = this.get();
+        if(!_isKeystrokeActive) return;
+
+        if(keyCode === 13) {
+          event.preventDefault();
+          event.stopPropagation();
+          this.setSelected(undefined, true);
+          return;
+        }
+
         if(keyCode === 38 || keyCode === 40) {
           const { scrollY, selectedIndex, _elementsRefs } = this.get();
 
