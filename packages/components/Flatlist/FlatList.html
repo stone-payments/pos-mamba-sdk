@@ -80,7 +80,7 @@
     },
     computed: {
       _isKeystrokeActive({ _hasElement, disabled }) {
-        if(disabled === true) return disabled;
+        if(disabled === true) return !disabled;
         if(_flatListElement && _hasElement) {
           return _flatListElement.offsetParent !== null;
         }
