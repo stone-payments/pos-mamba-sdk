@@ -27,8 +27,8 @@ O componente `Flatlist` serve para renderizar listas simples e básicas com util
 
 | Eventos       | Disparado quando ...                                                              | Tipo              |
 | ------------- | --------------------------------------------------------------------------------- | ----------------- |
-| itemActive    | Recebe os propriedades do item que esta ativo/selecionado                     | `function(event)` |
-| itemSelected  | Recebe os propriedades do item que foi selecionado por click ou teclado     | `function(event)` |
+| active    | Recebe os propriedades do item que esta ativo/selecionado                     | `function(event)` |
+| selected  | Recebe os propriedades do item que foi selecionado por click ou teclado     | `function(event)` |
 
 
 ## Passando Data:
