@@ -289,6 +289,32 @@ Por modelo:
 A estrutura do objeto que irá compor o array para o `DefaultRow` é diferente, tendo várias propriedades para customiza-lo:
 
 ```ts
+type Alignment = 'start' | 'center' | 'end';
+
+interface Fixture {
+  // Fixture value
+  value?: () => Component | any,
+
+  /* If Value is component, set its props like:
+  * props: {
+  *   checked: true,
+  * },
+  */
+  props?: object,
+
+  /* If Value is component, set its events like:
+  * on: {
+  *   change: () => console.log('change'),
+  * },
+  */
+  on?: object,
+
+  // Styles
+  style?: object,
+  wrapperStyle?: object,
+  contentStyle?: object,
+}
+
 {
   // Action when selected with touch, keyboard action, or shortcut.
   onSelected: (item) => {},
@@ -312,16 +338,10 @@ A estrutura do objeto que irá compor o array para o `DefaultRow` é diferente, 
   small: boolean,
 
   // Vertical items align
-  align: 'start' | 'center' | 'end',
+  align: Alignment,
 
   // Useful to put anything before the label
-  startFixture: {
-    value: () => Component | any,
-    props: object, // Component prop
-    style: object,
-    wrapperStyle: object,
-    contentStyle: object,
-  },
+  startFixture: Fixture,
 
   // Row labels
   label: {
@@ -344,13 +364,7 @@ A estrutura do objeto que irá compor o array para o `DefaultRow` é diferente, 
   },
 
   // Useful to put anything after the label or rightLabel block
-  endFixture: {
-    value: () => Component | any,
-    props: object, // Component prop
-    style: object,
-    wrapperStyle: object,
-    contentStyle: object,
-  },
+  endFixture: Fixture,
 }
 ```
 

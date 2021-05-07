@@ -87,8 +87,40 @@ export const selectRowItem = (
   return index;
 };
 
-// Post processing
+export function setComponentEvents(component, eventsObjs) {
+  if (eventsObjs && component) {
+    const events = Object.getOwnPropertyNames(eventsObjs);
+    events.forEach(evt => {
+      try {
+        if (component.proxyTarget && component.proxyTarget._handlers) {
+          if (component.proxyTarget._handlers[evt]) return;
+        }
+      } finally {
+        /**/
+      }
+      component.on(evt, eventsObjs[evt]);
+    });
+  }
+}
 
+export function persistComponentRef(cb = () => {}) {
+  try {
+    const { component } = this;
+    if (!component) {
+      setTimeout(() => {
+        persistComponentRef();
+      }, 10);
+      return;
+    }
+    cb(component);
+  } catch (e) {
+    if (__DEV__) {
+      (LOG_ERROR || console.log)(e);
+    }
+  }
+}
+
+// Post processing
 const isFunc = f => typeof f === 'function';
 const repChar = char => `-${char.toLowerCase()}`;
 
@@ -102,13 +134,13 @@ const repColor = value => {
 export const shouldReturnComponent = obj => {
   if (!obj) return undefined;
 
-  const { value: objValue, props = {} } = obj || {};
+  const { value: objValue, props = {}, on = {} } = obj || {};
 
   if (isFunc(objValue)) {
     const value = objValue();
 
     if (isFunc(value)) {
-      return { hasComponent: true, value, props };
+      return { hasComponent: true, value, props, on };
     }
 
     return { hasComponent: false, value };

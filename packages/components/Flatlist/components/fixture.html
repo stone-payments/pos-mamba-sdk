@@ -3,6 +3,7 @@
     <div style={getStyles(fixture.contentStyle)}>
       {#if _fixture.hasComponent}
         <svelte:component
+          ref:component
           this="{_fixture.value}"
           {..._fixture.props}
           style={_fixtureStyle}
@@ -17,7 +18,12 @@
 {/if}
 
 <script>
-  import { shouldReturnComponent, getStyles } from '../helpers.js';
+  import {
+    shouldReturnComponent,
+    getStyles,
+    setComponentEvents,
+    persistComponentRef,
+  } from '../helpers.js';
 
   export default {
     helpers: {
@@ -30,6 +36,16 @@
       _fixtureStyle({ fixture = {} }) {
         return getStyles(fixture.style);
       },
+    },
+    onupdate({ changed, current }) {
+      if(changed._fixture) {
+        const { _fixture } = current;
+        if(_fixture.hasComponent) {
+          persistComponentRef.call(this.refs, (component) => {
+            setComponentEvents(component, _fixture.on);
+          });
+        };
+      }
     },
   };
 </script>
