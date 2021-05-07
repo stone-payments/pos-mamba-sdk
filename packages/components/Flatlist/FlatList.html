@@ -48,6 +48,7 @@
   };
 
   let _flatListElement;
+  const LOG = typeof LOG_INFO === 'function' ? LOG_INFO : console.log;
 
   export default {
     components: {
@@ -72,12 +73,14 @@
         selectedIndex: 0,
         className: '',
         overrideEnterKeystroke: true,
+        disabled: false,
         _hasElement: false,
         _elementsRefs: [],
       };
     },
     computed: {
-      _isKeystrokeActive({ _hasElement }) {
+      _isKeystrokeActive({ _hasElement, disabled }) {
+        if(disabled === true) return disabled;
         if(_flatListElement && _hasElement) {
           return _flatListElement.offsetParent !== null;
         }
@@ -114,6 +117,7 @@
     },
     methods: {
       setSelected(parentProps, isKeystroke = false) {
+        LOG('setSelected', {parentProps, isKeystroke});
         if(!this.get()._isKeystrokeActive) return;
 
         const {
@@ -173,7 +177,7 @@
         element.set({ position });
 
         if(__DEV__ || __DEBUG_LVL__ >= 2) {
-          console.log(_elementsRefs);
+          LOG(_elementsRefs);
         }
 
         if(index === 0) {
@@ -184,6 +188,8 @@
       },
       selectRowItems(event) {
         const { keyCode } = event;
+        LOG('selectRowItems', event);
+
         /**
          * KeyCode -> KeyName dictionary
          *
