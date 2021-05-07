@@ -67,8 +67,8 @@
         autoShortcuts: false,
         renderItem: null,
         renderTitle: null,
-        dataSection: null,
-        data: [],
+        dataSection: undefined,
+        data: undefined,
         separator: null,
         selectedIndex: 0,
         className: '',
@@ -95,24 +95,36 @@
       },
     },
     onupdate({changed, current}) {
+      if(changed.data || changed.dataSection) {
+        const { data, dataSection } = current;
+        const isDataArray = Array.isArray(data);
+        const isSectionArray = Array.isArray(dataSection);
 
-      if(changed.data && current.data && current.data.length > 0) {
+        if(!isDataArray && !isSectionArray) return;
+        setTimeout(() => {
+          const { flatListRef } = this.refs;
+          _flatListElement = flatListRef;
+          this.set({ _hasElement: typeof flatListRef !== 'undefined' });
+        }, 10);
 
-        if(current.data && !current.dataSection) {
-          setTimeout(() => {
-            const { flatListRef } = this.refs;
-            _flatListElement = flatListRef;
-            this.set({ _hasElement: typeof flatListRef !== 'undefined' });
-          }, 10);
+        this.set({ _elementsRefs: [] });
+
+        if(isDataArray && data.length > 0) {
+          // If passed section in data try resolve
+          const dataIsSection = data.some(i => i.data && Array.isArray(i.data));
           this.set({
-            _elementsRefs: [],
-            dataSection: [{
+            dataSection: dataIsSection ? data : [{
               title: null,
-              data: current.data,
+              data,
             }],
           });
-        }
 
+        } else if(isSectionArray && dataSection.length > 0) {
+          const hasSomeDataList = dataSection.some(i => Array.isArray(i));
+          this.set({
+            dataSection: hasSomeDataList ? dataSection : [{data: dataSection}],
+          });
+        }
       }
     },
     methods: {
