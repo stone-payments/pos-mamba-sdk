@@ -130,7 +130,6 @@
     methods: {
       setSelected(parentProps, isKeystroke = false) {
         LOG('setSelected', {parentProps, isKeystroke});
-        if(!this.get()._isKeystrokeActive) return;
 
         const {
           _elementsRefs,
@@ -142,6 +141,7 @@
         let eventData = parentProps;
 
         if(!eventData) {
+          if(!this.get()._isKeystrokeActive) return;
           const {
             sectionIndex,
             element,
