@@ -1,5 +1,5 @@
 <FlatList
-  data={sectionList}
+  dataSection={sectionList}
   renderItem={DefaultRow}
   on:itemActive="itemActive(event)"
   on:itemSelected="itemSelected(event)"
@@ -9,7 +9,7 @@
 
 <h5 style="padding: 12px;">With Custom row component</h5>
 <FlatList
-  dataSection={dataList}
+  data={dataList}
   renderItem={Line}
   on:itemActive="itemActive(event)"
   on:itemSelected="itemSelected(event)"

@@ -109,20 +109,21 @@
 
         this.set({ _elementsRefs: [] });
 
+        // If passed section in data try resolve
+        const dataIsSection = (d) =>
+          d.some(i => i.data && Array.isArray(i.data));
+
         if(isDataArray && data.length > 0) {
-          // If passed section in data try resolve
-          const dataIsSection = data.some(i => i.data && Array.isArray(i.data));
           this.set({
-            dataSection: dataIsSection ? data : [{
+            dataSection: dataIsSection(data) ? data : [{
               title: null,
               data,
             }],
           });
 
         } else if(isSectionArray && dataSection.length > 0) {
-          const hasSomeDataList = dataSection.some(i => Array.isArray(i));
           this.set({
-            dataSection: hasSomeDataList ? dataSection : [{data: dataSection}],
+            dataSection,
           });
         }
       }
@@ -231,6 +232,10 @@
         }
 
         if(keyCode === 38 || keyCode === 40) {
+          if(event) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+          }
           const { scrollY, selectedIndex, _elementsRefs } = this.get();
 
           const keyAction = keyCode === 38 ? KEY_ACTION.UP : KEY_ACTION.DOWN;
@@ -242,12 +247,14 @@
             keyAction,
           );
 
+          const target = _elementsRefs[internalIndex];
+
           const {
             sectionIndex,
             element,
             index,
             position,
-          } = _elementsRefs[internalIndex];
+          } = target || {};
 
           const { data }  = element.options.data;
 
