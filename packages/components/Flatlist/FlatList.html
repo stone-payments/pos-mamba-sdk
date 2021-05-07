@@ -1,4 +1,4 @@
-<svelte:window on:keyup="selectRowItems(event)" bind:scrollY="scrollY" />
+<svelte:window on:keypress="selectRowItems(event)" bind:scrollY="scrollY" />
 
 {#if dataSection && dataSection.length > 0}
   <div class="flatlist {className}" style={_styles} ref:flatListRef >
@@ -214,7 +214,11 @@
         if(!_isKeystrokeActive) return;
 
         if(keyCode === 13) {
-          if(overrideEnterKeystroke === true) {
+          const el = document.activeElement;
+          const isInputOnFocus =
+            el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA');
+
+          if(overrideEnterKeystroke === true && !isInputOnFocus) {
             event.preventDefault();
             event.stopPropagation();
             this.setSelected(undefined, true);
