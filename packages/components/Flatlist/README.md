@@ -315,7 +315,7 @@ interface Fixture {
   contentStyle?: object,
 }
 
-{
+interface DefaultRowProps = {
   // Action when selected with touch, keyboard action, or shortcut.
   onSelected: (item) => {},
 
