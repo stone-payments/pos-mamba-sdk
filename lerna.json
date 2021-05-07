@@ -23,6 +23,7 @@
     "packages/pos",
     "packages/styles",
     "packages/utils",
-    "packages/webpack"
+    "packages/webpack",
+    "packages/logger"
   ]
 }
