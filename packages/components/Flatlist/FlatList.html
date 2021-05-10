@@ -1,4 +1,4 @@
-<svelte:window on:keypress="selectRowItems(event)" bind:scrollY="scrollY" />
+<svelte:window on:keyup="selectRowItems(event)" bind:scrollY="scrollY" />
 
 {#if dataSection && dataSection.length > 0}
   <div class="flatlist {className}" style={_styles} ref:flatListRef >
