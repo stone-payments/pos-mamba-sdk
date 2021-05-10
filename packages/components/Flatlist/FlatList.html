@@ -113,7 +113,7 @@
         const dataIsSection = (d) =>
           d.some(i => i.data && Array.isArray(i.data));
 
-        if(isDataArray && data.length > 0) {
+        if(isDataArray && data.length > 0 && typeof(isSectionArray) === undefined) {
           this.set({
             dataSection: dataIsSection(data) ? data : [{
               title: null,
@@ -121,10 +121,6 @@
             }],
           });
 
-        } else if(isSectionArray && dataSection.length > 0) {
-          this.set({
-            dataSection,
-          });
         }
       }
     },
