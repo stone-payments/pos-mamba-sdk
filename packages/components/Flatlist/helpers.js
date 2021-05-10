@@ -1,5 +1,5 @@
 import * as Colors from '@mamba/styles/colors.js';
-import KEY_ACTION from './const.js';
+import { KEY_ACTION } from './const.js';
 
 let lastActive;
 

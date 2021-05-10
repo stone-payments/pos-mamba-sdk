@@ -37,10 +37,10 @@
   </div>
 {/if}
 
-
 <script>
   import { selectRowItem, toggleActive, getStyles } from './helpers.js';
-  import KEY_ACTION from './const.js';
+  import { ACTIVE_MODEL } from './decorators.js';
+  import { KEY_ACTION, ARROW_CAPABILITIES_MODELS } from './const.js';
 
   const EVENTS = {
     ITEM_SELECTED: 'itemSelected',
@@ -73,6 +73,7 @@
         selectedIndex: 0,
         className: '',
         overrideEnterKeystroke: true,
+        // eslint-disable-next-line max-len
         disableEnterKeystroke: false,
         disabled: false,
         _hasElement: false,
@@ -108,7 +109,14 @@
           this.set({ _hasElement: typeof flatListRef !== 'undefined' });
         }, 10);
 
-        this.set({ _elementsRefs: [] });
+
+        const hasArrowCapabilities =
+          ARROW_CAPABILITIES_MODELS.indexOf(ACTIVE_MODEL) === -1;
+
+        this.set({
+          _elementsRefs: [],
+          disableEnterKeystroke: hasArrowCapabilities,
+        });
 
         // If passed section in data try resolve
         const dataIsSection = (d) =>
@@ -229,7 +237,6 @@
 
           this.setSelected(undefined, true);
           return;
-
         }
 
         if(keyCode === 38 || keyCode === 40) {

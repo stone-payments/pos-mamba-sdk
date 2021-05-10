@@ -61,6 +61,7 @@ const SetDefaultRowDecorator = (defaultProps, overrides = {}) => {
       ...getPrefixOverride(overrides),
     },
     ...overrides,
+    highlightSelect: false,
   };
   return DefaultRowDecorator;
 };
@@ -77,7 +78,6 @@ const GetDefaultDecorator = (rowProps, overrides = {}) => {
     {
       [MODELS.MP35P]: {
         small: true,
-        highlightSelect: true,
         label: {
           ...labelData,
           style: {
@@ -99,6 +99,7 @@ const GetDefaultDecorator = (rowProps, overrides = {}) => {
           paddingRight: '15px',
         },
         ...currentOverride,
+        highlightSelect: true,
       },
     }[ACTIVE_MODEL] || SetDefaultRowDecorator(defaultProps, currentOverride)
   );

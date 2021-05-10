@@ -1,10 +1,9 @@
 <div
   class="mb-default-row{_className}{_classAlign}"
-  class:mb-active="highlightSelect && isActive"
+  class:mb-active="highlightSelect === true && isActive"
   class:mb-small="small"
   style={[_wrapperStyle, _stateStyle].join('')}
 >
-
   <!-- Start fixture -->
   {#if startFixture}
     <Fixture fixture={startFixture} className="{_classAlign}"/>
