@@ -113,7 +113,7 @@
         const dataIsSection = (d) =>
           d.some(i => i.data && Array.isArray(i.data));
 
-        if(isDataArray && data.length > 0 && typeof(isSectionArray) === undefined) {
+        if(isDataArray && data.length > 0 && !dataSection) {
           this.set({
             dataSection: dataIsSection(data) ? data : [{
               title: null,
