@@ -18,6 +18,7 @@ O componente `Flatlist` serve para renderizar listas simples e básicas com util
 | decorator | Define um objeto padrão que irá para todos os items da listagem | `object` | `undefined` |
 | decoratorOverrides | Define um objeto que irá sobrescrever a propriedade `decorator`. | `object` | `undefined` |
 | overrideEnterKeystroke | Define se o FlatList sempre vai ter prioridade no evento de `enter` do teclado | `boolean` | `true` |
+| disableEnterKeystroke | Define se o FlatList deve habilitar ou desabilitar o evento de `enter` | `boolean` | `false` |
 | disabled | Permite desabilitar os eventos da FlatList e das Rows | `boolean` | `false` |
 
 
