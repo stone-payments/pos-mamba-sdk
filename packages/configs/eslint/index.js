@@ -35,6 +35,10 @@ module.exports = {
     __DEBUG_LVL__: true,
     __SIMULATOR__: true,
     __APP_MANIFEST__: true,
+    LOG_INFO: true,
+    LOG_ERROR: true,
+    LOG_WARN: true,
+    LOG: true,
   }),
   rules: {
     'import/no-cycle': 'off',
@@ -44,12 +48,7 @@ module.exports = {
 
     /** Disallow 'console.log' on production */
     'no-console': IS_PROD
-      ? [
-          'warn',
-          {
-            allow: ['info', 'warn', 'error'],
-          },
-        ]
+      ? ['warn', { allow: ['info', 'warn', 'error'] }]
       : 'off',
 
     /** Allow implicit return */

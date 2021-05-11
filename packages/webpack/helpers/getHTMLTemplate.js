@@ -4,13 +4,13 @@ const { minify: htmlMinifier } = require('html-minifier');
 
 const { generateCSSReferences, generateJSReferences } = MiniHtmlWebpackPlugin;
 
-const { IS_BROWSER, IS_DEV, WEINRE_IP } = require('./consts.js');
+const { IS_BROWSER, WEINRE_IP } = require('./consts.js');
 
 module.exports = ({ css, js, title, publicPath }) => {
   console.log('WEINRE_IP: ', WEINRE_IP);
   let weinre = false;
   if (WEINRE_IP) {
-    const ip = String(WEINRE_IP).trim();
+    // const ip = String(WEINRE_IP).trim();
     const ipRegEx = /\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}\b/gm;
     const isValidIp = ipRegEx.test(WEINRE_IP);
     if (!isValidIp) {

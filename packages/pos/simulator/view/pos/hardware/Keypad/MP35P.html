@@ -1,11 +1,11 @@
 <div class="keypad">
   <!-- Column One -->
   <div class="column">
-    <button class="shortcuts" on:mousedown="dispatchKey({ event, keyName: 'shortcuts'})">shortcuts</button>
+    <button class="help" on:mousedown="dispatchKey({ event, keyName: 'help'})">help</button>
     <button class="key-1" on:mousedown="dispatchKey({ event, keyName: '1'})">1</button>
     <button class="key-4" on:mousedown="dispatchKey({ event, keyName: '4'})">4</button>
     <button class="key-7" on:mousedown="dispatchKey({ event, keyName: '7'})">7</button>
-    <button class="key-up">&#x2303;</button>
+    <button class="key-up" on:mousedown="dispatchKey({ event, keyName: 'keyup'})">&#x2303;</button>
   </div>
 
   <!-- Column Thow -->
@@ -19,11 +19,11 @@
 
   <!-- Column Three -->
   <div class="column">
-    <button class="help" on:mousedown="dispatchKey({ event, keyName: 'help'})">help</button>
+    <button class="shortcuts" on:mousedown="dispatchKey({ event, keyName: 'shortcuts'})">shortcuts</button>
     <button class="key-3" on:mousedown="dispatchKey({ event, keyName: '3'})">3</button>
     <button class="key-6" on:mousedown="dispatchKey({ event, keyName: '6'})">6</button>
     <button class="key-9" on:mousedown="dispatchKey({ event, keyName: '9'})">9</button>
-    <button class="key-down">&#x2304;</button>
+    <button class="key-down" on:mousedown="dispatchKey({ event, keyName: 'keydown'})">&#x2304;</button>
 
   </div>
 

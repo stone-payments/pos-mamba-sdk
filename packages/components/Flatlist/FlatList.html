@@ -1,0 +1,301 @@
+<svelte:window on:keydown="selectRowItems(event)" bind:scrollY="scrollY" />
+
+{#if dataSection && dataSection.length > 0}
+  <div class="flatlist {className}" style={_styles} ref:flatListRef >
+    {#each dataSection.filter(Boolean) as section, sectionIndex}
+      {#if section.data}
+        {#if section.title}
+          {#if renderTitle}
+            <svelte:component this="{renderTitle}" title={section.title}/>
+            {:else}
+              <div class="row row-title">
+                <div class="title">{section.title}</div>
+              </div>
+          {/if}
+        {/if}
+
+        {#each section.data.filter(Boolean) as item, index}
+          <Parent
+            on:create="register(this, index, sectionIndex)"
+            data={item}
+            key={index}
+            sectionIndex={sectionIndex}
+            renderItem={renderItem}
+            useAutoShortcuts={useAutoShortcuts}
+            decorator={_setDecorator(decorator, item, decoratorOverrides)}
+            on:_click="setSelected(event)"
+          />
+        {/each}
+
+        {#if separator}
+          <svelte:component this="{separator}"/>
+        {:else}
+          <div class="separator"></div>
+        {/if}
+      {/if}
+    {/each}
+  </div>
+{/if}
+
+<script>
+  import { selectRowItem, toggleActive, getStyles } from './helpers.js';
+  import { ACTIVE_MODEL } from './decorators.js';
+  import { KEY_ACTION, ARROW_CAPABILITIES_MODELS } from './const.js';
+
+  const EVENTS = {
+    ITEM_SELECTED: 'itemSelected',
+    ITEM_ACTIVE: 'itemActive',
+  };
+
+  let _flatListElement;
+  const LOG = typeof LOG_INFO === 'function' ? LOG_INFO : console.log;
+
+  export default {
+    components: {
+      Parent: './components/parent.html',
+    },
+    helpers: {
+      _setDecorator(decorator, item, decoratorOptions) {
+        const isFunc = typeof decorator === 'function';
+        return isFunc ? decorator(item, decoratorOptions) : decorator;
+      },
+    },
+    data() {
+      return {
+        intersectSelectedEvents: false,
+        autoSelectOnTouch: true,
+        autoShortcuts: false,
+        renderItem: null,
+        renderTitle: null,
+        dataSection: undefined,
+        data: undefined,
+        separator: null,
+        selectedIndex: 0,
+        className: '',
+        overrideEnterKeystroke: true,
+        // eslint-disable-next-line max-len
+        disableEnterKeystroke: false,
+        disabled: false,
+        _hasElement: false,
+        _elementsRefs: [],
+      };
+    },
+    computed: {
+      _isKeystrokeActive({ _hasElement, disabled }) {
+        if(disabled === true) return !disabled;
+        if(_flatListElement && _hasElement) {
+          return _flatListElement.offsetParent !== null;
+        }
+        return true;
+      },
+      _styles({ style }) {
+        if(typeof style === 'string') return style;
+        return getStyles(style);
+      },
+      useAutoShortcuts({ dataSection, autoShortcuts }) {
+        return autoShortcuts === true && dataSection && dataSection.length === 1;
+      },
+    },
+    onupdate({changed, current}) {
+      if(changed.data || changed.dataSection) {
+        const { data, dataSection } = current;
+        const isDataArray = Array.isArray(data);
+        const isSectionArray = Array.isArray(dataSection);
+
+        if(!isDataArray && !isSectionArray) return;
+        setTimeout(() => {
+          const { flatListRef } = this.refs;
+          _flatListElement = flatListRef;
+          this.set({ _hasElement: typeof flatListRef !== 'undefined' });
+        }, 10);
+
+
+        const hasArrowCapabilities =
+          ARROW_CAPABILITIES_MODELS.indexOf(ACTIVE_MODEL) === -1;
+
+        this.set({
+          _elementsRefs: [],
+          disableEnterKeystroke: hasArrowCapabilities,
+        });
+
+        // If passed section in data try resolve
+        const dataIsSection = (d) =>
+          d.some(i => i.data && Array.isArray(i.data));
+
+        if(isDataArray && data.length > 0 && !dataSection) {
+          this.set({
+            dataSection: dataIsSection(data) ? data : [{
+              title: null,
+              data,
+            }],
+          });
+
+        }
+      }
+    },
+    methods: {
+      setSelected(parentProps, isKeystroke = false) {
+        LOG('setSelected', {parentProps, isKeystroke});
+
+        const {
+          _elementsRefs,
+          selectedIndex,
+          autoSelectOnTouch,
+          intersectSelectedEvents: intersect,
+        } = this.get();
+
+        let eventData = parentProps;
+
+        if(!eventData) {
+          if(!this.get()._isKeystrokeActive) return;
+          const {
+            sectionIndex,
+            element,
+            index,
+            position,
+          } = _elementsRefs[selectedIndex];
+
+          eventData = {
+            data: element.options.data.data,
+            index,
+            position,
+            sectionIndex,
+          };
+        }
+
+        const { data, position } = eventData;
+        const internalIndex = position - 1;
+
+        this.set({ selectedIndex: internalIndex });
+
+        if(autoSelectOnTouch && !(isKeystroke === true)) {
+          toggleActive(_elementsRefs, internalIndex);
+        }
+
+        if(!intersect) this.fire(EVENTS.ITEM_SELECTED, eventData);
+
+        if('onSelected' in data && typeof data.onSelected === 'function') {
+          return data.onSelected(eventData);
+        }
+
+        if(intersect) this.fire(EVENTS.ITEM_SELECTED, eventData);
+      },
+      register(element, index, sectionIndex) {
+        const { _elementsRefs } = this.get();
+
+        const position = _elementsRefs.length + 1;
+
+        _elementsRefs.push({
+          sectionIndex,
+          element,
+          index,
+          position,
+        });
+
+        element.set({ position });
+
+        if(__DEV__ || __DEBUG_LVL__ >= 2) {
+          LOG(_elementsRefs);
+        }
+
+        if(index === 0) {
+          setTimeout(() => {
+            selectRowItem(_elementsRefs, null);
+          });
+        }
+      },
+      selectRowItems(event) {
+        const { keyCode } = event;
+        LOG('selectRowItems', event);
+
+        /**
+         * KeyCode -> KeyName dictionary
+         *
+         *  38: 'keyup'
+         *  40: 'keydown'
+         *  13: 'enter'
+         *
+        */
+        const {
+          _isKeystrokeActive,
+          overrideEnterKeystroke,
+          disableEnterKeystroke,
+        } = this.get();
+        if(!_isKeystrokeActive) return;
+
+        if(keyCode === 13 && disableEnterKeystroke === false) {
+          const el = document.activeElement;
+          const isInputOnFocus =
+            el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA');
+
+          if(overrideEnterKeystroke === true && !isInputOnFocus) {
+            event.preventDefault();
+            event.stopPropagation();
+            this.setSelected(undefined, true);
+            return;
+          }
+
+          this.setSelected(undefined, true);
+          return;
+        }
+
+        if(keyCode === 38 || keyCode === 40) {
+          if(event) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+          }
+          const { scrollY, selectedIndex, _elementsRefs } = this.get();
+
+          const keyAction = keyCode === 38 ? KEY_ACTION.UP : KEY_ACTION.DOWN;
+
+          const internalIndex = selectRowItem(
+            _elementsRefs,
+            selectedIndex,
+            scrollY,
+            keyAction,
+          );
+
+          const target = _elementsRefs[internalIndex];
+
+          const {
+            sectionIndex,
+            element,
+            index,
+            position,
+          } = target || {};
+
+          const { data }  = element.options.data;
+
+          this.fire(EVENTS.ITEM_ACTIVE, { index, sectionIndex, position, data });
+
+          this.set({ selectedIndex: internalIndex });
+        }
+      },
+    },
+  };
+</script>
+
+<style>
+  .row {
+    display: block;
+    padding: 10px 20px;
+    margin: 0;
+    line-height: 1.5rem;
+    background: #fff;
+    border-bottom: 1px solid #f4f4f4;
+    color: #494949;
+
+    &-title {
+      border-bottom: 1px solid $neutral100;
+    }
+
+    .title {
+      color: $green500;
+      font-size: 1.2rem;
+    }
+  }
+
+  .separator {
+    margin-bottom: 15px;
+  }
+</style>

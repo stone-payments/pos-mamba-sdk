@@ -1,0 +1,8 @@
+const KEY_ACTION = {
+  UP: 'up',
+  DOWN: 'down',
+};
+
+const ARROW_CAPABILITIES_MODELS = ['MP35P', 'GERTEC - MP35P'];
+
+export { KEY_ACTION, ARROW_CAPABILITIES_MODELS };
