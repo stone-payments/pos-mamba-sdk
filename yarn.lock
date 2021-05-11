@@ -1894,20 +1894,27 @@
     npmlog "^4.1.2"
     write-file-atomic "^2.3.0"
 
-"@mamba/app@^3.3.1", "@mamba/app@file:packages/components/App":
-  version "3.3.1"
+"@mamba/app@^3.5.1":
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/@mamba/app/-/app-3.5.0.tgz#6e45a03d4cd545561953e684770e1c6954abfb1c"
+  integrity sha512-NQJTOBkuFFsVUZoAupxRvHZ44TEUxI6nnKaqgqOha4rb4wVlhUkGCm7Yd78Utj4lNHJtShB3E2BoWVbrm/wNVw==
   dependencies:
-    "@mamba/utils" "^3.3.1"
+    "@mamba/utils" "^3.5.0"
 
-"@mamba/button@^3.4.0":
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/@mamba/button/-/button-3.4.0.tgz#2d4cef51af9d327a6b35c192e92ac9086b217f61"
-  integrity sha512-eX2lEyPY67UY3+A0C6K1WNNn7Cf4pH15avW+s0FjFX2rR9nJpqP4CZinQvk7NSVcJiHxTp7zfuzjgCJSq3FzCw==
+"@mamba/app@file:packages/components/App":
+  version "3.5.1"
   dependencies:
-    "@mamba/styles" "^3.4.0"
+    "@mamba/utils" "^3.5.1"
+
+"@mamba/button@^3.5.1":
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/@mamba/button/-/button-3.5.0.tgz#077b0a7b83948156dc1fc369e833b3afa892217e"
+  integrity sha512-rhtfaHYpoWad7Gi6c2Dmnqs/xK6+tTogtg+BxTFzcqmr3HtrDlJ6yqhxSeMpFxPHfKky0ILtJ4upfOGdbC8mXQ==
+  dependencies:
+    "@mamba/styles" "^3.5.0"
 
 "@mamba/configs@file:packages/configs":
-  version "3.3.0"
+  version "3.5.1"
   dependencies:
     "@babel/plugin-syntax-dynamic-import" "^7.2.0"
     "@babel/plugin-transform-runtime" "^7.2.0"
@@ -1941,63 +1948,63 @@
     stylelint-config-standard "^18.2.0"
     webpack-merge "^4.2.1"
 
-"@mamba/dialog@^3.3.0":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@mamba/dialog/-/dialog-3.3.0.tgz#b3028e1886df27ba9d985dd9bc6b277f755a8aca"
-  integrity sha512-cmh4CJsogxEN0ENmUwdBlT7UtaGjBN4eIVKak1ozkudvqEOnbysxBrFC4JaTpLE3i5uGOSzSW3a+LOJDXlGIpA==
+"@mamba/dialog@^3.5.1":
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/@mamba/dialog/-/dialog-3.5.0.tgz#e28b8e3d4f513931742ab91c93576b41c67c57f9"
+  integrity sha512-Kl+cLiciBRnmPAtpZKVZHVsl/fBtJDtPz+nnD156ZZi9Ysy4/rL/s5+WD3u+AxKuvo53gvm6mSWdWUY51V7Vow==
   dependencies:
-    "@mamba/icon" "^3.3.0"
-    "@mamba/styles" "^3.4.0"
+    "@mamba/icon" "^3.5.0"
+    "@mamba/styles" "^3.5.0"
 
-"@mamba/icon@^3.3.0":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@mamba/icon/-/icon-3.3.0.tgz#85f59eed6884e56b8da0b3e48e133d038d9b5013"
-  integrity sha512-2MncitSRehVAraKXY0tPchVDBBxTolsyOHFwXfQkw2C6PgsVFkkrmySdC5N43g7Bwki2mWCtsE52P4BAvh+jkg==
+"@mamba/icon@^3.5.0", "@mamba/icon@^3.5.1":
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/@mamba/icon/-/icon-3.5.0.tgz#d2988f2351376197fe09af86d39e707e6b86d8ad"
+  integrity sha512-0azJmTDNUiool3x+lvd6k921VHbsqOCA/g2hkRUNuOFkjMwyXVCiQ85wOA2KNk0mh+aenGzwfbxL9DQwjVJEOQ==
   dependencies:
-    "@mamba/styles" "^3.4.0"
+    "@mamba/styles" "^3.5.0"
 
 "@mamba/pos@file:packages/pos":
-  version "3.3.3"
+  version "3.5.1"
   dependencies:
-    "@mamba/app" "^3.3.1"
-    "@mamba/button" "^3.4.0"
-    "@mamba/dialog" "^3.3.0"
-    "@mamba/icon" "^3.3.0"
-    "@mamba/radio" "^3.3.0"
-    "@mamba/sprite" "^3.3.0"
-    "@mamba/styles" "^3.4.0"
-    "@mamba/switch" "^3.3.0"
-    "@mamba/utils" "^3.3.1"
+    "@mamba/app" "^3.5.1"
+    "@mamba/button" "^3.5.1"
+    "@mamba/dialog" "^3.5.1"
+    "@mamba/icon" "^3.5.1"
+    "@mamba/radio" "^3.5.1"
+    "@mamba/sprite" "^3.5.1"
+    "@mamba/styles" "^3.5.1"
+    "@mamba/switch" "^3.5.1"
+    "@mamba/utils" "^3.5.1"
     immer "^2.1.0"
     svelte "^2.16.1"
 
-"@mamba/radio@^3.3.0":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@mamba/radio/-/radio-3.3.0.tgz#a49d43c24c6c0010f69fcd4f5bb9cb0079f0e47c"
-  integrity sha512-wz8poe+3wXZNBoGvrz9YBSxGyzxhLlwU3AaI9x6kKV7I3O0gMNSgP6ZSdKVd2femmCPGjPx4MseK2HOHCiT7Nw==
+"@mamba/radio@^3.5.1":
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/@mamba/radio/-/radio-3.5.0.tgz#9b525dbd0e6549ec0ab46a5e4c22e67132008d86"
+  integrity sha512-UZHL6kx5tznY6kQvrkz1uAZZo/Oois4g6Zh6Ru3l+fLt1PMAxvds5w1/DO0MI0/ZdzzvG2TNvoTfZI8SOT5vYA==
 
-"@mamba/sprite@^3.3.0":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@mamba/sprite/-/sprite-3.3.0.tgz#a6db1e8997cfdfc843ba9df68edab26fbd6b30a7"
-  integrity sha512-n+lemLrrkGg2Hk/EgNAc122IurYvbuDDDfzVkbwMeTrcrTg+vr2/gzK/96FYctgYI/LW9DXKuPYBit1h0k0sbg==
+"@mamba/sprite@^3.5.1":
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/@mamba/sprite/-/sprite-3.5.0.tgz#f146eecdf058f3d1bd1c1052a242068f92180d37"
+  integrity sha512-aqr8FtcMwvU87ScVv46m63DQ1ZSUvvan7DKCMM194UyLsJwITgATLbOlpBPPXsjRaaejqlXKCqXV9EJE306vJg==
 
-"@mamba/styles@^3.4.0":
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/@mamba/styles/-/styles-3.4.0.tgz#36f2d9e34f430ea05f07e39c038490cec6916f42"
-  integrity sha512-MGg6cZjt25rQP+QpxXxRaIYBxU97TtvQ+A5LTK5YAL1u8Pm5u/VzZ17/K3i2gNK/+LrNaqgmEse/DsFqotTn4w==
+"@mamba/styles@^3.5.0", "@mamba/styles@^3.5.1":
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/@mamba/styles/-/styles-3.5.0.tgz#fd77d6270e09f2c75b28615b088d97aa2ca0098a"
+  integrity sha512-m/yu0+YiMBT4NqU9GMcoaYsipmy7xpKO64MfA0YtwfM24v2z4bEq6LIa9DftxbtdKWitPBo05e5GGMBRY9IT2A==
 
 "@mamba/styles@file:packages/styles":
-  version "3.4.0"
+  version "3.5.1"
 
-"@mamba/switch@^3.3.0":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@mamba/switch/-/switch-3.3.0.tgz#1c00749b757c43228a77ad57a7a327dc1612f304"
-  integrity sha512-cTPKM0pIvQw5zgQ1EywEli+IgasWr8OCa8VRpWFD0/2GGGKAMTOknLF/DZIxPIbOB9fF142ssilMYDGKHXu68A==
+"@mamba/switch@^3.5.1":
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/@mamba/switch/-/switch-3.5.0.tgz#e4851ec0afdc23ba79e9c057e3e13e520a81e8c8"
+  integrity sha512-S++AipOqnCFsu/xoOCUwvCZ9UPixTsEBowpdC0+n5cIRgBVo/6rpbGMhg+EINk5/zXu6JQthIluqWTrc5d+A1A==
 
-"@mamba/utils@^3.3.1":
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/@mamba/utils/-/utils-3.3.1.tgz#5a90d9c15bc2d09e500819ac78352e0de7eeba37"
-  integrity sha512-KmWFoF6Kb8NAIHvI+c4aV80Yv4TfAz8k335I9EeN00I/29HyK+RYj7m6WNkloVcYUWInl/k2NT8I4vJp7NFQMg==
+"@mamba/utils@^3.5.0", "@mamba/utils@^3.5.1":
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/@mamba/utils/-/utils-3.5.0.tgz#2ab64a4a3af29e49a4fe75a8aa718c26978e2af3"
+  integrity sha512-5TxAFNqGk/pnsCh9RKd/SDHyOeLYIq2dfJNWlvGMvQNDiDgUmFYHppgCTLxzhKtgBUOafUNgX1j6hyPKx2t+/Q==
   dependencies:
     date-fns "^2.5.1"
     date-fns-tz "^1.0.8"
