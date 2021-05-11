@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.5.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/configs@3.3.0...@mamba/configs@3.5.0) (2021-05-11)
+
+
+### Bug Fixes
+
+* 🐛 svelte property unknown ([e0df291](https://github.com/stone-payments/pos-mamba-sdk/commit/e0df2913cbce79213b22043ba1c2243b55963f7d))
+
+
+### Features
+
+* 🎸 add logger to eslint globals ([86e3111](https://github.com/stone-payments/pos-mamba-sdk/commit/86e3111149b268979de705b4a779f9a0e89ac0db))
+
+
+
+
+
 # [3.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/configs@3.2.0...@mamba/configs@3.3.0) (2021-04-01)
 
 **Note:** Version bump only for package @mamba/configs

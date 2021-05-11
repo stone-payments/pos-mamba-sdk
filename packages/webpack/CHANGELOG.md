@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.5.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@3.3.0...@mamba/webpack@3.5.0) (2021-05-11)
+
+
+### Features
+
+* 🎸 implement development log endpoint ([627dbac](https://github.com/stone-payments/pos-mamba-sdk/commit/627dbac7c2582ebf78e6175dd5cba8e86141456f))
+
+
+
+
+
 # [3.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@3.2.0...@mamba/webpack@3.3.0) (2021-04-01)
 
 
