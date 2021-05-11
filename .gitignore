@@ -9,6 +9,8 @@ lerna-*
 
 ## Components examples
 /packages/components/*/example/*
+/packages/**/*.lock
+/packages/**/*-lock.json
 !/packages/components/*/example/static/
 !/packages/components/*/example/*.html
 !/packages/components/*/example/*.svelte
