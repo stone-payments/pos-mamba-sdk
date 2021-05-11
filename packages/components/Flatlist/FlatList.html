@@ -48,7 +48,6 @@
   };
 
   let _flatListElement;
-  const LOG = typeof LOG_INFO === 'function' ? LOG_INFO : console.log;
 
   export default {
     components: {
@@ -96,6 +95,11 @@
         return autoShortcuts === true && dataSection && dataSection.length === 1;
       },
     },
+    oncreate() {
+      if(__DEV__ || __DEBUG_LVL__ >= 1) {
+        window._CurrentFlatList_ = this;
+      }
+    },
     onupdate({changed, current}) {
       if(changed.data || changed.dataSection) {
         const { data, dataSection } = current;
@@ -134,8 +138,20 @@
       }
     },
     methods: {
-      setSelected(parentProps, isKeystroke = false) {
-        LOG('setSelected', {parentProps, isKeystroke});
+      setSelected(parentProps, isKeystroke = false) {/*
+        if(__DEV__ || __DEBUG_LVL__ >= 2) {
+          const seen = [];
+          console.log(`setSelected(${
+            JSON.stringify(parentProps, function rep(key, val) {
+              if (typeof val === 'object') {
+                if (seen.indexOf(val) >= 0)
+                  return;
+                seen.push(val);
+              }
+              return val;
+            }, 2)
+          }),\nisKeystroke = ${isKeystroke}`);
+        } */
 
         const {
           _elementsRefs,
@@ -194,10 +210,6 @@
 
         element.set({ position });
 
-        if(__DEV__ || __DEBUG_LVL__ >= 2) {
-          LOG(_elementsRefs);
-        }
-
         if(index === 0) {
           setTimeout(() => {
             selectRowItem(_elementsRefs, null);
@@ -206,7 +218,10 @@
       },
       selectRowItems(event) {
         const { keyCode } = event;
-        LOG('selectRowItems', event);
+        if(__DEV__ || __DEBUG_LVL__ >= 2) {
+          /* console.log(`selectRowItems(${JSON.stringify(event, null, 2)})`); */
+          console.log(`keyCode = ${keyCode}`);
+        }
 
         /**
          * KeyCode -> KeyName dictionary
