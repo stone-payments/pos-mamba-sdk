@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.5.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/flatlist@3.5.0...@mamba/flatlist@3.5.1) (2021-05-11)
+
+
+### Bug Fixes
+
+* 🐛 remove log of cyclic reference ([9d810a0](https://github.com/stone-payments/pos-mamba-sdk/commit/9d810a09a674b7ae400a384e073b112df2323929))
+
+
+
+
+
 # 3.5.0 (2021-05-11)
 
 
