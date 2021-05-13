@@ -1,22 +1,10 @@
 import Icon from '@mamba/icon';
-import { MODELS, getPosModel } from '@mamba/utils/index.js';
+import { MODELS, getPosModelSlug, getPosModel } from '@mamba/utils/index.js';
 import { neutral800 } from '@mamba/styles/colors.js';
 
 let ACTIVE_MODEL = getPosModel();
 let ACTIVE_MODEL_SLUG;
 let DefaultRowDecorator = {};
-
-const _getModelSlug = currentModel => {
-  let val = 'S920';
-  Object.keys(MODELS).forEach(key => {
-    if (currentModel === MODELS[key]) {
-      val = key;
-    }
-  });
-  return val;
-};
-
-const getModelSlug = model => _getModelSlug(model || ACTIVE_MODEL);
 
 const SEPARATORS = {
   MP35P: '. ',
@@ -72,7 +60,7 @@ const GetDefaultDecorator = (rowProps, overrides = {}) => {
   const defaultProps = rowProps || { label: {} };
   const labelData = (defaultProps && defaultProps.label) || {};
 
-  const currentOverride = overrides[getModelSlug(ACTIVE_MODEL)] || overrides;
+  const currentOverride = overrides[getPosModelSlug()] || overrides;
 
   return (
     {
@@ -110,5 +98,4 @@ export {
   DefaultRowDecorator,
   ACTIVE_MODEL,
   ACTIVE_MODEL_SLUG,
-  getModelSlug,
 };
