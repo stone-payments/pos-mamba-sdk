@@ -4,41 +4,42 @@
 </slot>
 
 <script>
-  import store from '../../store.js';
+  import { MODELS } from '@mamba/utils';
+import store from '../../store.js';
 
   import MP35P from './MP35P.html';
   import S920 from './S920.html';
 
   export default {
+    store: () => store,
     data() {
       return {
         defaultKeyboard: S920,
         keyboardDevices: [
           {
-            title: 'S920',
-            component: S920
+            title: MODELS.S920,
+            component: S920,
           },
           {
-            title: 'GERTEC - MP35P',
-            component: MP35P
+            title: MODELS.MP35P,
+            component: MP35P,
           },
         ],
       };
     },
-    store: () => store,
     computed: {
       getModel({$ACTIVE_MODEL, keyboardDevices, defaultKeyboard}) {
         try {
-          const { component } = keyboardDevices.find(({title}) => title === $ACTIVE_MODEL);
+          const {
+            component,
+          } = keyboardDevices.find(({title}) => title === $ACTIVE_MODEL);
+
           return component;
 
         } catch (error) {
-          return defaultKeyboard
+          return defaultKeyboard;
         }
-      }
+      },
     },
-    oncreate(){
-
-    }
   };
 </script>
