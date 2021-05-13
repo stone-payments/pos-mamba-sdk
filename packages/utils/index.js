@@ -1,6 +1,22 @@
 import { timeout } from './ui.js';
 import * as Money from './money.js';
-import { MODELS, getPosModel } from './models.js';
+import {
+  AVAILABLE_SLUGS,
+  DEFAULT_MODEL,
+  MODELS,
+  getPosModelSlug,
+  getPosModel,
+} from './models.js';
 import { format as formatDate, parseDate } from './date.js';
 
-export { timeout, Money, formatDate, parseDate, MODELS, getPosModel };
+export {
+  timeout,
+  Money,
+  formatDate,
+  parseDate,
+  AVAILABLE_SLUGS,
+  DEFAULT_MODEL,
+  MODELS,
+  getPosModelSlug,
+  getPosModel,
+};
