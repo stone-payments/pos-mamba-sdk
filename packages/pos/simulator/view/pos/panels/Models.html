@@ -10,7 +10,7 @@
 </ul>
 
 <script>
-  import { Registry } from '../../../index.js';
+  import { MODELS } from '@mamba/utils/models.js';
   import store from '../store.js';
 
   export default {
@@ -20,12 +20,12 @@
     store: () => store,
     data() {
       return {
-        MODELS: ['S920', 'GERTEC - MP35P'],
+        MODELS: [MODELS.S920, MODELS.MP35P],
       };
     },
     methods: {
       setPosModel(model) {
-        this.store.setPosModel(model)
+        this.store.setPosModel(model);
       },
     },
   };
