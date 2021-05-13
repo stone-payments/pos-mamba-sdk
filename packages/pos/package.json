@@ -1,12 +1,16 @@
 {
   "name": "@mamba/pos",
-  "version": "3.5.1",
+  "version": "3.5.2",
   "description": "Mamba web environment wrapper and simulator",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"
   },
+  "main": "index.js",
+  "files": [
+    "lib/**/*"
+  ],
   "dependencies": {
     "@mamba/app": "^3.5.1",
     "@mamba/button": "^3.5.1",

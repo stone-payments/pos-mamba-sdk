@@ -31,4 +31,14 @@ export default function(driver) {
       }
     });
   };
+
+  driver.getUserSettings = () => {
+    // App must override
+    return {};
+  };
+
+  driver.getUserSetting = key => {
+    const settings = driver.getUserSettings();
+    return settings[key];
+  };
 }
