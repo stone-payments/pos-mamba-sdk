@@ -10,6 +10,7 @@ export const MODELS = Object.freeze({
   S920: 'S920',
   Q92: 'Q92',
   MP35P: 'Gertec MP35P',
+  MP35: 'Gertec MP35',
   V240M: 'Verifone V240M',
   D195: 'D195',
   Q60: 'Q60',
