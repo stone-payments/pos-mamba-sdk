@@ -12,6 +12,6 @@
   "dependencies": {
     "@mamba/icon": "^3.5.1",
     "@mamba/styles": "^3.5.1",
-    "@mamba/utils": "^3.5.2"
+    "@mamba/utils": "^3.5.3"
   }
 }
