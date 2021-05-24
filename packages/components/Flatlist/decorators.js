@@ -62,33 +62,38 @@ const GetDefaultDecorator = (rowProps, overrides = {}) => {
 
   const currentOverride = overrides[getPosModelSlug()] || overrides;
 
+  const ARROW_CAPABILITIES_DECORATOR = {
+    small: true,
+    label: {
+      ...labelData,
+      style: {
+        ...labelData.style,
+        fontWeight: '700',
+      },
+      ...getPrefixOverride(
+        currentOverride,
+        {
+          prefixStyle: {
+            color: '$green500',
+          },
+        },
+        SEPARATORS.MP35P,
+      ),
+    },
+    contentStyle: {
+      alignItems: 'center',
+      paddingRight: '15px',
+    },
+    ...currentOverride,
+    highlightSelect: true,
+  };
+
   return (
     {
-      [MODELS.MP35P]: {
-        small: true,
-        label: {
-          ...labelData,
-          style: {
-            ...labelData.style,
-            fontWeight: '700',
-          },
-          ...getPrefixOverride(
-            currentOverride,
-            {
-              prefixStyle: {
-                color: '$green500',
-              },
-            },
-            SEPARATORS.MP35P,
-          ),
-        },
-        contentStyle: {
-          alignItems: 'center',
-          paddingRight: '15px',
-        },
-        ...currentOverride,
-        highlightSelect: true,
-      },
+      [MODELS.MP35P]: ARROW_CAPABILITIES_DECORATOR,
+      [MODELS.MP35]: ARROW_CAPABILITIES_DECORATOR,
+      [MODELS.Q60]: ARROW_CAPABILITIES_DECORATOR,
+      [MODELS.D195]: ARROW_CAPABILITIES_DECORATOR,
     }[ACTIVE_MODEL] || SetDefaultRowDecorator(defaultProps, currentOverride)
   );
 };
