@@ -9,13 +9,17 @@
 ></div>
 
 <script>
+  import { neutral700 } from '@mamba/styles/colors.js';
+  import getPxOf from './utils/getPxOf.js';
+
+
   export default {
     data() {
       return {
         size: 'normal',
         symbol: 'custom',
         src: undefined,
-        color: undefined,
+        color: neutral700,
         width: undefined,
         height: undefined,
         level: undefined,
@@ -24,11 +28,11 @@
     computed: {
       iconStyle: ({ src, color, width, height }) =>
         [
-          color && `color:${color}`,
+          color && `color: ${color}`,
           /* istanbul ignore next */
           src && `-webkit-mask-image: url(${src})`,
-          width && `width: ${width}`,
-          height && `height: ${height}`,
+          getPxOf('width', width),
+          getPxOf('height', height),
         ]
           .filter(Boolean)
           .join(';'),
@@ -113,7 +117,7 @@
 
   [symbol='wifi'] {
     position: relative;
-    background-color: $gray-light;
+    background-color: $neutral300;
 
     &::before {
       content: '';

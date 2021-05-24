@@ -3,6 +3,227 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.5.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@3.5.0...@mamba/container@3.5.1) (2021-05-11)
+
+**Note:** Version bump only for package @mamba/container
+
+
+
+
+
+# [3.5.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@3.3.0...@mamba/container@3.5.0) (2021-05-11)
+
+**Note:** Version bump only for package @mamba/container
+
+
+
+
+
+# [3.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@3.2.0...@mamba/container@3.3.0) (2021-04-01)
+
+
+### Bug Fixes
+
+* 🐛 remove global body from examples ([0f64e61](https://github.com/stone-payments/pos-mamba-sdk/commit/0f64e61f28eec0a18c3405dad78520a53e04335c))
+
+
+
+
+
+## [3.2.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@3.2.0...@mamba/container@3.2.1) (2021-03-31)
+
+
+### Bug Fixes
+
+* 🐛 remove global body from examples ([0f64e61](https://github.com/stone-payments/pos-mamba-sdk/commit/0f64e61f28eec0a18c3405dad78520a53e04335c))
+
+
+
+
+
+# [3.2.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@3.1.1...@mamba/container@3.2.0) (2021-03-23)
+
+**Note:** Version bump only for package @mamba/container
+
+
+
+
+
+## [3.1.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@3.1.0...@mamba/container@3.1.1) (2021-03-22)
+
+**Note:** Version bump only for package @mamba/container
+
+
+
+
+
+# [3.1.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@3.0.8...@mamba/container@3.1.0) (2021-03-16)
+
+**Note:** Version bump only for package @mamba/container
+
+
+
+
+
+## [3.0.8](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@3.0.7...@mamba/container@3.0.8) (2021-03-12)
+
+**Note:** Version bump only for package @mamba/container
+
+
+
+
+
+## [3.0.7](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@3.0.6...@mamba/container@3.0.7) (2021-03-12)
+
+**Note:** Version bump only for package @mamba/container
+
+
+
+
+
+## [3.0.6](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@3.0.5...@mamba/container@3.0.6) (2021-03-11)
+
+**Note:** Version bump only for package @mamba/container
+
+
+
+
+
+## [3.0.5](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@3.0.4...@mamba/container@3.0.5) (2021-03-11)
+
+**Note:** Version bump only for package @mamba/container
+
+
+
+
+
+## [3.0.4](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@3.0.2...@mamba/container@3.0.4) (2021-03-02)
+
+**Note:** Version bump only for package @mamba/container
+
+
+
+
+
+## [3.0.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@3.0.2...@mamba/container@3.0.3) (2021-02-25)
+
+**Note:** Version bump only for package @mamba/container
+
+
+
+
+
+## [3.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@3.0.1...@mamba/container@3.0.2) (2021-02-24)
+
+**Note:** Version bump only for package @mamba/container
+
+
+
+
+
+## [3.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@3.0.0...@mamba/container@3.0.1) (2021-02-15)
+
+**Note:** Version bump only for package @mamba/container
+
+
+
+
+
+# [3.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@2.37.2...@mamba/container@3.0.0) (2021-02-12)
+
+**Note:** Version bump only for package @mamba/container
+
+
+
+
+
+## [2.37.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@2.37.1...@mamba/container@2.37.2) (2021-02-11)
+
+**Note:** Version bump only for package @mamba/container
+
+
+
+
+
+## [2.37.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@2.37.0...@mamba/container@2.37.1) (2021-02-11)
+
+
+### Bug Fixes
+
+* 🐛 merge conflicts ([a87b071](https://github.com/stone-payments/pos-mamba-sdk/commit/a87b07144dda857e3529bf1aafb8524f70a8c6c4))
+
+
+
+
+
+# [2.37.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@2.34.3...@mamba/container@2.37.0) (2021-02-10)
+## [2.36.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@2.36.0...@mamba/container@2.36.1) (2021-02-09)
+
+**Note:** Version bump only for package @mamba/container
+
+
+
+
+
+# [2.36.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@2.34.3...@mamba/container@2.36.0) (2021-02-08)
+
+**Note:** Version bump only for package @mamba/container
+
+
+
+
+
+# [2.35.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@2.34.3...@mamba/container@2.35.0) (2021-02-08)
+
+**Note:** Version bump only for package @mamba/container
+
+
+
+
+
+## [2.34.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@2.34.2...@mamba/container@2.34.3) (2021-01-26)
+
+**Note:** Version bump only for package @mamba/container
+
+
+
+
+
+## [2.34.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@2.34.1...@mamba/container@2.34.2) (2021-01-13)
+
+**Note:** Version bump only for package @mamba/container
+
+
+
+
+
+## [2.34.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@2.34.0...@mamba/container@2.34.1) (2021-01-08)
+
+**Note:** Version bump only for package @mamba/container
+
+
+
+
+
+# [2.34.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@2.33.3...@mamba/container@2.34.0) (2021-01-04)
+
+
+### Features
+
+* 🎸 Update packages ([b8044fe](https://github.com/stone-payments/pos-mamba-sdk/commit/b8044fe52daa682e98b71c275f509acd60c77f40))
+
+
+
+
+
+# [2.34.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/container@2.33.3...@mamba/container@2.34.0) (2021-01-04)
+
+**Note:** Version bump only for package @mamba/container
+
+
+
+
+
 ## 2.33.3 (2020-11-24)
 
 

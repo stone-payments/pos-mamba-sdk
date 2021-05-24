@@ -5,13 +5,7 @@ O componente `Brands` permite de modo fácil exibir o ícone das principais band
 Caso não haja a bandeira especificada, ele exibe a bandeira padrão `blank`.
 
 
-<div class="iframe-wrapper">
-  <iframe src="https://bundlebrowser.mambaweb.now.sh/#!/brands"></iframe>
-</div>
-
-## Parâmetros
-
-| Parâmetro | Descrição                      | Tipo     | Padrão  |
+| Parâmetros | Descrição                      | Tipo     | Padrão  |
 | :-------- | :----------------------------- | :------- | :------ |
 | icon      | Nome (caixa baixa) da bandeira | `string` | `blank` |
 | width     | Largura da imagem              | `string` | `30`    |
@@ -37,8 +31,8 @@ Caso use tag `img`, utilize o componenent `@mamba/brands/Brands.html`.
 
 <br />
 
-```
-<div style="background-image: url({getBrand('visa')});"></div>
+```html
+<img src="{getBrand('visa')}" />
 
 <script>
   import getBrand from '@mamba/brands/getBrand.js';

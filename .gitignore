@@ -3,16 +3,17 @@
 .DS_Store
 .directory
 npm-debug.log
-package-lock.json
 lerna-*
 /coverage.data
 /coverage
 
 ## Components examples
 /packages/components/*/example/*
+/packages/**/*.lock
+/packages/**/*-lock.json
 !/packages/components/*/example/static/
-!/packages/components/*/example/Example.html
-!/packages/components/*/example/Example.svelte
+!/packages/components/*/example/*.html
+!/packages/components/*/example/*.svelte
 
 ## Directories
 log/

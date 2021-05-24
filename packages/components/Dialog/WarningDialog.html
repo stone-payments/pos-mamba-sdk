@@ -1,0 +1,69 @@
+<ConfirmationDialog
+  ref:dialog
+  bind:isOpen
+  bind:negativeLabel
+  bind:positiveLabel
+  on:positive
+  on:close
+  on:open
+  fullscreen
+  wide
+>
+  <div class="wrapper">
+    <div class="icon-box">
+      <WarningIcon width={75} height={75} />
+    </div>
+    <h1>
+      <b>{message}</b>
+    </h1>
+    <p class="question">{question}</p>
+  </div>
+</ConfirmationDialog>
+
+<script>
+  export default {
+    components: {
+      WarningIcon: '@mamba/icon/specialized-icons/Warning.html',
+      ConfirmationDialog: './Confirmation.html',
+    },
+    data() {
+      return {
+        message: '',
+        question: '',
+        positiveLabel: 'Sim',
+        negativeLabel: 'Não',
+      };
+    },
+    methods: {
+      open(delay = undefined) {
+        this.refs.dialog.open(delay);
+      },
+      close(delay = undefined) {
+        this.root.meta.setScrollable(true);
+        this.refs.dialog.close(delay);
+      },
+    },
+  };
+</script>
+
+<style>
+  .icon-box {
+    border-radius: 3px;
+    margin: 0 0 12px 0;
+    overflow: hidden;
+  }
+
+  h1 {
+    font-size: 19px;
+    line-height: 22px;
+    color: $neutral900;
+    font-weight: bold;
+    margin-bottom: 17px;
+  }
+
+  p {
+    font-size: 16px;
+    line-height: 21px;
+    color: $neutral700;
+  }
+</style>

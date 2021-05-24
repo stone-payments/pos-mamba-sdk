@@ -1,6 +1,6 @@
 {
   "version": "independent",
-  "npmClient": "npm",
+  "npmClient": "yarn",
   "command": {
     "publish": {
       "ignoreChanges": [
@@ -23,6 +23,7 @@
     "packages/pos",
     "packages/styles",
     "packages/utils",
-    "packages/webpack"
+    "packages/webpack",
+    "packages/logger"
   ]
 }

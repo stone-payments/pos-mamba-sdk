@@ -1,0 +1,32 @@
+<div
+  ref:element
+  on:click="fire('_click', { data, index: key, sectionIndex, position })"
+  shortcut={useAutoShortcuts ? _shortcut : data.shortcut || undefined}>
+  <svelte:component this="{renderItem}" key={key} {...data} position={position} {..._decorator} bind:isActive />
+</div>
+
+<script>
+  export default {
+    data() {
+      return {
+        key: undefined,
+        renderItem: null,
+        data: {},
+      };
+    },
+    computed: {
+      _decorator({ decorator }) {
+        if(!decorator) return {};
+        return decorator;
+      },
+      _shortcut({ key }) {
+        if(key > 9) return undefined;
+        if(key === 9) return 0;
+        return key + 1;
+      },
+    },
+    oncreate() {
+      this.fire('create');
+    },
+  };
+</script>

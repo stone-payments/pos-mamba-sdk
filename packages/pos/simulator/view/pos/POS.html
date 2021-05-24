@@ -1,22 +1,25 @@
-
 <div class="pos-wrapper">
-  <div class="shadow"></div>
-  <div class="pos">
+  <div class="shadow shadow-{$ACTIVE_MODEL}"></div>
+  <div class="pos {$ACTIVE_MODEL}">
     <Printer ref:printer />
-      <Screen ref:screen>
-        <slot></slot>
-      </Screen>
+    <Screen ref:screen >
+      <slot></slot>
+    </Screen>
     <Keypad ref:keypad />
   </div>
 </div>
 
 <script>
+  import { Registry } from '../../index.js';
+  import store from './store.js';
+
   export default {
     components: {
       Printer: './hardware/Printer.html',
-      Keypad: './hardware/Keypad.html',
+      Keypad: './hardware/Keypad/index.html',
       Screen: './hardware/Screen.html',
     },
+    store: () => store,
   };
 </script>
 
@@ -38,10 +41,22 @@
       position: relative;
       z-index: 2;
       margin: 0 auto;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+
+    .S920,
+    .shadow-S920 {
       width: 347px;
       height: 761px;
       background-image: url(./assets/POS.png);
-      background-size: cover;
+    }
+
+    .MP35P,
+    .shadow-MP35P {
+      width: 425px;
+      height: 815px;
+      background-image: url(./assets/MP35P.png);
     }
 
     .pos {

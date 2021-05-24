@@ -3,6 +3,272 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.5.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.5.0...@mamba/pos@3.5.1) (2021-05-11)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+# [3.5.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.3.3...@mamba/pos@3.5.0) (2021-05-11)
+
+
+### Bug Fixes
+
+* 🐛 fix keyboard ([2bea363](https://github.com/stone-payments/pos-mamba-sdk/commit/2bea363e7c1e7b8d0a864ba02a22ab13d978ff72))
+
+
+
+
+
+## [3.3.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.3.2...@mamba/pos@3.3.3) (2021-04-16)
+
+
+### Bug Fixes
+
+* 🐛 fix in layout and method get Post Model ([7a5fe62](https://github.com/stone-payments/pos-mamba-sdk/commit/7a5fe625a4ec0d27254ede9c14d9afec07ae35f1))
+* 🐛 fix in model name ([11499d0](https://github.com/stone-payments/pos-mamba-sdk/commit/11499d04a55e9d41a223f7876c43016796c26b0e))
+
+
+
+
+
+## [3.3.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.3.1...@mamba/pos@3.3.2) (2021-04-01)
+
+
+### Bug Fixes
+
+* 🐛 wrong import ([9239129](https://github.com/stone-payments/pos-mamba-sdk/commit/92391297aee8d0366b0d5ec17ff2a8f45577e42b))
+
+
+
+
+
+## [3.3.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.3.0...@mamba/pos@3.3.1) (2021-04-01)
+
+
+### Bug Fixes
+
+* 🐛 missing dependencie ([7c68b25](https://github.com/stone-payments/pos-mamba-sdk/commit/7c68b2568da84284d01bfb8d355f72780f10cd2c))
+
+
+
+
+
+# [3.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.2.0...@mamba/pos@3.3.0) (2021-04-01)
+
+
+### Bug Fixes
+
+* 🐛 fix cancelation wrapper ([11856da](https://github.com/stone-payments/pos-mamba-sdk/commit/11856da2d2493038cbfa2e51172a6dce86ffe91e))
+* 🐛 fix conflict ([1962db6](https://github.com/stone-payments/pos-mamba-sdk/commit/1962db6889870b57d95e754c4cfafe04184b167d))
+* 🐛 fix conflict ([8dacdbb](https://github.com/stone-payments/pos-mamba-sdk/commit/8dacdbbd89651f7f374f7bec1aad03f67b0ee005))
+* 🐛 fix method inline ([eee599b](https://github.com/stone-payments/pos-mamba-sdk/commit/eee599b4d4ad3dc680ec7b0e62c0223f9faa0454))
+* 🐛 Fix pr ([89a789b](https://github.com/stone-payments/pos-mamba-sdk/commit/89a789b42b674e6df04803f1fe31e385acaae45b))
+* 🐛 fix trigger card ([e6b642d](https://github.com/stone-payments/pos-mamba-sdk/commit/e6b642db37fd9876c35a71c243fcbd1339070c4a))
+* 🐛 green 50 to 500 ([d51252d](https://github.com/stone-payments/pos-mamba-sdk/commit/d51252dbe0bd366e4be41788c4920bb5cca8a69c))
+* 🐛 Included default value ([fac2f45](https://github.com/stone-payments/pos-mamba-sdk/commit/fac2f453b2f33599d183055f238068a12c2481a9))
+* 🐛 remove package-lock ([314928d](https://github.com/stone-payments/pos-mamba-sdk/commit/314928d2a88f46212d0644d1a660144ecf4e0e55))
+
+
+### Features
+
+* 🎸 New structure ([180d071](https://github.com/stone-payments/pos-mamba-sdk/commit/180d0710140a08454787ac7a45b6007de2d0a0ba))
+* 🎸 Simulator ([d4e5d16](https://github.com/stone-payments/pos-mamba-sdk/commit/d4e5d16239a20048258d7269f804bccfbc12ce5a))
+* 🎸 Update of multiple platforms in simulator ([fca8e94](https://github.com/stone-payments/pos-mamba-sdk/commit/fca8e94785b15d9bb15397c52e977b98cfdb52e3))
+
+
+
+
+
+## [3.2.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.2.0...@mamba/pos@3.2.1) (2021-03-31)
+
+
+### Bug Fixes
+
+* 🐛 green 50 to 500 ([d51252d](https://github.com/stone-payments/pos-mamba-sdk/commit/d51252dbe0bd366e4be41788c4920bb5cca8a69c))
+
+
+
+
+
+# [3.2.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.1.1...@mamba/pos@3.2.0) (2021-03-23)
+
+
+### Features
+
+* 🎸 implement http header hook and hooks ([6e330c2](https://github.com/stone-payments/pos-mamba-sdk/commit/6e330c2a3c3320caef29da0e4f7a797a624224e8))
+
+
+
+
+
+## [3.1.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.1.0...@mamba/pos@3.1.1) (2021-03-22)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+# [3.1.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.0.8...@mamba/pos@3.1.0) (2021-03-16)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+## [3.0.8](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.0.7...@mamba/pos@3.0.8) (2021-03-12)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+## [3.0.7](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.0.6...@mamba/pos@3.0.7) (2021-03-12)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+## [3.0.6](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.0.5...@mamba/pos@3.0.6) (2021-03-11)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+## [3.0.5](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.0.4...@mamba/pos@3.0.5) (2021-03-11)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+## [3.0.4](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.0.2...@mamba/pos@3.0.4) (2021-03-02)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+## [3.0.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.0.2...@mamba/pos@3.0.3) (2021-02-25)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+## [3.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.0.1...@mamba/pos@3.0.2) (2021-02-24)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+## [3.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.0.0...@mamba/pos@3.0.1) (2021-02-15)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+# [3.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@2.37.2...@mamba/pos@3.0.0) (2021-02-12)
+
+
+### Bug Fixes
+
+* 🐛 missing imports ([b78a71f](https://github.com/stone-payments/pos-mamba-sdk/commit/b78a71fde15bf98e99c05e5c214819f98a128cc4))
+* 🐛 revert remnants ([75e0d23](https://github.com/stone-payments/pos-mamba-sdk/commit/75e0d239a539201b0bcd11fae7a05441ea7cdcab))
+* 🐛 update variables to camcelCase ([ae7e14a](https://github.com/stone-payments/pos-mamba-sdk/commit/ae7e14a9b18bb5373d5f508096134b3a6d343321))
+
+
+
+
+
+## [2.37.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@2.37.1...@mamba/pos@2.37.2) (2021-02-11)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+## [2.37.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@2.37.0...@mamba/pos@2.37.1) (2021-02-11)
+
+
+### Bug Fixes
+
+* 🐛 merge conflicts ([a87b071](https://github.com/stone-payments/pos-mamba-sdk/commit/a87b07144dda857e3529bf1aafb8524f70a8c6c4))
+* 🐛 revert remnants ([1bebb18](https://github.com/stone-payments/pos-mamba-sdk/commit/1bebb18832717b14c2080e3159d65e5af6059e39))
+* 🐛 update variables to camcelCase ([87bbeeb](https://github.com/stone-payments/pos-mamba-sdk/commit/87bbeeb494eeba68991d04361d304b20f3e29ce8))
+
+
+
+
+
+# [2.37.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@2.34.3...@mamba/pos@2.37.0) (2021-02-10)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+## [2.34.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@2.34.2...@mamba/pos@2.34.3) (2021-01-26)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+## [2.34.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@2.34.1...@mamba/pos@2.34.2) (2021-01-13)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+## [2.34.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@2.34.0...@mamba/pos@2.34.1) (2021-01-08)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+# [2.34.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@2.33.3...@mamba/pos@2.34.0) (2021-01-04)
+
+
+### Features
+
+* 🎸 Update packages ([b8044fe](https://github.com/stone-payments/pos-mamba-sdk/commit/b8044fe52daa682e98b71c275f509acd60c77f40))
+
+
+
+
+
+# [2.34.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@2.33.3...@mamba/pos@2.34.0) (2021-01-04)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
 ## 2.33.3 (2020-11-24)
 
 

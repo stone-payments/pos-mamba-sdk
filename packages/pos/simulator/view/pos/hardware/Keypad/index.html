@@ -1,0 +1,45 @@
+
+<slot>
+  <svelte:component this="{getModel}" />
+</slot>
+
+<script>
+  import { MODELS } from '@mamba/utils';
+import store from '../../store.js';
+
+  import MP35P from './MP35P.html';
+  import S920 from './S920.html';
+
+  export default {
+    store: () => store,
+    data() {
+      return {
+        defaultKeyboard: S920,
+        keyboardDevices: [
+          {
+            title: MODELS.S920,
+            component: S920,
+          },
+          {
+            title: MODELS.MP35P,
+            component: MP35P,
+          },
+        ],
+      };
+    },
+    computed: {
+      getModel({$ACTIVE_MODEL, keyboardDevices, defaultKeyboard}) {
+        try {
+          const {
+            component,
+          } = keyboardDevices.find(({title}) => title === $ACTIVE_MODEL);
+
+          return component;
+
+        } catch (error) {
+          return defaultKeyboard;
+        }
+      },
+    },
+  };
+</script>

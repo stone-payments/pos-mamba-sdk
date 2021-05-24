@@ -1,0 +1,17 @@
+{
+  "name": "@mamba/flatlist",
+  "version": "3.5.3",
+  "svelte": "Flatlist.html",
+  "author": "Stone Payments - Mamba Team",
+  "license": "Apache-2.0",
+  "module": "index.js",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@mamba/icon": "^3.5.1",
+    "@mamba/styles": "^3.5.1",
+    "@mamba/utils": "^3.5.2"
+  }
+}

@@ -6,17 +6,20 @@ Usar o modo de funcionamento `route` do parâmetro `changeOn`, faz com que a tro
 
 ## Como utilizar
 
-```js
-import Tabs from '@mamba/tabs/Tabs.html';
-import TabPane from '@mamba/tabs/TabPane.html';
-
-...
-
+```html
 <Tabs>
   <TabPane label="Tab 1">Your content</TabPane>
   <TabPane label="Tab 2">Another content</TabPane>
-  ...
 </Tabs>
+
+<script>
+  export default {
+    components: {
+      Tabs: '@mamba/tabs/Tabs.html',
+      TabPane: '@mamba/tabs/TabPane.html',
+    },
+  };
+</script>
 ```
 
 ## TabPane
@@ -28,21 +31,15 @@ Omitir o attributo `label`, resulta a aba e seu contúdo correspondente não ser
 Para que o parâmetro `route` funcionar corretamente, é necessário que o caminho da aba seja completo e absoluto, incluindo a rota do pai.
 
 
-<div class="iframe-wrapper">
-  <iframe src="https://bundlebrowser.mambaweb.now.sh/#!/tabs"></iframe>
-</div>
-
-## Parâmetros
-
 `<Tabs ...props />`
 
-| Parâmetro | Descrição                                                            | Tipo     | Padrão  |
+| Parâmetros | Descrição                                                            | Tipo     | Padrão  |
 | --------- | -------------------------------------------------------------------- | -------- | ------- |
 | changeOn  | Define qual o modo de funcionamento das abas: por `state` ou `route` | `string` | `state` |
 
 `<TabPane ...props />`
 
-| Parâmetro | Descrição                                                                   | Tipo     | Padrão      |
+| Parâmetros | Descrição                                                                   | Tipo     | Padrão      |
 | --------- | --------------------------------------------------------------------------- | -------- | ----------- |
 | label     | Título a ser utilizado para criar o item na navegação de abas               | `string` | `undefined` |
 | route     | Rota da aba para ser usada com modo de troca por `route` do modo `changeOn` | `string` | `undefined` |

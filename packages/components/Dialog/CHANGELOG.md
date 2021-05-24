@@ -3,6 +3,264 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.5.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@3.5.0...@mamba/dialog@3.5.1) (2021-05-11)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+# [3.5.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@3.3.0...@mamba/dialog@3.5.0) (2021-05-11)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+# [3.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@3.2.0...@mamba/dialog@3.3.0) (2021-04-01)
+
+
+### Bug Fixes
+
+* 🐛 remove global body from examples ([0f64e61](https://github.com/stone-payments/pos-mamba-sdk/commit/0f64e61f28eec0a18c3405dad78520a53e04335c))
+
+
+
+
+
+## [3.2.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@3.2.0...@mamba/dialog@3.2.1) (2021-03-31)
+
+
+### Bug Fixes
+
+* 🐛 remove global body from examples ([0f64e61](https://github.com/stone-payments/pos-mamba-sdk/commit/0f64e61f28eec0a18c3405dad78520a53e04335c))
+
+
+
+
+
+# [3.2.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@3.1.1...@mamba/dialog@3.2.0) (2021-03-23)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+## [3.1.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@3.1.0...@mamba/dialog@3.1.1) (2021-03-22)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+# [3.1.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@3.0.8...@mamba/dialog@3.1.0) (2021-03-16)
+
+
+### Bug Fixes
+
+* 🐛 camelcase props ([b6db695](https://github.com/stone-payments/pos-mamba-sdk/commit/b6db695baa6cd05826f8de393b0c3020b0210152))
+* 🐛 duration type check ([7fec03b](https://github.com/stone-payments/pos-mamba-sdk/commit/7fec03be2b34d28297895b25fa8ee59a83264f01))
+* 🐛 Q92 layout ([ad32128](https://github.com/stone-payments/pos-mamba-sdk/commit/ad32128f661eff98e5ad0f2a2f63d2ec0aca9929))
+
+
+### Features
+
+* 🎸 add new Warning dialog ([1aa5e66](https://github.com/stone-payments/pos-mamba-sdk/commit/1aa5e66a8da0e35830d0b5e0d87b20361d96e01c))
+
+
+### BREAKING CHANGES
+
+* 🧨 New Warning component
+
+
+
+
+
+## [3.0.8](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@3.0.7...@mamba/dialog@3.0.8) (2021-03-12)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+## [3.0.7](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@3.0.6...@mamba/dialog@3.0.7) (2021-03-12)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+## [3.0.6](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@3.0.5...@mamba/dialog@3.0.6) (2021-03-11)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+## [3.0.5](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@3.0.4...@mamba/dialog@3.0.5) (2021-03-11)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+## [3.0.4](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@3.0.2...@mamba/dialog@3.0.4) (2021-03-02)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+## [3.0.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@3.0.2...@mamba/dialog@3.0.3) (2021-02-25)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+## [3.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@3.0.1...@mamba/dialog@3.0.2) (2021-02-24)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+## [3.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@3.0.0...@mamba/dialog@3.0.1) (2021-02-15)
+
+
+### Bug Fixes
+
+* 🐛 crash on Dialog ([d35bf1f](https://github.com/stone-payments/pos-mamba-sdk/commit/d35bf1faa7ee3630a06bcf065f89548aee7ce10d))
+
+
+
+
+
+# [3.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@2.37.2...@mamba/dialog@3.0.0) (2021-02-12)
+
+
+### Bug Fixes
+
+* 🐛 merge conflicts ([7ade8ac](https://github.com/stone-payments/pos-mamba-sdk/commit/7ade8ac3f487fd4c2b26b5febf9fee76afa0a2fc))
+* 🐛 refix wrong replace ([55c7d42](https://github.com/stone-payments/pos-mamba-sdk/commit/55c7d42458cf583186d4fcc640989359f4f07cd5))
+* 🐛 update variables to camcelCase ([ae7e14a](https://github.com/stone-payments/pos-mamba-sdk/commit/ae7e14a9b18bb5373d5f508096134b3a6d343321))
+* 🐛 wrong color importing ([a994113](https://github.com/stone-payments/pos-mamba-sdk/commit/a994113bfabe2a734e5cfbb906cd7a44711c28ee))
+
+
+
+
+
+## [2.37.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@2.37.1...@mamba/dialog@2.37.2) (2021-02-11)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+## [2.37.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@2.37.0...@mamba/dialog@2.37.1) (2021-02-11)
+
+
+### Bug Fixes
+
+* 🐛 merge conflicts ([a87b071](https://github.com/stone-payments/pos-mamba-sdk/commit/a87b07144dda857e3529bf1aafb8524f70a8c6c4))
+* 🐛 update variables to camcelCase ([87bbeeb](https://github.com/stone-payments/pos-mamba-sdk/commit/87bbeeb494eeba68991d04361d304b20f3e29ce8))
+* 🐛 wrong color importing ([1ad1e17](https://github.com/stone-payments/pos-mamba-sdk/commit/1ad1e176030d7865e2ac20d5055719ad56e697fc))
+
+
+
+
+
+# [2.37.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@2.34.3...@mamba/dialog@2.37.0) (2021-02-10)
+
+**Note:** Version bump only for package @mamba/dialog
+## [2.36.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@2.36.0...@mamba/dialog@2.36.1) (2021-02-09)
+
+
+### Bug Fixes
+
+* 🐛 wrong color importing ([1ad1e17](https://github.com/stone-payments/pos-mamba-sdk/commit/1ad1e176030d7865e2ac20d5055719ad56e697fc))
+
+
+
+
+
+# [2.36.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@2.34.3...@mamba/dialog@2.36.0) (2021-02-08)
+
+
+### Bug Fixes
+
+* 🐛 update variables to camcelCase ([87bbeeb](https://github.com/stone-payments/pos-mamba-sdk/commit/87bbeeb494eeba68991d04361d304b20f3e29ce8))
+
+
+
+
+
+# [2.35.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@2.34.3...@mamba/dialog@2.35.0) (2021-02-08)
+
+
+### Bug Fixes
+
+* 🐛 update variables to camcelCase ([87bbeeb](https://github.com/stone-payments/pos-mamba-sdk/commit/87bbeeb494eeba68991d04361d304b20f3e29ce8))
+
+
+
+
+
+## [2.34.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@2.34.2...@mamba/dialog@2.34.3) (2021-01-26)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+## [2.34.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@2.34.1...@mamba/dialog@2.34.2) (2021-01-13)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+## [2.34.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@2.34.0...@mamba/dialog@2.34.1) (2021-01-08)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+# [2.34.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@2.33.3...@mamba/dialog@2.34.0) (2021-01-04)
+
+
+### Features
+
+* 🎸 Update packages ([b8044fe](https://github.com/stone-payments/pos-mamba-sdk/commit/b8044fe52daa682e98b71c275f509acd60c77f40))
+
+
+
+
+
+# [2.34.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@2.33.3...@mamba/dialog@2.34.0) (2021-01-04)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
 ## 2.33.3 (2020-11-24)
 
 

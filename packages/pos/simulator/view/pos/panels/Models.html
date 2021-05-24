@@ -1,0 +1,32 @@
+<div class="title">POS</div>
+
+<ul class="controllers">
+  {#each MODELS as model}
+    <li class="controller">
+      <span>{model}</span>
+      <Radio checked={$ACTIVE_MODEL === model} on:click="setPosModel(model)" />
+    </li>
+  {/each}
+</ul>
+
+<script>
+  import { MODELS } from '@mamba/utils/models.js';
+  import store from '../store.js';
+
+  export default {
+    components: {
+      Radio: '@mamba/radio/Radio.html',
+    },
+    store: () => store,
+    data() {
+      return {
+        MODELS: [MODELS.S920, MODELS.MP35P],
+      };
+    },
+    methods: {
+      setPosModel(model) {
+        this.store.setPosModel(model);
+      },
+    },
+  };
+</script>

@@ -7,7 +7,7 @@
 
   <h4>Personalizado</h4>
   <div class="row">
-    <Carousel slides={slides} navBg="#4ebf1a" navColor="#425963" />
+    <Carousel slides={slides} navBg={green500} navColor={neutral700} />
   </div>
 
 </div>
@@ -48,7 +48,6 @@
     components: {
       Carousel: '@mamba/carousel',
     },
-
     data() {
       return {
         slides: ['http://placehold.it/145x184/293462/fff?text=Images+via+props',

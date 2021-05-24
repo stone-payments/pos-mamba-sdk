@@ -14,6 +14,7 @@ const postcssHexRGBA = require('postcss-hexrgba');
 
 const postcssUniqueImports = require('./includes/uniqueImports.js');
 const unthrow = require('./includes/unthrow.js');
+const colorsMamba = require('../../styles/colors.js');
 
 const isBuildingApp = typeof process.env.APP_ENV !== 'undefined';
 
@@ -32,7 +33,9 @@ module.exports = {
       extensions: ['.css', '.pcss'],
     }),
     postcssExtendRule(),
-    postcssAdvancedVariables(),
+    postcssAdvancedVariables({
+      variables: colorsMamba,
+    }),
     postcssCalc({
       warnWhenCannotResolve: true,
     }),

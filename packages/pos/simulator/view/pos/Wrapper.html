@@ -1,5 +1,5 @@
 {#if ENGINE === 'webkit'}
-  <div class="container">
+  <div class="container {$ACTIVE_MODEL}" >
     <div class="main-wrapper">
       <POS ref:POS>
         <Launcher />
@@ -17,6 +17,8 @@
 <ControlPanel ref:controlPanel />
 
 <script>
+  import store from './store.js';
+
   /**
    * Detect if we're running on a webkit environment.
    * We check for `edge` because it fakes one.
@@ -34,6 +36,7 @@
       Launcher: './apps/Launcher.html',
       ControlPanel: './ControlPanel.html',
     },
+    store: () => store,
     helpers: {
       ENGINE,
     },
@@ -55,7 +58,7 @@
 </script>
 
 <style type="text/postcss">
-  @import '@mamba/styles/colors.pcss';
+
   @import './style.pcss';
 
   @media (max-width: 400px) {
@@ -84,6 +87,12 @@
 
     .main-wrapper {
       position: relative;
+    }
+
+    .container.MP35P {
+      height: 1000px;
+      align-items: initial;
+      padding-top: 32px;
     }
   }
 

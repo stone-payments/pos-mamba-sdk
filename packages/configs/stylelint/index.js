@@ -92,5 +92,11 @@ module.exports = {
      */
     'no-descending-specificity': null,
     'no-duplicate-selectors': true,
+    'property-no-unknown': [
+      true,
+      {
+        ignoreProperties: [/^\{/, /\}$/],
+      },
+    ],
   },
 };

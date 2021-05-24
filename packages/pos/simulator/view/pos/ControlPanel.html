@@ -17,6 +17,7 @@
   import FlowsPanel from './panels/Flows.html';
   import HttpPanel from './panels/Http.html';
   import Merchant from './panels/Merchant.html';
+  import Models from './panels/Models.html';
 
   let lastKeypressTime = 0;
 
@@ -26,7 +27,7 @@
     },
     data() {
       return {
-        panels: [GeneralPanel, Merchant, FlowsPanel, HttpPanel],
+        panels: [Models, GeneralPanel, Merchant, FlowsPanel, HttpPanel],
       };
     },
     oncreate() {
@@ -62,8 +63,9 @@
   .panel-wrapper {
     width: 100vh;
     overflow: hidden;
-    color: #333;
+    color: $neutral700;
     user-select: none;
+    font-family: 'Sharon Sans', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica', 'Arial', sans-serif;
   }
 
   .panel-toggle {
@@ -150,21 +152,24 @@
       width: 100%;
       border-radius: 3px;
       border: none;
-      border-left: 3px solid #e3e6e7;
+      border-left: 3px solid $neutral50;
       padding: 8px 5px;
       transition: background-color 0.3s ease;
     }
 
+    :global(input:not(.disable-effects)) {
+      background-color: #fff;
+      transition: background-color 0.3s ease;
+    }
+
     :global(textarea) {
-      background-color: #f5f7f7;
+      background-color: $green500;
     }
 
     :global(input) {
-      background-color: #fff;
-
       &:hover,
       &:focus {
-        background-color: #f5f7f7;
+        background-color: $green500;
       }
     }
 

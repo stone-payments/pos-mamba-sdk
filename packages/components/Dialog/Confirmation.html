@@ -4,7 +4,11 @@
   bind:isOpen
   on:open
   on:close
+  className="mb-confirmation-dialog"
   on:keyup|capture="keyHandler(event)"
+  contentStyle={[
+    'padding: 0 12px'
+  ]}
 >
   <slot></slot>
   <div slot="extra">
@@ -22,7 +26,12 @@
             </button>
           {:else}
             <div class="action" on:click="close('negative')" shortcut="close">
-              <RoundIcon symbol="close" size="giant" borderRadius="15px" bgColor="#ef5152" />
+              <RoundIcon
+                symbol="close"
+                size="giant"
+                borderRadius="11px"
+                bgColor={red400}
+              />
             </div>
           {/if}
         </td>
@@ -39,7 +48,12 @@
             </button>
           {:else}
             <div class="action" on:click="close('positive')" shortcut="enter">
-              <RoundIcon symbol="check" size="giant" borderRadius="15px" bgColor="#4ebf1a" />
+              <RoundIcon
+                symbol="check"
+                size="giant"
+                borderRadius="11px"
+                bgColor={green500}
+              />
             </div>
           {/if}
         </td>
@@ -50,6 +64,8 @@
 </Dialog>
 
 <script>
+  import { green500, red400 } from '@mamba/styles/colors';
+
   export default {
     components: {
       RoundIcon: '@mamba/icon/Round.html',
@@ -60,8 +76,12 @@
         isOpen: false,
         positiveLabel: null,
         negativeLabel: null,
-        primaryColor: undefined,
+        primaryColor: green500,
       };
+    },
+    helpers: {
+      green500,
+      red400,
     },
     computed: {
       _dialogProps: ({ positiveLabel, negativeLabel, primaryColor, ...props }) =>
@@ -99,8 +119,8 @@
           if(isClose) this.close('negative');
         }
       },
-      open() {
-        return this.refs.dialog.open();
+      open(duration) {
+        return this.refs.dialog.open(duration);
       },
       close(event) {
         return this.refs.dialog.close().then(() => {
@@ -114,8 +134,20 @@
 </script>
 
 <style>
-  .actions {
+  :global(.mb-confirmation-dialog:not(.is-wide)) .actions {
     margin: 28px auto 0;
+  }
+
+  :global(.mb-confirmation-dialog.is-wide .message) {
+    margin-bottom: 10px;
+  }
+
+  :global(.mb-confirmation-dialog.is-wide .extra) {
+    margin-bottom: 10px;
+    width: 100%;
+  }
+
+  .actions {
     table-layout: fixed;
 
     &.has-labels {
