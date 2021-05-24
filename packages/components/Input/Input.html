@@ -32,8 +32,8 @@
     {/if}
   </div>
 
-  {#if !isValid && !!_errorMsg}
-    <div class="validation-msg" style="color: {errorColor};">
+  {#if (!isValid || isWarning) && !!_errorMsg}
+    <div class="validation-msg" class:warning="isWarning">
       {_errorMsg}
     </div>
   {/if}
@@ -43,9 +43,9 @@
 <script>
   import Keyboard from '@mamba/pos/api/keyboard.js';
   import System from '@mamba/pos/api/system.js';
+  import { neutral500 } from '@mamba/styles/colors';
   import masker from './libs/masker.js';
   import defaultTokens from './libs/tokens.js';
-  import { red600, neutral500 } from '@mamba/styles/colors';
 
   export default {
     components: {
@@ -78,11 +78,11 @@
         bgColor: '#fff',
         textColor: neutral500,
         labelColor: neutral500,
-        errorColor: red600,
         /** Validation */
         validateOn: 'submit',
         validation: undefined,
         isValid: undefined,
+        isWarning: undefined,
         _errorMsg: undefined,
         /** Mask */
         mask: undefined,
@@ -203,6 +203,11 @@
         }
 
         const result = validation(rawValue, value);
+
+        if (typeof result.isWarning === 'boolean') {
+          validateObj.isWarning = result.isWarning;
+          validateObj.isValid = true;
+        }
 
         if (typeof result === 'boolean') {
           validateObj.isValid = result;
@@ -432,6 +437,10 @@
     padding-top: 5px;
     font-size: 12px;
     padding-bottom: 5px;
+
+    &.warning {
+      color: $yellow500;
+    }
   }
 
   .wrapper-input {
