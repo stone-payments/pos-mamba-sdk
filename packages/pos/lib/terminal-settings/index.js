@@ -20,7 +20,11 @@ const hasType = t => {
 
 const decodeTrimString = s => {
   if (!isString(s)) return s;
-  return decodeURIComponent(escape(s.trim()));
+  try {
+    return decodeURIComponent(escape(s.trim()));
+  } catch (_) {
+    return s;
+  }
 };
 
 /**
@@ -63,9 +67,10 @@ const tryObject = o => {
   if (!isString(o)) return undefined;
   if (!hasBoB(o)) return o;
   try {
-    return JSON.parse(o);
+    return JSON.parse(o, (_, value) =>
+      isString(value) ? decodeTrimString(value) : value,
+    );
   } catch (_) {
-    // eslint-disable-next-line no-unsafe-finally
     return null;
   }
 };
@@ -228,7 +233,7 @@ export default {
     if (__DEV__ || __DEBUG_LVL__ >= 2) {
       const sstring = JSON.stringify(setting, null, 2);
       console.log(
-        `\x1b[37m[TerminalSettings getSetting] ${flag} \x1B[33m${typeof setting}\x1B[0m ${sstring}`,
+        `📘 \x1b[36m[TerminalSettings getSetting]\n\t\x1b[33mFlag: \x1b[39m${typeof rawSetting} ${flag}\n\t\x1b[33mRaw: \x1b[39m${rawSetting}\n\t\x1b[33mFinal: \x1b[39m${sstring}\x1B[0m`,
       );
     }
     return setting;
