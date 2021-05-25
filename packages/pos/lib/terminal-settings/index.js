@@ -67,7 +67,9 @@ const tryObject = o => {
   if (!isString(o)) return undefined;
   if (!hasBoB(o)) return o;
   try {
-    return JSON.parse(o);
+    return JSON.parse(o, (key, value) =>
+      typeof value === 'string' ? decodeTrimString(value) : value,
+    );
   } catch (_) {
     // eslint-disable-next-line no-unsafe-finally
     return null;
