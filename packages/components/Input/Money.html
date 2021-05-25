@@ -127,7 +127,6 @@
         this.fire('submit', this._getSubmissionObj());
       },
       _onKeydown(e) {
-
         e.preventDefault();
         const keyName = Keyboard.getKeyName(e.keyCode);
         const { readonlyOnEnter } = this.get();
@@ -164,7 +163,7 @@
         cents = parseFloat(cents);
 
         this.set({ cents });
-        this.refs.amountInput.invalidate();
+        this.refs.amountInput._onInput(e);
       },
     },
   };
