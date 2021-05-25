@@ -71,7 +71,6 @@ const tryObject = o => {
       typeof value === 'string' ? decodeTrimString(value) : value,
     );
   } catch (_) {
-    // eslint-disable-next-line no-unsafe-finally
     return null;
   }
 };
