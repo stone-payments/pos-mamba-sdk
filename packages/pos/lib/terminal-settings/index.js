@@ -20,7 +20,11 @@ const hasType = t => {
 
 const decodeTrimString = s => {
   if (!isString(s)) return s;
-  return decodeURIComponent(escape(s.trim()));
+  try {
+    return decodeURIComponent(escape(s.trim()));
+  } catch (_) {
+    return s;
+  }
 };
 
 /**
