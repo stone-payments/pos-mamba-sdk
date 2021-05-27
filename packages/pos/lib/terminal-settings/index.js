@@ -205,10 +205,11 @@ export default {
    * Get property valid value
    *
    * @param {string} flag
-   * @param {any} _default
+   * @param {any} _default default value
+   * @param {any} _fromCache should get or not from cached settings
    * @return {any} Feature Flag value
    */
-  getSetting(flag, _default) {
+  getSetting(flag, _default, _fromCache = false) {
     if (!flag) {
       const err = new Error(`[TerminalSettings] flag cannot be null`);
       console.log(
@@ -220,22 +221,42 @@ export default {
     }
 
     /* Necessary because the circular dependency with simulator */
-    if (window.$System && typeof window.$System.getUserSetting !== 'function') {
+    if (
+      !_fromCache &&
+      window.$System &&
+      typeof window.$System.getUserSetting !== 'function'
+    ) {
       console.error('System.getUserSetting not present');
       return undefined;
     }
 
-    const rawSetting = window.$System.getUserSetting(String(flag));
-    const parsedSetting = castValue(rawSetting);
+    const _flag = String(flag);
 
-    const setting = hasType(parsedSetting) ? parsedSetting : _default;
+    let setting;
+    if (_fromCache === true) {
+      setting = this.getSettings()[_flag] || _default;
+    } else {
+      const rawSetting = window.$System.getUserSetting(_flag);
+      const parsedSetting = castValue(rawSetting);
+      setting = hasType(parsedSetting) ? parsedSetting : _default;
+    }
 
     if (__DEV__ || __DEBUG_LVL__ >= 2) {
       const sstring = JSON.stringify(setting, null, 2);
       console.log(
-        `📘 \x1b[36m[TerminalSettings getSetting]\n\t\x1b[33mFlag: \x1b[39m${typeof rawSetting} ${flag}\n\t\x1b[33mRaw: \x1b[39m${rawSetting}\n\t\x1b[33mFinal: \x1b[39m${sstring}\x1B[0m`,
+        `📘 \x1b[36m[TerminalSettings getSetting]\n\t\x1b[33mFlag: \x1b[39m${typeof rawSetting} ${flag}\n\t\x1b[33mFinal: \x1b[39m${sstring}\x1B[0m`,
       );
     }
     return setting;
+  },
+  /**
+   * Get property valid cached value
+   *
+   * @param {string} flag
+   * @param {any} _default default value
+   * @return {any} Feature Flag value
+   */
+  getCachedSetting(flag, _default) {
+    return this.getSetting(flag, _default, true);
   },
 };
