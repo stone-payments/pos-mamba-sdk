@@ -48,7 +48,7 @@ export const toggleActive = (items, index) => {
 
 const scrollTo = (yaxis, item) => {
   const { element } = item.element.refs;
-  const { offsetHeight = 0 } = document.querySelector('.status-bar');
+  const { offsetHeight = 0 } = document.querySelector('.status-bar') || {};
   if (!element) {
     if (__DEV__) {
       console.warn('Refresh the page to reset <FlatList /> references');
