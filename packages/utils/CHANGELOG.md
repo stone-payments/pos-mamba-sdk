@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.6.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/utils@3.5.1...@mamba/utils@3.6.0) (2021-06-02)
+
+
+### Bug Fixes
+
+* 🐛 duplicate ([def5999](https://github.com/stone-payments/pos-mamba-sdk/commit/def599987db4eb9b421540ba5ccd2fe9ed3cf8b1))
+
+
+### Features
+
+* 🎸 include MP35 model ([c684241](https://github.com/stone-payments/pos-mamba-sdk/commit/c684241c3e08cdbb5745a49380de8361e5b57a90))
+
+
+
+
+
 ## [3.5.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/utils@3.5.0...@mamba/utils@3.5.1) (2021-05-11)
 
 **Note:** Version bump only for package @mamba/utils

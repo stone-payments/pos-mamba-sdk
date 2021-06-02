@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.6.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.5.1...@mamba/pos@3.6.0) (2021-06-02)
+
+
+### Bug Fixes
+
+* 🐛 missing files ([96fc29c](https://github.com/stone-payments/pos-mamba-sdk/commit/96fc29cf8f13326bbfd7e808ce4651fbf35e87da))
+* 🐛 prevent URI exception ([3460a68](https://github.com/stone-payments/pos-mamba-sdk/commit/3460a684ac24887c0db8d406a117e2a85c8d5be4))
+* 🐛 simulator keyboard for model selected ([d8b9981](https://github.com/stone-payments/pos-mamba-sdk/commit/d8b998148be9f7c198110156daf5686021f892cf))
+* 🐛 use revive to escape json string accents ([97d329c](https://github.com/stone-payments/pos-mamba-sdk/commit/97d329ce8084a8e5f413a796e4ebf4f844f1df4b))
+
+
+### Features
+
+* 🎸 add get setting from cache method ([455f060](https://github.com/stone-payments/pos-mamba-sdk/commit/455f060947496d77c04d5c8100541bf5bb65f022))
+* 🎸 TerminalSettings lib release ([a4e1625](https://github.com/stone-payments/pos-mamba-sdk/commit/a4e16252b450c9af7422a32f6712bf65c8354718))
+
+
+
+
+
 ## [3.5.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.5.0...@mamba/pos@3.5.1) (2021-05-11)
 
 **Note:** Version bump only for package @mamba/pos
