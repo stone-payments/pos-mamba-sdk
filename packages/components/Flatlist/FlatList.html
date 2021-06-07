@@ -2,7 +2,7 @@
 
 {#if dataSection && dataSection.length > 0}
   <div class="flatlist {className}" style={_styles} ref:flatListRef >
-    {#each dataSection.filter(Boolean) as section, sectionIndex}
+    {#each dataSection.filter(Boolean) as section, sectionIndex (sectionIndex)}
       {#if section.data}
         {#if section.title}
           {#if renderTitle}
@@ -121,12 +121,11 @@
           _elementsRefs: [],
           disableEnterKeystroke: hasArrowCapabilities,
         });
-
         // If passed section in data try resolve
         const dataIsSection = (d) =>
           d.some(i => i.data && Array.isArray(i.data));
 
-        if(isDataArray && data.length > 0 && !dataSection) {
+        if(isDataArray && data.length > 0) {
           this.set({
             dataSection: dataIsSection(data) ? data : [{
               title: null,
