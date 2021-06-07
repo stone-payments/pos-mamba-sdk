@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.5.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/configs@3.5.1...@mamba/configs@3.5.3) (2021-06-02)
+
+
+### Bug Fixes
+
+* 🐛 Change eslint-plugin-import to stable version ([621dafb](https://github.com/stone-payments/pos-mamba-sdk/commit/621dafb9fb383eb7d96d08bf6166e44d117aa4da))
+
+
+
+
+
 ## [3.5.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/configs@3.5.0...@mamba/configs@3.5.1) (2021-05-11)
 
 **Note:** Version bump only for package @mamba/configs

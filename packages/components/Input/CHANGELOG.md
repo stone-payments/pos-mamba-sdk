@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.6.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@3.5.1...@mamba/input@3.6.0) (2021-06-02)
+
+
+### Bug Fixes
+
+* 🐛 Fix money input ([2e23554](https://github.com/stone-payments/pos-mamba-sdk/commit/2e235541f884847a84013b74ea75955988148dc4))
+
+
+### Features
+
+* 🎸 Include waring state to show a warning ([1734c0e](https://github.com/stone-payments/pos-mamba-sdk/commit/1734c0edc803e5890a67db94e2a7513b69f8b840))
+
+
+
+
+
 ## [3.5.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@3.5.0...@mamba/input@3.5.1) (2021-05-11)
 
 **Note:** Version bump only for package @mamba/input

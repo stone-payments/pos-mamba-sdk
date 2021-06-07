@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.6.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/flatlist@3.5.1...@mamba/flatlist@3.6.0) (2021-06-02)
+
+
+### Bug Fixes
+
+* 🐛 fix scroll flatlist ([c330e82](https://github.com/stone-payments/pos-mamba-sdk/commit/c330e82a4f47453fb158ca5859d16b516e133a33))
+* 🐛 Include default object ([376daf0](https://github.com/stone-payments/pos-mamba-sdk/commit/376daf0f754fe6238e2eb0631d6b25a53dea06e3))
+* 🐛 Include default value ([f835e4e](https://github.com/stone-payments/pos-mamba-sdk/commit/f835e4ea29391b1f2444765d60b6147e364b65af))
+* 🐛 Include statusbar height and fix row layout ([ef39f34](https://github.com/stone-payments/pos-mamba-sdk/commit/ef39f348d35f10225f1679af1f3a0d2b71153b3c))
+* 🐛 Include validation ([1f71c6e](https://github.com/stone-payments/pos-mamba-sdk/commit/1f71c6eb25d644a71abbe01e38451854931e9ef5))
+
+
+### Features
+
+* 🎸 add more models to arrow navigation decorator ([d42e86b](https://github.com/stone-payments/pos-mamba-sdk/commit/d42e86bfde09b914c5c55aa641124c48b16d4061))
+* 🎸 add MP35 to flatlist arrow navigation capabilities ([329d298](https://github.com/stone-payments/pos-mamba-sdk/commit/329d298d2805b6ee2fe5083c053b476b356966fc))
+* 🎸 include Q60 and D195 to arrow navigation in flatlist ([032ec0d](https://github.com/stone-payments/pos-mamba-sdk/commit/032ec0d071b3502b70dfc15fe7f3f0dff6b4d1a7))
+
+
+
+
+
 ## [3.5.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/flatlist@3.5.0...@mamba/flatlist@3.5.1) (2021-05-11)
 
 
