@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.6.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/flatlist@3.6.0...@mamba/flatlist@3.6.1) (2021-06-07)
+
+
+### Bug Fixes
+
+* 🐛 Fix flatlist ([dca6751](https://github.com/stone-payments/pos-mamba-sdk/commit/dca67510f6a4309dc156eda89e1d2d9ad5b9948f))
+
+
+
+
+
 # [3.6.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/flatlist@3.5.1...@mamba/flatlist@3.6.0) (2021-06-02)
 
 
