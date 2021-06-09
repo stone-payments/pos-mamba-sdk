@@ -11,6 +11,7 @@
   },
   "gitHead": "0daaddf15510894989750580009daa93e1fbb6db",
   "dependencies": {
+    "@mamba/pos": "^3.6.0",
     "date-fns": "^2.5.1",
     "date-fns-tz": "^1.0.8"
   }
