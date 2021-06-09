@@ -1,3 +1,5 @@
+import System from '@mamba/pos/api/system.js';
+
 const ThisStore = {
   _storedModel: undefined,
 };
@@ -43,7 +45,7 @@ export const AVAILABLE_SLUGS = MODELS_SLUGS.reduce((result, model) => {
  */
 export const getPosModel = () => {
   /* Necessary because the circular dependency with simulator */
-  if (window.$System && typeof window.$System.getPosModel !== 'function') {
+  if (typeof System.getPosModel !== 'function') {
     return DEFAULT_MODEL;
   }
   const { _storedModel } = ThisStore;
@@ -51,7 +53,7 @@ export const getPosModel = () => {
     return _storedModel;
   }
 
-  ThisStore._storedModel = window.$System.getPosModel();
+  ThisStore._storedModel = System.getPosModel();
   return ThisStore._storedModel;
 };
 
