@@ -204,16 +204,18 @@
 
         const result = validation(rawValue, value);
 
-        if (typeof result.isWarning === 'boolean') {
-          validateObj.isWarning = result.isWarning;
-          validateObj.isValid = true;
-        }
+        if (result !== undefined) {
+          if (typeof result.isWarning === 'boolean') {
+            validateObj.isWarning = result.isWarning;
+            validateObj.isValid = true;
+          }
 
-        if (typeof result === 'boolean') {
-          validateObj.isValid = result;
-        } else {
-          validateObj.isValid = !!result.isValid;
-          validateObj._errorMsg = result.msg;
+          if (typeof result === 'boolean') {
+            validateObj.isValid = result;
+          } else {
+            validateObj.isValid = !!result.isValid;
+            validateObj._errorMsg = result.msg;
+          }
         }
 
         return validateObj;
