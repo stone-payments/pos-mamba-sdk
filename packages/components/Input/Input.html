@@ -135,7 +135,10 @@
         current._errorMsg &&
         current.validateOn === 'input'
       ) {
-        this.refs.input.scrollIntoView(false);
+        this.refs.input.scrollIntoView({
+          block: 'center',
+          inline: 'center',
+        });
       }
 
       if (
