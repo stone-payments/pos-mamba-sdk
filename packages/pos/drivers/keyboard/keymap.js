@@ -1,14 +1,21 @@
 /**
  * KeyCode <-> KeyName dictionary
  */
+
+export const KEYUP = 38;
+
+export const KEYDOWN = 38;
+
+export const ENTER = 13;
+
 export const KEYMAP = Object.freeze({
-  13: 'enter',
+  [ENTER]: 'enter',
   8: 'back',
   27: 'close',
   17: 'help',
   16: 'shortcuts',
-  38: 'keyup',
-  40: 'keydown',
+  [KEYUP]: 'keyup',
+  [KEYDOWN]: 'keydown',
   48: '0',
   49: '1',
   50: '2',
