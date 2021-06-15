@@ -44,7 +44,7 @@
   import { ENTER, KEYUP, KEYDOWN } from '@mamba/pos/drivers/keyboard/keymap.js';
   import { selectRowItem, toggleActive, getStyles } from './helpers.js';
   import { ACTIVE_MODEL } from './decorators.js';
-  import { KEY_ACTION, ARROW_CAPABILITIES_MODELS } from './const.js';
+  import { ARROW_CAPABILITIES_MODELS } from './const.js';
 
   const EVENTS = {
     ITEM_SELECTED: 'itemSelected',
@@ -233,13 +233,11 @@
         if(keyCode === KEYUP || keyCode === KEYDOWN) {
           const { scrollY, selectedIndex, _elementsRefs } = this.get();
 
-          const keyAction = keyCode === KEYUP ? KEY_ACTION.UP : KEY_ACTION.DOWN;
-
           const internalIndex = selectRowItem(
             _elementsRefs,
             selectedIndex,
             scrollY,
-            keyAction,
+            keyCode,
           );
 
           const target = _elementsRefs[internalIndex];
