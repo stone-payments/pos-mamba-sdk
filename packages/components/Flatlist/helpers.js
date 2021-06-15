@@ -1,5 +1,5 @@
 import * as Colors from '@mamba/styles/colors.js';
-import { KEY_ACTION } from './const.js';
+import { KEYUP, KEYDOWN } from '@mamba/pos/drivers/keyboard/keymap.js';
 
 let lastActive;
 
@@ -60,14 +60,14 @@ const scrollTo = (yaxis, item) => {
 
   const { top, height } = element.getBoundingClientRect();
 
-  let innerHeight = window.innerHeight;
+  const { innerHeight } = window;
 
-  const upperBounds = top + offsetHeight; //top of the element
-  const lowerBounds = top + offsetHeight + height;  //bottom of the element
+  const upperBounds = top + offsetHeight; // top of the element
+  const lowerBounds = top + offsetHeight + height; // bottom of the element
 
-  if(upperBounds < 0) {
-    const newTop = yaxis + lowerBounds - innerHeight; //bottom of the element will be bottom of new page
-    if(newTop < 0) {
+  if (upperBounds < 0) {
+    const newTop = yaxis + lowerBounds - innerHeight; // bottom of the element will be bottom of new page
+    if (newTop < 0) {
       window.scroll(0, 0);
     } else {
       window.scrollTo(0, newTop);
@@ -79,18 +79,13 @@ const scrollTo = (yaxis, item) => {
 };
 
 const getPosition = (index, keyAction) => {
-  if (keyAction === KEY_ACTION.UP) {
+  if (keyAction === KEYUP) {
     return index !== null && index > 0 ? index - 1 : index;
   }
   return index !== null ? index + 1 : 0;
 };
 
-export const selectRowItem = (
-  nodeList,
-  index,
-  yaxis,
-  keyAction = KEY_ACTION.DOWN,
-) => {
+export const selectRowItem = (nodeList, index, yaxis, keyAction = KEYDOWN) => {
   const selectIndex = getPosition(index, keyAction);
 
   if (nodeList[selectIndex]) {
