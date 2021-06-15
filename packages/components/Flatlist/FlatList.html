@@ -1,4 +1,4 @@
-<svelte:window on:keyup="selectRowItems(event)" bind:scrollY="scrollY" />
+<svelte:window bind:scrollY="scrollY" />
 
 {#if dataSection && dataSection.length > 0}
   <div class="flatlist {className}" style={_styles} ref:flatListRef >
@@ -35,6 +35,9 @@
       {/if}
     {/each}
   </div>
+  <Keystroke key="enter" on:keystroke="selectRowItems(13)"/>
+  <Keystroke key="keyup" on:keystroke="selectRowItems(38)"/>
+  <Keystroke key="keydown" on:keystroke="selectRowItems(40)"/>
 {/if}
 
 <script>
@@ -52,6 +55,7 @@
   export default {
     components: {
       Parent: './components/parent.html',
+      Keystroke: '@mamba/app/Keystroke.html',
     },
     helpers: {
       _setDecorator(decorator, item, decoratorOptions) {
@@ -202,9 +206,7 @@
           });
         }
       },
-      selectRowItems(event) {
-        const { keyCode } = event;
-
+      selectRowItems(keyCode) {
         /**
          * KeyCode -> KeyName dictionary
          *
@@ -215,32 +217,16 @@
         */
         const {
           _isKeystrokeActive,
-          overrideEnterKeystroke,
           disableEnterKeystroke,
         } = this.get();
         if(!_isKeystrokeActive) return;
 
         if(keyCode === 13 && disableEnterKeystroke === false) {
-          const el = document.activeElement;
-          const isInputOnFocus =
-            el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA');
-
-          if(overrideEnterKeystroke === true && !isInputOnFocus) {
-            event.preventDefault();
-            event.stopPropagation();
-            this.setSelected(undefined, true);
-            return;
-          }
-
           this.setSelected(undefined, true);
           return;
         }
 
         if(keyCode === 38 || keyCode === 40) {
-          if(event) {
-            event.preventDefault();
-            event.stopImmediatePropagation();
-          }
           const { scrollY, selectedIndex, _elementsRefs } = this.get();
 
           const keyAction = keyCode === 38 ? KEY_ACTION.UP : KEY_ACTION.DOWN;
