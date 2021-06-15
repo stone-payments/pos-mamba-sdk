@@ -4,7 +4,7 @@
 
 export const KEYUP = 38;
 
-export const KEYDOWN = 38;
+export const KEYDOWN = 40;
 
 export const ENTER = 13;
 
