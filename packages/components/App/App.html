@@ -78,7 +78,7 @@
 
         /** Allow to override the default app close process */
         if (typeof root.onClose === 'function') {
-          const closingPromise = root.onClose();
+          const closingPromise = root.onClose(root);
 
           /**
            * If the `onClose` returns a promise, let's wait for its resolution and close the app.
