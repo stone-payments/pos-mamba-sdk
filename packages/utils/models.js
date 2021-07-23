@@ -16,6 +16,8 @@ export const MODELS = Object.freeze({
   V240M: 'Verifone V240M',
   D195: 'D195',
   Q60: 'Q60',
+  D230: 'D230',
+  D199: 'D199',
 });
 
 /**
