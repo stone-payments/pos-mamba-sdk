@@ -244,7 +244,7 @@ export default {
     if (__DEV__ || __DEBUG_LVL__ >= 2) {
       const sstring = JSON.stringify(setting, null, 2);
       console.log(
-        `📘 \x1b[36m[TerminalSettings getSetting]\n\t\x1b[33mFlag: \x1b[39m${typeof rawSetting} ${flag}\n\t\x1b[33mFinal: \x1b[39m${sstring}\x1B[0m`,
+        `📘 \x1b[36m[TerminalSettings getSetting]\n\t\x1b[33mFlag: \x1b[39m${typeof setting} ${flag}\n\t\x1b[33mFinal: \x1b[39m${sstring}\x1B[0m`,
       );
     }
     return setting;

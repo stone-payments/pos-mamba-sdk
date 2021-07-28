@@ -1,8 +1,8 @@
-<svelte:window on:keydown="selectRowItems(event)" bind:scrollY="scrollY" />
+<svelte:window bind:scrollY="scrollY" />
 
 {#if dataSection && dataSection.length > 0}
   <div class="flatlist {className}" style={_styles} ref:flatListRef >
-    {#each dataSection.filter(Boolean) as section, sectionIndex}
+    {#each dataSection.filter(Boolean) as section, sectionIndex (sectionIndex)}
       {#if section.data}
         {#if section.title}
           {#if renderTitle}
@@ -35,12 +35,16 @@
       {/if}
     {/each}
   </div>
+  <Keystroke key="enter" on:keystroke="selectRowItems(ENTER)"/>
+  <Keystroke key="keyup" on:keystroke="selectRowItems(KEYUP)"/>
+  <Keystroke key="keydown" on:keystroke="selectRowItems(KEYDOWN)"/>
 {/if}
 
 <script>
+  import { ENTER, KEYUP, KEYDOWN } from '@mamba/pos/drivers/keyboard/keymap.js';
   import { selectRowItem, toggleActive, getStyles } from './helpers.js';
   import { ACTIVE_MODEL } from './decorators.js';
-  import { KEY_ACTION, ARROW_CAPABILITIES_MODELS } from './const.js';
+  import { ARROW_CAPABILITIES_MODELS } from './const.js';
 
   const EVENTS = {
     ITEM_SELECTED: 'itemSelected',
@@ -52,8 +56,12 @@
   export default {
     components: {
       Parent: './components/parent.html',
+      Keystroke: '@mamba/app/Keystroke.html',
     },
     helpers: {
+      ENTER,
+      KEYUP,
+      KEYDOWN,
       _setDecorator(decorator, item, decoratorOptions) {
         const isFunc = typeof decorator === 'function';
         return isFunc ? decorator(item, decoratorOptions) : decorator;
@@ -121,12 +129,11 @@
           _elementsRefs: [],
           disableEnterKeystroke: hasArrowCapabilities,
         });
-
         // If passed section in data try resolve
         const dataIsSection = (d) =>
           d.some(i => i.data && Array.isArray(i.data));
 
-        if(isDataArray && data.length > 0 && !dataSection) {
+        if(isDataArray && data.length > 0) {
           this.set({
             dataSection: dataIsSection(data) ? data : [{
               title: null,
@@ -203,9 +210,7 @@
           });
         }
       },
-      selectRowItems(event) {
-        const { keyCode } = event;
-
+      selectRowItems(keyCode) {
         /**
          * KeyCode -> KeyName dictionary
          *
@@ -216,41 +221,23 @@
         */
         const {
           _isKeystrokeActive,
-          overrideEnterKeystroke,
           disableEnterKeystroke,
         } = this.get();
         if(!_isKeystrokeActive) return;
 
-        if(keyCode === 13 && disableEnterKeystroke === false) {
-          const el = document.activeElement;
-          const isInputOnFocus =
-            el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA');
-
-          if(overrideEnterKeystroke === true && !isInputOnFocus) {
-            event.preventDefault();
-            event.stopPropagation();
-            this.setSelected(undefined, true);
-            return;
-          }
-
+        if(keyCode === ENTER && disableEnterKeystroke === false) {
           this.setSelected(undefined, true);
           return;
         }
 
-        if(keyCode === 38 || keyCode === 40) {
-          if(event) {
-            event.preventDefault();
-            event.stopImmediatePropagation();
-          }
+        if(keyCode === KEYUP || keyCode === KEYDOWN) {
           const { scrollY, selectedIndex, _elementsRefs } = this.get();
-
-          const keyAction = keyCode === 38 ? KEY_ACTION.UP : KEY_ACTION.DOWN;
 
           const internalIndex = selectRowItem(
             _elementsRefs,
             selectedIndex,
             scrollY,
-            keyAction,
+            keyCode,
           );
 
           const target = _elementsRefs[internalIndex];

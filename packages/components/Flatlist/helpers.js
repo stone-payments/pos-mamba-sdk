@@ -1,5 +1,5 @@
 import * as Colors from '@mamba/styles/colors.js';
-import { KEY_ACTION } from './const.js';
+import { KEYUP, KEYDOWN } from '@mamba/pos/drivers/keyboard/keymap.js';
 
 let lastActive;
 
@@ -48,7 +48,9 @@ export const toggleActive = (items, index) => {
 
 const scrollTo = (yaxis, item) => {
   const { element } = item.element.refs;
+
   const { offsetHeight = 0 } = document.querySelector('.status-bar') || {};
+
   if (!element) {
     if (__DEV__) {
       console.warn('Refresh the page to reset <FlatList /> references');
@@ -56,27 +58,34 @@ const scrollTo = (yaxis, item) => {
     return;
   }
 
-  const { top } = element.getBoundingClientRect();
-  if (top + yaxis >= window.innerHeight) {
-    window.scrollTo(0, top + yaxis + offsetHeight);
-  } else {
-    window.scrollTo(0, 0);
+  const { top, height } = element.getBoundingClientRect();
+
+  const { innerHeight } = window;
+
+  const upperBounds = top + offsetHeight; // top of the element
+  const lowerBounds = top + offsetHeight + height; // bottom of the element
+
+  if (upperBounds < 0) {
+    const newTop = yaxis + lowerBounds - innerHeight; // bottom of the element will be bottom of new page
+    if (newTop < 0) {
+      window.scroll(0, 0);
+    } else {
+      window.scrollTo(0, newTop);
+    }
+  } else if (lowerBounds > innerHeight) {
+    const newTop = top + yaxis + offsetHeight;
+    window.scrollTo(0, newTop);
   }
 };
 
 const getPosition = (index, keyAction) => {
-  if (keyAction === KEY_ACTION.UP) {
+  if (keyAction === KEYUP) {
     return index !== null && index > 0 ? index - 1 : index;
   }
   return index !== null ? index + 1 : 0;
 };
 
-export const selectRowItem = (
-  nodeList,
-  index,
-  yaxis,
-  keyAction = KEY_ACTION.DOWN,
-) => {
+export const selectRowItem = (nodeList, index, yaxis, keyAction = KEYDOWN) => {
   const selectIndex = getPosition(index, keyAction);
 
   if (nodeList[selectIndex]) {
