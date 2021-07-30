@@ -94,6 +94,7 @@ const GetDefaultDecorator = (rowProps, overrides = {}) => {
       [MODELS.MP35]: ARROW_CAPABILITIES_DECORATOR,
       [MODELS.Q60]: ARROW_CAPABILITIES_DECORATOR,
       [MODELS.D195]: ARROW_CAPABILITIES_DECORATOR,
+      [MODELS.D230]: ARROW_CAPABILITIES_DECORATOR,
     }[ACTIVE_MODEL] || SetDefaultRowDecorator(defaultProps, currentOverride)
   );
 };
