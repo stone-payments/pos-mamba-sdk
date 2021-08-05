@@ -1,0 +1,109 @@
+<div class="numeric-wrapper" class:onfocus="focus">
+  <Input
+    ref:inputNumeric
+    autofocus
+    placeholder="Digite algum número"
+    bind:value
+  />
+
+
+  <div class="keyboard">
+    {#each new Array(9) as _, index }
+      <button class="key" on:click="insertKey(index+1)">{index + 1}</button>
+    {/each}
+
+    <button class="key button">
+      <img class="icon" src={deleteIcon} on:click="deleteKey()">
+    </button>
+    <button class="key" on:click="insertKey(0)">0</button>
+    <button class="key button">
+      <img class="icon" src={confirmIcon} on:click="confirm()">
+    </button>
+  </div>
+</div>
+
+<script>
+  import deleteIcon from './assets/num_delete.png';
+  import confirmIcon from './assets/num_ok.png';
+
+  export default {
+    components: {
+      Input: '@mamba/input/Input.html',
+    },
+    helpers: {
+      deleteIcon,
+      confirmIcon,
+    },
+    data() {
+    },
+    oncreate() {
+      this.set({
+        value: '',
+      });
+    },
+    methods: {
+      insertKey(key) {
+
+        const { value } = this.get();
+
+        this.set({
+          value: value + key,
+        });
+      },
+      deleteKey() {
+
+        const { value } = this.get();
+
+        if (!value) return;
+
+        this.set({
+          value: value.slice(0, -1),
+        });
+      },
+      confirm() {
+        this.fire('submit');
+      },
+    },
+  }
+</script>
+
+<style>
+  .numeric-wrapper {
+    /* css debug */
+    /* border: 1px solid red; */
+    position: relative;
+    height: 91.4%;
+  }
+
+  .keyboard {
+    width: 100%;
+    max-height: 320px;
+    box-sizing: border-box;
+    padding: 7px 6px;
+    /* css debug */
+    /* border: 1px solid $gray500; */
+    border-top: 1px solid $gray700;
+    background-color: $neutral50;
+    position: absolute;
+    bottom: 0;
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .key {
+      max-width: 152px;
+      width: 100%;
+      height: 72px;
+      border: 0;
+      font-size: 35px;
+      line-height: 41px;
+      color: $neutral700;
+      background-color: transparent;
+    }
+
+    .icon {
+      max-width: 32px;
+    }
+  }
+</style>
