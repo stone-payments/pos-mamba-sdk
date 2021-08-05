@@ -36,7 +36,7 @@
       <!-- Label Description  -->
       {#if _label.description}
         <div class="mb-desc">
-          {_label.description}
+          {@html _label.description}
         </div>
       {/if}
 
@@ -74,7 +74,7 @@
         <!-- Right Description -->
         {#if rightLabel.description}
           <div class="mb-desc">
-            {rightLabel.description}
+            {@html rightLabel.description}
           </div>
         {/if}
 
@@ -182,7 +182,8 @@
 
     &-desc {
       margin-top: 8px;
-      font-size: 13px;
+      font-size: 12px;
+      line-height: 14px;
       color: $neutral500;
     }
   }
