@@ -111,8 +111,8 @@
       };
     },
     computed: {
-      _classAlign({ verticalAlign }) {
-        return getAlignClass(verticalAlign);
+      _classAlign({ verticalAlign, align }) {
+        return getAlignClass(verticalAlign || align);
       },
       _className({ className }) {
         return typeof className === 'string' ? ` ${className}` : '';
