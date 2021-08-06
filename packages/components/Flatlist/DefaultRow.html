@@ -12,27 +12,29 @@
   <!-- Main wrapper -->
   <div class="mb-row-main" style={getStyles(contentStyle)}>
 
-    {#if _label.value}
+    {#if _label.value || _label.description}
       <!-- Label wrapper -->
       <div class="mb-row-label">
 
-        <!-- Label - always render -->
-        <div class="mb-label" style={_label.style ? getStyles(_label.style) : undefined}>
+        <!-- Label wrapper -->
+        {#if _label.value}
+          <div class="mb-label" style={_label.style ? getStyles(_label.style) : undefined}>
 
-          <!-- Prefix decorator -->
-          {#if _label.prefix}
-            <Decorator
-              position={position}
-              value={_label.prefix}
-              style={_label.prefixStyle}
-            />
-          {/if}
+            <!-- Prefix decorator -->
+            {#if _label.prefix}
+              <Decorator
+                position={position}
+                value={_label.prefix}
+                style={_label.prefixStyle}
+              />
+            {/if}
 
-          <!-- Label -->
-          <span>
-            {_label.value || ''}
-          </span>
-        </div>
+            <!-- Label -->
+            <span>
+              {_label.value || ''}
+            </span>
+          </div>
+        {/if}
 
         <!-- Label Description  -->
         {#if _label.description}
@@ -44,12 +46,14 @@
       </div>
     {:elseif _customView}
       {#if typeof _customView === 'object' && _customView.hasComponent && _customView.value}
+        <!-- Custom view mount point  -->
         <svelte:component
           ref:customViewSComponent
           this="{_customView.value}"
           {..._customView.props}
         />
       {:else}
+        <!-- or render anything of it -->
         {_customView}
       {/if}
     {/if}
