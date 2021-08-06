@@ -1,25 +1,34 @@
-<div class="numeric-wrapper" class:onfocus="focus">
+<div class="numeric-wrapper" class:focus="isFocused">
+
+  {#if isFocused}
+    Tem Focus
+  {/if}
+
   <Input
     ref:inputNumeric
-    autofocus
-    placeholder="Digite algum número"
     bind:value
+    autofocus
+    forceFocus
+    placeholder="Digite algum número"
+    on:focus="_openKeyboard()"
+    on:blur="_closeKeyboard()"
   />
 
+  <!-- {#if isFocused} -->
+    <div class="keyboard">
+      {#each new Array(9) as _, index}
+        <button class="key" on:click="insertKey(event,index+1)">{index + 1}</button>
+      {/each}
 
-  <div class="keyboard">
-    {#each new Array(9) as _, index }
-      <button class="key" on:click="insertKey(index+1)">{index + 1}</button>
-    {/each}
-
-    <button class="key button">
-      <img class="icon" src={deleteIcon} on:click="deleteKey()">
-    </button>
-    <button class="key" on:click="insertKey(0)">0</button>
-    <button class="key button">
-      <img class="icon" src={confirmIcon} on:click="confirm()">
-    </button>
-  </div>
+      <button class="key button">
+        <img class="icon" src={deleteIcon} on:click="deleteKey()">
+      </button>
+      <button class="key" on:click="insertKey(event,0)">0</button>
+      <button class="key button">
+        <img class="icon" src={confirmIcon} on:click="confirm()">
+      </button>
+    </div>
+  <!-- {/if} -->
 </div>
 
 <script>
@@ -35,20 +44,35 @@
       confirmIcon,
     },
     data() {
+      return {
+        isFocused: false,
+      };
     },
     oncreate() {
       this.set({
         value: '',
       });
     },
+    onupdate() {
+    },
     methods: {
-      insertKey(key) {
+      _forceFocus() {
+
+        const { inputNumeric } = this.refs;
+
+        inputNumeric.focus();
+      },
+      insertKey(event,key) {
+
+        console.log(event);
 
         const { value } = this.get();
 
         this.set({
           value: value + key,
         });
+
+        this._forceFocus();
       },
       deleteKey() {
 
@@ -59,9 +83,22 @@
         this.set({
           value: value.slice(0, -1),
         });
+
+        this._forceFocus();
       },
       confirm() {
         this.fire('submit');
+      },
+      _openKeyboard() {
+
+        this.set({
+          isFocused: true,
+        })
+      },
+      _closeKeyboard() {
+        this.set({
+          isFocused: false,
+        })
       },
     },
   }
