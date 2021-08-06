@@ -292,7 +292,7 @@ A estrutura do objeto que irá compor o array para o `DefaultRow` é diferente, 
 ```ts
 type Alignment = 'start' | 'center' | 'end';
 
-interface Fixture {
+interface ComponentView {
   // Fixture value
   value?: () => Component | any,
 
@@ -309,6 +309,9 @@ interface Fixture {
   * },
   */
   on?: object,
+}
+
+interface Fixture extends ComponentView {
 
   // Styles
   style?: object,
@@ -343,6 +346,9 @@ interface DefaultRowProps = {
 
   // Useful to put anything before the label
   startFixture: Fixture,
+
+  // If you dont want work with labels, you can inject your own main content in the row.
+  customView: ComponentView
 
   // Row labels
   label: {
