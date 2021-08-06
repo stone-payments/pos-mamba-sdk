@@ -12,35 +12,47 @@
   <!-- Main wrapper -->
   <div class="mb-row-main" style={getStyles(contentStyle)}>
 
-    <!-- Label wrapper -->
-    <div class="mb-row-label">
+    {#if _label.value}
+      <!-- Label wrapper -->
+      <div class="mb-row-label">
 
-      <!-- Label - always render -->
-      <div class="mb-label" style={_label.style ? getStyles(_label.style) : undefined}>
+        <!-- Label - always render -->
+        <div class="mb-label" style={_label.style ? getStyles(_label.style) : undefined}>
 
-        <!-- Prefix decorator -->
-        {#if _label.prefix}
-          <Decorator
-            position={position}
-            value={_label.prefix}
-            style={_label.prefixStyle}
-          />
+          <!-- Prefix decorator -->
+          {#if _label.prefix}
+            <Decorator
+              position={position}
+              value={_label.prefix}
+              style={_label.prefixStyle}
+            />
+          {/if}
+
+          <!-- Label -->
+          <span>
+            {_label.value || ''}
+          </span>
+        </div>
+
+        <!-- Label Description  -->
+        {#if _label.description}
+          <div class="mb-desc">
+            {@html _label.description}
+          </div>
         {/if}
 
-        <!-- Label -->
-        <span>
-          {_label.value || ''}
-        </span>
       </div>
-
-      <!-- Label Description  -->
-      {#if _label.description}
-        <div class="mb-desc">
-          {@html _label.description}
-        </div>
+    {:elseif _customView}
+      {#if typeof _customView === 'object' && _customView.hasComponent && _customView.value}
+        <svelte:component
+          ref:customViewSComponent
+          this="{_customView.value}"
+          {..._customView.props}
+        />
+      {:else}
+        {_customView}
       {/if}
-
-    </div>
+    {/if}
 
     <!-- Right wrapper -->
     {#if rightLabel && typeof rightLabel === 'object'}
@@ -93,7 +105,7 @@
 </div>
 
 <script>
-  import { getStyles, getAlignClass } from './helpers.js';
+  import { getStyles, getAlignClass, shouldReturnComponent } from './helpers.js';
 
   export default {
     components: {
@@ -130,6 +142,9 @@
       _label({ label }) {
         if(!label) return { prefix: {}};
         return label;
+      },
+      _customView({ customView }) {
+        return shouldReturnComponent(customView);
       },
     },
   };
