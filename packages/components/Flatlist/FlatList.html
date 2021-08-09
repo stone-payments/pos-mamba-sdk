@@ -27,10 +27,12 @@
           />
         {/each}
 
-        {#if separator}
-          <svelte:component this="{separator}"/>
-        {:else}
-          <div class="separator"></div>
+        {#if showSeparator === true}
+          {#if typeof _separator === 'object' && _separator.hasComponent && _separator.value}
+            <svelte:component this="{_separator.value}"/>
+          {:else}
+            <div class="separator"></div>
+          {/if}
         {/if}
       {/if}
     {/each}
@@ -42,7 +44,7 @@
 
 <script>
   import { ENTER, KEYUP, KEYDOWN } from '@mamba/pos/drivers/keyboard/keymap.js';
-  import { selectRowItem, toggleActive, getStyles } from './helpers.js';
+  import { selectRowItem, toggleActive, getStyles, shouldReturnComponent } from './helpers.js';
   import { ACTIVE_MODEL } from './decorators.js';
   import { ARROW_CAPABILITIES_MODELS } from './const.js';
 
@@ -77,6 +79,7 @@
         dataSection: undefined,
         data: undefined,
         separator: null,
+        showSeparator: true,
         selectedIndex: 0,
         className: '',
         overrideEnterKeystroke: true,
@@ -102,6 +105,9 @@
       useAutoShortcuts({ dataSection, autoShortcuts }) {
         return autoShortcuts === true && dataSection && dataSection.length === 1;
       },
+      _separator({ separator }) {
+        return shouldReturnComponent(separator);
+      },
     },
     oncreate() {
       if(__DEV__ || __DEBUG_LVL__ >= 1) {
@@ -121,7 +127,6 @@
           this.set({ _hasElement: typeof flatListRef !== 'undefined' });
         }, 10);
 
-
         const hasArrowCapabilities =
           ARROW_CAPABILITIES_MODELS.indexOf(ACTIVE_MODEL) === -1;
 
@@ -140,7 +145,6 @@
               data,
             }],
           });
-
         }
       }
     },
