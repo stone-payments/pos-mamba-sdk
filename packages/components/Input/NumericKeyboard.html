@@ -1,9 +1,5 @@
 <div class="numeric-wrapper" class:focus="isFocused">
 
-  {#if isFocused}
-    Tem Focus
-  {/if}
-
   <Input
     ref:inputNumeric
     bind:value
@@ -11,10 +7,10 @@
     forceFocus
     placeholder="Digite algum número"
     on:focus="_openKeyboard()"
-    on:blur="_closeKeyboard()"
+    on:blur="_closeKeyboard(event)"
   />
 
-  <!-- {#if isFocused} -->
+  {#if isFocused}
     <div class="keyboard">
       {#each new Array(9) as _, index}
         <button class="key" on:click="insertKey(event,index+1)">{index + 1}</button>
@@ -28,7 +24,7 @@
         <img class="icon" src={confirmIcon} on:click="confirm()">
       </button>
     </div>
-  <!-- {/if} -->
+  {/if}
 </div>
 
 <script>
@@ -64,8 +60,6 @@
       },
       insertKey(event,key) {
 
-        console.log(event);
-
         const { value } = this.get();
 
         this.set({
@@ -87,6 +81,11 @@
         this._forceFocus();
       },
       confirm() {
+
+        this.set({
+          isFocused: false,
+        })
+
         this.fire('submit');
       },
       _openKeyboard() {
@@ -95,10 +94,21 @@
           isFocused: true,
         })
       },
-      _closeKeyboard() {
-        this.set({
-          isFocused: false,
-        })
+      _closeKeyboard(event) {
+
+        try {
+
+          const isFromKeyboard = event.relatedTarget.parentElement.classList.contains('keyboard');
+
+          if (isFromKeyboard)
+            return;
+
+        } catch(e) {
+
+          this.set({
+            isFocused: false,
+          })
+        }
       },
     },
   }
