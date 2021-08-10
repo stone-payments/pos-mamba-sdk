@@ -12,6 +12,7 @@ O componente `Flatlist` serve para renderizar listas simples e básicas com util
 | className    | Classe a ser adicionado ao elemento pai do componente	               | `string`       | ``          |
 | style        | Define os estilos para o container pai do FlatList, podendo ser uma `string` ou um objeto de [propriedades CSS em JavaScript](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Properties_Reference#common_css_properties_reference)	               | `string` | `object`      | ``          |
 | separator    | Define um separador para as seções. Caso seja omitido, sera renderizado o separador padrão | `Component`    | `null`   |
+| showSeparator    | Define se deve mostrar o separador | `boolean`    | `true`   |
 | intersectSelectedEvents | Previne chamadas iguais de eventos: `itemSelected` ∩ `onSelected`           | `boolean`      | `false`     |
 | autoSelectOnTouch | Define se dispara a classe para realçar o item quando for selecionado por touch | `boolean` | `true` |
 | autoShortcuts | Define se os shortcuts serão gerados automaticamente com base nos índices (max. 0-9)| `boolean` | `false` |
@@ -292,7 +293,7 @@ A estrutura do objeto que irá compor o array para o `DefaultRow` é diferente, 
 ```ts
 type Alignment = 'start' | 'center' | 'end';
 
-interface Fixture {
+interface ComponentView {
   // Fixture value
   value?: () => Component | any,
 
@@ -309,6 +310,9 @@ interface Fixture {
   * },
   */
   on?: object,
+}
+
+interface Fixture extends ComponentView {
 
   // Styles
   style?: object,
@@ -343,6 +347,9 @@ interface DefaultRowProps = {
 
   // Useful to put anything before the label
   startFixture: Fixture,
+
+  // If you dont want work with labels, you can inject your own main content in the row.
+  customView: ComponentView
 
   // Row labels
   label: {
