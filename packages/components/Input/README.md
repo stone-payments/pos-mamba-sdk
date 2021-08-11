@@ -22,6 +22,12 @@ import MoneyInput from '@mamba/input/Money.html';
 import KeyboardInput from '@mamba/input/Keyboard.html';
 ```
 
+#### NumericKeyboard
+
+```js
+import NumericKeyboard from '@mamba/input/NumericKeyboard.html';
+```
+
 
 | Parâmetross   | Descrição                                                   | Tipo           | Padrão      |
 | ------------ | ----------------------------------------------------------- | -------------- | ----------- |
@@ -53,9 +59,20 @@ import KeyboardInput from '@mamba/input/Keyboard.html';
 
 ## Keyboard
 
-| Parâmetross   | Descrição                                                   | Tipo           | Padrão      |
+| Parâmetross  | Descrição                                                   | Tipo           | Padrão      |
 | ------------ | ----------------------------------------------------------- | -------------- | ----------- |
 | maxLength    | Limita o número de caracteres do teclado                    | `number`       | `30`        |
+
+## NumericKeyboard
+
+| Parâmetross  | Descrição                                                   | Tipo           | Padrão      |
+| ------------ | ----------------------------------------------------------- | -------------- | ----------- |
+| bgColor      | Cor de Fundo da Caixa de Entrada                            | `string` (hex) | `'#fff'`    |
+| label        | Título da Caixa de Entrada                                  | `string`       | `undefined` |
+| maxLength    | Limita o número de caracteres do teclado                    | `number`       | `30`        |
+| placeholder  | Customiza o placeholder                                     | `string`       | `undefined` |
+| textColor    | Cor do Texto da Caixa de Entrada                            | `string` (hex) | `'#4a4a4a'` |
+| value        | Valor de padrão de entrada                                  | `string`       | `false`     |
 
 ## Eventos
 
