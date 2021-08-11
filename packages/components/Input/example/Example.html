@@ -77,10 +77,14 @@
   <div class="row">
     <KeyboardInput />
   </div>
+
+  <h4>Input Numérico [Exclusivo D199]</h4>
+  <div class="row">
+    <NumericKeyboard on:submit="console.log('submitou!')" />
+  </div>
 </div>
 
 <style>
-
   h4 {
     display: inline-block;
     vertical-align: middle;
@@ -107,6 +111,7 @@
       Input: '@mamba/input/Input.html',
       KeyboardInput: '@mamba/input/Keyboard.html',
       MoneyInput: '@mamba/input/Money.html',
+      NumericKeyboard: '@mamba/input/NumericKeyboard.html',
     },
     helpers: {
       neutral300,

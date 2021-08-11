@@ -115,8 +115,8 @@
       },
       _closeKeyboard(event) {
 
+        // if click comes from keyboard, keep it open
         try {
-
           const isFromKeyboard = event.relatedTarget.parentElement.classList.contains('keyboard');
 
           if (isFromKeyboard)
@@ -134,6 +134,8 @@
 </script>
 
 <style>
+
+:global(.D199) {
   .numeric-wrapper {
     /* css debug */
     /* border: 1px solid red; */
@@ -172,4 +174,38 @@
       max-width: 32px;
     }
   }
+}
+
+/* :global(.MP35P) {
+    .keyboard {
+      bottom: -80px;
+
+      .icon {
+        max-width: 20px;
+      }
+
+      .key {
+        width: 100px;
+        font-size: 20px;
+        height: auto;
+      }
+    }
+  } */
+
+:global(.S920) {
+  .keyboard {
+    bottom: 20px;
+
+    .icon {
+      max-width: 20px;
+    }
+
+    .key {
+      width: 30px;
+      font-size: 20px;
+      height: auto;
+      border: 1px solid red;
+    }
+  }
+}
 </style>
