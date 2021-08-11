@@ -1,11 +1,13 @@
 <div class="numeric-wrapper" class:focus="isFocused">
 
   <Input
-    ref:inputNumeric
-    bind:value
     autofocus
+    bind:value
     forceFocus
+    {maxLength}
     placeholder="Digite algum número"
+    ref:inputNumeric
+    {..._inputProps}
     on:focus="_openKeyboard()"
     on:blur="_closeKeyboard(event)"
   />
@@ -39,17 +41,18 @@
       deleteIcon,
       confirmIcon,
     },
+    computed: {
+      _inputProps: (props = { bgColor, label, placeholder, textColor, value }) => ({...props}),
+    },
     data() {
       return {
         isFocused: false,
+        maxLength: 99,
       };
     },
-    oncreate() {
-      this.set({
-        value: '',
-      });
-    },
-    onupdate() {
+    onupdate({ changed, current }) {
+
+      this._limitCharacters(changed, current);
     },
     methods: {
       _forceFocus() {
@@ -57,6 +60,22 @@
         const { inputNumeric } = this.refs;
 
         inputNumeric.focus();
+      },
+      _limitCharacters(changed, current) {
+
+        const { maxLength } = this.get();
+
+        if (!current.value) return;
+
+        if (current.value.length > maxLength) {
+
+          this.set({
+            // dynamically substitutes last character
+            value: current.value.slice(-maxLength),
+          });
+
+        }
+
       },
       insertKey(event,key) {
 
