@@ -51,6 +51,11 @@ const SetDefaultRowDecorator = (defaultProps, overrides = {}) => {
     ...overrides,
     highlightSelect: false,
   };
+
+  if (__DEBUG_LVL__ >= 2) {
+    console.log(JSON.stringify({ DefaultRowDecorator }, null, 2));
+  }
+
   return DefaultRowDecorator;
 };
 
