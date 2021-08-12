@@ -69,7 +69,7 @@ import NumericKeyboard from '@mamba/input/NumericKeyboard.html';
 | ------------ | ----------------------------------------------------------- | -------------- | ----------- |
 | bgColor      | Cor de Fundo da Caixa de Entrada                            | `string` (hex) | `'#fff'`    |
 | label        | Título da Caixa de Entrada                                  | `string`       | `undefined` |
-| maxLength    | Limita o número de caracteres do teclado                    | `number`       | `30`        |
+| maxlength    | Limita o número de caracteres do teclado                    | `number`       | `30`        |
 | placeholder  | Customiza o placeholder                                     | `string`       | `undefined` |
 | textColor    | Cor do Texto da Caixa de Entrada                            | `string` (hex) | `'#4a4a4a'` |
 | value        | Valor de padrão de entrada                                  | `string`       | `false`     |

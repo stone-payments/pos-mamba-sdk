@@ -1,10 +1,9 @@
 <div class="numeric-wrapper" class:focus="isFocused">
-
   <Input
     autofocus
     bind:value
     forceFocus
-    {maxLength}
+    {maxlength}
     placeholder="Digite algum número"
     ref:inputNumeric
     {..._inputProps}
@@ -13,19 +12,19 @@
   />
 
   {#if isFocused}
-    <div class="keyboard">
-      {#each new Array(9) as _, index}
-        <button class="key" on:click="insertKey(event,index+1)">{index + 1}</button>
-      {/each}
+  <div class="keyboard">
+    {#each new Array(9) as _, index}
+    <button class="key" on:click="insertKey(event,index+1)">{index + 1}</button>
+    {/each}
 
-      <button class="key button">
-        <img class="icon" src={deleteIcon} on:click="deleteKey()">
-      </button>
-      <button class="key" on:click="insertKey(event,0)">0</button>
-      <button class="key button">
-        <img class="icon" src={confirmIcon} on:click="confirm()">
-      </button>
-    </div>
+    <button class="key button">
+      <img class="icon" src="{deleteIcon}" on:click="deleteKey()" />
+    </button>
+    <button class="key" on:click="insertKey(event,0)">0</button>
+    <button class="key button">
+      <img class="icon" src="{confirmIcon}" on:click="confirm()" />
+    </button>
+  </div>
   {/if}
 </div>
 
@@ -42,43 +41,38 @@
       confirmIcon,
     },
     computed: {
-      _inputProps: (props = { bgColor, label, placeholder, textColor, value }) => ({...props}),
+      _inputProps: (
+        props = { bgColor, label, placeholder, textColor, value },
+      ) => ({ ...props }),
     },
     data() {
       return {
         isFocused: false,
-        maxLength: 99,
+        maxlength: 99,
       };
     },
     onupdate({ changed, current }) {
-
       this._limitCharacters(changed, current);
     },
     methods: {
       _forceFocus() {
-
         const { inputNumeric } = this.refs;
 
         inputNumeric.focus();
       },
       _limitCharacters(changed, current) {
-
-        const { maxLength } = this.get();
+        const { maxlength } = this.get();
 
         if (!current.value) return;
 
-        if (current.value.length > maxLength) {
-
+        if (current.value.length > maxlength) {
           this.set({
             // dynamically substitutes last character
-            value: current.value.slice(-maxLength),
+            value: current.value.slice(-maxlength),
           });
-
         }
-
       },
-      insertKey(event,key) {
-
+      insertKey(event, key) {
         const { value } = this.get();
 
         this.set({
@@ -88,7 +82,6 @@
         this._forceFocus();
       },
       deleteKey() {
-
         const { value } = this.get();
 
         if (!value) return;
@@ -100,83 +93,78 @@
         this._forceFocus();
       },
       confirm() {
-
         this.set({
           isFocused: false,
-        })
+        });
 
         this.fire('submit');
       },
       _openKeyboard() {
-
         this.set({
           isFocused: true,
-        })
+        });
       },
       _closeKeyboard(event) {
-
         // if click comes from keyboard, keep it open
         try {
-          const isFromKeyboard = event.relatedTarget.parentElement.classList.contains('keyboard');
+          const isFromKeyboard = event.relatedTarget.parentElement.classList.contains(
+            'keyboard',
+          );
 
-          if (isFromKeyboard)
-            return;
-
-        } catch(e) {
-
+          if (isFromKeyboard) return;
+        } catch (e) {
           this.set({
             isFocused: false,
-          })
+          });
         }
       },
     },
-  }
+  };
 </script>
 
 <style>
-
-:global(.D199) {
-  .numeric-wrapper {
-    /* css debug */
-    /* border: 1px solid red; */
-    position: relative;
-    height: 91.4%;
-  }
-
-  .keyboard {
-    width: 100%;
-    max-height: 320px;
-    box-sizing: border-box;
-    padding: 7px 6px;
-    /* css debug */
-    /* border: 1px solid $gray500; */
-    border-top: 1px solid $gray700;
-    background-color: $neutral50;
-    position: absolute;
-    bottom: 0;
-
-    * {
-      box-sizing: border-box;
+  :global(.D199) {
+    .numeric-wrapper {
+      /* css debug */
+      /* border: 1px solid red; */
+      position: relative;
+      height: 91.4%;
     }
 
-    .key {
-      max-width: 152px;
+    .keyboard {
       width: 100%;
-      height: 72px;
-      border: 0;
-      font-size: 35px;
-      line-height: 41px;
-      color: $neutral700;
-      background-color: transparent;
-    }
+      max-height: 320px;
+      box-sizing: border-box;
+      padding: 7px 6px;
+      /* css debug */
+      /* border: 1px solid $gray500; */
+      border-top: 1px solid $gray700;
+      background-color: $neutral50;
+      position: absolute;
+      bottom: 0;
 
-    .icon {
-      max-width: 32px;
+      * {
+        box-sizing: border-box;
+      }
+
+      .key {
+        max-width: 152px;
+        width: 100%;
+        height: 72px;
+        border: 0;
+        font-size: 35px;
+        line-height: 41px;
+        color: $neutral700;
+        background-color: transparent;
+      }
+
+      .icon {
+        max-width: 32px;
+      }
     }
   }
-}
 
-/* :global(.MP35P) {
+  /* :global(.MP35P) {
     .keyboard {
       bottom: -80px;
 
@@ -192,20 +180,20 @@
     }
   } */
 
-:global(.S920) {
-  .keyboard {
-    bottom: 20px;
+  :global(.S920) {
+    .keyboard {
+      bottom: 20px;
 
-    .icon {
-      max-width: 20px;
-    }
+      .icon {
+        max-width: 20px;
+      }
 
-    .key {
-      width: 30px;
-      font-size: 20px;
-      height: auto;
-      border: 1px solid red;
+      .key {
+        width: 30px;
+        font-size: 20px;
+        height: auto;
+        border: 1px solid red;
+      }
     }
   }
-}
 </style>
