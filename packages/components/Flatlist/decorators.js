@@ -30,24 +30,40 @@ const getPrefixOverride = (
   };
 };
 
-const SetDefaultRowDecorator = (defaultProps, overrides = {}) => {
+export const SetDefaultRowDecorator = (incomingProps = {}, overrides = {}) => {
+  const ALIGN_TOP = {
+    start: '-5px',
+    center: '50%',
+    end: '100%',
+  };
+
+  const TRANSLATE_TOP = {
+    start: '0',
+    center: '-50%',
+    end: '-100%',
+  };
+
+  const top = ALIGN_TOP[incomingProps.align || overrides.align || 'start'];
+  const transform = `translateY(${
+    TRANSLATE_TOP[incomingProps.align || overrides.align || 'start']
+  });`;
+
   DefaultRowDecorator = {
     endFixture: {
       value: () => Icon,
       props: { symbol: 'chevron-right', color: neutral800 },
       contentStyle: {
-        paddingRight: '5px',
-        overflow: 'hidden',
-        height: '15px',
-        display: 'flex',
-        flexDirection: 'column',
+        position: 'absolute',
+        right: '5px',
+        top,
+        transform,
       },
     },
-    ...defaultProps,
     label: {
-      ...defaultProps.label,
+      ...incomingProps.label,
       ...getPrefixOverride(overrides),
     },
+    ...incomingProps,
     ...overrides,
     highlightSelect: false,
   };
@@ -62,8 +78,8 @@ const SetDefaultRowDecorator = (defaultProps, overrides = {}) => {
 const GetDefaultDecorator = (rowProps, overrides = {}) => {
   ACTIVE_MODEL = getPosModel();
 
-  const defaultProps = rowProps || { label: {} };
-  const labelData = (defaultProps && defaultProps.label) || {};
+  const incomingProps = rowProps || { label: {} };
+  const labelData = (incomingProps && incomingProps.label) || {};
 
   const currentOverride = overrides[getPosModelSlug()] || overrides;
 
@@ -100,7 +116,7 @@ const GetDefaultDecorator = (rowProps, overrides = {}) => {
       [MODELS.Q60]: ARROW_CAPABILITIES_DECORATOR,
       [MODELS.D195]: ARROW_CAPABILITIES_DECORATOR,
       [MODELS.D230]: ARROW_CAPABILITIES_DECORATOR,
-    }[ACTIVE_MODEL] || SetDefaultRowDecorator(defaultProps, currentOverride)
+    }[ACTIVE_MODEL] || SetDefaultRowDecorator(incomingProps, currentOverride)
   );
 };
 
