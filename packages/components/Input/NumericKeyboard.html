@@ -51,29 +51,16 @@
         maxlength: 99,
       };
     },
-    onupdate({ changed, current }) {
-      this._limitCharacters(changed, current);
-    },
     methods: {
       _forceFocus() {
         const { inputNumeric } = this.refs;
 
         inputNumeric.focus();
       },
-      _limitCharacters(changed, current) {
-        const { maxlength } = this.get();
-
-        if (!current.value) return;
-
-        if (current.value.length > maxlength) {
-          this.set({
-            // dynamically substitutes last character
-            value: current.value.slice(-maxlength),
-          });
-        }
-      },
       insertKey(event, key) {
-        const { value } = this.get();
+        const { value, maxlength } = this.get();
+
+        if (value.length >= maxlength) return;
 
         this.set({
           value: value + key,
@@ -182,17 +169,20 @@
 
   :global(.S920) {
     .keyboard {
-      bottom: 20px;
+      bottom: 30px;
+      position: absolute;
+      background-color: $gray100;
+      border-top: 1px solid $gray500;
 
       .icon {
         max-width: 20px;
       }
 
       .key {
-        width: 30px;
+        width: 77px;
+        height: 40px;
         font-size: 20px;
-        height: auto;
-        border: 1px solid red;
+        border: 0;
       }
     }
   }
