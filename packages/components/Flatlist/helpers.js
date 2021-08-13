@@ -135,7 +135,7 @@ const isFunc = f => typeof f === 'function';
 const repChar = char => `-${char.toLowerCase()}`;
 
 const repColor = value => {
-  if (value.indexOf('$') !== -1) {
+  if (value && value.indexOf('$') !== -1) {
     return value.replace(/\$.+/g, char => Colors[char.slice(1)]);
   }
   return value;
@@ -166,11 +166,16 @@ export const getStyles = (obj, blackList = []) => {
       return obj.join('; ');
     }
 
+    const webkitPrefixRules = ['transform'];
+
     return Object.getOwnPropertyNames(obj)
       .map(str => {
         const rule = str.replace(/[A-Z]/g, repChar);
         if (blackList.indexOf(rule) !== -1) return '';
         const value = repColor(obj[str]);
+        if (webkitPrefixRules.indexOf(rule) !== -1) {
+          return `-webkit-${rule}: ${value}; ${rule}: ${value};`;
+        }
         return `${rule}: ${value};`;
       })
       .join('');
