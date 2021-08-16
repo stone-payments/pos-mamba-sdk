@@ -1,10 +1,12 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
 const { readdirSync, existsSync } = require('fs');
 const path = require('path');
 const os = require('os');
 const chalk = require('chalk');
 const { fromCwd, getPkg } = require('quickenv');
 const shell = require('../../../lib/shell.js');
-const cliArgs = require('../args.js');
+// const cliArgs = require('../args.js');
 const { MODELS, PLATFORMS } = require('../../../consts.js');
 
 const PKG = getPkg();
@@ -35,13 +37,13 @@ module.exports = {
     },
     appsFolder: {
       description:
-        'Set the main app folder for deploy. Usefull for dynamic folder like 10003, 10004, etc',
+        'Set the main app folder for deploy. Usefull for dynamic folder like 10003, 10004, flash, etc',
       alias: 'f',
-      default: '/data/app/MAINAPP/apps/', // MP35P like: /data/users/10004/apps/
+      default: '', // MP35P like: /data/users/10004/apps/
     },
     args: {
       description:
-        'Custom rsync args. Useful for some OS`s with differents supports. Combine with tool argument',
+        'Custom tool args. Useful for some OS`s with differents supports. Combine with tool argument',
       alias: 'a',
       default: '',
     },
@@ -88,18 +90,31 @@ module.exports = {
 
     const isQ92 = platform === MODELS.Q92;
     const isPax = isQ92 || platform === MODELS.S920;
-    const isMP35P = platform === MODELS.MP35P;
+    const isGertec = platform === MODELS.MP35P;
+    const isVerifone = platform === MODELS.V240M;
 
     const ADB_TOOL = 'adb';
+    const SCP_TOOL = 'scp';
 
     let appsFolder = _folder;
 
-    let tool = _tool;
-    if (isMP35P) tool = ADB_TOOL;
+    if (appsFolder === '') {
+      if (isVerifone) {
+        appsFolder = '/home/usr1/flash/apps/';
+      } else {
+        // PAX pattern
+        appsFolder = '/data/app/MAINAPP/apps/';
+      }
+    }
 
-    const useAdb = tool === ADB_TOOL || isMP35P;
-    const useRsync = tool === 'rsync' && !useAdb;
+    let tool = _tool;
+    if (isGertec) tool = ADB_TOOL;
+    if (isVerifone) tool = SCP_TOOL;
+
+    const useAdb = tool === ADB_TOOL || isGertec;
+    // const useRsync = tool === 'rsync' && !useAdb;
     const useXcb = tool === 'xcb' && !useAdb;
+    const useScp = tool === SCP_TOOL || isVerifone;
 
     let toolArgs = args;
 
@@ -120,8 +135,30 @@ module.exports = {
       console.log(`  App directory: ${chalk.yellow(APPS_DIR)}\n\n`);
     }
 
-    if (useAdb) {
-      if (/MAINAPP/g.test(appsFolder) && isMP35P) {
+    if (useScp) {
+      let sshConfig = customSSH;
+      sshConfig = MODELS.V240M;
+
+      console.log(
+        `  Deploying with: ${chalk.cyan(`${command(toolArgs)}`)}\n\n`,
+      );
+      shell(`ssh ${sshConfig} "rm -rf ${APPS_DIR}"`);
+      shell('sleep 1');
+
+      const REMOTE_APP_DIR = `${sshConfig}:${APPS_DIR}`;
+
+      if (toolArgs === '') {
+        toolArgs = '-r -P 8888';
+      }
+
+      const scpCmd = command(toolArgs, `${DIST_DIR}/`, `${REMOTE_APP_DIR}`);
+
+      console.log(chalk.dim(`Deploying with: \n${chalk.cyan(scpCmd)}\n`));
+      console.log(`Deploying "${appSlug}" to "${REMOTE_APP_DIR}"`);
+
+      shell(scpCmd);
+    } else if (useAdb) {
+      if (/MAINAPP/g.test(appsFolder) && isGertec) {
         console.log(
           `Error: ${chalk.red(
             `Folder can't be MAINAPP for MP45P\n       Aborting\n`,
@@ -132,7 +169,12 @@ module.exports = {
       const isValidFolder = /data\/users\/[0-9]+\/apps\//g.test(appsFolder);
       if (isValidFolder) {
         const PUSH = 'push';
-        let adbCmd = command(PUSH, toolArgs, `${DIST_DIR}/.`, `${APPS_DIR}/.`);
+        const adbCmd = command(
+          PUSH,
+          toolArgs,
+          `${DIST_DIR}/.`,
+          `${APPS_DIR}/.`,
+        );
         console.log(
           `  Deploying with: ${chalk.cyan(`${command(PUSH, toolArgs)}`)}\n\n`,
         );
@@ -171,7 +213,7 @@ module.exports = {
       } catch (err) {
         console.log(chalk.yellow(err.message));
         const files = readdirSync(CDW_DIST);
-        for (let i in files) {
+        for (const i in files) {
           const file = files[i];
           if (path.extname(file) === '.aup') {
             found = true;
@@ -190,7 +232,7 @@ module.exports = {
       if (isQ92) sshConfig = MODELS.Q92;
 
       if (toolArgs === '') {
-        let _defaultsArgs = os.platform() === 'darwin' ? '-arvc' : '-zzaP';
+        const _defaultsArgs = os.platform() === 'darwin' ? '-arvc' : '-zzaP';
         toolArgs = legacy ? '-zzaPR' : _defaultsArgs;
       }
 
@@ -215,7 +257,7 @@ module.exports = {
         );
 
         const includes = ['manifest.xml', 'icon.bmp']
-          .map(path => `--include="${path}"`)
+          .map(p => `--include="${p}"`)
           .join(' ');
 
         rsyncCmd = command(
