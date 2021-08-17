@@ -8,7 +8,7 @@ import {
   getPosModel,
 } from './models.js';
 
-import * as DeviceUtils from './models.js';
+import * as Device from './models.js';
 
 import { format as formatDate, parseDate } from './date.js';
 
@@ -22,5 +22,5 @@ export {
   MODELS,
   getPosModelSlug,
   getPosModel,
-  DeviceUtils,
+  Device,
 };
