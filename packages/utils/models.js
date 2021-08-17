@@ -215,3 +215,17 @@ export const NO_PRINTER = [MODELS.MP35, MODELS.D199, MODELS.D195];
 export function hasNoPrinter() {
   return _hasModelAtList(NO_PRINTER);
 }
+
+export function getDeviceCapabilitiesClassList() {
+  return [
+    hasNoPrinter() && 'has-no-printer',
+    hasTouch() && 'has-touch',
+    hasNoTouch() && 'has-no-touch',
+    hasOnlyTouch() && 'has-only-touch',
+    hasFunctionKeys() && 'has-function-keys',
+    hasHighDPI() && 'has-high-dpi',
+    hasArrowNavigation() && 'has-arrow-navigation',
+    hasSmallScreen() && 'has-small-screen',
+    isStandardModel() && 'is-standard-model',
+  ].filter(Boolean);
+}
