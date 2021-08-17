@@ -22,28 +22,30 @@ export const MODELS = Object.freeze({
 
 /**
  * Default mamba model
- * @returns {string} Default mamba model.
+ * @returns {string} Default mamba model
  */
 export const DEFAULT_MODEL = MODELS.S920;
 
 /**
- * Checks if the method exists
- * @returns {String} return Pos Model.
+ * List Model slugs
+ * @returns {array} return a list os model slugs
  */
 export const MODELS_SLUGS = Object.keys(MODELS);
 
 /**
- * Checks if the method exists
- * @returns {String} return Pos Model available slugs.
+ * Model slugs key pair
+ * @returns {object} return Pos Model available slugs key pair
  */
-export const AVAILABLE_SLUGS = MODELS_SLUGS.reduce((result, model) => {
+const _slugs = MODELS_SLUGS.reduce((result, model) => {
   result[MODELS[model]] = model;
   return result;
 }, {});
 
+export const AVAILABLE_SLUGS = _slugs;
+
 /**
  * Checks if the method exists
- * @returns {String} return Pos Model.
+ * @returns {String} return Pos Model
  */
 export const getPosModel = () => {
   /* Necessary because the circular dependency with simulator */
@@ -61,7 +63,7 @@ export const getPosModel = () => {
 
 /**
  * Get POS model slug
- * @returns {String} return Pos Model Slug.
+ * @returns {String} return Pos Model Slug
  */
 export const getPosModelSlug = currentModel => {
   let activeModel = currentModel;
@@ -70,3 +72,146 @@ export const getPosModelSlug = currentModel => {
   }
   return AVAILABLE_SLUGS[activeModel] || DEFAULT_MODEL;
 };
+
+/**
+ * Models categorization
+ */
+
+const _hasModelAtList = (list = []) => {
+  return list.indexOf(getPosModel()) !== -1;
+};
+
+/**
+ * Standard mamba devices
+ * @returns {array} A list of standard devices
+ */
+export const STANDARD_MAMBA_DEVICES = [MODELS.S920, MODELS.Q92, MODELS.V240M];
+
+/**
+ * @returns {boolean} If current model is standard
+ */
+export function isStandardModel() {
+  return _hasModelAtList(STANDARD_MAMBA_DEVICES);
+}
+
+/**
+ * Small screen devices
+ * @returns {array} A list of small screen devices
+ */
+export const SMALL_SCREEN_DEVICES = [
+  MODELS.MP35P,
+  MODELS.MP35,
+  MODELS.D195,
+  MODELS.D230,
+  MODELS.Q60,
+];
+
+/**
+ * @returns {boolean} If current model have a small screen
+ */
+export function hasSmallScreen() {
+  return _hasModelAtList(SMALL_SCREEN_DEVICES);
+}
+
+/**
+ * Arrow keys devices
+ * @returns {array} A list of devices that can navigate by arrow keys
+ */
+export const ARROW_NAVIGATION_DEVICES = [
+  MODELS.MP35P,
+  MODELS.MP35,
+  MODELS.D195,
+  MODELS.D230,
+];
+
+/**
+ * @returns {boolean} If current model can navigate by arrows
+ */
+export function hasArrowNavigation() {
+  return _hasModelAtList(ARROW_NAVIGATION_DEVICES);
+}
+
+/**
+ * High DPI devices
+ * @returns {array} A list of devices with high dpi
+ */
+export const HIGH_DPI_DEVICES = [MODELS.Q92, MODELS.D199];
+
+/**
+ * @returns {boolean} If current model have a high DPI screen
+ */
+export function hasHighDPI() {
+  return _hasModelAtList(HIGH_DPI_DEVICES);
+}
+
+/**
+ * Devices with Function Keys
+ * @returns {array} A list of devices that have function keys
+ */
+export const FUNCTION_KEYS_DEVICES = [MODELS.MP35P, MODELS.MP35];
+
+/**
+ * @returns {boolean} If current model have function keys
+ */
+export function hasFunctionKeys() {
+  return _hasModelAtList(FUNCTION_KEYS_DEVICES);
+}
+
+/**
+ * Devices with only touch, like smartphone
+ * @returns {array} A list of devices that is smartphone like screen, no keyboard.
+ */
+export const ONLY_TOUCH = [MODELS.D199];
+
+/**
+ * @returns {boolean} If current model have only touch screen(no keyboard)
+ */
+export function hasOnlyTouch() {
+  return _hasModelAtList(ONLY_TOUCH);
+}
+
+/**
+ * Devices with no touch capability
+ * @returns {array} A list of devices that doesn't have touch screen
+ */
+export const NO_TOUCH = [MODELS.D195, MODELS.Q60, MODELS.D230];
+
+/**
+ * @returns {boolean} If current model have no touch screen
+ */
+export function hasNoTouch() {
+  return _hasModelAtList(NO_TOUCH);
+}
+
+/**
+ * Devices with no touch capability
+ * @returns {array} A list of devices that doesn't have touch screen
+ */
+export const WITH_TOUCH = [
+  MODELS.S920,
+  MODELS.Q92,
+  MODELS.MP35P,
+  MODELS.MP35,
+  MODELS.V240M,
+  MODELS.D199,
+];
+
+/**
+ * @returns {boolean} If current model has touch screen
+ */
+export function hasTouch() {
+  return _hasModelAtList(WITH_TOUCH);
+}
+
+/**
+ * Devices with no printer
+ * @returns {array} A list of devices that doesn't have printer
+ */
+export const NO_PRINTER = [MODELS.MP35, MODELS.D199, MODELS.D195];
+
+/**
+ * @returns {boolean} If current model have no printer
+ */
+export function hasNoPrinter() {
+  return _hasModelAtList(NO_PRINTER);
+}
