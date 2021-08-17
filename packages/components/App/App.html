@@ -51,13 +51,13 @@
 
       // Add capabilities classes
       try {
-        const classList = Device.getDeviceCapabilitiesClassList();
+        const classList = Device.getDeviceCapabilitiesClassList() || [];
+
         if(__DEBUG_LVL__ >= 3 || __DEV__) console.log(JSON.stringify(classList));
-        // eslint-disable-next-line prefer-spread
-        target.classList.add.apply(
-          target.classList,
-          classList,
-        );
+
+        // POS compatible way
+        classList.forEach(cl => target.classList.add(cl));
+
       } catch (_) {
         //
       }
