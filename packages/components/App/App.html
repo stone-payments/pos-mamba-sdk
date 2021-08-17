@@ -16,7 +16,7 @@
 <script>
   import App from '@mamba/pos/api/app.js';
   import Keyboard from '@mamba/pos/api/keyboard.js';
-  import { getPosModel } from '@mamba/utils';
+  import { getPosModel, Device } from '@mamba/utils/index.js';
 
   import {
     hasActiveHandlerFor,
@@ -44,8 +44,23 @@
     oncreate() {
       const { root } = this;
 
+      const { target } = this.root.options;
+
       /** Add the mamba-app-container class to the root element */
-      this.root.options.target.classList.add('mamba-app-container');
+      target.classList.add('mamba-app-container');
+
+      // Add capabilities classes
+      try {
+        const classList = Device.getDeviceCapabilitiesClassList();
+        if(__DEBUG_LVL__ >= 3 || __DEV__) console.log(JSON.stringify(classList));
+        // eslint-disable-next-line prefer-spread
+        target.classList.add.apply(
+          target.classList,
+          classList,
+        );
+      } catch (_) {
+        //
+      }
 
       // TODO: Deprecate this sometime
       root.on('navigation', isEnabled => {
