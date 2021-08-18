@@ -115,31 +115,30 @@
       /* css debug */
       /* border: 1px solid red; */
       position: relative;
-      height: 91.4%;
     }
 
     .keyboard {
+      z-index: 999;
       width: 100%;
       max-height: 320px;
       box-sizing: border-box;
-      padding: 7px 6px;
       /* css debug */
-      /* border: 1px solid $gray500; */
+      /* border: 1px solid red; */
       border-top: 1px solid $gray700;
       background-color: $neutral50;
       position: absolute;
-      bottom: 0;
+      bottom: -347px;
 
       * {
         box-sizing: border-box;
       }
 
       .key {
-        max-width: 152px;
+        max-width: 72px;
         width: 100%;
-        height: 72px;
+        height: auto;
         border: 0;
-        font-size: 35px;
+        font-size: 20px;
         line-height: 41px;
         color: $neutral700;
         background-color: transparent;
@@ -150,22 +149,6 @@
       }
     }
   }
-
-  /* :global(.MP35P) {
-    .keyboard {
-      bottom: -80px;
-
-      .icon {
-        max-width: 20px;
-      }
-
-      .key {
-        width: 100px;
-        font-size: 20px;
-        height: auto;
-      }
-    }
-  } */
 
   :global(.S920) {
     .keyboard {
