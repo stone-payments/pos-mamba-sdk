@@ -8,23 +8,24 @@
     ref:inputNumeric
     {..._inputProps}
     on:focus="_openKeyboard()"
-    on:blur="_closeKeyboard(event)"
   />
 
   {#if isFocused}
-  <div class="keyboard">
-    {#each new Array(9) as _, index}
-    <button class="key" on:click="insertKey(event,index+1)">{index + 1}</button>
-    {/each}
+    <div class="keyboard-wrapper">
+      <div class="keyboard">
+        {#each new Array(9) as _, index}
+        <button class="key" on:click="insertKey(event,index+1)">{index + 1}</button>
+        {/each}
 
-    <button class="key button">
-      <img class="icon" src="{deleteIcon}" on:click="deleteKey()" />
-    </button>
-    <button class="key" on:click="insertKey(event,0)">0</button>
-    <button class="key button">
-      <img class="icon" src="{confirmIcon}" on:click="confirm()" />
-    </button>
-  </div>
+        <button class="key button">
+          <img class="icon" src="{deleteIcon}" on:click="deleteKey()" />
+        </button>
+        <button class="key" on:click="insertKey(event,0)">0</button>
+        <button class="key button">
+          <img class="icon" src="{confirmIcon}" on:click="confirm()" />
+        </button>
+      </div>
+    </div>
   {/if}
 </div>
 
@@ -51,13 +52,28 @@
         maxlength: 99,
       };
     },
-    methods: {
-      _forceFocus() {
-        const { inputNumeric } = this.refs;
+    oncreate() {
+      const appScreen = document.querySelector('.mamba-app');
 
-        inputNumeric.focus();
-      },
+      appScreen.addEventListener('click', (e) => {
+
+        const clickClassList = Array.from(e.target.classList);
+
+        const clickOutKeyboard = clickClassList.some((className) => className === 'keyboard-wrapper');
+
+        if (clickOutKeyboard) {
+          this.set({
+            isFocused: false,
+          })
+
+          return;
+        }
+
+      });
+    },
+    methods: {
       insertKey(event, key) {
+
         const { value, maxlength } = this.get();
 
         if (value.length >= maxlength) return;
@@ -65,8 +81,6 @@
         this.set({
           value: value + key,
         });
-
-        this._forceFocus();
       },
       deleteKey() {
         const { value } = this.get();
@@ -76,8 +90,6 @@
         this.set({
           value: value.slice(0, -1),
         });
-
-        this._forceFocus();
       },
       confirm() {
         this.set({
@@ -91,20 +103,6 @@
           isFocused: true,
         });
       },
-      _closeKeyboard(event) {
-        // if click comes from keyboard, keep it open
-        try {
-          const isFromKeyboard = event.relatedTarget.parentElement.classList.contains(
-            'keyboard',
-          );
-
-          if (isFromKeyboard) return;
-        } catch (e) {
-          this.set({
-            isFocused: false,
-          });
-        }
-      },
     },
   };
 </script>
@@ -115,16 +113,24 @@
       /* css debug */
       /* border: 1px solid red; */
       position: relative;
-      height: 91.4%;
+    }
+
+    .keyboard-wrapper {
+      position: absolute;
+      height: 347px;
+      width: 100%;
+      /* css debug */
+      /* border: 1px solid red; */
     }
 
     .keyboard {
+      z-index: 999;
       width: 100%;
+      min-width: 100px;
       max-height: 320px;
       box-sizing: border-box;
-      padding: 7px 6px;
       /* css debug */
-      /* border: 1px solid $gray500; */
+      /* border-bottom: 1px solid blue; */
       border-top: 1px solid $gray700;
       background-color: $neutral50;
       position: absolute;
@@ -135,11 +141,11 @@
       }
 
       .key {
-        max-width: 152px;
+        max-width: 72px;
         width: 100%;
-        height: 72px;
+        height: auto;
         border: 0;
-        font-size: 35px;
+        font-size: 20px;
         line-height: 41px;
         color: $neutral700;
         background-color: transparent;
@@ -150,6 +156,15 @@
       }
     }
   }
+
+  /* :global(.D199, .S920) {
+    :global(.numeric-wrapper .keyboard) {
+
+      .key {
+        max-width: 73px;
+      }
+    }
+  } */
 
   /* :global(.MP35P) {
     .keyboard {
@@ -167,7 +182,7 @@
     }
   } */
 
-  :global(.S920) {
+  /* :global(.S920) {
     .keyboard {
       bottom: 30px;
       position: absolute;
@@ -185,5 +200,5 @@
         border: 0;
       }
     }
-  }
+  } */
 </style>
