@@ -1,29 +1,25 @@
 <div class="numeric-wrapper" class:focus="isFocused">
-  <Input
-    autofocus
-    bind:value
-    forceFocus
-    {maxlength}
-    placeholder="Digite algum número"
-    ref:inputNumeric
-    {..._inputProps}
-    on:focus="_openKeyboard()"
-  />
+  <Input autofocus bind:value forceFocus {maxlength} placeholder="Digite algum número" ref:inputNumeric {..._inputProps}
+    on:focus="_openKeyboard()" />
 
   {#if isFocused}
     <div class="keyboard-wrapper">
       <div class="keyboard">
-        {#each new Array(9) as _, index}
-        <button class="key" on:click="insertKey(event,index+1)">{index + 1}</button>
-        {/each}
-
-        <button class="key button">
-          <img class="icon" src="{deleteIcon}" on:click="deleteKey()" />
-        </button>
-        <button class="key" on:click="insertKey(event,0)">0</button>
-        <button class="key button">
-          <img class="icon" src="{confirmIcon}" on:click="confirm()" />
-        </button>
+        {#each new Array(12) as _, index}
+          {#if (index < 9)}
+            <button class="key" on:click="insertKey(event,index+1)">{index + 1}</button>
+          {:elseif index == 9}
+            <button class="key">
+              <img class="icon" src="{deleteIcon}" on:click="deleteKey()" />
+            </button>
+          {:elseif index == 10}
+            <button class="key" on:click="insertKey(event,0)">0</button>
+          {:elseif index == 11}
+            <button class="key">
+              <img class="icon" src="{confirmIcon}" on:click="confirm()" />
+            </button>
+          {/if}
+      {/each}
       </div>
     </div>
   {/if}
@@ -116,7 +112,7 @@
     }
 
     .keyboard-wrapper {
-      position: absolute;
+      position: fixed;
       height: 347px;
       width: 100%;
       /* css debug */
@@ -133,7 +129,7 @@
       /* border-bottom: 1px solid blue; */
       border-top: 1px solid $gray700;
       background-color: $neutral50;
-      position: absolute;
+      position: fixed;
       bottom: 0;
 
       * {
@@ -141,18 +137,19 @@
       }
 
       .key {
-        max-width: 72px;
+        max-width: 80px;
         width: 100%;
         height: auto;
         border: 0;
         font-size: 20px;
-        line-height: 41px;
+        line-height: 40px;
         color: $neutral700;
         background-color: transparent;
       }
 
       .icon {
-        max-width: 32px;
+        max-width: 20px;
+        max-height: 19px;
       }
     }
   }
