@@ -41,7 +41,7 @@
           `color: ${textColor}`,
           `background-color: ${bgColor}`,
           !border && 'border-bottom: none;',
-          `border-color: ${borderColor}`
+          `border-color: ${borderColor}`,
         ]
           .filter(Boolean)
           .join(';');
@@ -161,6 +161,7 @@
     border-bottom: 2px solid;
     height: $appbar-height;
     overflow: hidden;
+    flex-shrink: 0;
   }
 
   .title {
