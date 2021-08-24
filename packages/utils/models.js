@@ -216,6 +216,45 @@ export function hasNoPrinter() {
   return _hasModelAtList(NO_PRINTER);
 }
 
+/**
+ * PAX Devices
+ * @returns {array} A list of devices from the manufacturer PAX
+ */
+export const PAX_DEVICES = [MODELS.S920, MODELS.Q92, MODELS.D195, MODELS.Q60, MODELS.D199, MODELS.D230];
+
+/**
+* @returns {boolean} If the current model is from the PAX manufacturer
+*/
+export function isPAXDevices() {
+  return _hasModelAtList(PAX_DEVICES);
+}
+
+/**
+ * Verifone Devices
+ * @returns {array} A list of devices from the manufacturer Verifone
+ */
+export const VERIFONE_DEVICES = [MODELS.V240M];
+
+/**
+ * @returns {boolean} If the current model is from the Verifone manufacturer
+ */
+export function isVerifoneDevices() {
+  return _hasModelAtList(VERIFONE_DEVICES);
+}
+
+/**
+ * Gertec Devices
+ * @returns {array} A list of devices from the manufacturer Gertec
+ */
+ export const GERTEC_DEVICES = [MODELS.MP35, MODELS.MP35P];
+
+/**
+* @returns {boolean} If the current model is from the Gertec manufacturer
+*/
+export function isGertecDevices() {
+  return _hasModelAtList(GERTEC_DEVICES);
+}
+
 export function getDeviceCapabilitiesClassList() {
   return [
     hasNoPrinter() && 'has-no-printer',
@@ -227,5 +266,8 @@ export function getDeviceCapabilitiesClassList() {
     hasArrowNavigation() && 'has-arrow-navigation',
     hasSmallScreen() && 'has-small-screen',
     isStandardModel() && 'is-standard-model',
+    isPAXDevices() && 'is-pax',
+    isVerifoneDevices() && 'is-verifone',
+    isGertecDevices() && 'is-gertec',
   ].filter(Boolean);
 }
