@@ -1,5 +1,4 @@
 const types = ['string', 'object', 'boolean', 'number'];
-const binary = ['1', '0', 1, 0];
 let _settings;
 let _flagList = [];
 
@@ -36,13 +35,10 @@ const normal = s => (typeof s === 'string' && s.toUpperCase()) || s;
  * @return {Boolean} Cast prop to boolean
  */
 const tryBoolean = b => {
-  if (['TRUE', 'FALSE', 'true', 'false'].concat(binary).indexOf(b) === -1) {
+  if (['TRUE', 'FALSE', 'true', 'false'].indexOf(b) === -1) {
     return undefined;
   }
 
-  if (binary.indexOf(b) !== -1) {
-    return b === '1' || b === 1;
-  }
   const final = normal(b).toLowerCase();
   return final === 'true';
 };
