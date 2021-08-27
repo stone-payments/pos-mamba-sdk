@@ -1,10 +1,10 @@
 const types = ['string', 'object', 'boolean', 'number'];
-const binary = ['1', '0', 1, 0];
 let _settings;
 let _flagList = [];
 
 const isUndefined = v => typeof v === 'undefined';
 const isString = v => typeof v === 'string';
+const isEmptyString = s => s === '';
 const isObject = x => {
   return x !== null && typeof x === 'object';
 };
@@ -36,13 +36,10 @@ const normal = s => (typeof s === 'string' && s.toUpperCase()) || s;
  * @return {Boolean} Cast prop to boolean
  */
 const tryBoolean = b => {
-  if (['TRUE', 'FALSE', 'true', 'false'].concat(binary).indexOf(b) === -1) {
+  if (['TRUE', 'FALSE', 'true', 'false'].indexOf(b) === -1) {
     return undefined;
   }
 
-  if (binary.indexOf(b) !== -1) {
-    return b === '1' || b === 1;
-  }
   const final = normal(b).toLowerCase();
   return final === 'true';
 };
@@ -125,9 +122,9 @@ const parseSettings = (flags, list) => {
   }, {});
 };
 
-const setParsedSettings = settings => {
-  if (isObject(settings)) {
-    _settings = settings;
+const setParsedSettings = currentUserSettings => {
+  if (isObject(currentUserSettings)) {
+    _settings = currentUserSettings;
     _flagList = Object.getOwnPropertyNames(_settings);
     const parsedSettings = parseSettings(_flagList, _settings);
     if (__DEV__ || __DEBUG_LVL__ >= 2) {
@@ -237,6 +234,7 @@ export default {
       setting = this.getSettings()[_flag] || _default;
     } else {
       const rawSetting = window.$System.getUserSetting(_flag);
+      if (isEmptyString(rawSetting)) return _default;
       const parsedSetting = castValue(rawSetting);
       setting = hasType(parsedSetting) ? parsedSetting : _default;
     }
