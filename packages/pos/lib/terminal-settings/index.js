@@ -4,6 +4,7 @@ let _flagList = [];
 
 const isUndefined = v => typeof v === 'undefined';
 const isString = v => typeof v === 'string';
+const isEmptyString = s => s === '';
 const isObject = x => {
   return x !== null && typeof x === 'object';
 };
@@ -80,6 +81,7 @@ const tryString = s => {
 };
 
 const castValue = value => {
+  if (isEmptyString(value)) return undefined;
   const primitive = [tryBoolean, tryNumber, tryString, tryObject].reduce(
     (result, fn) => {
       const res = fn(result && hasBoB(result) ? result : value);
@@ -121,9 +123,9 @@ const parseSettings = (flags, list) => {
   }, {});
 };
 
-const setParsedSettings = settings => {
-  if (isObject(settings)) {
-    _settings = settings;
+const setParsedSettings = currentUserSettings => {
+  if (isObject(currentUserSettings)) {
+    _settings = currentUserSettings;
     _flagList = Object.getOwnPropertyNames(_settings);
     const parsedSettings = parseSettings(_flagList, _settings);
     if (__DEV__ || __DEBUG_LVL__ >= 2) {
