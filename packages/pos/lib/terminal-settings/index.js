@@ -234,9 +234,12 @@ export default {
       setting = this.getSettings()[_flag] || _default;
     } else {
       const rawSetting = window.$System.getUserSetting(_flag);
-      if (isEmptyString(rawSetting)) return _default;
-      const parsedSetting = castValue(rawSetting);
-      setting = hasType(parsedSetting) ? parsedSetting : _default;
+      if (isEmptyString(rawSetting)) {
+        setting = undefined;
+      } else {
+        const parsedSetting = castValue(rawSetting);
+        setting = hasType(parsedSetting) ? parsedSetting : _default;
+      }
     }
 
     if (__DEV__ || __DEBUG_LVL__ >= 2) {
