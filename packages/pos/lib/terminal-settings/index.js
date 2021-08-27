@@ -81,7 +81,6 @@ const tryString = s => {
 };
 
 const castValue = value => {
-  if (isEmptyString(value)) return undefined;
   const primitive = [tryBoolean, tryNumber, tryString, tryObject].reduce(
     (result, fn) => {
       const res = fn(result && hasBoB(result) ? result : value);
@@ -235,6 +234,7 @@ export default {
       setting = this.getSettings()[_flag] || _default;
     } else {
       const rawSetting = window.$System.getUserSetting(_flag);
+      if (isEmptyString(rawSetting)) return _default;
       const parsedSetting = castValue(rawSetting);
       setting = hasType(parsedSetting) ? parsedSetting : _default;
     }
