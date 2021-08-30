@@ -379,6 +379,7 @@ interface DefaultRowProps = {
 
 Utilize para acessa o elemento e ter acesso as suas funcionalidades, como `States` e `Funções` .
 
+##### Exemplo:
 ```ts
 interface DefaultRowProps = {
   // Action when selected with touch, keyboard action, or shortcut.
