@@ -375,6 +375,21 @@ interface DefaultRowProps = {
   endFixture: Fixture,
 }
 ```
+### Acesse as ref do `DefaultRow`
+
+Utilize para acessa o elemento e ter acesso as suas funcionalidades, como `States` e `Funções` .
+
+```ts
+interface DefaultRowProps = {
+  // Action when selected with touch, keyboard action, or shortcut.
+  onSelected: function(event) {
+    const { endFixture } = event.renderItemRefs;
+    endFixture.updateProps({
+      checked: true,
+    });
+  },
+}
+```
 
 ### Estilos
 
