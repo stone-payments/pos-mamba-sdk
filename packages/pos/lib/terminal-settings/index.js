@@ -234,8 +234,8 @@ export default {
       setting = this.getSettings()[_flag] || _default;
     } else {
       const rawSetting = window.$System.getUserSetting(_flag);
-      if (isEmptyString(rawSetting)) {
-        setting = undefined;
+      if (isEmptyString(rawSetting) || !rawSetting) {
+        setting = _default;
       } else {
         const parsedSetting = castValue(rawSetting);
         setting = hasType(parsedSetting) ? parsedSetting : _default;
