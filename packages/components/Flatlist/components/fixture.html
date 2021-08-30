@@ -47,6 +47,17 @@
         };
       }
     },
+    methods: {
+      updateProps(props) {
+        const { fixture } = this.get();
+
+        this.set({
+          fixture: {
+            ...fixture,
+            props
+          }
+        })
+      }
   };
 </script>
 
