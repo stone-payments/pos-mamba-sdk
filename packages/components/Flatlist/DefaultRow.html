@@ -6,7 +6,7 @@
 >
   <!-- Start fixture -->
   {#if startFixture}
-    <Fixture fixture={startFixture} className="{_classAlign}"/>
+    <Fixture ref:startFixture fixture={startFixture} className="{_classAlign}"/>
   {/if}
 
   <!-- Main wrapper -->
@@ -103,7 +103,7 @@
 
   <!-- End fixture -->
   {#if endFixture}
-    <Fixture fixture={endFixture} className="{_classAlign}" />
+    <Fixture ref:endFixture fixture={endFixture} className="{_classAlign}" />
   {/if}
 
 </div>
