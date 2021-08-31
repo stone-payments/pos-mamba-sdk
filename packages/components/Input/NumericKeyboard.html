@@ -1,6 +1,7 @@
 <div class="numeric-wrapper" class:focus="isFocused">
-  <Input autofocus bind:value forceFocus {maxlength} placeholder="Digite algum número" ref:inputNumeric {..._inputProps}
-    on:focus="_openKeyboard()" />
+  <Input autofocus bind:value bind:isValid forceFocus {maxlength} placeholder="Digite algum número" ref:inputNumeric
+    {..._inputProps} on:focus="_openKeyboard()" on:submitValid="_onSubmitValid()"
+    on:submitInvalid="_onSubmitInvalid()" />
 
   {#if isFocused}
     <div class="keyboard-wrapper">
@@ -39,7 +40,7 @@
     },
     computed: {
       _inputProps: (
-        props = { bgColor, label, placeholder, textColor, value },
+        props = { bgColor, label, placeholder, textColor, value, validation },
       ) => ({ ...props }),
     },
     data() {
@@ -98,6 +99,16 @@
         this.set({
           isFocused: true,
         });
+      },
+      _onSubmitValid() {
+        this.fire('submitValid', this._getSubmissionObj());
+      },
+      _onSubmitInvalid() {
+        this.fire('submitInvalid', this._getSubmissionObj());
+      },
+      validate() {
+        /* istanbul ignore next */
+        this.refs.inputNumeric.validate();
       },
     },
   };
