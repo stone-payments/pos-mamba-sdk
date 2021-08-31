@@ -27,6 +27,7 @@
 </div>
 
 <script>
+  import System from '@mamba/pos/api/system.js'
   import deleteIcon from './assets/num_delete.png';
   import confirmIcon from './assets/num_ok.png';
 
@@ -51,6 +52,7 @@
     },
     oncreate() {
       const appScreen = document.querySelector('.mamba-app');
+      const buttons = document.querySelectorAll('button.key');
 
       appScreen.addEventListener('click', (e) => {
 
@@ -67,10 +69,15 @@
         }
 
       });
+
+      buttons.forEach(button => {
+        button.addEventListener('click', (e) => {
+          System.beep(System.Tones.TONE3, 30);
+        });
+      });
     },
     methods: {
       insertKey(event, key) {
-
         const { value, maxlength } = this.get();
 
         if (value.length >= maxlength) return;
