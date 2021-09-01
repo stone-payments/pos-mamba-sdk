@@ -108,13 +108,12 @@
         });
       },
       _onSubmitValid() {
-        this.fire('submitValid', this._getSubmissionObj());
+        this.fire('submitValid');
       },
       _onSubmitInvalid() {
-        this.fire('submitInvalid', this._getSubmissionObj());
+        this.fire('submitInvalid');
       },
       validate() {
-        /* istanbul ignore next */
         this.refs.inputNumeric.validate();
       },
     },
