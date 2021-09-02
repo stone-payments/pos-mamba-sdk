@@ -174,9 +174,15 @@
             index,
             position,
             sectionIndex,
-            renderItemRefs: element.refs.renderItemRef.refs
           };
         }
+
+        const { element } = _elementsRefs[selectedIndex];
+
+        eventData = {
+          ...eventData,
+          renderItemRefs: element.refs.renderItemRef.refs
+        };
 
         const { data, position } = eventData;
         const internalIndex = position - 1;
