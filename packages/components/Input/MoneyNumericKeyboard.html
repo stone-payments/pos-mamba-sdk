@@ -1,7 +1,19 @@
 <div class="numeric-wrapper" class:focus="isFocused">
-  <Input autofocus bind:value bind:isValid forceFocus {maxlength} placeholder="Digite algum número" ref:inputNumeric
-    {..._inputProps} on:focus="_openKeyboard()" on:submitValid="_onSubmitValid()"
-    on:submitInvalid="_onSubmitInvalid()" />
+  <Input
+    ref:inputNumeric
+    autofocus
+    bind:value
+    bind:isValid
+    forceFocus
+    {maxlength}
+    placeholder="Digite algum número"
+    {..._inputProps}
+    on:focus="_openKeyboard()"
+    on:submit="confirm()"
+    on:submitValid="_onSubmitValid()"
+    on:submitInvalid="_onSubmitInvalid()"
+    validation={_validation}
+  />
 
   {#if isFocused}
     <div class="keyboard-wrapper">
@@ -11,13 +23,13 @@
             <button class="key" on:click="insertKey(event,index+1)">{index + 1}</button>
           {:elseif index == 9}
             <button class="key">
-              <img class="icon" src="{deleteIcon}" on:click="deleteKey()" />
+              <img class="icon" src="{deleteIcon}" on:click="deleteKey()" alt="" />
             </button>
           {:elseif index == 10}
             <button class="key" on:click="insertKey(event,0)">0</button>
           {:elseif index == 11}
             <button class="key">
-              <img class="icon" src="{confirmIcon}" on:click="confirm()" />
+              <img class="icon" src="{confirmIcon}" on:click="confirm()" alt="" />
             </button>
           {/if}
       {/each}
@@ -30,10 +42,23 @@
   import System from '@mamba/pos/api/system.js'
   import deleteIcon from './assets/num_delete.png';
   import confirmIcon from './assets/num_ok.png';
+  import { format as formatMoney } from '@mamba/utils/money.js';
 
   export default {
     components: {
       Input: '@mamba/input/Input.html',
+    },
+    data() {
+      return {
+        isFocused: false,
+        maxlength: 99,
+        cents: 0,
+        prefix: 'R$ ',
+        suffix: '',
+        limit: 999999.99,
+        validation: undefined,
+        readonlyOnEnter: false,
+      };
     },
     helpers: {
       deleteIcon,
@@ -41,14 +66,23 @@
     },
     computed: {
       _inputProps: (
-        props = { bgColor, label, placeholder, textColor, value, validation },
+        props = {
+          bgColor,
+          label,
+          placeholder,
+          textColor,
+          value,
+          validation,
+          cents,
+          prefix,
+          suffix,
+          mask,
+          type, },
       ) => ({ ...props }),
-    },
-    data() {
-      return {
-        isFocused: false,
-        maxlength: 99,
-      };
+      value: ({ prefix, suffix, cents }) =>
+        prefix + formatMoney(parseFloat(cents) / 100) + suffix,
+      /** deprecated */
+      rawValue: ({ cents }) => cents,
     },
     oncreate() {
       const appScreen = document.querySelector('.mamba-app');
@@ -75,32 +109,76 @@
           System.beep(System.Tones.TONE3, 30);
         });
       });
+
+      if (this.options.data) {
+        /**
+         * Since the money input doesn't use masks, it's necessary to override the "validation"
+         * property (if exists) with a method that has access to cents in a number format.
+         * The original Input validation uses the "rawValue", which would be "R$ 1,20", and not "120",
+         * since the Money Input doesn't use a mask.
+         */
+        const { validation } = this.options.data;
+        // istanbul ignore next
+        if (typeof this.options.data.validation === 'function') {
+          this.set({
+            _validation: () => validation(this.get().cents),
+          });
+        }
+      }
     },
     methods: {
       insertKey(event, key) {
-        const { value, maxlength } = this.get();
+        let { cents } = this.get();
+        cents = cents.toString();
 
-        if (value.length >= maxlength) return;
+        if (this.get().readonly === true) {
+          return;
+        }
 
-        this.set({
-          value: value + key,
-        });
+        if (cents === '0') {
+          cents = key;
+        } else {
+          cents += key;
+        }
+
+        /** If the value is above the limit, do nothing */
+        if (parseFloat(cents) / 100 > this.get().limit) {
+          return;
+        }
+
+        cents = parseFloat(cents);
+
+        this.set({ cents });
+        this.refs.inputNumeric._onInput(event);
       },
       deleteKey() {
-        const { value } = this.get();
+        let { cents } = this.get();
+        cents = cents.toString();
 
-        if (!value) return;
+        if (this.get().readonly === true) {
+          return;
+        }
 
-        this.set({
-          value: value.slice(0, -1),
-        });
+        cents = cents.slice(0, cents.length - 1);
+
+        if (!cents.length) {
+          cents = '0';
+        }
+
+        cents = parseFloat(cents);
+
+        this.set({ cents });
       },
       confirm() {
         this.set({
           isFocused: false,
         });
 
-        this.fire('submit');
+        this.fire('submitValid', this._getSubmissionObj());
+      },
+      _getSubmissionObj() {
+        const { cents, value: formatted, isValid } = this.get();
+        return { cents, value: cents, formatted, isValid };
       },
       _openKeyboard() {
         this.set({
@@ -116,6 +194,20 @@
       validate() {
         /* istanbul ignore next */
         this.refs.inputNumeric.validate();
+      },
+      invalidate(message) {
+        /* istanbul ignore next */
+        this.refs.inputNumeric.invalidate(message);
+      },
+      makeWritable() {
+        this.set({
+          readonly: false,
+        });
+      },
+      makeReadOnly() {
+        this.set({
+          readonly: true,
+        });
       },
     },
   };
