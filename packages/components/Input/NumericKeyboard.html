@@ -11,13 +11,13 @@
             <button class="key" on:click="insertKey(event,index+1)">{index + 1}</button>
           {:elseif index == 9}
             <button class="key" on:click="deleteKey()">
-              <img class="icon" src="{deleteIcon}" />
+              <img class="icon" src="{deleteIcon}" alt="" />
             </button>
           {:elseif index == 10}
             <button class="key" on:click="insertKey(event,0)">0</button>
           {:elseif index == 11}
             <button class="key" on:click="confirm()">
-              <img class="icon" src="{confirmIcon}" />
+              <img class="icon" src="{confirmIcon}" alt="" />
             </button>
           {/if}
       {/each}
@@ -116,6 +116,9 @@
       validate() {
         this.refs.inputNumeric.validate();
       },
+      invalidate(message) {
+        this.refs.inputNumeric.invalidate(message);
+      }
     },
   };
 </script>
