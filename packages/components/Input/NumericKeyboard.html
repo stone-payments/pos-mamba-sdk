@@ -1,21 +1,21 @@
 <div class="numeric-wrapper" class:focus="isFocused">
-  <Input autofocus bind:value bind:isValid forceFocus {maxlength} placeholder="Digite algum número" ref:inputNumeric
+  <Input autofocus bind:value bind:isValid forceFocus {maxlength} {placeholder} ref:inputNumeric
     {..._inputProps} on:focus="_openKeyboard()" on:submitValid="_onSubmitValid()"
-    on:submitInvalid="_onSubmitInvalid()" />
+    on:submitInvalid="_onSubmitInvalid()" validate />
 
   {#if isFocused}
-    <div class="keyboard-wrapper">
+    <div class="keyboard-wrapper" on:click="_handleClickOutside(event)">
       <div class="keyboard">
         {#each new Array(12) as _, index}
           {#if (index < 9)}
             <button class="key" on:click="insertKey(event,index+1)">{index + 1}</button>
-          {:elseif index == 9}
+          {:elseif index === 9}
             <button class="key" on:click="deleteKey()">
               <img class="icon" src="{deleteIcon}" />
             </button>
-          {:elseif index == 10}
+          {:elseif index === 10}
             <button class="key" on:click="insertKey(event,0)">0</button>
-          {:elseif index == 11}
+          {:elseif index === 11}
             <button class="key" on:click="confirm()">
               <img class="icon" src="{confirmIcon}" />
             </button>
@@ -27,7 +27,7 @@
 </div>
 
 <script>
-  import System from '@mamba/pos/api/system.js'
+  import System from '@mamba/pos/api/system.js';
   import deleteIcon from './assets/num_delete.png';
   import confirmIcon from './assets/num_ok.png';
 
@@ -48,35 +48,27 @@
       return {
         isFocused: false,
         maxlength: 99,
+        placeholder: '',
       };
     },
-    oncreate() {
-      const appScreen = document.querySelector('.mamba-app');
-      const buttons = document.querySelectorAll('button.key');
-
-      appScreen.addEventListener('click', (e) => {
-
-        const clickClassList = Array.from(e.target.classList);
-
-        const clickOutKeyboard = clickClassList.some((className) => className === 'keyboard-wrapper');
-
-        if (clickOutKeyboard) {
-          this.set({
-            isFocused: false,
-          })
-
-          return;
-        }
-
-      });
-
-      buttons.forEach(button => {
-        button.addEventListener('click', (e) => {
-          System.beep(System.Tones.TONE3, 30);
-        });
-      });
-    },
     methods: {
+      /**
+       *
+       * @param {PointerEvent} event
+       * @private
+       */
+      _handleClickOutside(event) {
+        const classList = Array.from(event.target.classList);
+
+        const hasClickedOutside = classList.some(className => className === 'keyboard-wrapper')
+
+        if (hasClickedOutside) {
+          this.set({isFocused: false});
+        }
+      },
+      _keyboardBeep() {
+        System.beep(System.Tones.TONE3, 30);
+      },
       insertKey(event, key) {
         const { value, maxlength } = this.get();
 
@@ -85,6 +77,8 @@
         this.set({
           value: value + key,
         });
+
+        this._keyboardBeep()
       },
       deleteKey() {
         const { value } = this.get();
@@ -94,6 +88,8 @@
         this.set({
           value: value.slice(0, -1),
         });
+
+        this._keyboardBeep()
       },
       confirm() {
         this.set({
@@ -101,6 +97,8 @@
         });
 
         this.fire('submit');
+
+        this._keyboardBeep();
       },
       _openKeyboard() {
         this.set({
@@ -116,6 +114,12 @@
       validate() {
         this.refs.inputNumeric.validate();
       },
+      /**
+       * @param {string} message
+       */
+      invalidate(message = '') {
+        this.refs.inputNumeric.invalidate(message);
+      }
     },
   };
 </script>
