@@ -1,30 +1,24 @@
-<div class="numeric-wrapper" class:focus="isFocused">
-  <Input autofocus bind:value bind:isValid forceFocus {maxlength} {placeholder} ref:inputNumeric
-    {..._inputProps} on:focus="_openKeyboard()" on:submitValid="_onSubmitValid()"
-    on:submitInvalid="_onSubmitInvalid()" validate />
+<svelte:document on:click="_handleDocumentClick(event)" />
 
-  {#if isFocused}
-    <div class="keyboard-wrapper" on:click="_handleClickOutside(event)">
-      <div class="keyboard">
-        {#each new Array(12) as _, index}
-          {#if (index < 9)}
-            <button class="key" on:click="insertKey(event,index+1)">{index + 1}</button>
-          {:elseif index === 9}
-            <button class="key" on:click="deleteKey()">
-              <img class="icon" src="{deleteIcon}" />
-            </button>
-          {:elseif index === 10}
-            <button class="key" on:click="insertKey(event,0)">0</button>
-          {:elseif index === 11}
-            <button class="key" on:click="confirm()">
-              <img class="icon" src="{confirmIcon}" />
-            </button>
-          {/if}
-      {/each}
-      </div>
-    </div>
-  {/if}
-</div>
+{#if isFocused}
+  <div class="keyboard">
+    {#each new Array(12) as _, index}
+      {#if (index < 9)}
+        <button class="key" on:click="insertKey(event,index+1)">{index + 1}</button>
+      {:elseif index === 9}
+        <button class="key" on:click="deleteKey()">
+          <img class="icon" src="{deleteIcon}" alt="delete icon numeric keyboard" />
+        </button>
+      {:elseif index === 10}
+        <button class="key" on:click="insertKey(event,0)">0</button>
+      {:elseif index === 11}
+        <button class="key" on:click="confirm()">
+          <img class="icon" src="{confirmIcon}" alt="confirm icon numeric keyboard" />
+        </button>
+      {/if}
+    {/each}
+  </div>
+{/if}
 
 <script>
   import System from '@mamba/pos/api/system.js';
@@ -32,9 +26,6 @@
   import confirmIcon from './assets/num_ok.png';
 
   export default {
-    components: {
-      Input: '@mamba/input/Input.html',
-    },
     helpers: {
       deleteIcon,
       confirmIcon,
@@ -47,49 +38,27 @@
     data() {
       return {
         isFocused: false,
-        maxlength: 99,
-        placeholder: '',
+        inputRef: {},
       };
     },
     methods: {
-      /**
-       *
-       * @param {PointerEvent} event
-       * @private
-       */
-      _handleClickOutside(event) {
-        const classList = Array.from(event.target.classList);
-
-        const hasClickedOutside = classList.some(className => className === 'keyboard-wrapper')
-
-        if (hasClickedOutside) {
-          this.set({isFocused: false});
-        }
-      },
-      _keyboardBeep() {
-        System.beep(System.Tones.TONE3, 30);
-      },
       insertKey(event, key) {
-        const { value, maxlength } = this.get();
+        const inputValue = this._getInputValue();
 
-        if (value.length >= maxlength) return;
+        this._setInputValue(String(inputValue) + String(key));
+        this._setInputFocus();
 
-        this.set({
-          value: value + key,
-        });
-
-        this._keyboardBeep()
+        this._keyboardBeep();
       },
       deleteKey() {
-        const { value } = this.get();
+        const inputValue = this._getInputValue();
 
-        if (!value) return;
+        if (!inputValue) return;
 
-        this.set({
-          value: value.slice(0, -1),
-        });
+        this._setInputValue(inputValue.slice(0, -1));
+        this._setInputFocus();
 
-        this._keyboardBeep()
+        this._keyboardBeep();
       },
       confirm() {
         this.set({
@@ -100,10 +69,51 @@
 
         this._keyboardBeep();
       },
-      _openKeyboard() {
+      openKeyboard(inputRef) {
         this.set({
+          inputRef,
           isFocused: true,
         });
+      },
+      _setInputValue(value) {
+        const { inputRef } = this.get();
+
+        inputRef.set({ value });
+      },
+      _setInputFocus() {
+        const { inputRef } = this.get();
+
+        inputRef.focus();
+      },
+      _getInputValue() {
+        const { inputRef } = this.get();
+
+        const { value } = inputRef.get();
+
+        return value;
+      },
+      _handleDocumentClick(event) {
+        this._handleClickOutside(event);
+      },
+      /**
+       *
+       * @param {PointerEvent} event
+       * @private
+       */
+      _handleClickOutside(event) {
+        const { target } = event;
+
+        const offsetParentClassList = Array.from(target.offsetParent ? target.offsetParent.classList : []);
+
+        const hasClickedOutside = offsetParentClassList.every(className => className !== 'keyboard');
+        const isInputElement = target instanceof HTMLInputElement;
+
+        if (hasClickedOutside && !isInputElement) {
+          this.set({ isFocused: false });
+        }
+      },
+      _keyboardBeep() {
+        System.beep(System.Tones.TONE3, 30);
       },
       _onSubmitValid() {
         this.fire('submitValid');
@@ -111,20 +121,12 @@
       _onSubmitInvalid() {
         this.fire('submitInvalid');
       },
-      validate() {
-        this.refs.inputNumeric.validate();
-      },
-      /**
-       * @param {string} message
-       */
-      invalidate(message = '') {
-        this.refs.inputNumeric.invalidate(message);
-      }
     },
   };
 </script>
 
 <style>
+  :global(.Q92),
   :global(.D199) {
     .numeric-wrapper {
       /* css debug */
@@ -134,7 +136,6 @@
 
     .keyboard-wrapper {
       position: fixed;
-      height: 347px;
       width: 100%;
       /* css debug */
       /* border: 1px solid red; */
@@ -158,8 +159,7 @@
       }
 
       .key {
-        max-width: 80px;
-        width: 100%;
+        width: calc(100% / 3);
         height: auto;
         border: 0;
         font-size: 20px;
