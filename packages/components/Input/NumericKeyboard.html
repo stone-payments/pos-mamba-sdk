@@ -2,28 +2,42 @@
 
 {#if isFocused}
   <div class="keyboard">
-    {#each new Array(12) as _, index}
-      {#if (index < 9)}
-        <button class="key" on:click="insertKey(event,index+1)">{index + 1}</button>
-      {:elseif index === 9}
-        <button class="key" on:click="deleteKey()">
-          <img class="icon" src="{deleteIcon}" alt="delete icon numeric keyboard" />
+    <div class="keys" class:with-math="isMathKeyboard">
+      {#each keys as key}
+        <button class="key" on:click="runInstanceKey(key)">
+          {#if key.code === "delete"}
+            <img class="icon" src="{deleteIcon}" alt="delete icon numeric keyboard" />
+          {:elseif key.code === "confirmation"}
+            <img class="icon" src="{confirmIcon}" alt="confirm icon numeric keyboard" />
+          {:else}
+            {key.code}
+          {/if}
         </button>
-      {:elseif index === 10}
-        <button class="key" on:click="insertKey(event,0)">0</button>
-      {:elseif index === 11}
-        <button class="key" on:click="confirm()">
-          <img class="icon" src="{confirmIcon}" alt="confirm icon numeric keyboard" />
-        </button>
-      {/if}
-    {/each}
+      {/each}
+    </div>
+
+    {#if isMathKeyboard}
+      <div class="keyboard-math">
+        {#each mathKeys as key}
+          <button class="key" on:click="runInstanceKey(key)">{key.code}</button>
+        {/each}
+      </div>
+    {/if}
   </div>
 {/if}
 
 <script>
-  import System from '@mamba/pos/api/system.js';
+
   import deleteIcon from './assets/num_delete.png';
   import confirmIcon from './assets/num_ok.png';
+
+  // Libs
+  import { VIRTUAL_KEYBOARD } from './libs/virtualKeyboard.js';
+
+  // Controllers
+  import VirtualKeyboardController from './Controllers/virtualKeyboard/VirtualKeyboardController.js';
+
+  let controller;
 
   export default {
     helpers: {
@@ -34,63 +48,30 @@
       _inputProps: (
         props = { bgColor, label, placeholder, textColor, value, validation },
       ) => ({ ...props }),
+      isMathKeyboard: ({ type }) => {
+        return type === "math"
+      }
     },
     data() {
       return {
         isFocused: false,
         inputRef: {},
+        keys: VIRTUAL_KEYBOARD.KEYS,
+        mathKeys: VIRTUAL_KEYBOARD.MATH,
       };
     },
+    oncreate() {
+     controller = new VirtualKeyboardController(this);
+    },
     methods: {
-      insertKey(event, key) {
-        const inputValue = this._getInputValue();
-
-        this._setInputValue(String(inputValue) + String(key));
-        this._setInputFocus();
-
-        this._keyboardBeep();
-      },
-      deleteKey() {
-        const inputValue = this._getInputValue();
-
-        if (!inputValue) return;
-
-        this._setInputValue(inputValue.slice(0, -1));
-        this._setInputFocus();
-
-        this._keyboardBeep();
-      },
-      confirm() {
-        this.set({
-          isFocused: false,
-        });
-
-        this.fire('submit');
-
-        this._keyboardBeep();
+      runInstanceKey(instance) {
+        instance.onClick(controller);
       },
       openKeyboard(inputRef) {
-        this.set({
-          inputRef,
-          isFocused: true,
-        });
+        controller.openKeyboard(inputRef);
       },
-      _setInputValue(value) {
-        const { inputRef } = this.get();
-
-        inputRef.set({ value });
-      },
-      _setInputFocus() {
-        const { inputRef } = this.get();
-
-        inputRef.focus();
-      },
-      _getInputValue() {
-        const { inputRef } = this.get();
-
-        const { value } = inputRef.get();
-
-        return value;
+      closeKeyboard() {
+        controller.closeKeyboard();
       },
       _handleDocumentClick(event) {
         this._handleClickOutside(event);
@@ -112,66 +93,78 @@
           this.set({ isFocused: false });
         }
       },
-      _keyboardBeep() {
-        System.beep(System.Tones.TONE3, 30);
-      },
-      _onSubmitValid() {
-        this.fire('submitValid');
-      },
-      _onSubmitInvalid() {
-        this.fire('submitInvalid');
-      },
     },
   };
 </script>
 
-<style>
-  :global(.Q92),
-  :global(.D199) {
-    .numeric-wrapper {
-      /* css debug */
-      /* border: 1px solid red; */
-      position: relative;
-    }
+<style type="text/postcss">
+  .keyboard {
+    width: 100%;
+    min-width: 80%;
+    max-height: 320px;
 
-    .keyboard-wrapper {
-      position: fixed;
-      width: 100%;
-      /* css debug */
-      /* border: 1px solid red; */
-    }
+    border-top: 1px solid $gray700;
+    background-color: $neutral50;
 
-    .keyboard {
-      z-index: 999;
-      width: 100%;
-      min-width: 100px;
-      max-height: 320px;
-      box-sizing: border-box;
-      /* css debug */
-      /* border-bottom: 1px solid blue; */
-      border-top: 1px solid $gray700;
-      background-color: $neutral50;
-      position: fixed;
-      bottom: 0;
+    position: fixed;
+    bottom: 0;
 
-      * {
-        box-sizing: border-box;
-      }
+    box-sizing: border-box;
+  }
 
+  .key {
+    width: calc(100% / 3);
+    height: auto;
+    border: 0;
+    font-size: 20px;
+    line-height: 40px;
+    color: $neutral700;
+    background-color: transparent;
+  }
+
+  .keys {
+    width: 100%;
+
+    &.with-math {
+      max-width: 79%;
+      display: inline-block;
+      border-right: 2px solid rgba(0, 0, 0, 0.25);
       .key {
-        width: calc(100% / 3);
-        height: auto;
-        border: 0;
-        font-size: 20px;
-        line-height: 40px;
-        color: $neutral700;
-        background-color: transparent;
-      }
-
-      .icon {
-        max-width: 20px;
-        max-height: 19px;
+        line-height: 70px;
       }
     }
   }
+  .keyboard-math {
+    max-width: 20%;
+    display: inline-block;
+
+    .key {
+      width: 100%;
+      line-height: 51px;
+      font-size: 30px;
+    }
+  }
+
+  .icon {
+    max-width: 20px;
+    max-height: 19px;
+  }
+  /* .keyboard {
+    z-index: 999;
+    width: 100%;
+    min-width: 100px;
+    max-height: 320px;
+    box-sizing: border-box;
+    position: fixed;
+    bottom: 0;
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+
+
+  } */
+
 </style>
