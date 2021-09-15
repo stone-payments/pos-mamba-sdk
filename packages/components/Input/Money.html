@@ -3,7 +3,7 @@
   {..._inputProps}
   validation={_validation}
   bind:isValid
-  bind:value
+  bind:value="_value"
   on:keyup
   on:input
   on:blur
@@ -24,7 +24,7 @@
     },
     data() {
       return {
-        cents: 0,
+        value: 0,
         prefix: 'R$ ',
         suffix: '',
         limit: 999999.99,
@@ -35,7 +35,7 @@
     computed: {
       /* istanbul ignore next */
       _inputProps: ({
-        cents,
+        value,
         prefix,
         suffix,
         mask,
@@ -44,16 +44,31 @@
         validation,
         ...props
       }) => props,
-      value: ({ prefix, suffix, cents }) =>
-        prefix + formatMoney(parseFloat(cents) / 100) + suffix,
+      _value: ({ prefix, suffix, value = '0', limit }) => {
+        const parsedMoney = parseFloat(value) / 100;
+        const isValidNumber = !Number.isNaN(parsedMoney)
+        const returnFactory = (money = 0) => {
+          return prefix + formatMoney(money) + suffix;
+        }
+
+        if (parsedMoney > limit) {
+          const limitedMoney = parseFloat(parsedMoney.toString().substr(0, String(limit).length));
+
+          return returnFactory(limitedMoney)
+        }
+
+        if (isValidNumber) return returnFactory(parsedMoney);
+
+        return returnFactory();
+      },
       /** deprecated */
-      rawValue: ({ cents }) => cents,
+      rawValue: ({ value }) => value,
     },
     oncreate() {
       if (this.options.data) {
         /**
          * Since the money input doesn't use masks, it's necessary to override the "validation"
-         * property (if exists) with a method that has access to cents in a number format.
+         * property (if exists) with a method that has access to value in a number format.
          * The original Input validation uses the "rawValue", which would be "R$ 1,20", and not "120",
          * since the Money Input doesn't use a mask.
          */
@@ -61,7 +76,7 @@
         // istanbul ignore next
         if (typeof this.options.data.validation === 'function') {
           this.set({
-            _validation: () => validation(this.get().cents),
+            _validation: () => validation(this.get().value),
           });
         }
       }
@@ -114,8 +129,8 @@
         this.fire('focus', e);
       },
       _getSubmissionObj() {
-        const { cents, value: formatted, isValid } = this.get();
-        return { cents, value: cents, formatted, isValid };
+        const { value, _value: formatted, isValid } = this.get();
+        return { value, formatted, isValid };
       },
       _onSubmitValid() {
         this.fire('submitValid', this._getSubmissionObj());
@@ -130,39 +145,39 @@
         e.preventDefault();
         const keyName = Keyboard.getKeyName(e.keyCode);
         const { readonlyOnEnter } = this.get();
-        let { cents } = this.get();
-        cents = cents.toString();
+        let { value } = this.get();
+        value = value.toString();
 
         if (this.get().readonly === true) {
           return;
         }
 
-        if (readonlyOnEnter === true && cents !== '0' && keyName === 'enter') {
+        if (readonlyOnEnter === true && value !== '0' && keyName === 'enter') {
           this.makeReadOnly();
         }
 
         if (Keyboard.isNumericKey(e.keyCode)) {
-          if (cents === '0') {
-            cents = keyName;
+          if (value === '0') {
+            value = keyName;
           } else {
-            cents += keyName;
+            value += keyName;
           }
 
           /** If the value is above the limit, do nothing */
-          if (parseFloat(cents) / 100 > this.get().limit) {
+          if (parseFloat(value) / 100 > this.get().limit) {
             return;
           }
         } else if (keyName === 'back') {
-          cents = cents.slice(0, cents.length - 1);
+          value = value.slice(0, value.length - 1);
 
-          if (!cents.length) {
-            cents = '0';
+          if (!value.length) {
+            value = '0';
           }
         }
 
-        cents = parseFloat(cents);
+        value = parseFloat(value);
 
-        this.set({ cents });
+        this.set({ value: value });
         this.refs.amountInput._onInput(e);
       },
     },

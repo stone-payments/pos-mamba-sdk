@@ -1,3 +1,8 @@
+import Key from '../Controllers/virtualKeyboard/modules/Key.js';
+import ConfirmationKey from '../Controllers/virtualKeyboard/modules/ConfirmationKey.js';
+import DeleteKey from '../Controllers/virtualKeyboard/modules/DeleteKey.js';
+import MathKey from '../Controllers/virtualKeyboard/modules/MathKey.js';
+
 export const KEYBOARD_LAYOUTS = {
   default: {
     firstRowKeys: ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
@@ -69,3 +74,28 @@ export const DEFAULT_SUGGESTIONS = [
     suggestions: ['Ç', 'ÇA', 'ÇO', 'ÇÃO'],
   },
 ];
+
+
+export const VIRTUAL_KEYBOARD = {
+  KEYS: [
+    new Key({ code: '1' }),
+    new Key({ code: '2' }),
+    new Key({ code: '3' }),
+    new Key({ code: '4' }),
+    new Key({ code: '5' }),
+    new Key({ code: '6' }),
+    new Key({ code: '7' }),
+    new Key({ code: '8' }),
+    new Key({ code: '9' }),
+    new DeleteKey({ code: 'delete' }),
+    new Key({ code: '0' }),
+    new ConfirmationKey({ code: 'confirmation'})
+  ],
+  MATH: [
+    new MathKey({ code: '÷' }),
+    new MathKey({ code: '×' }),
+    new MathKey({ code: '-' }),
+    new MathKey({ code: '+' }),
+    new MathKey({ code: '=' }),
+  ]
+}

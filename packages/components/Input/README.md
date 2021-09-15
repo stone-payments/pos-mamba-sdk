@@ -67,12 +67,8 @@ import NumericKeyboard from '@mamba/input/NumericKeyboard.html';
 
 | Parâmetross  | Descrição                                                   | Tipo           | Padrão      |
 | ------------ | ----------------------------------------------------------- | -------------- | ----------- |
-| bgColor      | Cor de Fundo da Caixa de Entrada                            | `string` (hex) | `'#fff'`    |
-| label        | Título da Caixa de Entrada                                  | `string`       | `undefined` |
-| maxlength    | Limita o número de caracteres do teclado                    | `number`       | `30`        |
-| placeholder  | Customiza o placeholder                                     | `string`       | `undefined` |
-| textColor    | Cor do Texto da Caixa de Entrada                            | `string` (hex) | `'#4a4a4a'` |
-| value        | Valor de padrão de entrada                                  | `string`       | `false`     |
+| type         | Define qual o tipo de teclado deve ser renderizado          | `string`       | `null`      |
+| isFocused    | Define se o teclado deve ou não começar aberto              | `boolean`      | `false`     |
 
 ## Eventos
 
@@ -111,6 +107,16 @@ event = {
   isValid: boolean; // Representa o valor da validação (se houver)
 }
 ```
+
+
+`<NumericKeyboard ... on:event="..." />`
+
+| Eventos       | Disparado quando ...                                                              | Tipo              |
+| ------------- | --------------------------------------------------------------------------------- | ----------------- |
+| submit        | Dispara quando o botão de confirmação for selecionado.                            | `function(event)` |
+| addInput      | Envia os botões de operação matematica selecionado                                | `function(event)` |
+
+<br/>
 
 ## Métodos
 

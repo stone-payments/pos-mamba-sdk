@@ -1,40 +1,45 @@
-<div class="numeric-wrapper" class:focus="isFocused">
-  <Input autofocus bind:value bind:isValid forceFocus {maxlength} placeholder="Digite algum número" ref:inputNumeric
-    {..._inputProps} on:focus="_openKeyboard()" on:submitValid="_onSubmitValid()"
-    on:submitInvalid="_onSubmitInvalid()" />
+<svelte:document on:click="_handleDocumentClick(event)" />
 
-  {#if isFocused}
-    <div class="keyboard-wrapper">
-      <div class="keyboard">
-        {#each new Array(12) as _, index}
-          {#if (index < 9)}
-            <button class="key" on:click="insertKey(event,index+1)">{index + 1}</button>
-          {:elseif index == 9}
-            <button class="key" on:click="deleteKey()">
-              <img class="icon" src="{deleteIcon}" alt="" />
-            </button>
-          {:elseif index == 10}
-            <button class="key" on:click="insertKey(event,0)">0</button>
-          {:elseif index == 11}
-            <button class="key" on:click="confirm()">
-              <img class="icon" src="{confirmIcon}" alt="" />
-            </button>
+{#if isFocused}
+  <div class="keyboard">
+    <div class="keys" class:with-math="isMathKeyboard">
+      {#each keys as key}
+        <button class="key" on:click="runInstanceKey(key)">
+          {#if key.code === "delete"}
+            <img class="icon" src="{deleteIcon}" alt="delete icon numeric keyboard" />
+          {:elseif key.code === "confirmation"}
+            <img class="icon" src="{confirmIcon}" alt="confirm icon numeric keyboard" />
+          {:else}
+            {key.code}
           {/if}
+        </button>
       {/each}
-      </div>
     </div>
-  {/if}
-</div>
+
+    {#if isMathKeyboard}
+      <div class="keyboard-math">
+        {#each mathKeys as key}
+          <button class="key" on:click="runInstanceKey(key)">{key.code}</button>
+        {/each}
+      </div>
+    {/if}
+  </div>
+{/if}
 
 <script>
-  import System from '@mamba/pos/api/system.js'
+
   import deleteIcon from './assets/num_delete.png';
   import confirmIcon from './assets/num_ok.png';
 
+  // Libs
+  import { VIRTUAL_KEYBOARD } from './libs/virtualKeyboard.js';
+
+  // Controllers
+  import VirtualKeyboardController from './Controllers/virtualKeyboard/VirtualKeyboardController.js';
+
+  let controller;
+
   export default {
-    components: {
-      Input: '@mamba/input/Input.html',
-    },
     helpers: {
       deleteIcon,
       confirmIcon,
@@ -43,134 +48,105 @@
       _inputProps: (
         props = { bgColor, label, placeholder, textColor, value, validation },
       ) => ({ ...props }),
+      isMathKeyboard: ({ type }) => {
+        return type === "math"
+      }
     },
     data() {
       return {
         isFocused: false,
-        maxlength: 99,
+        inputRef: {},
+        keys: VIRTUAL_KEYBOARD.KEYS,
+        mathKeys: VIRTUAL_KEYBOARD.MATH,
       };
     },
     oncreate() {
-      const appScreen = document.querySelector('.mamba-app');
-      const buttons = document.querySelectorAll('button.key');
-
-      appScreen.addEventListener('click', (e) => {
-
-        const clickClassList = Array.from(e.target.classList);
-
-        const clickOutKeyboard = clickClassList.some((className) => className === 'keyboard-wrapper');
-
-        if (clickOutKeyboard) {
-          this.set({
-            isFocused: false,
-          })
-
-          return;
-        }
-
-      });
-
-      buttons.forEach(button => {
-        button.addEventListener('click', (e) => {
-          System.beep(System.Tones.TONE3, 30);
-        });
-      });
+     controller = new VirtualKeyboardController(this);
     },
     methods: {
-      insertKey(event, key) {
-        const { value, maxlength } = this.get();
+      runInstanceKey(instance) {
+        instance.onClick(controller);
+      },
+      openKeyboard(inputRef) {
+        controller.openKeyboard(inputRef);
+      },
+      closeKeyboard() {
+        controller.closeKeyboard();
+      },
+      _handleDocumentClick(event) {
+        this._handleClickOutside(event);
+      },
+      /**
+       *
+       * @param {PointerEvent} event
+       * @private
+       */
+      _handleClickOutside(event) {
+        const { target } = event;
 
-        if (value.length >= maxlength) return;
+        const offsetParentClassList = Array.from(target.offsetParent ? target.offsetParent.classList : []);
 
-        this.set({
-          value: value + key,
-        });
-      },
-      deleteKey() {
-        const { value } = this.get();
+        const hasClickedOutside = offsetParentClassList.every(className => className !== 'keyboard');
+        const isInputElement = target instanceof HTMLInputElement;
 
-        if (!value) return;
-
-        this.set({
-          value: value.slice(0, -1),
-        });
+        if (hasClickedOutside && !isInputElement) {
+          this.set({ isFocused: false });
+        }
       },
-      confirm() {
-        this.set({
-          isFocused: false,
-        });
-
-        this.fire('submit');
-      },
-      _openKeyboard() {
-        this.set({
-          isFocused: true,
-        });
-      },
-      _onSubmitValid() {
-        this.fire('submitValid');
-      },
-      _onSubmitInvalid() {
-        this.fire('submitInvalid');
-      },
-      validate() {
-        this.refs.inputNumeric.validate();
-      },
-      invalidate(message) {
-        this.refs.inputNumeric.invalidate(message);
-      }
     },
   };
 </script>
 
-<style>
-  :global(.D199) {
-    .numeric-wrapper {
-      /* css debug */
-      /* border: 1px solid red; */
-      position: relative;
-    }
+<style type="text/postcss">
+  .keyboard {
+    width: 100%;
+    min-width: 80%;
+    max-height: 320px;
 
-    .keyboard-wrapper {
-      position: fixed;
-      height: 347px;
-      width: 100%;
-      /* css debug */
-      /* border: 1px solid red; */
-    }
+    border-top: 1px solid $gray700;
+    background-color: $neutral50;
 
-    .keyboard {
-      z-index: 999;
-      width: 100%;
-      min-width: 100px;
-      max-height: 320px;
-      box-sizing: border-box;
-      /* css debug */
-      /* border-bottom: 1px solid blue; */
-      border-top: 1px solid $gray700;
-      background-color: $neutral50;
-      position: fixed;
-      bottom: 0;
+    position: fixed;
+    bottom: 0;
 
-      * {
-        box-sizing: border-box;
-      }
+    box-sizing: border-box;
+  }
 
+  .key {
+    width: calc(100% / 3);
+    height: auto;
+    border: 0;
+    font-size: 20px;
+    line-height: 40px;
+    color: $neutral700;
+    background-color: transparent;
+  }
+
+  .keys {
+    width: 100%;
+
+    &.with-math {
+      max-width: 79%;
+      display: inline-block;
+      border-right: 2px solid rgba(0, 0, 0, 0.25);
       .key {
-        max-width: 80px;
-        width: 100%;
-        height: auto;
-        border: 0;
-        font-size: 20px;
-        line-height: 40px;
-        color: $neutral700;
-        background-color: transparent;
-      }
-
-      .icon {
-        max-width: 20px;
-        max-height: 19px;
+        line-height: 70px;
       }
     }
+  }
+  .keyboard-math {
+    max-width: 20%;
+    display: inline-block;
+
+    .key {
+      width: 100%;
+      line-height: 51px;
+      font-size: 30px;
+    }
+  }
+
+  .icon {
+    max-width: 20px;
+    max-height: 19px;
   }
 </style>
