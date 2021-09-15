@@ -26,7 +26,7 @@ class VirtualKeyboardController {
 
     this.scope.fire('submit');
 
-    this.scope.keyboardBeep();
+    this.keyboardBeep();
   }
 
   deleteKey() {
@@ -44,6 +44,12 @@ class VirtualKeyboardController {
     this.scope.set({
       inputRef,
       isFocused: true,
+    });
+  }
+
+  closeKeyboard() {
+    this.scope.set({
+      isFocused: false,
     });
   }
 

@@ -6,11 +6,11 @@
       {#each keys as key}
         <button class="key" on:click="runInstanceKey(key)">
           {#if key.code === "delete"}
-          <img class="icon" src="{deleteIcon}" alt="delete icon numeric keyboard" />
+            <img class="icon" src="{deleteIcon}" alt="delete icon numeric keyboard" />
           {:elseif key.code === "confirmation"}
-          <img class="icon" src="{confirmIcon}" alt="confirm icon numeric keyboard" />
+            <img class="icon" src="{confirmIcon}" alt="confirm icon numeric keyboard" />
           {:else}
-          {key.code}
+            {key.code}
           {/if}
         </button>
       {/each}
@@ -69,6 +69,9 @@
       },
       openKeyboard(inputRef) {
         controller.openKeyboard(inputRef);
+      },
+      closeKeyboard() {
+        controller.closeKeyboard();
       },
       _handleDocumentClick(event) {
         this._handleClickOutside(event);

@@ -1,5 +1,5 @@
 import Key from '../Controllers/virtualKeyboard/modules/Key.js';
-import ConfirmationKey from '../Controllers/virtualKeyboard/modules/Key.js';
+import ConfirmationKey from '../Controllers/virtualKeyboard/modules/ConfirmationKey.js';
 import DeleteKey from '../Controllers/virtualKeyboard/modules/DeleteKey.js';
 import MathKey from '../Controllers/virtualKeyboard/modules/MathKey.js';
 
