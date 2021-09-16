@@ -80,7 +80,8 @@ class VirtualKeyboardController {
   }
 
   emitKeyToParent(key) {
-    this.scope.fire("addInput", { input: key})
+    this.scope.fire("addInput", { input: key});
+    this.keyboardBeep();
   }
 }
 
