@@ -177,15 +177,17 @@
           };
         }
 
-        const { element } = _elementsRefs[selectedIndex];
+
+
+        const { data, position } = eventData;
+        const internalIndex = position - 1;
+
+        const { element } = _elementsRefs[internalIndex];
 
         eventData = {
           ...eventData,
           renderItemRefs: element.refs.renderItemRef.refs
         };
-
-        const { data, position } = eventData;
-        const internalIndex = position - 1;
 
         this.set({ selectedIndex: internalIndex });
 
