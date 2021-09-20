@@ -86,6 +86,7 @@
         // eslint-disable-next-line max-len
         disableEnterKeystroke: false,
         disabled: false,
+        linkFirstFocusable: undefined,
         _hasElement: false,
         _elementsRefs: [],
       };
@@ -113,6 +114,7 @@
       if(__DEV__ || __DEBUG_LVL__ >= 1) {
         window._CurrentFlatList_ = this;
       }
+      this.fire('setup', { setupFirstFocusable: (elm) => this.setupFirstFocusable(elm) });
     },
     onupdate({changed, current}) {
       if(changed.data || changed.dataSection) {
@@ -268,6 +270,9 @@
 
           this.set({ selectedIndex: internalIndex });
         }
+      },
+      setupFirstFocusable(element) {
+        if(element) this.set({ linkFirstFocusable: element });
       },
     },
   };
