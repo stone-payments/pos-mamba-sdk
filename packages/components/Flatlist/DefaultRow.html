@@ -190,6 +190,18 @@
       flex: 1;
       padding-left: 15px;
       justify-content: space-between;
+
+      &[style*='align-items: flex-start'] .mb-label {
+        align-items: flex-start;
+      }
+
+      &[style*='align-items: center'] .mb-label {
+        align-items: center;
+      }
+
+      &[style*='align-items: flex-end'] .mb-label {
+        align-items: flex-end;
+      }
     }
 
     &-label {
