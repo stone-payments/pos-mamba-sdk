@@ -59,7 +59,7 @@
     {/if}
 
     <!-- Right wrapper -->
-    {#if rightLabel && typeof rightLabel === 'object'}
+    {#if _hasRightLabel}
       <div class="mb-row-right">
 
         <!-- Right Label -->
@@ -146,6 +146,10 @@
       _label({ label }) {
         if(!label) return { prefix: {}};
         return label;
+      },
+      _hasRightLabel({ rightLabel }) {
+        const { description, value } = rightLabel || {};
+        return isObject(rightLabel) && (value || description);
       },
       _customView({ customView }) {
         return shouldReturnComponent(customView);
