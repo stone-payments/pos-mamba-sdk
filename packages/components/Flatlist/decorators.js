@@ -1,6 +1,7 @@
 import Icon from '@mamba/icon';
 import { MODELS, getPosModelSlug, getPosModel } from '@mamba/utils/index.js';
 import { neutral800 } from '@mamba/styles/colors.js';
+import deepMerge from './utils/deepMerge.js';
 
 let ACTIVE_MODEL = getPosModel();
 let ACTIVE_MODEL_SLUG;
@@ -79,16 +80,13 @@ const GetDefaultDecorator = (rowProps, overrides = {}) => {
   ACTIVE_MODEL = getPosModel();
 
   const incomingProps = rowProps || { label: {} };
-  const labelData = (incomingProps && incomingProps.label) || {};
 
   const currentOverride = overrides[getPosModelSlug()] || overrides;
 
-  const ARROW_CAPABILITIES_DECORATOR = {
+  const ARROW_CAPABILITIES_DECORATOR = deepMerge(incomingProps, {
     small: true,
     label: {
-      ...labelData,
       style: {
-        ...labelData.style,
         fontWeight: '700',
       },
       ...getPrefixOverride(
@@ -105,9 +103,8 @@ const GetDefaultDecorator = (rowProps, overrides = {}) => {
       alignItems: 'center',
       paddingRight: '15px',
     },
-    ...currentOverride,
     highlightSelect: true,
-  };
+  });
 
   return (
     {
