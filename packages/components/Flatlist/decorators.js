@@ -113,6 +113,7 @@ const GetDefaultDecorator = (rowProps, overrides = {}) => {
       incomingProps,
       currentOverride,
     );
+    ARROW_CAPABILITIES_DECORATOR.contentStyle.paddingRight = '30px';
   }
 
   return (
