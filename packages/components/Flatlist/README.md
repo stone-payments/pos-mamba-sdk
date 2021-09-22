@@ -365,7 +365,7 @@ interface DefaultRowProps {
     description?: string;
     style?: object;
 
-    // Anything immediate before label. Can be a function that will pass a row position, plain text or a Fixture object
+    // Anything immediate before label. Can be a function that will receive the row position
     prefix?: (position: number) => string | number;
     prefixStyle?: object;
   };
@@ -375,7 +375,7 @@ interface DefaultRowProps {
     description?: string;
     style?: object;
 
-    // Anything immediate next to righLabel. Can be a function that will compute some value, plain text or a Fixture object
+    // Anything immediate next to righLabel. Can be a function that will compute some value
     sufix?: () => string | number;
     sufixStyle?: object;
   };
