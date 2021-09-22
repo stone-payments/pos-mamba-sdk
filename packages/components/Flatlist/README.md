@@ -293,87 +293,97 @@ A estrutura do objeto que irá compor o array para o `DefaultRow` é diferente, 
 ```ts
 type Alignment = 'start' | 'center' | 'end';
 
+declare type Component = void;
+
 interface ComponentView {
   // Fixture value
-  value?: () => Component | any,
+  value?: () => Component | any;
 
   /* If Value is component, set its props like:
-  * props: {
-  *   checked: true,
-  * },
-  */
-  props?: object,
+   * props: {
+   *   checked: true,
+   * },
+   */
+  props?: object;
 
   /* If Value is component, set its events like:
-  * on: {
-  *   change: () => console.log('change'),
-  * },
-  */
-  on?: object,
+   * on: {
+   *   change: () => console.log('change'),
+   * },
+   */
+  on?: object;
 }
 
 interface Fixture extends ComponentView {
-
   // Styles
-  style?: object,
-  wrapperStyle?: object,
-  contentStyle?: object,
+  style?: object;
+  wrapperStyle?: object;
+  contentStyle?: object;
 }
 
-interface DefaultRowProps = {
+type SelectEvent = {
+  data: DefaultRowProps;
+  index: number;
+  position: number;
+  renderItemRefs: Component;
+}
+
+interface DefaultRowProps {
   // Action when selected with touch, keyboard action, or shortcut.
-  onSelected: (item) => {},
+  onSelected?: (event: SelectEvent) => {};
 
   // The keyboard shortcut
-  shortcut: number | string,
+  shortcut?: number | string;
 
   // Row top level style
-  wrapperStyle: object,
+  wrapperStyle?: object;
 
   // Row content container style (don't include and/start fixtures container)
-  contentStyle: object,
+  contentStyle?: object;
 
   // If row should highlighted or not
-  highlightSelect: boolean,
+  highlightSelect?: boolean;
 
   // The highlight color
-  highlightColor: string,
+  highlightColor?: string;
 
   // If the row should have minimal spaces
-  small: boolean,
+  small?: boolean;
 
   // Vertical items align
-  align: Alignment,
+  align?: Alignment;
 
   // Useful to put anything before the label
-  startFixture: Fixture,
+  startFixture?: Fixture;
 
   // If you dont want work with labels, you can inject your own main content in the row.
-  customView: ComponentView
+  customView?: ComponentView;
 
   // Row labels
-  label: {
-    value: string,
-    description: string,
-    style: object,
+  label?: {
+    value: string;
+    description?: string;
+    style?: object;
 
-    // Anything immediate before label.
-    prefix: (position) => {} | string,
-    prefixStyle: object,
-  },
-  rightLabel: {
-    value: string,
-    description: string,
-    style: object,
+    // Anything immediate before label. Can be a function that will pass a row position, plain text or a Fixture object
+    prefix?: (position: number) => string | number;
+    prefixStyle?: object;
+  };
 
-    // Anything immediate next to righLabel.
-    sufix: () => {} | string,
-    sufixStyle: object,
-  },
+  rightLabel?: {
+    value: string;
+    description?: string;
+    style?: object;
+
+    // Anything immediate next to righLabel. Can be a function that will compute some value, plain text or a Fixture object
+    sufix?: () => string | number;
+    sufixStyle?: object;
+  };
 
   // Useful to put anything after the label or rightLabel block
-  endFixture: Fixture,
+  endFixture?: Fixture;
 }
+
 ```
 ### Acesse as ref do `DefaultRow`
 
