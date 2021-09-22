@@ -49,7 +49,7 @@ export const SetDefaultRowDecorator = (incomingProps = {}, overrides = {}) => {
     TRANSLATE_TOP[incomingProps.align || overrides.align || 'start']
   });`;
 
-  DefaultRowDecorator = {
+  DefaultRowDecorator = deepMerge(incomingProps, {
     endFixture: {
       value: () => Icon,
       props: { symbol: 'chevron-right', color: neutral800 },
@@ -61,13 +61,11 @@ export const SetDefaultRowDecorator = (incomingProps = {}, overrides = {}) => {
       },
     },
     label: {
-      ...incomingProps.label,
       ...getPrefixOverride(overrides),
     },
-    ...incomingProps,
     ...overrides,
     highlightSelect: false,
-  };
+  });
 
   if (__DEBUG_LVL__ >= 2) {
     console.log(JSON.stringify({ DefaultRowDecorator }, null, 2));
