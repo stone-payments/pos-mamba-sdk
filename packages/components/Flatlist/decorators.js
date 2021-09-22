@@ -31,35 +31,39 @@ const getPrefixOverride = (
   };
 };
 
-export const SetDefaultRowDecorator = (incomingProps = {}, overrides = {}) => {
-  const ALIGN_TOP = {
-    start: '-5px',
-    center: '50%',
-    end: '100%',
-  };
+const ALIGN_TOP = {
+  start: '-5px',
+  center: '50%',
+  end: '100%',
+};
 
-  const TRANSLATE_TOP = {
-    start: '0',
-    center: '-50%',
-    end: '-100%',
-  };
+const TRANSLATE_TOP = {
+  start: '0',
+  center: '-50%',
+  end: '-100%',
+};
 
+const chevronFixture = (incomingProps = {}, overrides = {}) => {
   const top = ALIGN_TOP[incomingProps.align || overrides.align || 'start'];
   const transform = `translateY(${
     TRANSLATE_TOP[incomingProps.align || overrides.align || 'start']
   });`;
 
-  DefaultRowDecorator = deepMerge(incomingProps, {
-    endFixture: {
-      value: () => Icon,
-      props: { symbol: 'chevron-right', color: neutral800 },
-      contentStyle: {
-        position: 'absolute',
-        right: '5px',
-        top,
-        transform,
-      },
+  return {
+    value: () => Icon,
+    props: { symbol: 'chevron-right', color: neutral800 },
+    contentStyle: {
+      position: 'absolute',
+      right: '5px',
+      top,
+      transform,
     },
+  };
+};
+
+export const SetDefaultRowDecorator = (incomingProps = {}, overrides = {}) => {
+  DefaultRowDecorator = deepMerge(incomingProps, {
+    endFixture: chevronFixture(incomingProps, overrides),
     label: {
       ...getPrefixOverride(overrides),
     },
@@ -103,6 +107,13 @@ const GetDefaultDecorator = (rowProps, overrides = {}) => {
     },
     highlightSelect: true,
   });
+
+  if (currentOverride.showChevron) {
+    ARROW_CAPABILITIES_DECORATOR.endFixture = chevronFixture(
+      incomingProps,
+      currentOverride,
+    );
+  }
 
   return (
     {

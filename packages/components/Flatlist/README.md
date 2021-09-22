@@ -359,6 +359,9 @@ interface DefaultRowProps {
   // If you dont want work with labels, you can inject your own main content in the row.
   customView?: ComponentView;
 
+  // show or not chevron icon on all lines
+  showChevron?: boolean;
+
   // Row labels
   label?: {
     value: string;
