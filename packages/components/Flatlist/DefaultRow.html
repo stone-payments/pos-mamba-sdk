@@ -174,12 +174,14 @@
       background: #fff;
 
       &:not(.mb-small) {
-        padding: 14px 0;
+        padding-top: 14px;
+        padding-bottom: 14px;
         border-bottom-width: 2px;
       }
 
       &.mb-small {
-        padding: 10px 0;
+        padding-top: 8px;
+        padding-bottom: 7px;
         border-bottom-width: 1px;
       }
     }
@@ -200,18 +202,6 @@
       flex: 1;
       padding-left: 15px;
       justify-content: space-between;
-
-      &[style*='align-items: flex-start'] .mb-label {
-        align-items: flex-start;
-      }
-
-      &[style*='align-items: center'] .mb-label {
-        align-items: center;
-      }
-
-      &[style*='align-items: flex-end'] .mb-label {
-        align-items: flex-end;
-      }
     }
 
     &-label {
