@@ -131,7 +131,7 @@ export function persistComponentRef(cb = () => {}) {
 }
 
 // Post processing
-const isFunc = f => typeof f === 'function';
+export const isFunc = f => typeof f === 'function';
 const repChar = char => `-${char.toLowerCase()}`;
 
 const repColor = value => {
