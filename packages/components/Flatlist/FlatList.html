@@ -296,12 +296,11 @@
 
           if(isComponent || !isSomeInputElement(domElement)) return false;
 
-          const linkFirstFocusable = {
+          const self = {
             focusable: true,
             element,
             domElement,
             getBoundingClientRect () {
-              const self = linkFirstFocusable;
               let { getBoundingClientRect } = self.domElement;
               let thisArg = self.domElement;
 
@@ -314,21 +313,19 @@
               return getBoundingClientRect.call(thisArg);
             },
             focus() {
-              const self = linkFirstFocusable;
               self.domElement.focus();
             },
             blur() {
-              const self = linkFirstFocusable;
               self.domElement.blur();
             },
           };
 
           if(__DEV__ ) {
-            console.log('[FlatList] setupFirstFocusable', linkFirstFocusable);
+            console.log('[FlatList] setupFirstFocusable', self);
           }
 
           // Register the first element user has focused row
-          this.set({ linkFirstFocusable });
+          this.set({ linkFirstFocusable: self });
 
         } catch (error) {
           if(__DEV__ || __DEBUG_LVL__ >= 2) {
