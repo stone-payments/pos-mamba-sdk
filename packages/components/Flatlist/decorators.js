@@ -13,7 +13,7 @@ const SEPARATORS = {
 };
 
 const withPosPrefixSeparator = separator => position => {
-  return (position && `${position}${separator}`) || null;
+  return (position && `${position}${separator}`) || '';
 };
 
 const getPrefixOverride = (
