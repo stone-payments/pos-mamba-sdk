@@ -2,8 +2,17 @@
   ref:element
   on:click="fire('_click', { data, index: key, sectionIndex, position })"
   shortcut={useAutoShortcuts ? _shortcut : data.shortcut || undefined}>
-  <svelte:component ref:renderItemRef this="{renderItem}" key={key} {...data} position={position} {..._decorator} bind:isActive />
+  <svelte:component
+    ref:renderItemRef
+    this="{renderItem}"
+    key={key}
+    {...data}
+    position={position}
+    {..._decorator}
+    bind:isActive
+  />
 </div>
+
 
 <script>
   export default {
