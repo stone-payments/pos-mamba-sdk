@@ -56,7 +56,7 @@ const scrollTo = (yaxis, item) => {
   const { element } = refs || focusableItem;
 
   // use a custom getBoundingClientRect of svelte component or dom element
-  let { getBoundingClientRect } = element;
+  let { getBoundingClientRect } = element || item.element;
 
   // try get dom getBoundingClientRect in case element doesn't have it
   if (

@@ -172,7 +172,6 @@
           _elementsRefs,
           selectedIndex,
           autoSelectOnTouch,
-          // linkFirstFocusable,
           intersectSelectedEvents: intersect,
         } = this.get();
 
@@ -219,7 +218,7 @@
 
         if(intersect) this.fire(EVENTS.ITEM_SELECTED, eventData);
       },
-      register(element, index, sectionIndex, focusableItem = false) {
+      register(element, index, sectionIndex, focusableItem = undefined) {
         const { _elementsRefs } = this.get();
 
         const position = _elementsRefs.length + 1;
