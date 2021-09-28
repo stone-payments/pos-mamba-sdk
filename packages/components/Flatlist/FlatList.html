@@ -15,16 +15,20 @@
         {/if}
 
         {#each section.data.filter(Boolean) as item, index}
-          <Parent
-            on:create="register(this, index, sectionIndex)"
-            data={item}
-            key={index}
-            sectionIndex={sectionIndex}
-            renderItem={renderItem}
-            useAutoShortcuts={useAutoShortcuts}
-            decorator={_setDecorator(decorator, item, decoratorOverrides)}
-            on:_click="setSelected(event)"
-          />
+          {#if item.focusable}
+            <FocusController data={item} on:create="register(this, index, sectionIndex, item)" />
+          {:else}
+            <Parent
+              on:create="register(this, index, sectionIndex)"
+              data={item}
+              key={index}
+              sectionIndex={sectionIndex}
+              renderItem={renderItem}
+              useAutoShortcuts={useAutoShortcuts}
+              decorator={_setDecorator(decorator, item, decoratorOverrides)}
+              on:_click="setSelected(event)"
+            />
+          {/if}
         {/each}
 
         {#if showSeparator === true}
@@ -46,8 +50,10 @@
   import { ENTER, KEYUP, KEYDOWN } from '@mamba/pos/drivers/keyboard/keymap.js';
   import { selectRowItem, toggleActive, getStyles, shouldReturnComponent } from './helpers.js';
   import isSomeInputElement from './utils/isSomeInputElement.js';
+  import isFunction from './utils/isFunction.js';
   import { ACTIVE_MODEL } from './decorators.js';
   import { ARROW_CAPABILITIES_MODELS } from './const.js';
+
 
   const EVENTS = {
     ITEM_SELECTED: 'itemSelected',
@@ -60,6 +66,7 @@
   export default {
     components: {
       Parent: './components/parent.html',
+      FocusController: './components/focusController.html',
       Keystroke: '@mamba/app/Keystroke.html',
     },
     helpers: {
@@ -67,8 +74,8 @@
       KEYUP,
       KEYDOWN,
       _setDecorator(decorator, item, decoratorOptions) {
-        const isFunc = typeof decorator === 'function';
-        return isFunc ? decorator(item, decoratorOptions) : decorator;
+        return isFunction(decorator) ?
+          decorator(item, decoratorOptions) : decorator;
       },
     },
     data() {
@@ -116,7 +123,7 @@
       if(__DEV__ || __DEBUG_LVL__ >= 1) {
         window._CurrentFlatList_ = this;
       }
-      this.fire('setup', { setupFirstFocusable: (elm) => this.setupFirstFocusable(elm) });
+      this.fire('setup', { setupFirstFocusable: (elm, fr) => this.setupFirstFocusable(elm, fr) });
     },
     onupdate({changed, current}) {
       if(changed.data || changed.dataSection) {
@@ -143,6 +150,12 @@
           d.some(i => i.data && Array.isArray(i.data));
 
         if(isDataArray && data.length > 0) {
+          const { linkFirstFocusable } = current;
+
+          if(linkFirstFocusable) {
+            data.unshift(linkFirstFocusable);
+          }
+
           this.set({
             dataSection: dataIsSection(data) ? data : [{
               title: null,
@@ -159,6 +172,7 @@
           _elementsRefs,
           selectedIndex,
           autoSelectOnTouch,
+          // linkFirstFocusable,
           intersectSelectedEvents: intersect,
         } = this.get();
 
@@ -205,7 +219,7 @@
 
         if(intersect) this.fire(EVENTS.ITEM_SELECTED, eventData);
       },
-      register(element, index, sectionIndex) {
+      register(element, index, sectionIndex, focusableItem = false) {
         const { _elementsRefs } = this.get();
 
         const position = _elementsRefs.length + 1;
@@ -215,6 +229,7 @@
           element,
           index,
           position,
+          focusableItem,
         });
 
         element.set({ position });
@@ -271,20 +286,43 @@
           this.set({ selectedIndex: internalIndex });
         }
       },
-      setupFirstFocusable(element) {
+      setupFirstFocusable({
+        element,
+        forwardedRef,
+      }) {
         if(!element) return false;
         try {
-          // eslint-disable-next-line no-proto
-          const isComponent = element.__proto__.constructor.name === 'proxyComponent';
+          const domElement = forwardedRef ? element.refs[forwardedRef] : element;
+          const isComponent = !(domElement instanceof HTMLElement);
 
-          if(!isComponent && !isSomeInputElement(element)) return false;
+          if(isComponent || !isSomeInputElement(domElement)) return false;
 
           const linkFirstFocusable = {
-            value: element,
-            isComponent,
-            hasFocus: 'focus' in element,
-            hasBlur: 'blur' in element,
-          } ;
+            focusable: true,
+            element,
+            domElement,
+            getBoundingClientRect () {
+              const self = linkFirstFocusable;
+              let { getBoundingClientRect } = self.domElement;
+              let thisArg = self.domElement;
+
+              if(self.element.getBoundingClientRect) {
+              // eslint-disable-next-line prefer-destructuring
+                getBoundingClientRect = self.element.getBoundingClientRect;
+                thisArg = self.element;
+              }
+
+              return getBoundingClientRect.call(thisArg);
+            },
+            focus() {
+              const self = linkFirstFocusable;
+              self.domElement.focus();
+            },
+            blur() {
+              const self = linkFirstFocusable;
+              self.domElement.blur();
+            },
+          };
 
           if(__DEV__ ) {
             console.log('[FlatList] setupFirstFocusable', linkFirstFocusable);
@@ -294,6 +332,9 @@
           this.set({ linkFirstFocusable });
 
         } catch (error) {
+          if(__DEV__ || __DEBUG_LVL__ >= 2) {
+            console.log(error);
+          }
           return false;
         }
       },

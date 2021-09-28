@@ -1,5 +1,6 @@
 import * as Colors from '@mamba/styles/colors.js';
 import { KEYUP, KEYDOWN } from '@mamba/pos/drivers/keyboard/keymap.js';
+import isFunction from './utils/isFunction.js';
 
 let lastActive;
 
@@ -47,7 +48,24 @@ export const toggleActive = (items, index) => {
 };
 
 const scrollTo = (yaxis, item) => {
-  const { element } = item.element.refs;
+  const {
+    focusableItem = {},
+    element: { refs },
+  } = item;
+
+  const { element } = refs || focusableItem;
+
+  // use a custom getBoundingClientRect of svelte component or dom element
+  let { getBoundingClientRect } = element;
+
+  // try get dom getBoundingClientRect in case element doesn't have it
+  if (
+    !getBoundingClientRect &&
+    typeof focusableItem.getBoundingClientRect === 'function'
+  ) {
+    const { getBoundingClientRect: getRect } = focusableItem;
+    getBoundingClientRect = getRect;
+  }
 
   const { offsetHeight = 0 } = document.querySelector('.status-bar') || {};
 
@@ -58,7 +76,9 @@ const scrollTo = (yaxis, item) => {
     return;
   }
 
-  const { top, height } = element.getBoundingClientRect();
+  const { top, height } = getBoundingClientRect.call(
+    element.domElement || element,
+  );
 
   const { innerHeight } = window;
 
@@ -131,7 +151,6 @@ export function persistComponentRef(cb = () => {}) {
 }
 
 // Post processing
-export const isFunc = f => typeof f === 'function';
 const repChar = char => `-${char.toLowerCase()}`;
 
 const repColor = value => {
@@ -146,10 +165,10 @@ export const shouldReturnComponent = obj => {
 
   const { value: objValue, props = {}, on = {} } = obj || {};
 
-  if (isFunc(objValue)) {
+  if (isFunction(objValue)) {
     const value = objValue();
 
-    if (isFunc(value)) {
+    if (isFunction(value)) {
       return { hasComponent: true, value, props, on };
     }
 

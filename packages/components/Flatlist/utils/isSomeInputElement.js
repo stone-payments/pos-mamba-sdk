@@ -1,20 +1,8 @@
+import { FOCUSABLE_ELEMENTS } from '../const.js';
+
 export default function isSomeInputElement(i) {
-  [
-    'Input',
-    'Label',
-    'Select',
-    'TextArea',
-    'Button',
-    'FieldSet',
-    'Legend',
-    'Output',
-    'Option',
-    'OptGroup',
-  ].some(cl => {
-    try {
-      return i instanceof window[`HTML${cl}Element`];
-    } catch (_) {
-      return false;
-    }
+  if (!i) return false;
+  return FOCUSABLE_ELEMENTS.some(cl => {
+    return i instanceof window[`HTML${cl}Element`];
   });
 }

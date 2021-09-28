@@ -8,4 +8,6 @@ const ARROW_CAPABILITIES_MODELS = [
   MODELS.D230,
 ];
 
-export { ARROW_CAPABILITIES_MODELS };
+const FOCUSABLE_ELEMENTS = ['Input', 'Select', 'TextArea', 'FieldSet'];
+
+export { ARROW_CAPABILITIES_MODELS, FOCUSABLE_ELEMENTS };
