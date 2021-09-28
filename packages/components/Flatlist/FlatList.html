@@ -45,6 +45,7 @@
 <script>
   import { ENTER, KEYUP, KEYDOWN } from '@mamba/pos/drivers/keyboard/keymap.js';
   import { selectRowItem, toggleActive, getStyles, shouldReturnComponent } from './helpers.js';
+  import isSomeInputElement from './utils/isSomeInputElement.js';
   import { ACTIVE_MODEL } from './decorators.js';
   import { ARROW_CAPABILITIES_MODELS } from './const.js';
 
@@ -52,6 +53,7 @@
     ITEM_SELECTED: 'itemSelected',
     ITEM_ACTIVE: 'itemActive',
   };
+
 
   let _flatListElement;
 
@@ -179,8 +181,6 @@
           };
         }
 
-
-
         const { data, position } = eventData;
         const internalIndex = position - 1;
 
@@ -272,7 +272,30 @@
         }
       },
       setupFirstFocusable(element) {
-        if(element) this.set({ linkFirstFocusable: element });
+        if(!element) return false;
+        try {
+          // eslint-disable-next-line no-proto
+          const isComponent = element.__proto__.constructor.name === 'proxyComponent';
+
+          if(!isComponent && !isSomeInputElement(element)) return false;
+
+          const linkFirstFocusable = {
+            value: element,
+            isComponent,
+            hasFocus: 'focus' in element,
+            hasBlur: 'blur' in element,
+          } ;
+
+          if(__DEV__ ) {
+            console.log('[FlatList] setupFirstFocusable', linkFirstFocusable);
+          }
+
+          // Register the first element user has focused row
+          this.set({ linkFirstFocusable });
+
+        } catch (error) {
+          return false;
+        }
       },
     },
   };
