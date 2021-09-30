@@ -48,7 +48,7 @@
 
 <script>
   import { ENTER, KEYUP, KEYDOWN } from '@mamba/pos/drivers/keyboard/keymap.js';
-  import { selectRowItem, toggleActive, getStyles, shouldReturnComponent } from './helpers.js';
+  import { selectRowItem, toggleActive, getStyles, shouldReturnComponent, scrollActiveNodeAtIndex } from './helpers.js';
   import isSomeInputElement from './utils/isSomeInputElement.js';
   import isFunction from './utils/isFunction.js';
   import { ACTIVE_MODEL } from './decorators.js';
@@ -60,6 +60,9 @@
     ITEM_ACTIVE: 'itemActive',
   };
 
+  function getId() {
+    return `__FLATLIST_$${window.location.hash.toUpperCase()}__`;
+  }
 
   let _flatListElement;
 
@@ -80,6 +83,7 @@
     },
     data() {
       return {
+        id: getId(),
         intersectSelectedEvents: false,
         autoSelectOnTouch: true,
         autoShortcuts: false,
@@ -96,6 +100,7 @@
         disableEnterKeystroke: false,
         disabled: false,
         linkFirstFocusable: undefined,
+        recordLastIndex: true,
         _hasElement: false,
         _elementsRefs: [],
       };
@@ -124,6 +129,21 @@
         window._CurrentFlatList_ = this;
       }
       this.fire('setup', { setupFirstFocusable: (elm, fr) => this.setupFirstFocusable(elm, fr) });
+
+      const { selectedIndex, recordLastIndex, id } = this.get();
+
+      // Use store to record index based on id
+      if(recordLastIndex === true && selectedIndex === 0) {
+        /** @type {object} */
+        const saved = window[id];
+
+        if(saved) {
+          this.set({
+            selectedIndex: saved.selectedIndex,
+          });
+        }
+      }
+
     },
     onupdate({changed, current}) {
       if(changed.data || changed.dataSection) {
@@ -163,6 +183,16 @@
             }],
           });
         }
+      }
+
+      if(
+        current.id &&
+        changed.selectedIndex &&
+        current.recordLastIndex === true
+      ) {
+        window[current.id] = {
+          selectedIndex: current.selectedIndex,
+        };
       }
     },
     methods: {
@@ -219,7 +249,7 @@
         if(intersect) this.fire(EVENTS.ITEM_SELECTED, eventData);
       },
       register(element, index, sectionIndex, focusableItem = undefined) {
-        const { _elementsRefs } = this.get();
+        const { _elementsRefs, selectedIndex, scrollY } = this.get();
 
         const position = _elementsRefs.length + 1;
 
@@ -233,9 +263,9 @@
 
         element.set({ position });
 
-        if(index === 0) {
+        if(index === selectedIndex) {
           setTimeout(() => {
-            selectRowItem(_elementsRefs, null);
+            scrollActiveNodeAtIndex(_elementsRefs, selectedIndex, scrollY);
           });
         }
       },
