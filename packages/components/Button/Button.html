@@ -7,13 +7,14 @@
   {disabled}
   on:click
 >
-  <slot></slot>
+  <slot>{label}</slot>
 </button>
 
 <script>
   export default {
     data() {
       return {
+        label: '',
         /** Button size: small | normal | fill | full */
         size: 'normal',
         /** Disable the button */
