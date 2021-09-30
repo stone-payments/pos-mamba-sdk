@@ -76,9 +76,9 @@
       ENTER,
       KEYUP,
       KEYDOWN,
-      _setDecorator(decorator, item, decoratorOptions) {
+      _setDecorator(decorator, item, decoratorOverrides) {
         return isFunction(decorator) ?
-          decorator(item, decoratorOptions) : decorator;
+          decorator(item, decoratorOverrides) : decorator;
       },
     },
     data() {
