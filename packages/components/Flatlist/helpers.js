@@ -105,12 +105,16 @@ const getPosition = (index, keyAction) => {
   return index !== null ? index + 1 : 0;
 };
 
+export const scrollActiveNodeAtIndex = (nodeList, index, yaxis) => {
+  scrollTo(yaxis, nodeList[index]);
+  toggleActive(nodeList, index);
+};
+
 export const selectRowItem = (nodeList, index, yaxis, keyAction = KEYDOWN) => {
   const selectIndex = getPosition(index, keyAction);
 
   if (nodeList[selectIndex]) {
-    scrollTo(yaxis, nodeList[selectIndex]);
-    toggleActive(nodeList, selectIndex);
+    scrollActiveNodeAtIndex(nodeList, selectIndex, yaxis);
     return selectIndex;
   }
 
