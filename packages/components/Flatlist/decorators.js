@@ -2,6 +2,7 @@ import Icon from '@mamba/icon';
 import { MODELS, getPosModelSlug, getPosModel } from '@mamba/utils/index.js';
 import { neutral800 } from '@mamba/styles/colors.js';
 import deepMerge from './utils/deepMerge.js';
+import isObject from './utils/isObject.js';
 
 let ACTIVE_MODEL = getPosModel();
 let ACTIVE_MODEL_SLUG;
@@ -115,7 +116,10 @@ const GetDefaultDecorator = (rowProps, overrides = {}) => {
       incomingProps,
       currentOverride,
     );
-    ARROW_CAPABILITIES_DECORATOR.contentStyle.paddingRight = '30px';
+    const { contentStyle } = ARROW_CAPABILITIES_DECORATOR;
+    if (isObject(contentStyle)) {
+      contentStyle.paddingRight = '30px';
+    }
   }
 
   return (
