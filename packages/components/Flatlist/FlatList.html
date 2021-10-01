@@ -19,6 +19,7 @@
             <FocusController data={item} on:create="register(this, index, sectionIndex, item)" />
           {:else}
             <Parent
+              hasFirstFocusable={!!linkFirstFocusable}
               on:create="register(this, index, sectionIndex)"
               data={item}
               key={index}

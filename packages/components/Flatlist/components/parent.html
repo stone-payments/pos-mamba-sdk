@@ -1,7 +1,9 @@
 <div
+  tabindex={position + (hasFirstFocusable ? 1 : 0)}
   ref:element
-  on:click="fire('_click', { data, index: key, sectionIndex, position })"
-  shortcut={useAutoShortcuts ? _shortcut : data.shortcut || undefined}>
+  on:click|stopPropagation|capture|preventDefault="fire('_click', { data, index: key, sectionIndex, position })"
+  shortcut={_shoulUseAutoShortcuts ? _shortcut : data.shortcut || undefined}
+>
   <svelte:component
     ref:renderItemRef
     this="{renderItem}"
@@ -13,8 +15,8 @@
   />
 </div>
 
-
 <script>
+
   export default {
     data() {
       return {
@@ -32,6 +34,9 @@
         if(key > 9) return undefined;
         if(key === 9) return 0;
         return key + 1;
+      },
+      _shoulUseAutoShortcuts({ useAutoShortcuts, hasFirstFocusable }) {
+        return useAutoShortcuts && !hasFirstFocusable;
       },
     },
     oncreate() {
