@@ -32,7 +32,47 @@ O componente `Flatlist` serve para renderizar listas simples e básicas com util
 | ------------- | --------------------------------------------------------------------------------- | ----------------- |
 | active    | Recebe os propriedades do item que esta ativo/selecionado                     | `function(event)` |
 | selected  | Recebe os propriedades do item que foi selecionado por click ou teclado     | `function(event)` |
+| setup | Configura elemento que recebe entrada(input) como primeiro item para ser simulado como linha da lista. ⚠️ Este elemento precisa ser uma referência de um HTMLElement. Se o componente Svelte pai desse elemento DOM tiver a propriedade `autofocus`, também precisa ser retirado. O `setupFirstFocusable` retorna `true` ou `false` se obteve todos os requisitos. | ```function({ setupFirstFocusable: ({ element, forwardedRef = undefined }) => Boolean })``` |
 
+
+## Exemplo de configuração do `on:setup`
+
+Declarando um método `on:setup` no Flatlist e o Input que irá funcionar como linha da lista:
+```html
+<!-- Lembre-se de não setar a propriedade `autofocus`, senão terá um comportamento inadequado. -->
+<MoneyInput ref:moneyInput />
+
+<FlatList
+  ...
+  on:setup="setupFlatlist(event)"
+/>
+```
+
+Exemplo de método:
+```html
+<script>
+  export default {
+    methods: {
+      setupFlatlist({ setupFirstFocusable }) {
+        const { refs: { moneyInput: element } = {} } = this;
+
+        // Verificando se o componente pai esta renderizado
+        if(element && element.refs && element.refs.amountInput) {
+
+          // Desconstruindo o <input> da lista de referências do pai
+          const { amountInput } = element.refs;
+
+          // Chama a função
+          setupFirstFocusable({
+            element: amountInput,
+            forwardedRef: 'input',
+          });
+        }
+      },
+    }
+  }
+</script>
+```
 
 ## Passando Data:
 

@@ -44,6 +44,7 @@ const TRANSLATE_TOP = {
 };
 
 const chevronFixture = (incomingProps = {}, overrides = {}) => {
+  if (incomingProps.showChevron === false) return undefined;
   const top = ALIGN_TOP[incomingProps.align || overrides.align || 'start'];
   const transform = `translateY(${
     TRANSLATE_TOP[incomingProps.align || overrides.align || 'start']
@@ -106,6 +107,7 @@ const GetDefaultDecorator = (rowProps, overrides = {}) => {
       paddingRight: '15px',
     },
     highlightSelect: true,
+    ...currentOverride,
   });
 
   if (currentOverride.showChevron) {
