@@ -1,7 +1,8 @@
 <div
   class="mb-default-row{_className}{_classAlign}"
   class:mb-active="highlightSelect === true && isActive"
-  class:mb-small="small"
+  class:mb-small="!fill && small"
+  class:mb-fill="fill"
   style={[_wrapperStyle, _stateStyle].join('')}
 >
   <!-- Start fixture -->
@@ -173,7 +174,7 @@
       border-bottom: solid $neutral200;
       background: #fff;
 
-      &:not(.mb-small) {
+      &:not(.mb-small):not(.mb-fill) {
         padding-top: 12px;
         padding-bottom: 12px;
         border-bottom-width: 2px;
@@ -182,7 +183,14 @@
       &.mb-small {
         padding-top: 10px;
         padding-bottom: 10px;
+      }
+
+      &.mb-small:not(.mb-fill) {
         border-bottom-width: 1px;
+      }
+
+      &.mb-fill {
+        border: none;
       }
     }
 
@@ -200,8 +208,11 @@
 
     &-row-main {
       flex: 1;
-      padding-left: 15px;
       justify-content: space-between;
+    }
+
+    &-default-row:not(.mb-fill) &-row-main {
+      padding-left: 15px;
     }
 
     &-label {
