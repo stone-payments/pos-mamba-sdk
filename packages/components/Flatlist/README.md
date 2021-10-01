@@ -391,6 +391,9 @@ interface DefaultRowProps {
   // If the row should have minimal spaces
   small?: boolean;
 
+  // Whether the line should behave without internal spaces so that your children can fill it.
+  fill?: boolean;
+
   // Vertical items align
   align?: Alignment;
 
