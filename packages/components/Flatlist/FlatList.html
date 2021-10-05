@@ -61,10 +61,6 @@
     ITEM_ACTIVE: 'itemActive',
   };
 
-  function getId() {
-    return `__FLATLIST_$${window.location.hash.toUpperCase()}__`;
-  }
-
   let _flatListElement;
 
   export default {
@@ -84,7 +80,6 @@
     },
     data() {
       return {
-        id: getId(),
         intersectSelectedEvents: false,
         autoSelectOnTouch: true,
         autoShortcuts: false,
@@ -101,7 +96,6 @@
         disableEnterKeystroke: false,
         disabled: false,
         linkFirstFocusable: undefined,
-        recordLastIndex: true,
         _hasElement: false,
         _elementsRefs: [],
       };
@@ -126,25 +120,7 @@
       },
     },
     oncreate() {
-      if(__DEV__ || __DEBUG_LVL__ >= 1) {
-        window._CurrentFlatList_ = this;
-      }
       this.fire('setup', { setupFirstFocusable: (elm, fr) => this.setupFirstFocusable(elm, fr) });
-
-      const { selectedIndex, recordLastIndex, id } = this.get();
-
-      // Use store to record index based on id
-      if(recordLastIndex === true && selectedIndex === 0) {
-        /** @type {object} */
-        const saved = window[id];
-
-        if(saved) {
-          this.set({
-            selectedIndex: saved.selectedIndex,
-          });
-        }
-      }
-
     },
     onupdate({changed, current}) {
       if(changed.data || changed.dataSection) {
@@ -184,16 +160,6 @@
             }],
           });
         }
-      }
-
-      if(
-        current.id &&
-        changed.selectedIndex &&
-        current.recordLastIndex === true
-      ) {
-        window[current.id] = {
-          selectedIndex: current.selectedIndex,
-        };
       }
     },
     methods: {
