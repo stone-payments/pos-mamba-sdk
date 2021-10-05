@@ -301,20 +301,22 @@
           );
 
           const target = _elementsRefs[internalIndex];
-
+          this.selectRowAtTarget(target, internalIndex);
+        }
+      },
+      selectRowAtTarget(targetItem, targetIndex) {
           const {
             sectionIndex,
             element,
             index,
             position,
-          } = target || {};
+        } = targetItem || {};
 
           const { data }  = element.options.data;
 
           this.fire(EVENTS.ITEM_ACTIVE, { index, sectionIndex, position, data });
 
-          this.set({ selectedIndex: internalIndex });
-        }
+        this.set({ selectedIndex: targetIndex });
       },
       setupFirstFocusable({
         element,
