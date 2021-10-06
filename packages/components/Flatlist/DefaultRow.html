@@ -190,12 +190,13 @@
       }
 
       &.mb-fill {
+        display: block;
         border: none;
       }
     }
 
-    &-default-row,
-    &-row-main,
+    &-default-row:not(.mb-fill),
+    &-default-row:not(.mb-fill) &-row-main,
     &-label {
       display: flex;
       flex-direction: row;
@@ -206,13 +207,10 @@
       flex: 1;
     }
 
-    &-row-main {
-      flex: 1;
-      justify-content: space-between;
-    }
-
     &-default-row:not(.mb-fill) &-row-main {
       padding-left: 15px;
+      flex: 1;
+      justify-content: space-between;
     }
 
     &-label {
