@@ -45,5 +45,11 @@
     oncreate() {
       this.fire('create');
     },
+    onupdate({ changed, current }) {
+      if(changed.isActive && current.isActive) {
+        const { element } = this.refs;
+        if(element) element.focus();
+      }
+    },
   };
 </script>
