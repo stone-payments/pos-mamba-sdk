@@ -22,7 +22,6 @@ O componente `Flatlist` serve para renderizar listas simples e básicas com util
 | disableEnterKeystroke | Define se o FlatList deve habilitar ou desabilitar o evento de `enter` | `boolean` | `false` |
 | disabled | Permite desabilitar os eventos da FlatList e das Rows | `boolean` | `false` |
 | selectedIndex | Define a linha que irá estar selecionada quando for criado a lista | `number` | `0` |
-| recordLastIndex | Se o FlatList deve gravar a última posição ou não, baseado na rota. | `boolean` | `true` |
 
 ## Eventos
 
