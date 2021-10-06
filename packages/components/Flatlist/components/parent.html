@@ -1,11 +1,22 @@
 <div
   ref:element
-  on:click="fire('_click', { data, index: key, sectionIndex, position })"
-  shortcut={useAutoShortcuts ? _shortcut : data.shortcut || undefined}>
-  <svelte:component ref:renderItemRef this="{renderItem}" key={key} {...data} position={position} {..._decorator} bind:isActive />
+  tabindex={_tabPosition}
+  on:click|stopPropagation|preventDefault="fire('_click', { data, index: key, sectionIndex, position })"
+  shortcut={_shoulUseAutoShortcuts ? _shortcut : data.shortcut || undefined}
+>
+  <svelte:component
+    ref:renderItemRef
+    this="{renderItem}"
+    key={key}
+    {...data}
+    position={position}
+    {..._decorator}
+    bind:isActive
+  />
 </div>
 
 <script>
+
   export default {
     data() {
       return {
@@ -15,6 +26,9 @@
       };
     },
     computed: {
+      _tabPosition({ position, hasFirstFocusable}) {
+        return position + (hasFirstFocusable ? 0 : 1);
+      },
       _decorator({ decorator }) {
         if(!decorator) return {};
         return decorator;
@@ -24,9 +38,18 @@
         if(key === 9) return 0;
         return key + 1;
       },
+      _shoulUseAutoShortcuts({ useAutoShortcuts, hasFirstFocusable }) {
+        return useAutoShortcuts && !hasFirstFocusable;
+      },
     },
     oncreate() {
       this.fire('create');
+    },
+    onupdate({ changed, current }) {
+      if(changed.isActive && current.isActive) {
+        const { element } = this.refs;
+        if(element) element.focus();
+      }
     },
   };
 </script>

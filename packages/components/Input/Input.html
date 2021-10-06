@@ -44,8 +44,8 @@
   import Keyboard from '@mamba/pos/api/keyboard.js';
   import System from '@mamba/pos/api/system.js';
   import { neutral500 } from '@mamba/styles/colors';
-  import masker from './libs/masker.js';
-  import defaultTokens from './libs/tokens.js';
+import masker from './libs/masker.js';
+import defaultTokens from './libs/tokens.js';
 
   export default {
     components: {
@@ -266,6 +266,9 @@
         this.fire('keyup', e);
 
         if (key === 'enter') {
+          e.stopImmediatePropagation();
+          e.stopPropagation();
+
           const { validateOn, validation, rawValue, value } = this.get();
 
           /* istanbul ignore else */
@@ -291,7 +294,10 @@
             this.fire('submitValid', submitObj);
           }
 
-          this.fire('submit', submitObj);
+          setTimeout(() => {
+            // This set timeout is necessary to deal with several problems with router actions on this event, causing double clicks bugs, because of Input keyup event
+            this.fire('submit', submitObj);
+          });
         }
       },
       _onInput(e) {

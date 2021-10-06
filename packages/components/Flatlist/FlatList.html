@@ -15,16 +15,21 @@
         {/if}
 
         {#each section.data.filter(Boolean) as item, index}
-          <Parent
-            on:create="register(this, index, sectionIndex)"
-            data={item}
-            key={index}
-            sectionIndex={sectionIndex}
-            renderItem={renderItem}
-            useAutoShortcuts={useAutoShortcuts}
-            decorator={_setDecorator(decorator, item, decoratorOverrides)}
-            on:_click="setSelected(event)"
-          />
+          {#if item.focusable}
+            <FocusController data={item} on:create="register(this, index, sectionIndex, item)" />
+          {:else}
+            <Parent
+              hasFirstFocusable={!!linkFirstFocusable}
+              on:create="register(this, index, sectionIndex)"
+              data={item}
+              key={index}
+              sectionIndex={sectionIndex}
+              renderItem={renderItem}
+              useAutoShortcuts={useAutoShortcuts}
+              decorator={_setDecorator(decorator, item, decoratorOverrides)}
+              on:_click="setSelected(event)"
+            />
+          {/if}
         {/each}
 
         {#if showSeparator === true}
@@ -37,6 +42,7 @@
       {/if}
     {/each}
   </div>
+
   <Keystroke key="enter" on:keystroke="selectRowItems(ENTER)"/>
   <Keystroke key="keyup" on:keystroke="selectRowItems(KEYUP)"/>
   <Keystroke key="keydown" on:keystroke="selectRowItems(KEYDOWN)"/>
@@ -44,9 +50,12 @@
 
 <script>
   import { ENTER, KEYUP, KEYDOWN } from '@mamba/pos/drivers/keyboard/keymap.js';
-  import { selectRowItem, toggleActive, getStyles, shouldReturnComponent } from './helpers.js';
+  import { selectRowItem, toggleActive, getStyles, shouldReturnComponent, scrollActiveNodeAtIndex } from './helpers.js';
+  import isSomeInputElement from './utils/isSomeInputElement.js';
+  import isFunction from './utils/isFunction.js';
   import { ACTIVE_MODEL } from './decorators.js';
   import { ARROW_CAPABILITIES_MODELS } from './const.js';
+
 
   const EVENTS = {
     ITEM_SELECTED: 'itemSelected',
@@ -58,15 +67,16 @@
   export default {
     components: {
       Parent: './components/parent.html',
+      FocusController: './components/focusController.html',
       Keystroke: '@mamba/app/Keystroke.html',
     },
     helpers: {
       ENTER,
       KEYUP,
       KEYDOWN,
-      _setDecorator(decorator, item, decoratorOptions) {
-        const isFunc = typeof decorator === 'function';
-        return isFunc ? decorator(item, decoratorOptions) : decorator;
+      _setDecorator(decorator, item, decoratorOverrides) {
+        return isFunction(decorator) ?
+          decorator(item, decoratorOverrides) : decorator;
       },
     },
     data() {
@@ -86,6 +96,7 @@
         // eslint-disable-next-line max-len
         disableEnterKeystroke: false,
         disabled: false,
+        linkFirstFocusable: undefined,
         _hasElement: false,
         _elementsRefs: [],
       };
@@ -110,9 +121,7 @@
       },
     },
     oncreate() {
-      if(__DEV__ || __DEBUG_LVL__ >= 1) {
-        window._CurrentFlatList_ = this;
-      }
+      this.fire('setup', { setupFirstFocusable: (elm, fr) => this.setupFirstFocusable(elm, fr) });
     },
     onupdate({changed, current}) {
       if(changed.data || changed.dataSection) {
@@ -139,6 +148,12 @@
           d.some(i => i.data && Array.isArray(i.data));
 
         if(isDataArray && data.length > 0) {
+          const { linkFirstFocusable } = current;
+
+          if(linkFirstFocusable) {
+            data.unshift(linkFirstFocusable);
+          }
+
           this.set({
             dataSection: dataIsSection(data) ? data : [{
               title: null,
@@ -177,8 +192,6 @@
           };
         }
 
-
-
         const { data, position } = eventData;
         const internalIndex = position - 1;
 
@@ -186,7 +199,7 @@
 
         eventData = {
           ...eventData,
-          renderItemRefs: element.refs.renderItemRef.refs
+          renderItemRefs: element.refs.renderItemRef.refs,
         };
 
         this.set({ selectedIndex: internalIndex });
@@ -203,8 +216,8 @@
 
         if(intersect) this.fire(EVENTS.ITEM_SELECTED, eventData);
       },
-      register(element, index, sectionIndex) {
-        const { _elementsRefs } = this.get();
+      register(element, index, sectionIndex, focusableItem = undefined) {
+        const { _elementsRefs, selectedIndex, scrollY } = this.get();
 
         const position = _elementsRefs.length + 1;
 
@@ -213,13 +226,14 @@
           element,
           index,
           position,
+          focusableItem,
         });
 
         element.set({ position });
 
-        if(index === 0) {
+        if(index === selectedIndex) {
           setTimeout(() => {
-            selectRowItem(_elementsRefs, null);
+            scrollActiveNodeAtIndex(_elementsRefs, selectedIndex, scrollY);
           });
         }
       },
@@ -254,19 +268,84 @@
           );
 
           const target = _elementsRefs[internalIndex];
+          this.selectRowAtTarget(target, internalIndex);
+        }
+      },
+      selectRowAtTarget(targetItem, targetIndex) {
+        const {
+          sectionIndex,
+          element,
+          index,
+          position,
+        } = targetItem || {};
 
-          const {
-            sectionIndex,
+        const { data }  = element.options.data;
+
+        this.fire(EVENTS.ITEM_ACTIVE, { index, sectionIndex, position, data });
+
+        this.set({ selectedIndex: targetIndex });
+      },
+      setupFirstFocusable({
+        element,
+        forwardedRef,
+      }) {
+        if(!element) return false;
+
+
+        try {
+          const domElement = forwardedRef ? element.refs[forwardedRef] : element;
+          const isComponent = !(domElement instanceof HTMLElement);
+
+          if(isComponent || !isSomeInputElement(domElement)) return false;
+
+          const self = {
+            focusable: true,
             element,
-            index,
-            position,
-          } = target || {};
+            domElement,
+            getBoundingClientRect () {
+              let { getBoundingClientRect } = self.domElement;
+              let thisArg = self.domElement;
 
-          const { data }  = element.options.data;
+              if(self.element.getBoundingClientRect) {
+              // eslint-disable-next-line prefer-destructuring
+                getBoundingClientRect = self.element.getBoundingClientRect;
+                thisArg = self.element;
+              }
 
-          this.fire(EVENTS.ITEM_ACTIVE, { index, sectionIndex, position, data });
+              return getBoundingClientRect.call(thisArg);
+            },
+            focus() {
+              self.domElement.focus();
+            },
+            blur() {
+              self.domElement.blur();
+            },
+          };
 
-          this.set({ selectedIndex: internalIndex });
+          const _flatlist = this;
+          domElement.onfocus = function _flatListFocus() {
+            try {
+              const { _elementsRefs, scrollY } = _flatlist.get();
+              const target = _elementsRefs[0];
+              scrollActiveNodeAtIndex(_elementsRefs, 0, scrollY);
+              _flatlist.selectRowAtTarget(target, 0);
+            } catch (_) {
+              return null;
+            }
+          };
+
+          if(__DEV__ ) {
+            console.log('[FlatList] setupFirstFocusable', self);
+          }
+
+          // Register the first element user has focused row
+          this.set({ linkFirstFocusable: self });
+
+        } catch (error) {
+          if(__DEV__ || __DEBUG_LVL__ >= 2) {
+            console.log(error);
+          }
+          return false;
         }
       },
     },

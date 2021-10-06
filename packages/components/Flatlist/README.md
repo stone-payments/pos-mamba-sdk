@@ -21,7 +21,7 @@ O componente `Flatlist` serve para renderizar listas simples e básicas com util
 | overrideEnterKeystroke | Define se o FlatList sempre vai ter prioridade no evento de `enter` do teclado | `boolean` | `true` |
 | disableEnterKeystroke | Define se o FlatList deve habilitar ou desabilitar o evento de `enter` | `boolean` | `false` |
 | disabled | Permite desabilitar os eventos da FlatList e das Rows | `boolean` | `false` |
-
+| selectedIndex | Define a linha que irá estar selecionada quando for criado a lista | `number` | `0` |
 
 ## Eventos
 
@@ -31,7 +31,47 @@ O componente `Flatlist` serve para renderizar listas simples e básicas com util
 | ------------- | --------------------------------------------------------------------------------- | ----------------- |
 | active    | Recebe os propriedades do item que esta ativo/selecionado                     | `function(event)` |
 | selected  | Recebe os propriedades do item que foi selecionado por click ou teclado     | `function(event)` |
+| setup | Configura elemento que recebe entrada(input) como primeiro item para ser simulado como linha da lista. ⚠️ Este elemento precisa ser uma referência de um HTMLElement. Se o componente Svelte pai desse elemento DOM tiver a propriedade `autofocus`, também precisa ser retirado. O `setupFirstFocusable` retorna `true` ou `false` se obteve todos os requisitos. | ```function({ setupFirstFocusable: ({ element, forwardedRef = undefined }) => Boolean })``` |
 
+
+## Exemplo de configuração do `on:setup`
+
+Declarando um método `on:setup` no Flatlist e o Input que irá funcionar como linha da lista:
+```html
+<!-- Lembre-se de não setar a propriedade `autofocus`, senão terá um comportamento inadequado. -->
+<MoneyInput ref:moneyInput />
+
+<FlatList
+  ...
+  on:setup="setupFlatlist(event)"
+/>
+```
+
+Exemplo de método:
+```html
+<script>
+  export default {
+    methods: {
+      setupFlatlist({ setupFirstFocusable }) {
+        const { refs: { moneyInput: element } = {} } = this;
+
+        // Verificando se o componente pai esta renderizado
+        if(element && element.refs && element.refs.amountInput) {
+
+          // Desconstruindo o <input> da lista de referências do pai
+          const { amountInput } = element.refs;
+
+          // Chama a função
+          setupFirstFocusable({
+            element: amountInput,
+            forwardedRef: 'input',
+          });
+        }
+      },
+    }
+  }
+</script>
+```
 
 ## Passando Data:
 
@@ -293,87 +333,103 @@ A estrutura do objeto que irá compor o array para o `DefaultRow` é diferente, 
 ```ts
 type Alignment = 'start' | 'center' | 'end';
 
+declare type Component = void;
+
 interface ComponentView {
   // Fixture value
-  value?: () => Component | any,
+  value?: () => Component | any;
 
   /* If Value is component, set its props like:
-  * props: {
-  *   checked: true,
-  * },
-  */
-  props?: object,
+   * props: {
+   *   checked: true,
+   * },
+   */
+  props?: object;
 
   /* If Value is component, set its events like:
-  * on: {
-  *   change: () => console.log('change'),
-  * },
-  */
-  on?: object,
+   * on: {
+   *   change: () => console.log('change'),
+   * },
+   */
+  on?: object;
 }
 
 interface Fixture extends ComponentView {
-
   // Styles
-  style?: object,
-  wrapperStyle?: object,
-  contentStyle?: object,
+  style?: object;
+  wrapperStyle?: object;
+  contentStyle?: object;
 }
 
-interface DefaultRowProps = {
+type SelectEvent = {
+  data: DefaultRowProps;
+  index: number;
+  position: number;
+  renderItemRefs: Component;
+}
+
+interface DefaultRowProps {
   // Action when selected with touch, keyboard action, or shortcut.
-  onSelected: (item) => {},
+  onSelected?: (event: SelectEvent) => {};
 
   // The keyboard shortcut
-  shortcut: number | string,
+  shortcut?: number | string;
 
   // Row top level style
-  wrapperStyle: object,
+  wrapperStyle?: object;
 
   // Row content container style (don't include and/start fixtures container)
-  contentStyle: object,
+  contentStyle?: object;
 
   // If row should highlighted or not
-  highlightSelect: boolean,
+  highlightSelect?: boolean;
 
   // The highlight color
-  highlightColor: string,
+  highlightColor?: string;
 
   // If the row should have minimal spaces
-  small: boolean,
+  small?: boolean;
+
+  // Whether the line should behave without internal spaces so that your children can fill it.
+  fill?: boolean;
 
   // Vertical items align
-  align: Alignment,
+  align?: Alignment;
 
   // Useful to put anything before the label
-  startFixture: Fixture,
+  startFixture?: Fixture;
 
   // If you dont want work with labels, you can inject your own main content in the row.
-  customView: ComponentView
+  customView?: ComponentView;
+
+  // show or not chevron icon on all lines
+  showChevron?: boolean;
 
   // Row labels
-  label: {
-    value: string,
-    description: string,
-    style: object,
+  label?: {
+    value: string;
+    description?: string;
+    style?: object;
 
-    // Anything immediate before label.
-    prefix: (position) => {} | string,
-    prefixStyle: object,
-  },
-  rightLabel: {
-    value: string,
-    description: string,
-    style: object,
+    // Anything immediate before label. Can be a function that will receive the row position
+    prefix?: (position: number) => string | number;
+    prefixStyle?: object;
+  };
 
-    // Anything immediate next to righLabel.
-    sufix: () => {} | string,
-    sufixStyle: object,
-  },
+  rightLabel?: {
+    value: string;
+    description?: string;
+    style?: object;
+
+    // Anything immediate next to righLabel. Can be a function that will compute some value
+    sufix?: () => string | number;
+    sufixStyle?: object;
+  };
 
   // Useful to put anything after the label or rightLabel block
-  endFixture: Fixture,
+  endFixture?: Fixture;
 }
+
 ```
 ### Acesse as ref do `DefaultRow`
 

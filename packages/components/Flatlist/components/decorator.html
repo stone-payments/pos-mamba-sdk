@@ -3,7 +3,7 @@
     style={_decoratorStyle || undefined}
   >
     {#if typeof _decorator === 'function'}
-      {_decorator(position)}
+      {_decorator(position) || ''}
     {:else}
       {_decorator || ''}
     {/if}

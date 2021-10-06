@@ -1,7 +1,8 @@
 <div
   class="mb-default-row{_className}{_classAlign}"
   class:mb-active="highlightSelect === true && isActive"
-  class:mb-small="small"
+  class:mb-small="!fill && small"
+  class:mb-fill="fill"
   style={[_wrapperStyle, _stateStyle].join('')}
 >
   <!-- Start fixture -->
@@ -59,7 +60,7 @@
     {/if}
 
     <!-- Right wrapper -->
-    {#if rightLabel && typeof rightLabel === 'object'}
+    {#if _hasRightLabel}
       <div class="mb-row-right">
 
         <!-- Right Label -->
@@ -110,6 +111,7 @@
 
 <script>
   import { getStyles, getAlignClass, shouldReturnComponent } from './helpers.js';
+  import isObject from './utils/isObject.js';
 
   export default {
     components: {
@@ -147,6 +149,10 @@
         if(!label) return { prefix: {}};
         return label;
       },
+      _hasRightLabel({ rightLabel }) {
+        const { description, value } = rightLabel || {};
+        return isObject(rightLabel) && (value || description);
+      },
       _customView({ customView }) {
         return shouldReturnComponent(customView);
       },
@@ -157,25 +163,40 @@
 <style>
   .mb {
     &-default-row {
+      span {
+        line-height: 15px;
+        display: inline-block;
+      }
+
       color: $neutral700;
       font-size: 14px;
       font-weight: 500;
       border-bottom: solid $neutral200;
       background: #fff;
 
-      &:not(.mb-small) {
-        padding: 14px 0;
+      &:not(.mb-small):not(.mb-fill) {
+        padding-top: 12px;
+        padding-bottom: 12px;
         border-bottom-width: 2px;
       }
 
       &.mb-small {
-        padding: 10px 0;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+
+      &.mb-small:not(.mb-fill) {
         border-bottom-width: 1px;
+      }
+
+      &.mb-fill {
+        display: block;
+        border: none;
       }
     }
 
-    &-default-row,
-    &-row-main,
+    &-default-row:not(.mb-fill),
+    &-default-row:not(.mb-fill) &-row-main,
     &-label {
       display: flex;
       flex-direction: row;
@@ -186,21 +207,15 @@
       flex: 1;
     }
 
-    &-row-main {
-      flex: 1;
+    &-default-row:not(.mb-fill) &-row-main {
       padding-left: 15px;
+      flex: 1;
       justify-content: space-between;
     }
 
     &-label {
-      font-weight: 500;
+      font-weight: 600;
       word-break: break-all;
-      line-height: 15px;
-
-      span {
-        line-height: 15px;
-        display: inline-block;
-      }
     }
 
     &-desc {

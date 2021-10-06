@@ -46,15 +46,15 @@
       }) => props,
       _value: ({ prefix, suffix, value = '0', limit }) => {
         const parsedMoney = parseFloat(value) / 100;
-        const isValidNumber = !Number.isNaN(parsedMoney)
+        const isValidNumber = !Number.isNaN(parsedMoney);
         const returnFactory = (money = 0) => {
           return prefix + formatMoney(money) + suffix;
-        }
+        };
 
         if (parsedMoney > limit) {
           const limitedMoney = parseFloat(parsedMoney.toString().substr(0, String(limit).length));
 
-          return returnFactory(limitedMoney)
+          return returnFactory(limitedMoney);
         }
 
         if (isValidNumber) return returnFactory(parsedMoney);
@@ -177,7 +177,7 @@
 
         value = parseFloat(value);
 
-        this.set({ value: value });
+        this.set({ value });
         this.refs.amountInput._onInput(e);
       },
     },

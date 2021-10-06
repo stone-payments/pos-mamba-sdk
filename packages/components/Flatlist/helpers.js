@@ -1,5 +1,6 @@
 import * as Colors from '@mamba/styles/colors.js';
 import { KEYUP, KEYDOWN } from '@mamba/pos/drivers/keyboard/keymap.js';
+import isFunction from './utils/isFunction.js';
 
 let lastActive;
 
@@ -47,7 +48,24 @@ export const toggleActive = (items, index) => {
 };
 
 const scrollTo = (yaxis, item) => {
-  const { element } = item.element.refs;
+  const {
+    focusableItem = {},
+    element: { refs },
+  } = item;
+
+  const { element } = refs || focusableItem;
+
+  // use a custom getBoundingClientRect of svelte component or dom element
+  let { getBoundingClientRect } = element || item.element;
+
+  // try get dom getBoundingClientRect in case element doesn't have it
+  if (
+    !getBoundingClientRect &&
+    typeof focusableItem.getBoundingClientRect === 'function'
+  ) {
+    const { getBoundingClientRect: getRect } = focusableItem;
+    getBoundingClientRect = getRect;
+  }
 
   const { offsetHeight = 0 } = document.querySelector('.status-bar') || {};
 
@@ -58,7 +76,9 @@ const scrollTo = (yaxis, item) => {
     return;
   }
 
-  const { top, height } = element.getBoundingClientRect();
+  const { top, height } = getBoundingClientRect.call(
+    element.domElement || element,
+  );
 
   const { innerHeight } = window;
 
@@ -85,12 +105,16 @@ const getPosition = (index, keyAction) => {
   return index !== null ? index + 1 : 0;
 };
 
+export const scrollActiveNodeAtIndex = (nodeList, index, yaxis) => {
+  scrollTo(yaxis, nodeList[index]);
+  toggleActive(nodeList, index);
+};
+
 export const selectRowItem = (nodeList, index, yaxis, keyAction = KEYDOWN) => {
   const selectIndex = getPosition(index, keyAction);
 
   if (nodeList[selectIndex]) {
-    scrollTo(yaxis, nodeList[selectIndex]);
-    toggleActive(nodeList, selectIndex);
+    scrollActiveNodeAtIndex(nodeList, selectIndex, yaxis);
     return selectIndex;
   }
 
@@ -131,7 +155,6 @@ export function persistComponentRef(cb = () => {}) {
 }
 
 // Post processing
-const isFunc = f => typeof f === 'function';
 const repChar = char => `-${char.toLowerCase()}`;
 
 const repColor = value => {
@@ -146,10 +169,10 @@ export const shouldReturnComponent = obj => {
 
   const { value: objValue, props = {}, on = {} } = obj || {};
 
-  if (isFunc(objValue)) {
+  if (isFunction(objValue)) {
     const value = objValue();
 
-    if (isFunc(value)) {
+    if (isFunction(value)) {
       return { hasComponent: true, value, props, on };
     }
 
