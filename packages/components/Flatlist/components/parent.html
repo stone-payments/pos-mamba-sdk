@@ -2,6 +2,7 @@
   tabindex={position + (hasFirstFocusable ? 1 : 0)}
   ref:element
   tabindex={_tabPosition}
+  on:click|stopPropagation|preventDefault="fire('_click', { data, index: key, sectionIndex, position })"
   shortcut={_shoulUseAutoShortcuts ? _shortcut : data.shortcut || undefined}
 >
   <svelte:component
