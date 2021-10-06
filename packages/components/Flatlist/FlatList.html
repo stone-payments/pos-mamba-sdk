@@ -42,6 +42,7 @@
       {/if}
     {/each}
   </div>
+
   <Keystroke key="enter" on:keystroke="selectRowItems(ENTER)"/>
   <Keystroke key="keyup" on:keystroke="selectRowItems(KEYUP)"/>
   <Keystroke key="keydown" on:keystroke="selectRowItems(KEYDOWN)"/>
@@ -271,16 +272,16 @@
         }
       },
       selectRowAtTarget(targetItem, targetIndex) {
-          const {
-            sectionIndex,
-            element,
-            index,
-            position,
+        const {
+          sectionIndex,
+          element,
+          index,
+          position,
         } = targetItem || {};
 
-          const { data }  = element.options.data;
+        const { data }  = element.options.data;
 
-          this.fire(EVENTS.ITEM_ACTIVE, { index, sectionIndex, position, data });
+        this.fire(EVENTS.ITEM_ACTIVE, { index, sectionIndex, position, data });
 
         this.set({ selectedIndex: targetIndex });
       },
@@ -289,6 +290,8 @@
         forwardedRef,
       }) {
         if(!element) return false;
+
+
         try {
           const domElement = forwardedRef ? element.refs[forwardedRef] : element;
           const isComponent = !(domElement instanceof HTMLElement);
@@ -317,6 +320,18 @@
             blur() {
               self.domElement.blur();
             },
+          };
+
+          const _flatlist = this;
+          domElement.onfocus = function _flatListFocus() {
+            try {
+              const { _elementsRefs, scrollY } = _flatlist.get();
+              const target = _elementsRefs[0];
+              scrollActiveNodeAtIndex(_elementsRefs, 0, scrollY);
+              _flatlist.selectRowAtTarget(target, 0);
+            } catch (_) {
+              return null;
+            }
           };
 
           if(__DEV__ ) {
