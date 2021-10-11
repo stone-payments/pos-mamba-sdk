@@ -1,9 +1,12 @@
 import AbstractKey from './AbstractKey';
 
 class MathKey extends AbstractKey {
-
-  onClick(controller) {
-    controller.emitKeyToParent(this.code);
+  onClickTemplate(event, controller) {
+    this._emitEventToParent({
+      componentScope: controller.scope,
+      eventName: 'mathKeypress',
+      input: this.code,
+    });
   }
 }
 

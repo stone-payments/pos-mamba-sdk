@@ -75,7 +75,6 @@ export const DEFAULT_SUGGESTIONS = [
   },
 ];
 
-
 export const VIRTUAL_KEYBOARD = {
   KEYS: [
     new Key({ code: '1' }),
@@ -89,7 +88,7 @@ export const VIRTUAL_KEYBOARD = {
     new Key({ code: '9' }),
     new DeleteKey({ code: 'delete' }),
     new Key({ code: '0' }),
-    new ConfirmationKey({ code: 'confirmation'})
+    new ConfirmationKey({ code: 'confirmation' }),
   ],
   MATH: [
     new MathKey({ code: '÷' }),
@@ -97,5 +96,5 @@ export const VIRTUAL_KEYBOARD = {
     new MathKey({ code: '-' }),
     new MathKey({ code: '+' }),
     new MathKey({ code: '=' }),
-  ]
-}
+  ],
+};
