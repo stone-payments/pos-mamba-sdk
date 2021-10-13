@@ -91,7 +91,7 @@ const GetDefaultDecorator = (rowProps, overrides = {}) => {
     small: true,
     label: {
       style: {
-        fontWeight: '700',
+        fontWeight: '600',
       },
       ...getPrefixOverride(
         currentOverride,
