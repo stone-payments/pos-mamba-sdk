@@ -325,16 +325,16 @@
         }
 
         /**
-           * There can be only one element assigned to a shortcut.
-           * However, if there are more than one, use the last element.
-           * (Useful for multiple confirmation dialogs stacked)
-           */
+         * There can be only one element assigned to a shortcut.
+         * However, if there are more than one, use the last element.
+         * (Useful for multiple confirmation dialogs stacked)
+         */
         const shortcutEl = shortcutEls[shortcutEls.length - 1];
 
         /**
-           * If a shortcut element was found.
-           * If 'enter' was clicked, check if the shortcut element isn't already focused
-           */
+         * If a shortcut element was found.
+         * If 'enter' was clicked, check if the shortcut element isn't already focused
+         */
         if(!notPrevent && handlerContext !== document) {
           dispatchEventOn(shortcutEl);
           return;
