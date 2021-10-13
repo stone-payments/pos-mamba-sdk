@@ -2,7 +2,7 @@
   ref:element
   tabindex={_tabPosition}
   on:click|stopPropagation|preventDefault="fire('_click', { data, index: key, sectionIndex, position })"
-  shortcut={_shoulUseAutoShortcuts ? _shortcut : data.shortcut || undefined}
+  shortcut={_shortcutComputed}
 >
   <svelte:component
     ref:renderItemRef
@@ -26,7 +26,11 @@
       };
     },
     computed: {
-      _tabPosition({ position, hasFirstFocusable}) {
+      _shortcutComputed({ _shoulUseAutoShortcuts, _shortcut, data = {}}) {
+        return _shoulUseAutoShortcuts ? _shortcut : data.shortcut || undefined;
+      },
+      _tabPosition({ position, hasFirstFocusable, _shortcutComputed}) {
+        if(!hasFirstFocusable) return _shortcutComputed;
         return position + (hasFirstFocusable ? 0 : 1);
       },
       _decorator({ decorator }) {
