@@ -257,8 +257,17 @@
           }
         }
 
-        const { notPrevent, handlerContext } = hasKeystrokeToPrevent();
         const keyName = Keyboard.getKeyName(keyCode);
+        const shortcutQuery = `[shortcut='${keyName}']`;
+        const tabindexQuery = `[tabindex]`;
+
+        // Try focus an element with tabindex first
+        try {
+          const focusableEl = document.querySelector(`${tabindexQuery}${shortcutQuery}`);
+          focusableEl.focus();
+        } catch (_) { /**/ }
+
+        const { notPrevent, handlerContext } = hasKeystrokeToPrevent();
 
 
         if(handlerContext === document) {
@@ -302,8 +311,13 @@
           return;
         }
 
+        /** Find the focusable element that have shortcurt='keyName' first */
+        const selfShortcutValue = handlerContext.getAttribute && handlerContext.getAttribute('shortcut');
+
         /** Find the first element with shortcurt='keyName' */
-        const shortcutEls = handlerContext.querySelectorAll(`[shortcut='${keyName}']`);
+        const shortcutEls = selfShortcutValue === keyName ?
+          [handlerContext] :
+          handlerContext.querySelectorAll(shortcutQuery);
 
         /** If shortcuts are disabled or no shortcut element found, do nothing */
         if (!shortcutsEnabled || shortcutEls.length === 0) {
@@ -311,16 +325,16 @@
         }
 
         /**
-         * There can be only one element assigned to a shortcut.
-         * However, if there are more than one, use the last element.
-         * (Useful for multiple confirmation dialogs stacked)
-         */
+           * There can be only one element assigned to a shortcut.
+           * However, if there are more than one, use the last element.
+           * (Useful for multiple confirmation dialogs stacked)
+           */
         const shortcutEl = shortcutEls[shortcutEls.length - 1];
 
         /**
-         * If a shortcut element was found.
-         * If 'enter' was clicked, check if the shortcut element isn't already focused
-         */
+           * If a shortcut element was found.
+           * If 'enter' was clicked, check if the shortcut element isn't already focused
+           */
         if(!notPrevent && handlerContext !== document) {
           dispatchEventOn(shortcutEl);
           return;
