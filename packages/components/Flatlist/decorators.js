@@ -55,9 +55,9 @@ const chevronFixture = (incomingProps = {}, overrides = {}) => {
     value: () => Icon,
     props: { symbol: 'chevron-right', color: neutral800 },
     contentStyle: {
-      position: 'relative',
-      right: '-5px',
-      top: '0',
+      position: 'absolute',
+      right: '5px',
+      top,
       transform,
     },
   };
