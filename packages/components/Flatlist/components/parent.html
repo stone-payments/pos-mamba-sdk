@@ -27,7 +27,14 @@
     },
     computed: {
       _shortcutComputed({ _shoulUseAutoShortcuts, _shortcut, data = {}}) {
-        return _shoulUseAutoShortcuts ? _shortcut : data.shortcut || undefined;
+        // console.log("data shortcut => ",data.shortcut);
+        // console.log("_shoulUseAutoShortcuts => ", _shoulUseAutoShortcuts);
+        // console.log("_shortcut => ", _shortcut);
+        // console.log("RESULTADO: ", _shoulUseAutoShortcuts ? _shortcut : data.shortcut || undefined)
+
+        const dataShortcut = data.shortcut === 0 ? 0 : data.shortcut || undefined;
+
+        return _shoulUseAutoShortcuts ? _shortcut : dataShortcut;
       },
       _tabPosition({ position, hasFirstFocusable, _shortcutComputed}) {
         if(!hasFirstFocusable) return _shortcutComputed;
@@ -37,7 +44,9 @@
         if(!decorator) return {};
         return decorator;
       },
-      _shortcut({ key }) {
+      _shortcut({ key, data = {}}) {
+        if(data.shortcut) return data.shortcut;
+
         if(key > 9) return undefined;
         if(key === 9) return 0;
         return key + 1;
