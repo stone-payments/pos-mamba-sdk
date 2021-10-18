@@ -27,10 +27,6 @@
     },
     computed: {
       _shortcutComputed({ _shoulUseAutoShortcuts, _shortcut, data = {}}) {
-        // console.log("data shortcut => ",data.shortcut);
-        // console.log("_shoulUseAutoShortcuts => ", _shoulUseAutoShortcuts);
-        // console.log("_shortcut => ", _shortcut);
-        // console.log("RESULTADO: ", _shoulUseAutoShortcuts ? _shortcut : data.shortcut || undefined)
 
         const dataShortcut = data.shortcut === 0 ? 0 : data.shortcut || undefined;
 
