@@ -41,7 +41,7 @@ interface PaymentOptions {
   /** 2 ~ 99 */
   installmentCount: number;
   /**
-    * Prevenir a troca de modo de pagamento (transactionType) caso não funcione
+    * Previne a troca da modalidade de pagamento (transactionType) caso não funcione
     * Ex: Transação de Débito, ao inserir cartão de Crédito a transação segue normalmente
    */
   preventModalitySwap: boolean; // default: false
