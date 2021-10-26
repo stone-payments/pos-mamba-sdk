@@ -1,9 +1,12 @@
 import AbstractKey from './AbstractKey';
 
 class DeleteKey extends AbstractKey {
-
-  onClick(controller) {
-    controller.deleteKey();
+  onClickTemplate(event, controller) {
+    this._emitEventToParent({
+      componentScope: controller.scope,
+      eventName: 'backspace',
+      input: 'backspace',
+    });
   }
 }
 

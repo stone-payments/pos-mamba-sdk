@@ -1,12 +1,12 @@
 import AbstractKey from './AbstractKey';
 
 class Key extends AbstractKey {
-
-  onClick(controller) {
-
-    const inputValue = controller.insertKey(this.code);
-
-    return inputValue;
+  onClickTemplate(event, controller) {
+    this._emitEventToParent({
+      componentScope: controller.scope,
+      eventName: 'keypress',
+      input: this.code,
+    });
   }
 }
 

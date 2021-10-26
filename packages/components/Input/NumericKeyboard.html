@@ -4,7 +4,7 @@
   <div class="keyboard">
     <div class="keys" class:with-math="isMathKeyboard">
       {#each keys as key}
-        <button class="key" on:click="runInstanceKey(key)">
+        <button tabindex="-1" class="key" on:mousedown="handleOnClickInstanceKey(event, key)">
           {#if key.code === "delete"}
             <img class="icon" src="{deleteIcon}" alt="delete icon numeric keyboard" />
           {:elseif key.code === "confirmation"}
@@ -19,7 +19,7 @@
     {#if isMathKeyboard}
       <div class="keyboard-math">
         {#each mathKeys as key}
-          <button class="key" on:click="runInstanceKey(key)">{key.code}</button>
+          <button tabindex="-1" class="key" on:mousedown="handleOnClickInstanceKey(event, key)">{key.code}</button>
         {/each}
       </div>
     {/if}
@@ -62,36 +62,20 @@
     },
     oncreate() {
      controller = new VirtualKeyboardController(this);
+     this.fire('setup', { setupInput: (...params) => { this.handleSetupInput(params) } })
     },
     methods: {
-      runInstanceKey(instance) {
-        instance.onClick(controller);
+      handleOnClickInstanceKey(event, instance) {
+        instance.onClick(event, controller);
       },
-      openKeyboard(inputRef) {
-        controller.openKeyboard(inputRef);
+      openKeyboard() {
+        controller.openKeyboard();
       },
       closeKeyboard() {
         controller.closeKeyboard();
       },
       _handleDocumentClick(event) {
-        this._handleClickOutside(event);
-      },
-      /**
-       *
-       * @param {PointerEvent} event
-       * @private
-       */
-      _handleClickOutside(event) {
-        const { target } = event;
-
-        const offsetParentClassList = Array.from(target.offsetParent ? target.offsetParent.classList : []);
-
-        const hasClickedOutside = offsetParentClassList.every(className => className !== 'keyboard');
-        const isInputElement = target instanceof HTMLInputElement;
-
-        if (hasClickedOutside && !isInputElement) {
-          this.set({ isFocused: false });
-        }
+        controller._handleClickOutside(event);
       },
     },
   };
