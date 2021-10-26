@@ -40,6 +40,11 @@ interface PaymentOptions {
   installmentType: 'none' | 'merchant' | 'issuer';
   /** 2 ~ 99 */
   installmentCount: number;
+  /**
+    * Previne a troca da modalidade de pagamento (transactionType) caso não funcione
+    * Ex: Transação de Débito, ao inserir cartão de Crédito a transação segue normalmente
+   */
+  preventModalitySwap: boolean; // default: false
 }
 ```
 
