@@ -18,40 +18,51 @@ export function setup(Printer) {
   Printer.failedPrinting = () => Registry.get().$Printer.panel.shouldFail;
 
   Printer.doPrint = function doPrint(content, options) {
-    if (options.print_to_paper === false) {
-      return Printer.printerDone();
-    }
+    const process = () => {
+      if (options.print_to_paper === false) {
+        return Printer.printerDone();
+      }
 
-    Registry.set(draft => {
-      draft.$Printer.isPrinting = true;
-    });
-
-    /** Fire the printing signal for the browser mamba simulation */
-    if (Printer.failedPrinting()) {
       Registry.set(draft => {
-        draft.$Printer.isPrinting = false;
+        draft.$Printer.isPrinting = true;
       });
-      Printer.printerDone();
-      return;
-    }
 
-    /**
-     * Take a snapshot of the element / clone the node for the virtual printer.
-     * If we don't clone it, if the <Printable/> is destroyed before the
-     * paper is printed, it will print nothing because the content element was
-     * destroyed.
-     * */
-    HardwareManager.fire('startPrinting', content.cloneNode(true), options);
-    HardwareManager.once('endPrinting', () => {
-      Registry.set(draft => {
-        draft.$Printer.isPrinting = false;
+      /** Fire the printing signal for the browser mamba simulation */
+      if (Printer.failedPrinting()) {
+        Registry.set(draft => {
+          draft.$Printer.isPrinting = false;
+        });
+        Printer.printerDone();
+        return;
+      }
+
+      /**
+       * Take a snapshot of the element / clone the node for the virtual printer.
+       * If we don't clone it, if the <Printable/> is destroyed before the
+       * paper is printed, it will print nothing because the content element was
+       * destroyed.
+       * */
+      HardwareManager.fire('startPrinting', content.cloneNode(true), options);
+      HardwareManager.once('endPrinting', () => {
+        Registry.set(draft => {
+          draft.$Printer.isPrinting = false;
+        });
+        Printer.printerDone();
       });
-      Printer.printerDone();
-    });
 
-    /** Fire endPrinting if no Virtual POS found */
-    if (!View.getInstance() || window.innerWidth <= 400) {
-      setTimeout(() => HardwareManager.fire('endPrinting'), 1000);
-    }
+      /** Fire endPrinting if no Virtual POS found */
+      if (!View.getInstance() || window.innerWidth <= 400) {
+        setTimeout(() => HardwareManager.fire('endPrinting'), 1000);
+      }
+    };
+
+    import('@mamba/utils/models.js')
+      .then(module => {
+        if (typeof module.hasNoPrinter === 'function') {
+          if (module.hasNoPrinter()) return;
+        }
+        process();
+      })
+      .catch(() => process());
   };
 }
