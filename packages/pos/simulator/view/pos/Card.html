@@ -151,10 +151,19 @@
 
     &:hover {
       transform: scale(1.04);
+
+      &.MP35 {
+        top: 820px;
+      }
     }
 
     &.MP35P {
       left: 75px;
+    }
+
+    &.MP35 {
+      left: 100px;
+      top: 840px;
     }
 
     &.D195 {
@@ -188,6 +197,10 @@
 
     &.is-inserted {
       transform: translateY(-180px);
+    }
+
+    &.is-inserted.MP35 {
+      transform: translateY(-270px);
     }
   }
 </style>
