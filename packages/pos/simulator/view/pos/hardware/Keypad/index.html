@@ -5,9 +5,10 @@
 
 <script>
   import { MODELS } from '@mamba/utils';
-import store from '../../store.js';
+  import store from '../../store.js';
 
   import MP35P from './MP35P.html';
+  import MP35 from './MP35.html';
   import S920 from './S920.html';
   import D195 from './D195.html';
   import D199 from './D199.html';
@@ -25,6 +26,10 @@ import store from '../../store.js';
           {
             title: MODELS.MP35P,
             component: MP35P,
+          },
+          {
+            title: MODELS.MP35,
+            component: MP35,
           },
           {
             title: MODELS.D195,
