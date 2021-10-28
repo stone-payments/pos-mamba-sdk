@@ -17,8 +17,7 @@ export function setup(Printer) {
 
   Printer.getPaperWidth = () => Registry.get().$Printer.paperWidth;
   Printer.isPrinting = () => Registry.get().$Printer.isPrinting;
-  Printer.failedPrinting = () =>
-    hasNoPrinter || Registry.get().$Printer.panel.shouldFail;
+  Printer.failedPrinting = () => Registry.get().$Printer.panel.shouldFail;
 
   Printer.doPrint = function doPrint(content, options) {
     const process = () => {
