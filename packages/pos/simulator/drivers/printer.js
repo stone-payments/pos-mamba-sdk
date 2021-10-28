@@ -13,9 +13,12 @@ export const SETTINGS = {
 export const SIGNALS = ['printerDone'];
 
 export function setup(Printer) {
+  let hasNoPrinter = false;
+
   Printer.getPaperWidth = () => Registry.get().$Printer.paperWidth;
   Printer.isPrinting = () => Registry.get().$Printer.isPrinting;
-  Printer.failedPrinting = () => Registry.get().$Printer.panel.shouldFail;
+  Printer.failedPrinting = () =>
+    hasNoPrinter || Registry.get().$Printer.panel.shouldFail;
 
   Printer.doPrint = function doPrint(content, options) {
     const process = () => {
@@ -60,7 +63,7 @@ export function setup(Printer) {
     import('@mamba/utils/models.js')
       .then(module => {
         if (typeof module.hasNoPrinter === 'function') {
-          if (module.hasNoPrinter()) return;
+          hasNoPrinter = module.hasNoPrinter();
         }
         process();
       })
