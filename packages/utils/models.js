@@ -58,7 +58,27 @@ export const getPosModel = () => {
   }
 
   ThisStore._storedModel = System.getPosModel();
+
   return ThisStore._storedModel;
+};
+
+/**
+ * Get POS checks
+ * @returns {object} return IS_ object key relative to the running pos
+ */
+export const getPOSChecksObject = () => {
+  const model = getPosModel();
+  return {
+    IS_S920: model === MODELS.S920,
+    IS_Q92: model === MODELS.Q92,
+    IS_V240M: model === MODELS.V240M,
+    IS_MP35: model === MODELS.MP35,
+    IS_MP35P: model === MODELS.MP35P,
+    IS_D195: model === MODELS.D195,
+    IS_Q60: model === MODELS.Q60,
+    IS_D230: model === MODELS.D230,
+    IS_D199: model === MODELS.D199,
+  };
 };
 
 /**
@@ -221,11 +241,18 @@ export function hasNoPrinter() {
  * PAX Devices
  * @returns {array} A list of devices from the manufacturer PAX
  */
-export const PAX_DEVICES = [MODELS.S920, MODELS.Q92, MODELS.D195, MODELS.Q60, MODELS.D199, MODELS.D230];
+export const PAX_DEVICES = [
+  MODELS.S920,
+  MODELS.Q92,
+  MODELS.D195,
+  MODELS.Q60,
+  MODELS.D199,
+  MODELS.D230,
+];
 
 /**
-* @returns {boolean} If the current model is from the PAX manufacturer
-*/
+ * @returns {boolean} If the current model is from the PAX manufacturer
+ */
 export function isPAXDevices() {
   return _hasModelAtList(PAX_DEVICES);
 }
@@ -247,11 +274,11 @@ export function isVerifoneDevices() {
  * Gertec Devices
  * @returns {array} A list of devices from the manufacturer Gertec
  */
- export const GERTEC_DEVICES = [MODELS.MP35, MODELS.MP35P];
+export const GERTEC_DEVICES = [MODELS.MP35, MODELS.MP35P];
 
 /**
-* @returns {boolean} If the current model is from the Gertec manufacturer
-*/
+ * @returns {boolean} If the current model is from the Gertec manufacturer
+ */
 export function isGertecDevices() {
   return _hasModelAtList(GERTEC_DEVICES);
 }
