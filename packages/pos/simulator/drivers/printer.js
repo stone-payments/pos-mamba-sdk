@@ -56,6 +56,7 @@ export function setup(Printer) {
       }
     };
 
+    // necessary to avoid circular dependency
     import('@mamba/utils/models.js')
       .then(module => {
         if (typeof module.hasNoPrinter === 'function') {
