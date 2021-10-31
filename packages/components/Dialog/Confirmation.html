@@ -112,6 +112,11 @@
         const isEnter = key === 'enter';
 
         if (isClose || isEnter) {
+          if (__DEV__ || __DEBUG_LVL__ >= 1) {
+            console.log(
+              `[@mamba/dialog/Confirmation.html] !! stopping propagation of key "${key}"`,
+            );
+          }
           e.stopImmediatePropagation();
           e.preventDefault();
 
