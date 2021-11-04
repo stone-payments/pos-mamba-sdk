@@ -2,23 +2,23 @@ const types = ['string', 'object', 'boolean', 'number'];
 let _settings;
 let _flagList = [];
 
-const isUndefined = v => typeof v === 'undefined';
-const isString = v => typeof v === 'string';
-const isEmptyString = s => s === '';
-const isObject = x => {
+const isUndefined = (v) => typeof v === 'undefined';
+const isString = (v) => typeof v === 'string';
+const isEmptyString = (s) => s === '';
+const isObject = (x) => {
   return x !== null && typeof x === 'object';
 };
 
-const hasBoB = s => {
+const hasBoB = (s) => {
   if (!isString(s)) return s;
   return s.indexOf('[') !== -1 || s.indexOf('{') !== -1;
 };
 
-const hasType = t => {
+const hasType = (t) => {
   return t !== null && types.indexOf(typeof t) !== -1;
 };
 
-const decodeTrimString = s => {
+const decodeTrimString = (s) => {
   if (!isString(s)) return s;
   try {
     return decodeURIComponent(escape(s.trim()));
@@ -30,12 +30,12 @@ const decodeTrimString = s => {
 /**
  * @return {String} Properly formatted
  */
-const normal = s => (typeof s === 'string' && s.toUpperCase()) || s;
+const normal = (s) => (typeof s === 'string' && s.toUpperCase()) || s;
 
 /**
  * @return {Boolean} Cast prop to boolean
  */
-const tryBoolean = b => {
+const tryBoolean = (b) => {
   if (['TRUE', 'FALSE', 'true', 'false'].indexOf(b) === -1) {
     return undefined;
   }
@@ -47,7 +47,7 @@ const tryBoolean = b => {
 /**
  * @return {Number} Cast prop to number
  */
-const tryNumber = n => {
+const tryNumber = (n) => {
   if (typeof n === 'number') return n;
   if (!isString(n)) return undefined;
   if (n[0] === '0') return undefined;
@@ -59,7 +59,7 @@ const tryNumber = n => {
 /**
  * @return {Object} Cast prop to Object
  */
-const tryObject = o => {
+const tryObject = (o) => {
   if (isObject(o)) return o;
   if (!isString(o)) return undefined;
   if (!hasBoB(o)) return o;
@@ -75,12 +75,12 @@ const tryObject = o => {
 /**
  * @return {string} Cast prop to string
  */
-const tryString = s => {
+const tryString = (s) => {
   if (isString(s)) return decodeTrimString(s);
   return undefined;
 };
 
-const castValue = value => {
+const castValue = (value) => {
   const primitive = [tryBoolean, tryNumber, tryString, tryObject].reduce(
     (result, fn) => {
       const res = fn(result && hasBoB(result) ? result : value);
@@ -98,7 +98,7 @@ const castValue = value => {
 };
 
 const parseSetting = (flag, list) => {
-  const hasFlag = _flagList.some(f => flag === f);
+  const hasFlag = _flagList.some((f) => flag === f);
   if (hasFlag) {
     const settingValue = castValue(list[flag]);
     /* if (__DEV__ || __DEBUG_LVL__ >= 2) {
@@ -122,7 +122,7 @@ const parseSettings = (flags, list) => {
   }, {});
 };
 
-const setParsedSettings = currentUserSettings => {
+const setParsedSettings = (currentUserSettings) => {
   if (isObject(currentUserSettings)) {
     _settings = currentUserSettings;
     _flagList = Object.getOwnPropertyNames(_settings);
@@ -217,23 +217,30 @@ export default {
       throw err;
     }
 
-    /* Necessary because the circular dependency with simulator */
-    if (
-      !_fromCache &&
-      window.$System &&
-      typeof window.$System.getUserSetting !== 'function'
-    ) {
-      console.error('System.getUserSetting not present');
-      return undefined;
-    }
-
     const _flag = String(flag);
 
     let setting;
     if (_fromCache === true) {
       setting = this.getSettings()[_flag] || _default;
     } else {
-      const rawSetting = window.$System.getUserSetting(_flag);
+      /* Necessary because the circular dependency with simulator */
+      const systemName = 'System';
+      const dolarSystemName = `$${systemName}`;
+
+      const systemNameDetected = window[systemName] || window[dolarSystemName];
+
+      if (!systemNameDetected) {
+        throw new Error('$System or System not present');
+        return undefined;
+      }
+
+      if (typeof window[systemNameDetected].getUserSetting !== 'function') {
+        throw new Error('[$System || System].getUserSetting not present');
+        return undefined;
+      }
+
+      const rawSetting = window[systemNameDetected].getUserSetting(_flag);
+
       if (isEmptyString(rawSetting) || !rawSetting) {
         setting = _default;
       } else {
