@@ -230,12 +230,12 @@ export default {
       const systemNameDetected = window[systemName] || window[dolarSystemName];
 
       if (!systemNameDetected) {
-        console.error('$System or System not present');
+        throw new Error('$System or System not present');
         return undefined;
       }
 
       if (typeof window[systemNameDetected].getUserSetting !== 'function') {
-        console.error('[$System || System].getUserSetting not present');
+        throw new Error('[$System || System].getUserSetting not present');
         return undefined;
       }
 
