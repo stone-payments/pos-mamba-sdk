@@ -85,7 +85,7 @@ export const getPOSChecksObject = () => {
  * Get POS model slug
  * @returns {String} return Pos Model Slug
  */
-export const getPosModelSlug = currentModel => {
+export const getPosModelSlug = (currentModel) => {
   let activeModel = currentModel;
   if (!activeModel) {
     activeModel = getPosModel();
@@ -206,7 +206,7 @@ export function hasNoTouch() {
 
 /**
  * Devices with no touch capability
- * @returns {array} A list of devices that doesn't have touch screen
+ * @returns {array} A list of devices that have touch screen
  */
 export const WITH_TOUCH = [
   MODELS.S920,
