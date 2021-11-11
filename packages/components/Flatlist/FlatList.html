@@ -15,7 +15,8 @@
         {/if}
 
         {#each section.data.filter(Boolean) as item, index}
-          {#if item.focusable}
+          {#if !_validateDependencies(item.dependencies)}
+          {:elseif item.focusable}
             <FocusController data={item} on:create="register(this, index, sectionIndex, item)" />
           {:else}
             <Parent
@@ -56,7 +57,6 @@
   import { ACTIVE_MODEL } from './decorators.js';
   import { ARROW_CAPABILITIES_MODELS } from './const.js';
 
-
   const EVENTS = {
     ITEM_SELECTED: 'itemSelected',
     ITEM_ACTIVE: 'itemActive',
@@ -77,6 +77,20 @@
       _setDecorator(decorator, item, decoratorOverrides) {
         return isFunction(decorator) ?
           decorator(item, decoratorOverrides) : decorator;
+      },
+      _validateDependencies(dependencies) {
+        if (!dependencies)
+          return true;
+
+        if (dependencies && typeof dependencies === 'object') {
+          const _array = Object.values(dependencies);
+
+          const hasDependencies = _array.every(item => item === true);
+
+          return hasDependencies;
+        }
+
+        return false;
       },
     },
     data() {
