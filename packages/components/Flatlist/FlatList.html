@@ -1,8 +1,10 @@
 <svelte:window bind:scrollY="scrollY" />
 
 {#if dataSection && dataSection.length > 0}
-  <div class="flatlist {className}" style={_styles} ref:flatListRef >
+  <div class="flatlist {className}" style={_styles} ref:flatListRef>
     {#each dataSection.filter(Boolean) as section, sectionIndex (sectionIndex)}
+
+      <!-- Handle title (Section or not) -->
       {#if section.data}
         {#if section.title}
           {#if renderTitle}
@@ -14,9 +16,9 @@
           {/if}
         {/if}
 
+        <!-- Render data itself -->
         {#each section.data.filter(Boolean) as item, index}
-          {#if !_validateDependencies(item.dependencies)}
-          {:elseif item.focusable}
+          {#if item.focusable}
             <FocusController data={item} on:create="register(this, index, sectionIndex, item)" />
           {:else}
             <Parent
@@ -33,6 +35,7 @@
           {/if}
         {/each}
 
+        <!-- Separator -->
         {#if showSeparator === true}
           {#if typeof _separator === 'object' && _separator.hasComponent && _separator.value}
             <svelte:component this="{_separator.value}"/>
@@ -75,22 +78,16 @@
       KEYUP,
       KEYDOWN,
       _setDecorator(decorator, item, decoratorOverrides) {
+        /**
+         * @param decorator {func} default decorator
+         * @param item {obj} row from Flatlist data
+         * @param decoratorOverrides {func} custom decorator
+         *
+         * @desc if has custom decorator, sent it
+         * */
+
         return isFunction(decorator) ?
           decorator(item, decoratorOverrides) : decorator;
-      },
-      _validateDependencies(dependencies) {
-        if (!dependencies)
-          return true;
-
-        if (dependencies && typeof dependencies === 'object') {
-          const _array = Object.values(dependencies);
-
-          const hasDependencies = _array.every(item => item === true);
-
-          return hasDependencies;
-        }
-
-        return false;
       },
     },
     data() {
@@ -139,28 +136,36 @@
     },
     onupdate({changed, current}) {
       if(changed.data || changed.dataSection) {
+
+        /** @desc sanitize flatlist data array */
         const { data, dataSection } = current;
         const isDataArray = Array.isArray(data);
         const isSectionArray = Array.isArray(dataSection);
 
         if(!isDataArray && !isSectionArray) return;
+
         setTimeout(() => {
           const { flatListRef } = this.refs;
           _flatListElement = flatListRef;
           this.set({ _hasElement: typeof flatListRef !== 'undefined' });
         }, 10);
+        /** */
 
-        const hasArrowCapabilities =
-          ARROW_CAPABILITIES_MODELS.indexOf(ACTIVE_MODEL) === -1;
+        /** @desc handle arrow keys */
+        const hasArrowCapabilities = ARROW_CAPABILITIES_MODELS.indexOf(ACTIVE_MODEL) === -1;
 
         this.set({
           _elementsRefs: [],
           disableEnterKeystroke: hasArrowCapabilities,
         });
-        // If passed section in data try resolve
+        /** */
+
+        /** @desc check if is section */
         const dataIsSection = (d) =>
           d.some(i => i.data && Array.isArray(i.data));
+        /** */
 
+        /** @desc check if is section && send data to component */
         if(isDataArray && data.length > 0) {
           const { linkFirstFocusable } = current;
 
@@ -230,6 +235,7 @@
 
         if(intersect) this.fire(EVENTS.ITEM_SELECTED, eventData);
       },
+      // register inner elements
       register(element, index, sectionIndex, focusableItem = undefined) {
         const { _elementsRefs, selectedIndex, scrollY } = this.get();
 

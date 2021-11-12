@@ -16,7 +16,11 @@
 </div>
 
 <script>
-
+  /**
+   * Parent.html
+   * @desc abstraction of svelte:component to use native events from Svelte
+   *
+   * */
   export default {
     data() {
       return {
@@ -26,29 +30,58 @@
       };
     },
     computed: {
-      _shortcutComputed({ _shoulUseAutoShortcuts, _shortcut, data = {}}) {
-
-        const dataShortcut = data.shortcut === 0 ? 0 : data.shortcut || undefined;
-
-        return _shoulUseAutoShortcuts ? _shortcut : dataShortcut;
-      },
-      _tabPosition({ position, hasFirstFocusable, _shortcutComputed}) {
-        if(!hasFirstFocusable) return _shortcutComputed;
-        return position + (hasFirstFocusable ? 0 : 1);
-      },
-      _decorator({ decorator }) {
-        if(!decorator) return {};
-        return decorator;
-      },
-      _shortcut({ key, data = {}}) {
+      /**
+       * @param key {number}
+       * @param data {obj}
+       *
+       * @desc Handles shortcut
+       * */
+       _shortcut({ key, data = {}}) {
         if(data.shortcut) return data.shortcut;
 
         if(key > 9) return undefined;
         if(key === 9) return 0;
         return key + 1;
       },
-      _shoulUseAutoShortcuts({ useAutoShortcuts, hasFirstFocusable }) {
+      /**
+       * @param useAutoShortcuts {prop}
+       * @param hasFirstFocusable {prop}
+       *
+       * @desc Check if use AUTO Shortcut
+       * */
+      _shouldUseAutoShortcuts({ useAutoShortcuts, hasFirstFocusable }) {
         return useAutoShortcuts && !hasFirstFocusable;
+      },
+      /**
+       * @param _shouldUseAutoShortcuts {computed}
+       * @params _shortcut {computed}
+       * @param data {obj}
+       *
+       * @desc Handle shortcut (if auto or not)
+       * */
+      _shortcutComputed({ _shouldUseAutoShortcuts, _shortcut, data = {}}) {
+
+        const dataShortcut = data.shortcut === 0 ? 0 : data.shortcut || undefined;
+
+        return _shouldUseAutoShortcuts ? _shortcut : dataShortcut;
+      },
+      /**
+       * @param position {number}
+       * @param hasFirstFocusable {prop}
+       * @param _shortcutComputed {computed}
+       * @desc Handle element index
+       * */
+      _tabPosition({ position, hasFirstFocusable, _shortcutComputed}) {
+        if(!hasFirstFocusable) return _shortcutComputed;
+        return position + (hasFirstFocusable ? 0 : 1);
+      },
+      /**
+       * @param decorator {prop}
+       * @desc Receives decorator block on parent
+       * */
+       _decorator({ decorator }) {
+        if(!decorator) return {};
+        return decorator;
       },
     },
     oncreate() {

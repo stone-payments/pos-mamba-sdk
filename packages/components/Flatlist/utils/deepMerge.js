@@ -1,5 +1,9 @@
 import isObject from './isObject.js';
 
+/**
+ * @desc Makes an object flat (?)
+ * @example decorators.js
+ * */
 export default function deepMerge(source, target) {
   // eslint-disable-next-line no-restricted-syntax
   for (const [key, val] of Object.entries(source)) {

@@ -182,8 +182,15 @@ export const shouldReturnComponent = obj => {
   return obj;
 };
 
+/**
+ * getStyles
+ * @param obj
+ * @param blackList
+ * @desc Convert CSS in JS syntax to CSS syntax
+ * */
 export const getStyles = (obj, blackList = []) => {
   if (!obj) return '';
+
   if (typeof obj === 'object') {
     if (Array.isArray(obj)) {
       return obj.join('; ');
