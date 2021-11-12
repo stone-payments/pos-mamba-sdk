@@ -151,6 +151,7 @@
         }, 10);
         /** */
 
+
         /** @desc handle arrow keys */
         const hasArrowCapabilities = ARROW_CAPABILITIES_MODELS.indexOf(ACTIVE_MODEL) === -1;
 
@@ -164,6 +165,11 @@
         const dataIsSection = (d) =>
           d.some(i => i.data && Array.isArray(i.data));
         /** */
+
+        // filter dependencies from data
+        // console.log(data);
+        // console.log(dataSection);
+        this._validateDependencies(data, dataSection);
 
         /** @desc check if is section && send data to component */
         if(isDataArray && data.length > 0) {
@@ -367,6 +373,26 @@
           }
           return false;
         }
+      },
+      _validateDependencies(data, dataSection) {
+
+        if (!data && !dataSection) return;
+
+        let list;
+
+        if (!dataSection) list = data;
+
+        if (!data) list = dataSection;
+
+        let filteredList = [];
+        list.forEach(item => {
+
+          const itemValidDependencies = item.data.filter((data) => !data.dependencies || Object.values(data.dependencies).every(dep => dep === true));
+
+          return filteredList = [...itemValidDependencies];
+        });
+
+        return filteredList;
       },
     },
   };
