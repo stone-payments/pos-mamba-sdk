@@ -151,7 +151,6 @@
         }, 10);
         /** */
 
-
         /** @desc handle arrow keys */
         const hasArrowCapabilities = ARROW_CAPABILITIES_MODELS.indexOf(ACTIVE_MODEL) === -1;
 
@@ -167,12 +166,17 @@
         /** */
 
         // filter dependencies from data
-        // console.log(data);
-        // console.log(dataSection);
-        this._validateDependencies(data, dataSection);
+        if (isSectionArray) {
+          this._validateDependencies(dataSection);
+          const sectionValid = this._validateDependencies(dataSection);
+
+          this.set({
+            dataSection: sectionValid,
+          })
+        }
 
         /** @desc check if is section && send data to component */
-        if(isDataArray && data.length > 0) {
+        if (isDataArray && data.length > 0) {
           const { linkFirstFocusable } = current;
 
           if(linkFirstFocusable) {
@@ -241,7 +245,7 @@
 
         if(intersect) this.fire(EVENTS.ITEM_SELECTED, eventData);
       },
-      // register inner elements
+      /** @desc register elements (allowing handle them) */
       register(element, index, sectionIndex, focusableItem = undefined) {
         const { _elementsRefs, selectedIndex, scrollY } = this.get();
 
@@ -374,22 +378,21 @@
           return false;
         }
       },
-      _validateDependencies(data, dataSection) {
+      _validateDependencies(list) {
 
-        if (!data && !dataSection) return;
-
-        let list;
-
-        if (!dataSection) list = data;
-
-        if (!data) list = dataSection;
+        if (!list) return;
 
         let filteredList = [];
-        list.forEach(item => {
+        list.forEach(row => {
 
-          const itemValidDependencies = item.data.filter((data) => !data.dependencies || Object.values(data.dependencies).every(dep => dep === true));
+          const itemValidDependencies = row.data.filter((data) => !data.dependencies || Object.values(data.dependencies).every(dep => dep === true));
 
-          return filteredList = [...itemValidDependencies];
+          const newRow = {
+            ...row,
+            data: itemValidDependencies,
+          }
+
+          return filteredList.push(newRow);
         });
 
         return filteredList;
