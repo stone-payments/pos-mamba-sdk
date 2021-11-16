@@ -138,7 +138,9 @@
       if(changed.data || changed.dataSection) {
 
         /** @desc sanitize flatlist data array */
-        const { data, dataSection } = current;
+        const { dataSection } = current;
+        let { data } = current;
+
         const isDataArray = Array.isArray(data);
         const isSectionArray = Array.isArray(dataSection);
 
@@ -165,9 +167,8 @@
           d.some(i => i.data && Array.isArray(i.data));
         /** */
 
-        // filter dependencies from data
+        // filter dependencies from dataSection
         if (isSectionArray) {
-          this._validateDependencies(dataSection);
           const sectionValid = this._validateDependencies(dataSection);
 
           this.set({
@@ -183,8 +184,13 @@
             data.unshift(linkFirstFocusable);
           }
 
+          // filter dependencies from data
+          // fix attribution before publish SDK
+          const filteredData = this._validateDependencies(data);
+          data = filteredData
+
           this.set({
-            dataSection: dataIsSection(data) ? data : [{
+            dataSection: [{
               title: null,
               data,
             }],
@@ -380,19 +386,16 @@
       },
       _validateDependencies(list) {
 
-        if (!list) return;
-
         let filteredList = [];
         list.forEach(row => {
 
-          const itemValidDependencies = row.data.filter((data) => !data.dependencies || Object.values(data.dependencies).every(dep => dep === true));
+          const dataOrSection = [...(row.data || row)];
 
-          const newRow = {
-            ...row,
-            data: itemValidDependencies,
-          }
+          const itemValidDependencies = dataOrSection.filter((data) => !data.dependencies || Object.values(data.dependencies).every(dep => dep === true));
 
-          return filteredList.push(newRow);
+          const newRow = row.data ? { ...row, data: itemValidDependencies } : itemValidDependencies;
+
+          return filteredList = [...filteredList, ...newRow]
         });
 
         return filteredList;
