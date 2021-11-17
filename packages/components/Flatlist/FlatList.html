@@ -229,16 +229,20 @@
         }
 
         const { data, position } = eventData;
-        const internalIndex = position - 1;
 
-        const { element } = _elementsRefs[internalIndex];
+        const internalIndex = position;
+
+        const { element } = _elementsRefs[internalIndex - 1];
 
         eventData = {
           ...eventData,
           renderItemRefs: element.refs.renderItemRef.refs,
         };
 
-        this.set({ selectedIndex: internalIndex });
+        // needed because sometimes position is 0
+        const filterPosition = Number(position) === 0 ? 9 : position - 1;
+
+        this.set({ selectedIndex: filterPosition });
 
         if(autoSelectOnTouch && !(isKeystroke === true)) {
           toggleActive(_elementsRefs, internalIndex);
@@ -258,6 +262,11 @@
 
         const position = _elementsRefs.length + 1;
 
+        /** @desc prevent Flatlist show more than 10 shortcuts and show 10 as 0
+         *  0 as string needed because 0 is false
+        */
+        const newPosition = position === 10 ? '0' : (position < 10 ? position : null);
+
         _elementsRefs.push({
           sectionIndex,
           element,
@@ -266,7 +275,7 @@
           focusableItem,
         });
 
-        element.set({ position });
+        element.set({ position: newPosition });
 
         if(index === selectedIndex) {
           setTimeout(() => {
@@ -287,6 +296,7 @@
           _isKeystrokeActive,
           disableEnterKeystroke,
         } = this.get();
+
         if(!_isKeystrokeActive) return;
 
         if(keyCode === ENTER && disableEnterKeystroke === false) {
@@ -305,6 +315,7 @@
           );
 
           const target = _elementsRefs[internalIndex];
+
           this.selectRowAtTarget(target, internalIndex);
         }
       },
@@ -318,7 +329,7 @@
 
         const { data }  = element.options.data;
 
-        this.fire(EVENTS.ITEM_ACTIVE, { index, sectionIndex, position, data });
+        this.fire(EVENTS.ITEM_ACTIVE, { index, position });
 
         this.set({ selectedIndex: targetIndex });
       },
@@ -327,7 +338,6 @@
         forwardedRef,
       }) {
         if(!element) return false;
-
 
         try {
           const domElement = forwardedRef ? element.refs[forwardedRef] : element;
