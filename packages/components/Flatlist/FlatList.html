@@ -4,7 +4,7 @@
   <div class="flatlist {className}" style={_styles} ref:flatListRef>
     {#each dataSection.filter(Boolean) as section, sectionIndex (sectionIndex)}
 
-      <!-- Handle title (Section or not) -->
+      <!-- Handle title (if Section) -->
       {#if section.data}
         {#if section.title}
           {#if renderTitle}
@@ -79,11 +79,12 @@
       KEYDOWN,
       _setDecorator(decorator, item, decoratorOverrides) {
         /**
-         * @param decorator {func} default decorator
-         * @param item {obj} row from Flatlist data
-         * @param decoratorOverrides {func} custom decorator
+         * @param decorator @type {func} @desc default decorator
          *
-         * @desc if has custom decorator, sent it
+         * @param item @type {obj} @desc row from Flatlist data
+         * @param decoratorOverrides @type {func} @desc custom decorator
+         *
+         * @summary if has custom decorator, sent it
          * */
 
         return isFunction(decorator) ?
@@ -138,7 +139,6 @@
     onupdate({changed, current}) {
       if(changed.data || changed.dataSection) {
 
-        /** @desc sanitize flatlist data array */
         const { dataSection } = current;
         let { data } = current;
 
@@ -327,7 +327,7 @@
 
         const { data }  = element.options.data;
 
-        this.fire(EVENTS.ITEM_ACTIVE, { index, position });
+        this.fire(EVENTS.ITEM_ACTIVE, { index, sectionIndex, position, data });
 
         this.set({ selectedIndex: targetIndex });
       },
