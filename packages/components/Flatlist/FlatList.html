@@ -186,14 +186,12 @@
           }
 
           // filter dependencies from data
-          // fix attribution before publish SDK
           const filteredData = this._validateDependencies(data);
-          data = filteredData
 
           this.set({
             dataSection: [{
               title: null,
-              data,
+              data: filteredData,
             }],
           });
         }
