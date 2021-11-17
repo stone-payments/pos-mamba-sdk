@@ -124,6 +124,7 @@
         if(typeof style === 'string') return style;
         return getStyles(style);
       },
+      /** @desc allow using shortcuts; do NOT work on dataSection */
       useAutoShortcuts({ dataSection, autoShortcuts }) {
         return autoShortcuts === true && dataSection && dataSection.length === 1;
       },

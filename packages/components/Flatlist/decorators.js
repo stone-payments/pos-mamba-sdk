@@ -81,6 +81,13 @@ export const SetDefaultRowDecorator = (incomingProps = {}, overrides = {}) => {
 };
 
 const GetDefaultDecorator = (rowProps, overrides = {}) => {
+  /**
+   * @param rowProps {obj} all row props
+   * @param overrides {obj} custom decorator settings
+   *
+   * @desc handle decorator data, default or custom
+   * */
+
   ACTIVE_MODEL = getPosModel();
 
   const incomingProps = rowProps || { label: {} };
