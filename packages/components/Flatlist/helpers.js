@@ -183,10 +183,10 @@ export const shouldReturnComponent = obj => {
 };
 
 /**
- * getStyles
- * @param obj
- * @param blackList
- * @desc Convert CSS in JS syntax to CSS syntax
+ * @param {obj} obj - object with css values
+ * @param {array} blackList
+ *
+ * @description Convert CSS in JS syntax to CSS syntax
  * */
 export const getStyles = (obj, blackList = []) => {
   if (!obj) return '';
@@ -201,11 +201,15 @@ export const getStyles = (obj, blackList = []) => {
     return Object.getOwnPropertyNames(obj)
       .map(str => {
         const rule = str.replace(/[A-Z]/g, repChar);
+
         if (blackList.indexOf(rule) !== -1) return '';
+
         const value = repColor(obj[str]);
+
         if (webkitPrefixRules.indexOf(rule) !== -1) {
           return `-webkit-${rule}: ${value}; ${rule}: ${value};`;
         }
+
         return `${rule}: ${value};`;
       })
       .join('');
