@@ -125,7 +125,7 @@
         if(typeof style === 'string') return style;
         return getStyles(style);
       },
-      /** @desc allow using shortcuts; do NOT work on dataSection */
+      // allow using shortcuts; do NOT work on dataSection
       useAutoShortcuts({ dataSection, autoShortcuts }) {
         return autoShortcuts === true && dataSection && dataSection.length === 1;
       },
@@ -220,13 +220,13 @@
 
         if(intersect) this.fire(EVENTS.ITEM_SELECTED, eventData);
       },
-      /** @desc register elements (allowing handle them) */
+      // register elements (allowing handle them)
       register(element, index, sectionIndex, focusableItem = undefined) {
         const { _elementsRefs, selectedIndex, scrollY } = this.get();
 
         const position = _elementsRefs.length + 1;
 
-        /** @desc prevent Flatlist show more than 10 shortcuts and show 10 as 0
+        /** prevent Flatlist show more than 10 shortcuts and show 10 as 0
          *  0 as string needed because 0 is false
         */
         const newPosition = position === 10 ? '0' : (position < 10 ? position : null);
