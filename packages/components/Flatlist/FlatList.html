@@ -196,17 +196,14 @@
 
         const internalIndex = position;
 
-        const { element } = _elementsRefs[internalIndex - 1];
+        const { element } = _elementsRefs[internalIndex];
 
         eventData = {
           ...eventData,
           renderItemRefs: element.refs.renderItemRef.refs,
         };
 
-        // needed because sometimes position is 0
-        const filterPosition = Number(position) === 0 ? 9 : position - 1;
-
-        this.set({ selectedIndex: filterPosition });
+        this.set({ selectedIndex: position });
 
         if(autoSelectOnTouch && !(isKeystroke === true)) {
           toggleActive(_elementsRefs, internalIndex);
@@ -224,12 +221,7 @@
       register(element, index, sectionIndex, focusableItem = undefined) {
         const { _elementsRefs, selectedIndex, scrollY } = this.get();
 
-        const position = _elementsRefs.length + 1;
-
-        /** prevent Flatlist show more than 10 shortcuts and show 10 as 0
-         *  0 as string needed because 0 is false
-        */
-        const newPosition = position === 10 ? '0' : (position < 10 ? position : null);
+        const position = _elementsRefs.length;
 
         _elementsRefs.push({
           sectionIndex,
@@ -239,7 +231,7 @@
           focusableItem,
         });
 
-        element.set({ position: newPosition });
+        element.set({ position });
 
         if(index === selectedIndex) {
           setTimeout(() => {

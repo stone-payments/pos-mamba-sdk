@@ -13,8 +13,26 @@ const SEPARATORS = {
   DEFAULT: ' - ',
 };
 
-const withPosPrefixSeparator = separator => position => {
-  return (position && `${position}${separator}`) || '';
+/**
+ * @param {object} separator character that separates position from value
+ * @param {string|number} position ordenation of item
+ *
+ * @description handle (or customize) the position
+ */
+const positionHandler = separator => position => {
+  const positionAsNumber = Number(position);
+
+  if (positionAsNumber || positionAsNumber === 0) {
+    const newPosition = position + 1;
+
+    if (newPosition === 10) return `0${separator}`;
+
+    if (newPosition > 10) return '';
+
+    return `${newPosition}${separator}`;
+  }
+
+  return '';
 };
 
 const getPrefixOverride = (
@@ -27,7 +45,7 @@ const getPrefixOverride = (
   const hasPrefixStyle = keys.indexOf('prefixStyle') !== -1;
   const _defaultStyle = _default.prefixStyle || undefined;
   return {
-    prefix: hasPrefix ? overrides.prefix : withPosPrefixSeparator(separator),
+    prefix: hasPrefix ? overrides.prefix : positionHandler(separator),
     prefixStyle: hasPrefixStyle ? overrides.prefixStyle : _defaultStyle,
   };
 };
@@ -81,13 +99,6 @@ export const SetDefaultRowDecorator = (incomingProps = {}, overrides = {}) => {
 };
 
 const GetDefaultDecorator = (rowProps, overrides = {}) => {
-  /**
-   * @param rowProps {obj} all row props
-   * @param overrides {obj} custom decorator settings
-   *
-   * @desc handle decorator data, default or custom
-   * */
-
   ACTIVE_MODEL = getPosModel();
 
   const incomingProps = rowProps || { label: {} };
