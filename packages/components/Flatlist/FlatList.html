@@ -1,8 +1,10 @@
 <svelte:window bind:scrollY="scrollY" />
 
 {#if dataSection && dataSection.length > 0}
-  <div class="flatlist {className}" style={_styles} ref:flatListRef >
+  <div class="flatlist {className}" style={_styles} ref:flatListRef>
     {#each dataSection.filter(Boolean) as section, sectionIndex (sectionIndex)}
+
+      <!-- Handle title (if Section) -->
       {#if section.data}
         {#if section.title}
           {#if renderTitle}
@@ -14,6 +16,7 @@
           {/if}
         {/if}
 
+        <!-- Render data itself -->
         {#each section.data.filter(Boolean) as item, index}
           {#if item.focusable}
             <FocusController data={item} on:create="register(this, index, sectionIndex, item)" />
@@ -32,6 +35,7 @@
           {/if}
         {/each}
 
+        <!-- Separator -->
         {#if showSeparator === true}
           {#if typeof _separator === 'object' && _separator.hasComponent && _separator.value}
             <svelte:component this="{_separator.value}"/>
@@ -56,7 +60,6 @@
   import { ACTIVE_MODEL } from './decorators.js';
   import { ARROW_CAPABILITIES_MODELS } from './const.js';
 
-
   const EVENTS = {
     ITEM_SELECTED: 'itemSelected',
     ITEM_ACTIVE: 'itemActive',
@@ -74,7 +77,16 @@
       ENTER,
       KEYUP,
       KEYDOWN,
+      /**
+        * @param {function} decorator - default decorator
+        * @param {object} item - row from Flatlist data
+        * @param {function} decoratorOverrides - custom decorator
+        *
+        * @description if has custom decorator, sent it
+        *
+        * */
       _setDecorator(decorator, item, decoratorOverrides) {
+
         return isFunction(decorator) ?
           decorator(item, decoratorOverrides) : decorator;
       },
@@ -113,6 +125,7 @@
         if(typeof style === 'string') return style;
         return getStyles(style);
       },
+      // allow using shortcuts; do NOT work on dataSection
       useAutoShortcuts({ dataSection, autoShortcuts }) {
         return autoShortcuts === true && dataSection && dataSection.length === 1;
       },
@@ -125,41 +138,28 @@
     },
     onupdate({changed, current}) {
       if(changed.data || changed.dataSection) {
+
         const { data, dataSection } = current;
+
         const isDataArray = Array.isArray(data);
         const isSectionArray = Array.isArray(dataSection);
 
-        if(!isDataArray && !isSectionArray) return;
-        setTimeout(() => {
-          const { flatListRef } = this.refs;
-          _flatListElement = flatListRef;
-          this.set({ _hasElement: typeof flatListRef !== 'undefined' });
-        }, 10);
+        if (this._isMenuInvalid(isDataArray, isSectionArray)) return;
 
-        const hasArrowCapabilities =
-          ARROW_CAPABILITIES_MODELS.indexOf(ACTIVE_MODEL) === -1;
+        this._updateHasElement();
 
-        this.set({
-          _elementsRefs: [],
-          disableEnterKeystroke: hasArrowCapabilities,
-        });
-        // If passed section in data try resolve
-        const dataIsSection = (d) =>
-          d.some(i => i.data && Array.isArray(i.data));
+        this._enableArrowKeys();
 
-        if(isDataArray && data.length > 0) {
-          const { linkFirstFocusable } = current;
+        // if section, publishes to component
+        if (isSectionArray) {
+          this._publishDataSection(dataSection);
+        }
 
-          if(linkFirstFocusable) {
-            data.unshift(linkFirstFocusable);
-          }
+        // if just data, sends to component
+        const isValidData = (isDataArray && data.length > 0);
 
-          this.set({
-            dataSection: dataIsSection(data) ? data : [{
-              title: null,
-              data,
-            }],
-          });
+        if (isValidData) {
+          this._publishData(current, data);
         }
       }
     },
@@ -193,7 +193,8 @@
         }
 
         const { data, position } = eventData;
-        const internalIndex = position - 1;
+
+        const internalIndex = position;
 
         const { element } = _elementsRefs[internalIndex];
 
@@ -202,7 +203,7 @@
           renderItemRefs: element.refs.renderItemRef.refs,
         };
 
-        this.set({ selectedIndex: internalIndex });
+        this.set({ selectedIndex: position });
 
         if(autoSelectOnTouch && !(isKeystroke === true)) {
           toggleActive(_elementsRefs, internalIndex);
@@ -216,10 +217,11 @@
 
         if(intersect) this.fire(EVENTS.ITEM_SELECTED, eventData);
       },
+      // register elements (allowing handle them)
       register(element, index, sectionIndex, focusableItem = undefined) {
         const { _elementsRefs, selectedIndex, scrollY } = this.get();
 
-        const position = _elementsRefs.length + 1;
+        const position = _elementsRefs.length;
 
         _elementsRefs.push({
           sectionIndex,
@@ -250,6 +252,7 @@
           _isKeystrokeActive,
           disableEnterKeystroke,
         } = this.get();
+
         if(!_isKeystrokeActive) return;
 
         if(keyCode === ENTER && disableEnterKeystroke === false) {
@@ -268,6 +271,7 @@
           );
 
           const target = _elementsRefs[internalIndex];
+
           this.selectRowAtTarget(target, internalIndex);
         }
       },
@@ -290,7 +294,6 @@
         forwardedRef,
       }) {
         if(!element) return false;
-
 
         try {
           const domElement = forwardedRef ? element.refs[forwardedRef] : element;
@@ -348,6 +351,104 @@
           return false;
         }
       },
+      _isMenuInvalid(isDataArray, isSectionArray) {
+
+        return (!isDataArray && !isSectionArray);
+      },
+      /**
+        * @description updates _hasElement from state, to find and handle data
+        */
+      _updateHasElement() {
+
+        return setTimeout(() => {
+          const { flatListRef } = this.refs;
+          _flatListElement = flatListRef;
+
+          this.set({ _hasElement: typeof flatListRef !== 'undefined' });
+        }, 10);
+      },
+      _enableArrowKeys() {
+        const hasArrowCapabilities = ARROW_CAPABILITIES_MODELS.indexOf(ACTIVE_MODEL) === -1;
+
+        this.set({
+          _elementsRefs: [],
+          disableEnterKeystroke: hasArrowCapabilities,
+        });
+      },
+      /**
+        * @param {array} list rows from menu, both data|dataSection
+        *
+        * @description remove items who has dependencies as false
+        */
+      _removeInvalidRows(list) {
+        let filteredList = [];
+
+        list.forEach(row => {
+          const dataOrSection = [...(row.data || row)];
+
+          const onlyValidDependencies = dataOrSection.filter((data) => this._hasNoDependencie(data) || this._allDependenciesAreTrue(data));
+
+          const newRow = row.data ? { ...row, data: onlyValidDependencies } : onlyValidDependencies;
+
+          return filteredList = [...filteredList, ...newRow]
+        });
+
+        return filteredList;
+      },
+      /**
+        * @param {object} rowItem object from iteration of menu data
+        *
+        * @example _removeInvalidRows
+        *
+        */
+      _allDependenciesAreTrue(rowItem) {
+        return Object.values(rowItem.dependencies).every(dep => dep === true);
+      },
+      /**
+        * @param {object} rowItem object from iteration of menu data
+        *
+        * @example _removeInvalidRows
+        *
+        */
+      _hasNoDependencie(rowItem) {
+        return !rowItem.dependencies;
+      },
+      /**
+        * @param {array} dataSection menu data with sections
+        *
+        * @description send data to component itself
+        *
+        */
+      _publishDataSection(dataSection) {
+        const rowValid = this._removeInvalidRows(dataSection);
+
+        this.set({
+          dataSection: rowValid,
+        })
+      },
+      /**
+        * @param {object} current object from app lifecycle (onupdate)
+        * @param {array} data menu data
+        *
+        * @description send data to component itself
+        *
+        */
+      _publishData(current, data) {
+        const { linkFirstFocusable } = current;
+
+        if (linkFirstFocusable) {
+          data.unshift(linkFirstFocusable);
+        }
+
+        const filteredData = this._removeInvalidRows(data);
+
+        this.set({
+          dataSection: [{
+            title: null,
+            data: filteredData,
+          }],
+        });
+      }
     },
   };
 </script>
