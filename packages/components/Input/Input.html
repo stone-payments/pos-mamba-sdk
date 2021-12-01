@@ -217,7 +217,7 @@ import defaultTokens from './libs/tokens.js';
             validateObj.isValid = result;
           } else {
             validateObj.isValid = !!result.isValid;
-            validateObj._errorMsg = result.msg;
+            validateObj._errorMsg = result.message || result.msg;
           }
         }
 
