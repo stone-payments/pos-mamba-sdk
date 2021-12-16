@@ -91,7 +91,7 @@ export const SetDefaultRowDecorator = (incomingProps = {}, overrides = {}) => {
     highlightSelect: false,
   });
 
-  if (__DEBUG_LVL__ >= 2) {
+  if (__DEBUG_LVL__ >= 4) {
     console.log(JSON.stringify({ DefaultRowDecorator }, null, 2));
   }
 
