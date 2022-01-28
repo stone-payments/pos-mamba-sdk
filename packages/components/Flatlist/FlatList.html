@@ -233,6 +233,8 @@
 
         element.set({ position });
 
+        this.set({ _elementsRefs })
+
         if(index === selectedIndex) {
           setTimeout(() => {
             scrollActiveNodeAtIndex(_elementsRefs, selectedIndex, scrollY);
@@ -371,7 +373,6 @@
         const hasArrowCapabilities = ARROW_CAPABILITIES_MODELS.indexOf(ACTIVE_MODEL) === -1;
 
         this.set({
-          _elementsRefs: [],
           disableEnterKeystroke: hasArrowCapabilities,
         });
       },
