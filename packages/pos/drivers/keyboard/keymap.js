@@ -62,7 +62,7 @@ export const KEY_CODES = {
   KEY_9,
 };
 
-export const KEYMAP = Object.freeze({
+export const KEY_MAP = Object.freeze({
   [ENTER]: KEY_NAMES.ENTER,
   [KEYBACK]: KEY_NAMES.BACK,
   [CLOSE]: KEY_NAMES.CLOSE,
@@ -83,3 +83,5 @@ export const KEYMAP = Object.freeze({
   [KEY_8]: KEY_NAMES.KEY_8,
   [KEY_9]: KEY_NAMES.KEY_9,
 });
+
+export const KEYMAP = KEY_MAP;
