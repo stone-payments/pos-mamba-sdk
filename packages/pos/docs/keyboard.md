@@ -28,9 +28,9 @@ interface Keyboard {
 Define que a máquina irá digitar apenas números.
 
 ```js
-import Keyboard from'@mamba/pos/api/keyboard.js'
+import Keyboard from '@mamba/pos/api/keyboard.js';
 
-Keyboard.setKeyboardAsNumeric()
+Keyboard.setKeyboardAsNumeric();
 ```
 
 ### setKeyboardAsAlphanumeric()
@@ -38,9 +38,9 @@ Keyboard.setKeyboardAsNumeric()
 Define que a máquina irá digitar caracteres alfanuméricos.
 
 ```js
-import Keyboard from '@mamba/pos/api/keyboard.js'
+import Keyboard from '@mamba/pos/api/keyboard.js';
 
-Keyboard.setKeyboardAsAlphanumeric()
+Keyboard.setKeyboardAsAlphanumeric();
 ```
 
 ### getKeyCode(keyName)
@@ -82,7 +82,7 @@ Keyboard.getKeyName(57); // '9'
 Retorna se uma tecla representa um número.
 
 ```js
-import Keyboard from '@mamba/pos/api/keyboard.js'
+import Keyboard from '@mamba/pos/api/keyboard.js';
 
 /** 13 = 'enter' */
 Keyboard.isNumericKey(13); // false
@@ -96,7 +96,7 @@ Keyboard.isNumericKey(57); // true
 Retorna se uma tecla representa uma ação.
 
 ```js
-import Keyboard from '@mamba/pos/api/keyboard.js'
+import Keyboard from '@mamba/pos/api/keyboard.js';
 
 /** 13 = 'enter' */
 Keyboard.isActionKey(13); // true
@@ -118,7 +118,7 @@ Desabilita o uso do botão de `voltar` no aplicativo em questão.
 Habilita o uso do botão de `voltar` no aplicativo em questão.
 
 ```js
-import Keyboard from '@mamba/pos/api/keyboard.js'
+import Keyboard from '@mamba/pos/api/keyboard.js';
 
 Keyboard.isBackspaceEnabled(); // true
 
@@ -129,4 +129,157 @@ Keyboard.isBackspaceEnabled(); // false
 
 /** Enable the backspace button */
 Keyboard.enableBackspace();
+```
+
+## Keyboard keys
+
+The `KEYBOARD` object provides the specific key-maps and key-names of POS.
+
+```js
+import { KEYBOARD } from '@mamba/pos';
+```
+
+### KEY_NAMES
+
+```js
+const { KEY_NAMES } = KEYBOARD;
+
+KEY_NAMES.ENTER; // enter
+```
+
+Values:
+
+```json
+{
+  "CLOSE": "close",
+  "BACK": "back",
+  "ENTER": "enter",
+  "HELP": "help",
+  "SHORTCUTS": "shortcuts",
+  "KEYUP": "keyup",
+  "KEYDOWN": "keydown",
+  "F24": "F24",
+  "F23": "F23",
+  "KEY_0": "0",
+  "KEY_1": "1",
+  "KEY_2": "2",
+  "KEY_3": "3",
+  "KEY_4": "4",
+  "KEY_5": "5",
+  "KEY_6": "6",
+  "KEY_7": "7",
+  "KEY_8": "8",
+  "KEY_9": "9"
+}
+```
+
+### KEY_CODES
+
+```js
+const { KEY_CODES } = KEYBOARD;
+
+KEY_CODES.ENTER; // 13
+```
+
+Values:
+
+```json
+{
+  "ENTER": 13,
+  "KEYBACK": 8,
+  "CLOSE": 27,
+  "HELP": 17,
+  "SHORTCUTS": 16,
+  "F23": 134,
+  "F24": 135,
+  "KEYUP": 38,
+  "KEYDOWN": 40,
+  "KEY_0": 48,
+  "KEY_1": 49,
+  "KEY_2": 50,
+  "KEY_3": 51,
+  "KEY_4": 52,
+  "KEY_5": 53,
+  "KEY_6": 54,
+  "KEY_7": 55,
+  "KEY_8": 56,
+  "KEY_9": 57
+}
+```
+
+### KEYMAP
+
+This object is more useful with the method [Keyboard.getKeyName(keyCode)]. See example below.
+
+[keyboard.getkeyname(keycode)]: #get-key-name
+
+```js
+const { KEY_MAP } = KEYBOARD; // or KEYMAP (deprecated)
+
+KEY_MAP.13; // enter
+```
+
+Values:
+
+```json
+{
+  "8": "back",
+  "13": "enter",
+  "16": "shortcuts",
+  "17": "help",
+  "27": "close",
+  "38": "keyup",
+  "40": "keydown",
+  "48": "0",
+  "49": "1",
+  "50": "2",
+  "51": "3",
+  "52": "4",
+  "53": "5",
+  "54": "6",
+  "55": "7",
+  "56": "8",
+  "57": "9",
+  "134": "F23",
+  "135": "F24"
+}
+```
+
+## Usage example
+
+Let's say you want to do some action on your screen based on some POS key.
+
+```html
+<svelte:window on:keyup="onKeyup(event)" />
+
+<script>
+  import Keyboard from '@mamba/pos/api/keyboard.js';
+  import { KEYBOARD } from '@mamba/pos/index.js';
+
+  export default {
+    methods: {
+      /**
+       * @description handle physical keyboard events
+       * @param {KeyboardEvent} event
+       */
+      onKeyup(event) {
+        const { keyCode } = event;
+        const { KEY_NAMES, KEY_CODES } = KEYBOARD;
+
+        const keyName = Keyboard.getKeyName(keyCode);
+
+        if (keyName === KEY_NAMES.BACK) {
+          // Do something with back key name
+        } else if (keyName === KEY_NAMES.ENTER) {
+          // Do something with enter key name
+        }
+
+        // Using key code directly
+        if (keyCode === KEY_CODES.SHORTCUTS) {
+          // Do something with shortcut key code
+        }
+      },
+    },
+  };
+</script>
 ```
