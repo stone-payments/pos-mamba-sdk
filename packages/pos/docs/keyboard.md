@@ -211,7 +211,7 @@ Values:
 
 This object is more useful with the method [Keyboard.getKeyName(keyCode)]. See example below.
 
-[keyboard.getkeyname(keycode)]: #get-key-name
+[keyboard.getkeyname(keycode)]: #getkeynamekeycode
 
 ```js
 const { KEY_MAP } = KEYBOARD; // or KEYMAP (deprecated)
