@@ -1,5 +1,3 @@
-import System from '@mamba/pos/api/system.js';
-
 const ThisStore = {
   _storedModel: undefined,
 };
@@ -48,16 +46,23 @@ export const AVAILABLE_SLUGS = _slugs;
  * @returns {String} return Pos Model
  */
 export const getPosModel = () => {
-  /* Necessary because the circular dependency with simulator */
-  if (typeof System.getPosModel !== 'function') {
-    return DEFAULT_MODEL;
-  }
   const { _storedModel } = ThisStore;
-  if (typeof _storedModel === 'string') {
+  // Return cached value on POS. Just need run once.
+  if (__POS__ && typeof _storedModel === 'string') {
     return _storedModel;
   }
 
-  ThisStore._storedModel = System.getPosModel();
+  let _model = DEFAULT_MODEL;
+
+  try {
+    /* Necessary because the circular dependency with simulator */
+    const _system = window.$System || window.System;
+    _model = _system.getPosModel();
+  } catch (error) {
+    if (__DEV__) console.error(error);
+  }
+
+  ThisStore._storedModel = String(_model);
 
   return ThisStore._storedModel;
 };
@@ -85,9 +90,9 @@ export const getPOSChecksObject = () => {
  * Get POS model slug
  * @returns {String} return Pos Model Slug
  */
-export const getPosModelSlug = (currentModel) => {
+export const getPosModelSlug = currentModel => {
   let activeModel = currentModel;
-  if (!activeModel) {
+  if (__POS__ || !activeModel) {
     activeModel = getPosModel();
   }
   return AVAILABLE_SLUGS[activeModel] || DEFAULT_MODEL;
