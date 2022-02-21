@@ -62,7 +62,7 @@ export const getPosModel = () => {
     if (__DEV__) console.error(error);
   }
 
-  ThisStore._storedModel = String(_model);
+  ThisStore._storedModel = _model;
 
   return ThisStore._storedModel;
 };
@@ -92,7 +92,7 @@ export const getPOSChecksObject = () => {
  */
 export const getPosModelSlug = currentModel => {
   let activeModel = currentModel;
-  if (__POS__ || !activeModel) {
+  if (!activeModel) {
     activeModel = getPosModel();
   }
   return AVAILABLE_SLUGS[activeModel] || DEFAULT_MODEL;
