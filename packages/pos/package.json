@@ -17,7 +17,7 @@
     "@mamba/sprite": "^3.5.2",
     "@mamba/styles": "^3.5.2",
     "@mamba/switch": "^3.5.2",
-    "@mamba/utils": "^4.0.0",
+    "@mamba/utils": "^4.1.0",
     "immer": "^2.1.0",
     "svelte": "^2.16.1"
   },
