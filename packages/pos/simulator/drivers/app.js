@@ -5,7 +5,7 @@ export const NAMESPACE = '$App';
 export const SIGNALS = ['opened', 'closed'];
 
 export const PERSISTENT_SETTINGS = {
-  appKey: '',
+  appKey: __APP_MANIFEST__.appKey,
   appVersion: '1.0.0',
 };
 
