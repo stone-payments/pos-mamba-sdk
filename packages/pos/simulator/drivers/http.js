@@ -1,6 +1,7 @@
 import { log } from '../libs/utils.js';
 import { Registry } from '../index.js';
 import { useAddHeaderHook } from '../events/hooks.js';
+import { LOG_PREFIX } from '../libs/utils.js';
 
 export const NAMESPACE = '$Http';
 
@@ -11,6 +12,13 @@ export const SETTINGS = {
     simulateRequest: false,
     requestMsg: '{}',
     requestPayload: '{}',
+  },
+};
+
+export const PERSISTENT_SETTINGS = {
+  panel: {
+    activeProxy: false,
+    proxyEnvironment: 'poiproxy-stg',
   },
 };
 
@@ -32,9 +40,21 @@ export function setup(Http) {
   Http.getData = () => _data;
 
   Http.doSend = function send(
-    { method = 'GET', url = '', data, headers, timeout = 30000, hmac = false },
+    {
+      method = 'GET',
+      url = '',
+      data,
+      headers,
+      timeout = 30000,
+      hmac = false,
+      proxy = false,
+      connect = undefined,
+      encodeURI = false,
+      corsProtocol = 'http:',
+      corsHost = undefined,
+      corsPort = undefined,
+    },
     refSignal,
-    shouldEncode = false,
   ) {
     const xhttp = new XMLHttpRequest();
 
@@ -124,15 +144,50 @@ export function setup(Http) {
       requester(method, data, url);
     }
 
-    if (panel.activeProxy && canAddHeaders) {
-      if (shouldEncode === true) {
-        url = `https://poiproxy.stone.com.br/v1/proxy?url=${encodeURIComponent(
-          url,
-        )}`;
+    if (
+      (panel.activeProxy && canAddHeaders && proxy === true) ||
+      connect === 'NET'
+    ) {
+      const urlParam = encodeURI ? encodeURIComponent(url) : url;
+
+      const { proxyEnvironment } = Registry.persistent.get().$Http.panel;
+
+      url = `https://${proxyEnvironment}.stone.com.br/v1/proxy?url=${urlParam}`;
+
+      if (typeof corsHost === 'string') {
+        // Rewrite endpoint to use CORS server address with simulator.
+        // Ex.: `http://localhost:1300/${url}`;
+
+        const corsPortPart = !!corsPort ? `:${corsPort}` : '';
+        url = `${corsProtocol}//${corsHost}${corsPortPart}/${url}`;
       }
-      headers['X-Mamba-App'] = panel.appKey;
-      headers['X-Mamba-SN'] = Registry.persistent.get().$System.serialNumber;
-      headers['X-Stone-Code'] = Registry.persistent.get().$Merchant.stoneCode;
+
+      const isInvalidXheader = prop => !appKey || appKey === '';
+
+      let appKey = Registry.persistent.get().$App.appKey;
+      const serialNumber = Registry.persistent.get().$System.serialNumber;
+      const stoneCode = Registry.persistent.get().$Merchant.stoneCode;
+
+      if (isInvalidXheader(serialNumber)) {
+        throw new Error('Proxy enabled but Serial Number on panel is invalid');
+      }
+
+      if (isInvalidXheader(stoneCode)) {
+        throw new Error('Proxy enabled but Stone Code on panel is invalid');
+      }
+
+      if (isInvalidXheader(appKey)) {
+        appKey = __APP_MANIFEST__.appKey;
+        if (isInvalidXheader(appKey) || appKey === '11-11-11-11') {
+          throw new Error(
+            'Proxy enabled but appKey on panel or in package.json is invalid',
+          );
+        }
+      }
+
+      headers['X-Mamba-SN'] = serialNumber;
+      headers['X-Stone-Code'] = stoneCode;
+      headers['X-Mamba-App'] = appKey;
     }
 
     xhttp.open(method, url, true);
@@ -140,9 +195,13 @@ export function setup(Http) {
     xhttp.timeout = timeout;
 
     if (canAddHeaders) {
+      console.groupCollapsed(`${LOG_PREFIX} Adding addon headers`);
       Object.keys(headers).forEach(key => {
+        console.log(`${key}: ${headers[key]}`);
         xhttp.setRequestHeader(key, headers[key]);
       });
+      console.log(headers);
+      console.groupEnd();
     }
 
     try {
@@ -155,6 +214,8 @@ export function setup(Http) {
   };
 
   Http.doSendRequest = function send(...args) {
-    Http.doSend.apply(this, [...args, true]);
+    if (args.length > 0 && typeof args[0] === 'object')
+      args[0].encodeURI = true;
+    Http.doSend.apply(this, ...args);
   };
 }
