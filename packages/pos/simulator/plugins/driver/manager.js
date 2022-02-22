@@ -29,7 +29,7 @@ DriverManager.attachDrivers = driverModules => {
 
   driverModules.forEach(driverModule => {
     const driverRef = driverModule.NAMESPACE;
-    const driver = { ...window[driverRef] };
+    const driver = window[driverRef] || {};
 
     if (__DEBUG_LVL__ >= 1 && __BROWSER__) console.groupCollapsed(driverRef);
 

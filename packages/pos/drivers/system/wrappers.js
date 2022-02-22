@@ -32,13 +32,17 @@ export default function(driver) {
     });
   };
 
-  driver.getUserSettings = () => {
-    // App must override
-    return {};
-  };
+  if (!driver.getUserSettings) {
+    driver.getUserSettings = () => {
+      // App must override
+      return {};
+    };
+  }
 
-  driver.getUserSetting = key => {
-    const settings = driver.getUserSettings();
-    return settings[key];
-  };
+  if (!driver.getUserSetting) {
+    driver.getUserSetting = key => {
+      const settings = driver.getUserSettings();
+      return settings[key];
+    };
+  }
 }
