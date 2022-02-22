@@ -85,7 +85,7 @@ export const getPOSChecksObject = () => {
  * Get POS model slug
  * @returns {String} return Pos Model Slug
  */
-export const getPosModelSlug = (currentModel) => {
+export const getPosModelSlug = currentModel => {
   let activeModel = currentModel;
   if (!activeModel) {
     activeModel = getPosModel();
@@ -235,6 +235,23 @@ export const NO_PRINTER = [MODELS.MP35, MODELS.D199, MODELS.D195];
  */
 export function hasNoPrinter() {
   return _hasModelAtList(NO_PRINTER);
+}
+
+/**
+ * Devices with keyboard light
+ * @returns {array} A list of devices that have keyboard light
+ */
+export const HAS_KEYBOARD_LIGHT = [
+  MODELS.MP35P,
+  MODELS.D230,
+  ...STANDARD_MAMBA_DEVICES,
+];
+
+/**
+ * @returns {boolean} If current model have keyboard light
+ */
+export function hasKeyboardLight() {
+  return _hasModelAtList(HAS_KEYBOARD_LIGHT);
 }
 
 /**
