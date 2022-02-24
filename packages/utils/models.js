@@ -243,6 +243,23 @@ export function hasNoPrinter() {
 }
 
 /**
+ * Devices with keyboard light
+ * @returns {array} A list of devices that have keyboard light
+ */
+export const HAS_KEYBOARD_LIGHT = [
+  MODELS.MP35P,
+  MODELS.D230,
+  ...STANDARD_MAMBA_DEVICES,
+];
+
+/**
+ * @returns {boolean} If current model have keyboard light
+ */
+export function hasKeyboardLight() {
+  return _hasModelAtList(HAS_KEYBOARD_LIGHT);
+}
+
+/**
  * PAX Devices
  * @returns {array} A list of devices from the manufacturer PAX
  */
