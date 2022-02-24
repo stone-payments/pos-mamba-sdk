@@ -28,8 +28,8 @@ DriverManager.attachDrivers = driverModules => {
     console.groupCollapsed(`${LOG_PREFIX} Attaching drivers`);
 
   driverModules.forEach(driverModule => {
-    const driver = {};
     const driverRef = driverModule.NAMESPACE;
+    const driver = window[driverRef] || {};
 
     if (__DEBUG_LVL__ >= 1 && __BROWSER__) console.groupCollapsed(driverRef);
 
@@ -43,7 +43,10 @@ DriverManager.attachDrivers = driverModules => {
       }
 
       Registry.set(draft => {
-        draft[driverRef] = deepCopy(dynamicDefaults);
+        draft[driverRef] = deepCopy({
+          ...dynamicDefaults,
+          ...(draft[driverRef] || {}),
+        });
       });
     }
 

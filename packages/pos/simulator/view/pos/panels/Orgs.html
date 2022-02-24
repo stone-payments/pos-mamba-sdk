@@ -1,0 +1,59 @@
+<div class="title">Organização</div>
+
+<ul class="controllers">
+  <div class="notice">
+    <small>Precisa recarregar a página</small>
+  </div>
+  {#each orgs as org}
+    <li class="controller">
+      <span>{org}</span>
+      <Radio
+        name="orgs"
+        checked={current === Organizations[org]}
+        on:click="setOrg(org)"
+      />
+    </li>
+  {/each}
+</ul>
+
+<script>
+  import { Registry } from '../../../index.js';
+  import store from '../store.js';
+
+  const System = () => Registry.persistent.get().$System;
+
+  export default {
+    components: {
+      Radio: '@mamba/radio/Radio.html',
+    },
+    helpers: {
+      Organizations: System().Organizations,
+    },
+    store: () => store,
+    data() {
+      return {
+        orgs: System().Organizations.options,
+        current: System().Organizations.current,
+      };
+    },
+    methods: {
+      setOrg(org) {
+        Registry.persistent.set(draft => {
+          draft.$System.Organizations.current = System().Organizations[org];
+        });
+      },
+    },
+  };
+</script>
+
+<style>
+  .notice {
+    display: none;
+    margin-top: 10px;
+    color: $neutral400;
+  }
+
+  :global(.section.is-active .notice) {
+    display: block;
+  }
+</style>

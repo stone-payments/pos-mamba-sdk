@@ -1,3 +1,4 @@
+import { hasNoPrinter, hasTouch } from '@mamba/utils/models.js';
 import { Registry, System as SimulatorSystem } from '../index.js';
 import { error, log } from '../libs/utils.js';
 import systemEnums from '../../drivers/system/enums.js';
@@ -30,6 +31,11 @@ export const SETTINGS = {
 export const PERSISTENT_SETTINGS = {
   serialNumber: '00000000',
   model: 'S920',
+  Organizations: {
+    ...systemEnums.Organizations,
+    options: Object.keys(systemEnums.Organizations),
+    current: systemEnums.Organizations.STONE,
+  },
 };
 
 /**
@@ -211,6 +217,64 @@ export function setup(System) {
    * @return {string} The version system
    */
   System.getVersion = () => '3.0.0';
+
+  console.log(Registry.get().$System);
+
+  /**
+   * Get the current organization that pos is targeting
+   * ORG NAME TON = "ton";
+   * ORG NAME STONE = "Mamba";
+   * ORG NAME WLPAGARME = "WLPagarme";
+   * @memberOf System
+   * @returns { "ton" | "Mamba" | "WLPagarme" } `Mamba`
+   */
+  System.getActiveOrganization = () =>
+    Registry.persistent.get().$System.Organizations.current;
+
+  /**
+   * TON organization slug
+   * @memberOf System
+   * @returns {string} `ton`
+   */
+  System.getTonOrganizationName = () => systemEnums.Organizations.TON;
+
+  /**
+   * Stone or Mamba organization slug
+   * @memberOf System
+   * @returns {string} `Mamba`
+   */
+  System.getStoneOrganizationName = () => systemEnums.Organizations.STONE;
+
+  /**
+   * Pagar.me or white-label organization slug
+   * @memberOf System
+   * @returns {string} `WLPagarme`
+   */
+  System.getWLPagarmeOrganizationName = () =>
+    systemEnums.Organizations.WLPAGARME;
+
+  /**
+   * Check if POS has printer capability
+   * @memberOf System
+   * @returns {boolean}
+   */
+  System.hasPrinter = () => !hasNoPrinter();
+
+  /**
+   * Check if POS has touch capability
+   * @memberOf System
+   * @returns {boolean}
+   */
+  System.hasTouch = () => hasTouch();
+
+  /**
+   * get current POS model
+   * @memberOf System
+   * @returns {string}
+   */
+  System.getPosModel = () => Registry.persistent.get().$System.model;
+  // Alias
+  System.getDeviceModel = () => Registry.persistent.get().$System.model;
 
   /**
    * Performs a beep. Note that this function blocks the execution on the real device
