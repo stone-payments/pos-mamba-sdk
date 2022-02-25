@@ -24,7 +24,7 @@
 </div>
 
 <script>
-  import { green700, neutral700 } from '@mamba/styles/colors';
+  import { green500, neutral700 } from '@mamba/styles/colors';
 
   export default {
     data() {
@@ -36,8 +36,8 @@
         value: 0,
         unit: '%',
         validation: undefined,
-        maincolor: green700,
-        textcolor: neutral700,
+        mainColor: green500,
+        textColor: neutral700,
         barColor: '#000',
       };
     },
@@ -130,7 +130,7 @@
 
   .bar {
     height: 6px;
-    background-color: $green700;
+    background-color: $green500;
   }
 
   button {
@@ -149,5 +149,12 @@
     width: 1%;
     padding: 0;
     white-space: nowrap;
+  }
+
+  :global(.MP35P) {
+    .icon {
+      width: 23px;
+      height: auto;
+    }
   }
 </style>
