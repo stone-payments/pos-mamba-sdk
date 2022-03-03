@@ -40,12 +40,12 @@
     components: {
       Radio: '@mamba/radio/Radio.html',
     },
+    store: () => store,
     helpers: {
-      isModelChecked(active, model) {
+      isModelChecked(active = 'S920', model = 'S920') {
         return String(active).toUpperCase() === String(model).toUpperCase();
       },
     },
-    store: () => store,
     data() {
       return {
         MODELS: [
