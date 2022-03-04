@@ -1,0 +1,85 @@
+<svelte:window on:keydown="onKeyPress(event)" />
+
+<div class="row">
+  <div class="keydown" on:click="onKeyPress({ keyCode: KEYDOWN })" >
+    <Icon symbol="chevron-down" size="large" />
+    <p>{labelDown}</p>
+  </div>
+
+  <div class="keyup" on:click="onKeyPress({ keyCode: KEYUP })" >
+    <Icon symbol="chevron-up" size="large" />
+    <p>{labelUp}</p>
+  </div>
+
+</div>
+
+<script>
+  import { KEYUP, KEYDOWN } from '@mamba/pos/drivers/keyboard/keymap.js';
+
+  export default {
+    components: {
+      Icon: '@mamba/icon',
+    },
+    helpers: {
+      KEYUP,
+      KEYDOWN,
+    },
+    data() {
+      return {
+        labelDown: 'Diminuir',
+        labelUp: 'Aumentar',
+      };
+    },
+    methods: {
+      onKeyPress({ keyCode }) {
+
+        switch (keyCode) {
+          case KEYDOWN:
+            this.fire('keydown');
+            break;
+
+          case KEYUP:
+            this.fire('keyup');
+            break;
+
+          default:
+            break;
+        }
+      },
+    },
+  };
+</script>
+
+<style>
+  .row {
+    width: 100%;
+    background-color: #f7fafd;
+    display: flex;
+    border-top: 2px solid #d5dee8;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+
+  .keydown,
+  .keyup {
+    width: 50%;
+    text-align: center;
+
+    p {
+      font-weight: 500;
+      color: $neutral900;
+      display: inline-block;
+      line-height: 36px;
+    }
+  }
+
+  :global(.has-small-screen) {
+    .keydown,
+    .keyup {
+      p {
+        font-size: 18px;
+      }
+    }
+  }
+</style>
