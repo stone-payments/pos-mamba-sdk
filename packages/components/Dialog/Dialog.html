@@ -25,14 +25,14 @@
 
 <script>
   /** Static variables */
-  /** Number of dialogs currently opened */
-  let dialogsOpened = 0;
-  /** Previous navigable (app meta) object */
-  let previousNavigable = null;
+/** Number of dialogs currently opened */
+import { neutral50, neutral900 } from '@mamba/styles/colors';
 
-  let lastShortcutsState = undefined;
+let dialogsOpened = 0;
+/** Previous navigable (app meta) object */
+let previousNavigable = null;
 
-  import { neutral50, neutral900 } from '@mamba/styles/colors';
+let lastShortcutsState;
 
   export default {
     data() {
@@ -163,6 +163,17 @@
 
 <style type="text/postcss">
   @import '@mamba/styles/settings.pcss';
+
+  :global(.MP35P),
+  :global(.MP35) {
+    .title {
+      font-size: 25px;
+    }
+
+    .message {
+      font-size: 18px;
+    }
+  }
 
   .dialog {
     position: fixed;
