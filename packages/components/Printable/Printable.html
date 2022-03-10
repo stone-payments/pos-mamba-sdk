@@ -5,13 +5,13 @@
 </div>
 
 {#if _state === STATES.PRINTING && showPrintingDialog}
-  <Dialog
+  <Dialog isOpen
     ref:printingDialog
     bgColor="#fff"
     fullscreen
   >
     <div class="printing-sprite"></div>
-    <div style="margin-top: 16px;">{printingText}</div>
+    <div class="smallTextmp35p" style="margin-top: 16px;">{printingText}</div>
   </Dialog>
 {/if}
 
@@ -83,7 +83,7 @@
         id: null,
         showInfoPrinter: false,
         showNoPaperErrorMessage: false,
-        printingText: 'Imprimindo',
+        printingText: 'Imprimindo...',
         errorMessage: 'A filipeta ainda está disponível no app <strong>Reimpressão</strong>.',
       };
     },
@@ -144,6 +144,16 @@
 </script>
 
 <style type="text/postcss">
+
+  :global(.MP35P),
+  :global(.MP35){
+    .smallTextmp35p{
+      font-size: 25px;
+    }
+
+  }
+
+
   .printable {
     position: fixed;
     left: -9999px;
