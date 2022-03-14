@@ -43,6 +43,8 @@
     },
     oncreate() {
       const { root } = this;
+      // add a root point for mamba-pkgs packages
+      window.$MAMBA = this;
 
       const { target } = this.root.options;
 
