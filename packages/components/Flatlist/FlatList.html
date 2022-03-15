@@ -1,7 +1,7 @@
 <svelte:window bind:scrollY="scrollY" />
 
 {#if dataSection && dataSection.length > 0}
-  <div class="flatlist {className}" style={_styles} ref:flatListRef>
+  <div class="flatlist {className}" class:disabled="disabled" style={_styles} ref:flatListRef>
     {#each dataSection.filter(Boolean) as section, sectionIndex (sectionIndex)}
 
       <!-- Handle title (if Section) -->
@@ -455,6 +455,11 @@
 </script>
 
 <style>
+  .flatlist.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
   .row {
     display: block;
     padding: 10px 20px;
