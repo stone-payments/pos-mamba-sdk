@@ -95,6 +95,9 @@ AppManager.open = async (appSlug, options = {}) => {
 
   appMeta.runtime.instance = new appMeta.RootComponent({ target });
 
+  // add a app root reference for mamba-pkgs packages
+  window.$MAMBA = appMeta.runtime.instance;
+
   /**
    * Since our app store is initialized once inside its module
    * and not along the app's constructor, we need to reset it to a

@@ -2,4 +2,6 @@ import App from './index.html';
 
 const target = document.getElementById('app-root');
 
-new App({ target });
+const app = new App({ target });
+
+window.$MAMBA = app;
