@@ -211,7 +211,7 @@
 
         if(!intersect) this.fire(EVENTS.ITEM_SELECTED, eventData);
 
-        if('onSelected' in data && typeof data.onSelected === 'function') {
+        if(disabled === false && 'onSelected' in data && typeof data.onSelected === 'function') {
           return data.onSelected(eventData);
         }
 
