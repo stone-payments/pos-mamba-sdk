@@ -10,6 +10,7 @@ import * as $System from './drivers/system.js';
 import * as $Cancellation from './drivers/cancellation.js';
 import * as $Http from './drivers/http.js';
 import * as $Card from './drivers/card.js';
+import * as $Gif from './drivers/gif.js';
 
 DriverManager.attachDrivers([
   $Printer,
@@ -22,4 +23,5 @@ DriverManager.attachDrivers([
   $Cancellation,
   $Http,
   $Card,
+  $Gif,
 ]);
