@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [3.5.5](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/appbar@3.5.2...@mamba/appbar@3.5.5) (2022-04-07)
+
+
+### Bug Fixes
+
+* 🐛 app bar shrinks in flax container with flatlist ([b858cf5](https://github.com/stone-payments/pos-mamba-sdk/commit/b858cf57192e18438559561c7c1fedaf29960635))
+
+
+
 ## [3.5.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/appbar@3.5.1...@mamba/appbar@3.5.2) (2021-06-02)
 
 **Note:** Version bump only for package @mamba/appbar

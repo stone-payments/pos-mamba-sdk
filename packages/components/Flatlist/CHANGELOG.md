@@ -3,6 +3,64 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/flatlist@3.6.0...@mamba/flatlist@4.3.0) (2022-04-07)
+
+
+### Features
+
+* 🎸 [skip ci] stage setupFirstFocusable ([658807c](https://github.com/stone-payments/pos-mamba-sdk/commit/658807c3fcb233c18308c2cc777f603c9be00eb6))
+* 🎸 ability to fill the list row(no inset spaces) ([f043a33](https://github.com/stone-payments/pos-mamba-sdk/commit/f043a33767568518bfb52ef7eab1e039a0cd8c0f))
+* 🎸 ability to show chevron on all lines per property ([01bc7d7](https://github.com/stone-payments/pos-mamba-sdk/commit/01bc7d7b78fb604b87f8f56fbd4ba812c3ea7001))
+* 🎸 add deep merge ([0792812](https://github.com/stone-payments/pos-mamba-sdk/commit/07928120120c75678b5bcef47834577815e84516))
+* 🎸 add isSomeInputElement ([e80e094](https://github.com/stone-payments/pos-mamba-sdk/commit/e80e0949e36c3ec52dd632755faa5b2353e04b81))
+* 🎸 add the ability to hide the separator ([9361de2](https://github.com/stone-payments/pos-mamba-sdk/commit/9361de2f0fe0663d65b3472d2564cc5d8d89f20f))
+* 🎸 creates the possibility to add custom body view in the row ([fbac0e1](https://github.com/stone-payments/pos-mamba-sdk/commit/fbac0e11dc84f09e43aa0203a9470fc4a3722d22))
+* 🎸 implement first focusable element for inputs ([de5a436](https://github.com/stone-payments/pos-mamba-sdk/commit/de5a436d9a3239d2d38e9e2028d958f1f01d0bec))
+* 🎸 implement GetDefaultDecorator deep merge ([c1f40d8](https://github.com/stone-payments/pos-mamba-sdk/commit/c1f40d80db73a0ae6e7bc3b21e2e098920c83cca))
+* 🎸 Method of updating props ([8968fe1](https://github.com/stone-payments/pos-mamba-sdk/commit/8968fe1c4e12329bae7a78c8be4bc7dd1f82cfc1))
+* 🎸 real focus on row by tab index ([c808ea5](https://github.com/stone-payments/pos-mamba-sdk/commit/c808ea5f9776a085a76a16d77e4940959ef7e93a))
+* 🎸 record/set last position/index ([396653c](https://github.com/stone-payments/pos-mamba-sdk/commit/396653c844882ad6e74146639e63bd27c043520b))
+* 🎸 set flatlist index when input link receive focus ([8fc5130](https://github.com/stone-payments/pos-mamba-sdk/commit/8fc5130f4f4bea5d6c7aeaa067dd800e29d5d00d))
+* 🎸 validade setup link focusable ([8ff997f](https://github.com/stone-payments/pos-mamba-sdk/commit/8ff997fa0026327e02ebd2b800152c4feb330e87))
+* add disabled class to FlatList ([fea68e9](https://github.com/stone-payments/pos-mamba-sdk/commit/fea68e90f51813f16f867a5f4412f792c827587a))
+* disable call function when the list is disabled ([5b29cc4](https://github.com/stone-payments/pos-mamba-sdk/commit/5b29cc4ffd2f6e5c4fdf8463122758416dbbfc2c))
+
+
+### Bug Fixes
+
+* 🐛 [wip] reset span sizes ([b14c3fa](https://github.com/stone-payments/pos-mamba-sdk/commit/b14c3fad18f932cb66556d23ca4b792821d349e1))
+* 🐛 align sequence of row elements ([13e385a](https://github.com/stone-payments/pos-mamba-sdk/commit/13e385af1f7bfcf651a96e2705d3176c5ac2863f))
+* 🐛 broken align class/prop ([be7776d](https://github.com/stone-payments/pos-mamba-sdk/commit/be7776dd3c3ee18043a5804a000d74b7302c5081))
+* 🐛 Change keyboard event ([d75b94e](https://github.com/stone-payments/pos-mamba-sdk/commit/d75b94e1a178b9130a7b2c1dab70fbb198ad76f4))
+* 🐛 control shortcut and click event of flatlist rows ([dcd3f63](https://github.com/stone-payments/pos-mamba-sdk/commit/dcd3f63c122385e7267b1e3ee23e632e59fc531e))
+* 🐛 data assignment ([6a999f3](https://github.com/stone-payments/pos-mamba-sdk/commit/6a999f32a7dfd858926da2eda1ae28de0615bf41))
+* 🐛 docs on decorator.html ([1697418](https://github.com/stone-payments/pos-mamba-sdk/commit/169741809b7a6d752091cc764b6c00a6e053f8d5))
+* 🐛 end fixture scroll issue ([ffce899](https://github.com/stone-payments/pos-mamba-sdk/commit/ffce899312a51e644b1c91d4731bd30b5c9bdeab))
+* 🐛 fill option pos support ([c593b54](https://github.com/stone-payments/pos-mamba-sdk/commit/c593b54ef6cb47171ceb98df109fb27c2595fb7d))
+* 🐛 Fix flatlist ([dca6751](https://github.com/stone-payments/pos-mamba-sdk/commit/dca67510f6a4309dc156eda89e1d2d9ad5b9948f))
+* 🐛 Fix keyboard event ([e281925](https://github.com/stone-payments/pos-mamba-sdk/commit/e281925f5a434da5d72741f2eb5611e767bbe775))
+* 🐛 flatlist elements were being reseted ([a856df9](https://github.com/stone-payments/pos-mamba-sdk/commit/a856df964242eed14e05a35dca15aeba439ea8c6))
+* 🐛 Include keycodes ([7c960eb](https://github.com/stone-payments/pos-mamba-sdk/commit/7c960ebef3d293fa25765418775feeb8d626a9e0))
+* 🐛 isObject import ([1981eb0](https://github.com/stone-payments/pos-mamba-sdk/commit/1981eb00c44ed3dbb8b666d78c4c0b103f74b657))
+* 🐛 label description overlaps ([b6b48b2](https://github.com/stone-payments/pos-mamba-sdk/commit/b6b48b224c31b71ebff2419999b6111a64a8c2d8))
+* 🐛 minor fixes ([419027e](https://github.com/stone-payments/pos-mamba-sdk/commit/419027eaf6cfa9442cabf9b263e8f3054c8fc503))
+* 🐛 missing isObject ([0fe2380](https://github.com/stone-payments/pos-mamba-sdk/commit/0fe238050485f332228b562463379ba4b1aff529))
+* 🐛 prevent access of undefined ([fcef7f9](https://github.com/stone-payments/pos-mamba-sdk/commit/fcef7f9737ba85332bd831bf5f83813e0e3fbb70))
+* 🐛 redirect item element ([46692ba](https://github.com/stone-payments/pos-mamba-sdk/commit/46692ba3bf6bd01fcddd289749bd0996b94418b1))
+* 🐛 Remove useless code to use constant ([3a641e0](https://github.com/stone-payments/pos-mamba-sdk/commit/3a641e0e97dafb5cb863c71adcca79ce37b4bdb3))
+* 🐛 right condition to render right label wrapper ([b25087a](https://github.com/stone-payments/pos-mamba-sdk/commit/b25087a3f816ae10d4bfdcca89864a7434db78d4))
+* 🐛 shortcut not firing with tabindex together shortcut attribute ([2768685](https://github.com/stone-payments/pos-mamba-sdk/commit/276868576176f9f6fe151fc589918a60865a98ab))
+* 🐛 small size alignment ([3273d6e](https://github.com/stone-payments/pos-mamba-sdk/commit/3273d6e73c076e6551ebadd90f3b165225fcdd10))
+* 🐛 souve chevron right alignment issues ([ef58bcc](https://github.com/stone-payments/pos-mamba-sdk/commit/ef58bcc424af57e11fe37498f0ebcc50f2d03cc6))
+* 🐛 tab position on pos ([f007cbd](https://github.com/stone-payments/pos-mamba-sdk/commit/f007cbdb09a32e4ed582f87930be60ec96c1d723))
+* 🐛 tab position onpos ([cd80cca](https://github.com/stone-payments/pos-mamba-sdk/commit/cd80ccae96c2474380caa12726df4978b33a8d8e))
+* 🐛 verify the imperative set of contentStyle when null ([b5a8fb7](https://github.com/stone-payments/pos-mamba-sdk/commit/b5a8fb74f545d9daa0f600e732e702c3347935e1))
+* add the disable const ([a3b774b](https://github.com/stone-payments/pos-mamba-sdk/commit/a3b774bfdc3c24626078508e9ea3322441e0f803))
+* add the disabled const ([b777e0d](https://github.com/stone-payments/pos-mamba-sdk/commit/b777e0dbbd56c51ebd8bb1bde8b1013a84637177))
+* remove the const (problem network git) ([0b5ae20](https://github.com/stone-payments/pos-mamba-sdk/commit/0b5ae204741e325a5dcf01122a27bf9e38bfdb28))
+
+
+
 # [3.6.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/flatlist@3.5.1...@mamba/flatlist@3.6.0) (2021-06-02)
 
 
