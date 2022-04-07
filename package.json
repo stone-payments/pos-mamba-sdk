@@ -75,7 +75,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.0.0",
     "jest-canvas-mock": "~1.1.0",
-    "lerna": "^3.10.7",
+    "lerna": "^4.0.0",
     "lint-staged": "~8.1.0",
     "postcss": "^7.0.13",
     "prettier": "^1.15.3",
