@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [3.5.8](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/button@3.5.7...@mamba/button@3.5.8) (2022-04-08)
+
+**Note:** Version bump only for package @mamba/button
+
+
+
+
+
+### [3.5.7](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/button@3.5.6...@mamba/button@3.5.7) (2022-04-08)
+
+**Note:** Version bump only for package @mamba/button
+
+
+
+
+
+### [3.5.6](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/button@3.5.5...@mamba/button@3.5.6) (2022-04-08)
+
+**Note:** Version bump only for package @mamba/button
+
+
+
+
+
 ### [3.5.5](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/button@3.5.2...@mamba/button@3.5.5) (2022-04-07)
 
 **Note:** Version bump only for package @mamba/button

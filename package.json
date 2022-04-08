@@ -1,16 +1,20 @@
 {
   "name": "mamba-sdk",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "SDK for developing in the Mamba web environment",
   "repository": "https://github.com/stone-payments/pos-mamba-sdk.git",
   "author": "Stone Payments - Mamba Team",
+  "private": true,
+  "workspaces": [
+    "packages/components/*",
+    "packages/*"
+  ],
   "license": "Apache-2.0",
   "engines": {
-    "node": ">= 8.10.0",
-    "npm": ">= 5.6.0"
+    "node": ">= 8 || <= 12",
+    "npm": ">= 6"
   },
   "scripts": {
-    "postinstall": "lerna bootstrap --no-ci",
     "lint": "npm run lint:css; npm run lint:js",
     "lint:js": "eslint \"*.js\" \"{tools,packages}/**/*.{js,html,svelte}\"",
     "lint:css": "stylelint \"packages/**/*.{html,svelte,css,pcss}\"",
@@ -23,8 +27,7 @@
     "link:packages": "lerna exec npm link",
     "packages:clear": "lerna exec -- rm -rf node_modules package-lock.json",
     "check-next-version": "echo 'n' | lerna version",
-    "publish": "lerna publish",
-    "release": "lerna version"
+    "release": "lerna publish --force-publish"
   },
   "config": {
     "commitizen": {
@@ -56,7 +59,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
-    "@commitlint/cli": "^7.5.0",
+    "@commitlint/cli": "^7.6.1",
     "@commitlint/config-conventional": "^14.1.0",
     "@commitlint/config-lerna-scopes": "^15.0.0",
     "@gen/rollup-plugin-generate-html": "^0.1.1",
@@ -66,7 +69,7 @@
     "@mamba/styles": "file:packages/styles",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^24.5.0",
-    "commitizen": "^3.0.5",
+    "commitizen": "^3.1.2",
     "core-js": "~3.1.0",
     "cross-env": "^5.2.0",
     "deasync": "^0.1.14",
