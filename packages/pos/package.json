@@ -1,6 +1,6 @@
 {
   "name": "@mamba/pos",
-  "version": "3.13.1",
+  "version": "3.13.2",
   "description": "Mamba web environment wrapper and simulator",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -9,17 +9,17 @@
   },
   "main": "index.js",
   "dependencies": {
-    "@mamba/app": "3.9.1",
-    "@mamba/button": "3.5.6",
-    "@mamba/dialog": "3.5.6",
-    "@mamba/icon": "3.5.5",
-    "@mamba/radio": "3.5.5",
-    "@mamba/sprite": "3.5.5",
-    "@mamba/styles": "3.5.5",
-    "@mamba/switch": "3.5.5",
-    "@mamba/utils": "4.2.0",
+    "@mamba/app": "3.9.2",
+    "@mamba/button": "3.5.7",
+    "@mamba/dialog": "3.5.7",
+    "@mamba/icon": "3.5.6",
+    "@mamba/radio": "3.5.6",
+    "@mamba/sprite": "3.5.6",
+    "@mamba/styles": "3.5.6",
+    "@mamba/switch": "3.5.6",
+    "@mamba/utils": "4.2.1",
     "immer": "^2.1.5",
     "svelte": "^2.16.1"
   },
-  "gitHead": "869644effc7b7347a2ff75c956c57d69ee8236a5"
+  "gitHead": "ddc05702292f5dea2772130436f0a00fbd5be1db"
 }
