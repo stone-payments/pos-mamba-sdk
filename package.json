@@ -27,8 +27,7 @@
     "link:packages": "lerna exec npm link",
     "packages:clear": "lerna exec -- rm -rf node_modules package-lock.json",
     "check-next-version": "echo 'n' | lerna version",
-    "publish": "lerna publish",
-    "release": "lerna version"
+    "release": "lerna publish --force-publish"
   },
   "config": {
     "commitizen": {
