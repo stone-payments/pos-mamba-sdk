@@ -3,9 +3,11 @@
 .DS_Store
 .directory
 npm-debug.log
+yarn-error.log
 lerna-*
 /coverage.data
 /coverage
+package-lock.json
 
 ## Components examples
 /packages/components/*/example/*
