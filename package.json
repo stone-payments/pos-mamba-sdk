@@ -1,13 +1,18 @@
 {
   "name": "mamba-sdk",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "SDK for developing in the Mamba web environment",
   "repository": "https://github.com/stone-payments/pos-mamba-sdk.git",
   "author": "Stone Payments - Mamba Team",
+  "private": true,
+  "workspaces": [
+    "packages/components/*",
+    "packages/*"
+  ],
   "license": "Apache-2.0",
   "engines": {
-    "node": ">= 8.10.0",
-    "npm": ">= 5.6.0"
+    "node": ">= 8 || <= 12",
+    "npm": ">= 6"
   },
   "scripts": {
     "postinstall": "lerna bootstrap --no-ci",
@@ -95,7 +100,7 @@
     "rollup-plugin-svelte": "^5.0.1",
     "rollup-plugin-url": "^2.1.0",
     "rollup-plugin-virtual": "^1.0.1",
-    "stylelint": "^9.10.0",
+    "stylelint": "^13.0.0",
     "stylelint-config-standard": "^21.0.0",
     "svelte": "^2.16.0",
     "svelte-preprocess": "^2.4.3",
