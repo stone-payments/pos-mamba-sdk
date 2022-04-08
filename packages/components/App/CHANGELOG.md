@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.9.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/app@3.5.2...@mamba/app@3.9.0) (2022-04-07)
+
+
+### Features
+
+* 🎸 add a app root reference for mamba-pkgs packages ([d120820](https://github.com/stone-payments/pos-mamba-sdk/commit/d12082085f0dad2f9937dcdaaa9b6189d5aa8391))
+* 🎸 add a app root reference for mamba-pkgs packages ([508fafe](https://github.com/stone-payments/pos-mamba-sdk/commit/508fafe3fd16897b4ee8c9054856d3c49e2e7b30))
+* 🎸 get and apply device class capabilities ([06dec6a](https://github.com/stone-payments/pos-mamba-sdk/commit/06dec6a6b6936501cbb27d7c47d3c13c972bad71))
+
+
+### Bug Fixes
+
+* 🐛 pos compatible way to add classLists ([da42d75](https://github.com/stone-payments/pos-mamba-sdk/commit/da42d7579f4ee99ca42fe051f369a10a3f23d209))
+* 🐛 shortcut not firing with tabindex together shortcut attribute ([2768685](https://github.com/stone-payments/pos-mamba-sdk/commit/276868576176f9f6fe151fc589918a60865a98ab))
+
+
+
 ## [3.5.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/app@3.5.1...@mamba/app@3.5.2) (2021-06-02)
 
 **Note:** Version bump only for package @mamba/app

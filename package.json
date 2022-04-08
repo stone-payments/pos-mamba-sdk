@@ -23,7 +23,8 @@
     "link:packages": "lerna exec npm link",
     "packages:clear": "lerna exec -- rm -rf node_modules package-lock.json",
     "check-next-version": "echo 'n' | lerna version",
-    "release": "lerna publish"
+    "publish": "lerna publish",
+    "release": "lerna version"
   },
   "config": {
     "commitizen": {
@@ -56,7 +57,8 @@
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@commitlint/cli": "^7.5.0",
-    "@commitlint/config-conventional": "^7.5.0",
+    "@commitlint/config-conventional": "^14.1.0",
+    "@commitlint/config-lerna-scopes": "^15.0.0",
     "@gen/rollup-plugin-generate-html": "^0.1.1",
     "@mamba/app": "file:packages/components/App",
     "@mamba/configs": "file:packages/configs",
@@ -75,7 +77,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.0.0",
     "jest-canvas-mock": "~1.1.0",
-    "lerna": "^3.10.7",
+    "lerna": "^4.0.0",
     "lint-staged": "~8.1.0",
     "postcss": "^7.0.13",
     "prettier": "^1.15.3",
