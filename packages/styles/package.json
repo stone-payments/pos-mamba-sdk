@@ -21,7 +21,7 @@
   "devDependencies": {
     "@mamba/configs": "3.5.4",
     "ncp": "^2.0.0",
-    "postcss-cli": "^6.1.0",
+    "postcss-cli": "^6.1.3",
     "rimraf": "^2.6.3"
   },
   "gitHead": "869644effc7b7347a2ff75c956c57d69ee8236a5"

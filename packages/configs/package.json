@@ -12,7 +12,7 @@
     "eslint": "^5.13.0",
     "postcss": "^7.0.14",
     "prettier": "^1.16.4",
-    "stylelint": "^10.0.1",
+    "stylelint": "^10.1.0",
     "svelte-preprocess": "^2.4.3"
   },
   "peerDependencies": {
@@ -45,7 +45,7 @@
     "postcss-calc": "^7.0.1",
     "postcss-easy-import": "^3.0.0",
     "postcss-extend-rule": "^2.0.0",
-    "postcss-hexrgba": "^1.0.1",
+    "postcss-hexrgba": "^1.0.2",
     "postcss-html": "^0.36.0",
     "postcss-nested": "^4.1.1",
     "postcss-preset-env": "^6.5.0",
@@ -53,7 +53,7 @@
     "postcss-syntax": "^0.36.2",
     "quickenv": "^0.0.6",
     "resolve": "^1.10.0",
-    "stylelint-config-standard": "^18.2.0",
+    "stylelint-config-standard": "^18.3.0",
     "webpack-merge": "^4.2.1"
   },
   "gitHead": "869644effc7b7347a2ff75c956c57d69ee8236a5"
