@@ -2,10 +2,11 @@
   "lerna": "4.0.0",
   "version": "independent",
   "npmClient": "npm",
+  "useWorkspaces": true,
   "command": {
     "version": {
       "exact": true,
-      "allowBranch": ["release/next"]
+      "allowBranch": ["master", "release/next"]
     },
     "publish": {
       "ignoreChanges": [
