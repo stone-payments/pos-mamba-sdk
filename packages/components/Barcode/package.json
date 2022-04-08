@@ -1,6 +1,6 @@
 {
   "name": "@mamba/barcode",
-  "version": "3.5.6",
+  "version": "3.5.7",
   "svelte": "Barcode.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -8,7 +8,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@mamba/styles": "3.5.6",
+    "@mamba/styles": "3.5.7",
     "jsbarcode": "^3.11.0"
   },
   "gitHead": "ddc05702292f5dea2772130436f0a00fbd5be1db",
