@@ -144,6 +144,18 @@ export function setup(Http) {
       requester(method, data, url);
     }
 
+    function shouldAddCors(urlFrom) {
+      if (typeof corsHost === 'string') {
+        // Rewrite endpoint to use CORS server address with simulator.
+        // Ex.: `http://localhost:1300/${url}`;
+
+        const corsPortPart = !!corsPort ? `:${corsPort}` : '';
+        return `${corsProtocol}//${corsHost}${corsPortPart}/${urlFrom}`;
+      }
+
+      return urlFrom;
+    }
+
     if (
       (panel.activeProxy && canAddHeaders && proxy === true) ||
       connect === 'NET'
@@ -154,13 +166,7 @@ export function setup(Http) {
 
       url = `https://${proxyEnvironment}.stone.com.br/v1/proxy?url=${urlParam}`;
 
-      if (typeof corsHost === 'string') {
-        // Rewrite endpoint to use CORS server address with simulator.
-        // Ex.: `http://localhost:1300/${url}`;
-
-        const corsPortPart = !!corsPort ? `:${corsPort}` : '';
-        url = `${corsProtocol}//${corsHost}${corsPortPart}/${url}`;
-      }
+      url = shouldAddCors(url);
 
       const isInvalidXheader = prop => !appKey || appKey === '';
 
@@ -188,6 +194,8 @@ export function setup(Http) {
       headers['X-Mamba-SN'] = serialNumber;
       headers['X-Stone-Code'] = stoneCode;
       headers['X-Mamba-App'] = appKey;
+    } else {
+      url = shouldAddCors(url);
     }
 
     xhttp.open(method, url, true);
