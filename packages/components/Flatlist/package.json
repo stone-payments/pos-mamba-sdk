@@ -1,6 +1,6 @@
 {
   "name": "@mamba/flatlist",
-  "version": "4.1.3",
+  "version": "5.0.0",
   "svelte": "Flatlist.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",

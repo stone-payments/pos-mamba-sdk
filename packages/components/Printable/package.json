@@ -1,6 +1,6 @@
 {
   "name": "@mamba/printable",
-  "version": "3.6.0",
+  "version": "4.0.0",
   "svelte": "Printable.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",

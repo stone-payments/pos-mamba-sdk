@@ -1,6 +1,6 @@
 {
   "name": "@mamba/range",
-  "version": "3.5.3",
+  "version": "4.0.0",
   "svelte": "Range.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
