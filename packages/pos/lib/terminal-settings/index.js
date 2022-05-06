@@ -128,7 +128,7 @@ const setParsedSettings = currentUserSettings => {
     _settings = currentUserSettings;
     _flagList = Object.getOwnPropertyNames(_settings);
     const parsedSettings = parseSettings(_flagList, _settings);
-    if (__DEV__ || __DEBUG_LVL__ >= 2) {
+    if (!__TEST__ && (__DEV__ || __DEBUG_LVL__ >= 2)) {
       // Log('[TerminalSettings parsed settings]');
       if (!__POS__) console.table(parsedSettings, ['flag', 'value']);
     }
@@ -174,7 +174,7 @@ export default {
     }
     const current = window.$System.getUserSettings();
     this._parsedSettings = setParsedSettings(current);
-    if ((__DEV__ || __DEBUG_LVL__ >= 2) && __POS__) {
+    if ((__DEV__ || __DEBUG_LVL__ >= 2) && __POS__ && !__TEST__) {
       console.log(
         `\x1b[37m[TerminalSettings System.getUserSettings] ${JSON.stringify(
           this._parsedSettings,
@@ -246,7 +246,7 @@ export default {
       }
     }
 
-    if (__DEV__ || __DEBUG_LVL__ >= 2) {
+    if (!__TEST__ && (__DEV__ || __DEBUG_LVL__ >= 2)) {
       const sstring = JSON.stringify(setting, null, 2);
       console.log(
         `📘 \x1b[36m[TerminalSettings getSetting]\n\t\x1b[33mRaw: \x1b[39m${rawSetting}\n\t\x1b[33mFlag: \x1b[39m${typeof setting} ${flag}\n\t\x1b[33mFinal: \x1b[39m${sstring}\x1b[0m`,

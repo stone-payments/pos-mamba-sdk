@@ -3,6 +3,79 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [3.13.5](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.13.11...@mamba/pos@3.13.5) (2022-05-06)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+### [3.13.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.13.2...@mamba/pos@3.13.3) (2022-04-08)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+### [3.13.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.13.1...@mamba/pos@3.13.2) (2022-04-08)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+### [3.13.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.13.0...@mamba/pos@3.13.1) (2022-04-08)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+## [3.13.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.6.0...@mamba/pos@3.13.0) (2022-04-07)
+
+
+### Features
+
+* 🎸 (simulator) add Q92 POS ([a39af6e](https://github.com/stone-payments/pos-mamba-sdk/commit/a39af6e3dff7a7a86ccc5f91414fff38bca14b99))
+* 🎸 [simulator] prevent printing on devices without printer ([539eee7](https://github.com/stone-payments/pos-mamba-sdk/commit/539eee75a7169176e1096efd8f2a6c58e5a6055e))
+* 🎸 add a app root reference for mamba-pkgs packages ([d120820](https://github.com/stone-payments/pos-mamba-sdk/commit/d12082085f0dad2f9937dcdaaa9b6189d5aa8391))
+* 🎸 add appKey from define ([e110ca8](https://github.com/stone-payments/pos-mamba-sdk/commit/e110ca821d51ffe5e06fc5484fba635b33f8466f))
+* 🎸 add gif dummy api ([b239fbf](https://github.com/stone-payments/pos-mamba-sdk/commit/b239fbf52d6f9c212edc83b58aa1352690aca83d))
+* 🎸 add MP35 POS carcass and its simulator characteristics ([5f57fc5](https://github.com/stone-payments/pos-mamba-sdk/commit/5f57fc5e75f85643f7d6ff5c32a266211ba15da7))
+* 🎸 add mp35 pos image ([5bc660a](https://github.com/stone-payments/pos-mamba-sdk/commit/5bc660acb4df55a74ffe2ed7a270f4cd236e372d))
+* 🎸 add mp35p dev f keymap ([a0af149](https://github.com/stone-payments/pos-mamba-sdk/commit/a0af149f2abac7c32bfe5d7205d9efe925bde641))
+* 🎸 add organization to system persistent settings ([7d85d86](https://github.com/stone-payments/pos-mamba-sdk/commit/7d85d86967c2ce98ec3d275290d1f1fbfd0dfe6a))
+* 🎸 add Organizations to system enum ([599cc6e](https://github.com/stone-payments/pos-mamba-sdk/commit/599cc6e1dca6996190b2eb1c9928b6c99aefb587))
+* 🎸 finish keymap ([2e4d531](https://github.com/stone-payments/pos-mamba-sdk/commit/2e4d53187429735b1453a2e2a6a7c76bc37cf79e))
+* 🎸 implement orgs panel with pos supports ([bec216e](https://github.com/stone-payments/pos-mamba-sdk/commit/bec216e4a3e86ccd522f7d56f5a518664e147a04))
+* add q60 and d230 models to simulation ([4a5d02e](https://github.com/stone-payments/pos-mamba-sdk/commit/4a5d02e74098cbb26c8d569de57d009d79ca89ce))
+* added D195 model to pos simulation option ([7b64659](https://github.com/stone-payments/pos-mamba-sdk/commit/7b64659528c395290ebad7667c7cc999014e02f9))
+
+
+### Bug Fixes
+
+* 🐛 automatic merge drivers methods ([4c2b9bb](https://github.com/stone-payments/pos-mamba-sdk/commit/4c2b9bb8c9dd2622beac97a7572b729c34a23519))
+* 🐛 automatic merge of get user settings ([f3e0b32](https://github.com/stone-payments/pos-mamba-sdk/commit/f3e0b32519fbfa3adbec708986f94820972b34dd))
+* 🐛 cast empty default string from back to undefined ([d4b9bb1](https://github.com/stone-payments/pos-mamba-sdk/commit/d4b9bb1f7850fd898c4b9e98ba4310592299972b))
+* 🐛 check empty string for get setting only ([7e616ca](https://github.com/stone-payments/pos-mamba-sdk/commit/7e616ca51697ab255811f329b445c66174bc922b))
+* 🐛 default model ([8ca35a3](https://github.com/stone-payments/pos-mamba-sdk/commit/8ca35a39ee00df60c76cc65e9d5390728e877238))
+* 🐛 default value for empty string of solo get setting ([cf27508](https://github.com/stone-payments/pos-mamba-sdk/commit/cf275087ad12428f3569eab5f62f7144cc2bd4e9))
+* 🐛 export keycodes ([fbffd38](https://github.com/stone-payments/pos-mamba-sdk/commit/fbffd380fecd15b194f88359873294228af0dfe7))
+* 🐛 export keymap ([46be163](https://github.com/stone-payments/pos-mamba-sdk/commit/46be163f61792118f7bc2509165d3b95fd33feb7))
+* 🐛 Fix keydown code ([eeb30d8](https://github.com/stone-payments/pos-mamba-sdk/commit/eeb30d8ee35429f8be8090edce99474d3040f6d1))
+* 🐛 hasNoPrinter should be inside rinter.failedPrinting return ([cff5be8](https://github.com/stone-payments/pos-mamba-sdk/commit/cff5be8a6ad8acf04299c4fe5f9272f2082bf878))
+* 🐛 new length for new models ([9a1cc50](https://github.com/stone-payments/pos-mamba-sdk/commit/9a1cc50469c5eb6775b10e056cefd044d1f88bb4))
+* 🐛 reference link ([fea0eca](https://github.com/stone-payments/pos-mamba-sdk/commit/fea0eca7d71edf16aa9f46a2efc364e8d9b07f8b))
+* 🐛 reimplement simulator proxy logics ([fcb0d2b](https://github.com/stone-payments/pos-mamba-sdk/commit/fcb0d2be131e30da55150022a23dcfc101251526))
+* 🐛 remove failedPrinting, may have side effects ([5d4a8ff](https://github.com/stone-payments/pos-mamba-sdk/commit/5d4a8ffde9089d3f10147147fb634fffe012cc82))
+* d199 image and keyboard ([c5a1e5c](https://github.com/stone-payments/pos-mamba-sdk/commit/c5a1e5c1b5eabce12005ce4271d332239ab14d14))
+
+
+
 # [3.6.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.5.1...@mamba/pos@3.6.0) (2021-06-02)
 
 

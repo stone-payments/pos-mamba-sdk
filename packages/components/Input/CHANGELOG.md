@@ -3,6 +3,69 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [4.1.4](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@4.1.0...@mamba/input@4.1.4) (2022-05-06)
+
+**Note:** Version bump only for package @mamba/input
+
+
+
+
+
+### [4.1.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@4.1.2...@mamba/input@4.1.3) (2022-04-08)
+
+**Note:** Version bump only for package @mamba/input
+
+
+
+
+
+### [4.1.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@4.1.1...@mamba/input@4.1.2) (2022-04-08)
+
+**Note:** Version bump only for package @mamba/input
+
+
+
+
+
+### [4.1.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@4.1.0...@mamba/input@4.1.1) (2022-04-08)
+
+**Note:** Version bump only for package @mamba/input
+
+
+
+
+
+## [4.1.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@3.6.0...@mamba/input@4.1.0) (2022-04-07)
+
+
+### Features
+
+* :sparkles: development of the new version of the numeric keypad ([3d58a59](https://github.com/stone-payments/pos-mamba-sdk/commit/3d58a59131d415a3d9dcd4de6c6636e6369abbb3))
+* 🎸 add d199 MoneyInput like ([cbe9885](https://github.com/stone-payments/pos-mamba-sdk/commit/cbe9885b6ee87eef3f0ee466605594a189165c40))
+* 🎸 add invalidate method to NumericKeyboard and fix warnings ([3f724b2](https://github.com/stone-payments/pos-mamba-sdk/commit/3f724b2b646ceb83e36b0101d6ff19a5db6c257a))
+* 🎸 add legacy numeric keyboard ([86c709e](https://github.com/stone-payments/pos-mamba-sdk/commit/86c709e10e76c0ae8bc65310aa8b213b162cadd6))
+* 🎸 Math Keyboard ([116b864](https://github.com/stone-payments/pos-mamba-sdk/commit/116b8644b39cecd896d7cb8c1e4e537232831197))
+* 🎸 NumericKeyboard receiving props ([be8d540](https://github.com/stone-payments/pos-mamba-sdk/commit/be8d540a85b892bf0bf690fe0b7bd379b5be3984))
+* 🎸 started NumericKeyboard ([1c550bd](https://github.com/stone-payments/pos-mamba-sdk/commit/1c550bd59f02131b5fd8212952b45e7ccedfd6a5))
+* 🎸 validation on numeric keyboard ([fca72d9](https://github.com/stone-payments/pos-mamba-sdk/commit/fca72d97e5d4c849e3bfa69c76b7b9b3cd30bcd8))
+* add beep on NumericKeyboard clicks ([2af2cba](https://github.com/stone-payments/pos-mamba-sdk/commit/2af2cba077b5b4f19947f543e0a1d53b8054017b))
+* **configkeyboard:**  modeling of the versatile keyboard configuration ([a5cc528](https://github.com/stone-payments/pos-mamba-sdk/commit/a5cc528a394212dab7e87584d14dcbf965ecf72a))
+* **numerickeyboard.html:**  Decoupling the numeric keypad ([a2986c1](https://github.com/stone-payments/pos-mamba-sdk/commit/a2986c1d2235441fe2d213a48b9dc490a6b8d034))
+
+
+### Bug Fixes
+
+* :bug: math keyboard layout ([2abc974](https://github.com/stone-payments/pos-mamba-sdk/commit/2abc9745690aed7437474c007f260686bc625df6))
+* 🐛 cursor position reference ([18c44cb](https://github.com/stone-payments/pos-mamba-sdk/commit/18c44cb44043669ea27054aae031494297976847))
+* 🐛 default maxlength ([909cfc5](https://github.com/stone-payments/pos-mamba-sdk/commit/909cfc5b681006816523d593ea51ca79c5c649e1))
+* 🐛 enter and clear 'hitboxes' ([6afaaf1](https://github.com/stone-payments/pos-mamba-sdk/commit/6afaaf1c5332aa556224b4655720e801c56130b3))
+* 🐛 fix numeric keyboard position and improve key distribution ([06ea9a7](https://github.com/stone-payments/pos-mamba-sdk/commit/06ea9a72a19184d8519ed25c1b653fca94f702d2))
+* 🐛 fix numeric keyboard validation commit mistakes ([7004394](https://github.com/stone-payments/pos-mamba-sdk/commit/70043947018b530ac770cb2cd365f66f51840e26))
+* 🐛 remove useless code ([a5e8af9](https://github.com/stone-payments/pos-mamba-sdk/commit/a5e8af94c1ae07298301655151a2ec141ae28b92))
+* 🐛 validation bugs on warning flag ([3199bcb](https://github.com/stone-payments/pos-mamba-sdk/commit/3199bcb3807e2bf6a4d94ed40b0b1e910ad716df))
+
+
+
 # [3.6.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@3.5.1...@mamba/input@3.6.0) (2021-06-02)
 
 

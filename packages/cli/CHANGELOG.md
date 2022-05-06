@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [3.4.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@3.4.0...@mamba/cli@3.4.3) (2022-05-06)
+
+**Note:** Version bump only for package @mamba/cli
+
+
+
+
+
+### [3.4.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@3.4.1...@mamba/cli@3.4.2) (2022-04-08)
+
+**Note:** Version bump only for package @mamba/cli
+
+
+
+
+
+### [3.4.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@3.4.0...@mamba/cli@3.4.1) (2022-04-08)
+
+**Note:** Version bump only for package @mamba/cli
+
+
+
+
+
+## [3.4.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@3.3.2...@mamba/cli@3.4.0) (2022-04-07)
+
+
+### Features
+
+* 🎸 implement scp/verifone deploy ([788b05e](https://github.com/stone-payments/pos-mamba-sdk/commit/788b05e78a51b0c75ddbb8532e210250644caca4))
+
+
+
 ## [3.3.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@3.3.1...@mamba/cli@3.3.2) (2021-06-02)
 
 **Note:** Version bump only for package @mamba/cli

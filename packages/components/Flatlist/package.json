@@ -10,10 +10,10 @@
     "access": "public"
   },
   "dependencies": {
-    "@mamba/icon": "^3.5.2",
-    "@mamba/pos": "^3.6.5",
-    "@mamba/styles": "^3.5.2",
+    "@mamba/icon": "3.5.8",
+    "@mamba/pos": "3.13.3",
+    "@mamba/styles": "3.5.8",
     "@mamba/utils": "^3.6.0"
   },
-  "gitHead": "79bdec15d647388172f3de619e50c7a61a1ff624"
+  "gitHead": "ddc05702292f5dea2772130436f0a00fbd5be1db"
 }

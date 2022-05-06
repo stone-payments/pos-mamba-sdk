@@ -28,8 +28,7 @@ import KeyboardInput from '@mamba/input/Keyboard.html';
 import NumericKeyboard from '@mamba/input/NumericKeyboard.html';
 ```
 
-
-| Parâmetross   | Descrição                                                   | Tipo           | Padrão      |
+| Parâmetross  | Descrição                                                   | Tipo           | Padrão      |
 | ------------ | ----------------------------------------------------------- | -------------- | ----------- |
 | align        | Alinha a entrada de acordo com parâmetro (`left`, `right`)  | `string`       | `'right'`   |
 | alphanumeric | Define o modo de entrada como alfanumérico                  | `boolean`      | `false`     |
@@ -55,32 +54,32 @@ import NumericKeyboard from '@mamba/input/NumericKeyboard.html';
 A nova versão do teclado numérico consiste em instanciar o componente e configurar os eventos por ele emitido. Essa versão visa uma maior usabilidade do componente e melhor encapsulamento das responsabilidades do próprio, visto que ele independe do cenário que vai ser colocado e permite com que qualquer lógica seja empregada. Os eventos apesar de retornarem o mesmo payload, foram dividos afim de incentivar uma maior segregação de responsabilidade.
 
 ###Eventos
-| Nome         | Descrição                   | Payload           |
+| Nome | Descrição | Payload |
 |--------------|-----------------------------|-------------------|
-| keypress     | Teclas comuns do teclado    | { input: string } |
-| mathKeypress | Teclas do teclado numerico  | { input: string } |
-| backspace    | Tecla para apagar caractere | { input: string } |
-| submit       | Tecla de submit             | { input: string } |
+| keypress | Teclas comuns do teclado | { input: string } |
+| mathKeypress | Teclas do teclado numerico | { input: string } |
+| backspace | Tecla para apagar caractere | { input: string } |
+| submit | Tecla de submit | { input: string } |
 
 ### Money
 
-| Parâmetross      | Descrição                                                                                                     | Tipo                 | Padrão  |
+| Parâmetross     | Descrição                                                                                                     | Tipo                 | Padrão  |
 | --------------- | ------------------------------------------------------------------------------------------------------------- | -------------------- | ------- |
-| cents           | Valor do input em centavos                                                                                    | `string` or `number` | `0`     |
+| value           | Valor do input em centavos                                                                                    | `string` or `number` | `0`     |
 | readonlyOnEnter | Faz com que o campo se torne somente leitura no keypress do `enter` e se o valor em centavos for igual a zero | `boolean`            | `false` |
 
 ## Keyboard
 
-| Parâmetross  | Descrição                                                   | Tipo           | Padrão      |
-| ------------ | ----------------------------------------------------------- | -------------- | ----------- |
-| maxLength    | Limita o número de caracteres do teclado                    | `number`       | `30`        |
+| Parâmetross | Descrição                                | Tipo     | Padrão |
+| ----------- | ---------------------------------------- | -------- | ------ |
+| maxLength   | Limita o número de caracteres do teclado | `number` | `30`   |
 
 ## NumericKeyboard
 
-| Parâmetross  | Descrição                                                   | Tipo           | Padrão      |
-| ------------ | ----------------------------------------------------------- | -------------- | ----------- |
-| type         | Define qual o tipo de teclado deve ser renderizado          | `string`       | `null`      |
-| isFocused    | Define se o teclado deve ou não começar aberto              | `boolean`      | `false`     |
+| Parâmetross | Descrição                                          | Tipo      | Padrão  |
+| ----------- | -------------------------------------------------- | --------- | ------- |
+| type        | Define qual o tipo de teclado deve ser renderizado | `string`  | `null`  |
+| isFocused   | Define se o teclado deve ou não começar aberto     | `boolean` | `false` |
 
 ## Eventos
 
@@ -114,19 +113,18 @@ O evento `submit`, `submitValid` e `submitInvalid` retornam as seguintes proprie
 
 ```ts
 event = {
-  cents: number; // Valor em centavos
+  value: number; // Valor em centavos
   formatted: string; // Valor formatado na moeda
   isValid: boolean; // Representa o valor da validação (se houver)
 }
 ```
 
-
 `<NumericKeyboard ... on:event="..." />`
 
-| Eventos       | Disparado quando ...                                                              | Tipo              |
-| ------------- | --------------------------------------------------------------------------------- | ----------------- |
-| submit        | Dispara quando o botão de confirmação for selecionado.                            | `function(event)` |
-| addInput      | Envia os botões de operação matematica selecionado                                | `function(event)` |
+| Eventos  | Disparado quando ...                                   | Tipo              |
+| -------- | ------------------------------------------------------ | ----------------- |
+| submit   | Dispara quando o botão de confirmação for selecionado. | `function(event)` |
+| addInput | Envia os botões de operação matematica selecionado     | `function(event)` |
 
 <br/>
 

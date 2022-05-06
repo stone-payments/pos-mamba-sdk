@@ -3,6 +3,55 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [4.2.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/utils@4.2.0...@mamba/utils@4.2.3) (2022-05-06)
+
+**Note:** Version bump only for package @mamba/utils
+
+
+
+
+
+### [4.2.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/utils@4.2.1...@mamba/utils@4.2.2) (2022-04-08)
+
+**Note:** Version bump only for package @mamba/utils
+
+
+
+
+
+### [4.2.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/utils@4.2.0...@mamba/utils@4.2.1) (2022-04-08)
+
+**Note:** Version bump only for package @mamba/utils
+
+
+
+
+
+## [4.2.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/utils@3.6.0...@mamba/utils@4.2.0) (2022-04-07)
+
+
+### Features
+
+* 🎸 add D199 and D230 POS models to utils models list ([5c51a90](https://github.com/stone-payments/pos-mamba-sdk/commit/5c51a90b22123ef2aaa59480984f567e2526566a))
+* 🎸 add has keyboard light check and list ([1fceed9](https://github.com/stone-payments/pos-mamba-sdk/commit/1fceed962dbf32d39a51476a16c484daba049d77))
+* 🎸 create and export device capabilities class list ([d12cd8d](https://github.com/stone-payments/pos-mamba-sdk/commit/d12cd8dc4f0cab2bda8c9608ca06a39dbcab86ee))
+* 🎸 implement getPOSChecksObject to check pos model like IS_<POS> ([fd7434d](https://github.com/stone-payments/pos-mamba-sdk/commit/fd7434db07f55ced680375a618b5627247b528a4))
+* 🎸 implement models categorization utils ([89277bd](https://github.com/stone-payments/pos-mamba-sdk/commit/89277bd77ecb05ddbb85f74cad4073037f8b9220))
+
+
+### Bug Fixes
+
+* 🐛 add mamba/pos ([4bd5b61](https://github.com/stone-payments/pos-mamba-sdk/commit/4bd5b6103b547b913bd0a0d29a776262f9c16eed))
+* 🐛 fix in method get POS ([38cc81c](https://github.com/stone-payments/pos-mamba-sdk/commit/38cc81c3017ab509d10eb0e30b751a3d4ed4a587))
+* 🐛 incompatible semver range of date-fns esm import path ([456ecce](https://github.com/stone-payments/pos-mamba-sdk/commit/456ecce0d18547181bbbedf8cc598f4ebb9148b8))
+
+
+### Performance Improvements
+
+* ⚡️ pos guards ([a75a255](https://github.com/stone-payments/pos-mamba-sdk/commit/a75a25522492294b2caa0976cbcc4087c746d445))
+
+
+
 # [3.6.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/utils@3.5.1...@mamba/utils@3.6.0) (2021-06-02)
 
 

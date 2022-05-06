@@ -44,6 +44,11 @@
     oncreate() {
       const { root } = this;
 
+      // add a app root reference for mamba-pkgs packages case webpack fails
+      if(!window.$MAMBA) {
+        window.$MAMBA = this;
+      }
+
       const { target } = this.root.options;
 
       /** Add the mamba-app-container class to the root element */
