@@ -3,8 +3,16 @@ export default function(driver) {
     if (typeof value !== 'string') {
       value = JSON.stringify(value);
     }
-    driver.set(key, value);
-    return true;
+
+    try {
+      return driver.set(key, value);
+    } catch (error) {
+      if (__DEV__ || __DEBUG_LVL__ >= 3) {
+        console.log(error);
+      }
+
+      return false;
+    }
   };
 
   driver.getItem = (key, idAppStorage = -1) => {
