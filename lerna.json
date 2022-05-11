@@ -5,8 +5,7 @@
   "useWorkspaces": true,
   "command": {
     "version": {
-      "exact": true,
-      "allowBranch": ["master", "release/next"]
+      "exact": true
     },
     "publish": {
       "ignoreChanges": [
