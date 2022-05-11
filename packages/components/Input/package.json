@@ -8,10 +8,10 @@
     "access": "public"
   },
   "devDependencies": {
-    "@mamba/styles": "3.5.8"
+    "@mamba/styles": "3.5.9"
   },
   "dependencies": {
-    "@mamba/icon": "3.5.8",
+    "@mamba/icon": "3.5.9",
     "@mamba/utils": "^3.6.0"
   },
   "peerDependencies": {
