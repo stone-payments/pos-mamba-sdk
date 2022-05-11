@@ -50,6 +50,10 @@
   <Keystroke key="enter" on:keystroke="selectRowItems(ENTER)"/>
   <Keystroke key="keyup" on:keystroke="selectRowItems(KEYUP)"/>
   <Keystroke key="keydown" on:keystroke="selectRowItems(KEYDOWN)"/>
+
+  {#if navBar}
+    <NavBar labelDown={navDownLabel} labelUp={navUpLabel} on:keyup="selectRowItems(KEYUP)" on:keydown="selectRowItems(KEYDOWN)" />
+  {/if}
 {/if}
 
 <script>
@@ -69,9 +73,10 @@
 
   export default {
     components: {
+      Keystroke: '@mamba/app/Keystroke.html',
       Parent: './components/parent.html',
       FocusController: './components/focusController.html',
-      Keystroke: '@mamba/app/Keystroke.html',
+      NavBar: './NavBar.html',
     },
     helpers: {
       ENTER,
@@ -111,6 +116,9 @@
         linkFirstFocusable: undefined,
         _hasElement: false,
         _elementsRefs: [],
+        navBar: false,
+        navDownLabel: 'Diminuir',
+        navUpLabel: 'Aumentar',
       };
     },
     computed: {
