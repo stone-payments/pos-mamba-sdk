@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "outDir": "dist",
+    "lib": ["es2020", "DOM"],
+    "module": "commonjs",
+    "target": "es2015",
+    "allowJs": true,
+    "sourceMap": true,
+    "declaration": true,
+    "declarationDir": "types",
+    "suppressImplicitAnyIndexErrors": true,
+    "moduleResolution": "node",
+    "downlevelIteration": true,
+    "strict": true,
+    "removeComments": false
+  },
+  "include": ["src"]
+}
