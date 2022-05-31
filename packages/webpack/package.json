@@ -7,14 +7,9 @@
   "publishConfig": {
     "access": "public"
   },
-  "devDependencies": {
-    "@mamba/configs": "3.5.9",
-    "webpack": "^4.28.3",
-    "webpack-cli": "^3.2.0"
-  },
-  "peerDependencies": {
-    "webpack": "^4.28.3",
-    "webpack-cli": "^3.2.0"
+  "engines": {
+    "node": ">= 8 || <= 14",
+    "npm": "^7 || ^8"
   },
   "dependencies": {
     "babel-loader": "^8.0.4",
