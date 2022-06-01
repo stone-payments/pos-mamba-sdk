@@ -13,17 +13,22 @@
   },
   "main": "index.js",
   "dependencies": {
-    "@mamba/app": "3.9.5",
-    "@mamba/button": "3.5.10",
-    "@mamba/dialog": "3.5.10",
-    "@mamba/icon": "3.5.9",
-    "@mamba/radio": "3.5.9",
-    "@mamba/sprite": "3.5.9",
-    "@mamba/styles": "3.5.9",
-    "@mamba/switch": "3.5.9",
-    "@mamba/utils": "4.2.4",
     "immer": "^2.1.5",
-    "svelte": "^2.16.1"
+    "svelte": "<3"
+  },
+  "devDependencies": {
+    "@mamba/core": "*",
+    "@mamba/app": ">=4",
+    "@mamba/button": ">=4",
+    "@mamba/dialog": ">=4",
+    "@mamba/icon": ">=4",
+    "@mamba/radio": ">=4",
+    "@mamba/sprite": ">=4",
+    "@mamba/utils": ">=4",
+    "@mamba/switch": ">=4"
+  },
+  "peerDependencies": {
+    "@mamba/keyboard": "*"
   },
   "gitHead": "ddc05702292f5dea2772130436f0a00fbd5be1db"
 }

@@ -11,11 +11,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {
-    "@mamba/styles": "3.5.9"
-  },
-  "gitHead": "ddc05702292f5dea2772130436f0a00fbd5be1db",
   "peerDependencies": {
-    "@mamba/pos": ">3.0.0"
-  }
+    "@mamba/styles": ">=4"
+  },
+  "gitHead": "ddc05702292f5dea2772130436f0a00fbd5be1db"
 }
