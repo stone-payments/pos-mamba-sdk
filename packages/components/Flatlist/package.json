@@ -1,6 +1,6 @@
 {
   "name": "@mamba/flatlist",
-  "version": "4.3.3",
+  "version": "5.0.0",
   "svelte": "Flatlist.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -10,9 +10,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@mamba/icon": "3.5.7",
+    "@mamba/icon": "3.5.9",
     "@mamba/pos": "3.13.3",
-    "@mamba/styles": "3.5.7",
+    "@mamba/styles": "3.5.9",
     "@mamba/utils": "^3.6.0"
   },
   "gitHead": "ddc05702292f5dea2772130436f0a00fbd5be1db"

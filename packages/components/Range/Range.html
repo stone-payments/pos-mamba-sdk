@@ -9,7 +9,9 @@
   <table>
     <tr>
       <td class="button-col">
-        <button style={buttonStyle} on:click="decrement()">-</button>
+        <button style={buttonStyle} on:click="decrement()">
+          <Icon symbol="chevron-down" color="#fff" size="small" />
+        </button>
       </td>
       <td>
         <div class="track" style="background-color: {barColor};">
@@ -17,16 +19,21 @@
         </div>
       </td>
       <td class="button-col">
-        <button style={buttonStyle} on:click="increment()">+</button>
+        <button style={buttonStyle} on:click="increment()">
+          <Icon symbol="chevron-up" color="#fff" size="small" />
+        </button>
       </td>
     </tr>
   </table>
 </div>
 
 <script>
-  import { green700, neutral700 } from '@mamba/styles/colors';
+  import { green500, neutral700 } from '@mamba/styles/colors';
 
   export default {
+    components: {
+      Icon: '@mamba/icon',
+    },
     data() {
       return {
         icon: null,
@@ -36,8 +43,8 @@
         value: 0,
         unit: '%',
         validation: undefined,
-        maincolor: green700,
-        textcolor: neutral700,
+        mainColor: green500,
+        textColor: neutral700,
         barColor: '#000',
       };
     },
@@ -130,7 +137,7 @@
 
   .bar {
     height: 6px;
-    background-color: $green700;
+    background-color: $green500;
   }
 
   button {
@@ -143,11 +150,19 @@
     width: 31px;
     height: 31px;
     line-height: 1;
+    padding: 0;
   }
 
   .button-col {
     width: 1%;
     padding: 0;
     white-space: nowrap;
+  }
+
+  :global(.MP35P) {
+    .icon {
+      width: 23px;
+      height: auto;
+    }
   }
 </style>
