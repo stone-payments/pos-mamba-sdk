@@ -1,5 +1,5 @@
 module.exports = {
-  extends: 'stylelint-config-standard',
+  extends: ['stylelint-config-standard', 'stylelint-config-prettier'],
   /** Report when a unnecessary stylelint disable comment is written */
   reportNeedlessDisables: true,
   rules: {
@@ -34,7 +34,8 @@ module.exports = {
     'font-family-name-quotes': 'always-unless-keyword',
 
     /** Prevent confusing colors, use #hex, rgb() or rgba() only */
-    'function-blacklist': ['hsl', 'hsla'],
+    'function-disallowed-list': ['hsl', 'hsla'],
+    'color-function-notation': 'legacy',
     'function-url-no-scheme-relative': true,
 
     /** Require quotes for url() */

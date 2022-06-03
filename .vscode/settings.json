@@ -58,5 +58,8 @@
   "stylelint.validate": ["css", "postcss"],
 
   /* Controls the package manager to be used to resolve the Stylelint library */
-  "stylelint.packageManager": "yarn"
+  "stylelint.packageManager": "yarn",
+
+  /* Enforce working dir for monorepo */
+  "eslint.workingDirectories": ["./"]
 }

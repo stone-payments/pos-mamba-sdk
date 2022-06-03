@@ -1,3 +1,3 @@
 module.exports = {
-  lineLength: 80,
+  lineLength: 100,
 };
