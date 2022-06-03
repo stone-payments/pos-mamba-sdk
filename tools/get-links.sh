@@ -1,16 +1,25 @@
 #!/bin/bash
 
-# This script make possible get all packages links, so you can avoid to do it manually
+# !! This script is NOT meant to be used directly !!
 #
-# Options:
+# This script is meant to make it easy to locally link any project to all SDK packages built on this repo, generating the commands automatically (so you can avoid doing it manually).
+#
+# USAGE:
+#
+# On the "pos-mamba-sdk" repo folder:
+# - `yarn run link:name` outputs the command (using yarn) to link all of this repo's packages to the target project, by package name.
+# - `yarn run link:path` outputs the command (only npm +7) to link all of this repo's packages to the target project, by package path.
+#
+# The output commands are meant to be copied and executed directly on the target project's folder.
+#
+#
+# Script options:
 # -m, --mode MODE
-# Modes: name Or path
-# name: The link are made of package name
-# path: the link are made by package path
 #
-# You can run:
-# - `yarn run link:name` or  to get the command to link all packages to another project by pakcage name.
-# - `yarn run link:path` to get the command to link all packages to another project by package path (only npm +7). This is useful to install linked package dependencies.
+# Modes: name OR path
+# name: The links are made by package name
+# path: The link are made by package path
+#
 
 LINK_CHAIN="yarn link "
 INSTALL_CHAIN="npm link "
