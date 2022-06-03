@@ -28,7 +28,8 @@
     "packages:clear": "lerna exec -- rm -rf node_modules package-lock.json",
     "check-next-version": "echo 'n' | lerna version",
     "release": "rm -rf packages/**/package-lock.json && lerna publish",
-    "link": "./tools/get-links.sh"
+    "link:name": "./tools/get-links.sh -m name",
+    "link:path": "./tools/get-links.sh -m path"
   },
   "config": {
     "commitizen": {
