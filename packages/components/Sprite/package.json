@@ -4,12 +4,8 @@
   "svelte": "Sprite.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
-  "engines": {
-    "node": ">= 8 || <= 14",
-    "npm": "^7 || ^8"
-  },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "ddc05702292f5dea2772130436f0a00fbd5be1db"
+  "gitHead": "78978116d5c790c51aaf9af9db47ea8beaa4726b"
 }
