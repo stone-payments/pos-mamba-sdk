@@ -69,6 +69,18 @@ module.exports = {
     /** Allow class methods to not use 'this' */
     'class-methods-use-this': 'off',
 
+    /** Disallows shorthand type conversions */
+    'no-implicit-coercion': [
+      'error',
+      {
+        boolean: false,
+        number: true,
+        string: true,
+        allow: ['!!'],
+        disallowTemplateShorthand: false,
+      },
+    ],
+
     // ! Style
 
     /** Allow __variables__ with underscores */

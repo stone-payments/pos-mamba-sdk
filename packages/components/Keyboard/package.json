@@ -26,6 +26,7 @@
     "build": "run-s prebuild compile"
   },
   "peerDependencies": {
-    "@mamba/core": "*"
+    "@mamba/core": "*",
+    "@mamba/pos": ">=4"
   }
 }
