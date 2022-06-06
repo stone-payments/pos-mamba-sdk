@@ -42,13 +42,13 @@
       },
     },
     onupdate({ changed, current }) {
-      if(changed._fixture) {
+      if (changed._fixture) {
         const { _fixture } = current;
-        if(_fixture.hasComponent) {
+        if (_fixture.hasComponent) {
           persistComponentRef.call(this.refs, (component) => {
             setComponentEvents(component, _fixture.on);
           });
-        };
+        }
       }
     },
     methods: {

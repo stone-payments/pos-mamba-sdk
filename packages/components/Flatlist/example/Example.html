@@ -78,7 +78,6 @@ export default {
       sectionList,
       dataList,
     });
-
   },
   methods: {
     getSectionList() {
@@ -93,8 +92,8 @@ export default {
               },
               onSelected: (item) => {
                 /*
-                * In this case, this anonymous function can call this script methods
-                */
+                 * In this case, this anonymous function can call this script methods
+                 */
                 const { _someComputedProp } = this.get();
                 console.log(_someComputedProp);
 
@@ -107,9 +106,9 @@ export default {
                 value: 'Row 2',
               },
               /*
-              * Executing a method on `onSelect`, will call the desired
-              * function when the list is mounted, making it possible to return a dynamic function.
-              */
+               * Executing a method on `onSelect`, will call the desired
+               * function when the list is mounted, making it possible to return a dynamic function.
+               */
               onSelected: this.getClickHandler(),
             },
             {
@@ -118,20 +117,21 @@ export default {
                 value: 'Row 3',
               },
               /*
-              * Just referencing a function, The `this` will be of this script, but the `this` inside function scope, will be this object reference.
-              * To refer methods of this script inside the function reference, use bind:
-              * Eg.: this.itemHandler.bind(this)
-              *
-              * itemHandler() {
-              *   // Without bind
-              *   console.log(this) // { label: 'Row 3', shortcut: 3, itemHandler: function... }
-              *   // With bind
-              *   this.anotherMethod();
-              * }
-              */
+               * Just referencing a function, The `this` will be of this script, but the `this` inside function scope, will be this object reference.
+               * To refer methods of this script inside the function reference, use bind:
+               * Eg.: this.itemHandler.bind(this)
+               *
+               * itemHandler() {
+               *   // Without bind
+               *   console.log(this) // { label: 'Row 3', shortcut: 3, itemHandler: function... }
+               *   // With bind
+               *   this.anotherMethod();
+               * }
+               */
               onSelected: this.itemHandler.bind(this),
             },
-            false && { // Conditional row
+            false && {
+              // Conditional row
               label: {
                 value: 'Row 4',
               },
@@ -181,9 +181,10 @@ export default {
       return data;
     },
     getClickHandler() {
-      if(__DEV__) return (item) => {
-        console.log('Condition function', item);
-      };
+      if (__DEV__)
+        return (item) => {
+          console.log('Condition function', item);
+        };
 
       return (item) => {
         console.log('Default function', item);

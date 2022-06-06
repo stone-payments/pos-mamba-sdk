@@ -25,9 +25,7 @@
     },
     onupdate({ changed, current: { promise } }) {
       if (changed.promise && promise && typeof promise.then === 'function') {
-        promise
-          .then(data => this._close('success', data))
-          .catch(e => this._close('failure', e));
+        promise.then((data) => this._close('success', data)).catch((e) => this._close('failure', e));
         this.refs.dialog.open();
       }
     },

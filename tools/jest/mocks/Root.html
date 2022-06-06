@@ -68,7 +68,7 @@
         });
 
         if (methods) {
-          Object.keys(methods).forEach(key => {
+          Object.keys(methods).forEach((key) => {
             instance[key] = methods[key].bind(instance);
           });
         }

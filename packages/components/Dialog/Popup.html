@@ -21,7 +21,7 @@
   /** Previous navigable (app meta) object */
   let previousNavigable = null;
 
-  let lastShortcutsState = undefined;
+  let lastShortcutsState;
 
   export default {
     components: {
@@ -45,11 +45,11 @@
         const { isOpen } = current;
         const { _popup } = this.refs;
 
-        if(this.root.meta) {
-          if(isOpen) {
+        if (this.root.meta) {
+          if (isOpen) {
             lastShortcutsState = this.root.meta.get().shortcuts;
             this.root.meta.setShortcuts(true);
-          } else if(lastShortcutsState != undefined) {
+          } else if (lastShortcutsState != undefined) {
             this.root.meta.setShortcuts(lastShortcutsState);
           }
         }
@@ -65,7 +65,7 @@
           document.activeElement.blur();
 
           // Force a div focus with tabindex="-1" to prevent Keystroke actions in App.html method checker
-          if(_popup) _popup.focus();
+          if (_popup) _popup.focus();
 
           if (dialogsOpened === 1 && this.root.meta) {
             const { scrollable, navigable } = this.root.meta.get();
@@ -81,7 +81,7 @@
             this.root.meta.setNavigable(false);
           }
         } else if (previous) {
-          if(_popup) _popup.blur();
+          if (_popup) _popup.blur();
           this._close();
           dialogsOpened--;
           this.fire('close');
@@ -99,11 +99,7 @@
       _close() {
         /** Allow app to scroll again */
         /* istanbul ignore else */
-        if (
-          dialogsOpened === 1 &&
-          this.root.meta &&
-          previousNavigable != null
-        ) {
+        if (dialogsOpened === 1 && this.root.meta && previousNavigable != null) {
           /** Let's unlock the app */
           this.root.meta.set({
             navigable: previousNavigable,

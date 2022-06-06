@@ -26,9 +26,7 @@
   </div>
 {/if}
 
-<script>
-
-  import deleteIcon from './assets/num_delete.png';
+<script>import deleteIcon from './assets/num_delete.png';
   import confirmIcon from './assets/num_ok.png';
 
   // Libs
@@ -45,12 +43,12 @@
       confirmIcon,
     },
     computed: {
-      _inputProps: (
-        props = { bgColor, label, placeholder, textColor, value, validation },
-      ) => ({ ...props }),
+      _inputProps: (props = { bgColor, label, placeholder, textColor, value, validation }) => ({
+        ...props,
+      }),
       isMathKeyboard: ({ type }) => {
-        return type === "math"
-      }
+        return type === 'math';
+      },
     },
     data() {
       return {
@@ -61,8 +59,12 @@
       };
     },
     oncreate() {
-     controller = new VirtualKeyboardController(this);
-     this.fire('setup', { setupInput: (...params) => { this.handleSetupInput(params) } })
+      controller = new VirtualKeyboardController(this);
+      this.fire('setup', {
+        setupInput: (...params) => {
+          this.handleSetupInput(params);
+        },
+      });
     },
     methods: {
       handleOnClickInstanceKey(event, instance) {

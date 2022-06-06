@@ -33,9 +33,7 @@
         return getNumberWithDefault(height, 25);
       },
       _classes({ classnames }) {
-        return [...classnames]
-          .filter(Boolean)
-          .join(' ');
+        return [...classnames].filter(Boolean).join(' ');
       },
     },
     data() {
@@ -47,7 +45,7 @@
         height: 25,
       };
     },
-  }
+  };
 </script>
 
 <style>

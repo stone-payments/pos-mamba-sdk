@@ -40,9 +40,9 @@
       confirmIcon,
     },
     computed: {
-      _inputProps: (
-        props = { bgColor, label, placeholder, textColor, value, validation },
-      ) => ({ ...props }),
+      _inputProps: (props = { bgColor, label, placeholder, textColor, value, validation }) => ({
+        ...props,
+      }),
     },
     data() {
       return {
@@ -60,10 +60,10 @@
       _handleClickOutside(event) {
         const classList = Array.from(event.target.classList);
 
-        const hasClickedOutside = classList.some(className => className === 'keyboard-wrapper');
+        const hasClickedOutside = classList.some((className) => className === 'keyboard-wrapper');
 
         if (hasClickedOutside) {
-          this.set({isFocused: false});
+          this.set({ isFocused: false });
         }
       },
       _keyboardBeep() {

@@ -36,12 +36,9 @@
       };
     },
     oncreate() {
-
       const _tabs = [].filter.call(
         this.refs.container.children,
-        element =>
-          element.classList.contains('tab-pane') &&
-          element.dataset.label !== 'undefined',
+        (element) => element.classList.contains('tab-pane') && element.dataset.label !== 'undefined',
       );
 
       this.set({ _tabs });
@@ -49,7 +46,7 @@
       const { changeOn } = this.get();
 
       if (changeOn === CHANGEON.ROUTER && this.root.router) {
-        const _routes = _tabs.map(tab => tab.getAttribute('data-route'));
+        const _routes = _tabs.map((tab) => tab.getAttribute('data-route'));
         const { pageInstance } = this.root.router;
         if (pageInstance && pageInstance.current && _routes.length) {
           const index = _routes.indexOf(pageInstance.current);
@@ -116,11 +113,7 @@
       _stateUpdate({ changed, current }) {
         if (changed.index || changed._tabs) {
           // Update tab position
-          if (
-            current.changeOn === CHANGEON.ROUTER &&
-            current.index &&
-            current._lastIndex
-          ) {
+          if (current.changeOn === CHANGEON.ROUTER && current.index && current._lastIndex) {
             this._showContentOf(current);
           } else {
             this._changeTab(current.index, false);
