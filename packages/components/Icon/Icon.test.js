@@ -4,7 +4,7 @@ const { newTestRoot } = global;
 
 const root = newTestRoot();
 
-const newIcon = data => root.createComponent(Icon, { data });
+const newIcon = (data) => root.createComponent(Icon, { data });
 
 let icon;
 

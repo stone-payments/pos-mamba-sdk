@@ -104,14 +104,12 @@
         const contentEl = this.refs.printableContent;
 
         /** Default printing parameters */
-        printerOptions = Object.assign(
-          {
-            use_dithering: dithering,
-            print_to_paper: true,
-            reprint_id: id,
-          },
-          printerOptions,
-        );
+        printerOptions = {
+          use_dithering: dithering,
+          print_to_paper: true,
+          reprint_id: id,
+          ...printerOptions,
+        };
 
         if (printerOptions.print_to_paper === false) {
           Printer.print(contentEl, printerOptions);
@@ -132,8 +130,8 @@
           .catch(() => this.set({ _state: STATES.FAILURE }));
 
         /** We return a promise that resolves ONLY when the 'finish' event is fired */
-        return new Promise(res => {
-          const listener = this.on('finish', hasSucceeded => {
+        return new Promise((res) => {
+          const listener = this.on('finish', (hasSucceeded) => {
             listener.cancel();
             res(hasSucceeded);
           });
@@ -167,7 +165,7 @@
     width: 110px;
     height: 110px;
     margin: auto;
-    animation: printingAnimation 2s steps(65) infinite;
+    animation: printing-animation 2s steps(65) infinite;
   }
 
   .title-dialog {
@@ -177,6 +175,7 @@
     text-transform: uppercase;
     margin: 10px 0;
   }
+
 
   .failure-dialog-icon {
     width: 75px;
@@ -213,7 +212,7 @@
     }
   }
 
-  @keyframes printingAnimation {
+  @keyframes printing-animation {
     0% {
       background-position-x: 7150px;
     }

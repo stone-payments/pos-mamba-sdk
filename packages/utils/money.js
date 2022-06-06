@@ -1,5 +1,5 @@
 /** Format a number to XXX.XXX,XX format */
-export const format = n => {
+export const format = (n) => {
   if (typeof n !== 'number') {
     throw new Error('format() only accepts a number as a parameter');
   }
@@ -11,7 +11,7 @@ export const format = n => {
 };
 
 /* Add a leading zero to a number/string if needed */
-export const padZero = n => {
+export const padZero = (n) => {
   if (typeof n === 'number') {
     return (n < 10 ? '0' : '') + n;
   }
@@ -20,9 +20,7 @@ export const padZero = n => {
     return `0${n}`;
   }
 
-  throw new Error(
-    `padZero() only accepts numbers and strings. A "${typeof n}" was passed `,
-  );
+  throw new Error(`padZero() only accepts numbers and strings. A "${typeof n}" was passed `);
 };
 
 /**

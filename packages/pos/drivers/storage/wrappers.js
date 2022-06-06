@@ -1,4 +1,4 @@
-export default function(driver) {
+export default function (driver) {
   driver.setItem = (key, value) => {
     if (typeof value !== 'string') {
       value = JSON.stringify(value);

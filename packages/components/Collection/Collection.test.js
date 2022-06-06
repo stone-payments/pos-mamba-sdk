@@ -3,7 +3,7 @@ import Collection from './Collection.html';
 const { newTestRoot } = global;
 
 const root = newTestRoot();
-const newCollection = data => root.createComponent(Collection, { data });
+const newCollection = (data) => root.createComponent(Collection, { data });
 
 it('should hide title', () => {
   newCollection();

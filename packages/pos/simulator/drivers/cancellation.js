@@ -15,8 +15,7 @@ export function setup(Cancellation) {
    * @memberof Payment
    * @return {boolean} True if cacellation failed.
    */
-  Cancellation.failedCancellation = () =>
-    Registry.get().$Cancellation.shouldCancellationFail;
+  Cancellation.failedCancellation = () => Registry.get().$Cancellation.shouldCancellationFail;
 
   /**
    * Return the cancelled amount
@@ -24,12 +23,10 @@ export function setup(Cancellation) {
    * @return {number} the last cancelled amount transaction
    */
   Cancellation.getAmount = () =>
-    Cancellation.failedCancellation()
-      ? 0
-      : Registry.get().$Cancellation.cancelledAmount;
+    Cancellation.failedCancellation() ? 0 : Registry.get().$Cancellation.cancelledAmount;
 
   Cancellation.doCancellation = () => {
-    Registry.set(draft => {
+    Registry.set((draft) => {
       draft.$Cancellation.cancelledAmount = draft.$Payment.authorizedAmount;
     });
     Cancellation.cancellationDone();

@@ -21,9 +21,7 @@ beforeEach(() => {
 });
 
 it("should pass the app's content through a slot", () => {
-  expect(root.options.target.classList.contains('mamba-app-container')).toBe(
-    true,
-  );
+  expect(root.options.target.classList.contains('mamba-app-container')).toBe(true);
   expect(root.query('.content')).not.toBeNull();
 });
 
@@ -32,7 +30,7 @@ it('should register itself as a "meta" property on the root', () => {
 });
 
 it('should close the app on "this.root.close()" method execution', () =>
-  new Promise(res => {
+  new Promise((res) => {
     AppAPI.once('closed', res);
     root.close();
   }));
@@ -44,13 +42,13 @@ it('should open password dialog "this.root.close()" method execution when askPas
 });
 
 it('[DEPRECATED] should close the app on "close" root event', () =>
-  new Promise(res => {
+  new Promise((res) => {
     AppAPI.once('closed', res);
     root.fire('close');
   }));
 
 it('should be able to override the close callback with a root.onClose method', () =>
-  new Promise(res => {
+  new Promise((res) => {
     root.onClose = res;
     root.close();
   }));
@@ -92,13 +90,13 @@ it('should toggle a "has-appbar" class on the root.target with the `hasAppbar` p
 });
 
 it('should close app on "close" button', () =>
-  new Promise(res => {
+  new Promise((res) => {
     AppAPI.once('closed', res);
     fireKey('close');
   }));
 
 it('should trigger a "go back" action if no input is selected and the router is not at the home page', () =>
-  new Promise(res => {
+  new Promise((res) => {
     root.router.go('/not-home');
     root.router.back = res;
 
@@ -168,7 +166,7 @@ describe('shortcuts', () => {
     // 'back' is not allowed to be a shortcut key
   ];
 
-  const createShortcutButton = keyName => {
+  const createShortcutButton = (keyName) => {
     const button = document.createElement('BUTTON');
     button.setAttribute('shortcut', keyName);
     content.appendChild(button);
@@ -177,14 +175,12 @@ describe('shortcuts', () => {
 
   it('should trigger an element with `shortcut="keyName"`', () => {
     const promises = keyNames.map(
-      keyName =>
-        new Promise(res =>
-          createShortcutButton(keyName).addEventListener('click', res),
-        ),
+      (keyName) =>
+        new Promise((res) => createShortcutButton(keyName).addEventListener('click', res)),
       // setTimeout(res, 500);
     );
 
-    keyNames.forEach(key => fireKey(key));
+    keyNames.forEach((key) => fireKey(key));
 
     // return Promise.all(promises);
   });
