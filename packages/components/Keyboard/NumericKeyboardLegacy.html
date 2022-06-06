@@ -1,0 +1,177 @@
+<div class="numeric-wrapper" class:focus="isFocused">
+  <Input autofocus bind:value bind:isValid forceFocus {maxlength} {placeholder} ref:inputNumeric
+    {..._inputProps} on:focus="_openKeyboard()" on:submitValid="_onSubmitValid()"
+    on:submitInvalid="_onSubmitInvalid()" validate />
+
+  {#if isFocused}
+    <div class="keyboard-wrapper" on:click="_handleClickOutside(event)">
+      <div class="keyboard">
+        {#each new Array(12) as _, index}
+          {#if (index < 9)}
+            <button class="key" on:click="insertKey(event,index+1)">{index + 1}</button>
+          {:elseif index === 9}
+            <button class="key" on:click="deleteKey()">
+              <img class="icon" alt="delete" src="{deleteIcon}" />
+            </button>
+          {:elseif index === 10}
+            <button class="key" on:click="insertKey(event,0)">0</button>
+          {:elseif index === 11}
+            <button class="key" on:click="confirm()">
+              <img class="icon" alt="confirm" src="{confirmIcon}" />
+            </button>
+          {/if}
+      {/each}
+      </div>
+    </div>
+  {/if}
+</div>
+
+<script>
+  import System from '@mamba/pos/api/system.js';
+  import deleteIcon from './assets/num_delete.png';
+  import confirmIcon from './assets/num_ok.png';
+
+  export default {
+    components: {
+      Input: '@mamba/input/Input.html',
+    },
+    helpers: {
+      deleteIcon,
+      confirmIcon,
+    },
+    computed: {
+      _inputProps: (
+        props = { bgColor, label, placeholder, textColor, value, validation },
+      ) => ({ ...props }),
+    },
+    data() {
+      return {
+        isFocused: false,
+        maxlength: 99,
+        placeholder: '',
+      };
+    },
+    methods: {
+      /**
+       *
+       * @param {PointerEvent} event
+       * @private
+       */
+      _handleClickOutside(event) {
+        const classList = Array.from(event.target.classList);
+
+        const hasClickedOutside = classList.some(className => className === 'keyboard-wrapper');
+
+        if (hasClickedOutside) {
+          this.set({isFocused: false});
+        }
+      },
+      _keyboardBeep() {
+        System.beep(System.Tones.TONE3, 30);
+      },
+      insertKey(event, key) {
+        const { value, maxlength } = this.get();
+
+        if (value.length >= maxlength) return;
+
+        this.set({
+          value: value + key,
+        });
+
+        this._keyboardBeep();
+      },
+      deleteKey() {
+        const { value } = this.get();
+
+        if (!value) return;
+
+        this.set({
+          value: value.slice(0, -1),
+        });
+
+        this._keyboardBeep();
+      },
+      confirm() {
+        this.set({
+          isFocused: false,
+        });
+
+        this.fire('submit');
+
+        this._keyboardBeep();
+      },
+      _openKeyboard() {
+        this.set({
+          isFocused: true,
+        });
+      },
+      _onSubmitValid() {
+        this.fire('submitValid');
+      },
+      _onSubmitInvalid() {
+        this.fire('submitInvalid');
+      },
+      validate() {
+        this.refs.inputNumeric.validate();
+      },
+      /**
+       * @param {string} message
+       */
+      invalidate(message = '') {
+        this.refs.inputNumeric.invalidate(message);
+      },
+    },
+  };
+</script>
+
+<style>
+  :global(.D199) {
+    .numeric-wrapper {
+      /* css debug */
+      /* border: 1px solid red; */
+      position: relative;
+    }
+
+    .keyboard-wrapper {
+      position: fixed;
+      height: 347px;
+      width: 100%;
+      /* css debug */
+      /* border: 1px solid red; */
+    }
+
+    .keyboard {
+      z-index: 999;
+      width: 100%;
+      min-width: 100px;
+      max-height: 320px;
+      box-sizing: border-box;
+      /* css debug */
+      /* border-bottom: 1px solid blue; */
+      border-top: 1px solid $gray700;
+      background-color: $neutral50;
+      position: fixed;
+      bottom: 0;
+
+      * {
+        box-sizing: border-box;
+      }
+
+      .key {
+        max-width: 80px;
+        width: 100%;
+        height: auto;
+        border: 0;
+        font-size: 20px;
+        line-height: 40px;
+        color: $neutral700;
+        background-color: transparent;
+      }
+
+      .icon {
+        max-width: 20px;
+        max-height: 19px;
+      }
+    }
+  }
+</style>
