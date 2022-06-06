@@ -43,12 +43,7 @@
 {/if}
 
 <script>
-  import {
-    AppManager,
-    System,
-    HardwareManager,
-    Registry,
-  } from '../../../index.js';
+  import { AppManager, System, HardwareManager, Registry } from '../../../index.js';
   import { warn } from '../../../libs/utils.js';
 
   const STATES = {
@@ -152,9 +147,7 @@
           this.openApp(apps['1-payment'], { openMode: 'detection' });
         } else {
           // TODO: fake payment app
-          warn(
-            "Should open payment app but it's not installed\nTODO: placeholder payment app.",
-          );
+          warn("Should open payment app but it's not installed\nTODO: placeholder payment app.");
         }
       },
       openApp(appMeta, options) {

@@ -42,23 +42,21 @@
       };
 
       const checkAboveScreen = (x, y) =>
-        Array.from(document.elementsFromPoint(x, y)).some(n =>
-          n.classList.contains('screen'),
-        );
+        Array.from(document.elementsFromPoint(x, y)).some((n) => n.classList.contains('screen'));
 
-      const onMousedown = e => {
+      const onMousedown = (e) => {
         mouseStartPos = { x: e.clientX, y: e.clientY };
         elPos = { x: cardEl.offsetLeft, y: cardEl.offsetTop };
       };
 
-      const onMouseup = e => {
+      const onMouseup = (e) => {
         if (mouseStartPos.x === e.clientX && mouseStartPos.y === e.clientY) {
           this.toggleCard();
         }
         resetDrag();
       };
 
-      const onMousemove = e => {
+      const onMousemove = (e) => {
         const { isInserted, isDragging } = this.get();
         if (!mouseStartPos || isInserted) {
           return;

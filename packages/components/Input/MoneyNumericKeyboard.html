@@ -39,10 +39,10 @@
 </div>
 
 <script>
-  import System from '@mamba/pos/api/system.js'
-  import deleteIcon from './assets/num_delete.png';
-  import confirmIcon from './assets/num_ok.png';
+  import System from '@mamba/pos/api/system.js';
   import { format as formatMoney } from '@mamba/utils/money.js';
+import deleteIcon from './assets/num_delete.png';
+import confirmIcon from './assets/num_ok.png';
 
   export default {
     components: {
@@ -77,10 +77,10 @@
           prefix,
           suffix,
           mask,
-          type, },
+          type,
+      },
       ) => ({ ...props }),
-      value: ({ prefix, suffix, cents }) =>
-        prefix + formatMoney(parseFloat(cents) / 100) + suffix,
+      value: ({ prefix, suffix, cents }) => prefix + formatMoney(parseFloat(cents) / 100) + suffix,
       /** deprecated */
       rawValue: ({ cents }) => cents,
     },
@@ -89,22 +89,21 @@
       const buttons = document.querySelectorAll('button.key');
 
       appScreen.addEventListener('click', (e) => {
-
-        const clickClassList = Array.from(e.target.classList);
+          const clickClassList = Array.from(e.target.classList);
 
         const clickOutKeyboard = clickClassList.some((className) => className === 'keyboard-wrapper');
 
         if (clickOutKeyboard) {
           this.set({
             isFocused: false,
-          })
+          });
 
-          return;
+        }
         }
 
       });
 
-      buttons.forEach(button => {
+      buttons.forEach((button) => {
         button.addEventListener('click', (e) => {
           System.beep(System.Tones.TONE3, 30);
         });

@@ -58,7 +58,13 @@
 
 <script>
   import { ENTER, KEYUP, KEYDOWN } from '@mamba/pos/drivers/keyboard/keymap.js';
-  import { selectRowItem, toggleActive, getStyles, shouldReturnComponent, scrollActiveNodeAtIndex } from './helpers.js';
+  import {
+  selectRowItem,
+  toggleActive,
+  getStyles,
+  shouldReturnComponent,
+  scrollActiveNodeAtIndex,
+} from './helpers.js';
   import isSomeInputElement from './utils/isSomeInputElement.js';
   import isFunction from './utils/isFunction.js';
   import { ACTIVE_MODEL } from './decorators.js';
@@ -83,17 +89,15 @@
       KEYUP,
       KEYDOWN,
       /**
-        * @param {function} decorator - default decorator
-        * @param {object} item - row from Flatlist data
-        * @param {function} decoratorOverrides - custom decorator
-        *
-        * @description if has custom decorator, sent it
-        *
-        * */
+       * @param {function} decorator - default decorator
+       * @param {object} item - row from Flatlist data
+       * @param {function} decoratorOverrides - custom decorator
+       *
+       * @description if has custom decorator, sent it
+       *
+       * */
       _setDecorator(decorator, item, decoratorOverrides) {
-
-        return isFunction(decorator) ?
-          decorator(item, decoratorOverrides) : decorator;
+        return isFunction(decorator) ? decorator(item, decoratorOverrides) : decorator;
       },
     },
     data() {
@@ -123,14 +127,14 @@
     },
     computed: {
       _isKeystrokeActive({ _hasElement, disabled }) {
-        if(disabled === true) return !disabled;
-        if(_flatListElement && _hasElement) {
+        if (disabled === true) return !disabled;
+        if (_flatListElement && _hasElement) {
           return _flatListElement.offsetParent !== null;
         }
         return true;
       },
       _styles({ style }) {
-        if(typeof style === 'string') return style;
+        if (typeof style === 'string') return style;
         return getStyles(style);
       },
       // allow using shortcuts; do NOT work on dataSection
@@ -144,9 +148,8 @@
     oncreate() {
       this.fire('setup', { setupFirstFocusable: (elm, fr) => this.setupFirstFocusable(elm, fr) });
     },
-    onupdate({changed, current}) {
-      if(changed.data || changed.dataSection) {
-
+    onupdate({ changed, current }) {
+      if (changed.data || changed.dataSection) {
         const { data, dataSection } = current;
 
         const isDataArray = Array.isArray(data);
@@ -164,7 +167,7 @@
         }
 
         // if just data, sends to component
-        const isValidData = (isDataArray && data.length > 0);
+        const isValidData = isDataArray && data.length > 0;
 
         if (isValidData) {
           this._publishData(current, data);
@@ -173,7 +176,6 @@
     },
     methods: {
       setSelected(parentProps, isKeystroke = false) {
-
         const {
           _elementsRefs,
           selectedIndex,
@@ -183,14 +185,9 @@
 
         let eventData = parentProps;
 
-        if(!eventData) {
-          if(!this.get()._isKeystrokeActive) return;
-          const {
-            sectionIndex,
-            element,
-            index,
-            position,
-          } = _elementsRefs[selectedIndex];
+        if (!eventData) {
+          if (!this.get()._isKeystrokeActive) return;
+          const { sectionIndex, element, index, position } = _elementsRefs[selectedIndex];
 
           eventData = {
             data: element.options.data.data,
@@ -213,18 +210,18 @@
 
         this.set({ selectedIndex: position });
 
-        if(autoSelectOnTouch && !(isKeystroke === true)) {
+        if (autoSelectOnTouch && !(isKeystroke === true)) {
           toggleActive(_elementsRefs, internalIndex);
         }
 
-        if(!intersect) this.fire(EVENTS.ITEM_SELECTED, eventData);
+        if (!intersect) this.fire(EVENTS.ITEM_SELECTED, eventData);
 
         const { disabled } = this.get();
-        if(disabled === false && 'onSelected' in data && typeof data.onSelected === 'function') {
+        if (disabled === false && 'onSelected' in data && typeof data.onSelected === 'function') {
           return data.onSelected(eventData);
         }
 
-        if(intersect) this.fire(EVENTS.ITEM_SELECTED, eventData);
+        if (intersect) this.fire(EVENTS.ITEM_SELECTED, eventData);
       },
       // register elements (allowing handle them)
       register(element, index, sectionIndex, focusableItem = undefined) {
@@ -242,9 +239,9 @@
 
         element.set({ position });
 
-        this.set({ _elementsRefs })
+        this.set({ _elementsRefs });
 
-        if(index === selectedIndex) {
+        if (index === selectedIndex) {
           setTimeout(() => {
             scrollActiveNodeAtIndex(_elementsRefs, selectedIndex, scrollY);
           });
@@ -258,28 +255,20 @@
          *  40: 'keydown'
          *  13: 'enter'
          *
-        */
-        const {
-          _isKeystrokeActive,
-          disableEnterKeystroke,
-        } = this.get();
+         */
+        const { _isKeystrokeActive, disableEnterKeystroke } = this.get();
 
-        if(!_isKeystrokeActive) return;
+        if (!_isKeystrokeActive) return;
 
-        if(keyCode === ENTER && disableEnterKeystroke === false) {
+        if (keyCode === ENTER && disableEnterKeystroke === false) {
           this.setSelected(undefined, true);
           return;
         }
 
-        if(keyCode === KEYUP || keyCode === KEYDOWN) {
+        if (keyCode === KEYUP || keyCode === KEYDOWN) {
           const { scrollY, selectedIndex, _elementsRefs } = this.get();
 
-          const internalIndex = selectRowItem(
-            _elementsRefs,
-            selectedIndex,
-            scrollY,
-            keyCode,
-          );
+          const internalIndex = selectRowItem(_elementsRefs, selectedIndex, scrollY, keyCode);
 
           const target = _elementsRefs[internalIndex];
 
@@ -287,41 +276,33 @@
         }
       },
       selectRowAtTarget(targetItem, targetIndex) {
-        const {
-          sectionIndex,
-          element,
-          index,
-          position,
-        } = targetItem || {};
+        const { sectionIndex, element, index, position } = targetItem || {};
 
-        const { data }  = element.options.data;
+        const { data } = element.options.data;
 
         this.fire(EVENTS.ITEM_ACTIVE, { index, sectionIndex, position, data });
 
         this.set({ selectedIndex: targetIndex });
       },
-      setupFirstFocusable({
-        element,
-        forwardedRef,
-      }) {
-        if(!element) return false;
+      setupFirstFocusable({ element, forwardedRef }) {
+        if (!element) return false;
 
         try {
           const domElement = forwardedRef ? element.refs[forwardedRef] : element;
           const isComponent = !(domElement instanceof HTMLElement);
 
-          if(isComponent || !isSomeInputElement(domElement)) return false;
+          if (isComponent || !isSomeInputElement(domElement)) return false;
 
           const self = {
             focusable: true,
             element,
             domElement,
-            getBoundingClientRect () {
+            getBoundingClientRect() {
               let { getBoundingClientRect } = self.domElement;
               let thisArg = self.domElement;
 
-              if(self.element.getBoundingClientRect) {
-              // eslint-disable-next-line prefer-destructuring
+              if (self.element.getBoundingClientRect) {
+                // eslint-disable-next-line prefer-destructuring
                 getBoundingClientRect = self.element.getBoundingClientRect;
                 thisArg = self.element;
               }
@@ -348,29 +329,26 @@
             }
           };
 
-          if(__DEV__ ) {
+          if (__DEV__) {
             console.log('[FlatList] setupFirstFocusable', self);
           }
 
           // Register the first element user has focused row
           this.set({ linkFirstFocusable: self });
-
         } catch (error) {
-          if(__DEV__ || __DEBUG_LVL__ >= 2) {
+          if (__DEV__ || __DEBUG_LVL__ >= 2) {
             console.log(error);
           }
           return false;
         }
       },
       _isMenuInvalid(isDataArray, isSectionArray) {
-
-        return (!isDataArray && !isSectionArray);
+        return !isDataArray && !isSectionArray;
       },
       /**
-        * @description updates _hasElement from state, to find and handle data
-        */
+       * @description updates _hasElement from state, to find and handle data
+       */
       _updateHasElement() {
-
         return setTimeout(() => {
           const { flatListRef } = this.refs;
           _flatListElement = flatListRef;
@@ -386,63 +364,65 @@
         });
       },
       /**
-        * @param {array} list rows from menu, both data|dataSection
-        *
-        * @description remove items who has dependencies as false
-        */
+       * @param {array} list rows from menu, both data|dataSection
+       *
+       * @description remove items who has dependencies as false
+       */
       _removeInvalidRows(list) {
         let filteredList = [];
 
-        list.forEach(row => {
+        list.forEach((row) => {
           const dataOrSection = [...(row.data || row)];
 
-          const onlyValidDependencies = dataOrSection.filter((data) => this._hasNoDependencie(data) || this._allDependenciesAreTrue(data));
+          const onlyValidDependencies = dataOrSection.filter(
+            (data) => this._hasNoDependencie(data) || this._allDependenciesAreTrue(data),
+          );
 
           const newRow = row.data ? { ...row, data: onlyValidDependencies } : onlyValidDependencies;
 
-          return filteredList = [...filteredList, ...newRow]
+          return (filteredList = [...filteredList, ...newRow]);
         });
 
         return filteredList;
       },
       /**
-        * @param {object} rowItem object from iteration of menu data
-        *
-        * @example _removeInvalidRows
-        *
-        */
+       * @param {object} rowItem object from iteration of menu data
+       *
+       * @example _removeInvalidRows
+       *
+       */
       _allDependenciesAreTrue(rowItem) {
-        return Object.values(rowItem.dependencies).every(dep => dep === true);
+        return Object.values(rowItem.dependencies).every((dep) => dep === true);
       },
       /**
-        * @param {object} rowItem object from iteration of menu data
-        *
-        * @example _removeInvalidRows
-        *
-        */
+       * @param {object} rowItem object from iteration of menu data
+       *
+       * @example _removeInvalidRows
+       *
+       */
       _hasNoDependencie(rowItem) {
         return !rowItem.dependencies;
       },
       /**
-        * @param {array} dataSection menu data with sections
-        *
-        * @description send data to component itself
-        *
-        */
+       * @param {array} dataSection menu data with sections
+       *
+       * @description send data to component itself
+       *
+       */
       _publishDataSection(dataSection) {
         const rowValid = this._removeInvalidRows(dataSection);
 
         this.set({
           dataSection: rowValid,
-        })
+        });
       },
       /**
-        * @param {object} current object from app lifecycle (onupdate)
-        * @param {array} data menu data
-        *
-        * @description send data to component itself
-        *
-        */
+       * @param {object} current object from app lifecycle (onupdate)
+       * @param {array} data menu data
+       *
+       * @description send data to component itself
+       *
+       */
       _publishData(current, data) {
         const { linkFirstFocusable } = current;
 
@@ -453,12 +433,14 @@
         const filteredData = this._removeInvalidRows(data);
 
         this.set({
-          dataSection: [{
-            title: null,
-            data: filteredData,
-          }],
+          dataSection: [
+            {
+              title: null,
+              data: filteredData,
+            },
+          ],
         });
-      }
+      },
     },
   };
 </script>

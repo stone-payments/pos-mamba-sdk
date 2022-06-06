@@ -101,7 +101,6 @@
       layout: ({ mode }) => KEYBOARD_LAYOUTS[mode],
       specialLabel: ({ mode }) => (mode === MODES.SYMBOLS ? 'abc' : '?123'),
       filteredSuggestions: ({ value }) => {
-
         // get last clicked key
         const lastChar = value[value.length - 1];
 
@@ -109,25 +108,15 @@
 
         // finds index that matches with clicked key
         const filteredSuggestion = defaultSuggestions.find(
-          suggestObj => (suggestObj.target === lastChar),
+          (suggestObj) => suggestObj.target === lastChar,
         );
 
         if (filteredSuggestion) {
           return filteredSuggestion.suggestions;
         }
         return [];
-
-
       },
-      _inputProps: ({
-        value,
-        mode,
-        bgColor,
-        suggestions,
-        label,
-        hideLabel,
-        ...props
-      }) => ({
+      _inputProps: ({ value, mode, bgColor, suggestions, label, hideLabel, ...props }) => ({
         ...props,
         alphanumeric: true,
       }),
@@ -146,10 +135,8 @@
       };
 
       this.set({ event });
-
     },
     onupdate() {
-
       const { input } = this.refs.keyboardInput.refs;
       const inputTyped = input.value.length; // characters typed on input
 
@@ -162,19 +149,15 @@
       if (inputTyped >= 28) input.style.fontSize = '12px';
 
       if (inputTyped >= maxLength) {
-
         this.set({
           value: value.slice(0, maxLength),
         });
-
       }
-
     },
     ondestroy() {
       // unbug scrolling after quit
       this.root.meta.setScrollable(true);
       document.body.removeEventListener('keyup', this.get().event);
-
     },
     methods: {
       _moveCursor(position) {
@@ -245,7 +228,6 @@
           delete this._tempCaptalize;
           this.toggleCapitalize(false);
         }
-
       },
       insertSuggestion(suggestion) {
         const inputValue = this.get().value;
@@ -267,8 +249,7 @@
         const newValue =
           position === input.value.length
             ? value.slice(0, -1)
-            : value.slice(0, position - 1) +
-              value.slice(position, input.value.length);
+            : value.slice(0, position - 1) + value.slice(position, input.value.length);
 
         this.set({ value: newValue });
 
@@ -281,7 +262,6 @@
         return this.get().mode === MODES.SYMBOLS;
       },
       toggleCapitalize(force, event) {
-
         this.inputFeedback(event);
 
         if (force !== true && this.get().mode === MODES.CAPITALIZED) {
@@ -291,7 +271,6 @@
         }
       },
       toggleSymbols(force) {
-
         if (force !== true && this.get().mode === MODES.SYMBOLS) {
           this.set({ mode: MODES.DEFAULT });
         } else if (force !== false) {
@@ -299,17 +278,13 @@
         }
       },
       inputFeedback(event) {
-
         const keyFromEvent = event.target;
 
         keyFromEvent.classList.add('is-active');
 
-        setTimeout(
-          () => {
-            keyFromEvent.classList.remove('is-active');
-          }, 100,
-        );
-
+        setTimeout(() => {
+          keyFromEvent.classList.remove('is-active');
+        }, 100);
       },
       submit() {
         const { value } = this.get();

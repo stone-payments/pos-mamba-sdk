@@ -33,7 +33,7 @@
       };
     },
     oncreate() {
-      Registry.on('persistentDataChanged', changes => {
+      Registry.on('persistentDataChanged', (changes) => {
         changes.forEach(({ path: [, prop], value }) => {
           if (prop === 'adminPassword') {
             this.set({ adminPassword: value });
@@ -46,14 +46,14 @@
         return;
       }
 
-      Registry.set(draft => {
+      Registry.set((draft) => {
         if (changed.printerHasPaper) {
           console.log(current.printerHasPaper);
           draft.$Printer.panel.shouldFail = !current.printerHasPaper;
         }
       });
 
-      Registry.persistent.set(draft => {
+      Registry.persistent.set((draft) => {
         if (changed.serialNumber) {
           draft.$System.serialNumber = current.serialNumber;
         }

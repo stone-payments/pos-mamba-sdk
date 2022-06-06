@@ -53,9 +53,7 @@
     },
     oncreate() {
       HardwareManager.on('startPrinting', (content, options) => {
-        this.print(content, options).then(() =>
-          HardwareManager.fire('endPrinting'),
-        );
+        this.print(content, options).then(() => HardwareManager.fire('endPrinting'));
       });
     },
     methods: {
@@ -64,7 +62,7 @@
         this.set({ usingDithering: !!options.use_dithering });
 
         const getPrintPromise = () =>
-          new Promise(resolve => {
+          new Promise((resolve) => {
             this.set({
               state: STATES.PRINTED,
               content: content.outerHTML,
@@ -97,7 +95,7 @@
         }
 
         /** If there's already printed paper, shred it */
-        shreddingPromise = new Promise(resolve => {
+        shreddingPromise = new Promise((resolve) => {
           this.set({ state: STATES.SHREDDING });
           /** Once it finishes shredding animation */
           onceTransitionEnd(this.refs.paper, () => {

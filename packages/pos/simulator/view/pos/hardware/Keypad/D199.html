@@ -35,8 +35,7 @@
         event.preventDefault();
         event.stopImmediatePropagation();
         const el = document.activeElement;
-        const isInputOnFocus =
-          el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA');
+        const isInputOnFocus = el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA');
         const keyCode = Keyboard.getKeyCode(keyName);
 
         /** We have to handle input actions manually */

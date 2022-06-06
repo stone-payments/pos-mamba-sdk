@@ -87,8 +87,7 @@
       };
     },
     computed: {
-      _hasRightSign: ({ href, _slots }) =>
-        !!(href || _slots.rightSign || _slots.controller),
+      _hasRightSign: ({ href, _slots }) => !!(href || _slots.rightSign || _slots.controller),
       _rowStyle: ({ primaryColor }) =>
         [primaryColor && `color: ${primaryColor}`].filter(Boolean).join(';'),
       _rightLabelStyle: ({ secondaryColor }) =>

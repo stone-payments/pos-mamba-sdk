@@ -32,10 +32,10 @@
       };
     },
     oncreate() {
-      const togglePanels = e => {
+      const togglePanels = (e) => {
         if (e.target.classList.contains('title')) {
           const eventPath = e.path || (e.composedPath && e.composedPath());
-          const section = eventPath.find(n => n.classList.contains('section'));
+          const section = eventPath.find((n) => n.classList.contains('section'));
           if (section) {
             section.classList.toggle('is-active');
           }

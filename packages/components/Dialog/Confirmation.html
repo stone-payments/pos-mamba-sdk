@@ -84,10 +84,8 @@
       red400,
     },
     computed: {
-      _dialogProps: ({ positiveLabel, negativeLabel, primaryColor, ...props }) =>
-        props,
-      _hasLabel: ({ negativeLabel, positiveLabel }) =>
-        !!(negativeLabel && positiveLabel),
+      _dialogProps: ({ positiveLabel, negativeLabel, primaryColor, ...props }) => props,
+      _hasLabel: ({ negativeLabel, positiveLabel }) => !!(negativeLabel && positiveLabel),
       _positiveLabelStyle: ({ _hasLabel, primaryColor }) => {
         if (!_hasLabel || !primaryColor) {
           return;
@@ -105,7 +103,7 @@
     },
     methods: {
       keyHandler(e) {
-        if(!this.get().isOpen) return;
+        if (!this.get().isOpen) return;
 
         const { key } = e;
         const isClose = key === 'close';
@@ -113,15 +111,13 @@
 
         if (isClose || isEnter) {
           if (__DEV__ || __DEBUG_LVL__ >= 1) {
-            console.log(
-              `[@mamba/dialog/Confirmation.html] !! stopping propagation of key "${key}"`,
-            );
+            console.log(`[@mamba/dialog/Confirmation.html] !! stopping propagation of key "${key}"`);
           }
           e.stopImmediatePropagation();
           e.preventDefault();
 
-          if(isEnter) this.close('positive');
-          if(isClose) this.close('negative');
+          if (isEnter) this.close('positive');
+          if (isClose) this.close('negative');
         }
       },
       open(duration) {
