@@ -57,8 +57,15 @@
 {/if}
 
 <script>
-  import { ENTER, KEYUP, KEYDOWN } from '@mamba/pos/drivers/keyboard/keymap.js';
-  import { selectRowItem, toggleActive, getStyles, shouldReturnComponent, scrollActiveNodeAtIndex } from './helpers.js';
+  import { ENTER, KEYUP, KEYDOWN } from '@mamba/keyboard/native/keymap.js';
+
+  import {
+    selectRowItem,
+    toggleActive,
+    getStyles,
+    shouldReturnComponent,
+    scrollActiveNodeAtIndex,
+  } from './helpers.js';
   import isSomeInputElement from './utils/isSomeInputElement.js';
   import isFunction from './utils/isFunction.js';
   import { ACTIVE_MODEL } from './decorators.js';
