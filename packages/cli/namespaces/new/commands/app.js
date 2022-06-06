@@ -21,20 +21,20 @@ module.exports = {
           type: 'input',
           name: 'name',
           message: 'Name',
-          validate: str => !!str.length,
+          validate: (str) => !!str.length,
         },
         {
           type: 'input',
           name: 'version',
           message: 'Version',
           default: '0.0.1',
-          validate: str => str.split('.').length >= 3,
+          validate: (str) => str.split('.').length >= 3,
         },
         {
           type: 'input',
           name: 'description',
           message: 'Description',
-          validate: str => !!str.length,
+          validate: (str) => !!str.length,
         },
       ])
       .then(({ name, version, description }) => {
@@ -73,10 +73,7 @@ module.exports = {
 
         delete pkgJson.rootDir;
 
-        writeFileSync(
-          fromCwd(targetDir, 'package.json'),
-          JSON.stringify(pkgJson, null, 2),
-        );
+        writeFileSync(fromCwd(targetDir, 'package.json'), JSON.stringify(pkgJson, null, 2));
 
         console.log(chalk.cyan('Installing dependencies'));
         shell([`cd ${targetDir}`, `npm i`]);
@@ -84,7 +81,7 @@ module.exports = {
         console.log(chalk.green(`App created at '${targetDir}'`));
       });
   },
-  builder: yargs =>
+  builder: (yargs) =>
     yargs
       .positional('targetDir', {
         describe: 'Directory to create the app',

@@ -1,4 +1,4 @@
 const { fromCwd } = require('quickenv');
 
-exports.getWebpackConfigPath = id =>
+exports.getWebpackConfigPath = (id) =>
   fromCwd('node_modules', '@mamba', 'webpack', `config.${id}.js`);

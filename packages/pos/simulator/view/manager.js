@@ -17,7 +17,7 @@ const updatePanels = () => {
   panelsToAdd = [];
 };
 
-View.addPanel = panel => {
+View.addPanel = (panel) => {
   panelsToAdd.push(panel);
   if (instance) {
     updatePanels();

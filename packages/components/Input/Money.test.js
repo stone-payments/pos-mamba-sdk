@@ -4,14 +4,13 @@ const { newTestRoot, fireKey, typeOn } = global;
 
 const root = newTestRoot();
 
-const newMoneyInput = data =>
-  root.createComponent(MoneyInput, { unique: true, data });
+const newMoneyInput = (data) => root.createComponent(MoneyInput, { unique: true, data });
 
 let moneyInput;
 
 const getInputEl = () => moneyInput.refs.amountInput.refs.input;
 
-const type = what => typeOn(getInputEl(), what);
+const type = (what) => typeOn(getInputEl(), what);
 
 describe('Component Standards', () => {
   beforeAll(() => {
@@ -97,7 +96,7 @@ describe('Behavior', () => {
       getInputEl().setSelectionRange(0, 0);
       moneyInput.blur();
 
-      return new Promise(res => {
+      return new Promise((res) => {
         setTimeout(() => {
           const { value } = moneyInput.get();
           expect(getInputEl().selectionEnd).toBe(value.length);
@@ -110,7 +109,7 @@ describe('Behavior', () => {
   describe('validation', () => {
     beforeAll(() => {
       moneyInput = newMoneyInput({
-        validation: cents => cents > 100 && cents < 200,
+        validation: (cents) => cents > 100 && cents < 200,
       });
     });
 
@@ -119,10 +118,10 @@ describe('Behavior', () => {
 
       return Promise.all([
         new Promise(
-          res => moneyInput.on('submit', res),
-          new Promise(res => {
+          (res) => moneyInput.on('submit', res),
+          new Promise((res) => {
             setTimeout(() => {
-              moneyInput.on('submitInvalid', e => {
+              moneyInput.on('submitInvalid', (e) => {
                 expect(e.cents).toBe(11);
                 expect(e.value).toBe(11);
                 expect(e.formatted).toBe('R$ 0,11');
@@ -136,8 +135,8 @@ describe('Behavior', () => {
       ]).then(() => {
         moneyInput.set({ cents: 0 });
         type('112');
-        return new Promise(res => {
-          moneyInput.on('submitValid', e => {
+        return new Promise((res) => {
+          moneyInput.on('submitValid', (e) => {
             expect(e.cents).toBe(112);
             expect(e.value).toBe(112);
             expect(e.formatted).toBe('R$ 1,12');

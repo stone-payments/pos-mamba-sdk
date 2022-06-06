@@ -1,7 +1,6 @@
-import { log } from '../libs/utils.js';
+import { log, LOG_PREFIX } from '../libs/utils.js';
 import { Registry } from '../index.js';
 import { useAddHeaderHook } from '../events/hooks.js';
-import { LOG_PREFIX } from '../libs/utils.js';
 
 export const NAMESPACE = '$Http';
 
@@ -58,7 +57,7 @@ export function setup(Http) {
   ) {
     const xhttp = new XMLHttpRequest();
 
-    let hookUnsubscribe = () => null;
+    const hookUnsubscribe = () => null;
 
     Http.fire('requestRefSinal', refSignal, refSignal);
 
@@ -149,17 +148,14 @@ export function setup(Http) {
         // Rewrite endpoint to use CORS server address with simulator.
         // Ex.: `http://localhost:1300/${url}`;
 
-        const corsPortPart = !!corsPort ? `:${corsPort}` : '';
+        const corsPortPart = corsPort ? `:${corsPort}` : '';
         return `${corsProtocol}//${corsHost}${corsPortPart}/${urlFrom}`;
       }
 
       return urlFrom;
     }
 
-    if (
-      (panel.activeProxy && canAddHeaders && proxy === true) ||
-      connect === 'NET'
-    ) {
+    if ((panel.activeProxy && canAddHeaders && proxy === true) || connect === 'NET') {
       const urlParam = encodeURI ? encodeURIComponent(url) : url;
 
       const { proxyEnvironment } = Registry.persistent.get().$Http.panel;
@@ -168,11 +164,11 @@ export function setup(Http) {
 
       url = shouldAddCors(url);
 
-      const isInvalidXheader = prop => !appKey || appKey === '';
+      const isInvalidXheader = (prop) => !appKey || appKey === '';
 
-      let appKey = Registry.persistent.get().$App.appKey;
-      const serialNumber = Registry.persistent.get().$System.serialNumber;
-      const stoneCode = Registry.persistent.get().$Merchant.stoneCode;
+      let { appKey } = Registry.persistent.get().$App;
+      const { serialNumber } = Registry.persistent.get().$System;
+      const { stoneCode } = Registry.persistent.get().$Merchant;
 
       if (isInvalidXheader(serialNumber)) {
         throw new Error('Proxy enabled but Serial Number on panel is invalid');
@@ -185,9 +181,7 @@ export function setup(Http) {
       if (isInvalidXheader(appKey)) {
         appKey = __APP_MANIFEST__.appKey;
         if (isInvalidXheader(appKey) || appKey === '11-11-11-11') {
-          throw new Error(
-            'Proxy enabled but appKey on panel or in package.json is invalid',
-          );
+          throw new Error('Proxy enabled but appKey on panel or in package.json is invalid');
         }
       }
 
@@ -204,7 +198,7 @@ export function setup(Http) {
 
     if (canAddHeaders) {
       console.groupCollapsed(`${LOG_PREFIX} Adding addon headers`);
-      Object.keys(headers).forEach(key => {
+      Object.keys(headers).forEach((key) => {
         console.log(`${key}: ${headers[key]}`);
         xhttp.setRequestHeader(key, headers[key]);
       });
@@ -222,8 +216,7 @@ export function setup(Http) {
   };
 
   Http.doSendRequest = function send(...args) {
-    if (args.length > 0 && typeof args[0] === 'object')
-      args[0].encodeURI = true;
+    if (args.length > 0 && typeof args[0] === 'object') args[0].encodeURI = true;
     Http.doSend.apply(this, ...args);
   };
 }

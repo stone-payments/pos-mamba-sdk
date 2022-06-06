@@ -1,4 +1,4 @@
-export default function(driver) {
+export default function (driver) {
   driver.print = (content, options = {}) =>
     new Promise((resolve, reject) => {
       driver.once('printerDone', () => {

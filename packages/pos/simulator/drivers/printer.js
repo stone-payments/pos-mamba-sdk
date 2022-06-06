@@ -25,13 +25,13 @@ export function setup(Printer) {
         return Printer.printerDone();
       }
 
-      Registry.set(draft => {
+      Registry.set((draft) => {
         draft.$Printer.isPrinting = true;
       });
 
       /** Fire the printing signal for the browser mamba simulation */
       if (Printer.failedPrinting()) {
-        Registry.set(draft => {
+        Registry.set((draft) => {
           draft.$Printer.isPrinting = false;
         });
         Printer.printerDone();
@@ -46,7 +46,7 @@ export function setup(Printer) {
        * */
       HardwareManager.fire('startPrinting', content.cloneNode(true), options);
       HardwareManager.once('endPrinting', () => {
-        Registry.set(draft => {
+        Registry.set((draft) => {
           draft.$Printer.isPrinting = false;
         });
         Printer.printerDone();
@@ -60,7 +60,7 @@ export function setup(Printer) {
 
     // necessary to avoid circular dependency
     import('@mamba/utils/models.js')
-      .then(module => {
+      .then((module) => {
         if (typeof module.hasNoPrinter === 'function') {
           hasNoPrinter = module.hasNoPrinter();
         }

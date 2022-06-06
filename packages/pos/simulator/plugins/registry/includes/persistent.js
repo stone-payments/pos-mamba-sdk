@@ -4,12 +4,10 @@ import { warn } from '../../../libs/utils.js';
 let cachedGet = null;
 let cachedParsed = {};
 
-export default Registry => {
+export default (Registry) => {
   if (!localStorage) {
     if (__DEV__) {
-      warn(
-        'Could not load persistent Registry data because "localStorage" was not found',
-      );
+      warn('Could not load persistent Registry data because "localStorage" was not found');
     }
     Registry.persistent = { get() {}, set() {} };
   } else {
@@ -29,7 +27,7 @@ export default Registry => {
           const changes = [];
           const persistentData = Registry.persistent.get();
 
-          produce(persistentData, fn, patches => {
+          produce(persistentData, fn, (patches) => {
             changes.push(...patches);
           });
 

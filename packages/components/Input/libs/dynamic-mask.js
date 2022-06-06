@@ -9,12 +9,7 @@ export default function dynamicMask(masks) {
       const currentMask = masks[i];
       const nextMask = masks[++i];
 
-      if (
-        !(
-          nextMask &&
-          maskit(value, nextMask, true, tokens).length > currentMask.length
-        )
-      ) {
+      if (!(nextMask && maskit(value, nextMask, true, tokens).length > currentMask.length)) {
         return maskit(value, currentMask, masked, tokens);
       }
     }

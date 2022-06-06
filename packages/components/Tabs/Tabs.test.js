@@ -8,12 +8,12 @@ const root = newTestRoot();
 let tabs;
 
 const newTabs = (data, slots) => root.createComponent(Tabs, { data, slots });
-const newTabPane = data => root.createComponent(TabPane, { data });
+const newTabPane = (data) => root.createComponent(TabPane, { data });
 
 const generateTabPane = () => {
   const slotFragment = document.createDocumentFragment();
 
-  ['Tab 1', 'Tab 2', 'Tab 3', 'undefined'].forEach(item =>
+  ['Tab 1', 'Tab 2', 'Tab 3', 'undefined'].forEach((item) =>
     newTabPane({ label: item })._mount(slotFragment),
   );
 
@@ -30,19 +30,15 @@ describe(`${name}/Tabs.html`, () => {
 
     it('should render a single tabs container wrapper', () => {
       expect(
-        root
-          .query('.tabs')
-          .lastElementChild.classList.contains('tabs-paine-container'),
+        root.query('.tabs').lastElementChild.classList.contains('tabs-paine-container'),
       ).toBeTruthy();
-      expect(
-        root.query('.tabs').querySelectorAll('div.tabs-paine-container'),
-      ).toHaveLength(1);
+      expect(root.query('.tabs').querySelectorAll('div.tabs-paine-container')).toHaveLength(1);
     });
 
     it('should not render tab with undefined label', () => {
       // TabPane title is undefined when not set
       const result = Array.from(root.queryAll('td')).filter(
-        elm => elm.textContent.trim() === 'undefined',
+        (elm) => elm.textContent.trim() === 'undefined',
       );
 
       expect(result).toHaveLength(0);

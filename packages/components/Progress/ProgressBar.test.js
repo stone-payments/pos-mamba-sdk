@@ -4,8 +4,7 @@ const { newTestRoot } = global;
 
 const root = newTestRoot();
 
-const newProgressBar = data =>
-  root.createComponent(ProgressBar, { unique: true, data });
+const newProgressBar = (data) => root.createComponent(ProgressBar, { unique: true, data });
 
 it('should create the default component', () => {
   newProgressBar();
@@ -64,9 +63,7 @@ describe('infinite bar', () => {
 
     const barEl = root.query('.progress-bar.is-infinite');
 
-    expect(getComputedStyle(barEl.children[0]).transform).toBe(
-      'translateX(-100%)',
-    );
+    expect(getComputedStyle(barEl.children[0]).transform).toBe('translateX(-100%)');
   });
 
   it('infinite progress bar width should have less than 100%', () => {

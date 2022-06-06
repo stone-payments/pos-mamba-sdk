@@ -4,8 +4,7 @@ import { log } from '../../../libs/utils.js';
  * This file overrides the default add/remove event listeners to collect possible loose ones
  * when unlisten them when the current app closes.
  */
-const eventTarget =
-  typeof window.EventTarget !== 'undefined' ? window.EventTarget : window.Node;
+const eventTarget = typeof window.EventTarget !== 'undefined' ? window.EventTarget : window.Node;
 
 const originalAddEventListener = eventTarget.prototype.addEventListener;
 const originalRemoveEventListener = eventTarget.prototype.removeEventListener;
@@ -64,18 +63,16 @@ const getCollectedEvents = ({ runtime }) =>
     else if (targetConstructor === 'HTMLDocument') node = document;
     else return;
 
-    Object.entries(runtime.collectedEvents[targetConstructor]).forEach(
-      ([eventType, eventList]) => {
-        eventList.forEach(fn => {
-          acc.push([node, eventType, fn]);
-        });
-      },
-    );
+    Object.entries(runtime.collectedEvents[targetConstructor]).forEach(([eventType, eventList]) => {
+      eventList.forEach((fn) => {
+        acc.push([node, eventType, fn]);
+      });
+    });
 
     return acc;
   }, []);
 
-export default AppManager => {
+export default (AppManager) => {
   /**
    * If an app is closing, remove all global event listeners
    * and unregister them from the app's runtime.
@@ -114,9 +111,7 @@ export default AppManager => {
   /** Same as 'unbindGlobalEvents' */
   AppManager.suspendGlobalEvents = ({ runtime }) => {
     if (!runtime.suspended) {
-      throw new Error(
-        "Trying to suspend global events for an app that's not suspended",
-      );
+      throw new Error("Trying to suspend global events for an app that's not suspended");
     }
     AppManager.unbindGlobalEvents({ runtime });
   };
@@ -125,11 +120,7 @@ export default AppManager => {
    * Overrides of native 'addEventListener' and
    * 'removeEventListener' to capture and keep a register of event listeners.
    * */
-  eventTarget.prototype.addEventListener = function addEventListener(
-    type,
-    fn,
-    capture,
-  ) {
+  eventTarget.prototype.addEventListener = function addEventListener(type, fn, capture) {
     originalAddEventListener.call(this, type, fn, capture);
 
     const currentApp = AppManager.getCurrentApp();
@@ -140,10 +131,7 @@ export default AppManager => {
     }
   };
 
-  eventTarget.prototype.removeEventListener = function addEventListener(
-    type,
-    fn,
-  ) {
+  eventTarget.prototype.removeEventListener = function addEventListener(type, fn) {
     originalRemoveEventListener.call(this, type, fn);
 
     const currentApp = AppManager.getCurrentApp();

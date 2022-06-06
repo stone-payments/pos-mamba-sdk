@@ -43,7 +43,7 @@ const PLUGIN_NAME = 'mamba-fixes-plugin';
 
 module.exports = class MambaFixesPlugin {
   apply(compiler) {
-    compiler.hooks.thisCompilation.tap(PLUGIN_NAME, compilation => {
+    compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation) => {
       const runtimeChunkConf = compilation.options.optimization.runtimeChunk;
 
       if (!runtimeChunkConf) {
@@ -55,9 +55,9 @@ module.exports = class MambaFixesPlugin {
         return;
       }
 
-      compilation.hooks.optimizeChunkAssets.tap(PLUGIN_NAME, chunks => {
+      compilation.hooks.optimizeChunkAssets.tap(PLUGIN_NAME, (chunks) => {
         /** Get runtime chunks */
-        const runtimeChunks = chunks.filter(chunk => chunk.hasRuntime());
+        const runtimeChunks = chunks.filter((chunk) => chunk.hasRuntime());
 
         /** Found any runtime chunks? If not, return */
         if (!runtimeChunks.length) {
@@ -65,16 +65,13 @@ module.exports = class MambaFixesPlugin {
         }
 
         /** For each runtime chunk found, prepend the bind polyfill code to it */
-        runtimeChunks.forEach(runtimeChunk => {
+        runtimeChunks.forEach((runtimeChunk) => {
           const [runtimeFile] = runtimeChunk.files;
 
           /** Replaces the document.createELement('link') with the fix function */
           const runtimeCode = compilation.assets[runtimeFile]
             .source()
-            .replace(
-              /document\.createElement\(('|")link('|")\)/,
-              'createLink()',
-            );
+            .replace(/document\.createElement\(('|")link('|")\)/, 'createLink()');
 
           compilation.assets[runtimeFile] = new ConcatSource(
             ';(function(){\n',

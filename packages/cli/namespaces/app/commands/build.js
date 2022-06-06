@@ -9,13 +9,11 @@ module.exports = {
   command: 'build',
   desc: 'Build the app',
   handler({ target, development, simulator, platform }) {
-    const choseAllPlatforms = platform.some(pl => pl === 'all');
+    const choseAllPlatforms = platform.some((pl) => pl === 'all');
     const platforms = choseAllPlatforms ? PLATFORMS : platform;
 
-    platforms.forEach(plat => {
-      const IS_DEV =
-        development === true ||
-        (typeof development === 'number' && development > 0);
+    platforms.forEach((plat) => {
+      const IS_DEV = development === true || (typeof development === 'number' && development > 0);
       const IS_DEBUG = Number.isInteger(development) && development > 0;
       const ADD_SIMULATOR = simulator || target === 'browser';
 
@@ -54,7 +52,7 @@ module.exports = {
       shell(cmd);
     });
   },
-  builder: yargs =>
+  builder: (yargs) =>
     yargs.options({
       target: cliArgs.target,
       development: cliArgs.development,

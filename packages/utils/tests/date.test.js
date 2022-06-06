@@ -1,9 +1,4 @@
-import {
-  format,
-  parsePOSLocalDatetime,
-  parseDateISO,
-  parseDate,
-} from '../date.js';
+import { format, parsePOSLocalDatetime, parseDateISO, parseDate } from '../date.js';
 
 describe('date', () => {
   it('should throw if a date is not passed', () => {
@@ -23,18 +18,13 @@ describe('date', () => {
   });
 
   it('should format a time as HH:mm:ss', () => {
-    expect(format(new Date(2019, 1, 20, 20, 30, 55), 'HH:mm:ss')).toBe(
-      '20:30:55',
-    );
+    expect(format(new Date(2019, 1, 20, 20, 30, 55), 'HH:mm:ss')).toBe('20:30:55');
   });
 
   it('should format all available flags', () => {
-    expect(
-      format(
-        new Date(2019, 1, 5, 6, 5, 7),
-        'd dd M MM yy yyyy H HH H HH m mm s ss',
-      ),
-    ).toBe('5 05 2 02 19 2019 6 06 6 06 5 05 7 07');
+    expect(format(new Date(2019, 1, 5, 6, 5, 7), 'd dd M MM yy yyyy H HH H HH m mm s ss')).toBe(
+      '5 05 2 02 19 2019 6 06 6 06 5 05 7 07',
+    );
   });
 });
 
@@ -53,11 +43,7 @@ describe('date parse', () => {
   });
 
   it('dddd, dd MMMM yyyy <-> Friday, 30 Jan 2016', () => {
-    const parsed = parseDate(
-      'Friday, 30 Jan 2016',
-      'EEEE, dd MMM yyyy',
-      new Date(),
-    );
+    const parsed = parseDate('Friday, 30 Jan 2016', 'EEEE, dd MMM yyyy', new Date());
     expect(parsed.getTime()).not.toBe(NaN);
     expect(parsed.getDate()).toBe(30);
     expect(parsed.getMonth()).toBe(0);
@@ -65,20 +51,12 @@ describe('date parse', () => {
   });
 
   it('dddd, dd MMMM yyyy <-> Friday, 29 May 2015 05:50', () => {
-    const parsed = parseDate(
-      'Friday, 29 May 2015 05:50',
-      'EEEE, dd MMM yyyy HH:mm',
-      new Date(),
-    );
+    const parsed = parseDate('Friday, 29 May 2015 05:50', 'EEEE, dd MMM yyyy HH:mm', new Date());
     expect(parsed.getTime()).not.toBe(NaN);
   });
 
   it('dddd, dd MMMM yyyy <-> Friday, 29 May 2015 5:50', () => {
-    const parsed = parseDate(
-      'Friday, 29 May 2015 5:50',
-      'EEEE, dd MMM yyyy K:mm',
-      new Date(),
-    );
+    const parsed = parseDate('Friday, 29 May 2015 5:50', 'EEEE, dd MMM yyyy K:mm', new Date());
     expect(parsed.getTime()).not.toBe(NaN);
   });
 
@@ -92,11 +70,7 @@ describe('date parse', () => {
   });
 
   it('MM/dd/yyyy HH:mm <-> 05/29/2015 05:50', () => {
-    const parsed = parseDate(
-      '05/29/2015 05:50',
-      'MM/dd/yyyy HH:mm',
-      new Date(),
-    );
+    const parsed = parseDate('05/29/2015 05:50', 'MM/dd/yyyy HH:mm', new Date());
     expect(parsed.getTime()).not.toBe(NaN);
   });
 
@@ -106,11 +80,7 @@ describe('date parse', () => {
   });
 
   it('MM/dd/yyyy HH:mm:ss <-> 05/29/2015 05:50:06', () => {
-    const parsed = parseDate(
-      '05/29/2015 05:50:06',
-      'MM/dd/yyyy HH:mm:ss',
-      new Date(),
-    );
+    const parsed = parseDate('05/29/2015 05:50:06', 'MM/dd/yyyy HH:mm:ss', new Date());
     expect(parsed.getTime()).not.toBe(NaN);
   });
 

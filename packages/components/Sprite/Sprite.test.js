@@ -4,7 +4,7 @@ const { newTestRoot } = global;
 
 const root = newTestRoot();
 
-const newSprite = data => root.createComponent(Sprite, { unique: true, data });
+const newSprite = (data) => root.createComponent(Sprite, { unique: true, data });
 
 let sprite;
 

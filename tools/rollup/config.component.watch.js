@@ -14,7 +14,7 @@ import { getPkg } from 'quickenv';
 
 import { fromWorkspace, fromProject } from './helpers/paths.js';
 
-const posixify = file => file.replace(/[/\\]/g, '/');
+const posixify = (file) => file.replace(/[/\\]/g, '/');
 
 const babelConfig = require('../../.babelrc.js');
 const svelteConfig = require('../../svelte.config.js');
@@ -85,12 +85,7 @@ export default {
     }),
     /** Create an html template in the example directory */
     html({
-      template: fromProject(
-        'tools',
-        'rollup',
-        'helpers',
-        'componentExampleTemplate.html',
-      ),
+      template: fromProject('tools', 'rollup', 'helpers', 'componentExampleTemplate.html'),
     }),
     /** Create a server with '<workspaceDir>/example' as the root */
     serve({
@@ -106,9 +101,9 @@ export default {
         ...Object.keys(PKG.dependencies || {})
           .concat(Object.keys(PKG.devDependencies || {}))
           .concat(Object.keys(PKG.peerDependencies || {}))
-          .filter(dep => dep.match(/@mamba/))
+          .filter((dep) => dep.match(/@mamba/))
           .filter((v, i, a) => a.indexOf(v) === i)
-          .map(dep => fromWorkspace('node_modules', dep)),
+          .map((dep) => fromWorkspace('node_modules', dep)),
       ],
     }),
     /** Reload the serve on file changes */

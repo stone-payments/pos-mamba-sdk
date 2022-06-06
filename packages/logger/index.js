@@ -1,8 +1,8 @@
 export default function init(_runTests) {
   function LOGLogger(start = '', level = 'default', ...logs) {
-    const applyErrorColor = s => `\u001b[1;31m${s}\u001b[0m`;
-    const applyYellow = s => `\x1B[33m${s}\x1B[0m`;
-    const applyInfoColor = s => `\x1B[36m${s}\x1B[0m`;
+    const applyErrorColor = (s) => `\u001b[1;31m${s}\u001b[0m`;
+    const applyYellow = (s) => `\x1B[33m${s}\x1B[0m`;
+    const applyInfoColor = (s) => `\x1B[36m${s}\x1B[0m`;
     const isError = level === 'error';
     const isInfo = level === 'info';
     const isWarning = level === 'warn';
@@ -10,7 +10,7 @@ export default function init(_runTests) {
 
     try {
       if (__DEV__ || __DEBUG_LVL__ >= 2) {
-        const getErrorStr = err => {
+        const getErrorStr = (err) => {
           if (!err) return '';
           const { name, message, stack } = err || {};
           return stack ? stack.toString() : `${name} - ${message}}`;
@@ -22,13 +22,12 @@ export default function init(_runTests) {
         }
 
         if (__POS__) {
-          const label =
-            typeof start === 'string' ? start : JSON.stringify(start);
+          const label = typeof start === 'string' ? start : JSON.stringify(start);
 
           let outputLogs = '';
           if (logs && logs.length > 0) {
             outputLogs = logs
-              .map(i => {
+              .map((i) => {
                 if (i instanceof Error) return getErrorStr(i);
                 return JSON.stringify(i, null, 2);
               })
@@ -36,16 +35,13 @@ export default function init(_runTests) {
           }
 
           const output = label.concat(' ', outputLogs);
-          const sendPrint = logToSend => {
+          const sendPrint = (logToSend) => {
             window.console.log(logToSend);
             if (!DEVHOST_IP) return;
             try {
               const xmlhttp = new XMLHttpRequest();
               xmlhttp.open('POST', `http://${DEVHOST_IP}/POS_LOGGER`);
-              xmlhttp.setRequestHeader(
-                'Content-Type',
-                'application/json;charset=UTF-8',
-              );
+              xmlhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
               xmlhttp.send(
                 JSON.stringify({
                   level,
@@ -79,10 +75,7 @@ export default function init(_runTests) {
           let color = '#00A868';
           if (!isDefault) color = isError ? '#FF5752' : '#0091D9';
 
-          const style = [
-            'font-family: "Fira Code", monospace;',
-            `color: ${color};`,
-          ].join('');
+          const style = ['font-family: "Fira Code", monospace;', `color: ${color};`].join('');
 
           if (isError || isInfo) {
             // info(`\x1b[31mLOG ERROR TEST ${(new Error('bla').stack)}\x1b[0m`);
@@ -123,12 +116,7 @@ export default function init(_runTests) {
       LOG_WARNING('LOG WARNING TEST');
       LOG_WARNING('LOG WARNING TEST', [1, 2, 3, 'bla']);
       LOG_WARNING('LOG WARNING TEST', { key: 'value ' });
-      LOG_WARNING(
-        'LOG WARNING TEST',
-        { key: 'value ' },
-        [1, 2, 3, 'bla'],
-        'test',
-      );
+      LOG_WARNING('LOG WARNING TEST', { key: 'value ' }, [1, 2, 3, 'bla'], 'test');
       LOG_WARNING('LOG WARNING TEST', new Error('This is a error!'));
 
       LOG_ERROR('LOG ERROR TEST');

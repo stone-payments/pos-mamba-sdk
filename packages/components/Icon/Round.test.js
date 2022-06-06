@@ -4,7 +4,7 @@ const { newTestRoot } = global;
 
 const root = newTestRoot();
 
-const newRoundIcon = data => root.createComponent(Round, { data });
+const newRoundIcon = (data) => root.createComponent(Round, { data });
 
 describe('style', () => {
   it('should accept custom inline styles', () => {

@@ -14,9 +14,7 @@ module.exports = ({ css, js, title, publicPath }) => {
     const ipRegEx = /\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}\b/gm;
     const isValidIp = ipRegEx.test(WEINRE_IP);
     if (!isValidIp) {
-      chalk.yellow(
-        `\n\n ⚠️ Invalid IP ${WEINRE_IP} for WEINRE_IP environment variable!`,
-      );
+      chalk.yellow(`\n\n ⚠️ Invalid IP ${WEINRE_IP} for WEINRE_IP environment variable!`);
     }
 
     if (isValidIp) {
@@ -24,9 +22,7 @@ module.exports = ({ css, js, title, publicPath }) => {
 
       process.on('exit', () =>
         console.log(
-          chalk.cyan(
-            '\n\n 🕵️‍♂️ Weinre(WEb INspector REmote) is enabled. \n To start server, run: ',
-          ),
+          chalk.cyan('\n\n 🕵️‍♂️ Weinre(WEb INspector REmote) is enabled. \n To start server, run: '),
           chalk.yellow(
             'weinre --boundHost=-all- --httpPort=9000 --readTimeout=8 --deathTimeout=60 \n\n',
           ),

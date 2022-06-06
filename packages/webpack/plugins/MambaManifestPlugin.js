@@ -38,12 +38,10 @@ const createXmlManifest = () => {
   };
   if (PKG.author) manifestObject.publisherName = PKG.author;
 
-  const manifestEntries = Object.entries(manifestObject).map(
-    ([name, text]) => ({
-      '@Name': name,
-      '#text': text,
-    }),
-  );
+  const manifestEntries = Object.entries(manifestObject).map(([name, text]) => ({
+    '@Name': name,
+    '#text': text,
+  }));
 
   return xmlBuilder
     .create(
@@ -61,7 +59,7 @@ const createXmlManifest = () => {
 
 module.exports = class GenerateMambaManifestPlugin {
   apply(compiler) {
-    compiler.hooks.emit.tap('MambaManifestPlugin', compilation => {
+    compiler.hooks.emit.tap('MambaManifestPlugin', (compilation) => {
       const xmlManifest = createXmlManifest();
       compilation.assets['manifest.xml'] = {
         source: () => xmlManifest,

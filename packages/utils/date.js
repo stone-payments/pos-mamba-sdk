@@ -16,9 +16,7 @@ export function format(date, mask) {
 
 export function isValidDate(date) {
   return (
-    typeof date === 'object' &&
-    typeof date.getTime === 'function' &&
-    !Number.isNaN(date.getTime())
+    typeof date === 'object' && typeof date.getTime === 'function' && !Number.isNaN(date.getTime())
   );
 }
 
@@ -26,9 +24,8 @@ export function isValidTime(time) {
   if (/^24:([0-5][0-9](:[0-5][0-9]))?$/g.test(time)) {
     // check if hour has 24
     return false;
-  } else {
-    return /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/.test(time);
   }
+  return /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/.test(time);
 }
 
 export function compareTime(timeA, timeB) {
@@ -88,10 +85,7 @@ export function parseDate(dateString, formatDateString, backupDate) {
  *  parsePOSLocalDatetime('2019-10-18T17:46:12Z', 'dd/MM/yyyy')
  */
 export function parsePOSLocalDatetime(dateString, dateFormat = '') {
-  if (
-    typeof window.Clock === 'object' &&
-    typeof window.Clock.getCurrentTimeZone === 'function'
-  ) {
+  if (typeof window.Clock === 'object' && typeof window.Clock.getCurrentTimeZone === 'function') {
     /* getCurrentTimeZone()
       area: "São Paulo"
       id: "404"
@@ -103,10 +97,7 @@ export function parsePOSLocalDatetime(dateString, dateFormat = '') {
 
     const { offsetHour, offsetMin } = window.Clock.getCurrentTimeZone();
     if (dateFormat) {
-      return format(
-        utcToZonedTime(dateString, `${offsetHour}${offsetMin}`),
-        dateFormat,
-      );
+      return format(utcToZonedTime(dateString, `${offsetHour}${offsetMin}`), dateFormat);
     }
     return utcToZonedTime(dateString, `${offsetHour}${offsetMin}`);
   }

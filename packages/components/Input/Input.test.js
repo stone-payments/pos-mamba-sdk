@@ -6,12 +6,12 @@ const { newTestRoot, clickOn, typeOn, fireKey } = global;
 
 const root = newTestRoot();
 
-const newInput = data => root.createComponent(Input, { unique: true, data });
+const newInput = (data) => root.createComponent(Input, { unique: true, data });
 
 let input;
 
 const getInputStyle = () => getComputedStyle(input.refs.input);
-const type = what => typeOn(input.refs.input, what);
+const type = (what) => typeOn(input.refs.input, what);
 
 Node.prototype.scrollIntoView = jest.fn();
 
@@ -75,7 +75,7 @@ describe('methods', () => {
   it('should validate an input', () => {
     input = newInput({
       value: '1',
-      validation: val => ({ isValid: val === '2' }),
+      validation: (val) => ({ isValid: val === '2' }),
     });
 
     input.validate();
@@ -135,7 +135,7 @@ describe('behaviour', () => {
 
   it('should dispatch a submit event on "enter"', () => {
     input = newInput();
-    return new Promise(res => {
+    return new Promise((res) => {
       input.on('submit', res);
       fireKey(input.refs.input, 'enter');
     });
@@ -144,7 +144,7 @@ describe('behaviour', () => {
   describe('focus/blur', () => {
     it('should fire a "focus" event when focusing', () => {
       input = newInput();
-      return new Promise(res => {
+      return new Promise((res) => {
         input.on('focus', res);
         input.focus();
       });
@@ -153,7 +153,7 @@ describe('behaviour', () => {
     it('should fire a "blur" event when blurring', () => {
       input = newInput();
       input.focus();
-      return new Promise(res => {
+      return new Promise((res) => {
         input.on('blur', res);
         input.blur();
       });
@@ -170,7 +170,7 @@ describe('behaviour', () => {
       input.set({ forcefocus: true });
       input.blur();
 
-      return new Promise(res => {
+      return new Promise((res) => {
         setTimeout(() => {
           if (document.activeElement === input.refs.input) {
             res();
@@ -183,7 +183,7 @@ describe('behaviour', () => {
       input.set({ forcefocus: false });
       input.blur();
 
-      return new Promise(res => {
+      return new Promise((res) => {
         setTimeout(() => {
           if (document.activeElement !== input.refs.input) {
             res();
@@ -294,7 +294,7 @@ describe('behaviour', () => {
       input = newInput({
         mask: 'M M M M M',
         tokens: {
-          M: { pattern: /[a-zA-Z]/, transform: v => v.toLocaleUpperCase() },
+          M: { pattern: /[a-zA-Z]/, transform: (v) => v.toLocaleUpperCase() },
         },
       });
 
@@ -307,7 +307,7 @@ describe('behaviour', () => {
     describe('on submit', () => {
       beforeAll(() => {
         input = newInput({
-          validation: val => ({ isValid: val === '2' }),
+          validation: (val) => ({ isValid: val === '2' }),
         });
       });
 
@@ -315,8 +315,8 @@ describe('behaviour', () => {
         type('2');
 
         const submits = Promise.all([
-          new Promise(res => input.on('submitValid', res)),
-          new Promise(res => input.on('submit', res)),
+          new Promise((res) => input.on('submitValid', res)),
+          new Promise((res) => input.on('submit', res)),
         ]);
 
         fireKey(input.refs.input, 'enter');
@@ -332,7 +332,7 @@ describe('behaviour', () => {
 
         fireKey(input.refs.input, 'enter');
 
-        return new Promise(res =>
+        return new Promise((res) =>
           setTimeout(() => {
             if (document.activeElement !== input.refs.input) {
               res();
@@ -343,16 +343,16 @@ describe('behaviour', () => {
 
       it('should fire "submitInvalid" if input is invalid according to "validation" method prop and BEEP', () => {
         input = newInput({
-          validation: val => ({ isValid: val === '2' }),
+          validation: (val) => ({ isValid: val === '2' }),
         });
         type('123');
 
         const submits = Promise.all([
-          new Promise(res => {
+          new Promise((res) => {
             System.beep = res;
           }),
-          new Promise(res => input.on('submitInvalid', res)),
-          new Promise(res => input.on('submit', res)),
+          new Promise((res) => input.on('submitInvalid', res)),
+          new Promise((res) => input.on('submit', res)),
         ]);
 
         fireKey(input.refs.input, 'enter');
@@ -364,7 +364,7 @@ describe('behaviour', () => {
     describe('on input', () => {
       beforeAll(() => {
         input = newInput({
-          validation: value => ({
+          validation: (value) => ({
             isValid: parseInt(value, 10) > 100,
             msg: 'Error',
           }),
@@ -385,7 +385,7 @@ describe('behaviour', () => {
       it('should not toggle is-invalid class if not valid and has no error msg', () => {
         input.set({
           value: '',
-          validation: value => ({
+          validation: (value) => ({
             isValid: parseInt(value, 10) > 100,
           }),
         });
@@ -397,9 +397,7 @@ describe('behaviour', () => {
           _errorMsg: undefined,
         });
 
-        expect(root.query('label').classList.contains('is-invalid')).toBe(
-          false,
-        );
+        expect(root.query('label').classList.contains('is-invalid')).toBe(false);
       });
 
       it('should validate the input while typing a valid value and remove "is-invalid" class', () => {
@@ -408,15 +406,13 @@ describe('behaviour', () => {
         type('232');
 
         expect(input.get().isValid).toBe(true);
-        expect(root.query('label').classList.contains('is-invalid')).toBe(
-          false,
-        );
+        expect(root.query('label').classList.contains('is-invalid')).toBe(false);
       });
 
       it('should be able to return a boolean from the validation method', () => {
         input.set({
           value: '',
-          validation: value => parseInt(value, 10) > 100,
+          validation: (value) => parseInt(value, 10) > 100,
         });
 
         type('12');

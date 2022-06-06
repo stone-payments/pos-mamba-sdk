@@ -22,11 +22,7 @@ const shell = (cmd, opts = {}) => {
   try {
     childProcess.execSync(cmd, {
       cwd: opts.cwd,
-      stdio: [
-        process.stdin,
-        quiet ? null : process.stdout,
-        quiet ? null : process.stderr,
-      ],
+      stdio: [process.stdin, quiet ? null : process.stdout, quiet ? null : process.stderr],
     });
     return 0;
   } catch (error) {
@@ -37,7 +33,7 @@ const shell = (cmd, opts = {}) => {
   }
 };
 
-shell.cd = dir => {
+shell.cd = (dir) => {
   if (!dir) dir = homedir();
 
   if (dir === '-' && process.env.OLDPWD) {
@@ -55,16 +51,14 @@ shell.cd = dir => {
 };
 
 shell.rsync = (src, tgt, opts = {}) => {
-  const cmd = ['rsync', '-zzaP', opts.checksum && '--checksum', src, tgt]
-    .filter(Boolean)
-    .join(' ');
+  const cmd = ['rsync', '-zzaP', opts.checksum && '--checksum', src, tgt].filter(Boolean).join(' ');
 
   delete opts.checksum;
 
   return shell(cmd, opts);
 };
 
-shell.setGlobal = opts => {
+shell.setGlobal = (opts) => {
   Object.assign(GLOBAL_OPTIONS, opts);
 };
 

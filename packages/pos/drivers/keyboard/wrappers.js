@@ -1,14 +1,14 @@
 import { KEYMAP } from './keymap.js';
 
-export default function(driver) {
+export default function (driver) {
   /**
    * Get the key code relative to a specific key name
    * @memberof Keyboard
    * @param {string} keyName - Key name
    * @returns {number} - Relative key code
    */
-  driver.getKeyCode = keyName => {
-    const keyCode = Object.keys(KEYMAP).find(code => KEYMAP[code] === keyName);
+  driver.getKeyCode = (keyName) => {
+    const keyCode = Object.keys(KEYMAP).find((code) => KEYMAP[code] === keyName);
     return keyCode ? Number.parseInt(keyCode, 10) : null;
   };
 
@@ -18,7 +18,7 @@ export default function(driver) {
    * @param {number} keyCode - Key code
    * @returns {string} - Relative key name
    */
-  driver.getKeyName = keyCode => KEYMAP[keyCode];
+  driver.getKeyName = (keyCode) => KEYMAP[keyCode];
 
   /**
    * Check if a certain key is a numeric key
@@ -26,7 +26,7 @@ export default function(driver) {
    * @param {number} keyCode - Key code
    * @returns {boolean}
    */
-  driver.isNumericKey = keyCode => !Number.isNaN(parseFloat(KEYMAP[keyCode]));
+  driver.isNumericKey = (keyCode) => !Number.isNaN(parseFloat(KEYMAP[keyCode]));
 
   /**
    * Check if a certain key is an action key
@@ -34,7 +34,7 @@ export default function(driver) {
    * @param {number} keyCode - Key code
    * @returns {boolean}
    */
-  driver.isActionKey = keyCode => !driver.isNumericKey(keyCode);
+  driver.isActionKey = (keyCode) => !driver.isNumericKey(keyCode);
 
   /**
    * Define if backspace button should be enabled
