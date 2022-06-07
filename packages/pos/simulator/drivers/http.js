@@ -57,8 +57,6 @@ export function setup(Http) {
   ) {
     const xhttp = new XMLHttpRequest();
 
-    const hookUnsubscribe = () => null;
-
     Http.fire('requestRefSinal', refSignal, refSignal);
 
     if (__DEBUG_LVL__ >= 1) {
@@ -164,7 +162,7 @@ export function setup(Http) {
 
       url = shouldAddCors(url);
 
-      const isInvalidXheader = (prop) => !appKey || appKey === '';
+      const isInvalidXheader = (prop) => !prop || prop === '';
 
       let { appKey } = Registry.persistent.get().$App;
       const { serialNumber } = Registry.persistent.get().$System;

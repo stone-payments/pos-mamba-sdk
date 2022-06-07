@@ -174,6 +174,7 @@ describe('shortcuts', () => {
   };
 
   it('should trigger an element with `shortcut="keyName"`', () => {
+    // eslint-disable-next-line no-unused-vars
     const promises = keyNames.map(
       (keyName) =>
         new Promise((res) => createShortcutButton(keyName).addEventListener('click', res)),

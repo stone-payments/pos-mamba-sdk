@@ -136,6 +136,11 @@
 
       this.set({ event });
     },
+    ondestroy() {
+      // unbug scrolling after quit
+      this.root.meta.setScrollable(true);
+      document.body.removeEventListener('keyup', this.get().event);
+    },
     onupdate() {
       const { input } = this.refs.keyboardInput.refs;
       const inputTyped = input.value.length; // characters typed on input
@@ -153,11 +158,6 @@
           value: value.slice(0, maxLength),
         });
       }
-    },
-    ondestroy() {
-      // unbug scrolling after quit
-      this.root.meta.setScrollable(true);
-      document.body.removeEventListener('keyup', this.get().event);
     },
     methods: {
       _moveCursor(position) {

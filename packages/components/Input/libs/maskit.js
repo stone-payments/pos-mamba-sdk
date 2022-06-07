@@ -1,4 +1,4 @@
-export default function maskit(value = '', mask = '', masked = true, tokens) {
+export default function maskit(value = '', mask = '', masked = true, tokens = undefined) {
   let iMask = 0;
   let iValue = 0;
   let output = '';

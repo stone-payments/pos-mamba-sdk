@@ -25,6 +25,15 @@
   import getNumberWithDefault from '../utils/getNumberWithDefault.js';
 
   export default {
+    data() {
+      return {
+        classnames: [],
+        background: yellow500,
+        color: '#ffffff',
+        width: 25,
+        height: 25,
+      };
+    },
     computed: {
       _width({ width }) {
         return getNumberWithDefault(width, 25);
@@ -35,15 +44,6 @@
       _classes({ classnames }) {
         return [...classnames].filter(Boolean).join(' ');
       },
-    },
-    data() {
-      return {
-        classnames: [],
-        background: yellow500,
-        color: '#ffffff',
-        width: 25,
-        height: 25,
-      };
     },
   };
 </script>

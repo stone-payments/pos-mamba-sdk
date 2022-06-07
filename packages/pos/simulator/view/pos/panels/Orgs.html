@@ -26,10 +26,10 @@
     components: {
       Radio: '@mamba/radio/Radio.html',
     },
+    store: () => store,
     helpers: {
       Organizations: System().Organizations,
     },
-    store: () => store,
     data() {
       return {
         orgs: System().Organizations.options,

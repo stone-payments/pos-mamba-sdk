@@ -59,12 +59,12 @@
 <script>
   import { ENTER, KEYUP, KEYDOWN } from '@mamba/pos/drivers/keyboard/keymap.js';
   import {
-  selectRowItem,
-  toggleActive,
-  getStyles,
-  shouldReturnComponent,
-  scrollActiveNodeAtIndex,
-} from './helpers.js';
+    selectRowItem,
+    toggleActive,
+    getStyles,
+    shouldReturnComponent,
+    scrollActiveNodeAtIndex,
+  } from './helpers.js';
   import isSomeInputElement from './utils/isSomeInputElement.js';
   import isFunction from './utils/isFunction.js';
   import { ACTIVE_MODEL } from './decorators.js';
@@ -380,7 +380,9 @@
 
           const newRow = row.data ? { ...row, data: onlyValidDependencies } : onlyValidDependencies;
 
-          return (filteredList = [...filteredList, ...newRow]);
+          filteredList = [...filteredList, ...newRow];
+
+          return filteredList;
         });
 
         return filteredList;
