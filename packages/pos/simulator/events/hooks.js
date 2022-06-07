@@ -1,4 +1,3 @@
-import dispatch from '@mamba/pos/simulator/events/dispatcher.js';
 import requester from './requester.js';
 
 export const $Http = {
@@ -7,8 +6,12 @@ export const $Http = {
 
 export const tryClearHook = (hook) => {
   try {
-    typeof hook === 'function' && hook();
-  } catch (_) {}
+    if (typeof hook === 'function') {
+      hook();
+    }
+  } catch (_) {
+    //
+  }
 };
 
 export const useAddHeaderHook = () => {

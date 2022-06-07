@@ -35,7 +35,6 @@ exitError() {
   exit 1
 }
 
-
 case "$1" in
   -m|--mode)
   case "$2" in

@@ -55,10 +55,13 @@
   },
 
   /* Specifying which files to validate */
-  "stylelint.validate": ["css", "postcss"],
+  "stylelint.validate": ["css", "postcss", "html"],
 
   /* Controls the package manager to be used to resolve the Stylelint library */
   "stylelint.packageManager": "yarn",
+
+  /* Enforce the extension use appropriate syntax for us. If invalid, VSCode will notify.*/
+  "stylelint.customSyntax": "postcss-html",
 
   /* Enforce working dir for monorepo */
   "eslint.workingDirectories": ["./"]
