@@ -13,7 +13,7 @@ module.exports = {
     'plugin:import/recommended',
     'plugin:@tivac/svelte/svelte',
   ],
-  plugins: ['prettier', 'html', '@tivac/svelte', 'import'],
+  plugins: ['prettier', 'html', '@tivac/svelte', 'import', 'jest'],
   settings: {
     'html/html-extensions': ['.html', '.svelte'],
     'import/extensions': ['.js', '.mjs', '.ts'],
@@ -80,6 +80,9 @@ module.exports = {
         disallowTemplateShorthand: false,
       },
     ],
+
+    /** Allow returning values from Promise executor functions */
+    'no-promise-executor-return': 'off',
 
     // ! Style
 
