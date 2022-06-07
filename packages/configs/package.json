@@ -11,10 +11,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "peerDependencies": {
-    "@mamba/keyboard": "*"
-  },
-  "devDependencies": {
+  "dependencies": {
     "@babel/cli": "^7.17.10",
     "@babel/core": "^7",
     "@babel/eslint-parser": "^7.18.2",
@@ -41,7 +38,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-recommended": "^4.1.0",
     "eslint-plugin-html": "^6.2.0",
-    "eslint-plugin-import": ">=2.26.0",
+    "eslint-plugin-import": "~2.26.0",
     "eslint-plugin-jest": "^22.2.2",
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-prettier": "^4.0.0",

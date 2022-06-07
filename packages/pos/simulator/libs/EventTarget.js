@@ -4,7 +4,7 @@ export default () => {
   const fire = (event, ...data) => {
     const handlers = eventHandlers[event];
     if (handlers && handlers.length) {
-      handlers.forEach(handler => handler(...data));
+      handlers.forEach((handler) => handler(...data));
     }
   };
 
@@ -36,13 +36,13 @@ export default () => {
   };
 
   /** The first signal dispatched is executed and automatically cancel all others */
-  const race = entries => {
+  const race = (entries) => {
     const wrappedCallbacks = {};
     entries.forEach(([event, callback]) => {
       /** Wrap the signal callback to disconnect all slots once one of the signals are emitted */
       wrappedCallbacks[event] = (...data) => {
         callback(...data);
-        Object.keys(wrappedCallbacks).forEach(signalName => {
+        Object.keys(wrappedCallbacks).forEach((signalName) => {
           off(signalName, wrappedCallbacks[signalName]);
         });
       };

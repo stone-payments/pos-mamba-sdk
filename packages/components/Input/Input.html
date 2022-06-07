@@ -130,23 +130,14 @@ import defaultTokens from './libs/tokens.js';
         this.refs.input.value = current.value;
       }
 
-      if (
-        changed._errorMsg &&
-        current._errorMsg &&
-        current.validateOn === 'input'
-      ) {
+      if (changed._errorMsg && current._errorMsg && current.validateOn === 'input') {
         this.refs.input.scrollIntoView({
           block: 'center',
           inline: 'center',
         });
       }
 
-      if (
-        changed.forcefocus &&
-        current.forcefocus &&
-        current.autofocus &&
-        !current.isFocused
-      ) {
+      if (changed.forcefocus && current.forcefocus && current.autofocus && !current.isFocused) {
         this.focus();
       }
     },
@@ -322,10 +313,7 @@ import defaultTokens from './libs/tokens.js';
           this.refs.input.value = value;
 
           /** If the digit was changed, increment position until find the digit again */
-          while (
-            position < value.length &&
-            value.charAt(position - 1) !== digit
-          ) {
+          while (position < value.length && value.charAt(position - 1) !== digit) {
             position++;
           }
 

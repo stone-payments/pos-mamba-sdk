@@ -4,7 +4,7 @@ const { newTestRoot } = global;
 
 const root = newTestRoot();
 
-const newQRCode = data => root.createComponent(QRCode, { unique: true, data });
+const newQRCode = (data) => root.createComponent(QRCode, { unique: true, data });
 
 it('should hide logo image without logo', () => {
   newQRCode();

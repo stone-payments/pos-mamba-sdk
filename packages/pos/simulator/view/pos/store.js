@@ -8,8 +8,8 @@ export const INITIAL_DATA = {
 
 const store = new Store(INITIAL_DATA);
 
-store.setPosModel = model => {
-  Registry.persistent.set(draft => {
+store.setPosModel = (model) => {
+  Registry.persistent.set((draft) => {
     draft.$System.model = model;
   });
   store.set({

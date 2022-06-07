@@ -5,7 +5,7 @@ const { newTestRoot } = global;
 const root = newTestRoot();
 let button;
 
-const newButton = data => root.createComponent(Button, { data });
+const newButton = (data) => root.createComponent(Button, { data });
 
 describe('behavior', () => {
   it('should have a click method', () => {
@@ -14,7 +14,7 @@ describe('behavior', () => {
   });
 
   it('should fire a click event when click fired', () =>
-    new Promise(res => {
+    new Promise((res) => {
       button.on('click', res);
       button.click();
     }));

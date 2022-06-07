@@ -1,4 +1,4 @@
-module.exports = fn => {
+module.exports = (fn) => {
   try {
     return fn();
   } catch (e) {

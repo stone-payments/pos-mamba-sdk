@@ -4,7 +4,7 @@ const { newTestRoot, clickOn } = global;
 let root;
 let range;
 
-const newRange = data => {
+const newRange = (data) => {
   root = newTestRoot();
   return root.createComponent(Range, { unique: true, data });
 };
@@ -29,7 +29,7 @@ describe('Test Styles', () => {
     expect(root.query('.indicator').style.color).toBe('green');
     expect(root.query('.bar').style.backgroundColor).toBe('red');
 
-    root.queryAll('button').forEach(btn => {
+    root.queryAll('button').forEach((btn) => {
       expect(btn.style.backgroundColor).toBe('red');
     });
   });
@@ -49,9 +49,7 @@ describe('Test Styles', () => {
 
   it('should have correct width with % unit', () => {
     expect(parseInt('10', root.query('.value').textContent)).toBeLessThan(101);
-    expect(
-      parseInt('10', root.query('.value').textContent),
-    ).toBeGreaterThanOrEqual(0);
+    expect(parseInt('10', root.query('.value').textContent)).toBeGreaterThanOrEqual(0);
     expect(root.query('.value').textContent).toContain('%');
   });
 

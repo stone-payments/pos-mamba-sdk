@@ -4,7 +4,7 @@ const { newTestRoot } = global;
 
 const root = newTestRoot();
 
-const newRadio = data => root.createComponent(Radio, { unique: true, data });
+const newRadio = (data) => root.createComponent(Radio, { unique: true, data });
 
 let radioComp;
 
@@ -17,7 +17,7 @@ it('should be not start checked', () => {
 
 it('should fire a change event when value is modified', () => {
   radioComp = newRadio();
-  return new Promise(res => {
+  return new Promise((res) => {
     radioComp.on('change', res);
     getRadioNode().click();
   });

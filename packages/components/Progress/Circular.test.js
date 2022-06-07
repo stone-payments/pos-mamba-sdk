@@ -4,7 +4,7 @@ const { newTestRoot } = global;
 
 const root = newTestRoot();
 
-const newCircularProgress = data => root.createComponent(Circular, { data });
+const newCircularProgress = (data) => root.createComponent(Circular, { data });
 
 let circular;
 

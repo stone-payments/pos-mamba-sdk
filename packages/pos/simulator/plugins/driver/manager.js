@@ -16,18 +16,17 @@ DriverManager.Addons = {
     // Inferring HMAC
     const { Addons = {} } = Registry.persistent.get();
     Addons[HMAC] = addon === HMAC;
-    Registry.persistent.set(draft => {
+    Registry.persistent.set((draft) => {
       draft.Addons = { ...Addons };
     });
     if (typeof addonInitializer === 'function') addonInitializer();
   },
 };
 
-DriverManager.attachDrivers = driverModules => {
-  if (__DEBUG_LVL__ >= 1 && __BROWSER__)
-    console.groupCollapsed(`${LOG_PREFIX} Attaching drivers`);
+DriverManager.attachDrivers = (driverModules) => {
+  if (__DEBUG_LVL__ >= 1 && __BROWSER__) console.groupCollapsed(`${LOG_PREFIX} Attaching drivers`);
 
-  driverModules.forEach(driverModule => {
+  driverModules.forEach((driverModule) => {
     const driverRef = driverModule.NAMESPACE;
     const driver = window[driverRef] || {};
 
@@ -35,14 +34,13 @@ DriverManager.attachDrivers = driverModules => {
 
     /** Set the simulator default settings for the driver */
     if (driverModule.DYNAMIC_SETTINGS || driverModule.SETTINGS) {
-      const dynamicDefaults =
-        driverModule.DYNAMIC_SETTINGS || driverModule.SETTINGS;
+      const dynamicDefaults = driverModule.DYNAMIC_SETTINGS || driverModule.SETTINGS;
 
       if (__DEBUG_LVL__ >= 1 && __BROWSER__) {
         console.log('Dynamic settings:', dynamicDefaults);
       }
 
-      Registry.set(draft => {
+      Registry.set((draft) => {
         draft[driverRef] = deepCopy({
           ...dynamicDefaults,
           ...(draft[driverRef] || {}),
@@ -54,7 +52,7 @@ DriverManager.attachDrivers = driverModules => {
       const persistentDefaults = deepCopy(driverModule.PERSISTENT_SETTINGS);
 
       /** Does any persisted data for this driver exist? */
-      Registry.persistent.set(draft => {
+      Registry.persistent.set((draft) => {
         draft[driverRef] = {
           ...persistentDefaults,
           ...(draft[driverRef] || {}),
@@ -62,17 +60,13 @@ DriverManager.attachDrivers = driverModules => {
       });
 
       if (__DEBUG_LVL__ >= 1 && __BROWSER__) {
-        console.log(
-          'Persistent settings:',
-          Registry.persistent.get()[driverRef],
-        );
+        console.log('Persistent settings:', Registry.persistent.get()[driverRef]);
       }
     }
 
     /** Register the driver signals */
     if (driverModule.SIGNALS) {
-      if (__DEBUG_LVL__ >= 1 && __BROWSER__)
-        console.log('Signals:', driverModule.SIGNALS);
+      if (__DEBUG_LVL__ >= 1 && __BROWSER__) console.log('Signals:', driverModule.SIGNALS);
       Signal.register(driver, driverModule.SIGNALS);
     }
 
@@ -100,7 +94,7 @@ DriverManager.attachDrivers = driverModules => {
      * simulator running on the actual POS.
      */
     if (__POS__ && window[driverRef]) {
-      Object.keys(window[driverRef]).forEach(key => {
+      Object.keys(window[driverRef]).forEach((key) => {
         /**
          * The enumerated props are their Qt signature 'methodName(...)'
          * and not the actual methods names. So, remove anything from

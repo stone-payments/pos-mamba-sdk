@@ -1,4 +1,4 @@
-import AbstractKey from './AbstractKey';
+import AbstractKey from './AbstractKey.js';
 
 class DeleteKey extends AbstractKey {
   onClickTemplate(event, controller) {

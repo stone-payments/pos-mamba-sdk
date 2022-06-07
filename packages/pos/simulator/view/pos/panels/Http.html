@@ -88,7 +88,7 @@
     },
     onupdate({ previous, changed, current }) {
       if (previous) {
-        Registry.persistent.set(draft => {
+        Registry.persistent.set((draft) => {
           if (changed.appKey) {
             draft.$App.appKey = current.appKey;
           }
@@ -99,14 +99,14 @@
             draft.$Http.panel.proxyEnvironment = current.proxyEnvironment;
           }
         });
-        Registry.set(draft => {
+        Registry.set((draft) => {
           draft.$Http.panel = current;
         });
       }
     },
     methods: {
       setEnv(env) {
-        Registry.persistent.set(draft => {
+        Registry.persistent.set((draft) => {
           draft.$Http.panel.proxyEnvironment = env;
         });
       },
