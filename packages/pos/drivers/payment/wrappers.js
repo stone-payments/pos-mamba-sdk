@@ -1,5 +1,5 @@
-export default function(driver) {
-  driver.pay = params =>
+export default function (driver) {
+  driver.pay = (params) =>
     new Promise((resolve, reject) => {
       if (typeof params !== 'object') {
         params = {
@@ -13,12 +13,10 @@ export default function(driver) {
       }
 
       if (params.amount <= 0) {
-        return reject(
-          new Error('BAD USAGE: Proposed amount must be greater than 0!'),
-        );
+        return reject(new Error('BAD USAGE: Proposed amount must be greater than 0!'));
       }
 
-      driver.once('paymentDone', e => {
+      driver.once('paymentDone', (e) => {
         if (driver.failedPaying()) {
           reject(e);
         } else {

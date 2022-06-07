@@ -10,11 +10,7 @@ module.exports = {
   handler({ debug, port, platform }) {
     const webpackConfigPath = getWebpackConfigPath('app.dev');
 
-    console.log(
-      chalk.cyan(
-        `Starting the development server at: http://localhost:${port}`,
-      ),
-    );
+    console.log(chalk.cyan(`Starting the development server at: http://localhost:${port}`));
 
     const cmd = [
       'cross-env',
@@ -28,7 +24,7 @@ module.exports = {
 
     shell(cmd);
   },
-  builder: yargs =>
+  builder: (yargs) =>
     yargs.options({
       port: {
         description: 'Define the development web server port',

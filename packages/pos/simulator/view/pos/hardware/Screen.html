@@ -43,8 +43,7 @@
       };
     },
     computed: {
-      brightnessOpacity: ({ brightnessLevel }) =>
-        1 - rescale(brightnessLevel, [1, 10], [0.4, 1]),
+      brightnessOpacity: ({ brightnessLevel }) => 1 - rescale(brightnessLevel, [1, 10], [0.4, 1]),
     },
     oncreate() {
       if (localStorage) {
@@ -54,7 +53,7 @@
         }
       }
 
-      HardwareManager.on('changeBrightness', brightnessLevel => {
+      HardwareManager.on('changeBrightness', (brightnessLevel) => {
         this.set({ brightnessLevel });
       });
 

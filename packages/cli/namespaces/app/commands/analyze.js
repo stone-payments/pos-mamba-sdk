@@ -18,7 +18,7 @@ module.exports = {
     console.log(chalk.cyan(`Analyzing bundle for '${target.toUpperCase()}'`));
     shell(cmd);
   },
-  builder: yargs =>
+  builder: (yargs) =>
     yargs.options({
       target: cliArgs.target,
     }),

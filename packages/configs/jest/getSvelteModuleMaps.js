@@ -2,10 +2,9 @@ const { readdirSync, statSync, existsSync } = require('fs');
 const { resolve } = require('path');
 const { getPkg } = require('quickenv');
 
-const getDirs = p =>
-  readdirSync(p).filter(f => statSync(resolve(p, f)).isDirectory());
+const getDirs = (p) => readdirSync(p).filter((f) => statSync(resolve(p, f)).isDirectory());
 
-const getMaps = path => {
+const getMaps = (path) => {
   const dirPkg = getPkg({ path, traverse: false });
 
   /** If passed a package directory, read only its directory */
@@ -39,7 +38,7 @@ const getMaps = path => {
   }, {});
 };
 
-module.exports = dirs => {
+module.exports = (dirs) => {
   if (!Array.isArray(dirs)) {
     return getMaps(dirs);
   }

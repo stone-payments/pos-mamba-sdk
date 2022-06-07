@@ -1,4 +1,4 @@
-import AbstractKey from './AbstractKey';
+import AbstractKey from './AbstractKey.js';
 
 class MathKey extends AbstractKey {
   onClickTemplate(event, controller) {

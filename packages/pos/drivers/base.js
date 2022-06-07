@@ -8,9 +8,7 @@ export default () => {
 
   const isSlotFilled = (signal, callback) => {
     const callbackList = currentGroup[signal];
-    return (
-      callbackList && callbackList.length && callbackList.indexOf(callback) > -1
-    );
+    return callbackList && callbackList.length && callbackList.indexOf(callback) > -1;
   };
 
   return {
@@ -59,9 +57,7 @@ export default () => {
         }
         delete group[signal];
       } else {
-        const slotIndex = group[signal].findIndex(
-          slotCallback => slotCallback === callback,
-        );
+        const slotIndex = group[signal].findIndex((slotCallback) => slotCallback === callback);
 
         if (slotIndex > -1) {
           this[signal].disconnect(group[signal][slotIndex]);
@@ -121,7 +117,7 @@ export default () => {
         wrappedCallbacks[signal] = (...data) => {
           const result = callback(...data);
           if (result !== false) {
-            Object.keys(wrappedCallbacks).forEach(signalName => {
+            Object.keys(wrappedCallbacks).forEach((signalName) => {
               if (__DEBUG_LVL__ === 2) {
                 console.log(`Removing '${signalName}'`);
               }
@@ -140,9 +136,7 @@ export default () => {
     /** Destroy all signal listeners from a specified group */
     destroyGroup(groupName = 'default') {
       if (!groups[groupName]) {
-        console.error(
-          `[@mamba/pos/driver] Trying to destroy non existing group: '${groupName}'`,
-        );
+        console.error(`[@mamba/pos/driver] Trying to destroy non existing group: '${groupName}'`);
         return;
       }
       this.group(groupName);
@@ -156,14 +150,14 @@ export default () => {
         );
       }
 
-      groupSignals.forEach(signal => this.off(signal));
+      groupSignals.forEach((signal) => this.off(signal));
 
       this.endGroup();
     },
 
     /** Destroy all signal listeners from all groups */
     destroy() {
-      Object.keys(groups).forEach(group => this.destroyGroup(group));
+      Object.keys(groups).forEach((group) => this.destroyGroup(group));
     },
   };
 };

@@ -1,5 +1,5 @@
-export default AppManager => {
-  AppManager.suspend = app => {
+export default (AppManager) => {
+  AppManager.suspend = (app) => {
     const { runtime } = app;
     const lastURL = window.location.href;
     const suspended = {
@@ -14,7 +14,7 @@ export default AppManager => {
     AppManager.fire('appSuspended', app);
   };
 
-  AppManager.resume = app => {
+  AppManager.resume = (app) => {
     const { runtime } = app;
 
     runtime.target.classList.remove('is-suspended');

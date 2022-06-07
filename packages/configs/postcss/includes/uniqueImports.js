@@ -5,7 +5,7 @@ const postcssUniqueImports = {};
 let instance;
 let imports = [];
 
-const unique = arr => arr.filter((v, i) => arr.indexOf(v) === i);
+const unique = (arr) => arr.filter((v, i) => arr.indexOf(v) === i);
 
 postcssUniqueImports.append = (...files) => {
   imports = unique(imports.concat(files));
@@ -20,7 +20,7 @@ postcssUniqueImports.plugin = (...opts) => {
     return instance;
   }
 
-  instance = postcss.plugin('postcss-prepend-unique', initialImports => {
+  instance = postcss.plugin('postcss-prepend-unique', (initialImports) => {
     if (initialImports) {
       if (typeof initialImports === 'string') {
         imports = [initialImports];
@@ -29,7 +29,7 @@ postcssUniqueImports.plugin = (...opts) => {
       }
     }
 
-    return root => {
+    return (root) => {
       if (imports.length === 0) return;
 
       for (let i = imports.length; i--; ) {

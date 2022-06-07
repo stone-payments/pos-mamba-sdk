@@ -11,8 +11,8 @@ export const SETTINGS = {
 export function setup(Card) {
   Card.isCardInserted = () => Registry.get().$Card.isInserted;
 
-  HardwareManager.on('cardToggled', isInserted => {
-    Registry.set(draft => {
+  HardwareManager.on('cardToggled', (isInserted) => {
+    Registry.set((draft) => {
       draft.$Card.isInserted = isInserted;
     });
 

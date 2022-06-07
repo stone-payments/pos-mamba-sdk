@@ -1,4 +1,4 @@
-export default System => {
+export default (System) => {
   const initDate = new Date();
 
   const time = {
@@ -29,8 +29,5 @@ export default System => {
     return timer;
   };
 
-  setTimeout(
-    () => setInterval(timer(), 60000),
-    (60 - initDate.getSeconds()) * 1000,
-  );
+  setTimeout(() => setInterval(timer(), 60000), (60 - initDate.getSeconds()) * 1000);
 };
