@@ -22,3 +22,8 @@ log/
 dist/
 node_modules/
 bower_components/
+
+
+# ts
+packages/**/dist
+packages/**/types

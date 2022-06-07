@@ -11,10 +11,7 @@ const { fromCwd } = require('quickenv');
 
 const getHTMLTemplate = require('./helpers/getHTMLTemplate.js');
 const loaders = require('./helpers/loaders.js');
-const {
-  isOfModuleType,
-  transpileIgnoreBaseCondition,
-} = require('./helpers/depTranspiling.js');
+const { isOfModuleType, transpileIgnoreBaseCondition } = require('./helpers/depTranspiling.js');
 const {
   DEBUG_LVL,
   IS_POS,
@@ -46,7 +43,7 @@ module.exports = {
   },
   resolve: {
     /** Do not resolve symlinks */
-    symlinks: false,
+    symlinks: true,
     enforceExtension: false,
     mainFields: ['svelte', 'esnext', 'jsnext:main', 'module', 'main'],
     extensions: ['.js', '.json', '.pcss', '.css', '.html', '.htmlx', '.svelte'],
@@ -63,7 +60,7 @@ module.exports = {
         use: [loaders.babelEsNext, loaders.svelte, loaders.eslint],
       },
       {
-        test: /\.js$/,
+        test: /\.(js|ts)$/,
         include: baseInclude,
         exclude: [/node_modules/],
         use: [loaders.babelEsNext, loaders.eslint],
@@ -115,12 +112,7 @@ module.exports = {
          * the actual 'main' one
          * */
         resolve: { mainFields: ['style', 'main'] },
-        use: [
-          loaders.extractCss,
-          loaders.css,
-          loaders.postcss,
-          loaders.resolveUrl,
-        ],
+        use: [loaders.extractCss, loaders.css, loaders.postcss, loaders.resolveUrl],
       },
     ],
   },

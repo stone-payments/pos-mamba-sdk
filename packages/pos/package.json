@@ -16,7 +16,7 @@
     "immer": "^2.1.5",
     "svelte": "<3"
   },
-  "devDependencies": {
+  "peerDependencies": {
     "@mamba/core": "*",
     "@mamba/app": ">=4",
     "@mamba/button": ">=4",
@@ -24,11 +24,9 @@
     "@mamba/icon": ">=4",
     "@mamba/radio": ">=4",
     "@mamba/sprite": ">=4",
+    "@mamba/switch": ">=4",
     "@mamba/utils": ">=4",
-    "@mamba/switch": ">=4"
-  },
-  "peerDependencies": {
     "@mamba/keyboard": "*"
   },
-  "gitHead": "ddc05702292f5dea2772130436f0a00fbd5be1db"
+  "gitHead": "78978116d5c790c51aaf9af9db47ea8beaa4726b"
 }

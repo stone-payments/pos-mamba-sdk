@@ -1,5 +1,3 @@
-import Keyboard from '@mamba/pos/api/keyboard.js';
-
 /** Mock the scrollTo fn */
 Element.prototype.scrollTo = function noop() {};
 
@@ -32,7 +30,7 @@ global.fireKey = (el, keyName) => {
   KEYBOARD_EVENTS.forEach((event) =>
     el.dispatchEvent(
       new KeyboardEvent(event, {
-        keyCode: Keyboard.getKeyCode(keyName),
+        keyName,
         bubbles: true,
         cancelable: false,
       }),

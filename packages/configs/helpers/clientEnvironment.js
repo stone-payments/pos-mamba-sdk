@@ -8,6 +8,10 @@ const externalEnvsPath = path.join(process.cwd(), '.env.js');
 
 if (fs.existsSync(externalEnvsPath)) {
   externalConstants = require(externalEnvsPath); // eslint-disable-line
+  externalConstants = Object.keys(externalConstants).reduce((accumulator, key) => {
+    accumulator[key] = 'readonly';
+    return accumulator;
+  }, {});
 } else {
   console.log(
     chalk.yellow.bold(
