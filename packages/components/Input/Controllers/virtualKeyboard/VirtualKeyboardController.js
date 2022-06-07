@@ -1,5 +1,3 @@
-import System from '@mamba/pos/api/system.js';
-
 class VirtualKeyboardController {
   /**
    * @param {any} scope
@@ -32,9 +30,7 @@ class VirtualKeyboardController {
       target.offsetParent ? target.offsetParent.classList : [],
     );
 
-    const hasClickedOutside = offsetParentClassList.every(
-      className => className !== 'keyboard',
-    );
+    const hasClickedOutside = offsetParentClassList.every((className) => className !== 'keyboard');
     const isInputElement = target instanceof HTMLInputElement;
 
     if (hasClickedOutside && !isInputElement) {

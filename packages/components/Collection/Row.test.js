@@ -7,8 +7,7 @@ const root = newTestRoot();
 let row;
 let rightSign;
 
-const newRow = (data, slots) =>
-  root.createComponent(Row, { unique: true, data, slots });
+const newRow = (data, slots) => root.createComponent(Row, { unique: true, data, slots });
 
 it('should have a right sign with href', () => {
   row = newRow({ showExtra: false, href: '/home' });
@@ -59,7 +58,7 @@ describe('click behavior', () => {
   });
 
   it('should only trigger a click event if no href or right sign present', () =>
-    new Promise(res => {
+    new Promise((res) => {
       row.on('click', res);
       row.refs.main.click();
     }));
@@ -67,7 +66,7 @@ describe('click behavior', () => {
   it('should trigger router when href exists and element is clicked', () => {
     row = newRow({ href: '/home' });
 
-    return new Promise(res => {
+    return new Promise((res) => {
       row.root.router = { go: res };
       row.refs.main.click();
     });
@@ -102,7 +101,7 @@ describe('signs', () => {
   it('should trigger click in custom right sign with data-trigger="click"', () => {
     row = newRow({}, { 'right-sign': getSwitchFragment() });
 
-    return new Promise(res => {
+    return new Promise((res) => {
       rightSign.on('change', res);
       row.refs.main.click();
     });
@@ -111,7 +110,7 @@ describe('signs', () => {
   it('should not retrigger sign trigger if click was on it', () => {
     row = newRow({}, { 'right-sign': getSwitchFragment() });
 
-    return new Promise(res => {
+    return new Promise((res) => {
       setTimeout(() => {
         if (rightSign.get().checked) res();
       }, 500);

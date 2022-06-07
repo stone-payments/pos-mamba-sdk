@@ -39,17 +39,27 @@
       deleteIcon,
       confirmIcon,
     },
-    computed: {
-      _inputProps: (
-        props = { bgColor, label, placeholder, textColor, value, validation },
-      ) => ({ ...props }),
-    },
     data() {
       return {
         isFocused: false,
         maxlength: 99,
         placeholder: '',
       };
+    },
+
+    computed: {
+      _inputProps: (
+        props = {
+          bgColor: undefined,
+          label: undefined,
+          placeholder: '',
+          textColor: undefined,
+          value: '',
+          validation: undefined,
+        },
+      ) => ({
+        ...props,
+      }),
     },
     methods: {
       /**
@@ -60,10 +70,10 @@
       _handleClickOutside(event) {
         const classList = Array.from(event.target.classList);
 
-        const hasClickedOutside = classList.some(className => className === 'keyboard-wrapper');
+        const hasClickedOutside = classList.some((className) => className === 'keyboard-wrapper');
 
         if (hasClickedOutside) {
-          this.set({isFocused: false});
+          this.set({ isFocused: false });
         }
       },
       _keyboardBeep() {

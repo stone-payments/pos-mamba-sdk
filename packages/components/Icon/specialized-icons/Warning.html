@@ -25,19 +25,6 @@
   import getNumberWithDefault from '../utils/getNumberWithDefault.js';
 
   export default {
-    computed: {
-      _width({ width }) {
-        return getNumberWithDefault(width, 25);
-      },
-      _height({ height }) {
-        return getNumberWithDefault(height, 25);
-      },
-      _classes({ classnames }) {
-        return [...classnames]
-          .filter(Boolean)
-          .join(' ');
-      },
-    },
     data() {
       return {
         classnames: [],
@@ -47,7 +34,18 @@
         height: 25,
       };
     },
-  }
+    computed: {
+      _width({ width }) {
+        return getNumberWithDefault(width, 25);
+      },
+      _height({ height }) {
+        return getNumberWithDefault(height, 25);
+      },
+      _classes({ classnames }) {
+        return [...classnames].filter(Boolean).join(' ');
+      },
+    },
+  };
 </script>
 
 <style>

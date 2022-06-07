@@ -9,7 +9,7 @@ exports.process = (src, filename) => {
   svelteConfig.preprocess.filename = filename;
   svelte
     .preprocess(src, svelteConfig.preprocess)
-    .then(processed => {
+    .then((processed) => {
       const result = svelte.compile(processed.toString(), {
         ...svelteConfig,
         format: 'cjs',
@@ -21,11 +21,9 @@ exports.process = (src, filename) => {
         map: result.js ? result.js.map : result.map,
       };
     })
-    .catch(e => {
+    .catch((e) => {
       compiled = null;
-      throw new Error(
-        `Couldn't compile the component "${basename(filename)}".\n${e}`,
-      );
+      throw new Error(`Couldn't compile the component "${basename(filename)}".\n${e}`);
     });
 
   deasync.loopWhile(() => typeof compiled === 'undefined');

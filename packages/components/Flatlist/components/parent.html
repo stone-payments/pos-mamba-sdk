@@ -36,11 +36,11 @@
        *
        * @description Handles shortcut
        * */
-       _shortcut({ key, data = {}}) {
-        if(data.shortcut) return data.shortcut;
+      _shortcut({ key, data = {} }) {
+        if (data.shortcut) return data.shortcut;
 
-        if(key > 9) return undefined;
-        if(key === 9) return 0;
+        if (key > 9) return undefined;
+        if (key === 9) return 0;
         return key + 1;
       },
       /**
@@ -59,8 +59,7 @@
        *
        * @description Handle shortcut (if auto or not)
        * */
-      _shortcutComputed({ _shouldUseAutoShortcuts, _shortcut, data = {}}) {
-
+      _shortcutComputed({ _shouldUseAutoShortcuts, _shortcut, data = {} }) {
         const dataShortcut = data.shortcut === 0 ? 0 : data.shortcut || undefined;
 
         return _shouldUseAutoShortcuts ? _shortcut : dataShortcut;
@@ -72,8 +71,8 @@
        *
        * @description Handle element index
        * */
-      _tabPosition({ position, hasFirstFocusable, _shortcutComputed}) {
-        if(!hasFirstFocusable) return _shortcutComputed;
+      _tabPosition({ position, hasFirstFocusable, _shortcutComputed }) {
+        if (!hasFirstFocusable) return _shortcutComputed;
         return position + (hasFirstFocusable ? 0 : 1);
       },
       /**
@@ -81,8 +80,8 @@
        *
        * @description Receives decorator block on parent
        * */
-       _decorator({ decorator }) {
-        if(!decorator) return {};
+      _decorator({ decorator }) {
+        if (!decorator) return {};
         return decorator;
       },
     },
@@ -90,9 +89,9 @@
       this.fire('create');
     },
     onupdate({ changed, current }) {
-      if(changed.isActive && current.isActive) {
+      if (changed.isActive && current.isActive) {
         const { element } = this.refs;
-        if(element) element.focus();
+        if (element) element.focus();
       }
     },
   };

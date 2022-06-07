@@ -24,7 +24,7 @@
       return {
         _location: undefined,
         _isNavigationEnabled: { back: false, home: true },
-        _navigableRoute: { routeBack: undefined , paramsBack: undefined },
+        _navigableRoute: { routeBack: undefined, paramsBack: undefined },
         title: undefined,
         textColor: neutral700,
         iconColor: neutral700,
@@ -47,15 +47,14 @@
           .join(';');
       },
       _isAtHome: ({ _location }) => _location === '/' || !_location,
-      _showBack: ({ _isAtHome, _isNavigationEnabled }) =>
-        !_isAtHome && _isNavigationEnabled.back,
+      _showBack: ({ _isAtHome, _isNavigationEnabled }) => !_isAtHome && _isNavigationEnabled.back,
       _showHome: ({ _isNavigationEnabled }) => _isNavigationEnabled.home,
     },
     oncreate() {
       const { root } = this;
 
       /** Listen for route changes and appbar prop changes */
-      root.on('appbar:modify', state => this.set(state));
+      root.on('appbar:modify', (state) => this.set(state));
 
       /** Needed for projects with svelte-page < v2.2.0 */
       if (root.router) {
@@ -65,7 +64,7 @@
           }
         });
       } else {
-        root.on('router:change', context => {
+        root.on('router:change', (context) => {
           this.set({ _location: context.path });
         });
       }
@@ -129,10 +128,7 @@
         /* istanbul ignore else */
         if (_navigableRoute.routeBack && !doBeforeClose) {
           if (_navigableRoute.paramsBack) {
-            this.root.router.go(
-              _navigableRoute.routeBack,
-              _navigableRoute.paramsBack,
-            );
+            this.root.router.go(_navigableRoute.routeBack, _navigableRoute.paramsBack);
           } else {
             this.root.router.go(_navigableRoute.routeBack);
           }

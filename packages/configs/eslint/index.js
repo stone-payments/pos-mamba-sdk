@@ -13,7 +13,7 @@ module.exports = {
     'plugin:import/recommended',
     'plugin:@tivac/svelte/svelte',
   ],
-  plugins: ['prettier', 'html', '@tivac/svelte', 'import'],
+  plugins: ['prettier', 'html', '@tivac/svelte', 'import', 'jest'],
   settings: {
     'html/html-extensions': ['.html', '.svelte'],
     'import/extensions': ['.js', '.mjs', '.ts'],
@@ -27,20 +27,21 @@ module.exports = {
     ecmaVersion: 2018,
   },
   globals: merge(additionalGlobals, {
-    __APP_ENV__: true,
-    __NODE_ENV__: true,
-    __BROWSER__: true,
-    __POS__: true,
-    __PROD__: true,
-    __TEST__: true,
-    __DEV__: true,
-    __DEBUG_LVL__: true,
-    __SIMULATOR__: true,
-    __APP_MANIFEST__: true,
-    LOG_INFO: true,
-    LOG_ERROR: true,
-    LOG_WARN: true,
-    LOG: true,
+    __APP_ENV__: 'readonly',
+    __NODE_ENV__: 'readonly',
+    __BROWSER__: 'readonly',
+    __POS__: 'readonly',
+    __PROD__: 'readonly',
+    __TEST__: 'readonly',
+    __DEV__: 'readonly',
+    __DEBUG_LVL__: 'readonly',
+    __SIMULATOR__: 'readonly',
+    __APP_MANIFEST__: 'writable',
+    DEVHOST_IP: 'readonly',
+    LOG_INFO: 'readonly',
+    LOG_ERROR: 'readonly',
+    LOG_WARN: 'readonly',
+    LOG: 'readonly',
   }),
   rules: {
     /** Prettier warning */
@@ -68,6 +69,21 @@ module.exports = {
 
     /** Allow class methods to not use 'this' */
     'class-methods-use-this': 'off',
+
+    /** Disallows shorthand type conversions */
+    'no-implicit-coercion': [
+      'error',
+      {
+        boolean: false,
+        number: true,
+        string: true,
+        allow: ['!!'],
+        disallowTemplateShorthand: false,
+      },
+    ],
+
+    /** Allow returning values from Promise executor functions */
+    'no-promise-executor-return': 'off',
 
     // ! Style
 

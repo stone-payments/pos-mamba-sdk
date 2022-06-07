@@ -5,8 +5,8 @@ export function setup(Storage) {
   const STORAGE = window.localStorage || {
     _data: {},
     setItem: (id, val) => (STORAGE._data[id] = val.toString()),
-    getItem: id => STORAGE._data[id], // eslint-disable-line
-    removeItem: id => delete STORAGE._data[id],
+    getItem: (id) => STORAGE._data[id], // eslint-disable-line
+    removeItem: (id) => delete STORAGE._data[id],
     clear: () => (STORAGE._data = {}), // eslint-disable-line
   };
   /* eslint-enable no-return-assign */
@@ -27,7 +27,7 @@ export function setup(Storage) {
    * @param {string} key Returns the value associated by its key or an empty string if not found.
    * @memberof Storage
    */
-  Storage.get = key => STORAGE.getItem(key) || '';
+  Storage.get = (key) => STORAGE.getItem(key) || '';
 
   /**
    * Clear all the values at the local storage.

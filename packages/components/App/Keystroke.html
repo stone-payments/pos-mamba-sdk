@@ -1,7 +1,7 @@
 <script>
   import { addHandler, removeHandler } from './includes/KeystrokeRegister.js';
 
-  const onKeystroke = component => e => component.fire('keystroke', e);
+  const onKeystroke = (component) => (e) => component.fire('keystroke', e);
 
   export default {
     data() {

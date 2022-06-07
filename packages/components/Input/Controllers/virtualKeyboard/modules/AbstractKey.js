@@ -33,6 +33,7 @@ class AbstractKey {
    * @param { {scope: any} } controller
    * @protected
    */
+  // eslint-disable-next-line no-unused-vars
   onClickTemplate(event, controller) {}
 
   /**

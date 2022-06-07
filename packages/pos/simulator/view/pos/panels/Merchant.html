@@ -98,7 +98,7 @@
       };
     },
     oncreate() {
-      Registry.on('persistentDataChanged', changes => {
+      Registry.on('persistentDataChanged', (changes) => {
         changes.forEach(({ path: [, prop], value }) => {
           if (prop in PERSISTENT_MERCHANT_INFO) {
             const key = {};
@@ -113,9 +113,9 @@
         return;
       }
 
-      Registry.persistent.set(draft => {
+      Registry.persistent.set((draft) => {
         draft.$Merchant = {};
-        PERSISTENT_MERCHANT_INFO.forEach(key => {
+        PERSISTENT_MERCHANT_INFO.forEach((key) => {
           if (changed[key]) {
             draft.$Merchant[key] = current[key];
           }

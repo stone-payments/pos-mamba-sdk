@@ -34,16 +34,8 @@
     },
     computed: {
       /* istanbul ignore next */
-      _inputProps: ({
-        value,
-        prefix,
-        suffix,
-        mask,
-        placeholder,
-        type,
-        validation,
-        ...props
-      }) => props,
+      _inputProps: ({ value, prefix, suffix, mask, placeholder, type, validation, ...props }) =>
+        props,
       formatted: ({ prefix, suffix, value = '0', limit }) => {
         const parsedMoney = parseFloat(value) / 100;
         const isValidNumber = !Number.isNaN(parsedMoney);
@@ -121,10 +113,7 @@
            * still rendered (it could have been destroyed).
            */
           if (this.refs.amountInput) {
-            this.refs.amountInput.refs.input.setSelectionRange(
-              endPosition,
-              endPosition,
-            );
+            this.refs.amountInput.refs.input.setSelectionRange(endPosition, endPosition);
           }
         });
 

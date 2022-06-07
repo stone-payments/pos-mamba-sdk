@@ -30,7 +30,7 @@ export function setup(Keyboard) {
   Keyboard.setKeyboardAsNumeric = () => {
     if (__DEBUG_LVL__ >= 1) log('Keyboard is now numeric');
 
-    Registry.set(draft => {
+    Registry.set((draft) => {
       draft.$Keyboard.isAlphanumericEnabled = false;
     });
 
@@ -47,7 +47,7 @@ export function setup(Keyboard) {
   Keyboard.setKeyboardAsAlphanumeric = () => {
     if (__DEBUG_LVL__ >= 1) log('Keyboard is now alphanumeric');
 
-    Registry.set(draft => {
+    Registry.set((draft) => {
       draft.$Keyboard.isAlphanumericEnabled = true;
     });
 

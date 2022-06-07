@@ -70,7 +70,7 @@ export default () => {
           }
         } else if (__DEV__) {
           console.warn(
-            `[@mamba/pos/driver] Tried to disconnect from "${signal}" a non-connected slot (group: ${currentGroupName}).`
+            `[@mamba/pos/driver] Tried to disconnect from "${signal}" a non-connected slot (group: ${currentGroupName}).`,
           );
         }
       }
@@ -145,8 +145,8 @@ export default () => {
       if (__DEV__) {
         console.log(
           `Destroying signal group: "${groupName}".\nDisconnecting slots from: "${groupSignals.join(
-            '", "'
-          )}"`
+            '", "',
+          )}"`,
         );
       }
 

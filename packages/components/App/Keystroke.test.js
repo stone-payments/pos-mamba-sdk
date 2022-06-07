@@ -5,7 +5,7 @@ const { newTestRoot, fireKey } = global;
 const root = newTestRoot({ key: 'close' });
 let keystroke;
 
-const newKeystroke = data => root.createComponent(Keystroke, { data });
+const newKeystroke = (data) => root.createComponent(Keystroke, { data });
 
 it('should have a list of active handlers for a key', () => {
   keystroke = newKeystroke({ key: 'close' });
@@ -38,7 +38,7 @@ it('should NOT have a list of active handlers for a key not specified', () => {
 });
 
 it('should bind an event listener to a specified POS key and fire a "keystroke" event', () =>
-  new Promise(res => {
+  new Promise((res) => {
     keystroke = newKeystroke({ key: 'close' });
     keystroke.on('keystroke', res);
     fireKey('close');
@@ -48,8 +48,8 @@ it('should execute multiple handlers for the a key', () => {
   const otherKeystroke = newKeystroke({ key: 'close' });
 
   const promise = Promise.all([
-    new Promise(res => keystroke.on('keystroke', res)),
-    new Promise(res => otherKeystroke.on('keystroke', res)),
+    new Promise((res) => keystroke.on('keystroke', res)),
+    new Promise((res) => otherKeystroke.on('keystroke', res)),
   ]);
 
   fireKey('close');

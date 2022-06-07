@@ -1,5 +1,5 @@
-export default function(driver) {
-  driver.changeAdapter = desiredAdapter => {
+export default function (driver) {
+  driver.changeAdapter = (desiredAdapter) => {
     desiredAdapter = desiredAdapter.toLowerCase();
     if (desiredAdapter === '3g') {
       desiredAdapter = 'mbb';
@@ -8,7 +8,7 @@ export default function(driver) {
     return driver.changeAdapterTo(desiredAdapter);
   };
 
-  driver.activateStonecode = stonecode => {
+  driver.activateStonecode = (stonecode) => {
     return new Promise((resolve, reject) => {
       if (typeof driver.activateStoneCode === 'function') {
         driver.race([
@@ -20,7 +20,7 @@ export default function(driver) {
           ],
           [
             'failure',
-            error => {
+            (error) => {
               reject(error);
             },
           ],
@@ -40,7 +40,7 @@ export default function(driver) {
   }
 
   if (!driver.getUserSetting) {
-    driver.getUserSetting = key => {
+    driver.getUserSetting = (key) => {
       const settings = driver.getUserSettings();
       return settings[key];
     };

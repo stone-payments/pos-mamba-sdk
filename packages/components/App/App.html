@@ -32,7 +32,7 @@
     data() {
       return {
         navigable: { home: true, back: true },
-        navigableRoute: { routeBack: undefined , paramsBack: undefined },
+        navigableRoute: { routeBack: undefined, paramsBack: undefined },
         shortcuts: true,
         scrollable: true,
         hideAppBar: false,
@@ -45,7 +45,7 @@
       const { root } = this;
 
       // add a app root reference for mamba-pkgs packages case webpack fails
-      if(!window.$MAMBA) {
+      if (!window.$MAMBA) {
         window.$MAMBA = this;
       }
 
@@ -58,17 +58,16 @@
       try {
         const classList = Device.getDeviceCapabilitiesClassList() || [];
 
-        if(__DEBUG_LVL__ >= 3 || __DEV__) console.log(JSON.stringify(classList));
+        if (__DEBUG_LVL__ >= 3 || __DEV__) console.log(JSON.stringify(classList));
 
         // POS compatible way
-        classList.forEach(cl => target.classList.add(cl));
-
+        classList.forEach((cl) => target.classList.add(cl));
       } catch (_) {
         //
       }
 
       // TODO: Deprecate this sometime
-      root.on('navigation', isEnabled => {
+      root.on('navigation', (isEnabled) => {
         /* istanbul ignore next */
         if (__DEV__) {
           console.warn(
@@ -78,7 +77,7 @@
         this.setNavigable(isEnabled);
       });
 
-      root.on('shortcuts', isEnabled => {
+      root.on('shortcuts', (isEnabled) => {
         /* istanbul ignore next */
         if (__DEV__) {
           console.warn(
@@ -115,9 +114,7 @@
       root.on('close', () => {
         /* istanbul ignore next */
         if (__DEV__) {
-          console.warn(
-            "[@mamba/app] this.root.fire('close') is deprecated. Use this.root.close()",
-          );
+          console.warn("[@mamba/app] this.root.fire('close') is deprecated. Use this.root.close()");
         }
 
         root.close();
@@ -178,8 +175,12 @@
       setNavigableRoute(route, params = {}) {
         if (route !== false && route && typeof route === 'string') {
           if (params && typeof params === 'object') {
-            this.set({ navigableRoute: {
-              routeBack: route, paramsBack: params } });
+            this.set({
+              navigableRoute: {
+                routeBack: route,
+                paramsBack: params,
+              },
+            });
           } else {
             this.set({ navigableRoute: { routeBack: route } });
           }
@@ -195,8 +196,8 @@
       },
       askAdminPassword() {
         this.refs.adminLock.open();
-        return new Promise(resolve => {
-          const listener = this.refs.adminLock.on('authentication', event => {
+        return new Promise((resolve) => {
+          const listener = this.refs.adminLock.on('authentication', (event) => {
             if (event.success) {
               resolve(true);
               listener.cancel();
@@ -211,9 +212,7 @@
           const eventPath = e.path || (e.composedPath && e.composedPath());
           const isInsideApp =
             eventPath &&
-            eventPath.some(
-              node => node.nodeType === 1 && node.classList.contains('mamba-app'),
-            );
+            eventPath.some((node) => node.nodeType === 1 && node.classList.contains('mamba-app'));
 
           if (!isInsideApp) {
             return;
@@ -249,9 +248,7 @@
           const eventPath = e.path || (e.composedPath && e.composedPath());
           const isInsideApp =
             eventPath &&
-            eventPath.some(
-              node => node.nodeType === 1 && node.classList.contains('mamba-app'),
-            );
+            eventPath.some((node) => node.nodeType === 1 && node.classList.contains('mamba-app'));
 
           if (
             !isInsideApp &&
@@ -270,12 +267,13 @@
         try {
           const focusableEl = document.querySelector(`${tabindexQuery}${shortcutQuery}`);
           focusableEl.focus();
-        } catch (_) { /**/ }
+        } catch (_) {
+          /**/
+        }
 
         const { notPrevent, handlerContext } = hasKeystrokeToPrevent();
 
-
-        if(handlerContext === document) {
+        if (handlerContext === document) {
           if (e.defaultPrevented || hasActiveHandlerFor(keyName)) {
             return;
           }
@@ -298,7 +296,6 @@
           }
         }
 
-
         /** If the key is not mapped or a input is focused, do nothing */
         if (isEditableInputOnFocus(e.target)) {
           return;
@@ -317,12 +314,14 @@
         }
 
         /** Find the focusable element that have shortcurt='keyName' first */
-        const selfShortcutValue = handlerContext.getAttribute && handlerContext.getAttribute('shortcut');
+        const selfShortcutValue =
+          handlerContext.getAttribute && handlerContext.getAttribute('shortcut');
 
         /** Find the first element with shortcurt='keyName' */
-        const shortcutEls = selfShortcutValue === keyName ?
-          [handlerContext] :
-          handlerContext.querySelectorAll(shortcutQuery);
+        const shortcutEls =
+          selfShortcutValue === keyName
+            ? [handlerContext]
+            : handlerContext.querySelectorAll(shortcutQuery);
 
         /** If shortcuts are disabled or no shortcut element found, do nothing */
         if (!shortcutsEnabled || shortcutEls.length === 0) {
@@ -340,12 +339,12 @@
          * If a shortcut element was found.
          * If 'enter' was clicked, check if the shortcut element isn't already focused
          */
-        if(!notPrevent && handlerContext !== document) {
+        if (!notPrevent && handlerContext !== document) {
           dispatchEventOn(shortcutEl);
           return;
         }
 
-        if ( (keyName !== 'enter' || document.activeElement !== shortcutEl)) {
+        if (keyName !== 'enter' || document.activeElement !== shortcutEl) {
           dispatchEventOn(shortcutEl);
         }
       },

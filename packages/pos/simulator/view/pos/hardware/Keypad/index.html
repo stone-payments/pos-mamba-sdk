@@ -58,14 +58,11 @@
       };
     },
     computed: {
-      getModel({$ACTIVE_MODEL, keyboardDevices, defaultKeyboard}) {
+      getModel({ $ACTIVE_MODEL, keyboardDevices, defaultKeyboard }) {
         try {
-          const {
-            component,
-          } = keyboardDevices.find(({title}) => title === $ACTIVE_MODEL);
+          const { component } = keyboardDevices.find(({ title }) => title === $ACTIVE_MODEL);
 
           return component;
-
         } catch (error) {
           return defaultKeyboard;
         }

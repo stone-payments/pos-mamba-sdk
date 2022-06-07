@@ -22,7 +22,7 @@ export default function Signal() {
    * When an app closes, remove it's connected signal slots
    * This logic should not be here but it'd be cumbersome to put it elsewhere for now.
    */
-  AppManager.on('closed', app => {
+  AppManager.on('closed', (app) => {
     if (slots[app.manifest.slug]) {
       delete slots[app.manifest.slug];
     }
@@ -31,19 +31,15 @@ export default function Signal() {
   function signal(...args) {
     const groupName = getSlotsGroup();
     if (slots.default) {
-      slots.default.forEach(slot => slot(...args));
+      slots.default.forEach((slot) => slot(...args));
     }
 
-    if (
-      groupName !== 'default' &&
-      slots[groupName] &&
-      !isSlotGroupSuspended()
-    ) {
-      slots[groupName].forEach(slot => slot(...args));
+    if (groupName !== 'default' && slots[groupName] && !isSlotGroupSuspended()) {
+      slots[groupName].forEach((slot) => slot(...args));
     }
   }
 
-  signal.connect = callback => {
+  signal.connect = (callback) => {
     const groupName = getSlotsGroup();
 
     if (!slots[groupName]) {
@@ -53,7 +49,7 @@ export default function Signal() {
     slots[groupName].push(callback);
   };
 
-  signal.disconnect = callback => {
+  signal.disconnect = (callback) => {
     const groupName = getSlotsGroup();
 
     const callbackIndex = slots[groupName].indexOf(callback);
@@ -74,7 +70,7 @@ Signal.register = (namespace, signals) => {
   if (!Array.isArray(signals)) {
     namespace[signals] = Signal();
   } else {
-    signals.forEach(signalName => {
+    signals.forEach((signalName) => {
       namespace[signalName] = Signal();
     });
   }

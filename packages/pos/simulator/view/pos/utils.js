@@ -1,5 +1,5 @@
 export const onceTransitionEnd = (el, cb) => {
-  const onTransitionEnd = e => {
+  const onTransitionEnd = (e) => {
     cb(e);
     el.removeEventListener('transitionend', onTransitionEnd);
   };

@@ -5,12 +5,7 @@ import systemEnums from '../../drivers/system/enums.js';
 
 export const NAMESPACE = '$System';
 
-export const SIGNALS = [
-  'batteryCritical',
-  'batteryNormal',
-  'success',
-  'failure',
-];
+export const SIGNALS = ['batteryCritical', 'batteryNormal', 'success', 'failure'];
 
 export const SETTINGS = {
   Connections: {
@@ -113,12 +108,12 @@ export function setup(System) {
    * @memberOf System
    * @return {boolean} true or false
    */
-  System.changeAdapterTo = desiredAdapter => {
+  System.changeAdapterTo = (desiredAdapter) => {
     if (desiredAdapter !== 'mbb' && desiredAdapter !== 'wifi') {
       return false;
     }
 
-    Registry.set(draft => {
+    Registry.set((draft) => {
       draft.$System.Connections.currentType = desiredAdapter;
     });
     return true;
@@ -129,8 +124,7 @@ export function setup(System) {
    * @memberOf System
    * @return {string} Wifi or 4G, 3G, 2G, USSD, and unknow( empty string ""), depends on the POS model.
    */
-  System.getCurrentConnectionType = () =>
-    Registry.get().$System.Connections.currentType;
+  System.getCurrentConnectionType = () => Registry.get().$System.Connections.currentType;
 
   /**
    * Checks if the device has ethernet
@@ -193,8 +187,7 @@ export function setup(System) {
    * @memberOf System
    * @return {System.BatteryStatus} The status of the battery
    */
-  System.isBatteryCritical = () =>
-    Registry.get().$System.Battery.isBatteryCritical;
+  System.isBatteryCritical = () => Registry.get().$System.Battery.isBatteryCritical;
 
   /**
    * Gets the level of the battery. Note that the level is discrete and it
@@ -228,8 +221,7 @@ export function setup(System) {
    * @memberOf System
    * @returns { "ton" | "Mamba" | "WLPagarme" } `Mamba`
    */
-  System.getActiveOrganization = () =>
-    Registry.persistent.get().$System.Organizations.current;
+  System.getActiveOrganization = () => Registry.persistent.get().$System.Organizations.current;
 
   /**
    * TON organization slug
@@ -250,8 +242,7 @@ export function setup(System) {
    * @memberOf System
    * @returns {string} `WLPagarme`
    */
-  System.getWLPagarmeOrganizationName = () =>
-    systemEnums.Organizations.WLPAGARME;
+  System.getWLPagarmeOrganizationName = () => systemEnums.Organizations.WLPAGARME;
 
   /**
    * Check if POS has printer capability
@@ -284,10 +275,7 @@ export function setup(System) {
    * @param  {System.Tone} tone         The tone of the beep
    * @param  {number}      [duration=300]     The duration of the tone in milliseconds
    */
-  System.beep = (
-    tone = System.Tones.TONE1,
-    duration = DEFAULT_BEEP_DURATION,
-  ) => {
+  System.beep = (tone = System.Tones.TONE1, duration = DEFAULT_BEEP_DURATION) => {
     const toneFrequency = _getToneFrequency(tone, System.Tones);
 
     if (!toneFrequency) {
@@ -302,7 +290,7 @@ export function setup(System) {
     }
   };
 
-  System.activateStoneCode = stonecode => {
+  System.activateStoneCode = (stonecode) => {
     console.log(stonecode);
     setTimeout(() => {
       System.fire('success');

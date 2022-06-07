@@ -4,12 +4,12 @@ const { newTestRoot, clickOn } = global;
 let root;
 let appBar;
 
-const newAppBar = data => {
+const newAppBar = (data) => {
   root = newTestRoot();
   return root.createComponent(AppBar, { data });
 };
 
-const changeRouterPath = path => {
+const changeRouterPath = (path) => {
   root.router.set({ context: { path } });
   root.router.fire('change', { path });
   root.fire('router:change', { path });
@@ -139,10 +139,10 @@ describe('navigation', () => {
 
   it('should go home when home is clicked and location is not home page', () =>
     Promise.all([
-      new Promise(res => {
+      new Promise((res) => {
         root.on('appbar:goHome', res);
       }),
-      new Promise(res => {
+      new Promise((res) => {
         root.router.go = res;
         clickOn(root.query('.icon-right'));
       }),
@@ -152,10 +152,10 @@ describe('navigation', () => {
     changeRouterPath('/');
 
     return Promise.all([
-      new Promise(res => {
+      new Promise((res) => {
         root.on('appbar:closeApp', res);
       }),
-      new Promise(res => {
+      new Promise((res) => {
         root.close = res;
         clickOn(root.query('.icon-right'));
       }),
