@@ -45,6 +45,7 @@
   "lint-staged": {
     "linters": {
       "*.{html,svelte}": [
+        "stylelint --fix",
         "git add"
       ],
       "*.js": [
@@ -53,6 +54,7 @@
       ],
       "*.{pcss,css}": [
         "prettier --write",
+        "stylelint --fix",
         "git add"
       ]
     }
