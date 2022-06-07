@@ -13,6 +13,7 @@ export const SETTINGS = {
 export const SIGNALS = ['printerDone'];
 
 export function setup(Printer) {
+  // eslint-disable-next-line no-unused-vars
   let hasNoPrinter = false;
 
   Printer.getPaperWidth = () => Registry.get().$Printer.paperWidth;

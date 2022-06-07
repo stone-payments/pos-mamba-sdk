@@ -1,4 +1,4 @@
-import AbstractKey from './AbstractKey';
+import AbstractKey from './AbstractKey.js';
 
 class ConfirmationKey extends AbstractKey {
   onClickTemplate(event, controller) {

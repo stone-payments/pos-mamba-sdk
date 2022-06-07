@@ -48,6 +48,10 @@ import confirmIcon from './assets/num_ok.png';
     components: {
       Input: '@mamba/input/Input.html',
     },
+    helpers: {
+      deleteIcon,
+      confirmIcon,
+    },
     data() {
       return {
         isFocused: false,
@@ -60,25 +64,21 @@ import confirmIcon from './assets/num_ok.png';
         readonlyOnEnter: false,
       };
     },
-    helpers: {
-      deleteIcon,
-      confirmIcon,
-    },
     computed: {
       _inputProps: (
         props = {
-          bgColor,
-          label,
-          placeholder,
-          textColor,
-          value,
-          validation,
-          cents,
-          prefix,
-          suffix,
-          mask,
-          type,
-      },
+          bgColor: undefined,
+          label: undefined,
+          placeholder: undefined,
+          textColor: undefined,
+          value: '',
+          validation: undefined,
+          cents: undefined,
+          prefix: undefined,
+          suffix: undefined,
+          mask: undefined,
+          type: undefined,
+        },
       ) => ({ ...props }),
       value: ({ prefix, suffix, cents }) => prefix + formatMoney(parseFloat(cents) / 100) + suffix,
       /** deprecated */
@@ -89,7 +89,7 @@ import confirmIcon from './assets/num_ok.png';
       const buttons = document.querySelectorAll('button.key');
 
       appScreen.addEventListener('click', (e) => {
-          const clickClassList = Array.from(e.target.classList);
+        const clickClassList = Array.from(e.target.classList);
 
         const clickOutKeyboard = clickClassList.some((className) => className === 'keyboard-wrapper');
 
@@ -97,14 +97,11 @@ import confirmIcon from './assets/num_ok.png';
           this.set({
             isFocused: false,
           });
-
         }
-        }
-
       });
 
       buttons.forEach((button) => {
-        button.addEventListener('click', (e) => {
+        button.addEventListener('click', () => {
           System.beep(System.Tones.TONE3, 30);
         });
       });

@@ -1,5 +1,3 @@
-import System from '@mamba/pos/api/system.js';
-
 class VirtualKeyboardController {
   /**
    * @param {any} scope

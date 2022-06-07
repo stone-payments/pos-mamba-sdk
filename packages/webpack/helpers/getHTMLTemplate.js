@@ -45,15 +45,17 @@ module.exports = ({ css, js, title, publicPath }) => {
   </body>
 </html>`;
 
+  const prodOptions = {
+    collapseWhitespace: true,
+    conservativeCollapse: true,
+    minifyCSS: true,
+    minifyJS: true,
+    keepClosingSlash: true,
+    preserveLineBreaks: false,
+    removeComments: true,
+  };
+
   return process.env.NODE_ENV === 'production'
-    ? htmlMinifier(htmlTemplate, {
-        collapseWhitespace: true,
-        conservativeCollapse: true,
-        minifyCSS: true,
-        minifyJS: true,
-        keepClosingSlash: true,
-        preserveLineBreaks: false,
-        removeComments: true,
-      })
+    ? htmlMinifier(htmlTemplate, prodOptions)
     : htmlTemplate;
 };

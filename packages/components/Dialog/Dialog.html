@@ -77,7 +77,7 @@ let lastShortcutsState;
           if (isOpen) {
             lastShortcutsState = this.root.meta.get().shortcuts;
             this.root.meta.setShortcuts(true);
-          } else if (lastShortcutsState != undefined) {
+          } else if (lastShortcutsState !== undefined) {
             this.root.meta.setShortcuts(lastShortcutsState);
           }
         }

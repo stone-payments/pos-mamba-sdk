@@ -2,7 +2,7 @@ import { Registry } from '@mamba/pos/simulator/index.js';
 import System from '@mamba/pos/api/system.js';
 import Input from './Input.html';
 
-const { newTestRoot, clickOn, typeOn, fireKey } = global;
+const { newTestRoot, typeOn, fireKey } = global;
 
 const root = newTestRoot();
 

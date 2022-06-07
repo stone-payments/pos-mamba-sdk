@@ -71,6 +71,10 @@
       RoundIcon: '@mamba/icon/Round.html',
       Dialog: './Dialog.html',
     },
+    helpers: {
+      green500,
+      red400,
+    },
     data() {
       return {
         isOpen: false,
@@ -78,10 +82,6 @@
         negativeLabel: null,
         primaryColor: green500,
       };
-    },
-    helpers: {
-      green500,
-      red400,
     },
     computed: {
       _dialogProps: ({ positiveLabel, negativeLabel, primaryColor, ...props }) => props,

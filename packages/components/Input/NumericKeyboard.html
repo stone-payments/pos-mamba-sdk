@@ -42,14 +42,6 @@
       deleteIcon,
       confirmIcon,
     },
-    computed: {
-      _inputProps: (props = { bgColor, label, placeholder, textColor, value, validation }) => ({
-        ...props,
-      }),
-      isMathKeyboard: ({ type }) => {
-        return type === 'math';
-      },
-    },
     data() {
       return {
         isFocused: false,
@@ -57,6 +49,23 @@
         keys: VIRTUAL_KEYBOARD.KEYS,
         mathKeys: VIRTUAL_KEYBOARD.MATH,
       };
+    },
+    computed: {
+      _inputProps: (
+        props = {
+          bgColor: undefined,
+          label: undefined,
+          placeholder: undefined,
+          textColor: undefined,
+          value: undefined,
+          validation: undefined,
+        },
+      ) => ({
+        ...props,
+      }),
+      isMathKeyboard: ({ type }) => {
+        return type === 'math';
+      },
     },
     oncreate() {
       controller = new VirtualKeyboardController(this);
