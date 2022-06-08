@@ -1,4 +1,4 @@
-import Keyboard from '@mamba/pos/api/keyboard.js';
+import Keyboard from '@mamba/keyboard/native/keyboard.js';
 
 const register = {
   length: 0,
