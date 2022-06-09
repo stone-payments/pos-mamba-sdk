@@ -1,7 +1,6 @@
 /**
  * Common webpack configuration
  */
-const fs = require('fs');
 const merge = require('webpack-merge');
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin');
 const WebpackBar = require('webpackbar');
@@ -24,10 +23,6 @@ const {
 } = require('./helpers/consts.js');
 
 const baseInclude = [fromCwd('src')];
-const vendors = fromCwd('vendors/packages');
-if (fs.existsSync(vendors)) {
-  baseInclude.push(vendors);
-}
 
 module.exports = {
   mode: IS_PROD ? 'production' : 'development',
@@ -43,10 +38,10 @@ module.exports = {
   },
   resolve: {
     /** Do not resolve symlinks */
-    symlinks: true,
+    symlinks: false,
     enforceExtension: false,
     mainFields: ['svelte', 'esnext', 'jsnext:main', 'module', 'main'],
-    extensions: ['.js', '.json', '.pcss', '.css', '.html', '.htmlx', '.svelte'],
+    extensions: ['.js', '.ts', '.json', '.pcss', '.css', '.html', '.htmlx', '.svelte'],
   },
   module: {
     rules: [
@@ -60,7 +55,11 @@ module.exports = {
         use: [loaders.babelEsNext, loaders.svelte, loaders.eslint],
       },
       {
-        test: /\.(js|ts)$/,
+        test: /\.ts$/,
+        use: [loaders.babelEsNext, loaders.eslint],
+      },
+      {
+        test: /\.js$/,
         include: baseInclude,
         exclude: [/node_modules/],
         use: [loaders.babelEsNext, loaders.eslint],
