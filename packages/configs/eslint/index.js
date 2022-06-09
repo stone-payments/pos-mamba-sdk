@@ -26,7 +26,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2018,
   },
-  globals: merge(additionalGlobals, {
+  globals: merge(additionalGlobals(), {
     __APP_ENV__: 'readonly',
     __NODE_ENV__: 'readonly',
     __BROWSER__: 'readonly',
@@ -232,6 +232,15 @@ module.exports = {
       files: ['*.ts'],
       parser: '@typescript-eslint/parser',
       plugins: ['@typescript-eslint'],
+      parserOptions: {
+        ecmaVersion: 2020,
+        sourceType: 'module',
+        ecmaFeatures: {
+          modules: true,
+          experimentalObjectRestSpread: true,
+        },
+      },
+      extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
       rules: {
         'no-dupe-class-members': 'off',
         'no-array-constructor': 'off',
@@ -249,6 +258,8 @@ module.exports = {
         '@typescript-eslint/no-var-requires': 0,
         '@typescript-eslint/no-use-before-define': 0,
         'no-unused-vars': 'off',
+        'no-shadow': 'off',
+        '@typescript-eslint/no-shadow': ['error'],
         '@typescript-eslint/no-unused-vars': [
           'warn',
           {

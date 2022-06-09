@@ -7,7 +7,7 @@ const { fromCwd } = require('quickenv');
 const bodyParser = require('body-parser');
 
 module.exports = merge(require('./config.app.js'), {
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
 
   plugins: [new webpack.HotModuleReplacementPlugin()],
 

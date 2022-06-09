@@ -26,3 +26,4 @@ bower_components/
 # ts
 packages/**/dist
 packages/**/types
+packages/components/Keyboard/lib

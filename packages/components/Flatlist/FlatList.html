@@ -48,16 +48,16 @@
   </div>
 
   <Keystroke key="enter" on:keystroke="selectRowItems(ENTER)"/>
-  <Keystroke key="keyup" on:keystroke="selectRowItems(KEYUP)"/>
-  <Keystroke key="keydown" on:keystroke="selectRowItems(KEYDOWN)"/>
+  <Keystroke key="keyup" on:keystroke="selectRowItems(ARROW_UP)"/>
+  <Keystroke key="keydown" on:keystroke="selectRowItems(ARROW_DOWN)"/>
 
   {#if navBar}
-    <NavBar labelDown={navDownLabel} labelUp={navUpLabel} on:keyup="selectRowItems(KEYUP)" on:keydown="selectRowItems(KEYDOWN)" />
+    <NavBar labelDown={navDownLabel} labelUp={navUpLabel} on:keyup="selectRowItems(ARROW_UP)" on:keydown="selectRowItems(ARROW_DOWN)" />
   {/if}
 {/if}
 
 <script>
-  import { ENTER, KEYUP, KEYDOWN } from '@mamba/keyboard/native/keymap.js';
+  import { KEYBOARD } from '@mamba/core';
 
   import {
     selectRowItem,
@@ -70,6 +70,8 @@
   import isFunction from './utils/isFunction.js';
   import { ACTIVE_MODEL } from './decorators.js';
   import { ARROW_CAPABILITIES_MODELS } from './const.js';
+
+  const { ARROW_UP, ARROW_DOWN, ENTER } = KEYBOARD;
 
   const EVENTS = {
     ITEM_SELECTED: 'itemSelected',
@@ -87,8 +89,8 @@
     },
     helpers: {
       ENTER,
-      KEYUP,
-      KEYDOWN,
+      ARROW_UP,
+      ARROW_DOWN,
       /**
        * @param {function} decorator - default decorator
        * @param {object} item - row from Flatlist data
@@ -266,7 +268,7 @@
           return;
         }
 
-        if (keyCode === KEYUP || keyCode === KEYDOWN) {
+        if (keyCode === ARROW_UP || keyCode === ARROW_DOWN) {
           const { scrollY, selectedIndex, _elementsRefs } = this.get();
 
           const internalIndex = selectRowItem(_elementsRefs, selectedIndex, scrollY, keyCode);

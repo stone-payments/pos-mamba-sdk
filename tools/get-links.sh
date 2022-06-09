@@ -26,6 +26,7 @@ INSTALL_CHAIN="npm link "
 PATHS=$(find "$PWD"/packages -type f -name "package.json" \
   -not \( -ipath "*/node_modules/*" -prune \) \
   -not \( -ipath "*/cli/*" -prune \) \
+  -not \( -ipath "*/docs/*" -prune \) \
   -not \( -ipath "*/logger/*" -prune \) \
   -not \( -ipath "*/.git/*" -prune \))
 
@@ -59,7 +60,7 @@ for file in $PATHS; do
   directory=${file%/*}
   if [[ "$mode" == "name" ]]; then
     echo $'\e[32m'"⛓ Linking $package_name"$'\e[0m'
-    (cd $directory && yarn --silent link)
+    (cd $directory && yarn unlink && yarn --silent link)
     LINK_CHAIN+="$package_name "
   else
     INSTALL_CHAIN+="$directory "

@@ -31,7 +31,7 @@
 
 <script>
   import Merchant from '@mamba/pos/api/merchant.js';
-  import Keyboard from '@mamba/keyboard/native/keyboard.js';
+  import Keyboard from '@mamba/keyboard/api/keyboard.js';
 
   export default {
     components: {
@@ -46,7 +46,7 @@
     },
     methods: {
       open() {
-        Keyboard.setKeyboardAsNumeric();
+        Keyboard.setKeyboardInputAsNumeric();
         this.set({ _showLockPopUp: true });
         this.refs.password.focus();
       },
