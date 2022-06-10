@@ -1,0 +1,128 @@
+/* @import 'CandidateBox.css'; */
+
+.mb-keyboard-default {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  user-select: none;
+  overflow: hidden;
+  background-color: $neutral200;
+  padding: 2px;
+  font-size: 15px;
+
+  /* When using option "useButtonTag" */
+  & button.mb-button {
+    border-width: 0;
+    outline: 0;
+    font-size: inherit;
+  }
+
+  & .mb-row {
+    display: flex;
+
+    &:not(:last-child) {
+      margin-bottom: 2px;
+    }
+
+    & .mb-button:not(:last-child) {
+      margin-right: 2px;
+    }
+
+    & .mb-button-container {
+      margin-right: 2px;
+    }
+
+    & > div:last-child {
+      margin-right: 0;
+    }
+
+    & > div:last-child {
+      margin-right: 0;
+    }
+
+    & .mb-button-container {
+      display: flex;
+    }
+  }
+
+  & .mb-button {
+    display: inline-block;
+    flex-grow: 1;
+    cursor: pointer;
+    height: 34px;
+    box-sizing: border-box;
+    padding: 5px;
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & span {
+      pointer-events: none;
+    }
+
+    &.mb-standard-btn {
+      width: 20px;
+    }
+
+    &.mb-activeButton {
+      background: #efefef;
+    }
+
+    &.mb-button-numpadadd {
+      height: 85px;
+    }
+
+    &.mb-button-numpadenter {
+      height: 85px;
+    }
+
+    &.mb-button-numpad0 {
+      width: 105px;
+    }
+
+    &.mb-button-com {
+      max-width: 85px;
+    }
+
+    &.mb-standard-btn.mb-button-at {
+      max-width: 45px;
+    }
+
+    &.mb-selectedButton {
+      background: rgba(5, 25, 70, 0.53);
+      color: white;
+    }
+
+    &.mb-standard-btn[data-skbtn=".com"] {
+      max-width: 82px;
+    }
+
+    &.mb-standard-btn[data-skbtn="@"] {
+      max-width: 60px;
+    }
+
+    &[data-skbtn="{space}"] {
+      color: $neutral600;
+    }
+  }
+
+  &.mb-layout-numeric .mb-button {
+    width: 33.3%;
+    height: 60px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+
+  & .mb-button[data-skbtn="{symbols}"],
+  & .mb-button[data-skbtn="{altback}"] {
+    width: 24px;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    padding: 2px 0;
+  }
+}
+

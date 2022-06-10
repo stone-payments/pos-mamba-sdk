@@ -232,6 +232,15 @@ module.exports = {
       files: ['*.ts'],
       parser: '@typescript-eslint/parser',
       plugins: ['@typescript-eslint'],
+      parserOptions: {
+        ecmaVersion: 6,
+        sourceType: 'module',
+        ecmaFeatures: {
+          modules: true,
+          experimentalObjectRestSpread: true,
+        },
+      },
+      extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
       rules: {
         'no-dupe-class-members': 'off',
         'no-array-constructor': 'off',

@@ -1,5 +1,3 @@
 import SimpleKeyboard from './components/Keyboard';
-import * as KEYBOARD from './keymap';
 
-export { KEYBOARD };
 export default SimpleKeyboard;

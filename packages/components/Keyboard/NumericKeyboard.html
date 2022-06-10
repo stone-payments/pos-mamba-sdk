@@ -27,15 +27,14 @@
 {/if}
 
 <script>
-
   import deleteIcon from './assets/num_delete.png';
   import confirmIcon from './assets/num_ok.png';
 
   // Libs
-  import { VIRTUAL_KEYBOARD } from './libs/virtualKeyboard.js';
+  import { VIRTUAL_KEYBOARD } from './oldjs/virtualKeyboard.js';
 
   // Controllers
-  import VirtualKeyboardController from './Controllers/virtualKeyboard/VirtualKeyboardController.js';
+  import VirtualKeyboardController from './oldjs/VirtualKeyboardController.js';
 
   let controller;
 
@@ -43,14 +42,6 @@
     helpers: {
       deleteIcon,
       confirmIcon,
-    },
-    computed: {
-      _inputProps: (
-        props = { bgColor, label, placeholder, textColor, value, validation },
-      ) => ({ ...props }),
-      isMathKeyboard: ({ type }) => {
-        return type === "math"
-      }
     },
     data() {
       return {
@@ -60,9 +51,30 @@
         mathKeys: VIRTUAL_KEYBOARD.MATH,
       };
     },
+    computed: {
+      _inputProps: (
+        props = {
+          bgColor: undefined,
+          label: undefined,
+          placeholder: undefined,
+          textColor: undefined,
+          value: '',
+          validation: undefined,
+        },
+      ) => ({
+        ...props,
+      }),
+      isMathKeyboard: ({ type }) => {
+        return type === 'math';
+      },
+    },
     oncreate() {
-     controller = new VirtualKeyboardController(this);
-     this.fire('setup', { setupInput: (...params) => { this.handleSetupInput(params) } })
+      controller = new VirtualKeyboardController(this);
+      this.fire('setup', {
+        setupInput: (...params) => {
+          this.handleSetupInput(params);
+        },
+      });
     },
     methods: {
       handleOnClickInstanceKey(event, instance) {

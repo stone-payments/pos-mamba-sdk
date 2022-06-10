@@ -1,0 +1,67 @@
+.mb-candidate-box {
+  display: inline-flex;
+  position: absolute;
+  background: #ececec;
+  border-bottom: 2px solid #b5b5b5;
+  user-select: none;
+  max-width: 272px;
+  transform: translateY(-100%);
+  margin-top: -10px;
+}
+
+ul.mb-candidate-box-list {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+}
+
+li.mb-candidate-box-list-item {
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+li.mb-candidate-box-list-item:hover {
+  background: rgba(0, 0, 0, 0.03);
+  cursor: pointer;
+}
+
+li.mb-candidate-box-list-item:active {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.mb-candidate-box-prev::before {
+  content: "◄";
+}
+
+.mb-candidate-box-next::before {
+  content: "►";
+}
+
+.mb-candidate-box-next,
+.mb-candidate-box-prev {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  background: #d0d0d0;
+  color: #969696;
+  cursor: pointer;
+}
+
+.mb-candidate-box-next {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.mb-candidate-box-prev {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.mb-candidate-box-btn-active {
+  color: #444;
+}

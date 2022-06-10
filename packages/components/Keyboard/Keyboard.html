@@ -1,21 +1,144 @@
-
-<div
-  class="keyboard"
->
-  <span>
-    A B C
-  </span>
-</div>
-
+<input ref:inputElement />
+<div ref:keyboardRoot class="mb-keyboard"></div>
 
 <script>
-  import { KEYBOARD } from './src/index.ts';
+  import Keyboard from './dist/index.js';
+  import './css/CandidateBox.css';
+  import './css/Keyboard.css';
 
   export default {
     oncreate() {
-      console.log(KEYBOARD);
+      // initAppSignals(this);
+      const { keyboardRoot, inputElement } = this.refs;
+      let keyboard;
+
+      // function setInputCaretPosition(elem, pos) {
+      //   if (elem.setSelectionRange) {
+      //     elem.focus();
+      //     elem.setSelectionRange(pos, pos);
+      //   }
+      // }
+
+      // function onChange(input) {
+      //   inputElement.value = input;
+      //   console.log('Input changed', input);
+
+      //   /**
+      //    * Synchronizing input caret position
+      //    */
+      //   // eslint-disable-next-line no-use-before-define
+      //   const { caretPosition } = keyboard;
+      //   if (caretPosition !== null) setInputCaretPosition(inputElement, caretPosition);
+
+      //   console.log('caretPosition', caretPosition);
+      // }
+
+      // function onKeyPress(button) {
+      //   console.log('Button pressed', button);
+      // }
+
+      // const keyboard = new Keyboard(keyboardRoot, {
+      //   onChange: (input) => onChange(input),
+      //   onKeyPress: (button) => onKeyPress(button),
+      //   layout: {
+      //     default: ['1 2 3', '4 5 6', '7 8 9', '{shift} 0 _', '{bksp}'],
+      //     shift: ['! / #', '$ % ^', '& * (', '{shift} ) +', '{bksp}'],
+      //   },
+      //   theme: 'mb-keyboard-default mb-layout-numeric numeric-theme',
+      // });
+
+      // inputElement.addEventListener('input', (event) => {
+      //   if (keyboard) keyboard.setInput(event.target.value);
+      // });
+
+      function handleLayoutChange(button) {
+        const currentLayout = keyboard.options.layoutName;
+        let layoutName;
+
+        switch (button) {
+          case '{shift}':
+          case '{default}':
+            layoutName = currentLayout === 'default' ? 'shift' : 'default';
+            break;
+
+          case '{symbols}':
+            layoutName = currentLayout === 'symbols' ? 'default' : 'symbols';
+            break;
+
+          case '{alt}':
+          case '{altback}':
+            layoutName = currentLayout === 'alt' ? 'default' : 'alt';
+            break;
+
+          default:
+            break;
+        }
+
+        if (layoutName) {
+          keyboard.setOptions({
+            layoutName,
+          });
+        }
+      }
+
+      //
+
+      function onChange(input) {
+        inputElement.value = input;
+        console.log('Input changed', input);
+      }
+
+      function onKeyPress(button) {
+        console.log('Button pressed', button);
+
+        /**
+         * Handle toggles
+         */
+        if (button.includes('{') && button.includes('}')) {
+          handleLayoutChange(button);
+        }
+      }
+
+      keyboard = new Keyboard(keyboardRoot, {
+        onChange: (input) => onChange(input),
+        onKeyPress: (button) => onKeyPress(button),
+        // theme: 'mb-keyboard-default mb-theme-ios',
+        layout: {
+          default: [
+            'q w e r t y u i o p',
+            'a s d f g h j k l',
+            '{shift} z x c v b n m {backspace}',
+            '{alt} @ {space} . {enter}',
+          ],
+          shift: [
+            'Q W E R T Y U I O P',
+            'A S D F G H J K L',
+            '{shift} Z X C V B N M {backspace}',
+            '{alt} @ {space} . {enter}',
+          ],
+          alt: [
+            '1 2 3 4 5 6 7 8 9 0',
+            '- / : ; ( ) $ & @ "',
+            "{symbols} . , ? ! ' {backspace}",
+            '{default} @ {space} , {enter}',
+          ],
+          symbols: [
+            '[ ] { } # % ^ * + =',
+            '_ \\ | ~ < > •',
+            "{altback} . , ? ! ' {backspace}",
+            '{default} @ {space} , {enter}',
+          ],
+        },
+      });
+
+      /**
+       * Update simple-keyboard when input is changed directly
+       */
+      inputElement.addEventListener('input', (event) => {
+        keyboard.setInput(event.target.value);
+      });
+
+      console.log(keyboard);
     },
   };
 </script>
-
-<style type="text/postcss" src="./src/css/Box.css" ></style>
