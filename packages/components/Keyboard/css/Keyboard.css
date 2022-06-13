@@ -8,7 +8,7 @@
   user-select: none;
   overflow: hidden;
   background-color: $neutral200;
-  padding: 2px;
+  padding: 1px;
   font-size: 15px;
 
   /* When using option "useButtonTag" */
@@ -67,45 +67,57 @@
       width: 20px;
     }
 
-    &.mb-activeButton {
-      background: #efefef;
+    &.mb-active {
+      background: $neutral50;
     }
 
-    &.mb-button-numpadadd {
-      height: 85px;
-    }
-
-    &.mb-button-numpadenter {
-      height: 85px;
-    }
-
-    &.mb-button-numpad0 {
-      width: 105px;
-    }
-
-    &.mb-button-com {
-      max-width: 85px;
-    }
-
-    &.mb-standard-btn.mb-button-at {
-      max-width: 45px;
-    }
-
-    &.mb-selectedButton {
-      background: rgba(5, 25, 70, 0.53);
-      color: white;
-    }
-
-    &.mb-standard-btn[data-skbtn=".com"] {
-      max-width: 82px;
-    }
-
-    &.mb-standard-btn[data-skbtn="@"] {
+    &.mb-standard-btn[data-mb-key='@'] {
       max-width: 60px;
     }
 
-    &[data-skbtn="{space}"] {
+    &[data-mb-key='{space}'] {
       color: $neutral600;
+    }
+
+    &[data-mb-key='{symbols}'],
+    &[data-mb-key='{altback}'] {
+      width: 24px;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      padding: 2px 0;
+    }
+
+    &[data-mb-key='{alt}'],
+    &[data-mb-key='{default}'] {
+      width: 40px;
+      padding: 2px 0;
+    }
+
+    &[data-mb-key='{backspace}'],
+    &[data-mb-key='{shift}'],
+    &[data-mb-key='{enter}'] {
+      background-repeat: no-repeat;
+      background-position: 50%;
+      color: transparent;
+    }
+
+    &[data-mb-key='{enter}'] {
+      max-width: 55px;
+      background-image: url(../assets/stonePowerSymbol.png);
+      background-size: 33%;
+      background-color: $green500;
+      border-radius: 0 0 12px 0;
+    }
+
+    &[data-mb-key='{shift}'] {
+      width: 34px;
+      background-image: url(../assets/shift.png);
+      background-size: 16px auto;
+    }
+
+    &[data-mb-key='{backspace}'] {
+      background-image: url(../assets/backspace.png);
+      background-size: 16px auto;
     }
   }
 
@@ -116,13 +128,4 @@
     display: flex;
     justify-content: center;
   }
-
-  & .mb-button[data-skbtn="{symbols}"],
-  & .mb-button[data-skbtn="{altback}"] {
-    width: 24px;
-    font-size: 13px;
-    letter-spacing: 0.5px;
-    padding: 2px 0;
-  }
 }
-
