@@ -89,11 +89,10 @@
 
     &[data-mb-key='{alt}'],
     &[data-mb-key='{default}'] {
-      width: 40px;
+      width: 36px;
       padding: 2px 0;
     }
 
-    &[data-mb-key='{backspace}'],
     &[data-mb-key='{shift}'],
     &[data-mb-key='{enter}'] {
       background-repeat: no-repeat;
@@ -110,14 +109,23 @@
     }
 
     &[data-mb-key='{shift}'] {
-      width: 34px;
+      width: 30px;
       background-image: url(../assets/shift.png);
       background-size: 16px auto;
     }
 
     &[data-mb-key='{backspace}'] {
-      background-image: url(../assets/backspace.png);
-      background-size: 16px auto;
+      & span {
+        width: 22px;
+        height: 16px;
+        display: block;
+        background-color: currentcolor;
+        mask-image: url(../assets/delete.svg);
+        mask-size: contain;
+        mask-repeat: no-repeat;
+        mask-position: center;
+        color: $neutral800;
+      }
     }
   }
 
