@@ -1,66 +1,84 @@
-import { KEYMAP } from './keymap.js';
+import { GeneralKeyboard } from '../dist/index.js';
 
 export default function (driver) {
+  // Original Keyboard methods
+  const $KeyboardSetAsAlphanumeric = driver.setKeyboardAsAlphanumeric;
+
+  const $KeyboardSetAsNumeric = driver.setKeyboardAsNumeric;
+
+  /**
+   * Sets the keyboard to enter numbers only.
+   */
+  driver.setKeyboardAsNumeric = () => {
+    GeneralKeyboard.setKeyboardAsNumeric();
+    $KeyboardSetAsAlphanumeric();
+  };
+
+  /**
+   * Sets the keyboard to type alphanumeric characters.
+   */
+  driver.setKeyboardAsAlphanumeric = () => {
+    GeneralKeyboard.setKeyboardAsAlphanumeric();
+    $KeyboardSetAsNumeric();
+  };
+
   /**
    * Get the key code relative to a specific key name
-   * @memberof Keyboard
+   * @memberof GeneralKeyboard
    * @param {string} keyName - Key name
    * @returns {number} - Relative key code
    */
-  driver.getKeyCode = (keyName) => {
-    const keyCode = Object.keys(KEYMAP).find((code) => KEYMAP[code] === keyName);
-    return keyCode ? Number.parseInt(keyCode, 10) : null;
-  };
+  driver.getKeyCode = GeneralKeyboard.getKeyCode;
 
   /**
    * Get the key name relative to a specific key code
-   * @memberof Keyboard
+   * @memberof GeneralKeyboard
    * @param {number} keyCode - Key code
    * @returns {string} - Relative key name
    */
-  driver.getKeyName = (keyCode) => KEYMAP[keyCode];
+  driver.getKeyName = GeneralKeyboard.getKeyName;
 
   /**
    * Check if a certain key is a numeric key
-   * @memberof Keyboard
+   * @memberof GeneralKeyboard
    * @param {number} keyCode - Key code
    * @returns {boolean}
    */
-  driver.isNumericKey = (keyCode) => !Number.isNaN(parseFloat(KEYMAP[keyCode]));
+  driver.isNumericKey = GeneralKeyboard.isNumericKey;
 
   /**
    * Check if a certain key is an action key
-   * @memberof Keyboard
+   * @memberof GeneralKeyboard
    * @param {number} keyCode - Key code
    * @returns {boolean}
    */
-  driver.isActionKey = (keyCode) => !driver.isNumericKey(keyCode);
+  driver.isFunctionKey = GeneralKeyboard.isFunctionKey;
 
   /**
-   * Define if backspace button should be enabled
+   * Check if a certain key is an action key
+   * @memberof GeneralKeyboard
+   * @param {number} keyCode - Key code
+   * @deprecated Use `isFunctionKey(keyCode)`
+   * @returns {boolean}
    */
-  let _isBackspaceEnabled = true;
+  driver.isActionKey = GeneralKeyboard.isActionKey;
 
   /**
    * Return if the backspace button is enabled
-   * @memberof Keyboard
+   * @memberof GeneralKeyboard
    * @returns {boolean}
    */
-  driver.isBackspaceEnabled = () => _isBackspaceEnabled;
+  driver.isBackspaceEnabled = GeneralKeyboard.isBackspaceEnabled;
 
   /**
-   * Switch OFF the `isBackspaceEnabled` flag used by the front-end
-   * @memberof Keyboard
+   * Switch OFF backspace key
+   * @memberof GeneralKeyboard
    */
-  driver.disableBackspace = () => {
-    _isBackspaceEnabled = false;
-  };
+  driver.disableBackspace = GeneralKeyboard.disableBackspace;
 
   /**
-   * Switch ON the `isBackspaceEnabled` flag used by the front-end
-   * @memberof Keyboard
+   * Switch ON backspace key
+   * @memberof GeneralKeyboard
    */
-  driver.enableBackspace = () => {
-    _isBackspaceEnabled = true;
-  };
+  driver.enableBackspace = GeneralKeyboard.enableBackspace;
 }

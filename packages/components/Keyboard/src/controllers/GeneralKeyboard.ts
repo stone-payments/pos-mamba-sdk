@@ -1,9 +1,9 @@
 import KEY_MAP from '../mappings/keyMap';
-
+import KEY_LIST from '../mappings/keyCodeList';
 /**
  * Responsible for the output of physical keys
  */
-class GeneralKeyboard {
+class UIGeneralKeyboard {
   /**
    * Define if backspace button should be enabled
    */
@@ -31,8 +31,18 @@ class GeneralKeyboard {
    * @returns Relative key code
    */
   getKeyCode(keyName: string) {
-    const keyCode = Object.keys(KEY_MAP).find((code) => KEY_MAP[code] === keyName);
-    return keyCode ? Number.parseInt(keyCode, 10) : null;
+    if (typeof keyName !== 'string') return '';
+
+    const found = KEY_LIST.find((code) => {
+      const maped = KEY_MAP[code];
+      if (typeof maped === 'string') {
+        // normalize names between browser versions
+        return maped.toLowerCase() === keyName.toLowerCase();
+      }
+      return false;
+    });
+
+    return found ? Number.parseInt(found, 10) : null;
   }
 
   /**
@@ -40,7 +50,7 @@ class GeneralKeyboard {
    * @param keyCode Key code
    * @returns Relative key name
    */
-  getKeyName(keyCode: string) {
+  getKeyName(keyCode: number) {
     return KEY_MAP[keyCode];
   }
 
@@ -94,5 +104,10 @@ class GeneralKeyboard {
     this.backspaceEnabled = true;
   }
 }
+
+export type { UIGeneralKeyboard };
+
+// This is necessary to not duplicate the wrappers code and not create another class instance in order to they stay synchronized with backend config.
+const GeneralKeyboard = new UIGeneralKeyboard();
 
 export default GeneralKeyboard;
