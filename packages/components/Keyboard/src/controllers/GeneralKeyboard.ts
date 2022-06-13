@@ -9,6 +9,9 @@ class UIGeneralKeyboard {
    */
   backspaceEnabled = true;
 
+  /**
+   * Define if keyboard is alphanumeric or numeric
+   */
   alphanumericEnabled = true;
 
   /**
