@@ -1,4 +1,4 @@
-/* @import 'CandidateBox.css'; */
+@import '@mamba/styles/settings.pcss';
 
 .mb-keyboard-default {
   position: fixed;
@@ -10,8 +10,8 @@
   background-color: $neutral100;
   padding: 1px;
   font-size: 15px;
+  z-index: $layer-keyboard;
 
-  /* When using option "useButtonTag" */
   & button.mb-button {
     border-width: 0;
     outline: 0;
@@ -68,7 +68,7 @@
     }
 
     &.mb-active {
-      background: $neutral50;
+      background: $neutral200;
     }
 
     &.mb-standard-btn[data-mb-key='@'] {
