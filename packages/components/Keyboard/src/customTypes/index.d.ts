@@ -1,7 +1,7 @@
-import type SimpleKeyboard from '../components/Keyboard';
+import type MambaKeyboard from '../components/Keyboard';
 
 declare global {
   interface Window {
-    SimpleKeyboardInstances: { [key: string]: SimpleKeyboard | null };
+    MambaKeyboardInstance: { [key: string]: MambaKeyboard | null };
   }
 }

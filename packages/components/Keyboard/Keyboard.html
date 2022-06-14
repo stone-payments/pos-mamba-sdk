@@ -3,7 +3,6 @@
 
 <script>
   import Keyboard from './dist/index.js';
-  import './css/CandidateBox.css';
   import './css/Keyboard.css';
 
   export default {
@@ -102,7 +101,16 @@
       keyboard = new Keyboard(keyboardRoot, {
         onChange: (input) => onChange(input),
         onKeyPress: (button) => onKeyPress(button),
-        // theme: 'mb-keyboard-default mb-theme-ios',
+        buttonTheme: [
+          {
+            class: 'myCustomClass',
+            buttons: 'Q W E R T Y q w e r t y',
+          },
+          {
+            class: 'anotherCustomClass',
+            buttons: 'Q q',
+          },
+        ],
         layout: {
           default: [
             'q w e r t y u i o p',

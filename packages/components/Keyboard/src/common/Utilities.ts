@@ -62,16 +62,15 @@ class Utilities {
    */
   getDefaultLabels() {
     return {
-      '{backspace}': '⌫',
+      '{backspace}': ' ',
       '{enter}': 'retorno',
       '{space}': 'espaço',
-      '{delete}': 'del',
       '{@}': '@',
 
       // Key toggles
       '{shift}': '⇧',
-      '{alt}': '123',
-      '{altback}': '123',
+      '{alt}': '?123',
+      '{altback}': '?123',
       '{symbols}': '#+=',
       '{default}': 'ABC', // default keys shortcut after toggle another
 
@@ -86,15 +85,9 @@ class Utilities {
    *
    * @param  {string} button The button's layout name
    * @param  {object} labels The provided labels option
-   * @param  {boolean} mergeLabels Whether the provided param value should be merged with the default one.
    */
-  getButtonLabelsName(button: string, labels: KeyboardOptions['labels'], mergeLabels: boolean) {
-    if (mergeLabels) {
-      labels = { ...this.getDefaultLabels(), ...labels };
-    } else {
-      labels = labels || this.getDefaultLabels();
-    }
-
+  getButtonLabelsName(button: string, labels: KeyboardOptions['labels']) {
+    labels = { ...this.getDefaultLabels(), ...labels };
     return labels[button] || button;
   }
 
@@ -119,32 +112,23 @@ class Utilities {
 
     let output = input;
 
-    if ((button === '{bksp}' || button === '{backspace}') && output.length > 0) {
-      output = this.removeAt(output, ...commonParams);
-    } /* if ((button === '{delete}' || button === '{forwarddelete}') && output.length > 0) {
-      console.log('->', output, commonParams);
-
-      output = this.removeForwardsAt(output, ...commonParams);
-    } else */ else if (button === '{space}')
-      output = this.addStringAt(output, ' ', ...commonParams);
-    /*  else if (
-      button === '{tab}' &&
-      !(typeof options.tabCharOnTab === 'boolean' && options.tabCharOnTab === false)
-    ) {
-      output = this.addStringAt(output, '\t', ...commonParams);
-    } */ else if ((button === '{enter}' || button === '{numpadenter}') && options.newLineOnEnter)
-      output = this.addStringAt(output, '\n', ...commonParams);
-    else if (button.includes('numpad') && Number.isInteger(Number(button[button.length - 2]))) {
-      output = this.addStringAt(output, button[button.length - 2], ...commonParams);
-    } else if (button === '{numpaddivide}') output = this.addStringAt(output, '/', ...commonParams);
-    else if (button === '{numpadmultiply}') output = this.addStringAt(output, '*', ...commonParams);
-    else if (button === '{numpadsubtract}') output = this.addStringAt(output, '-', ...commonParams);
-    else if (button === '{numpadadd}') output = this.addStringAt(output, '+', ...commonParams);
-    else if (button === '{numpaddecimal}') output = this.addStringAt(output, '.', ...commonParams);
-    else if (button === '{' || button === '}')
-      output = this.addStringAt(output, button, ...commonParams);
-    else if (!button.includes('{') && !button.includes('}'))
-      output = this.addStringAt(output, button, ...commonParams);
+    switch (button) {
+      case '{space}':
+        output = this.addStringAt(output, ' ', ...commonParams);
+        break;
+      case '{backspace}':
+        if (output.length > 0) output = this.removeAt(output, ...commonParams);
+        break;
+      case '{delete}':
+        if (output.length > 0) output = this.removeForwardsAt(output, ...commonParams);
+        break;
+      case '{':
+      case '}':
+        output = this.addStringAt(output, button, ...commonParams);
+        break;
+      default:
+        output = this.addStringAt(output, button, ...commonParams);
+    }
 
     return output;
   }
@@ -394,20 +378,6 @@ class Utilities {
    */
   isMaxLengthReached() {
     return Boolean(this.maxLengthReached);
-  }
-
-  /**
-   * Determines whether a touch device is being used
-   */
-  isTouchDevice() {
-    return 'ontouchstart' in window || navigator.maxTouchPoints;
-  }
-
-  /**
-   * Determines whether pointer events are supported
-   */
-  pointerEventsSupported() {
-    return !!window.PointerEvent;
   }
 
   /**

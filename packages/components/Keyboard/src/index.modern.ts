@@ -1,3 +1,3 @@
-import SimpleKeyboard from './components/Keyboard';
+import MambaKeyboard from './components/Keyboard';
 
-export default SimpleKeyboard;
+export default MambaKeyboard;

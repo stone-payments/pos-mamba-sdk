@@ -1,12 +1,31 @@
 import GeneralKeyboard from './GeneralKeyboard';
+import type { UIGeneralKeyboard } from './GeneralKeyboard';
 
 /**
  * Touch Keyboard controller, responsible for the output of touch keys
  */
-class TouchKeyboard extends GeneralKeyboard {
+class UITouchKeyboard {
+  private generalKeyboard!: UIGeneralKeyboard;
+
+  public static instance: UITouchKeyboard;
+
   private constructor() {
-    super();
+    this.generalKeyboard = GeneralKeyboard;
+  }
+
+  public static getInstance(): UITouchKeyboard {
+    if (!UITouchKeyboard.instance) {
+      UITouchKeyboard.instance = new UITouchKeyboard();
+    }
+
+    return UITouchKeyboard.instance;
   }
 }
 
-export default TouchKeyboard;
+export type { UITouchKeyboard };
+
+const CreateTouchKeyboard = (): UITouchKeyboard => {
+  return UITouchKeyboard.getInstance();
+};
+
+export default CreateTouchKeyboard;

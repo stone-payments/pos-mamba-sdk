@@ -1,5 +1,7 @@
-import SimpleKeyboard from './components/Keyboard';
-import * as KEYBOARD from './keymap';
+import MambaKeyboard from './components/Keyboard';
+import PhysicalKeyboard from './controllers/PhysicalKeyboard';
+import GeneralKeyboard from './controllers/GeneralKeyboard';
+import * as KEYBOARD from './mappings';
 
-export { KEYBOARD };
-export default SimpleKeyboard;
+export { KEYBOARD, GeneralKeyboard, PhysicalKeyboard };
+export default MambaKeyboard;
