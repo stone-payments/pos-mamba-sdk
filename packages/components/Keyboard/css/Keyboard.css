@@ -95,17 +95,25 @@
 
     &[data-mb-key='{shift}'],
     &[data-mb-key='{enter}'] {
-      background-repeat: no-repeat;
-      background-position: 50%;
       color: transparent;
+
+      & span {
+        display: block;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
     }
 
     &[data-mb-key='{enter}'] {
-      max-width: 55px;
-      background-image: url(../assets/stonePowerSymbol.png);
-      background-size: 33%;
+      /* max-width: 55px; */
       background-color: $green500;
-      border-radius: 0 0 12px 0;
+      border-radius: 3px 3px 12px 3px;
+
+      & span {
+        background-image: url(../assets/stonePowerSymbol.svg);
+        width: 20px;
+        height: 20px;
+      }
     }
 
     &[data-mb-key='{shift}'] {
