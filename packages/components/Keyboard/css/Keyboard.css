@@ -150,7 +150,7 @@ $level-shadow-color: rgba(0, 0, 0, 0.2);
         mask-size: contain;
         mask-repeat: no-repeat;
         mask-position: center;
-        color: $neutral800;
+        color: $neutral700;
         background-color: currentcolor;
       }
     }
