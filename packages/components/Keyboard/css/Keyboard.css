@@ -9,7 +9,7 @@
   overflow: hidden;
   background-color: $neutral100;
   padding: 1px;
-  font-size: 15px;
+  font-size: 14px;
   z-index: $layer-keyboard;
 
   & button.mb-button {
@@ -20,13 +20,20 @@
 
   & .mb-row {
     display: flex;
+    flex-direction: row;
+    justify-content: center;
 
     &:not(:last-child) {
-      margin-bottom: 2px;
+      margin-bottom: 4px;
+
+      & .mb-button .mb-function-btn {
+        flex-shrink: 1;
+        flex-grow: 0;
+      }
     }
 
     & .mb-button:not(:last-child) {
-      margin-right: 2px;
+      margin-right: 3px;
     }
 
     & .mb-button-container {
@@ -39,32 +46,48 @@
 
     & > div:last-child {
       margin-right: 0;
-    }
-
-    & .mb-button-container {
-      display: flex;
     }
   }
 
   & .mb-button {
-    display: inline-block;
-    flex-grow: 1;
     cursor: pointer;
-    height: 34px;
-    box-sizing: border-box;
-    padding: 5px;
     background: white;
-    cursor: pointer;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: center;
+    border-radius: 3px;
+    text-align: center;
+    font-weight: 500;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    padding: 0;
+    height: 34px;
+    min-width: 21px;
 
+    /* POS fix */
     & span {
-      pointer-events: none;
+      margin: 0 auto;
+      display: inline-block;
+      line-height: 34px;
+      height: 34px;
+      /* width: 100%; */
     }
 
     &.mb-standard-btn {
-      width: 20px;
+      & span {
+        width: 21px;
+        max-width: 21px;
+        min-width: 21px;
+      }
+    }
+
+    &.mb-function-btn {
+      min-width: 32px;
+      flex-grow: 1;
+      flex-shrink: 0;
+
+      &:not(.mb-button-space) {
+        max-width: 58px;
+      }
     }
 
     &.mb-active {
@@ -76,21 +99,14 @@
     }
 
     &[data-mb-key='{space}'] {
+      flex: 3;
       color: $neutral600;
     }
 
     &[data-mb-key='{symbols}'],
     &[data-mb-key='{altback}'] {
-      width: 24px;
       font-size: 13px;
       letter-spacing: 0.5px;
-      padding: 2px 0;
-    }
-
-    &[data-mb-key='{alt}'],
-    &[data-mb-key='{default}'] {
-      width: 36px;
-      padding: 2px 0;
     }
 
     &[data-mb-key='{shift}'],
@@ -98,7 +114,6 @@
       color: transparent;
 
       & span {
-        display: block;
         background-repeat: no-repeat;
         background-position: center;
       }
@@ -116,23 +131,39 @@
       }
     }
 
-    &[data-mb-key='{shift}'] {
-      width: 30px;
-      background-image: url(../assets/shift.png);
-      background-size: 16px auto;
+    &[data-mb-key='{altback}'],
+    &[data-mb-key='{symbols}'],
+    &[data-mb-key='{shift}'],
+    &[data-mb-key='{backspace}'] {
+      flex-basis: 30px;
+      flex-grow: 1;
+      flex-shrink: 1;
     }
 
+    &[data-mb-key='{shift}'],
     &[data-mb-key='{backspace}'] {
       & span {
-        width: 22px;
-        height: 16px;
-        display: block;
-        background-color: currentcolor;
-        mask-image: url(../assets/delete.svg);
         mask-size: contain;
         mask-repeat: no-repeat;
         mask-position: center;
         color: $neutral800;
+        background-color: currentcolor;
+      }
+    }
+
+    &[data-mb-key='{shift}'] {
+      & span {
+        width: 18px;
+        height: 18px;
+        mask-image: url(../assets/shift.svg);
+      }
+    }
+
+    &[data-mb-key='{backspace}'] {
+      & span {
+        min-width: 18px;
+        min-height: 18px;
+        mask-image: url(../assets/delete.svg);
       }
     }
   }
@@ -141,7 +172,7 @@
     width: 33.3%;
     height: 60px;
     align-items: center;
-    display: flex;
+    display: -webkit-box;
     justify-content: center;
   }
 }
