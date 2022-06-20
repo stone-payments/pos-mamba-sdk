@@ -1,3 +1,10 @@
+<table>
+  <tr>
+    <td>a</td>
+    <td>b</td>
+    <td>c</td>
+  </tr>
+</table>
 <input ref:inputElement />
 <div ref:keyboardRoot class="mb-keyboard"></div>
 
@@ -101,40 +108,34 @@
       keyboard = new Keyboard(keyboardRoot, {
         onChange: (input) => onChange(input),
         onKeyPress: (button) => onKeyPress(button),
-        buttonTheme: [
-          {
-            class: 'myCustomClass',
-            buttons: 'Q W E R T Y q w e r t y',
-          },
-          {
-            class: 'anotherCustomClass',
-            buttons: 'Q q',
-          },
-        ],
+        debug: __DEV__,
+        layoutCandidates: {
+          e: 'é',
+        },
         layout: {
           default: [
             'q w e r t y u i o p',
             'a s d f g h j k l',
             '{shift} z x c v b n m {backspace}',
-            '{alt} @ {space} . {enter}',
+            '{alt} {space} {enter}',
           ],
           shift: [
             'Q W E R T Y U I O P',
             'A S D F G H J K L',
             '{shift} Z X C V B N M {backspace}',
-            '{alt} @ {space} . {enter}',
+            '{alt} {space} {enter}',
           ],
           alt: [
             '1 2 3 4 5 6 7 8 9 0',
             '- / : ; ( ) $ & @ "',
             "{symbols} . , ? ! ' {backspace}",
-            '{default} @ {space} , {enter}',
+            '{default} {space} {enter}',
           ],
           symbols: [
             '[ ] { } # % ^ * + =',
-            '_ \\ | ~ < > •',
+            '_ \\ / | ~ < > • `',
             "{altback} . , ? ! ' {backspace}",
-            '{default} @ {space} , {enter}',
+            '{default} {space} {enter}',
           ],
         },
       });

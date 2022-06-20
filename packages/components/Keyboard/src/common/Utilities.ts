@@ -1,4 +1,4 @@
-import { KeyboardInput, KeyboardOptions, UtilitiesParams } from '../interfaces';
+import { KeyboardInput, KeyboardOptions, UtilitiesParams } from '../types';
 
 /**
  * Utility Service
@@ -22,73 +22,6 @@ class Utilities {
     this.getCaretPosition = getCaretPosition;
     this.getCaretPositionEnd = getCaretPositionEnd;
     this.dispatch = dispatch;
-
-    /**
-     * Bindings
-     */
-    Utilities.bindMethods(Utilities, this);
-  }
-
-  /**
-   * Retrieve button type
-   *
-   * @param  {string} button The button's layout name
-   * @return {string} The button type
-   */
-  getButtonType(button: string): string {
-    return button.includes('{') && button.includes('}') && button !== '{//}'
-      ? 'function-btn'
-      : 'standard-btn';
-  }
-
-  /**
-   * Adds default classes to a given button
-   *
-   * @param  {string} button The button's layout name
-   * @return {string} The classes to be added to the button
-   */
-  getButtonClass(button: string): string {
-    const buttonTypeClass = this.getButtonType(button);
-    const buttonWithoutBraces = button.replace('{', '').replace('}', '');
-    let buttonNormalized = '';
-
-    if (buttonTypeClass !== 'standard-btn') buttonNormalized = ` mb-button-${buttonWithoutBraces}`;
-
-    return `mb-${buttonTypeClass}${buttonNormalized}`;
-  }
-
-  /**
-   * Labels of know key by default
-   */
-  getDefaultLabels() {
-    return {
-      '{backspace}': ' ',
-      '{enter}': 'retorno',
-      '{space}': 'espaço',
-      '{@}': '@',
-
-      // Key toggles
-      '{shift}': '⇧',
-      '{alt}': '?123',
-      '{altback}': '?123',
-      '{symbols}': '#+=',
-      '{default}': 'ABC', // default keys shortcut after toggle another
-
-      // May crossrelate with POS arrow keys
-      '{keyup}': '↑',
-      '{keydown}': '↓',
-    };
-  }
-
-  /**
-   * Returns the label name for a given button
-   *
-   * @param  {string} button The button's layout name
-   * @param  {object} labels The provided labels option
-   */
-  getButtonLabelsName(button: string, labels: KeyboardOptions['labels']) {
-    labels = { ...this.getDefaultLabels(), ...labels };
-    return labels[button] || button;
   }
 
   /**
@@ -107,7 +40,6 @@ class Utilities {
     caretPosEnd = caretPos,
     moveCaret = false,
   ) {
-    const options = this.getOptions();
     const commonParams: [number, number, boolean] = [caretPos, caretPosEnd, moveCaret];
 
     let output = input;
@@ -361,7 +293,7 @@ class Utilities {
       condition = updatedInput.length - 1 >= maxLength[options.inputName || 'default'];
 
       if (options.debug) {
-        console.log('maxLength (obj) reached:', condition);
+        console.log('"maxLength" reached:', condition);
       }
 
       if (condition) {
@@ -378,48 +310,6 @@ class Utilities {
    */
   isMaxLengthReached() {
     return Boolean(this.maxLengthReached);
-  }
-
-  /**
-   * Bind all methods in a given class
-   */
-
-  static bindMethods(myClass: any, instance: any) {
-    // eslint-disable-next-line no-unused-vars
-    // eslint-disable-next-line no-restricted-syntax
-    for (const myMethod of Object.getOwnPropertyNames(myClass.prototype)) {
-      const excludeMethod = myMethod === 'constructor' || myMethod === 'bindMethods';
-      if (!excludeMethod) {
-        instance[myMethod] = instance[myMethod].bind(instance);
-      }
-    }
-  }
-
-  /**
-   * Transforms an arbitrary string to camelCase
-   *
-   * @param  {string} str The string to transform.
-   */
-  camelCase(str: string): string {
-    if (!str) return '';
-
-    return (
-      str
-        .toLowerCase()
-        .trim()
-        .split(/[.\-_\s]/g)
-        // eslint-disable-next-line no-shadow
-        .reduce((str, word) => (word.length ? str + word[0].toUpperCase() + word.slice(1) : str))
-    );
-  }
-
-  /**
-   * Split array into chunks
-   */
-  chunkArray<T>(arr: T[], size: number): T[][] {
-    return [...Array(Math.ceil(arr.length / size))].map((_, i) =>
-      arr.slice(size * i, size + size * i),
-    );
   }
 }
 

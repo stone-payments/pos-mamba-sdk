@@ -65,26 +65,6 @@ export interface KeyboardOptions {
   maxLength?: any;
 
   /**
-   * Calling preventDefault for the mousedown events keeps the focus on the input.
-   */
-  preventMouseDownDefault?: boolean;
-
-  /**
-   * Calling preventDefault for the mouseup events.
-   */
-  preventMouseUpDefault?: boolean;
-
-  /**
-   * Stops pointer down events on mamba-keyboard buttons from bubbling to parent elements.
-   */
-  stopMouseDownPropagation?: boolean;
-
-  /**
-   * Stops pointer up events on mamba-keyboard buttons from bubbling to parent elements.
-   */
-  stopMouseUpPropagation?: boolean;
-
-  /**
    * A prop to ensure characters are always be added/removed at the end of the string.
    */
   disableCaretPositioning?: boolean;
@@ -93,11 +73,6 @@ export interface KeyboardOptions {
    * Restrains input(s) change to the defined regular expression pattern.
    */
   inputPattern?: any;
-
-  /**
-   * Disable button hold action.
-   */
-  disableButtonHold?: boolean;
 
   /**
    * Exclude buttons from layout
@@ -140,4 +115,9 @@ export interface UtilitiesParams {
 export interface PhysicalKeyboardParams {
   getOptions: () => KeyboardOptions;
   dispatch: any;
+}
+
+export enum ButtonType {
+  Standard = 'standard-btn',
+  Function = 'function-btn',
 }

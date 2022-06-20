@@ -1,5 +1,4 @@
-import { KeyboardOptions, PhysicalKeyboardParams } from '../interfaces';
-import Utilities from '../common/Utilities';
+import { KeyboardOptions, PhysicalKeyboardParams } from '../types';
 import GeneralKeyboard from './GeneralKeyboard';
 import type { UIGeneralKeyboard } from './GeneralKeyboard';
 
@@ -25,11 +24,6 @@ class UIPhysicalKeyboard {
      */
     this.dispatch = dispatch;
     this.getOptions = getOptions;
-
-    /**
-     * Bindings
-     */
-    Utilities.bindMethods(UIPhysicalKeyboard, this);
   }
 
   public static getInstance({ dispatch, getOptions }: PhysicalKeyboardParams): UIPhysicalKeyboard {

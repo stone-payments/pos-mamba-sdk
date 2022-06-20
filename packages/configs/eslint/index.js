@@ -233,7 +233,7 @@ module.exports = {
       parser: '@typescript-eslint/parser',
       plugins: ['@typescript-eslint'],
       parserOptions: {
-        ecmaVersion: 6,
+        ecmaVersion: 2020,
         sourceType: 'module',
         ecmaFeatures: {
           modules: true,
@@ -258,6 +258,8 @@ module.exports = {
         '@typescript-eslint/no-var-requires': 0,
         '@typescript-eslint/no-use-before-define': 0,
         'no-unused-vars': 'off',
+        'no-shadow': 'off',
+        '@typescript-eslint/no-shadow': ['error'],
         '@typescript-eslint/no-unused-vars': [
           'warn',
           {

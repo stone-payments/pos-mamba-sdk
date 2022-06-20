@@ -1,5 +1,7 @@
 @import '@mamba/styles/settings.pcss';
 
+$level-shadow-color: rgba(0, 0, 0, 0.2);
+
 .mb-keyboard-default {
   position: fixed;
   bottom: 0;
@@ -9,7 +11,7 @@
   overflow: hidden;
   background-color: $neutral100;
   padding: 1px;
-  font-size: 14px;
+  font-size: 15px;
   z-index: $layer-keyboard;
 
   & button.mb-button {
@@ -58,18 +60,20 @@
     border-radius: 3px;
     text-align: center;
     font-weight: 500;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
     padding: 0;
     height: 34px;
     min-width: 21px;
+    color: $neutral800;
 
-    /* POS fix */
     & span {
       margin: 0 auto;
       display: inline-block;
       line-height: 34px;
       height: 34px;
-      /* width: 100%; */
+    }
+
+    & > * {
+      pointer-events: none;
     }
 
     &.mb-standard-btn {
@@ -174,5 +178,24 @@
     align-items: center;
     display: -webkit-box;
     justify-content: center;
+  }
+}
+
+.mamba-app:not(.S920) {
+  .mb-keyboard-default {
+    & .mb-button {
+      box-shadow: 0 1px 1px $level-shadow-color;
+      transition-property: background-color;
+      transition-duration: 100ms;
+      transition-timing-function: linear;
+    }
+  }
+}
+
+.mamba-app.S920 {
+  .mb-keyboard-default {
+    & .mb-button {
+      border-bottom: 1px inset $level-shadow-color;
+    }
   }
 }
