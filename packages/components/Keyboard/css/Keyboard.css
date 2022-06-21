@@ -90,7 +90,7 @@ $level-shadow-color: rgba(0, 0, 0, 0.2);
       flex-shrink: 0;
 
       &:not(.mb-button-space) {
-        max-width: 58px;
+        max-width: 60px;
       }
     }
 
@@ -172,6 +172,7 @@ $level-shadow-color: rgba(0, 0, 0, 0.2);
     }
   }
 
+  /* Numeric layout */
   &.mb-layout-numeric .mb-button {
     width: 33.3%;
     height: 60px;
@@ -188,6 +189,10 @@ $level-shadow-color: rgba(0, 0, 0, 0.2);
       transition-property: background-color;
       transition-duration: 100ms;
       transition-timing-function: linear;
+
+      &[data-mb-key='{enter}'].mb-active {
+        background-color: $green600;
+      }
     }
   }
 }
