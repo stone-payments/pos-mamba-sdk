@@ -6,6 +6,6 @@
  */
 export function createKeyboardElement(className?: string): HTMLDivElement {
   const elm = document.createElement('div');
-  if (className) elm.className = className;
+  if (className) elm.className += className;
   return elm;
 }

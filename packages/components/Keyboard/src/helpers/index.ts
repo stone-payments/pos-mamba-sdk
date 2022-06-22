@@ -5,4 +5,6 @@ export { getDefaultLabels } from './getDefaultLabels';
 export { getButtonLabelsName } from './getButtonLabelsName';
 export { getDefaultLayout } from './getDefaultLayout';
 export { createKeyboardElement } from './createKeyboardElement';
-export * as ClassPrefix from './classPrefix';
+export { isFunction } from './isFunction';
+export { isStandardButton } from './isStandardButton';
+export * as ClassNames from './classNames';

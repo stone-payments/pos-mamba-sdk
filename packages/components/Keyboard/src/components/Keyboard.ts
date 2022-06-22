@@ -4,13 +4,13 @@
 
 import CreatePhysicalKeyboard from '../controllers/PhysicalKeyboard';
 import type { UIPhysicalKeyboard } from '../controllers/PhysicalKeyboard';
-import Utilities from '../common/Utilities';
+import CaretWorker from '../common/CaretWorker';
 import {
   getButtonClass,
   camelCase,
   getButtonLabelsName,
   getDefaultLayout,
-  ClassPrefix,
+  ClassNames,
   createKeyboardElement,
 } from '../helpers';
 import {
@@ -22,18 +22,18 @@ import {
 } from '../types';
 
 /**
- * Root class for simple-keyboard.
+ * Root class for mamba-keyboard.
  * This class:
  * - Parses the options
  * - Renders the rows and buttons
  * - Handles button functionality
  */
-class MambaKeyboard {
+class Keyboard {
   input!: KeyboardInput;
 
   options!: KeyboardOptions;
 
-  utilities: any;
+  caretWorker: any;
 
   caretPosition!: number | null;
 
@@ -57,40 +57,37 @@ class MambaKeyboard {
 
   modules!: { [key: string]: any };
 
-  activeClass!: string;
+  activeButtonClass!: string;
 
   initialized!: boolean;
 
   keyboardRowsDOM!: KeyboardElement;
 
-  defaultName = 'default';
-
   activeInputElement: HTMLInputElement | HTMLTextAreaElement | null = null;
+
+  defaultLayout = 'default';
 
   /**
    * Creates an instance of MambaKeyboard
-   * @param {Array} params If first parameter is a string, it is considered the container class. The second parameter is then considered the options object. If first parameter is an object, it is considered the options object.
+   * @param params If first parameter is a string, it is considered the container class. The second parameter is then considered the options object. If first parameter is an object, it is considered the options object.
    */
-  constructor(
-    selectorOrOptions?: string | HTMLDivElement | KeyboardOptions,
-    keyboardOptions?: KeyboardOptions,
-  ) {
+  constructor(element?: HTMLDivElement, keyboardOptions?: KeyboardOptions) {
     if (typeof window === 'undefined') return;
 
     const {
       keyboardDOMClass,
       keyboardDOM,
       options = {},
-    } = this.handleParams(selectorOrOptions, keyboardOptions);
+    } = this.handleParams(element, keyboardOptions);
 
     /**
-     * Initializing Utilities
+     * Initializing CaretWorker
      */
-    this.utilities = new Utilities({
+    this.caretWorker = new CaretWorker({
       getOptions: this.getOptions,
       getCaretPosition: this.getCaretPosition,
       getCaretPositionEnd: this.getCaretPositionEnd,
-      dispatch: this.dispatch,
+      keyboardInstance: this,
     });
 
     /**
@@ -113,8 +110,7 @@ class MambaKeyboard {
      */
     this.options = {
       layoutName: 'default',
-      theme: 'mb-keyboard-default',
-      inputName: 'default',
+      theme: ClassNames.themeDefault,
       excludeFromLayout: {},
       ...options,
     };
@@ -125,7 +121,7 @@ class MambaKeyboard {
     this.keyboardPluginClasses = '';
 
     /**
-     * simple-keyboard uses a non-persistent internal input to keep track of the entered string (the variable `keyboard.input`).
+     * mamba-keyboard uses a non-persistent virtual input to keep track of the entered string (the variable `keyboard.input`).
      * This removes any dependency to input DOM elements. You can type and directly display the value in a div element, for example.
      * @example
      * // To get entered input
@@ -135,15 +131,14 @@ class MambaKeyboard {
      * keyboard.clearInput();
      *
      * @type {object}
-     * @property {object} default Default MambaKeyboard internal input.
-     * @property {object} myInputName Example input that can be set through `options.inputName:"myInputName"`.
+     * @property {object} default Default Keyboard virtual input.
      */
-    const { inputName = this.defaultName } = this.options;
-    this.input = {};
-    this.input[inputName] = '';
+    this.input = {
+      default: '',
+    };
 
     /**
-     * @type {string} DOM class of the keyboard wrapper, normally "simple-keyboard" by default.
+     * @type {string} DOM class of the keyboard wrapper, normally "mamba-keyboard" by default.
      */
     this.keyboardDOMClass = keyboardDOMClass;
 
@@ -153,8 +148,8 @@ class MambaKeyboard {
     this.buttonElements = {};
 
     /**
-     * Mamba-keyboard Instances
-     * This enables multiple simple-keyboard support with easier management
+     * Mamba keyboard Instance
+     * This enables bridge external integrations
      */
     if (!window.MambaKeyboardInstance) window.MambaKeyboardInstance = {};
 
@@ -164,7 +159,6 @@ class MambaKeyboard {
      * Physical Keyboard support
      */
     this.physicalKeyboard = CreatePhysicalKeyboard({
-      dispatch: this.dispatch,
       getOptions: this.getOptions,
     });
 
@@ -188,56 +182,40 @@ class MambaKeyboard {
    * parseParams
    */
   handleParams = (
-    selectorOrOptions?: string | HTMLDivElement | KeyboardOptions,
+    element?: HTMLDivElement,
     keyboardOptions?: KeyboardOptions,
   ): {
-    keyboardDOMClass: string;
     keyboardDOM: KeyboardElement;
+    keyboardDOMClass: string;
     options: Partial<KeyboardOptions | undefined>;
   } => {
+    let keyboardDOM = null;
     let keyboardDOMClass;
-    let keyboardDOM;
-    let options;
 
     /**
-     * If first parameter is a string:
-     * Consider it as an element's class
+     * If first parameter is an HTMLDivElement
+     * Consider it as the keyboard DOM element
      */
-    if (typeof selectorOrOptions === 'string') {
-      keyboardDOMClass = selectorOrOptions.split('.').join('');
-      keyboardDOM = document.querySelector(`.${keyboardDOMClass}`) as KeyboardElement;
-      options = keyboardOptions;
-
-      /**
-       * If first parameter is an KeyboardElement
-       * Consider it as the keyboard DOM element
-       */
-    } else if (selectorOrOptions instanceof HTMLDivElement) {
+    if (element instanceof HTMLDivElement) {
       /**
        * This element must have a class, otherwise throw
        */
-      if (!selectorOrOptions.className) {
-        console.warn('Any DOM element passed as parameter must have a class.');
+      if (!element.className) {
+        console.warn('DOM Div element passed as parameter must have a class.');
         throw new Error('KEYBOARD_DOM_CLASS_ERROR');
       }
 
-      keyboardDOMClass = selectorOrOptions.className.split(' ')[0];
-      keyboardDOM = selectorOrOptions;
-      options = keyboardOptions;
-
-      /**
-       * Otherwise, search for .simple-keyboard DOM element
-       */
+      keyboardDOMClass = element.className.split(' ')[0];
+      keyboardDOM = element;
     } else {
-      keyboardDOMClass = 'simple-keyboard';
-      keyboardDOM = document.querySelector(`.${keyboardDOMClass}`) as KeyboardElement;
-      options = selectorOrOptions;
+      console.error('Keyboard without a DOM element for render.');
+      throw new Error('KEYBOARD_DOM_ELEMENT_ERROR');
     }
 
     return {
       keyboardDOMClass,
       keyboardDOM,
-      options,
+      options: keyboardOptions,
     };
   };
 
@@ -252,8 +230,8 @@ class MambaKeyboard {
 
   /**
    * Changes the internal caret position
-   * @param {number} position The caret's start position
-   * @param {number} positionEnd The caret's end position
+   * @param position The caret's start position
+   * @param positionEnd The caret's end position
    */
   setCaretPosition(position: number | null, endPosition = position): void {
     this.caretPosition = position;
@@ -262,49 +240,29 @@ class MambaKeyboard {
 
   /**
    * Handles clicks made to keyboard buttons
-   * @param  {string} button The button's layout name.
+   * @param button The button's layout name.
    */
   handleButtonClicked(button: string, e?: KeyboardHandlerEvent): void {
-    const { inputName = this.defaultName, debug } = this.options;
+    const { debug } = this.options;
     /**
      * Ignoring placeholder buttons
      */
     if (button === '{//}') return;
 
     /**
-     * Creating inputName if it doesn't exist
+     * Creating virtual input if it doesn't exist
      */
-    if (!this.input[inputName]) this.input[inputName] = '';
+    if (!this.input.default) this.input.default = '';
 
     /**
      * Calculating new input
      */
-    const updatedInput = this.utilities.getUpdatedInput(
+    const updatedInput = this.caretWorker.getUpdatedInput(
       button,
-      this.input[inputName],
+      this.input.default,
       this.caretPosition,
       this.caretPositionEnd,
     );
-
-    /**
-     * Complex case: Check for whole input selection changes that will yield same updatedInput
-     */
-    if (this.utilities.isStandardButton(button) && this.activeInputElement) {
-      const isEntireInputSelection =
-        this.input[inputName] &&
-        this.input[inputName] === updatedInput &&
-        this.caretPosition === 0 &&
-        this.caretPositionEnd === updatedInput.length;
-
-      if (isEntireInputSelection) {
-        this.setInput('', this.options.inputName, true);
-        this.setCaretPosition(0);
-        this.activeInputElement.value = '';
-        this.activeInputElement.setSelectionRange(0, 0);
-        this.handleButtonClicked(button, e);
-        return;
-      }
-    }
 
     /**
      * Calling onKeyPress
@@ -313,7 +271,7 @@ class MambaKeyboard {
 
     if (
       // If input will change as a result of this button press
-      this.input[inputName] !== updatedInput &&
+      this.input.default !== updatedInput &&
       // This pertains to the "inputPattern" option:
       // If inputPattern isn't set
       (!this.options.inputPattern ||
@@ -323,24 +281,24 @@ class MambaKeyboard {
       /**
        * If maxLength and handleMaxLength yield true, halting
        */
-      if (this.options.maxLength && this.utilities.handleMaxLength(this.input, updatedInput)) {
+      if (this.options.maxLength && this.caretWorker.handleMaxLength(this.input, updatedInput)) {
         return;
       }
 
       /**
        * Updating input
        */
-      const newInputValue = this.utilities.getUpdatedInput(
+      const newInputValue = this.caretWorker.getUpdatedInput(
         button,
-        this.input[inputName],
+        this.input.default,
         this.caretPosition,
         this.caretPositionEnd,
         true,
       );
 
-      this.setInput(newInputValue, this.options.inputName, true);
+      this.setInput(newInputValue);
 
-      if (debug) console.log('Input changed:', this.getAllInputs());
+      if (debug) console.log('Input changed:', this.getInput());
 
       if (this.options.debug) {
         console.log(
@@ -354,15 +312,7 @@ class MambaKeyboard {
       /**
        * Calling onChange
        */
-      if (typeof this.options.onChange === 'function')
-        this.options.onChange(this.getInput(this.options.inputName, true), e);
-
-      /**
-       * Calling onChangeAll
-       */
-      if (typeof this.options.onChangeAll === 'function') {
-        this.options.onChangeAll(this.getAllInputs(), e);
-      }
+      if (typeof this.options.onChange === 'function') this.options.onChange(this.getInput(), e);
     }
 
     /**
@@ -383,23 +333,22 @@ class MambaKeyboard {
       /**
        * Add active class
        */
-      e.target.classList.add(this.activeClass);
+      e.target.classList.add(this.activeButtonClass);
 
       /**
        * Remove active class after 100 ms
        */
       window.setTimeout(() => {
-        if (e) e.target.classList.remove(this.activeClass);
+        if (e) e.target.classList.remove(this.activeButtonClass);
       }, 100);
     }
   }
 
   /**
    * Clear the keyboard’s input.
-   * @param {string} [inputName] optional - the internal input to select
    */
-  clearInput(inputName: string = this.options.inputName || this.defaultName): void {
-    this.input[inputName] = '';
+  clearInput(): void {
+    this.input.default = '';
 
     /**
      * Reset caretPosition
@@ -409,54 +358,30 @@ class MambaKeyboard {
 
   /**
    * Get the keyboard’s input (You can also get it from the onChange prop).
-   * @param  {string} [inputName] optional - the internal input to select
    */
-  getInput(
-    inputName: string = this.options.inputName || this.defaultName,
-    skipSync = false,
-  ): string {
-    return this.input[inputName];
-  }
-
-  /**
-   * Get all simple-keyboard inputs
-   */
-  getAllInputs(): KeyboardInput {
-    const output = {};
-    const inputNames = Object.keys(this.input);
-
-    inputNames.forEach((inputName) => {
-      output[inputName] = this.getInput(inputName, true);
-    });
-
-    return output;
+  getInput(): string {
+    return this.input.default;
   }
 
   /**
    * Set the keyboard’s input.
-   * @param  {string} input the input value
-   * @param  {string} inputName optional - the internal input to select
+   * @param input the input value
    */
-  setInput(
-    input: string,
-    // eslint-disable-next-line default-param-last
-    inputName: string = this.options.inputName || this.defaultName,
-    skipSync?: boolean,
-  ): void {
-    this.input[inputName] = input;
+  setInput(input: string): void {
+    this.input.default = input;
   }
 
   /**
    * Replace the input object (`keyboard.input`)
-   * @param  {object} inputObj The input object
+   * @param keyboardInput The input object
    */
-  replaceInput(inputObj: KeyboardInput): void {
-    this.input = inputObj;
+  replaceInput(keyboardInput: KeyboardInput): void {
+    this.input = keyboardInput;
   }
 
   /**
    * Set new option or modify existing ones after initialization.
-   * @param  {object} options The options to set
+   * @param options The options to set
    */
   setOptions(options = {}): void {
     const changedOptions = this.changedOptions(options);
@@ -492,7 +417,7 @@ class MambaKeyboard {
 
   /**
    * Executing actions depending on changed options
-   * @param  {object} options The options to set
+   * @param options The options to set
    */
   onSetOptions(changedOptions: string[] = []): void {
     /**
@@ -517,24 +442,8 @@ class MambaKeyboard {
   }
 
   /**
-   * Send a command to all simple-keyboard instance
-   * @param  {function(instance: object, key: string)} callback Function to run on instance
-   */
-  // eslint-disable-next-line no-unused-vars
-  dispatch(callback: (instance: MambaKeyboard | null, key?: string) => void): void {
-    if (!window.MambaKeyboardInstance) {
-      console.warn(`MambaKeyboardInstance is not defined. Dispatch cannot be called.`);
-      throw new Error('MAMBA_KEYBOARD_INSTANCE_ERROR');
-    }
-
-    return Object.keys(window.MambaKeyboardInstance).forEach((key) => {
-      callback(window.MambaKeyboardInstance[key], key);
-    });
-  }
-
-  /**
    * Get the DOM Element of a button. If there are several buttons with the same name, an array of the DOM Elements is returned.
-   * @param  {string} button The button layout name to select
+   * @param button The button layout name to select
    */
   getButtonElement(button: string): KeyboardElement | KeyboardElement[] | undefined {
     let output;
@@ -552,23 +461,15 @@ class MambaKeyboard {
   }
 
   /**
-   * This handles the "inputPattern" option
-   * by checking if the provided inputPattern passes
+   * This handles the "inputPattern" option by checking if the provided inputPattern passes
    */
   inputPatternIsValid(inputVal: string): boolean {
-    const inputPatternRaw = this.options.inputPattern;
-    let inputPattern;
+    const { inputPattern } = this.options;
 
     /**
      * Check if input pattern is global or targeted to individual inputs
      */
-    if (inputPatternRaw instanceof RegExp) {
-      inputPattern = inputPatternRaw;
-    } else {
-      inputPattern = inputPatternRaw[this.options.inputName || this.defaultName];
-    }
-
-    if (inputPattern && inputVal) {
+    if (inputPattern instanceof RegExp && inputVal) {
       const didInputMatch = inputPattern.test(inputVal);
 
       if (this.options.debug) {
@@ -586,7 +487,7 @@ class MambaKeyboard {
   }
 
   /**
-   * Handles simple-keyboard event listeners
+   * Handles mamba-keyboard event listeners
    */
   setEventListeners(): void {
     /**
@@ -600,145 +501,102 @@ class MambaKeyboard {
     /**
      * Event Listeners
      */
-    /* document.addEventListener('keyup', this.handleKeyUp);
-    document.addEventListener('keydown', this.handleKeyDown);
-    document.addEventListener('mouseup', this.handleMouseUp);
-    document.addEventListener('select', this.handleSelect);
-    document.addEventListener('selectionchange', this.handleSelectionChange); */
+
+    document.addEventListener('keyup', (e) => this.handleGlobalKeyUp(e));
+    document.addEventListener('mouseup', (e) => this.handleGlobalMouseUp(e));
+    document.addEventListener('select', (e) => this.handleGlobalSelect(e));
+    document.addEventListener('selectionchange', (e) => this.handleGlobalSelectionChange(e));
   }
 
   /**
    * Event Handler: KeyUp
    */
-  /* handleKeyUp(event: KeyboardHandlerEvent): void {
+  handleGlobalKeyUp(event: KeyboardHandlerEvent): void {
     this.caretEventHandler(event);
-  } */
-
-  /**
-   * Event Handler: KeyDown
-   */
-  /* handleKeyDown(event: KeyboardHandlerEvent): void {
-    // TODO fire
-  } */
+  }
 
   /**
    * Event Handler: MouseUp
    */
-  /* handleMouseUp(event: KeyboardHandlerEvent): void {
+  handleGlobalMouseUp(event: KeyboardHandlerEvent): void {
     this.caretEventHandler(event);
-  } */
+  }
 
   /**
    * Event Handler: Select
    */
-  /* istanbul ignore next */
-  /* handleSelect(event: KeyboardHandlerEvent): void {
+  handleGlobalSelect(event: KeyboardHandlerEvent): void {
     this.caretEventHandler(event);
-  } */
+  }
 
   /**
    * Event Handler: SelectionChange
    */
-  /* istanbul ignore next */
-  /* handleSelectionChange(event: KeyboardHandlerEvent): void {
+  handleGlobalSelectionChange(event: KeyboardHandlerEvent): void {
     this.caretEventHandler(event);
-  } */
+  }
 
   /**
    * Called by {@link setEventListeners} when an event that warrants a cursor position update is triggered
    */
-  // caretEventHandler(event: KeyboardHandlerEvent): void {
-  //   let targetTagName: string;
-  //   if (event.target.tagName) {
-  //     targetTagName = event.target.tagName.toLowerCase();
-  //   }
+  caretEventHandler(event: KeyboardHandlerEvent): void {
+    if (!this) return;
 
-  //   this.dispatch((instance) => {
-  //     if (!instance) return;
-  //     const isKeyboard =
-  //       event.target === instance.keyboardDOM ||
-  //       (event.target && instance.keyboardDOM.contains(event.target));
+    const isDOMInputType = event.target instanceof HTMLInputElement;
+    const { disableCaretPositioning, debug } = this.options;
 
-  //     if (
-  //       (targetTagName === 'textarea' ||
-  //         (targetTagName === 'input' &&
-  //           ['text', 'search', 'url', 'tel', 'password'].includes(event.target.type))) &&
-  //       !instance.options.disableCaretPositioning
-  //     ) {
-  //       /**
-  //        * Tracks current cursor position
-  //        * As keys are pressed, text will be added/removed at that position within the input.
-  //        */
-  //       instance.setCaretPosition(event.target.selectionStart, event.target.selectionEnd);
+    /* if (isDOMInputType) {
+      debugger;
+    } */
 
-  //       /**
-  //        * Tracking current input in order to handle caret positioning edge cases
-  //        */
-  //       this.activeInputElement = event.target;
+    const isKeyboard =
+      event.target === this.keyboardDOM ||
+      (event.target && this.keyboardDOM.contains(event.target));
 
-  //       if (instance.options.debug) {
-  //         console.log(
-  //           'Caret at: ',
-  //           instance.getCaretPosition(),
-  //           instance.getCaretPositionEnd(),
-  //           event && event.target.tagName.toLowerCase(),
-  //           `(${instance.keyboardDOMClass})`,
-  //         );
-  //       }
-  //     } else if (
-  //       (instance.options.disableCaretPositioning || !isKeyboard) &&
-  //       event?.type !== 'selectionchange'
-  //     ) {
-  //       /**
-  //        * If we toggled off disableCaretPositioning, we must ensure caretPosition doesn't persist once reactivated.
-  //        */
-  //       instance.setCaretPosition(null);
+    if (
+      isDOMInputType &&
+      ['text', 'search', 'url', 'tel', 'password'].includes(event.target.type) &&
+      !disableCaretPositioning
+    ) {
+      /**
+       * Tracks current cursor position
+       * As keys are pressed, text will be added/removed at that position within the input.
+       */
+      this.setCaretPosition(event.target.selectionStart, event.target.selectionEnd);
 
-  //       /**
-  //        * Resetting activeInputElement
-  //        */
-  //       this.activeInputElement = null;
+      /**
+       * Tracking current input in order to handle caret positioning edge cases
+       */
+      this.activeInputElement = event.target;
 
-  //       if (instance.options.debug) {
-  //         console.log(`Caret position reset due to "${event?.type}" event`, event);
-  //       }
-  //     }
-  //   });
-  // }
+      if (debug) {
+        console.log(
+          'Caret at: ',
+          this.getCaretPosition(),
+          this.getCaretPositionEnd(),
+          event && event.target.tagName.toLowerCase(),
+          `(${this.keyboardDOMClass})`,
+        );
+      }
+    } else if ((disableCaretPositioning || !isKeyboard) && event?.type !== 'selectionchange') {
+      /**
+       * If we toggled off disableCaretPositioning, we must ensure caretPosition doesn't persist once reactivated.
+       */
+      this.setCaretPosition(null);
+
+      /**
+       * Resetting activeInputElement
+       */
+      this.activeInputElement = null;
+
+      if (this.options.debug) {
+        console.log(`Caret position reset due to "${event?.type}" event`, event);
+      }
+    }
+  }
 
   /**
-   * Process buttonTheme option
-   */
-  // getButtonThemeClasses(button: string): string[] {
-  //   const { buttonTheme } = this.options;
-  //   let buttonClasses: string[] = [];
-
-  //   if (Array.isArray(buttonTheme)) {
-  //     buttonTheme.forEach((themeObj) => {
-  //       if (
-  //         themeObj &&
-  //         themeObj.class &&
-  //         typeof themeObj.class === 'string' &&
-  //         themeObj.buttons &&
-  //         typeof themeObj.buttons === 'string'
-  //       ) {
-  //         const themeObjClasses = themeObj.class.split(' ');
-  //         const themeObjButtons = themeObj.buttons.split(' ');
-
-  //         if (themeObjButtons.includes(button)) {
-  //           buttonClasses = [...buttonClasses, ...themeObjClasses];
-  //         }
-  //       } else {
-  //         console.warn(`Incorrect "buttonTheme". Please check the documentation.`, themeObj);
-  //       }
-  //     });
-  //   }
-
-  //   return buttonClasses;
-  // }
-
-  /**
-   * Executes the callback function once simple-keyboard is rendered for the first time (on initialization).
+   * Executes the callback function once mamba-keyboard is rendered for the first time (on initialization).
    */
   onCreate() {
     if (this.options.debug) {
@@ -858,8 +716,8 @@ class MambaKeyboard {
         /**
          * Create button container
          */
-        const containerDOM = document.createElement('div');
-        containerDOM.className += 'mb-button-container';
+        // const containerDOM = document.createElement('div');
+        // containerDOM.className += 'mb-button-container';
 
         /**
          * Taking elements due to be inserted into container
@@ -873,12 +731,12 @@ class MambaKeyboard {
         /**
          * Inserting elements to container
          */
-        containedElements.forEach((element) => containerDOM.appendChild(element));
+        // containedElements.forEach((element) => containerDOM.appendChild(element));
 
         /**
          * Adding container at correct position within rowDOMArray
          */
-        rowDOMArray.splice(updated_startIndex, 0, containerDOM);
+        // rowDOMArray.splice(updated_startIndex, 0, containerDOM);
 
         /**
          * Clearing old rowDOM children structure
@@ -937,7 +795,7 @@ class MambaKeyboard {
      */
     this.beforeRender();
 
-    const layoutClass = `mb-layout-${this.options.layoutName}`;
+    const layoutClass = `${ClassNames.layoutPrefix}-${this.options.layoutName}`;
     const layout = this.options.layout || getDefaultLayout();
     const { disableRowButtonContainers } = this.options;
 
@@ -953,12 +811,12 @@ class MambaKeyboard {
     /**
      * Create row wrapper
      */
-    this.keyboardRowsDOM = createKeyboardElement(ClassPrefix.rowsPrefix);
+    this.keyboardRowsDOM = createKeyboardElement(ClassNames.rowsPrefix);
 
     /**
      * Iterating through each row
      */
-    layout[this.options.layoutName || this.defaultName].forEach((row: any, rIndex: any) => {
+    layout[this.options.layoutName || this.defaultLayout].forEach((row: any, rIndex: any) => {
       let rowArray = row.split(' ');
 
       /**
@@ -966,12 +824,12 @@ class MambaKeyboard {
        */
       if (
         this.options.excludeFromLayout &&
-        this.options.excludeFromLayout[this.options.layoutName || this.defaultName]
+        this.options.excludeFromLayout[this.options.layoutName || this.defaultLayout]
       ) {
         rowArray = rowArray.filter(
           (buttonName: any) =>
             this.options.excludeFromLayout &&
-            !this.options.excludeFromLayout[this.options.layoutName || this.defaultName].includes(
+            !this.options.excludeFromLayout[this.options.layoutName || this.defaultLayout].includes(
               buttonName,
             ),
         );
@@ -980,8 +838,7 @@ class MambaKeyboard {
       /**
        * Creating empty row
        */
-      let rowDOM = document.createElement('div');
-      rowDOM.className += 'mb-row';
+      let rowDOM = createKeyboardElement(ClassNames.rowPrefix);
 
       /**
        * Tracking container indicators in rows
@@ -1038,15 +895,14 @@ class MambaKeyboard {
         /**
          * Creating button
          */
-        const buttonDOM = document.createElement('div');
-        buttonDOM.className += `mb-button ${fctBtnClass}`;
+        const buttonDOM = createKeyboardElement(`${ClassNames.buttonPrefix} ${fctBtnClass}`);
 
         /**
          * Adding buttonTheme
          */
         // buttonDOM.classList.add(...this.getButtonThemeClasses(button));
 
-        this.activeClass = 'mb-active';
+        this.activeButtonClass = ClassNames.activeButtonClassDefault;
 
         /**
          * Handle mouse events
@@ -1120,4 +976,4 @@ class MambaKeyboard {
   }
 }
 
-export default MambaKeyboard;
+export default Keyboard;

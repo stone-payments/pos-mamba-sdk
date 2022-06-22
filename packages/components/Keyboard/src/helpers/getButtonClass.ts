@@ -1,7 +1,7 @@
 import { getButtonType } from './getButtonType';
 import { ButtonType } from '../types';
 import { anyBraces } from '../common/regExps';
-import { prefix, buttonPrefix } from './classPrefix';
+import { prefix, buttonPrefix } from './classNames';
 
 /**
  * Adds default classes to a given button

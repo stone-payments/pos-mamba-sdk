@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import MambaKeyboard from './components/Keyboard';
+import Keyboard from './components/Keyboard';
 
 export interface KeyboardLayoutObject {
   [key: string]: string[];
@@ -11,7 +11,7 @@ export type KeyboardButtonTheme = {
 } | null;
 
 export interface KeyboardInput {
-  [key: string]: string;
+  default: string;
 }
 
 export type KeyboardElement = HTMLDivElement | HTMLButtonElement;
@@ -53,14 +53,7 @@ export interface KeyboardOptions {
   debug?: boolean;
 
   /**
-   * Allows you to use a single mamba-keyboard instance for several inputs.
-   */
-  inputName?: string;
-
-  /**
-   * `number`: Restrains all of mamba-keyboard inputs to a certain length. This should be used in addition to the input element’s maxlengthattribute.
-   *
-   * `{ [inputName: string]: number }`: Restrains mamba-keyboard’s individual inputs to a certain length. This should be used in addition to the input element’s maxlengthattribute.
+   * `number`: Restrains mamba keyboard input to a certain length.
    */
   maxLength?: any;
 
@@ -82,12 +75,12 @@ export interface KeyboardOptions {
   /**
    * Executes the callback function every time mamba-keyboard is rendered (e.g: when you change layouts).
    */
-  onRender?: (instance?: MambaKeyboard) => void;
+  onRender?: (instance: Keyboard) => void;
 
   /**
    * Executes the callback function once mamba-keyboard is rendered for the first time (on initialization).
    */
-  onCreate?: (instance?: MambaKeyboard) => void;
+  onCreate?: (instance: Keyboard) => void;
 
   /**
    * Retrieves the current input
@@ -105,19 +98,25 @@ export interface KeyboardOptions {
   [name: string]: any;
 }
 
-export interface UtilitiesParams {
+export interface CaretWorkerParams {
   getOptions: () => KeyboardOptions;
   getCaretPosition: () => number | null;
   getCaretPositionEnd: () => number | null;
-  dispatch: any;
+  keyboardInstance: Keyboard;
 }
 
 export interface PhysicalKeyboardParams {
   getOptions: () => KeyboardOptions;
-  dispatch: any;
 }
 
 export enum ButtonType {
   Standard = 'standard-btn',
   Function = 'function-btn',
+}
+
+export enum KeyboardType {
+  Default = 'default',
+  Numeric = 'numeric',
+  Email = 'email',
+  Phone = 'phone',
 }

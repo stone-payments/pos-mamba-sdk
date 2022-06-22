@@ -10,25 +10,23 @@ class UIPhysicalKeyboard {
 
   public static instance: UIPhysicalKeyboard;
 
-  dispatch: any;
-
   getOptions: () => KeyboardOptions;
 
   /**
    * Creates an instance of the UIPhysicalKeyboard service
    */
-  private constructor({ dispatch, getOptions }: PhysicalKeyboardParams) {
+  private constructor({ getOptions }: PhysicalKeyboardParams) {
     this.generalKeyboard = GeneralKeyboard;
     /**
      * @type {object} A mamba-keyboard instance
      */
-    this.dispatch = dispatch;
+
     this.getOptions = getOptions;
   }
 
-  public static getInstance({ dispatch, getOptions }: PhysicalKeyboardParams): UIPhysicalKeyboard {
+  public static getInstance({ getOptions }: PhysicalKeyboardParams): UIPhysicalKeyboard {
     if (!UIPhysicalKeyboard.instance) {
-      UIPhysicalKeyboard.instance = new UIPhysicalKeyboard({ dispatch, getOptions });
+      UIPhysicalKeyboard.instance = new UIPhysicalKeyboard({ getOptions });
     }
 
     return UIPhysicalKeyboard.instance;
@@ -37,11 +35,8 @@ class UIPhysicalKeyboard {
 
 export type { UIPhysicalKeyboard };
 
-const CreatePhysicalKeyboard = ({
-  dispatch,
-  getOptions,
-}: PhysicalKeyboardParams): UIPhysicalKeyboard => {
-  return UIPhysicalKeyboard.getInstance({ dispatch, getOptions });
+const CreatePhysicalKeyboard = ({ getOptions }: PhysicalKeyboardParams): UIPhysicalKeyboard => {
+  return UIPhysicalKeyboard.getInstance({ getOptions });
 };
 
 export default CreatePhysicalKeyboard;
