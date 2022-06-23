@@ -1,5 +1,5 @@
 import KEY_MAP from '../mappings/keyMap';
-import KEY_LIST from '../mappings/keyCodeList';
+import KEY_MAP_LIST from '../mappings/keyMapList';
 /**
  * Responsible for the output of physical keys
  */
@@ -36,7 +36,7 @@ class UIGeneralKeyboard {
   getKeyCode(keyName: string) {
     if (typeof keyName !== 'string') return '';
 
-    const found = KEY_LIST.find((code) => {
+    const found = KEY_MAP_LIST.find((code) => {
       const maped = KEY_MAP[code];
       if (typeof maped === 'string') {
         // normalize names between browser versions

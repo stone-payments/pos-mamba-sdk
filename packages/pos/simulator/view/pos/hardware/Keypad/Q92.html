@@ -17,7 +17,7 @@
 </div>
 
 <script>
-  import Keyboard from '../../../../../api/keyboard.js';
+  import Keyboard from '@mamba/keyboard/native/keyboard.js';
 
   const getKeyboardEvent = (event, code, keyName) =>
     new KeyboardEvent(event, {
@@ -38,6 +38,8 @@
         const el = document.activeElement;
         const isInputOnFocus = el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA');
         const keyCode = Keyboard.getKeyCode(keyName);
+
+        console.log(Keyboard.getKeyCode);
 
         /** We have to handle input actions manually */
         if (isInputOnFocus) {
