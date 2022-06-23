@@ -21,6 +21,18 @@ export interface KeyboardButtonElements {
   [key: string]: KeyboardElement[];
 }
 
+export enum ButtonType {
+  Standard = 'standard-btn',
+  Function = 'function-btn',
+}
+
+export enum KeyboardType {
+  Default = 'default',
+  Numeric = 'numeric',
+  Email = 'email',
+  Phone = 'phone',
+}
+
 export interface KeyboardOptions {
   /**
    * Modify the keyboard layout.
@@ -28,7 +40,12 @@ export interface KeyboardOptions {
   layout?: KeyboardLayoutObject;
 
   /**
-   * Specifies which layout should be used.
+   * Specifies which keyboard type should be used out of the box.
+   */
+  keyboardType?: KeyboardType;
+
+  /**
+   * Specifies which keyboard type should be used. This should be used in addition to `keyboardType` setted to 'custom'
    */
   layoutName?: string;
 
@@ -38,14 +55,15 @@ export interface KeyboardOptions {
   labels?: { [button: string]: string };
 
   /**
-   * A prop to add your own css classes to the keyboard wrapper. You can add multiple classes separated by a space.
+   * A prop to add your own css classes to the keyboard wrapper.
+   * You can add multiple classes separated by a space.
    */
   theme?: string;
 
   /**
-   * A prop to add your own css classes to one or several buttons.
+   * Change the CSS class to add to the button when it gets active by click.
    */
-  buttonTheme?: KeyboardButtonTheme[];
+  activeButtonClass?: string;
 
   /**
    * Runs a `console.log` every time a key is pressed. Shows the buttons pressed and the current input.
@@ -68,7 +86,7 @@ export interface KeyboardOptions {
   inputPattern?: any;
 
   /**
-   * Exclude buttons from layout
+   * Exclude specific buttons from layout
    */
   excludeFromLayout?: { [key: string]: string[] };
 
@@ -100,23 +118,11 @@ export interface KeyboardOptions {
 
 export interface CaretWorkerParams {
   getOptions: () => KeyboardOptions;
-  getCaretPosition: () => number | null;
-  getCaretPositionEnd: () => number | null;
   keyboardInstance: Keyboard;
 }
 
+export type CaretPosition = number | null;
+
 export interface PhysicalKeyboardParams {
   getOptions: () => KeyboardOptions;
-}
-
-export enum ButtonType {
-  Standard = 'standard-btn',
-  Function = 'function-btn',
-}
-
-export enum KeyboardType {
-  Default = 'default',
-  Numeric = 'numeric',
-  Email = 'email',
-  Phone = 'phone',
 }

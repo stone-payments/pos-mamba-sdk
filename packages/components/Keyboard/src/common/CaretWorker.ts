@@ -1,4 +1,10 @@
-import { KeyboardInput, KeyboardOptions, CaretWorkerParams } from '../types';
+import {
+  KeyboardInput,
+  KeyboardOptions,
+  KeyboardHandlerEvent,
+  CaretPosition,
+  CaretWorkerParams,
+} from '../types';
 import { greddyBraces } from './regExps';
 import type Keyboard from '../components/Keyboard';
 
@@ -8,27 +14,33 @@ import type Keyboard from '../components/Keyboard';
 class CaretWorker {
   getOptions: () => KeyboardOptions;
 
-  getCaretPosition: () => number | null;
+  getCaretPosition = (): CaretPosition => this.caretPosition;
 
-  getCaretPositionEnd: () => number | null;
+  getCaretPositionEnd = (): CaretPosition => this.caretPositionEnd;
 
   keyboardInstance: Keyboard;
 
   maxLengthReached!: boolean;
 
   /**
+   * Caret position
+   */
+  caretPosition!: CaretPosition;
+
+  /**
+   * Caret position end
+   */
+  caretPositionEnd!: CaretPosition;
+
+  /**
    * Creates an instance of the CaretWorker
    */
-  constructor({
-    getOptions,
-    getCaretPosition,
-    getCaretPositionEnd,
-    keyboardInstance,
-  }: CaretWorkerParams) {
+  constructor({ getOptions, keyboardInstance }: CaretWorkerParams) {
     this.getOptions = getOptions;
-    this.getCaretPosition = getCaretPosition;
-    this.getCaretPositionEnd = getCaretPositionEnd;
     this.keyboardInstance = keyboardInstance;
+
+    this.caretPosition = null;
+    this.caretPositionEnd = null;
   }
 
   /**
@@ -39,7 +51,7 @@ class CaretWorker {
    */
   private updateCaretPos(length: number, minus = false) {
     const newCaretPos = this.updateCaretPosAction(length, minus);
-    this.keyboardInstance.setCaretPosition(newCaretPos);
+    this.setCaretPosition(newCaretPos);
   }
 
   /**
@@ -78,8 +90,8 @@ class CaretWorker {
   private addStringAt(
     source: string,
     str: string,
-    position = source.length,
-    positionEnd = source.length,
+    position: number = source.length,
+    positionEnd: number = source.length,
     moveCaret = false,
   ) {
     console.log(source, str, position, positionEnd, moveCaret);
@@ -111,8 +123,8 @@ class CaretWorker {
    */
   private removeAt(
     source: string,
-    position = source.length,
-    positionEnd = source.length,
+    position: number = source.length,
+    positionEnd: number = source.length,
     moveCaret = false,
   ) {
     if (position === 0 && positionEnd === 0) {
@@ -132,7 +144,7 @@ class CaretWorker {
     } else {
       output = source.slice(0, position) + source.slice(positionEnd);
       if (moveCaret) {
-        this.keyboardInstance.setCaretPosition(position);
+        this.setCaretPosition(position);
       }
     }
 
@@ -162,7 +174,7 @@ class CaretWorker {
     } else {
       output = source.slice(0, position) + source.slice(positionEnd);
       if (moveCaret) {
-        this.keyboardInstance.setCaretPosition(position);
+        this.setCaretPosition(position);
       }
     }
 
@@ -176,6 +188,102 @@ class CaretWorker {
    */
   private isMaxLengthReached(): boolean {
     return this.maxLengthReached;
+  }
+
+  /**
+   * Called by {@link setEventListeners} when an event that warrants a cursor position update is triggered
+   */
+  private caretEventHandler(event: KeyboardHandlerEvent): void {
+    console.log(event);
+
+    if (!this) return;
+    const options = this.getOptions();
+    const isDOMInputType = event.target instanceof HTMLInputElement;
+
+    /* if (isDOMInputType) {
+      debugger;
+    } */
+
+    const isKeyboard =
+      event.target === this.keyboardInstance.keyboardDOM ||
+      (event.target && this.keyboardInstance.keyboardDOM.contains(event.target));
+
+    if (
+      isDOMInputType &&
+      ['text', 'tel'].includes(event.target.type) &&
+      !options.disableCaretPositioning
+    ) {
+      /**
+       * Tracks current cursor position
+       * As keys are pressed, text will be added/removed at that position within the input.
+       */
+      this.setCaretPosition(event.target.selectionStart, event.target.selectionEnd);
+
+      /**
+       * Tracking current input in order to handle caret positioning edge cases
+       */
+      this.keyboardInstance.activeInputElement = event.target;
+
+      if (options.debug) {
+        console.log(
+          'Caret at: ',
+          this.getCaretPosition(),
+          this.getCaretPositionEnd(),
+          event && event.target.tagName.toLowerCase(),
+          `(${this.keyboardInstance.keyboardDOMClass})`,
+        );
+      }
+    } else if (
+      (options.disableCaretPositioning || !isKeyboard) &&
+      event?.type !== 'selectionchange'
+    ) {
+      /**
+       * If we toggled off disableCaretPositioning, we must ensure caretPosition doesn't persist once reactivated.
+       */
+      this.setCaretPosition(null);
+
+      /**
+       * Resetting activeInputElement
+       */
+      this.keyboardInstance.activeInputElement = null;
+
+      if (options.debug) {
+        console.log(`Caret position reset due to "${event?.type}" event`, event);
+      }
+    }
+  }
+
+  // Accessible methods
+
+  /**
+   * Handles mamba-keyboard event listeners
+   */
+  setupCaretEventsControl(): void {
+    if (!document) return;
+
+    const options = this.getOptions();
+
+    if (options.debug) {
+      console.log(`Caret handling started (${this.keyboardInstance.keyboardDOMClass})`);
+    }
+
+    /**
+     * Events for caret control
+     */
+    document.addEventListener('keyup', (e) => this.caretEventHandler(e));
+    document.addEventListener('mouseup', (e) => this.caretEventHandler(e));
+    document.addEventListener('select', (e) => this.caretEventHandler(e));
+    document.addEventListener('selectionchange', (e) => this.caretEventHandler(e));
+  }
+
+  /**
+   * Changes the internal caret position
+   * @param position The caret's start position
+   * @param positionEnd The caret's end position
+   */
+  public setCaretPosition(position: CaretPosition, endPosition = position): void {
+    this.caretPosition = position;
+    this.caretPositionEnd = endPosition;
   }
 
   /**
@@ -213,13 +321,9 @@ class CaretWorker {
    * @param caretPosEnd The cursor's current end position
    * @param  moveCaret Whether to update mamba-keyboard's cursor
    */
-  getUpdatedInput(
-    button: string,
-    input: string,
-    caretPos: number,
-    caretPosEnd = caretPos,
-    moveCaret = false,
-  ) {
+  getUpdatedInput(button: string, input: string, moveCaret = false) {
+    const caretPos = this.caretPosition as number;
+    const caretPosEnd = this.caretPositionEnd || caretPos;
     const commonParams: [number, number, boolean] = [caretPos, caretPosEnd, moveCaret];
 
     let output = input;

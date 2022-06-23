@@ -1,14 +1,25 @@
-<input ref:inputElement />
-<div ref:keyboardRoot class="mb-keyboard"></div>
+<div class="mb-keyboard-bundle">
+  <Input
+    ref:inputComponent
+    autofocus
+    label="CPF/CNPJ"
+    mask={['###.###.###-##', '##.###.###/####-##']}
+  />
+  <div ref:keyboardRoot class="mb-keyboard-input"></div>
+</div>
 
 <script>
   import Keyboard from './dist/index.js';
   import './css/Keyboard.css';
 
   export default {
+    components: {
+      Input: '@mamba/input/Input.html',
+    },
     oncreate() {
       // initAppSignals(this);
-      const { keyboardRoot, inputElement } = this.refs;
+      const { keyboardRoot, inputComponent } = this.refs;
+      const { input: inputElement } = inputComponent.refs;
       let keyboard;
 
       // function setInputCaretPosition(elem, pos) {
@@ -105,7 +116,7 @@
         layoutCandidates: {
           e: 'é',
         },
-        layout: {
+        /* layout: {
           default: [
             'q w e r t y u i o p',
             'a s d f g h j k l',
@@ -130,7 +141,7 @@
             "{altback} . , ? ! ' {backspace}",
             '{default} {space} {enter}',
           ],
-        },
+        }, */
       });
 
       /**
@@ -146,9 +157,7 @@
 </script>
 
 <style>
-  div {
-    border-bottom: 2px solid black;
-    margin-top: 10px;
-    padding: 10px;
+  .mb-keyboard-bundle {
+    padding-top: 50px;
   }
 </style>

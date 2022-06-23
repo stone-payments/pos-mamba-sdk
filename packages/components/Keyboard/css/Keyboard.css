@@ -165,8 +165,8 @@ $level-shadow-color: rgba(0, 0, 0, 0.2);
 
     &[data-mb-key='{backspace}'] {
       & span {
-        min-width: 18px;
-        min-height: 18px;
+        min-width: 20px;
+        min-height: 20px;
         mask-image: url(../assets/delete.svg);
       }
     }

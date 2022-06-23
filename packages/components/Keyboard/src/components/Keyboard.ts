@@ -1,5 +1,4 @@
 /* eslint-disable prefer-destructuring */
-/* eslint-disable no-unused-expressions */
 /* eslint-disable camelcase */
 
 import CreatePhysicalKeyboard from '../controllers/PhysicalKeyboard';
@@ -22,7 +21,7 @@ import {
 } from '../types';
 
 /**
- * Root class for mamba-keyboard.
+ * Root class for @mamba/keyboard
  * This class:
  * - Parses the options
  * - Renders the rows and buttons
@@ -34,10 +33,6 @@ class Keyboard {
   options!: KeyboardOptions;
 
   caretWorker: any;
-
-  caretPosition!: number | null;
-
-  caretPositionEnd!: number | null;
 
   keyboardDOM!: KeyboardElement;
 
@@ -57,7 +52,7 @@ class Keyboard {
 
   modules!: { [key: string]: any };
 
-  activeButtonClass!: string;
+  activeButtonClass: string = ClassNames.activeButtonClassDefault;
 
   initialized!: boolean;
 
@@ -85,20 +80,8 @@ class Keyboard {
      */
     this.caretWorker = new CaretWorker({
       getOptions: this.getOptions,
-      getCaretPosition: this.getCaretPosition,
-      getCaretPositionEnd: this.getCaretPositionEnd,
       keyboardInstance: this,
     });
-
-    /**
-     * Caret position
-     */
-    this.caretPosition = null;
-
-    /**
-     * Caret position end
-     */
-    this.caretPositionEnd = null;
 
     /**
      * Processing options
@@ -179,7 +162,7 @@ class Keyboard {
   }
 
   /**
-   * parseParams
+   * Parse params
    */
   handleParams = (
     element?: HTMLDivElement,
@@ -212,6 +195,13 @@ class Keyboard {
       throw new Error('KEYBOARD_DOM_ELEMENT_ERROR');
     }
 
+    /**
+     * Define button class
+     */
+    if (typeof keyboardOptions?.activeButtonClass === 'string') {
+      this.activeButtonClass = keyboardOptions.activeButtonClass;
+    }
+
     return {
       keyboardDOMClass,
       keyboardDOM,
@@ -223,20 +213,6 @@ class Keyboard {
    * Getters
    */
   getOptions = (): KeyboardOptions => this.options;
-
-  getCaretPosition = (): number | null => this.caretPosition;
-
-  getCaretPositionEnd = (): number | null => this.caretPositionEnd;
-
-  /**
-   * Changes the internal caret position
-   * @param position The caret's start position
-   * @param positionEnd The caret's end position
-   */
-  setCaretPosition(position: number | null, endPosition = position): void {
-    this.caretPosition = position;
-    this.caretPositionEnd = endPosition;
-  }
 
   /**
    * Handles clicks made to keyboard buttons
@@ -257,12 +233,7 @@ class Keyboard {
     /**
      * Calculating new input
      */
-    const updatedInput = this.caretWorker.getUpdatedInput(
-      button,
-      this.input.default,
-      this.caretPosition,
-      this.caretPositionEnd,
-    );
+    const updatedInput = this.caretWorker.getUpdatedInput(button, this.input.default);
 
     /**
      * Calling onKeyPress
@@ -288,13 +259,7 @@ class Keyboard {
       /**
        * Updating input
        */
-      const newInputValue = this.caretWorker.getUpdatedInput(
-        button,
-        this.input.default,
-        this.caretPosition,
-        this.caretPositionEnd,
-        true,
-      );
+      const newInputValue = this.caretWorker.getUpdatedInput(button, this.input.default, true);
 
       this.setInput(newInputValue);
 
@@ -303,8 +268,8 @@ class Keyboard {
       if (this.options.debug) {
         console.log(
           'Caret at: ',
-          this.getCaretPosition(),
-          this.getCaretPositionEnd(),
+          this.caretWorker.getCaretPosition(),
+          this.caretWorker.getCaretPositionEnd(),
           `(${this.keyboardDOMClass})`,
         );
       }
@@ -345,6 +310,18 @@ class Keyboard {
   }
 
   /**
+   * Handles button mousedown
+   */
+  handleButtonMouseDown(button: string, e: KeyboardHandlerEvent): void {
+    if (e) {
+      /**
+       *  Calling preventDefault for the mousedown events keeps the focus on the input.
+       */
+      e.preventDefault();
+    }
+  }
+
+  /**
    * Clear the keyboard’s input.
    */
   clearInput(): void {
@@ -353,7 +330,7 @@ class Keyboard {
     /**
      * Reset caretPosition
      */
-    this.setCaretPosition(0);
+    this.caretWorker.setCaretPosition(0);
   }
 
   /**
@@ -487,115 +464,6 @@ class Keyboard {
   }
 
   /**
-   * Handles mamba-keyboard event listeners
-   */
-  setEventListeners(): void {
-    /**
-     * Only first instance should set the event listeners
-     */
-
-    if (this.options.debug) {
-      console.log(`Caret handling started (${this.keyboardDOMClass})`);
-    }
-
-    /**
-     * Event Listeners
-     */
-
-    document.addEventListener('keyup', (e) => this.handleGlobalKeyUp(e));
-    document.addEventListener('mouseup', (e) => this.handleGlobalMouseUp(e));
-    document.addEventListener('select', (e) => this.handleGlobalSelect(e));
-    document.addEventListener('selectionchange', (e) => this.handleGlobalSelectionChange(e));
-  }
-
-  /**
-   * Event Handler: KeyUp
-   */
-  handleGlobalKeyUp(event: KeyboardHandlerEvent): void {
-    this.caretEventHandler(event);
-  }
-
-  /**
-   * Event Handler: MouseUp
-   */
-  handleGlobalMouseUp(event: KeyboardHandlerEvent): void {
-    this.caretEventHandler(event);
-  }
-
-  /**
-   * Event Handler: Select
-   */
-  handleGlobalSelect(event: KeyboardHandlerEvent): void {
-    this.caretEventHandler(event);
-  }
-
-  /**
-   * Event Handler: SelectionChange
-   */
-  handleGlobalSelectionChange(event: KeyboardHandlerEvent): void {
-    this.caretEventHandler(event);
-  }
-
-  /**
-   * Called by {@link setEventListeners} when an event that warrants a cursor position update is triggered
-   */
-  caretEventHandler(event: KeyboardHandlerEvent): void {
-    if (!this) return;
-
-    const isDOMInputType = event.target instanceof HTMLInputElement;
-    const { disableCaretPositioning, debug } = this.options;
-
-    /* if (isDOMInputType) {
-      debugger;
-    } */
-
-    const isKeyboard =
-      event.target === this.keyboardDOM ||
-      (event.target && this.keyboardDOM.contains(event.target));
-
-    if (
-      isDOMInputType &&
-      ['text', 'search', 'url', 'tel', 'password'].includes(event.target.type) &&
-      !disableCaretPositioning
-    ) {
-      /**
-       * Tracks current cursor position
-       * As keys are pressed, text will be added/removed at that position within the input.
-       */
-      this.setCaretPosition(event.target.selectionStart, event.target.selectionEnd);
-
-      /**
-       * Tracking current input in order to handle caret positioning edge cases
-       */
-      this.activeInputElement = event.target;
-
-      if (debug) {
-        console.log(
-          'Caret at: ',
-          this.getCaretPosition(),
-          this.getCaretPositionEnd(),
-          event && event.target.tagName.toLowerCase(),
-          `(${this.keyboardDOMClass})`,
-        );
-      }
-    } else if ((disableCaretPositioning || !isKeyboard) && event?.type !== 'selectionchange') {
-      /**
-       * If we toggled off disableCaretPositioning, we must ensure caretPosition doesn't persist once reactivated.
-       */
-      this.setCaretPosition(null);
-
-      /**
-       * Resetting activeInputElement
-       */
-      this.activeInputElement = null;
-
-      if (this.options.debug) {
-        console.log(`Caret position reset due to "${event?.type}" event`, event);
-      }
-    }
-  }
-
-  /**
    * Executes the callback function once mamba-keyboard is rendered for the first time (on initialization).
    */
   onCreate() {
@@ -606,7 +474,7 @@ class Keyboard {
     /**
      * setEventListeners
      */
-    this.setEventListeners();
+    this.caretWorker.setupCaretEventsControl();
 
     if (typeof this.options.onCreate === 'function') this.options.onCreate(this);
   }
@@ -655,6 +523,7 @@ class Keyboard {
     if (Array.isArray(this.options.modules)) {
       this.options.modules.forEach((KeyboardModule: any) => {
         const keyboardModule = new KeyboardModule(this);
+        // eslint-disable-next-line no-unused-expressions
         keyboardModule.init && keyboardModule.init(this);
       });
 
@@ -729,16 +598,6 @@ class Keyboard {
         removedElements = updated_endIndex - updated_startIndex;
 
         /**
-         * Inserting elements to container
-         */
-        // containedElements.forEach((element) => containerDOM.appendChild(element));
-
-        /**
-         * Adding container at correct position within rowDOMArray
-         */
-        // rowDOMArray.splice(updated_startIndex, 0, containerDOM);
-
-        /**
          * Clearing old rowDOM children structure
          */
         rowDOM.innerHTML = '';
@@ -796,7 +655,7 @@ class Keyboard {
     this.beforeRender();
 
     const layoutClass = `${ClassNames.layoutPrefix}-${this.options.layoutName}`;
-    const layout = this.options.layout || getDefaultLayout();
+    const layout = this.options.keyboardType || getDefaultLayout();
     const { disableRowButtonContainers } = this.options;
 
     /**
@@ -898,17 +757,13 @@ class Keyboard {
         const buttonDOM = createKeyboardElement(`${ClassNames.buttonPrefix} ${fctBtnClass}`);
 
         /**
-         * Adding buttonTheme
-         */
-        // buttonDOM.classList.add(...this.getButtonThemeClasses(button));
-
-        this.activeButtonClass = ClassNames.activeButtonClassDefault;
-
-        /**
          * Handle mouse events
          */
         buttonDOM.onclick = (e: KeyboardHandlerEvent) => {
           this.handleButtonClicked(button, e);
+        };
+        buttonDOM.onmousedown = (e: KeyboardHandlerEvent) => {
+          this.handleButtonMouseDown(button, e);
         };
 
         /**
