@@ -1,7 +1,7 @@
 {
   "name": "@mamba/keyboard",
   "version": "0.0.1",
-  "main": "dist/index.js",
+  "main": "lib/index.js",
   "types": "types/index.d.ts",
   "svelte": "Keyboard.html",
   "description": "POS physical keyboard handler and virtual ones",
@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/stone-payments/pos-mamba-sdk#readme",
   "scripts": {
-    "start": "yarn run prebuild && tsc -d -w --declarationDir types --esModuleInterop",
+    "start": "yarn run prebuild && tsc -d -w",
     "prebuild": "rimraf dist types",
     "compile": "tsc -p tsconfig.json",
     "build": "run-s prebuild compile"

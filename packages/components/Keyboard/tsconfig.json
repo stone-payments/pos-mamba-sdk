@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "noImplicitAny": true,
-    "outDir": "dist",
+    "outDir": "lib",
     "lib": ["esnext", "DOM"],
     "target": "es6",
     "esModuleInterop": true,
