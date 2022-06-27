@@ -1,10 +1,23 @@
-export { camelCase } from './camelCase';
-export { getButtonClass } from './getButtonClass';
-export { getButtonType } from './getButtonType';
-export { getDefaultLabels } from './getDefaultLabels';
-export { getButtonLabelsName } from './getButtonLabelsName';
-export { getDefaultLayout } from './getDefaultLayout';
-export { createKeyboardElement } from './createKeyboardElement';
-export { isFunction } from './isFunction';
-export { isStandardButton } from './isStandardButton';
-export * as ClassNames from './classNames';
+import { camelCase } from './camelCase';
+import { getButtonClass } from './getButtonClass';
+import { getButtonType } from './getButtonType';
+import { getDefaultLabels } from './getDefaultLabels';
+import { getButtonLabelsName } from './getButtonLabelsName';
+import { getDefaultKeyboard } from './getDefaultKeyboard';
+import { createKeyboardElement } from './createKeyboardElement';
+import { isFunction } from './isFunction';
+import { isStandardButton } from './isStandardButton';
+import * as ClassNames from './classNames';
+
+export {
+  camelCase,
+  getButtonClass,
+  getButtonType,
+  getDefaultLabels,
+  getButtonLabelsName,
+  getDefaultKeyboard,
+  createKeyboardElement,
+  isFunction,
+  isStandardButton,
+  ClassNames,
+};

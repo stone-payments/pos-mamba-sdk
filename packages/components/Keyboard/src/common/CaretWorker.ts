@@ -9,7 +9,8 @@ import { greddyBraces } from './regExps';
 import type Keyboard from '../components/Keyboard';
 
 /**
- * CaretWorker
+ * CaretWorker.
+ * Controls input value insertion
  */
 class CaretWorker {
   getOptions: () => KeyboardOptions;
@@ -194,7 +195,7 @@ class CaretWorker {
    * Called by {@link setEventListeners} when an event that warrants a cursor position update is triggered
    */
   private caretEventHandler(event: KeyboardHandlerEvent): void {
-    console.log(event);
+    // console.log(event.target);
 
     if (!this) return;
     const options = this.getOptions();
@@ -206,7 +207,7 @@ class CaretWorker {
 
     const isKeyboard =
       event.target === this.keyboardInstance.keyboardDOM ||
-      (event.target && this.keyboardInstance.keyboardDOM.contains(event.target));
+      (event.target && this.keyboardInstance.keyboardDOM.contains(event.target as Node));
 
     if (
       isDOMInputType &&

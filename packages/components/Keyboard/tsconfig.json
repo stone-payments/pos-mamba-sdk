@@ -4,6 +4,7 @@
     "outDir": "lib",
     "lib": ["esnext", "DOM"],
     "target": "es6",
+    "module": "es2020",
     "esModuleInterop": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,

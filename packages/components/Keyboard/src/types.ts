@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import Keyboard from './components/Keyboard';
+import type Keyboard from './components/Keyboard';
 
 export interface KeyboardLayoutObject {
   [key: string]: string[];
@@ -14,8 +14,8 @@ export interface KeyboardInput {
   default: string;
 }
 
-export type KeyboardElement = HTMLDivElement | HTMLButtonElement;
-export type KeyboardHandlerEvent = any;
+export type KeyboardElement = HTMLDivElement | HTMLButtonElement | HTMLSpanElement;
+export type KeyboardHandlerEvent = MouseEvent | KeyboardEvent | UIEvent | Event;
 
 export interface KeyboardButtonElements {
   [key: string]: KeyboardElement[];
@@ -31,34 +31,70 @@ export enum KeyboardType {
   Numeric = 'numeric',
   Email = 'email',
   Phone = 'phone',
+  Custom = 'custom',
 }
 
-export interface KeyboardOptions {
+export interface KeyboardTypeEvents {
   /**
-   * Modify the keyboard layout.
+   * Executes the callback function every time mamba keyboard is rendered (e.g: when you change layouts).
    */
-  layout?: KeyboardLayoutObject;
+  onRender?: (instance: Keyboard) => void;
 
   /**
-   * Specifies which keyboard type should be used out of the box.
+   * Executes the callback function once mamba keyboard is rendered for the first time (on initialization).
+   */
+  onInit?: (instance: Keyboard) => void;
+
+  /**
+   * Retrieves the current input
+   */
+  onChange?: (input: string, e?: KeyboardHandlerEvent) => void;
+
+  /**
+   * Executes the callback function on any key press. Returns button layout name (i.e.: “{enter}”, "b", "c", "2" ).
+   */
+  onKeyPress?: (button: string, e?: KeyboardHandlerEvent) => void;
+
+  /**
+   * Execute the callback function on keypress of non-standard type only (functionality type i.e.: “{alt}”).
+   */
+  onFunctionKeyPress?: (button: string, instance: Keyboard, e?: KeyboardHandlerEvent) => void;
+}
+
+export interface KeyboardTypeOptions {
+  /**
+   * Specifies which keyboard type should be used out of the box. Default `KeyboardType.Default`
    */
   keyboardType?: KeyboardType;
 
   /**
-   * Specifies which keyboard type should be used. This should be used in addition to `keyboardType` setted to 'custom'
+   * Specifies a custom keyboard layout to be used. This should be used in addition to `keyboardType` setted to 'KeyboardType.Custom'
    */
-  layoutName?: string;
+  layout?: KeyboardLayoutObject;
 
   /**
-   * Replaces variable buttons (such as `{bksp}`) with a human-friendly name (e.g.: `backspace`).
+   * Specifies which layout should be used inside the "layout" option, useful to handle function keys (e.g. "{shift}")". This should be used in addition to `keyboardType` setted to 'KeyboardType.Custom'. Initial layout also can be defined here.
    */
-  labels?: { [button: string]: string };
+  layoutName?: string;
 
   /**
    * A prop to add your own css classes to the keyboard wrapper.
    * You can add multiple classes separated by a space.
    */
   theme?: string;
+}
+
+type FunctionKeyPressType = Pick<KeyboardTypeEvents, 'onFunctionKeyPress'>;
+
+export type KeyboardTypesPredefinedOptions = Readonly<
+  NonNullable<Required<KeyboardTypeOptions>> & FunctionKeyPressType
+>;
+
+export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents {
+  /**
+   * Replaces variable buttons (such as `{bksp}`) with a human-friendly name (e.g.: `backspace`).
+   */
+  labels?: { [button: string]: string };
 
   /**
    * Change the CSS class to add to the button when it gets active by click.
@@ -89,26 +125,6 @@ export interface KeyboardOptions {
    * Exclude specific buttons from layout
    */
   excludeFromLayout?: { [key: string]: string[] };
-
-  /**
-   * Executes the callback function every time mamba-keyboard is rendered (e.g: when you change layouts).
-   */
-  onRender?: (instance: Keyboard) => void;
-
-  /**
-   * Executes the callback function once mamba-keyboard is rendered for the first time (on initialization).
-   */
-  onCreate?: (instance: Keyboard) => void;
-
-  /**
-   * Retrieves the current input
-   */
-  onChange?: (input: string, e?: MouseEvent) => any;
-
-  /**
-   * Retrieves all inputs
-   */
-  onChangeAll?: (inputObj: KeyboardInput, e?: MouseEvent) => any;
 
   /**
    * Other options created privately

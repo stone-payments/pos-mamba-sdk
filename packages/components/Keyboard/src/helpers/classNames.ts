@@ -5,7 +5,8 @@ const rowPrefix = `${prefix}-row`;
 const layoutPrefix = `${prefix}-layout`;
 const buttonPrefix = `${prefix}-button`;
 const activeButtonClassDefault = `${prefix}-active`;
-const themeDefault = `${keyBoardPrefix}-default`;
+const themePrefix = `${keyBoardPrefix}-theme`;
+const themeDefault = `${themePrefix}-default`;
 
 export {
   prefix,
@@ -15,5 +16,6 @@ export {
   layoutPrefix,
   buttonPrefix,
   activeButtonClassDefault,
+  themePrefix,
   themeDefault,
 };

@@ -39,8 +39,6 @@
         const isInputOnFocus = el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA');
         const keyCode = Keyboard.getKeyCode(keyName);
 
-        console.log(Keyboard.getKeyCode);
-
         /** We have to handle input actions manually */
         if (isInputOnFocus) {
           /** If action button clicked */

@@ -9,7 +9,7 @@
 </div>
 
 <script>
-  import Keyboard from './dist/index.js';
+  import Keyboard from './lib/index.js';
   import './css/Keyboard.css';
 
   export default {
@@ -19,8 +19,7 @@
     oncreate() {
       // initAppSignals(this);
       const { keyboardRoot, inputComponent } = this.refs;
-      const { input: inputElement } = inputComponent.refs;
-      let keyboard;
+      // const { input: inputElement } = inputComponent.refs;
 
       // function setInputCaretPosition(elem, pos) {
       //   if (elem.setSelectionRange) {
@@ -61,57 +60,31 @@
       //   if (keyboard) keyboard.setInput(event.target.value);
       // });
 
-      function handleLayoutChange(button) {
-        const currentLayout = keyboard.options.layoutName;
-        let layoutName;
-
-        switch (button) {
-          case '{shift}':
-          case '{default}':
-            layoutName = currentLayout === 'default' ? 'shift' : 'default';
-            break;
-
-          case '{symbols}':
-            layoutName = currentLayout === 'symbols' ? 'default' : 'symbols';
-            break;
-
-          case '{alt}':
-          case '{altback}':
-            layoutName = currentLayout === 'alt' ? 'default' : 'alt';
-            break;
-
-          default:
-            break;
-        }
-
-        if (layoutName) {
-          keyboard.setOptions({
-            layoutName,
-          });
-        }
-      }
-
       //
 
-      function onChange(input) {
-        inputElement.value = input;
-        console.log('Input changed', input);
+      function onChange(input, e) {
+        console.log('[onChange] Input changed', input, e);
+        inputComponent.set({ value: input });
       }
 
-      function onKeyPress(button) {
-        console.log('Button pressed', button);
+      // function onKeyPress(button) {
+      //   console.log('[onKeyPress] Button pressed', button);
+      // }
 
-        /**
-         * Handle toggles
-         */
-        if (button.includes('{') && button.includes('}')) {
-          handleLayoutChange(button);
-        }
-      }
+      // function onFunctionKeyPress(button, e) {
+      //   console.log('[onFunctionKeyPress] Button pressed', button, e);
+      // }
 
-      keyboard = new Keyboard(keyboardRoot, {
-        onChange: (input) => onChange(input),
-        onKeyPress: (button) => onKeyPress(button),
+      const keyboard = new Keyboard(keyboardRoot, {
+        onChange: (input, e) => onChange(input, e),
+        // onKeyPress: (button, e) => onKeyPress(button, e),
+        // onFunctionKeyPress: (button, e) => onFunctionKeyPress(button, e),
+        // onRender: (instance) => {
+        //   console.log('[onRender]', instance);
+        // },
+        // onInit: (instance) => {
+        //   console.log('[onInit]', instance);
+        // },
         debug: __DEV__,
         layoutCandidates: {
           e: 'é',
@@ -147,11 +120,9 @@
       /**
        * Update mamba-keyboard when input is changed directly
        */
-      inputElement.addEventListener('input', (event) => {
+      inputComponent.on('input', (event) => {
         keyboard.setInput(event.target.value);
       });
-
-      console.log(keyboard);
     },
   };
 </script>

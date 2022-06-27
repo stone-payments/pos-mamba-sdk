@@ -1,5 +1,7 @@
 export { default as KEY_MAP } from './keyMap';
+export { default as KEY_MAP_LIST } from './keyMapList';
 export { default as KEY_NAMES } from './keyNames';
+export { default as KEY_NAMES_LIST } from './keyNamesList';
 export {
   default as KEY_CODES,
   ENTER,

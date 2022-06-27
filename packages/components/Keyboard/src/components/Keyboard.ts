@@ -8,7 +8,7 @@ import {
   getButtonClass,
   camelCase,
   getButtonLabelsName,
-  getDefaultLayout,
+  getButtonType,
   ClassNames,
   createKeyboardElement,
 } from '../helpers';
@@ -18,7 +18,11 @@ import {
   KeyboardButtonElements,
   KeyboardHandlerEvent,
   KeyboardElement,
+  ButtonType,
+  KeyboardType,
+  KeyboardTypesPredefinedOptions,
 } from '../types';
+import keyboardTypesMap from '../keyboards/keyboardTypesMap';
 
 /**
  * Root class for @mamba/keyboard
@@ -50,8 +54,6 @@ class Keyboard {
 
   touchKeyboard!: UIPhysicalKeyboard;
 
-  modules!: { [key: string]: any };
-
   activeButtonClass: string = ClassNames.activeButtonClassDefault;
 
   initialized!: boolean;
@@ -60,7 +62,15 @@ class Keyboard {
 
   activeInputElement: HTMLInputElement | HTMLTextAreaElement | null = null;
 
-  defaultLayout = 'default';
+  keyboardType: KeyboardType = KeyboardType.Default;
+
+  defaultLayoutAndName = 'default';
+
+  internalOnFunctionKeyPress?: (
+    button: string,
+    instance: Keyboard,
+    e?: KeyboardHandlerEvent,
+  ) => void;
 
   /**
    * Creates an instance of MambaKeyboard
@@ -92,11 +102,20 @@ class Keyboard {
      * @type {KeyboardOptions}
      */
     this.options = {
-      layoutName: 'default',
-      theme: ClassNames.themeDefault,
       excludeFromLayout: {},
+      /**
+       * Parse keyboard type
+       */
+      ...this.parseKeyboardTypeOptions(keyboardOptions),
+      /**
+       * Parse the rest of the options
+       */
       ...options,
     };
+
+    console.log(
+      `${JSON.stringify(options, null, 2)}\n<--->\n${JSON.stringify(this.options, null, 2)}`,
+    );
 
     /**
      * @type {object} Classes identifying loaded plugins
@@ -153,18 +172,12 @@ class Keyboard {
       console.warn(`".${keyboardDOMClass}" was not found in the DOM.`);
       throw new Error('KEYBOARD_DOM_ERROR');
     }
-
-    /**
-     * Modules
-     */
-    this.modules = {};
-    this.loadModules();
   }
 
   /**
    * Parse params
    */
-  handleParams = (
+  private handleParams = (
     element?: HTMLDivElement,
     keyboardOptions?: KeyboardOptions,
   ): {
@@ -174,6 +187,7 @@ class Keyboard {
   } => {
     let keyboardDOM = null;
     let keyboardDOMClass;
+    const options = keyboardOptions;
 
     /**
      * If first parameter is an HTMLDivElement
@@ -205,20 +219,161 @@ class Keyboard {
     return {
       keyboardDOMClass,
       keyboardDOM,
-      options: keyboardOptions,
+      options,
     };
   };
 
+  parseKeyboardTypeOptions(keyboardOptions?: KeyboardOptions) {
+    const keyboardType: KeyboardType = keyboardOptions?.keyboardType || KeyboardType.Default;
+    const keyboardSelected: KeyboardTypesPredefinedOptions = keyboardTypesMap[keyboardType]();
+
+    if (
+      keyboardType !== KeyboardType.Custom &&
+      typeof keyboardSelected.onFunctionKeyPress === 'function'
+    ) {
+      this.internalOnFunctionKeyPress = keyboardSelected.onFunctionKeyPress;
+    } else {
+      this.internalOnFunctionKeyPress = undefined;
+    }
+
+    return {
+      keyboardType: keyboardSelected.keyboardType || keyboardType,
+      theme: keyboardSelected.theme || keyboardSelected.theme,
+      layoutName: keyboardSelected.layoutName || this.defaultLayoutAndName,
+      layout: keyboardSelected.layout,
+    };
+  }
+
   /**
-   * Getters
+   * ! Methods
    */
-  getOptions = (): KeyboardOptions => this.options;
+
+  /**
+   * Retrieve instance options
+   * @returns Parsed options
+   */
+  public getOptions = (): KeyboardOptions => this.options;
+
+  /**
+   * Clear the keyboard’s input.
+   */
+  public clearInput(): void {
+    this.input.default = '';
+
+    /**
+     * Reset caretPosition
+     */
+    this.caretWorker.setCaretPosition(0);
+  }
+
+  /**
+   * Get the keyboard’s input (You can also get it from the onChange prop).
+   */
+  public getInput(): string {
+    return this.input.default;
+  }
+
+  /**
+   * Set the keyboard’s input.
+   * @param input the input value
+   */
+  public setInput(input: string): void {
+    this.input.default = input;
+  }
+
+  /**
+   * Replace the input object (`keyboard.input`)
+   * @param keyboardInput The input object
+   */
+  public replaceInput(keyboardInput: KeyboardInput): void {
+    this.input = keyboardInput;
+  }
+
+  /**
+   * Set new option or modify existing ones after initialization.
+   * @param options The options to set
+   */
+  public setOptions(options = {}): void {
+    const changedOptions = this.changedOptions(options);
+    this.options = Object.assign(this.options, options);
+
+    if (changedOptions.length) {
+      if (this.options.debug) {
+        console.log('changedOptions', changedOptions);
+      }
+
+      /**
+       * Updating keyboard
+       */
+      this.render();
+    }
+  }
+
+  /**
+   * Detecting changes to non-function options
+   * This allows us to ascertain whether a button re-render is needed
+   */
+  private changedOptions(newOptions: Partial<KeyboardOptions>): string[] {
+    return Object.keys(newOptions).filter(
+      (optionName) =>
+        JSON.stringify(newOptions[optionName]) !== JSON.stringify(this.options[optionName]),
+    );
+  }
+
+  /**
+   * Get the DOM Element of a button. If there are several buttons with the same name, an array of the DOM Elements is returned.
+   * @param button The button layout name to select
+   */
+  public getButtonElement(button: string): KeyboardElement | KeyboardElement[] | undefined {
+    let output;
+
+    const buttonArr = this.buttonElements[button];
+    if (buttonArr) {
+      if (buttonArr.length > 1) {
+        output = buttonArr;
+      } else {
+        output = buttonArr[0];
+      }
+    }
+
+    return output;
+  }
+
+  /**
+   * This handles the "inputPattern" option by checking if the provided inputPattern passes
+   */
+  public inputPatternIsValid(inputVal: string): boolean {
+    const { inputPattern } = this.options;
+
+    /**
+     * Check if input pattern is global or targeted to individual inputs
+     */
+    if (inputPattern instanceof RegExp && inputVal) {
+      const didInputMatch = inputPattern.test(inputVal);
+
+      if (this.options.debug) {
+        console.log(
+          `inputPattern ("${inputPattern}"): ${didInputMatch ? 'passed' : 'did not pass!'}`,
+        );
+      }
+
+      return didInputMatch;
+    }
+    /**
+     * inputPattern doesn't seem to be set for the current input, or input is empty. Pass.
+     */
+    return true;
+  }
+
+  /**
+   * ! Internal methods
+   */
 
   /**
    * Handles clicks made to keyboard buttons
    * @param button The button's layout name.
    */
-  handleButtonClicked(button: string, e?: KeyboardHandlerEvent): void {
+  private handleButtonClicked(button: string, e?: KeyboardHandlerEvent): void {
     const { debug } = this.options;
     /**
      * Ignoring placeholder buttons
@@ -239,6 +394,25 @@ class Keyboard {
      * Calling onKeyPress
      */
     if (typeof this.options.onKeyPress === 'function') this.options.onKeyPress(button, e);
+
+    /**
+     * If key is a function key lie "{alt}". Calling function key press eventd
+     */
+    if (getButtonType(button) === ButtonType.Function) {
+      /**
+       * Calling onFunctionKeyPress
+       */
+      if (typeof this.options.onFunctionKeyPress === 'function') {
+        this.options.onFunctionKeyPress(button, this, e);
+      }
+
+      /**
+       * Calling internalOnFunctionKeyPress
+       */
+      if (typeof this.internalOnFunctionKeyPress === 'function') {
+        this.internalOnFunctionKeyPress(button, this, e);
+      }
+    }
 
     if (
       // If input will change as a result of this button press
@@ -293,18 +467,19 @@ class Keyboard {
   /**
    * Handles key active class
    */
-  handleActiveButton(e?: KeyboardHandlerEvent): void {
+  private handleActiveButton(e?: KeyboardHandlerEvent): void {
     if (e) {
+      const target = e.target as Element;
       /**
        * Add active class
        */
-      e.target.classList.add(this.activeButtonClass);
+      if (target) target.classList.add(this.activeButtonClass);
 
       /**
        * Remove active class after 100 ms
        */
       window.setTimeout(() => {
-        if (e) e.target.classList.remove(this.activeButtonClass);
+        if (e && target) target.classList.remove(this.activeButtonClass);
       }, 100);
     }
   }
@@ -312,7 +487,7 @@ class Keyboard {
   /**
    * Handles button mousedown
    */
-  handleButtonMouseDown(button: string, e: KeyboardHandlerEvent): void {
+  private handleButtonMouseDown(button: string, e: KeyboardHandlerEvent): void {
     if (e) {
       /**
        *  Calling preventDefault for the mousedown events keeps the focus on the input.
@@ -322,93 +497,10 @@ class Keyboard {
   }
 
   /**
-   * Clear the keyboard’s input.
-   */
-  clearInput(): void {
-    this.input.default = '';
-
-    /**
-     * Reset caretPosition
-     */
-    this.caretWorker.setCaretPosition(0);
-  }
-
-  /**
-   * Get the keyboard’s input (You can also get it from the onChange prop).
-   */
-  getInput(): string {
-    return this.input.default;
-  }
-
-  /**
-   * Set the keyboard’s input.
-   * @param input the input value
-   */
-  setInput(input: string): void {
-    this.input.default = input;
-  }
-
-  /**
-   * Replace the input object (`keyboard.input`)
-   * @param keyboardInput The input object
-   */
-  replaceInput(keyboardInput: KeyboardInput): void {
-    this.input = keyboardInput;
-  }
-
-  /**
-   * Set new option or modify existing ones after initialization.
-   * @param options The options to set
-   */
-  setOptions(options = {}): void {
-    const changedOptions = this.changedOptions(options);
-    this.options = Object.assign(this.options, options);
-
-    if (changedOptions.length) {
-      if (this.options.debug) {
-        console.log('changedOptions', changedOptions);
-      }
-
-      /**
-       * Some option changes require adjustments before re-render
-       */
-      this.onSetOptions(changedOptions);
-
-      /**
-       * Rendering
-       */
-      this.render();
-    }
-  }
-
-  /**
-   * Detecting changes to non-function options
-   * This allows us to ascertain whether a button re-render is needed
-   */
-  changedOptions(newOptions: Partial<KeyboardOptions>): string[] {
-    return Object.keys(newOptions).filter(
-      (optionName) =>
-        JSON.stringify(newOptions[optionName]) !== JSON.stringify(this.options[optionName]),
-    );
-  }
-
-  /**
-   * Executing actions depending on changed options
-   * @param options The options to set
-   */
-  onSetOptions(changedOptions: string[] = []): void {
-    /**
-     * Changed: layoutName
-     */
-    // if (changedOptions.includes('layoutName')) {
-    // }
-  }
-
-  /**
    * Remove all keyboard rows and reset keyboard values.
    * Used internally between re-renders.
    */
-  resetRows(): void {
+  private resetRows(): void {
     if (this.keyboardRowsDOM) {
       const { parentNode } = this.keyboardRowsDOM;
       if (parentNode) parentNode.removeChild(this.keyboardRowsDOM);
@@ -419,54 +511,9 @@ class Keyboard {
   }
 
   /**
-   * Get the DOM Element of a button. If there are several buttons with the same name, an array of the DOM Elements is returned.
-   * @param button The button layout name to select
-   */
-  getButtonElement(button: string): KeyboardElement | KeyboardElement[] | undefined {
-    let output;
-
-    const buttonArr = this.buttonElements[button];
-    if (buttonArr) {
-      if (buttonArr.length > 1) {
-        output = buttonArr;
-      } else {
-        output = buttonArr[0];
-      }
-    }
-
-    return output;
-  }
-
-  /**
-   * This handles the "inputPattern" option by checking if the provided inputPattern passes
-   */
-  inputPatternIsValid(inputVal: string): boolean {
-    const { inputPattern } = this.options;
-
-    /**
-     * Check if input pattern is global or targeted to individual inputs
-     */
-    if (inputPattern instanceof RegExp && inputVal) {
-      const didInputMatch = inputPattern.test(inputVal);
-
-      if (this.options.debug) {
-        console.log(
-          `inputPattern ("${inputPattern}"): ${didInputMatch ? 'passed' : 'did not pass!'}`,
-        );
-      }
-
-      return didInputMatch;
-    }
-    /**
-     * inputPattern doesn't seem to be set for the current input, or input is empty. Pass.
-     */
-    return true;
-  }
-
-  /**
    * Executes the callback function once mamba-keyboard is rendered for the first time (on initialization).
    */
-  onCreate() {
+  private onInit() {
     if (this.options.debug) {
       console.log(`${this.keyboardDOMClass} Initialized`);
     }
@@ -476,84 +523,34 @@ class Keyboard {
      */
     this.caretWorker.setupCaretEventsControl();
 
-    if (typeof this.options.onCreate === 'function') this.options.onCreate(this);
+    if (typeof this.options.onInit === 'function') this.options.onInit(this);
   }
 
   /**
    * Executes the callback function before a simple-keyboard render.
    */
-  beforeFirstRender() {
+  private beforeFirstRender() {
     if (typeof this.options.beforeFirstRender === 'function') this.options.beforeFirstRender(this);
   }
 
   /**
    * Executes the callback function before a simple-keyboard render.
    */
-  beforeRender() {
+  private beforeRender() {
     if (typeof this.options.beforeRender === 'function') this.options.beforeRender(this);
   }
 
   /**
    * Executes the callback function every time simple-keyboard is rendered (e.g: when you change layouts).
    */
-  onRender() {
+  private onRender() {
     if (typeof this.options.onRender === 'function') this.options.onRender(this);
-  }
-
-  /**
-   * Executes the callback function once all modules have been loaded
-   */
-  onModulesLoaded() {
-    if (typeof this.options.onModulesLoaded === 'function') this.options.onModulesLoaded(this);
-  }
-
-  /**
-   * Register module
-   */
-  registerModule = (name: string, initCallback: any) => {
-    if (!this.modules[name]) this.modules[name] = {};
-
-    initCallback(this.modules[name]);
-  };
-
-  /**
-   * Load modules
-   */
-  loadModules() {
-    if (Array.isArray(this.options.modules)) {
-      this.options.modules.forEach((KeyboardModule: any) => {
-        const keyboardModule = new KeyboardModule(this);
-        // eslint-disable-next-line no-unused-expressions
-        keyboardModule.init && keyboardModule.init(this);
-      });
-
-      this.keyboardPluginClasses = 'modules-loaded';
-
-      this.render();
-      this.onModulesLoaded();
-    }
-  }
-
-  /**
-   * Get module prop
-   */
-  getModuleProp(name: string, prop: string) {
-    if (!this.modules[name]) return false;
-
-    return this.modules[name][prop];
-  }
-
-  /**
-   * getModulesList
-   */
-  getModulesList() {
-    return Object.keys(this.modules);
   }
 
   /**
    * Parse Row DOM containers
    */
-  parseRowDOMContainers(
+  private parseRowDOMContainers(
     rowDOM: HTMLDivElement,
     rowIndex: number,
     containerStartIndexes: number[],
@@ -581,12 +578,6 @@ class Keyboard {
          */
         const updated_startIndex = startIndex - removedElements;
         const updated_endIndex = endIndex - removedElements;
-
-        /**
-         * Create button container
-         */
-        // const containerDOM = document.createElement('div');
-        // containerDOM.className += 'mb-button-container';
 
         /**
          * Taking elements due to be inserted into container
@@ -625,7 +616,7 @@ class Keyboard {
   /**
    * getKeyboardClassString
    */
-  getKeyboardClassString = (...baseDOMClasses: any[]) => {
+  private getKeyboardClassString = (...baseDOMClasses: any[]) => {
     const keyboardClasses = [this.keyboardDOMClass, ...baseDOMClasses].filter(
       (DOMClass) => !!DOMClass,
     );
@@ -654,9 +645,15 @@ class Keyboard {
      */
     this.beforeRender();
 
-    const layoutClass = `${ClassNames.layoutPrefix}-${this.options.layoutName}`;
-    const layout = this.options.keyboardType || getDefaultLayout();
-    const { disableRowButtonContainers } = this.options;
+    const layout = this.options.layout;
+
+    if (!layout) {
+      console.warn(`"layout" was not found in the options.`);
+      throw new Error('KEYBOARD_LAYOUT_ERROR');
+    }
+
+    const layoutName = this.options.layoutName || this.defaultLayoutAndName;
+    const layoutClass = `${ClassNames.layoutPrefix}-${layoutName}`;
 
     /**
      * Adding themeClass, layoutClass to keyboardDOM
@@ -670,34 +667,29 @@ class Keyboard {
     /**
      * Create row wrapper
      */
-    this.keyboardRowsDOM = createKeyboardElement(ClassNames.rowsPrefix);
+    this.keyboardRowsDOM = createKeyboardElement(ClassNames.rowsPrefix) as HTMLDivElement;
 
     /**
      * Iterating through each row
      */
-    layout[this.options.layoutName || this.defaultLayout].forEach((row: any, rIndex: any) => {
+    layout[layoutName].forEach((row: any, rIndex: any) => {
       let rowArray = row.split(' ');
 
       /**
        * Enforce excludeFromLayout
        */
-      if (
-        this.options.excludeFromLayout &&
-        this.options.excludeFromLayout[this.options.layoutName || this.defaultLayout]
-      ) {
+      if (this.options.excludeFromLayout && this.options.excludeFromLayout[layoutName]) {
         rowArray = rowArray.filter(
           (buttonName: any) =>
             this.options.excludeFromLayout &&
-            !this.options.excludeFromLayout[this.options.layoutName || this.defaultLayout].includes(
-              buttonName,
-            ),
+            !this.options.excludeFromLayout[layoutName].includes(buttonName),
         );
       }
 
       /**
        * Creating empty row
        */
-      let rowDOM = createKeyboardElement(ClassNames.rowPrefix);
+      let rowDOM = createKeyboardElement(ClassNames.rowPrefix) as HTMLDivElement;
 
       /**
        * Tracking container indicators in rows
@@ -713,13 +705,13 @@ class Keyboard {
          * Check if button has a container indicator
          */
         const buttonHasContainerStart =
-          !disableRowButtonContainers &&
+          !this.options.disableRowButtonContainers &&
           typeof button === 'string' &&
           button.length > 1 &&
           button.indexOf('[') === 0;
 
         const buttonHasContainerEnd =
-          !disableRowButtonContainers &&
+          !this.options.disableRowButtonContainers &&
           typeof button === 'string' &&
           button.length > 1 &&
           button.indexOf(']') === button.length - 1;
@@ -769,12 +761,12 @@ class Keyboard {
         /**
          * Adding identifier
          */
-        buttonDOM.setAttribute('data-mb-key', button);
+        buttonDOM.setAttribute(`data-${ClassNames.prefix}-key`, button);
 
         /**
          * Adding button label to button
          */
-        const buttonSpanDOM = document.createElement('span');
+        const buttonSpanDOM = createKeyboardElement(undefined, 'span') as HTMLSpanElement;
         buttonSpanDOM.innerHTML = buttonLabelsName;
         buttonDOM.appendChild(buttonSpanDOM);
 
@@ -819,14 +811,14 @@ class Keyboard {
 
     if (!this.initialized) {
       /**
-       * Ensures that onCreate and beforeFirstRender are only called once per instantiation
+       * Ensures that onInit and beforeFirstRender are only called once per instantiation
        */
       this.initialized = true;
 
       /**
-       * Calling onCreate
+       * Calling onInit
        */
-      this.onCreate();
+      this.onInit();
     }
   }
 }

@@ -1,4 +1,4 @@
-import { GeneralKeyboard } from '../dist/index.js';
+import { GeneralKeyboard } from '../lib/index.js';
 
 export default function (driver) {
   // Original Keyboard methods
