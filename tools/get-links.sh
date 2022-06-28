@@ -59,7 +59,7 @@ for file in $PATHS; do
   directory=${file%/*}
   if [[ "$mode" == "name" ]]; then
     echo $'\e[32m'"⛓ Linking $package_name"$'\e[0m'
-    (cd $directory && yarn --silent link)
+    (cd $directory && yarn unlink && yarn --silent link)
     LINK_CHAIN+="$package_name "
   else
     INSTALL_CHAIN+="$directory "
