@@ -14,11 +14,19 @@ export interface KeyboardInput {
   default: string;
 }
 
+export type CaretPosition = number | null;
+
 export type KeyboardElement = HTMLDivElement | HTMLButtonElement | HTMLSpanElement;
-export type KeyboardHandlerEvent = MouseEvent | KeyboardEvent | UIEvent | Event;
+export type KeyboardInputOption = HTMLInputElement | HTMLDivElement | HTMLElement | undefined;
+export type KeyboardHandlerEvent = KeyboardEvent | MouseEvent | PointerEvent | UIEvent | Event;
 
 export interface KeyboardButtonElements {
   [key: string]: KeyboardElement[];
+}
+
+export enum KeyboardUpdateMode {
+  Auto = 'auto',
+  Manual = 'manual',
 }
 
 export enum ButtonType {
@@ -127,18 +135,44 @@ export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents
   excludeFromLayout?: { [key: string]: string[] };
 
   /**
+   * Points key events to a customizable input element, instead of using document active element.
+   * You can type and directly display the value in a `div` element setted with `data-keyboard="true" property`, so keyboard will insert its value to the element `innerText`.
+   */
+  input?: KeyboardInputOption;
+
+  /**
+   * Specifies if keyboard should operate automatic or manually.
+   * - In automatic(`auto`) mode, it will try handle input key press value on focused elements. (Default)
+   * - In manually(`manual`) mode, it will leave the changes to you handle outside, using {@link KeyboardTypeEvents.onChange} event along with `oninput` DOM event.
+   * @example
+   * ```js
+   * function onChange(input, e) {
+   *   inputComponent.set({ value: input });
+   * }
+   *
+   * const keyboard = new Keyboard({
+   *  onChange: input => this.onChange(input),
+   * });
+   * // Update virtual keyboard input when the real one updates directly
+   * inputDOMElement.addEventListener('input', event => {
+   *   keyboard.setInput(event.target.value);
+   * });
+   *
+   * ```
+   */
+  updateMode?: KeyboardUpdateMode;
+
+  /**
    * Other options created privately
    */
   [name: string]: any;
 }
 
-export interface CaretWorkerParams {
+export interface KeyboardControllerParams {
   getOptions: () => KeyboardOptions;
   keyboardInstance: Keyboard;
 }
 
-export type CaretPosition = number | null;
-
-export interface PhysicalKeyboardParams {
-  getOptions: () => KeyboardOptions;
-}
+export type CaretWorkerParams = KeyboardControllerParams;
+export type PhysicalKeyboardParams = KeyboardControllerParams;
+export type TouchKeyboardParams = KeyboardControllerParams;

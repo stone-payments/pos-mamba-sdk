@@ -1,9 +1,36 @@
 <div class="mb-keyboard-bundle">
   <Input
     ref:inputComponent
-    autofocus
+
+    {value}
+
+    autofocus={true}
+    {forcefocus}
+    {readonly}
+    {placeholder}
+
+    {textColor}
+    {align}
+    {bgColor}
+    {textColor}
+    {labelColor}
+
+    {type}
+    {alphanumeric}
+    {disabled}
+    {readable}
+
     label="CPF/CNPJ"
     mask={['###.###.###-##', '##.###.###/####-##']}
+
+    {validation}
+    {validateOn}
+
+    on:keydown
+    on:focus
+    on:blur
+    on:keyup
+    on:input
   />
   <div ref:keyboardRoot class="mb-keyboard-input"></div>
 </div>
@@ -18,8 +45,9 @@
     },
     oncreate() {
       // initAppSignals(this);
+      // eslint-disable-next-line no-unused-vars
       const { keyboardRoot, inputComponent } = this.refs;
-      // const { input: inputElement } = inputComponent.refs;
+      // const { input: inputDOMElement } = inputComponent.refs;
 
       // function setInputCaretPosition(elem, pos) {
       //   if (elem.setSelectionRange) {
@@ -64,7 +92,13 @@
 
       function onChange(input, e) {
         console.log('[onChange] Input changed', input, e);
-        inputComponent.set({ value: input });
+        // dispatchKeybaordEvent(inputDOMElement, '6', e);
+
+        // inputComponent.set({ value: input });
+
+        /* new InputEvent('input', {
+
+        }); */
       }
 
       // function onKeyPress(button) {
@@ -75,6 +109,7 @@
       //   console.log('[onFunctionKeyPress] Button pressed', button, e);
       // }
 
+      // eslint-disable-next-line no-unused-vars
       const keyboard = new Keyboard(keyboardRoot, {
         onChange: (input, e) => onChange(input, e),
         // onKeyPress: (button, e) => onKeyPress(button, e),
@@ -120,9 +155,9 @@
       /**
        * Update mamba-keyboard when input is changed directly
        */
-      inputComponent.on('input', (event) => {
+      /* inputComponent.on('input', (event) => {
         keyboard.setInput(event.target.value);
-      });
+      }); */
     },
   };
 </script>

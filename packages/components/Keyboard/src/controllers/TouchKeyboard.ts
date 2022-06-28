@@ -13,6 +13,12 @@ class UITouchKeyboard {
     this.generalKeyboard = GeneralKeyboard;
   }
 
+  /**
+   * Get virtual keyboard instance
+   * @param params Keyboard options. Same of {@link KeyboardOptions}
+   * @param params.getOptions Function that instance call to retrieve keyboard properties
+   * @returns `UIPhysicalKeyboard` instance
+   */
   public static getInstance(): UITouchKeyboard {
     if (!UITouchKeyboard.instance) {
       UITouchKeyboard.instance = new UITouchKeyboard();
@@ -22,8 +28,14 @@ class UITouchKeyboard {
   }
 }
 
+/**
+ * Export only type
+ */
 export type { UITouchKeyboard };
 
+/**
+ * Create or get Touch Keyboard instance
+ */
 const CreateTouchKeyboard = (): UITouchKeyboard => {
   return UITouchKeyboard.getInstance();
 };

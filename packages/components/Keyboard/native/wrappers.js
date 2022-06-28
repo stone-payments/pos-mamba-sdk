@@ -23,12 +23,29 @@ export default function (driver) {
   };
 
   /**
+   * Find the key code of given list and key map
+   * @param {string[]} list Key list to find
+   * @param {{ [key: number]: string }} map Map object with { keyCode : value }
+   * @param {string} keyName  Key name to find its code
+   * @returns {number | null} Found key code or `undefined`
+   */
+  driver.getMappedKeyCode = GeneralKeyboard.getMappedKeyCode;
+
+  /**
    * Get the key code relative to a specific key name
    * @memberof GeneralKeyboard
    * @param {string} keyName - Key name
    * @returns {number} - Relative key code
    */
   driver.getKeyCode = GeneralKeyboard.getKeyCode;
+
+  /**
+   * Get alphabet key code relative to a specific key name
+   * @memberof GeneralKeyboard
+   * @param {string} keyName - Key name
+   * @returns {number} - Relative key code
+   */
+  driver.getAlphabetKeyCode = GeneralKeyboard.getAlphabetKeyCode;
 
   /**
    * Get the key name relative to a specific key code

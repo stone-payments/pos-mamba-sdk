@@ -7,6 +7,7 @@ import { getDefaultKeyboard } from './getDefaultKeyboard';
 import { createKeyboardElement } from './createKeyboardElement';
 import { isFunction } from './isFunction';
 import { isStandardButton } from './isStandardButton';
+import { bindMethods } from './bindMethods';
 import * as ClassNames from './classNames';
 
 export {
@@ -19,5 +20,6 @@ export {
   createKeyboardElement,
   isFunction,
   isStandardButton,
+  bindMethods,
   ClassNames,
 };

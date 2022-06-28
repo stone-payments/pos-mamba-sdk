@@ -20,6 +20,7 @@ import {
   KeyboardElement,
   ButtonType,
   KeyboardType,
+  KeyboardUpdateMode,
   KeyboardTypesPredefinedOptions,
 } from '../types';
 import keyboardTypesMap from '../keyboards/keyboardTypesMap';
@@ -50,7 +51,7 @@ class Keyboard {
 
   keyboardInstanceNames!: string[];
 
-  physicalKeyboard!: UIPhysicalKeyboard;
+  physicalKeyboard?: UIPhysicalKeyboard;
 
   touchKeyboard!: UIPhysicalKeyboard;
 
@@ -160,9 +161,12 @@ class Keyboard {
     /**
      * Physical Keyboard support
      */
-    this.physicalKeyboard = CreatePhysicalKeyboard({
-      getOptions: this.getOptions,
-    });
+    if (this.options.updateMode === KeyboardUpdateMode.Auto) {
+      this.physicalKeyboard = CreatePhysicalKeyboard({
+        getOptions: this.getOptions,
+        keyboardInstance: this,
+      });
+    }
 
     /**
      * Rendering keyboard
@@ -209,11 +213,17 @@ class Keyboard {
       throw new Error('KEYBOARD_DOM_ELEMENT_ERROR');
     }
 
-    /**
-     * Define button class
-     */
-    if (typeof keyboardOptions?.activeButtonClass === 'string') {
-      this.activeButtonClass = keyboardOptions.activeButtonClass;
+    if (typeof options === 'object') {
+      /**
+       * Define button class
+       */
+      if (typeof options.activeButtonClass === 'string') {
+        this.activeButtonClass = options.activeButtonClass;
+      }
+
+      if (!options.updateMode) {
+        options.updateMode = KeyboardUpdateMode.Auto;
+      }
     }
 
     return {
@@ -407,7 +417,7 @@ class Keyboard {
       }
 
       /**
-       * Calling internalOnFunctionKeyPress
+       * Calling internalOnFunctionKeyPress of prefab keyboard type
        */
       if (typeof this.internalOnFunctionKeyPress === 'function') {
         this.internalOnFunctionKeyPress(button, this, e);
@@ -446,6 +456,17 @@ class Keyboard {
           this.caretWorker.getCaretPositionEnd(),
           `(${this.keyboardDOMClass})`,
         );
+      }
+
+      /**
+       * Directly updates the active input, if any
+       */
+      if (
+        /** on automatic mode only */
+        this.options.updateMode === KeyboardUpdateMode.Auto &&
+        this.physicalKeyboard
+      ) {
+        this.physicalKeyboard.dispatchSyntheticKeybaordEvent(button, e);
       }
 
       /**

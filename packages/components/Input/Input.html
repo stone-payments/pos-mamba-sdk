@@ -47,6 +47,9 @@
   import masker from './libs/masker.js';
   import defaultTokens from './libs/tokens.js';
 
+  const isString = (value) => typeof value === 'string';
+  const isBoolean = (value) => typeof value === 'boolean';
+
   export default {
     components: {
       Icon: '@mamba/icon',
@@ -90,7 +93,7 @@
       };
     },
     computed: {
-      rawValue({ value, tokens, mask }) {
+      rawValue({ value, tokens = defaultTokens, mask }) {
         return mask ? masker(value, mask, false, tokens) : value;
       },
       _inputType({ _visible, type }) {
@@ -103,16 +106,63 @@
       },
     },
     oncreate() {
+      /**
+       * Extended <Input> don't handle default params of data() very well, so we need parse them manually
+       */
+      console.log(this);
       if (this.options.data) {
-        const { type, maxlength, autofocus, mask } = this.options.data;
+        const {
+          value,
+          placeholder,
+          label,
+          alphanumeric,
+          type,
+          align,
+          maxlength,
+          autofocus,
+          mask,
+          tokens,
+          labelColor,
+          textColor,
+          bgColor,
+          disabled,
+          readonly,
+          forcefocus,
+          readable,
+          errorMessage,
+          validateOn,
+          validation,
+        } = this.options.data;
+
+        console.log(this.options.data);
+
+        this.set({
+          value: isString(value) ? value : '',
+          placeholder: isString(placeholder) ? placeholder : '',
+          label: isString(label) ? label : undefined,
+          tokens: isString(tokens) ? tokens : defaultTokens,
+          type: isString(type) ? type : 'text',
+          align: isString(align) ? align : 'right',
+          textColor: isString(textColor) ? textColor : neutral500,
+          labelColor: isString(labelColor) ? labelColor : neutral500,
+          bgColor: isString(bgColor) ? bgColor : '#fff',
+          alphanumeric: isBoolean(alphanumeric) ? alphanumeric : false,
+          disabled: isBoolean(disabled) ? disabled : false,
+          readonly: isBoolean(readonly) ? readonly : false,
+          forcefocus: isBoolean(forcefocus) ? forcefocus : false,
+          autofocus: isBoolean(autofocus) ? autofocus : false,
+          readable: isBoolean(readable) ? readable : false,
+          _visible: !(type === 'password'),
+          errorMessage: isString(errorMessage) ? errorMessage : undefined,
+          validateOn: isString(validateOn) ? validateOn : 'submit',
+          validation: typeof validation === 'function' ? validation : undefined,
+        });
+
+        console.log(this.get());
 
         // TODO: remove when undefined prop is not printed
         if (typeof maxlength !== 'undefined') {
           this.refs.input.setAttribute('maxlength', parseInt(maxlength, 10));
-        }
-
-        if (type === 'password') {
-          this.set({ _visible: false });
         }
 
         if (autofocus) {
@@ -252,6 +302,7 @@
         this.fire('blur', e);
       },
       _onKeyUp(e) {
+        console.log('_onKeyUp', e);
         const key = Keyboard.getKeyName(e.keyCode);
 
         this.fire('keyup', e);
@@ -292,11 +343,50 @@
         }
       },
       _onInput(e) {
-        let { value } = this.refs.input;
-
-        const { validation, validateOn, mask, tokens } = this.get();
+        console.log('_onInput', e);
+        const { validation, validateOn } = this.get();
 
         /** Mask handler */
+        const { value, validationUpdateMask } = this.handleInputMask();
+
+        if (validation) {
+          let validationUpdate = validationUpdateMask;
+
+          /** If validation is on submit, reset the validation state */
+          if (validateOn === 'submit') {
+            validationUpdate = {
+              isValid: false,
+              _errorMsg: undefined,
+            };
+          }
+
+          /** Validation state must be set at the same time as the 'value' */
+          this.set({ value, ...validationUpdate });
+        } else {
+          this.set({ value });
+        }
+
+        this.fire('input', e);
+      },
+      /** We use mousedown instead of click because it fires before the input's .focus() */
+      _onMousedown() {
+        const { type, _visible, readable } = this.get();
+        /** Change password visibility only if element is focused */
+        /* istanbul ignore else */
+        if (type === 'password' && readable) {
+          this.set({ _visible: !_visible });
+          /** We must check for the existence of the input element in case */
+          /* istanbul ignore next */
+          setTimeout(() => this.refs.input && this.focus());
+        }
+      },
+      /**
+       * Public mask handler mask to use internally and externally by @mamba/keyboard
+       */
+      handleInputMask() {
+        let { value } = this.refs.input;
+        const { mask, validation, validateOn, tokens } = this.get();
+
         if (mask) {
           const inputEl = this.refs.input;
 
@@ -320,38 +410,16 @@
           setTimeout(() => inputEl.setSelectionRange(position, position));
         }
 
-        if (validation) {
-          let validationUpdate;
-
-          /** If validation is on submit, reset the validation state */
-          if (validateOn === 'submit') {
-            validationUpdate = {
-              isValid: false,
-              _errorMsg: undefined,
-            };
-          } else {
+        if (validation && validateOn !== 'submit') {
+          if (validateOn !== 'submit') {
             const rawValue = mask ? masker(value, mask, true, tokens) : value;
-            validationUpdate = this._validate(rawValue, value);
+            const validationUpdate = this._validate(rawValue, value);
+
+            /** Validation state must be set at the same time as the 'value' */
+            return { value, ...validationUpdate };
           }
-
-          /** Validation state must be set at the same time as the 'value' */
-          this.set({ value, ...validationUpdate });
         } else {
-          this.set({ value });
-        }
-
-        this.fire('input', e);
-      },
-      /** We use mousedown instead of click because it fires before the input's .focus() */
-      _onMousedown() {
-        const { type, _visible, readable } = this.get();
-        /** Change password visibility only if element is focused */
-        /* istanbul ignore else */
-        if (type === 'password' && readable) {
-          this.set({ _visible: !_visible });
-          /** We must check for the existence of the input element in case */
-          /* istanbul ignore next */
-          setTimeout(() => this.refs.input && this.focus());
+          return { value };
         }
       },
     },

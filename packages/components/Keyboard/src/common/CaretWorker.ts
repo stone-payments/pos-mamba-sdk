@@ -356,4 +356,9 @@ class CaretWorker {
   }
 }
 
+/**
+ * Export only type
+ */
+export type { CaretWorker };
+
 export default CaretWorker;

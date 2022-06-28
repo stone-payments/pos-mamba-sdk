@@ -1,5 +1,8 @@
 import KEY_MAP from '../mappings/keyMap';
 import KEY_MAP_LIST from '../mappings/keyMapList';
+import ALPHA_KEY_MAP from '../mappings/alphabetKeyMap';
+import ALPHA_MAP_LIST from '../mappings/alphabetKeyMapList';
+
 /**
  * Responsible for the output of physical keys
  */
@@ -29,23 +32,53 @@ class UIGeneralKeyboard {
   }
 
   /**
-   * Get the key code relative to a specific key name
-   * @param keyName Key name
-   * @returns Relative key code
+   * Find the key code of given list and key map
+   *
+   * @param list Key list to find
+   * @param map Map object with { keyCode : value }
+   * @param keyName Key name to find its code
+   * @returns Found key code or `undefined`
    */
-  getKeyCode(keyName: string) {
-    if (typeof keyName !== 'string') return '';
+  getMappedKeyCode(
+    list: string[],
+    map: { [key: number]: string | string[] },
+    keyName: string,
+  ): number | null {
+    if (!Array.isArray(list)) return null;
 
-    const found = KEY_MAP_LIST.find((code) => {
-      const maped = KEY_MAP[code];
+    const found = list.find((code) => {
+      const maped: string = map[code];
       if (typeof maped === 'string') {
-        // normalize names between browser versions
-        return maped.toLowerCase() === keyName.toLowerCase();
+        const options = maped.split('');
+        return options.indexOf(keyName) !== -1;
       }
+
       return false;
     });
 
     return found ? Number.parseInt(found, 10) : null;
+  }
+
+  /**
+   * Get the key code relative to a specific key name
+   * @param keyName Key name
+   * @returns Relative key code
+   */
+  getKeyCode(keyName: string): number | null {
+    if (typeof keyName !== 'string') return null;
+    const code = this.getMappedKeyCode(KEY_MAP_LIST, KEY_MAP, keyName);
+    return code;
+  }
+
+  /**
+   * Get alphabet key code relative to a specific key name
+   * @param keyName Key name
+   * @returns Relative key code
+   */
+  getAlphabetKeyCode(keyName: string): number | null {
+    if (typeof keyName !== 'string') return null;
+    const code = this.getMappedKeyCode(ALPHA_MAP_LIST, ALPHA_KEY_MAP, keyName);
+    return code;
   }
 
   /**
@@ -67,7 +100,7 @@ class UIGeneralKeyboard {
   }
 
   /**
-   * Check if a certain key is an action key
+   * Check if a certain key is key that have an functionality
    * @param keyCode Key code
    * @returns
    */
@@ -110,7 +143,7 @@ class UIGeneralKeyboard {
 
 export type { UIGeneralKeyboard };
 
-// This is necessary to not duplicate the wrappers code and not create another class instance in order to they stay synchronized with backend config.
+// This is necessary to not duplicate the wrappers code and not create another class instance in order to they stay synchronized with backend config on embeded POS application.
 const GeneralKeyboard = new UIGeneralKeyboard();
 
 export default GeneralKeyboard;
