@@ -26,7 +26,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2018,
   },
-  globals: merge(additionalGlobals, {
+  globals: merge(additionalGlobals(), {
     __APP_ENV__: 'readonly',
     __NODE_ENV__: 'readonly',
     __BROWSER__: 'readonly',
