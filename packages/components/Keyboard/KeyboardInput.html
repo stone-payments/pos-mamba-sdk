@@ -21,7 +21,7 @@
     {readable}
 
     label="CPF/CNPJ"
-    mask={['###.###.###-##', '##.###.###/####-##']}
+
 
     {validation}
     {validateOn}
@@ -31,6 +31,8 @@
     on:blur
     on:keyup
     on:input
+
+    on:submit="submit(event)"
   />
   <div ref:keyboardRoot class="mb-keyboard-input"></div>
 </div>
@@ -90,16 +92,16 @@
 
       //
 
-      function onChange(input, e) {
-        console.log('[onChange] Input changed', input, e);
-        // dispatchKeybaordEvent(inputDOMElement, '6', e);
+      // function onChange(input, e) {
+      //   console.log('[onChange] Input changed', input, e);
+      //   // dispatchKeybaordEvent(inputDOMElement, '6', e);
 
-        // inputComponent.set({ value: input });
+      //   // inputComponent.set({ value: input });
 
-        /* new InputEvent('input', {
+      //   /* new InputEvent('input', {
 
-        }); */
-      }
+      //   }); */
+      // }
 
       // function onKeyPress(button) {
       //   console.log('[onKeyPress] Button pressed', button);
@@ -111,7 +113,7 @@
 
       // eslint-disable-next-line no-unused-vars
       const keyboard = new Keyboard(keyboardRoot, {
-        onChange: (input, e) => onChange(input, e),
+        // onChange: (input, e) => onChange(input, e),
         // onKeyPress: (button, e) => onKeyPress(button, e),
         // onFunctionKeyPress: (button, e) => onFunctionKeyPress(button, e),
         // onRender: (instance) => {
@@ -158,6 +160,11 @@
       /* inputComponent.on('input', (event) => {
         keyboard.setInput(event.target.value);
       }); */
+    },
+    methods: {
+      submit(event) {
+        console.log('SUBMIT', event);
+      },
     },
   };
 </script>

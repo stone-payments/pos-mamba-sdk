@@ -38,10 +38,6 @@ $level-shadow-color: rgba(0, 0, 0, 0.2);
       margin-right: 3px;
     }
 
-    & .mb-button-container {
-      margin-right: 2px;
-    }
-
     & > div:last-child {
       margin-right: 0;
     }

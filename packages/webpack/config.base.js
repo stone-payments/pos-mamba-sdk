@@ -37,8 +37,6 @@ const definePluginOptions = merge(clientEnvironment('webpack'), {
   __BROWSER__: IS_BROWSER,
 });
 
-console.log(definePluginOptions);
-
 module.exports = {
   mode: IS_PROD ? 'production' : 'development',
   cache: true,

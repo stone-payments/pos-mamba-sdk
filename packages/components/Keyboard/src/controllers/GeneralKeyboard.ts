@@ -4,7 +4,7 @@ import ALPHA_KEY_MAP from '../mappings/alphabetKeyMap';
 import ALPHA_MAP_LIST from '../mappings/alphabetKeyMapList';
 
 /**
- * Responsible for the output of physical keys
+ *  General methods to map and handle keys, and change keyboard mode
  */
 class UIGeneralKeyboard {
   /**
@@ -43,20 +43,18 @@ class UIGeneralKeyboard {
     list: string[],
     map: { [key: number]: string | string[] },
     keyName: string,
-  ): number | null {
+  ): string | null {
     if (!Array.isArray(list)) return null;
 
     const found = list.find((code) => {
       const maped: string = map[code];
-      if (typeof maped === 'string') {
-        const options = maped.split('');
-        return options.indexOf(keyName) !== -1;
-      }
+      if (Array.isArray(maped)) return maped.indexOf(keyName) !== -1;
+      if (typeof maped === 'string') return maped === keyName;
 
       return false;
     });
 
-    return found ? Number.parseInt(found, 10) : null;
+    return found || null;
   }
 
   /**
@@ -67,7 +65,7 @@ class UIGeneralKeyboard {
   getKeyCode(keyName: string): number | null {
     if (typeof keyName !== 'string') return null;
     const code = this.getMappedKeyCode(KEY_MAP_LIST, KEY_MAP, keyName);
-    return code;
+    return code ? Number.parseInt(code, 10) : null;
   }
 
   /**
@@ -75,7 +73,7 @@ class UIGeneralKeyboard {
    * @param keyName Key name
    * @returns Relative key code
    */
-  getAlphabetKeyCode(keyName: string): number | null {
+  getAlphabetKeyCode(keyName: string): any {
     if (typeof keyName !== 'string') return null;
     const code = this.getMappedKeyCode(ALPHA_MAP_LIST, ALPHA_KEY_MAP, keyName);
     return code;
@@ -87,7 +85,13 @@ class UIGeneralKeyboard {
    * @returns Relative key name
    */
   getKeyName(keyCode: number) {
-    return KEY_MAP[keyCode];
+    const key = KEY_MAP[keyCode];
+    if (key) {
+      // Draw back to old values
+      return String(KEY_MAP[keyCode]).toLowerCase();
+    }
+
+    return key;
   }
 
   /**

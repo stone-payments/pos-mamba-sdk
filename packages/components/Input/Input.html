@@ -303,7 +303,25 @@
       },
       _onKeyUp(e) {
         console.log('_onKeyUp', e);
-        const key = Keyboard.getKeyName(e.keyCode);
+        console.log(
+          `➡️ ${JSON.stringify(
+            {
+              key: e.key,
+              keyCode: e.keyCode,
+              charCode: e.charCode,
+              code: e.code,
+              keyIdentifier: e.keyIdentifier,
+            },
+            null,
+            2,
+          )}`,
+        );
+        /**
+         * - Use e.key(string) on some events on simulator or POS
+         * - Use e.keyIdentifier(string) to work on POS values
+         * - Use e.code(number) to work with alphabet keyboard
+         */
+        const key = Keyboard.getKeyName(e.code || e.keyCode || e.key);
 
         this.fire('keyup', e);
 

@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-syntax */
 
 /**
- * Bind all methods in a given class
+ * Bind all methods in a given class. Useful for register and destroy listeners
  */
 export function bindMethods(myClass: any, instance: any) {
   // eslint-disable-next-line no-unused-vars

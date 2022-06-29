@@ -95,8 +95,6 @@ class CaretWorker {
     positionEnd: number = source.length,
     moveCaret = false,
   ) {
-    console.log(source, str, position, positionEnd, moveCaret);
-
     let output;
 
     if (!position && position !== 0) {
@@ -195,15 +193,9 @@ class CaretWorker {
    * Called by {@link setEventListeners} when an event that warrants a cursor position update is triggered
    */
   private caretEventHandler(event: KeyboardHandlerEvent): void {
-    // console.log(event.target);
-
     if (!this) return;
     const options = this.getOptions();
     const isDOMInputType = event.target instanceof HTMLInputElement;
-
-    /* if (isDOMInputType) {
-      debugger;
-    } */
 
     const isKeyboard =
       event.target === this.keyboardInstance.keyboardDOM ||
@@ -219,11 +211,6 @@ class CaretWorker {
        * As keys are pressed, text will be added/removed at that position within the input.
        */
       this.setCaretPosition(event.target.selectionStart, event.target.selectionEnd);
-
-      /**
-       * Tracking current input in order to handle caret positioning edge cases
-       */
-      this.keyboardInstance.activeInputElement = event.target;
 
       if (options.debug) {
         console.log(
@@ -242,11 +229,6 @@ class CaretWorker {
        * If we toggled off disableCaretPositioning, we must ensure caretPosition doesn't persist once reactivated.
        */
       this.setCaretPosition(null);
-
-      /**
-       * Resetting activeInputElement
-       */
-      this.keyboardInstance.activeInputElement = null;
 
       if (options.debug) {
         console.log(`Caret position reset due to "${event?.type}" event`, event);

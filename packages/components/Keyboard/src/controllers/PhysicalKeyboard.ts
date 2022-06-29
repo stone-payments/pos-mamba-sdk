@@ -4,16 +4,17 @@ import {
   PhysicalKeyboardParams,
   KeyboardInputOption,
   KeyboardUpdateMode,
+  ButtonType,
 } from '../types';
 import type Keyboard from '../components/Keyboard';
 import type { UIGeneralKeyboard } from './GeneralKeyboard';
 import GeneralKeyboard from './GeneralKeyboard';
 import { bindMethods } from '../helpers';
-import alphabetKeyModifiers from '../mappings/alphabetKeyModifiers';
-import SyntheticKeyEvent from './SyntheticKeyEvent';
+import alphabetKeyMap from '../mappings/alphabetKeyMap';
+import { anyBraces } from '../common/regExps';
 
 /**
- * Responsible for the output of physical keys
+ * Responsible for handle alphabet keyboard on physical device keys directly
  */
 class UIPhysicalKeyboard {
   private generalKeyboard!: UIGeneralKeyboard;
@@ -50,15 +51,26 @@ class UIPhysicalKeyboard {
   }
 
   /**
+   * Handles input on blur
+   *
+   * @param e
+   */
+  handleInputTargetBlur(e?: any) {
+    if (e && e.target && this.isProperInput(e.target)) {
+      e.target.removeEventListener('input', this.handleDOMInputChange);
+      e.target.removeEventListener('blur', this.handleInputTargetBlur);
+    }
+  }
+
+  /**
    * Handles any focus element
    *
    * @param e
    */
   handleFocusIn(e?: FocusEvent) {
-    if (e) {
-      if (e.target && this.isProperInput(e.target)) {
-        e.target.addEventListener('input', this.handleDOMInputChange);
-      }
+    if (e && e.target && this.isProperInput(e.target)) {
+      e.target.addEventListener('input', this.handleDOMInputChange);
+      e.target.addEventListener('blur', this.handleInputTargetBlur);
     }
   }
 
@@ -87,16 +99,28 @@ class UIPhysicalKeyboard {
     return UIPhysicalKeyboard.instance;
   }
 
+  /**
+   * Force define some event properties
+   * This is more a hack for POS old browser.
+   * May remove later with a modern browser to use KeyEvent constructor
+   *
+   * @param obj
+   * @param prop
+   * @param value
+   */
   private defineProperty(obj: any, prop: string, value: any) {
     try {
       Object.defineProperty(obj, prop, {
         configurable: true,
         get() {
+          if (prop === 'code') {
+            return Number.parseInt(value, 10);
+          }
           return value;
         },
       });
     } catch (_) {
-      if (__DEV__) console.log(`defineProperty failed on ${prop}`);
+      // do nothing
     }
   }
 
@@ -110,54 +134,45 @@ class UIPhysicalKeyboard {
    */
   private createSyntheticKeyEvent(
     eventType: string,
-    code?: number | undefined,
-    keyName?: string,
+    code: number,
+    keyName: string,
   ): KeyboardHandlerEvent {
     const options = this.getOptions();
+    /**
+     * Create Keyboard event using old API compatible with POS Browser version
+     */
+    const event = document.createEvent('KeyboardEvent');
 
-    let event;
-
-    const { shift = false } = alphabetKeyModifiers[keyName || ''] || {};
-
-    // try {
-    // eslint-disable-next-line prefer-const
-    event = document.createEvent('KeyboardEvent');
-
-    event.initKeyboardEvent(eventType, true, true, window, keyName, 0, false, false, shift, false);
-
-    // if (__SIMULATOR__) {
-    this.defineProperty(event, 'keyCode', code);
-    this.defineProperty(event, 'which', code);
-    this.defineProperty(event, 'charCode', code);
+    /**
+     * Hack event properties
+     */
     this.defineProperty(event, 'key', keyName);
-    // }
+    this.defineProperty(event, 'code', code);
 
-    const syntheticEvent = new SyntheticKeyEvent();
-    console.log(syntheticEvent);
+    const shiftModifier = alphabetKeyMap[code].indexOf(keyName) > 0;
 
-    /* } catch (_) {
-      event = new KeyboardEvent(eventType, {
-        bubbles: true,
-        cancelable: true,
-        key: keyName,
-        charCode: code,
-        keyCode: code,
-        which: code,
-      });
-    } */
+    /**
+     * initKeyboardEvent: method compatible with POS
+     */
+    event.initKeyboardEvent(
+      eventType,
+      true,
+      true,
+      window,
+      keyName,
+      0,
+      false,
+      false,
+      shiftModifier,
+      false,
+    );
 
     if (options.debug) {
       console.log(
-        `SyntheticKeyEvent created ${JSON.stringify({
+        `KeyEvent ${JSON.stringify({
           eventType,
-          options: {
-            bubbles: true,
-            cancelable: true,
-            key: keyName,
-            charCode: code,
-            keyCode: code,
-            which: code,
-          },
+          code,
+          key: keyName,
         })}`,
         event,
       );
@@ -204,12 +219,13 @@ class UIPhysicalKeyboard {
   /**
    * Dispatch keyboard event to custom input or active document element
    */
-  dispatchSyntheticKeybaordEvent(button: string, e?: KeyboardHandlerEvent) {
+  dispatchSyntheticKeybaordEvent(button: string, buttonType: ButtonType, e?: KeyboardHandlerEvent) {
     const options = this.getOptions();
 
     if (e) {
       /**
        *  Calling preventDefault for the mousedown events keeps the focus on the input.
+       * Its importante not stop event propagation in this stage.
        */
       e.preventDefault();
     }
@@ -240,6 +256,14 @@ class UIPhysicalKeyboard {
     const isElementFocused = document.activeElement
       ? document.activeElement.contains(targetElement)
       : false;
+
+    /**
+     * Convert layout button to keyName
+     */
+    if (buttonType === ButtonType.Function) {
+      button = button.replace(anyBraces, '');
+      button = `${button[0].toUpperCase()}${button.slice(1)}`;
+    }
 
     /** Get the alpha code of a key of keyboard */
     const keyCode = this.generalKeyboard.getAlphabetKeyCode(button);

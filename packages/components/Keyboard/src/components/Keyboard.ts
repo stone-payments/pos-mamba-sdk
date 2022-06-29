@@ -61,8 +61,6 @@ class Keyboard {
 
   keyboardRowsDOM!: KeyboardElement;
 
-  activeInputElement: HTMLInputElement | HTMLTextAreaElement | null = null;
-
   keyboardType: KeyboardType = KeyboardType.Default;
 
   defaultLayoutAndName = 'default';
@@ -224,6 +222,16 @@ class Keyboard {
       if (!options.updateMode) {
         options.updateMode = KeyboardUpdateMode.Auto;
       }
+
+      /**
+       * Redirect input DOM pattern attribute value to pattern mechanism here
+       */
+      if (options.input) {
+        const pattern = options.input.getAttribute('pattern');
+        if (pattern) {
+          options.inputPattern = pattern;
+        }
+      }
     }
 
     return {
@@ -384,7 +392,6 @@ class Keyboard {
    * @param button The button's layout name.
    */
   private handleButtonClicked(button: string, e?: KeyboardHandlerEvent): void {
-    const { debug } = this.options;
     /**
      * Ignoring placeholder buttons
      */
@@ -406,9 +413,14 @@ class Keyboard {
     if (typeof this.options.onKeyPress === 'function') this.options.onKeyPress(button, e);
 
     /**
+     * Defining button type {@link ButtonType}
+     */
+    const buttonType: ButtonType = getButtonType(button);
+
+    /**
      * If key is a function key lie "{alt}". Calling function key press eventd
      */
-    if (getButtonType(button) === ButtonType.Function) {
+    if (buttonType === ButtonType.Function) {
       /**
        * Calling onFunctionKeyPress
        */
@@ -424,6 +436,11 @@ class Keyboard {
       }
     }
 
+    /**
+     * Define is pattern and value is valid
+     */
+    const isValidInputPattern = this.options.inputPattern && this.inputPatternIsValid(updatedInput);
+
     if (
       // If input will change as a result of this button press
       this.input.default !== updatedInput &&
@@ -431,7 +448,7 @@ class Keyboard {
       // If inputPattern isn't set
       (!this.options.inputPattern ||
         // Or, if it is set and if the pattern is valid - we proceed.
-        (this.options.inputPattern && this.inputPatternIsValid(updatedInput)))
+        isValidInputPattern)
     ) {
       /**
        * If maxLength and handleMaxLength yield true, halting
@@ -447,9 +464,9 @@ class Keyboard {
 
       this.setInput(newInputValue);
 
-      if (debug) console.log('Input changed:', this.getInput());
-
       if (this.options.debug) {
+        console.log('Input changed:', this.getInput());
+
         console.log(
           'Caret at: ',
           this.caretWorker.getCaretPosition(),
@@ -459,20 +476,23 @@ class Keyboard {
       }
 
       /**
-       * Directly updates the active input, if any
-       */
-      if (
-        /** on automatic mode only */
-        this.options.updateMode === KeyboardUpdateMode.Auto &&
-        this.physicalKeyboard
-      ) {
-        this.physicalKeyboard.dispatchSyntheticKeybaordEvent(button, e);
-      }
-
-      /**
        * Calling onChange
        */
       if (typeof this.options.onChange === 'function') this.options.onChange(this.getInput(), e);
+    }
+
+    /**
+     * Directly updates the active input, if any
+     * This events need call always to dispatch synthetic function/action keys
+     */
+    if (
+      /** Check for pattern again in order to avoid unnecessary calls */
+      (!this.options.inputPattern || isValidInputPattern) &&
+      /** on automatic mode only */
+      this.options.updateMode === KeyboardUpdateMode.Auto &&
+      this.physicalKeyboard
+    ) {
+      this.physicalKeyboard.dispatchSyntheticKeybaordEvent(button, buttonType, e);
     }
 
     /**
@@ -480,7 +500,7 @@ class Keyboard {
      */
     this.handleActiveButton(e);
 
-    if (debug) {
+    if (this.options.debug) {
       console.log('Key pressed:', button);
     }
   }
@@ -569,72 +589,6 @@ class Keyboard {
   }
 
   /**
-   * Parse Row DOM containers
-   */
-  private parseRowDOMContainers(
-    rowDOM: HTMLDivElement,
-    rowIndex: number,
-    containerStartIndexes: number[],
-    containerEndIndexes: number[],
-  ) {
-    const rowDOMArray = Array.from(rowDOM.children);
-    let removedElements = 0;
-
-    if (rowDOMArray.length) {
-      containerStartIndexes.forEach((startIndex, arrIndex) => {
-        const endIndex = containerEndIndexes[arrIndex];
-
-        /**
-         * If there exists a respective end index
-         * if end index comes after start index
-         */
-        if (!endIndex || !(endIndex > startIndex)) {
-          return false;
-        }
-
-        /**
-         * Updated startIndex, endIndex
-         * This is since the removal of buttons to place a single button container
-         * results in a modified array size
-         */
-        const updated_startIndex = startIndex - removedElements;
-        const updated_endIndex = endIndex - removedElements;
-
-        /**
-         * Taking elements due to be inserted into container
-         */
-        const containedElements = rowDOMArray.splice(
-          updated_startIndex,
-          updated_endIndex - updated_startIndex + 1,
-        );
-        removedElements = updated_endIndex - updated_startIndex;
-
-        /**
-         * Clearing old rowDOM children structure
-         */
-        rowDOM.innerHTML = '';
-
-        /**
-         * Appending rowDOM new children list
-         */
-        rowDOMArray.forEach((element) => rowDOM.appendChild(element));
-
-        if (this.options.debug) {
-          console.log(
-            'rowDOMContainer',
-            containedElements,
-            updated_startIndex,
-            updated_endIndex,
-            removedElements + 1,
-          );
-        }
-      });
-    }
-
-    return rowDOM;
-  }
-
-  /**
    * getKeyboardClassString
    */
   private getKeyboardClassString = (...baseDOMClasses: any[]) => {
@@ -710,54 +664,12 @@ class Keyboard {
       /**
        * Creating empty row
        */
-      let rowDOM = createKeyboardElement(ClassNames.rowPrefix) as HTMLDivElement;
-
-      /**
-       * Tracking container indicators in rows
-       */
-      const containerStartIndexes: number[] = [];
-      const containerEndIndexes: number[] = [];
+      const rowDOM = createKeyboardElement(ClassNames.rowPrefix) as HTMLDivElement;
 
       /**
        * Iterating through each button in row
        */
       rowArray.forEach((button: any, bIndex: any) => {
-        /**
-         * Check if button has a container indicator
-         */
-        const buttonHasContainerStart =
-          !this.options.disableRowButtonContainers &&
-          typeof button === 'string' &&
-          button.length > 1 &&
-          button.indexOf('[') === 0;
-
-        const buttonHasContainerEnd =
-          !this.options.disableRowButtonContainers &&
-          typeof button === 'string' &&
-          button.length > 1 &&
-          button.indexOf(']') === button.length - 1;
-
-        /**
-         * Save container start index, if applicable
-         */
-        if (buttonHasContainerStart) {
-          containerStartIndexes.push(bIndex);
-
-          /**
-           * Removing indicator
-           */
-          button = button.replace(/\[/g, '');
-        }
-
-        if (buttonHasContainerEnd) {
-          containerEndIndexes.push(bIndex);
-
-          /**
-           * Removing indicator
-           */
-          button = button.replace(/\]/g, '');
-        }
-
         /**
          * Processing button options
          */
@@ -803,16 +715,6 @@ class Keyboard {
          */
         rowDOM.appendChild(buttonDOM);
       });
-
-      /**
-       * Parse containers in row
-       */
-      rowDOM = this.parseRowDOMContainers(
-        rowDOM,
-        rIndex,
-        containerStartIndexes,
-        containerEndIndexes,
-      );
 
       /**
        * Appending row to mb-rows
