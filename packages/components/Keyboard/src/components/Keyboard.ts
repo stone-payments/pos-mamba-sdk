@@ -68,14 +68,6 @@ class Keyboard {
 
   defaultLayoutAndName = 'default';
 
-  /**
-   * Controls keyboard visibility, to handle effects
-   */
-  public set visibility(value: KeyboardVisibility) {
-    this.keyboardVisible = value;
-    this.handleKeyboardVisibility();
-  }
-
   internalOnFunctionKeyPress?: (
     button: string,
     instance: Keyboard,
@@ -326,6 +318,18 @@ class Keyboard {
    */
 
   /**
+   * Controls keyboard visibility, to handle effects
+   */
+  public set visibility(value: KeyboardVisibility) {
+    if (this.options.keepVisible === true) {
+      value = KeyboardVisibility.Visible;
+    }
+
+    this.keyboardVisible = value;
+    this.handleKeyboardVisibility();
+  }
+
+  /**
    * Retrieve instance options
    * @returns Parsed options
    */
@@ -387,17 +391,6 @@ class Keyboard {
   }
 
   /**
-   * Detecting changes to non-function options
-   * This allows us to ascertain whether a button re-render is needed
-   */
-  private changedOptions(newOptions: Partial<KeyboardOptions>): string[] {
-    return Object.keys(newOptions).filter(
-      (optionName) =>
-        JSON.stringify(newOptions[optionName]) !== JSON.stringify(this.options[optionName]),
-    );
-  }
-
-  /**
    * Get the DOM Element of a button. If there are several buttons with the same name, an array of the DOM Elements is returned.
    * @param button The button layout name to select
    */
@@ -445,6 +438,17 @@ class Keyboard {
   /**
    * ! Internal methods
    */
+
+  /**
+   * Detecting changes to non-function options
+   * This allows us to ascertain whether a button re-render is needed
+   */
+  private changedOptions(newOptions: Partial<KeyboardOptions>): string[] {
+    return Object.keys(newOptions).filter(
+      (optionName) =>
+        JSON.stringify(newOptions[optionName]) !== JSON.stringify(this.options[optionName]),
+    );
+  }
 
   /**
    * Handles clicks made to keyboard buttons

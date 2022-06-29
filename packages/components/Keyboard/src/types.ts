@@ -15,7 +15,6 @@ export interface KeyboardInput {
 }
 
 export type CaretPosition = number | null;
-
 export type KeyboardElement = HTMLDivElement | HTMLButtonElement | HTMLSpanElement;
 export type KeyboardInputOption = HTMLInputElement | HTMLDivElement | HTMLElement | undefined;
 export type KeyboardHandlerEvent = KeyboardEvent | MouseEvent | PointerEvent | UIEvent | Event;
@@ -210,7 +209,14 @@ export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents
   updateMode?: KeyboardUpdateMode;
 
   /**
-   * Other options created privately
+   * Keep keyboard visible (dont hide when input loose focus)
+   *
+   * @defaultValue `false`
+   */
+  keepVisible?: boolean;
+
+  /**
+   * Other options can exist
    */
   [name: string]: any;
 }
