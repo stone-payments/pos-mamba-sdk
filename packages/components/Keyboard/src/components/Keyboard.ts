@@ -180,7 +180,7 @@ class Keyboard {
    * Parse params
    */
   private handleParams = (
-    element?: HTMLDivElement,
+    elementOrOptions?: HTMLDivElement | KeyboardOptions,
     keyboardOptions?: KeyboardOptions,
   ): {
     keyboardDOM: KeyboardElement;
@@ -189,26 +189,59 @@ class Keyboard {
   } => {
     let keyboardDOM = null;
     let keyboardDOMClass;
-    const options = keyboardOptions;
+    let options = keyboardOptions;
 
     /**
      * If first parameter is an HTMLDivElement
      * Consider it as the keyboard DOM element
      */
-    if (element instanceof HTMLDivElement) {
+    if (elementOrOptions instanceof HTMLDivElement) {
       /**
        * This element must have a class, otherwise throw
        */
-      if (!element.className) {
+      if (!elementOrOptions.className) {
         console.warn('DOM Div element passed as parameter must have a class.');
         throw new Error('KEYBOARD_DOM_CLASS_ERROR');
       }
 
-      keyboardDOMClass = element.className.split(' ')[0];
-      keyboardDOM = element;
+      keyboardDOMClass = elementOrOptions.className.split(' ')[0];
+      keyboardDOM = elementOrOptions;
+      /**
+       * Otherwise, add it to the bottom of the window bounds. (Default)
+       */
     } else {
-      console.error('Keyboard without a DOM element for render.');
-      throw new Error('KEYBOARD_DOM_ELEMENT_ERROR');
+      /**
+       * Create a generic keyboard wrapper
+       */
+      keyboardDOM = createKeyboardElement(
+        `${ClassNames.keyBoardPrefix}-generic-wrapper`,
+      ) as HTMLDivElement;
+      keyboardDOMClass = keyboardDOM.className;
+      options = elementOrOptions;
+
+      /**
+       * Let's query the pos simulator app window to add there
+       */
+      if (__SIMULATOR__) {
+        const simulatorWindow = document.querySelector(
+          '#apps-container > div:first-child',
+        ) as KeyboardElement;
+
+        if (!simulatorWindow) throw new Error('SIMULATOR_WINDOW_NOT_FOUND');
+        simulatorWindow.appendChild(keyboardDOM);
+      } else {
+        /**
+         * Get Svelte app root and add keyboard there
+         */
+        const appRoot = document.getElementById('app-root');
+
+        if (!appRoot) {
+          console.log('app-root not found');
+          throw new Error('KEYBOARD_DOM_ELEMENT_ERROR');
+        }
+
+        appRoot.appendChild(keyboardDOM);
+      }
     }
 
     if (typeof options === 'object') {
@@ -665,6 +698,10 @@ class Keyboard {
        * Creating empty row
        */
       const rowDOM = createKeyboardElement(ClassNames.rowPrefix) as HTMLDivElement;
+
+      rowDOM.onmousedown = (event) => {
+        event.preventDefault();
+      };
 
       /**
        * Iterating through each button in row

@@ -2,11 +2,14 @@
 
 $level-shadow-color: rgba(0, 0, 0, 0.2);
 
-.mb-keyboard-theme-default {
+.mb-keyboard-generic-wrapper {
   position: fixed;
   bottom: 0;
   right: 0;
   left: 0;
+}
+
+.mb-keyboard-theme-default {
   user-select: none;
   overflow: hidden;
   background-color: $neutral100;
@@ -22,6 +25,7 @@ $level-shadow-color: rgba(0, 0, 0, 0.2);
 
   & .mb-row {
     display: flex;
+    user-select: none;
     flex-direction: row;
     justify-content: center;
 
@@ -179,6 +183,7 @@ $level-shadow-color: rgba(0, 0, 0, 0.2);
 }
 
 .mamba-app:not(.S920) {
+  & + .mb-keyboard-theme-default,
   .mb-keyboard-theme-default {
     & .mb-button {
       box-shadow: 0 1px 1px $level-shadow-color;
@@ -194,6 +199,7 @@ $level-shadow-color: rgba(0, 0, 0, 0.2);
 }
 
 .mamba-app.S920 {
+  & + .mb-keyboard-theme-default,
   .mb-keyboard-theme-default {
     & .mb-button {
       border-bottom: 1px inset $level-shadow-color;

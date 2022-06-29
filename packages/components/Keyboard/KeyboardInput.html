@@ -34,7 +34,7 @@
 
     on:submit="submit(event)"
   />
-  <div ref:keyboardRoot class="mb-keyboard-input"></div>
+  <!-- <div ref:keyboardRoot class="mb-keyboard-input"></div> -->
 </div>
 
 <script>
@@ -48,7 +48,7 @@
     oncreate() {
       // initAppSignals(this);
       // eslint-disable-next-line no-unused-vars
-      const { keyboardRoot, inputComponent } = this.refs;
+      const { /* keyboardRoot, */ inputComponent } = this.refs;
       // const { input: inputDOMElement } = inputComponent.refs;
 
       // function setInputCaretPosition(elem, pos) {
@@ -112,7 +112,7 @@
       // }
 
       // eslint-disable-next-line no-unused-vars
-      const keyboard = new Keyboard(keyboardRoot, {
+      const keyboard = new Keyboard({
         // onChange: (input, e) => onChange(input, e),
         // onKeyPress: (button, e) => onKeyPress(button, e),
         // onFunctionKeyPress: (button, e) => onFunctionKeyPress(button, e),
