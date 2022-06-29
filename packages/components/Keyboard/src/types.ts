@@ -49,6 +49,7 @@ export enum KeyboardType {
   Numeric = 'numeric',
   Email = 'email',
   Phone = 'phone',
+  Math = 'math',
   Custom = 'custom',
 }
 
