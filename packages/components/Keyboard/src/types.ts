@@ -39,6 +39,11 @@ export enum KeyboardVisibility {
   Visible = 'visible',
 }
 
+export enum LayoutDirection {
+  Horizontal = 'horizontal',
+  Vertical = 'vertical',
+}
+
 export enum KeyboardType {
   Default = 'default',
   Numeric = 'numeric',
@@ -89,6 +94,11 @@ export interface KeyboardTypeOptions {
    * Specifies which layout should be used inside the "layout" option, useful to handle function keys (e.g. "{shift}")". This should be used in addition to `keyboardType` setted to 'KeyboardType.Custom'. Initial layout also can be defined here.
    */
   layoutName?: string;
+
+  /**
+   * Specifies which direction layout should render. Horizontaly or Verticaly.
+   */
+  layoutDirection?: LayoutDirection;
 
   /**
    * A prop to add your own css classes to the keyboard wrapper.

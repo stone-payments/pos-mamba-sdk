@@ -1,4 +1,4 @@
-import { KeyboardType } from '../types';
+import { KeyboardType, LayoutDirection } from '../types';
 import { themeDefault } from '../helpers/classNames';
 import {
   $default,
@@ -21,6 +21,7 @@ import type { KeyboardHandlerEvent, KeyboardTypesPredefinedOptions } from '../ty
 const keyboard: KeyboardTypesPredefinedOptions = {
   layoutName: 'default',
   keyboardType: KeyboardType.Default,
+  layoutDirection: LayoutDirection.Horizontal,
   theme: themeDefault,
   layout: {
     default: [
