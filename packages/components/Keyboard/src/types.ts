@@ -24,26 +24,46 @@ export interface KeyboardButtonElements {
   [key: string]: KeyboardElement[];
 }
 
+/**
+ * Keyboard update mode
+ * @enum
+ */
 export enum KeyboardUpdateMode {
   Auto = 'auto',
   Manual = 'manual',
 }
 
+/**
+ * Layout button type
+ * @enum
+ */
 export enum ButtonType {
   Standard = 'standard-btn',
   Function = 'function-btn',
 }
 
+/**
+ * Keyboard visibility
+ * @enum
+ */
 export enum KeyboardVisibility {
   Hidden = 'hidden',
   Visible = 'visible',
 }
 
+/**
+ * Layout row direction
+ * @enum
+ */
 export enum LayoutDirection {
   Horizontal = 'horizontal',
   Vertical = 'vertical',
 }
 
+/**
+ * Keyboard type
+ * @enum
+ */
 export enum KeyboardType {
   Default = 'default',
   Numeric = 'numeric',
@@ -82,22 +102,24 @@ export interface KeyboardTypeEvents {
 
 export interface KeyboardTypeOptions {
   /**
-   * Specifies which keyboard type should be used out of the box. Default `KeyboardType.Default`
+   * Specifies which keyboard type should be used out of the box.
+   * @defaultValue {@link KeyboardType.Default}
    */
   keyboardType?: KeyboardType;
 
   /**
-   * Specifies a custom keyboard layout to be used. This should be used in addition to `keyboardType` setted to 'KeyboardType.Custom'
+   * Specifies a custom keyboard layout to be used. This should be used in addition to {@link KeyboardType} setted to {@link KeyboardType.Custom}
    */
   layout?: KeyboardLayoutObject;
 
   /**
-   * Specifies which layout should be used inside the "layout" option, useful to handle function keys (e.g. "{shift}")". This should be used in addition to `keyboardType` setted to 'KeyboardType.Custom'. Initial layout also can be defined here.
+   * Specifies which layout should be used inside the "layout" option, useful to handle function keys (e.g. "{shift}")". This should be used in addition to {@link KeyboardType} setted to {@link KeyboardType.Custom}. Initial layout also can be defined here.
    */
   layoutName?: string;
 
   /**
    * Specifies which direction layout should render. Horizontaly or Verticaly.
+   * @defaultValue {@link LayoutDirection.Horizontal}
    */
   layoutDirection?: LayoutDirection;
 
@@ -164,8 +186,9 @@ export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents
 
   /**
    * Specifies if keyboard should operate automatic or manually.
-   * - In automatic(`auto`) mode, it will try handle input key press value on focused elements. (Default)
-   * - In manually(`manual`) mode, it will leave the changes to you handle outside, using {@link KeyboardTypeEvents.onChange} event along with `oninput` DOM event.
+   * - In automatic({@link KeyboardUpdateMode.Auto}) mode, it will try handle input key press value on focused elements.
+   *
+   * - In manually({@link KeyboardUpdateMode.Manual}) mode, it will leave the changes to you handle outside, using {@link KeyboardTypeEvents.onChange} event along with `oninput` DOM event.
    * @example
    * ```js
    * function onChange(input, e) {
@@ -181,6 +204,8 @@ export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents
    * });
    *
    * ```
+   *
+   * @defaultValue {@link KeyboardUpdateMode.Auto}
    */
   updateMode?: KeyboardUpdateMode;
 

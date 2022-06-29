@@ -15,7 +15,10 @@ import alphabetKeyMap from '../mappings/alphabetKeyMap';
 import { anyBraces } from '../common/regExps';
 
 /**
- * Responsible for handle alphabet keyboard on physical device keys directly
+ * Responsible for handle alphabet keyboard towards physical device keys directly
+ * Handle automatic screen focus
+ * Send synthetic events to handle input post-processing (e.g. masks)
+ * Keeps inputs synchronized
  */
 class UIPhysicalKeyboard {
   private generalKeyboard!: UIGeneralKeyboard;
@@ -132,6 +135,8 @@ class UIPhysicalKeyboard {
 
   /**
    * Creates synthetic key event
+   *
+   * @see [keyboardEvent](https://www.w3.org/TR/uievents/#dom-keyboardevent-initkeyboardevent)
    *
    * @param event Native/origina event pointer
    * @param code Key code
@@ -309,6 +314,9 @@ class UIPhysicalKeyboard {
     targetElement.dispatchEvent(this.createSyntheticKeyEvent('keypress', keyCode, button));
 
     if (isElementFocused) {
+      /**
+       * POS old browser do not support DOM InputEvent, so we send the same KeyEvent.
+       */
       targetElement.dispatchEvent(this.createSyntheticKeyEvent('input', keyCode, button));
     }
 

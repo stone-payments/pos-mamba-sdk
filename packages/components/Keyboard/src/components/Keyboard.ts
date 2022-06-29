@@ -183,7 +183,14 @@ class Keyboard {
   }
 
   /**
-   * Parse params
+   * Parse keyboard params
+   *
+   * @param elementOrOptions Pass keyboard root container or leaving argument to be the keyboard options. If no element passed, keyboard will try to add in top level(body or app root).
+   * @param keyboardOptions Keyboard options if you use first argument as DOM element
+   *
+   * @throws KEYBOARD_DOM_CLASS_ERROR if DOM element have no class
+   * @throws SIMULATOR_WINDOW_NOT_FOUND if simulator DOM container not found
+   * @throws KEYBOARD_APP_ROOT_ERROR if svelte `app-rot` not found
    */
   private handleParams = (
     elementOrOptions?: HTMLDivElement | KeyboardOptions,
@@ -243,7 +250,7 @@ class Keyboard {
 
         if (!appRoot) {
           console.log('app-root not found');
-          throw new Error('KEYBOARD_DOM_ELEMENT_ERROR');
+          throw new Error('KEYBOARD_APP_ROOT_ERROR');
         }
 
         appRoot.appendChild(keyboardDOM);
@@ -280,6 +287,11 @@ class Keyboard {
         }
       }
     }
+
+    /** Prevent mistouch lose input focus */
+    keyboardDOM.onmousedown = (event) => {
+      event.preventDefault();
+    };
 
     return {
       keyboardDOMClass,
@@ -727,6 +739,7 @@ class Keyboard {
        */
       const rowDOM = createKeyboardElement(ClassNames.rowPrefix) as HTMLDivElement;
 
+      /** Prevent mistouch lose input focus */
       rowDOM.onmousedown = (event) => {
         event.preventDefault();
       };
