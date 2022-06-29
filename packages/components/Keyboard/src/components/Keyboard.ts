@@ -22,6 +22,7 @@ import {
   KeyboardType,
   KeyboardUpdateMode,
   KeyboardTypesPredefinedOptions,
+  KeyboardVisibility,
 } from '../types';
 import keyboardTypesMap from '../keyboards/keyboardTypesMap';
 
@@ -41,8 +42,6 @@ class Keyboard {
 
   keyboardDOM!: KeyboardElement;
 
-  keyboardPluginClasses!: string;
-
   keyboardDOMClass!: string;
 
   buttonElements!: KeyboardButtonElements;
@@ -57,13 +56,25 @@ class Keyboard {
 
   activeButtonClass: string = ClassNames.activeButtonClassDefault;
 
+  hiddenKeyboardClass: string = ClassNames.hiddenKeyboardClassDefault;
+
   initialized!: boolean;
 
   keyboardRowsDOM!: KeyboardElement;
 
   keyboardType: KeyboardType = KeyboardType.Default;
 
+  keyboardVisible: KeyboardVisibility = KeyboardVisibility.Hidden;
+
   defaultLayoutAndName = 'default';
+
+  /**
+   * Controls keyboard visibility, to handle effects
+   */
+  public set visibility(value: KeyboardVisibility) {
+    this.keyboardVisible = value;
+    this.handleKeyboardVisibility();
+  }
 
   internalOnFunctionKeyPress?: (
     button: string,
@@ -115,11 +126,6 @@ class Keyboard {
     console.log(
       `${JSON.stringify(options, null, 2)}\n<--->\n${JSON.stringify(this.options, null, 2)}`,
     );
-
-    /**
-     * @type {object} Classes identifying loaded plugins
-     */
-    this.keyboardPluginClasses = '';
 
     /**
      * mamba-keyboard uses a non-persistent virtual input to keep track of the entered string (the variable `keyboard.input`).
@@ -250,6 +256,14 @@ class Keyboard {
        */
       if (typeof options.activeButtonClass === 'string') {
         this.activeButtonClass = options.activeButtonClass;
+      }
+
+      /**
+       * Define visibility class
+       */
+      if (typeof options.hiddenKeyboardClass === 'string') {
+        this.hiddenKeyboardClass = options.hiddenKeyboardClass;
+        this.handleKeyboardVisibility();
       }
 
       if (!options.updateMode) {
@@ -559,6 +573,22 @@ class Keyboard {
   }
 
   /**
+   * Handles keyboard visibility class
+   */
+  private handleKeyboardVisibility() {
+    if (!this.keyboardDOM) return;
+
+    /**
+     * Add or remove active class
+     */
+    if (this.keyboardVisible === KeyboardVisibility.Hidden) {
+      this.keyboardDOM.classList.add(this.hiddenKeyboardClass);
+      return;
+    }
+    this.keyboardDOM.classList.remove(this.hiddenKeyboardClass);
+  }
+
+  /**
    * Handles button mousedown
    */
   private handleButtonMouseDown(button: string, e: KeyboardHandlerEvent): void {
@@ -625,9 +655,11 @@ class Keyboard {
    * getKeyboardClassString
    */
   private getKeyboardClassString = (...baseDOMClasses: any[]) => {
-    const keyboardClasses = [this.keyboardDOMClass, ...baseDOMClasses].filter(
-      (DOMClass) => !!DOMClass,
-    );
+    const keyboardClasses = [
+      ClassNames.keyBoardPrefix,
+      this.keyboardDOMClass,
+      ...baseDOMClasses,
+    ].filter((DOMClass) => !!DOMClass);
 
     return keyboardClasses.join(' ');
   };
@@ -666,11 +698,7 @@ class Keyboard {
     /**
      * Adding themeClass, layoutClass to keyboardDOM
      */
-    this.keyboardDOM.className = this.getKeyboardClassString(
-      this.options.theme,
-      layoutClass,
-      this.keyboardPluginClasses,
-    );
+    this.keyboardDOM.className = this.getKeyboardClassString(this.options.theme, layoutClass);
 
     /**
      * Create row wrapper

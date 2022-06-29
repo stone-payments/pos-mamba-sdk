@@ -5,6 +5,7 @@ import {
   KeyboardInputOption,
   KeyboardUpdateMode,
   ButtonType,
+  KeyboardVisibility,
 } from '../types';
 import type Keyboard from '../components/Keyboard';
 import type { UIGeneralKeyboard } from './GeneralKeyboard';
@@ -46,7 +47,10 @@ class UIPhysicalKeyboard {
      * Register element focus changes for automatic mode only
      */
     if (this.getOptions().updateMode === KeyboardUpdateMode.Auto) {
-      document.addEventListener('focusin', (e) => this.handleFocusIn(e), true);
+      /** Add before focus event */
+      document.addEventListener('focusin', (e) => this.handleFocusIn(e.target || undefined), true);
+      /** Compute first interation */
+      this.handleFocusIn(document.activeElement);
     }
   }
 
@@ -56,6 +60,7 @@ class UIPhysicalKeyboard {
    * @param e
    */
   handleInputTargetBlur(e?: any) {
+    this.keyboardInstance.visibility = KeyboardVisibility.Hidden;
     if (e && e.target && this.isProperInput(e.target)) {
       e.target.removeEventListener('input', this.handleDOMInputChange);
       e.target.removeEventListener('blur', this.handleInputTargetBlur);
@@ -67,10 +72,11 @@ class UIPhysicalKeyboard {
    *
    * @param e
    */
-  handleFocusIn(e?: FocusEvent) {
-    if (e && e.target && this.isProperInput(e.target)) {
-      e.target.addEventListener('input', this.handleDOMInputChange);
-      e.target.addEventListener('blur', this.handleInputTargetBlur);
+  handleFocusIn(target?: EventTarget | Element | null) {
+    if (target && this.isProperInput(target)) {
+      this.keyboardInstance.visibility = KeyboardVisibility.Visible;
+      target.addEventListener('input', this.handleDOMInputChange);
+      target.addEventListener('blur', this.handleInputTargetBlur);
     }
   }
 

@@ -15,6 +15,7 @@ $level-shadow-color: rgba(0, 0, 0, 0.2);
   background-color: $neutral100;
   padding: 1px;
   font-size: 15px;
+  overflow-y: hidden;
   z-index: $layer-keyboard;
 
   & button.mb-button {
@@ -180,6 +181,10 @@ $level-shadow-color: rgba(0, 0, 0, 0.2);
     display: -webkit-box;
     justify-content: center;
   }
+}
+
+.mb-keyboard-theme-default.mb-keyboard-hidden {
+  display: none;
 }
 
 .mamba-app:not(.S920) {

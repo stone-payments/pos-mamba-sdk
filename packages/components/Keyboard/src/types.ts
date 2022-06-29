@@ -34,6 +34,11 @@ export enum ButtonType {
   Function = 'function-btn',
 }
 
+export enum KeyboardVisibility {
+  Hidden = 'hidden',
+  Visible = 'visible',
+}
+
 export enum KeyboardType {
   Default = 'default',
   Numeric = 'numeric',
@@ -108,6 +113,12 @@ export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents
    * Change the CSS class to add to the button when it gets active by click.
    */
   activeButtonClass?: string;
+
+  /**
+   * Customize the CSS class to handle keyboard hidden events.
+   *
+   */
+  hiddenKeyboardClass?: string;
 
   /**
    * Runs a `console.log` every time a key is pressed. Shows the buttons pressed and the current input.
