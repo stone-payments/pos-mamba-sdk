@@ -34,6 +34,11 @@ class CaretWorker {
   caretPositionEnd!: CaretPosition;
 
   /**
+   * Captured caret input target
+   */
+  caretInputTarget?: HTMLInputElement;
+
+  /**
    * Creates an instance of the CaretWorker
    */
   constructor({ getOptions, keyboardInstance }: CaretWorkerParams) {
@@ -221,6 +226,8 @@ class CaretWorker {
           `(${this.keyboardInstance.keyboardDOMClass})`,
         );
       }
+
+      this.caretInputTarget = event.target;
     } else if (
       (options.disableCaretPositioning || !isKeyboard) &&
       event?.type !== 'selectionchange'
@@ -233,6 +240,7 @@ class CaretWorker {
       if (options.debug) {
         console.log(`Caret position reset due to "${event?.type}" event`, event);
       }
+      this.caretInputTarget = undefined;
     }
   }
 
@@ -261,12 +269,31 @@ class CaretWorker {
 
   /**
    * Changes the internal caret position
+   *
    * @param position The caret's start position
    * @param positionEnd The caret's end position
+   * @param moveCursor Move cursor of target input or not
+   * @param customTarget Pass early input event from focusin
    */
-  public setCaretPosition(position: CaretPosition, endPosition = position): void {
+  public setCaretPosition(
+    position: CaretPosition,
+    endPosition = position,
+    moveCursor = false,
+    customTarget: any = undefined,
+  ): void {
+    const options = this.getOptions();
+
     this.caretPosition = position;
     this.caretPositionEnd = endPosition;
+
+    const input = customTarget || this.caretInputTarget || options.input;
+
+    /**
+     * Try move cursor
+     */
+    if (moveCursor && input instanceof HTMLInputElement) {
+      input.setSelectionRange(position, endPosition);
+    }
   }
 
   /**

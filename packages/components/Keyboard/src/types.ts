@@ -136,6 +136,11 @@ export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents
   labels?: { [button: string]: string };
 
   /**
+   * Converts button output value (such as `{check}`) to standard keyboard output (e.g.: `enter`).
+   */
+  outputs?: { [button: string]: string };
+
+  /**
    * Change the CSS class to add to the button when it gets active by click.
    */
   activeButtonClass?: string;
@@ -167,7 +172,7 @@ export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents
   /**
    * Restrains input(s) change to the defined regular expression pattern.
    */
-  inputPattern?: any;
+  inputPattern?: RegExp;
 
   /**
    * Exclude specific buttons from layout
@@ -213,13 +218,20 @@ export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents
   keepVisible?: boolean;
 
   /**
+   * Keep input cursor at its ends
+   *
+   * @defaultValue `false`
+   */
+  lockCursor?: boolean;
+
+  /**
    * Other options can exist
    */
   [name: string]: any;
 }
 
 type FunctionKeyPressType = Pick<KeyboardTypeEvents, 'onFunctionKeyPress'>;
-type LabelsOptionType = Pick<KeyboardOptions, 'labels'>;
+type LabelsOptionType = Pick<KeyboardOptions, 'labels' | 'outputs'>;
 
 export type KeyboardTypesPredefinedOptions = Readonly<
   NonNullable<Required<KeyboardTypeOptions>> & FunctionKeyPressType & LabelsOptionType

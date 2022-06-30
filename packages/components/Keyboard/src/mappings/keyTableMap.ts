@@ -1,9 +1,10 @@
 import KEY_MAP from './keyMap';
 
 /**
- * Represents general alphabet keys along with shift modifier
+ * Represents general key code table with shift modifier
  */
 
+// Values can be `string` or `tuple[2]`
 // The actual meaning of the value depends on the users' keyboard layout
 // Which cannot be detected. Assuming that it is a US keyboard layout
 // Any other key non-listed here must avoid input change for POS environment
@@ -56,4 +57,10 @@ export default Object.freeze({
   220: ['\\', '|'],
   221: [']', '}'],
   222: [`'`, `"`],
+  // Numpad math key codes
+  106: '×',
+  109: '−',
+  107: '+',
+  110: '.',
+  111: '÷',
 });

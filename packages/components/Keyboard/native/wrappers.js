@@ -40,12 +40,13 @@ export default function (driver) {
   driver.getKeyCode = GeneralKeyboard.getKeyCode;
 
   /**
-   * Get alphabet key code relative to a specific key name
+   * Get UTF key code relative to a specific key name compatible with POS
    * @memberof GeneralKeyboard
-   * @param {string} keyName - Key name
-   * @returns {number} - Relative key code
+   * @param {string} keyName Key name
+   * @param {number} inferCharCode IF should infer via UTF table code (String.charCodeAt)
+   * @returns {number} Relative key code
    */
-  driver.getAlphabetKeyCode = GeneralKeyboard.getAlphabetKeyCode;
+  driver.getTableKeyCode = GeneralKeyboard.getTableKeyCode;
 
   /**
    * Get the key name relative to a specific key code

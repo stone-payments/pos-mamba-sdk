@@ -11,11 +11,11 @@ import type Keyboard from '../components/Keyboard';
 import type { UIGeneralKeyboard } from './GeneralKeyboard';
 import GeneralKeyboard from './GeneralKeyboard';
 import { bindMethods } from '../helpers';
-import alphabetKeyMap from '../mappings/alphabetKeyMap';
+import keyMapTable from '../mappings/keyTableMap';
 import { anyBraces } from '../common/regExps';
 
 /**
- * Responsible for handle alphabet keyboard towards physical device keys directly
+ * Responsible for handle keyboard towards physical device keys directly
  * Handle automatic screen focus
  * Send synthetic events to handle input post-processing (e.g. masks)
  * Keeps inputs synchronized
@@ -26,6 +26,8 @@ class UIPhysicalKeyboard {
   private keyboardInstance!: Keyboard;
 
   public static instance: UIPhysicalKeyboard;
+
+  cachedTargetInput?: HTMLInputElement = undefined;
 
   getOptions: () => KeyboardOptions;
 
@@ -51,44 +53,14 @@ class UIPhysicalKeyboard {
      */
     if (this.getOptions().updateMode === KeyboardUpdateMode.Auto) {
       /** Add before focus event */
-      document.addEventListener('focusin', (e) => this.handleFocusIn(e.target || undefined), true);
+      document.addEventListener(
+        'focusin',
+        (e) => this.handleFocusIn(e.target || undefined, e),
+        true,
+      );
       /** Compute first interation */
       this.handleFocusIn(document.activeElement);
     }
-  }
-
-  /**
-   * Handles input on blur
-   *
-   * @param e
-   */
-  handleInputTargetBlur(e?: any) {
-    this.keyboardInstance.visibility = KeyboardVisibility.Hidden;
-    if (e && e.target && this.isProperInput(e.target)) {
-      e.target.removeEventListener('input', this.handleDOMInputChange);
-      e.target.removeEventListener('blur', this.handleInputTargetBlur);
-    }
-  }
-
-  /**
-   * Handles any focus element
-   *
-   * @param e
-   */
-  handleFocusIn(target?: EventTarget | Element | null) {
-    if (target && this.isProperInput(target)) {
-      this.keyboardInstance.visibility = KeyboardVisibility.Visible;
-      target.addEventListener('input', this.handleDOMInputChange);
-      target.addEventListener('blur', this.handleInputTargetBlur);
-    }
-  }
-
-  /**
-   * Update keyboard virtual input if DOM input changed directly
-   * @param event
-   */
-  handleDOMInputChange(event: any) {
-    this.keyboardInstance.setInput((event.target as HTMLInputElement).value);
   }
 
   /**
@@ -106,6 +78,114 @@ class UIPhysicalKeyboard {
     }
 
     return UIPhysicalKeyboard.instance;
+  }
+
+  /**
+   * Handles any focus element
+   *
+   * @param target The Event target
+   * @param e The Focus event
+   */
+  handleFocusIn(target?: EventTarget | Element | null, e?: FocusEvent) {
+    /**
+     * Update cached target input for key dispatch event
+     */
+    this.setCachedTargetInput();
+
+    /**
+     * Handle focused target
+     */
+    if (target && this.isProperInput(target)) {
+      const options = this.getOptions();
+      const input = target as HTMLInputElement;
+
+      /**
+       * Set keyboard visibility
+       */
+      this.keyboardInstance.visibility = KeyboardVisibility.Visible;
+
+      /**
+       * If the keepVisible option is on and user hit some button without input focus, we need ensure that virtual input do not update its values back to the DOM input on next update.
+       */
+      if (this.keyboardInstance.getInput() !== input.value && !options.input) {
+        this.keyboardInstance.setInput(input.value);
+      }
+
+      input.addEventListener('blur', this.handleDOMInputTargetBlur);
+      input.addEventListener('click', this.handleDOMInputFocus);
+      input.addEventListener('input', this.handleDOMInputChange);
+      input.focus();
+    }
+  }
+
+  /**
+   * Handles input on blur
+   *
+   * @param e
+   */
+  handleDOMInputTargetBlur(e?: FocusEvent) {
+    this.keyboardInstance.visibility = KeyboardVisibility.Hidden;
+    if (e && e.target && this.isProperInput(e.target)) {
+      const input = e.target as HTMLInputElement;
+
+      input.removeEventListener('input', this.handleDOMInputChange);
+      input.removeEventListener('click', this.handleDOMInputFocus);
+      input.removeEventListener('blur', this.handleDOMInputTargetBlur);
+    }
+  }
+
+  /**
+   * Handle event target input focus
+   * @param e
+   */
+  handleDOMInputFocus(e?: FocusEvent) {
+    const options = this.getOptions();
+
+    if (
+      // if keyboard need lock cursor
+      options.lockCursor === true &&
+      // and check if target is input
+      e &&
+      e.target &&
+      this.isProperInput(e.target)
+    ) {
+      const input = e.target as HTMLInputElement;
+
+      /**
+       * Move caret to final
+       */
+      const endPosition = input.value.length;
+      this.keyboardInstance.caretWorker.setCaretPosition(endPosition, endPosition, true);
+    }
+  }
+
+  /**
+   * Update keyboard virtual input if DOM input changed directly
+   * @param event
+   */
+  handleDOMInputChange(event: any) {
+    this.keyboardInstance.setInput((event.target as HTMLInputElement).value);
+  }
+
+  /**
+   * Updates and cache target input from keyboard options to not use document active element.
+   * This saves some performance to not compute every key press
+   */
+  private setCachedTargetInput(): void {
+    const options = this.getOptions();
+
+    if (
+      // If user setup the input property element compatible with DOM Input element
+      this.isProperInput(options.input) ||
+      // Or it is non DOM Input element, but a `<div>`
+      this.isNonInputButProperElement(options.input)
+    ) {
+      /** Define our target element to dispatch events instead use the document active element */
+      this.cachedTargetInput = options.input as HTMLInputElement;
+      return;
+    }
+
+    this.cachedTargetInput = undefined;
   }
 
   /**
@@ -138,7 +218,7 @@ class UIPhysicalKeyboard {
    *
    * @see [keyboardEvent](https://www.w3.org/TR/uievents/#dom-keyboardevent-initkeyboardevent)
    *
-   * @param event Native/origina event pointer
+   * @param eventType Type of Event to dispatch
    * @param code Key code
    * @param keyName Key name
    * @returns A keyboard event to be dispatched
@@ -148,7 +228,6 @@ class UIPhysicalKeyboard {
     code: number,
     keyName: string,
   ): KeyboardHandlerEvent {
-    const options = this.getOptions();
     /**
      * Create Keyboard event using old API compatible with POS Browser version
      */
@@ -160,7 +239,10 @@ class UIPhysicalKeyboard {
     this.defineProperty(event, 'key', keyName);
     this.defineProperty(event, 'code', code);
 
-    const shiftModifier = alphabetKeyMap[code].indexOf(keyName) > 0;
+    /**
+     * If key index belongs to the second index, infer that is from shift modifier
+     */
+    const shiftModifier = keyMapTable[code].indexOf(keyName) > 0;
 
     /**
      * initKeyboardEvent: method compatible with POS
@@ -177,17 +259,6 @@ class UIPhysicalKeyboard {
       shiftModifier,
       false,
     );
-
-    if (options.debug) {
-      console.log(
-        `KeyEvent ${JSON.stringify({
-          eventType,
-          code,
-          key: keyName,
-        })}`,
-        event,
-      );
-    }
 
     return event;
   }
@@ -235,23 +306,13 @@ class UIPhysicalKeyboard {
 
     if (e) {
       /**
-       *  Calling preventDefault for the mousedown events keeps the focus on the input.
+       * Calling preventDefault for the mousedown events keeps the focus on the input.
        * Its importante not stop event propagation in this stage.
        */
       e.preventDefault();
     }
 
-    let targetElement = document.activeElement as KeyboardInputOption;
-
-    if (
-      // If user setup the input property element compatible with DOM Input element
-      this.isProperInput(options.input) ||
-      // Or it is non DOM Input element, but a `<div>`
-      this.isNonInputButProperElement(options.input)
-    ) {
-      /** Define our target element to dispatch events instead use the document active element */
-      targetElement = options.input;
-    }
+    const targetElement = (document.activeElement as KeyboardInputOption) || this.cachedTargetInput;
 
     /**
      * Our target element can be undefined on both sides, or not a valid element
@@ -269,7 +330,14 @@ class UIPhysicalKeyboard {
       : false;
 
     /**
-     * Convert layout button to keyName
+     * Converts button from configured {@link KeyboardOptions.outputs} option if any
+     */
+    if (options.outputs && options.outputs[button]) {
+      button = options.outputs[button];
+    }
+
+    /**
+     * Remove function button placeholder to keyName
      */
     if (buttonType === ButtonType.Function) {
       button = button.replace(anyBraces, '');
@@ -277,14 +345,17 @@ class UIPhysicalKeyboard {
     }
 
     /** Get the alpha code of a key of keyboard */
-    const keyCode = this.generalKeyboard.getAlphabetKeyCode(button);
+    const keyCode = this.generalKeyboard.getTableKeyCode(
+      button,
+      buttonType === ButtonType.Standard,
+    );
 
     /**
-     * Some key cannot be mapped
+     * Key code not found, abort send the event
      */
-    if (!keyCode) {
+    if (!keyCode || Number.isNaN(Number(keyCode))) {
       if (options.debug) {
-        console.log(`Cannot map "${keyCode}" from getAlphabetKeyCode("${button}")`);
+        console.log(`\u001b[1;31m⚠︎ Warning! Cannot map "${button}" key name to its code\u001b[0m`);
       }
       return;
     }
@@ -321,6 +392,17 @@ class UIPhysicalKeyboard {
     }
 
     targetElement.dispatchEvent(this.createSyntheticKeyEvent('keyup', keyCode, button));
+
+    if (options.debug) {
+      // Compact key event log
+      console.log(
+        `\x1B[36mKeyEvent ${JSON.stringify({
+          eventType: ['keydown', 'keypress', 'input', 'keyup'],
+          code: keyCode,
+          key: button,
+        })}\x1B[0m`,
+      );
+    }
   }
 }
 

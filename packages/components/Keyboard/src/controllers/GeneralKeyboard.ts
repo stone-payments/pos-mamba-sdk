@@ -1,7 +1,7 @@
 import KEY_MAP from '../mappings/keyMap';
 import KEY_MAP_LIST from '../mappings/keyMapList';
-import ALPHA_KEY_MAP from '../mappings/alphabetKeyMap';
-import ALPHA_MAP_LIST from '../mappings/alphabetKeyMapList';
+import KEY_TABLE_MAP from '../mappings/keyTableMap';
+import KEY_TABLE_LIST from '../mappings/keyTableMapList';
 
 /**
  *  General methods to map and handle keys, and change keyboard mode
@@ -49,7 +49,7 @@ class UIGeneralKeyboard {
     const found = list.find((code) => {
       const maped: string = map[code];
       if (Array.isArray(maped)) return maped.indexOf(keyName) !== -1;
-      if (typeof maped === 'string') return maped === keyName;
+      if (typeof maped === 'string') return maped.toLowerCase() === keyName.toLowerCase();
 
       return false;
     });
@@ -58,7 +58,7 @@ class UIGeneralKeyboard {
   }
 
   /**
-   * Get the key code relative to a specific key name
+   * Get the key code relative to a specific key name compatible with POS
    * @param keyName Key name
    * @returns Relative key code
    */
@@ -69,13 +69,26 @@ class UIGeneralKeyboard {
   }
 
   /**
-   * Get alphabet key code relative to a specific key name
+   * Get UTF key code relative to a specific key name compatible with POS
    * @param keyName Key name
+   * @param inferCharCode IF should infer via UTF table code (String.charCodeAt)
    * @returns Relative key code
    */
-  getAlphabetKeyCode(keyName: string): any {
+  getTableKeyCode(keyName: string, inferCharCode = false): any {
     if (typeof keyName !== 'string') return null;
-    const code = this.getMappedKeyCode(ALPHA_MAP_LIST, ALPHA_KEY_MAP, keyName);
+    let code: string | number | null = this.getMappedKeyCode(
+      KEY_TABLE_LIST,
+      KEY_TABLE_MAP,
+      keyName,
+    );
+
+    /**
+     * Some key cannot be mapped from POS table, try find it on utf table
+     */
+    if (!code && inferCharCode === true) {
+      code = keyName.charCodeAt(0);
+    }
+
     return code;
   }
 

@@ -20,8 +20,9 @@
     {disabled}
     {readable}
 
-    label="CPF/CNPJ"
-
+    {label}
+    {mask}
+    {tokens}
 
     {validation}
     {validateOn}
@@ -38,8 +39,11 @@
 </div>
 
 <script>
-  import Keyboard from './lib/index.js';
+  import Keyboard, { KeyboardType } from './lib/index.js';
   import './css/Keyboard.css';
+  import './css/KeyboardMathTheme.css';
+
+  console.log(KeyboardType);
 
   export default {
     components: {
@@ -111,8 +115,9 @@
       //   console.log('[onFunctionKeyPress] Button pressed', button, e);
       // }
 
-      // eslint-disable-next-line no-unused-vars
-      const keyboard = new Keyboard({
+      // const keyboard =
+
+      new Keyboard({
         // onChange: (input, e) => onChange(input, e),
         // onKeyPress: (button, e) => onKeyPress(button, e),
         // onFunctionKeyPress: (button, e) => onFunctionKeyPress(button, e),
@@ -122,7 +127,9 @@
         // onInit: (instance) => {
         //   console.log('[onInit]', instance);
         // },
-        debug: __DEV__,
+        debug: __DEV__ || __DEBUG_LVL__ >= 3,
+        keepVisible: true,
+        keyboardType: KeyboardType.Math,
         layoutCandidates: {
           e: 'é',
         },
@@ -171,6 +178,7 @@
 
 <style>
   .mb-keyboard-bundle {
-    padding-top: 50px;
+    padding-top: 0px;
+    border-bottom: 1px solid $neutral200;
   }
 </style>

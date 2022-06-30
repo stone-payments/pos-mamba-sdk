@@ -39,7 +39,7 @@ class Keyboard {
 
   options!: KeyboardOptions;
 
-  caretWorker: any;
+  caretWorker!: CaretWorker;
 
   keyboardDOM!: KeyboardElement;
 
@@ -52,8 +52,6 @@ class Keyboard {
   keyboardInstanceNames!: string[];
 
   physicalKeyboard?: UIPhysicalKeyboard;
-
-  touchKeyboard!: UIPhysicalKeyboard;
 
   activeButtonClass: string = ClassNames.activeButtonClassDefault;
 
@@ -254,6 +252,32 @@ class Keyboard {
       }
     }
 
+    /**
+     * Parse some options that need be checked first
+     */
+    this.parseOptionsUpdated(options);
+
+    /** Prevent mistouch lose input focus */
+    keyboardDOM.onmousedown = (event) => {
+      event.preventDefault();
+    };
+
+    return {
+      keyboardDOMClass,
+      keyboardDOM,
+      options,
+    };
+  };
+
+  /**
+   * Parse some options that need be checked first
+   *
+   * @param keyboardOptions
+   * @returns Some options that need be parsed
+   */
+  private parseOptionsUpdated(options?: KeyboardOptions): void {
+    if (!options) return;
+
     if (typeof options === 'object') {
       /**
        * Define button class
@@ -280,22 +304,11 @@ class Keyboard {
       if (options.input) {
         const pattern = options.input.getAttribute('pattern');
         if (pattern) {
-          options.inputPattern = pattern;
+          options.inputPattern = new RegExp(pattern);
         }
       }
     }
-
-    /** Prevent mistouch lose input focus */
-    keyboardDOM.onmousedown = (event) => {
-      event.preventDefault();
-    };
-
-    return {
-      keyboardDOMClass,
-      keyboardDOM,
-      options,
-    };
-  };
+  }
 
   /**
    * Define keyboard type and its properties
@@ -303,7 +316,9 @@ class Keyboard {
    * @param keyboardOptions
    * @returns Parsed properties or defaults ones
    */
-  parseKeyboardTypeOptions(keyboardOptions?: KeyboardOptions) {
+  private parseKeyboardTypeOptions(
+    keyboardOptions?: KeyboardOptions,
+  ): KeyboardTypesPredefinedOptions {
     const keyboardType: KeyboardType = keyboardOptions?.keyboardType || KeyboardType.Default;
     const keyboardSelected: KeyboardTypesPredefinedOptions = keyboardTypesMap[keyboardType]();
 
@@ -325,6 +340,7 @@ class Keyboard {
       layoutDirection: keyboardSelected.layoutDirection || this.defaultLayoutDirection,
       layout: keyboardSelected.layout,
       labels: keyboardSelected.labels,
+      outputs: keyboardSelected.outputs,
       theme: keyboardSelected.theme || keyboardSelected.theme,
     };
   }
@@ -392,6 +408,12 @@ class Keyboard {
    */
   public setOptions(options = {}): void {
     const changedOptions = this.changedOptions(options);
+
+    /**
+     * Parse some options that need be checked first
+     */
+    this.parseOptionsUpdated(options);
+
     this.options = Object.assign(this.options, options);
 
     if (changedOptions.length) {
@@ -655,7 +677,7 @@ class Keyboard {
     }
 
     /**
-     * setEventListeners
+     * set EventListeners
      */
     this.caretWorker.setupCaretEventsControl();
 

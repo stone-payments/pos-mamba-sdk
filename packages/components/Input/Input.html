@@ -109,7 +109,6 @@
       /**
        * Extended <Input> don't handle default params of data() very well, so we need parse them manually
        */
-      console.log(this);
       if (this.options.data) {
         const {
           value,
@@ -134,13 +133,10 @@
           validation,
         } = this.options.data;
 
-        console.log(this.options.data);
-
         this.set({
           value: isString(value) ? value : '',
           placeholder: isString(placeholder) ? placeholder : '',
           label: isString(label) ? label : undefined,
-          tokens: isString(tokens) ? tokens : defaultTokens,
           type: isString(type) ? type : 'text',
           align: isString(align) ? align : 'right',
           textColor: isString(textColor) ? textColor : neutral500,
@@ -152,13 +148,13 @@
           forcefocus: isBoolean(forcefocus) ? forcefocus : false,
           autofocus: isBoolean(autofocus) ? autofocus : false,
           readable: isBoolean(readable) ? readable : false,
+          tokens: isString(tokens) ? tokens : defaultTokens,
+          mask: mask || undefined,
           _visible: !(type === 'password'),
           errorMessage: isString(errorMessage) ? errorMessage : undefined,
           validateOn: isString(validateOn) ? validateOn : 'submit',
           validation: typeof validation === 'function' ? validation : undefined,
         });
-
-        console.log(this.get());
 
         // TODO: remove when undefined prop is not printed
         if (typeof maxlength !== 'undefined') {
@@ -302,24 +298,10 @@
         this.fire('blur', e);
       },
       _onKeyUp(e) {
-        console.log('_onKeyUp', e);
-        console.log(
-          `➡️ ${JSON.stringify(
-            {
-              key: e.key,
-              keyCode: e.keyCode,
-              charCode: e.charCode,
-              code: e.code,
-              keyIdentifier: e.keyIdentifier,
-            },
-            null,
-            2,
-          )}`,
-        );
         /**
-         * - Use e.key(string) on some events on simulator or POS
-         * - Use e.keyIdentifier(string) to work on POS values
-         * - Use e.code(number) to work with alphabet keyboard
+         * - Use e.key{string} on some events on simulator or POS
+         * - Use e.keyIdentifier{string} to work on POS values
+         * - Use e.code{number} to work with alphabet keyboard
          */
         const key = Keyboard.getKeyName(e.code || e.keyCode || e.key);
 
@@ -361,7 +343,6 @@
         }
       },
       _onInput(e) {
-        console.log('_onInput', e);
         const { validation, validateOn } = this.get();
 
         /** Mask handler */
