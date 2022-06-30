@@ -33,7 +33,7 @@ export enum KeyboardUpdateMode {
 }
 
 /**
- * Layout button type
+ * Layout button enum
  * @enum
  */
 export enum ButtonType {
@@ -60,7 +60,7 @@ export enum LayoutDirection {
 }
 
 /**
- * Keyboard type
+ * Keyboard enum
  * @enum
  */
 export enum KeyboardType {
@@ -70,6 +70,20 @@ export enum KeyboardType {
   Phone = 'phone',
   Math = 'math',
   Custom = 'custom',
+}
+
+/**
+ * Beep tone enum
+ * @enum
+ */
+export enum BeepTone {
+  TONE_1 = 'TONE1',
+  TONE_2 = 'TONE2',
+  TONE_3 = 'TONE3',
+  TONE_4 = 'TONE4',
+  TONE_5 = 'TONE5',
+  TONE_6 = 'TONE6',
+  TONE_7 = 'TONE7',
 }
 
 export interface KeyboardTypeEvents {
@@ -223,6 +237,27 @@ export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents
    * @defaultValue `false`
    */
   lockCursor?: boolean;
+
+  /**
+   * Make beep sound for every key press
+   * ! This do not disable POS sound entirely. Only for this Keyboard instance
+   * @defaultValue System preference depending of the app, otherwise `false`
+   */
+  soundEnabled?: boolean;
+
+  /**
+   * Define keyboard beep tone
+   *
+   * @defaultValue {@link BeepTone.TONE_3}
+   */
+  beepTone?: BeepTone;
+
+  /**
+   * Define keyboard beep time
+   *
+   * @defaultValue `90`
+   */
+  beepTime?: number;
 
   /**
    * Other options can exist

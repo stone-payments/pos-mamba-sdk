@@ -29,6 +29,10 @@ class UIPhysicalKeyboard {
 
   cachedTargetInput?: HTMLInputElement = undefined;
 
+  beepTone = 'TONE3';
+
+  beepTime = 90;
+
   getOptions: () => KeyboardOptions;
 
   /**
@@ -186,6 +190,19 @@ class UIPhysicalKeyboard {
     }
 
     this.cachedTargetInput = undefined;
+  }
+
+  /**
+   * Handles beep sound
+   */
+  private handleBeepSound() {
+    const options = this.getOptions();
+
+    try {
+      window.$System.beep(options.beepTone || this.beepTone, options.beepTime || this.beepTime);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   /**
@@ -349,6 +366,13 @@ class UIPhysicalKeyboard {
       button,
       buttonType === ButtonType.Standard,
     );
+
+    /**
+     * Make beep sound for the key press
+     */
+    if (options.soundEnabled === true) {
+      this.handleBeepSound();
+    }
 
     /**
      * Key code not found, abort send the event

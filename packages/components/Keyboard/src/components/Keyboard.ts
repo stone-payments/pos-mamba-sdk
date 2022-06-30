@@ -298,6 +298,12 @@ class Keyboard {
         options.updateMode = KeyboardUpdateMode.Auto;
       }
 
+      if (!options.soundEnabled && window.Sound) {
+        options.soundEnabled = window.Sound.isEnabled();
+      } else {
+        options.soundEnabled = false;
+      }
+
       /**
        * Redirect input DOM pattern attribute value to pattern mechanism here
        */
