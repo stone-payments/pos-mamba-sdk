@@ -78,6 +78,9 @@ const keyboard: KeyboardTypesPredefinedOptions = {
       });
     }
   },
+  labels: {
+    [keyEnter]: ' ',
+  },
 };
 
 export default keyboard;

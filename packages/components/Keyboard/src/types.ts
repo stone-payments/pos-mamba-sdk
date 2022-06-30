@@ -129,12 +129,6 @@ export interface KeyboardTypeOptions {
   theme?: string;
 }
 
-type FunctionKeyPressType = Pick<KeyboardTypeEvents, 'onFunctionKeyPress'>;
-
-export type KeyboardTypesPredefinedOptions = Readonly<
-  NonNullable<Required<KeyboardTypeOptions>> & FunctionKeyPressType
->;
-
 export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents {
   /**
    * Replaces variable buttons (such as `{bksp}`) with a human-friendly name (e.g.: `backspace`).
@@ -153,7 +147,10 @@ export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents
   hiddenKeyboardClass?: string;
 
   /**
-   * Runs a `console.log` every time a key is pressed. Shows the buttons pressed and the current input.
+   * Shows aditional debug information.
+   * Runs a `console.log` every time a key is pressed.
+   * Shows the buttons pressed and the current input.
+   * Add `debug` class to main keyboard wrapper
    */
   debug?: boolean;
 
@@ -220,6 +217,13 @@ export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents
    */
   [name: string]: any;
 }
+
+type FunctionKeyPressType = Pick<KeyboardTypeEvents, 'onFunctionKeyPress'>;
+type LabelsOptionType = Pick<KeyboardOptions, 'labels'>;
+
+export type KeyboardTypesPredefinedOptions = Readonly<
+  NonNullable<Required<KeyboardTypeOptions>> & FunctionKeyPressType & LabelsOptionType
+>;
 
 export interface KeyboardControllerParams {
   getOptions: () => KeyboardOptions;

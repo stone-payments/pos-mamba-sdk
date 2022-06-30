@@ -1,8 +1,11 @@
 const prefix = 'mb';
 const keyBoardPrefix = `${prefix}-keyboard`;
 const rowsPrefix = `${prefix}-rows`;
+const columnsPrefix = `${prefix}-columns`;
 const rowPrefix = `${prefix}-row`;
+const columnPrefix = `${prefix}-column`;
 const layoutPrefix = `${prefix}-layout`;
+const layoutNamePrefix = `${layoutPrefix}-name`;
 const buttonPrefix = `${prefix}-button`;
 const activeButtonClassDefault = `${prefix}-active`;
 const hiddenKeyboardClassDefault = `${keyBoardPrefix}-hidden`;
@@ -14,7 +17,10 @@ export {
   keyBoardPrefix,
   rowsPrefix,
   rowPrefix,
+  columnsPrefix,
+  columnPrefix,
   layoutPrefix,
+  layoutNamePrefix,
   buttonPrefix,
   activeButtonClassDefault,
   hiddenKeyboardClassDefault,

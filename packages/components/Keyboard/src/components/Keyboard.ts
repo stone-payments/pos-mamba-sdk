@@ -23,6 +23,7 @@ import {
   KeyboardUpdateMode,
   KeyboardTypesPredefinedOptions,
   KeyboardVisibility,
+  LayoutDirection,
 } from '../types';
 import keyboardTypesMap from '../keyboards/keyboardTypesMap';
 
@@ -68,6 +69,10 @@ class Keyboard {
 
   defaultLayoutAndName = 'default';
 
+  activeTime = 100;
+
+  defaultLayoutDirection = LayoutDirection.Horizontal;
+
   internalOnFunctionKeyPress?: (
     button: string,
     instance: Keyboard,
@@ -108,7 +113,7 @@ class Keyboard {
       /**
        * Parse keyboard type
        */
-      ...this.parseKeyboardTypeOptions(keyboardOptions),
+      ...this.parseKeyboardTypeOptions(options),
       /**
        * Parse the rest of the options
        */
@@ -180,9 +185,9 @@ class Keyboard {
    * @param elementOrOptions Pass keyboard root container or leaving argument to be the keyboard options. If no element passed, keyboard will try to add in top level(body or app root).
    * @param keyboardOptions Keyboard options if you use first argument as DOM element
    *
-   * @throws KEYBOARD_DOM_CLASS_ERROR if DOM element have no class
-   * @throws SIMULATOR_WINDOW_NOT_FOUND if simulator DOM container not found
-   * @throws KEYBOARD_APP_ROOT_ERROR if svelte `app-rot` not found
+   * @throws DOM_CLASS_ERROR - DOM element have no class
+   * @throws SIMULATOR_POS_SCREEN_NOT_FOUND - Simulator DOM container not found
+   * @throws APP_ROOT_ERROR - Svelte `app-rot` not found
    */
   private handleParams = (
     elementOrOptions?: HTMLDivElement | KeyboardOptions,
@@ -206,7 +211,7 @@ class Keyboard {
        */
       if (!elementOrOptions.className) {
         console.warn('DOM Div element passed as parameter must have a class.');
-        throw new Error('KEYBOARD_DOM_CLASS_ERROR');
+        throw new Error('DOM_CLASS_ERROR');
       }
 
       keyboardDOMClass = elementOrOptions.className.split(' ')[0];
@@ -232,7 +237,7 @@ class Keyboard {
           '#apps-container > div:first-child',
         ) as KeyboardElement;
 
-        if (!simulatorWindow) throw new Error('SIMULATOR_WINDOW_NOT_FOUND');
+        if (!simulatorWindow) throw new Error('SIMULATOR_POS_SCREEN_NOT_FOUND');
         simulatorWindow.appendChild(keyboardDOM);
       } else {
         /**
@@ -242,7 +247,7 @@ class Keyboard {
 
         if (!appRoot) {
           console.log('app-root not found');
-          throw new Error('KEYBOARD_APP_ROOT_ERROR');
+          throw new Error('APP_ROOT_ERROR');
         }
 
         appRoot.appendChild(keyboardDOM);
@@ -292,10 +297,19 @@ class Keyboard {
     };
   };
 
+  /**
+   * Define keyboard type and its properties
+   *
+   * @param keyboardOptions
+   * @returns Parsed properties or defaults ones
+   */
   parseKeyboardTypeOptions(keyboardOptions?: KeyboardOptions) {
     const keyboardType: KeyboardType = keyboardOptions?.keyboardType || KeyboardType.Default;
     const keyboardSelected: KeyboardTypesPredefinedOptions = keyboardTypesMap[keyboardType]();
 
+    /**
+     * Handle keyboard function key event of not custom keyboard type, for layout changes out-of-box
+     */
     if (
       keyboardType !== KeyboardType.Custom &&
       typeof keyboardSelected.onFunctionKeyPress === 'function'
@@ -307,9 +321,11 @@ class Keyboard {
 
     return {
       keyboardType: keyboardSelected.keyboardType || keyboardType,
-      theme: keyboardSelected.theme || keyboardSelected.theme,
       layoutName: keyboardSelected.layoutName || this.defaultLayoutAndName,
+      layoutDirection: keyboardSelected.layoutDirection || this.defaultLayoutDirection,
       layout: keyboardSelected.layout,
+      labels: keyboardSelected.labels,
+      theme: keyboardSelected.theme || keyboardSelected.theme,
     };
   }
 
@@ -580,11 +596,11 @@ class Keyboard {
       if (target) target.classList.add(this.activeButtonClass);
 
       /**
-       * Remove active class after 100 ms
+       * Remove active class after configured time
        */
       window.setTimeout(() => {
         if (e && target) target.classList.remove(this.activeButtonClass);
-      }, 100);
+      }, this.activeTime);
     }
   }
 
@@ -674,14 +690,17 @@ class Keyboard {
     const keyboardClasses = [
       ClassNames.keyBoardPrefix,
       this.keyboardDOMClass,
+      this.options.debug && 'debug',
       ...baseDOMClasses,
-    ].filter((DOMClass) => !!DOMClass);
+    ].filter(Boolean);
 
     return keyboardClasses.join(' ');
   };
 
   /**
    * Render the keyboard buttons
+   * @throws LAYOUT_NOT_FOUND_ERROR - layout layout not found
+   * @throws LAYOUT_NAME_NOT_FOUND_ERROR - layout name not found in layout object
    */
   private render() {
     /**
@@ -705,21 +724,39 @@ class Keyboard {
 
     if (!layout) {
       console.warn(`"layout" was not found in the options.`);
-      throw new Error('KEYBOARD_LAYOUT_ERROR');
+      throw new Error('LAYOUT_NOT_FOUND_ERROR');
     }
 
+    const layoutDirection = this.options.layoutDirection || this.defaultLayoutDirection;
     const layoutName = this.options.layoutName || this.defaultLayoutAndName;
-    const layoutClass = `${ClassNames.layoutPrefix}-${layoutName}`;
+    const layoutClass = `${ClassNames.layoutNamePrefix}-${layoutName}`;
+    const layoutDirectionClass = `${ClassNames.layoutPrefix}-${layoutDirection}`;
 
     /**
      * Adding themeClass, layoutClass to keyboardDOM
      */
-    this.keyboardDOM.className = this.getKeyboardClassString(this.options.theme, layoutClass);
+    this.keyboardDOM.className = this.getKeyboardClassString(
+      layoutClass,
+      layoutDirectionClass,
+      this.options.theme,
+    );
 
     /**
      * Create row wrapper
      */
-    this.keyboardRowsDOM = createKeyboardElement(ClassNames.rowsPrefix) as HTMLDivElement;
+    this.keyboardRowsDOM = createKeyboardElement(
+      layoutDirection === LayoutDirection.Vertical
+        ? ClassNames.columnsPrefix
+        : ClassNames.rowsPrefix,
+    ) as HTMLDivElement;
+
+    /**
+     * Throws error if layout name not found in layouts
+     */
+    if (!layout[layoutName]) {
+      console.error(`Layout name "${layoutName}" not found in ${JSON.stringify(layout)}`);
+      throw new Error('LAYOUT_NAME_NOT_FOUND_ERROR');
+    }
 
     /**
      * Iterating through each row
@@ -741,7 +778,11 @@ class Keyboard {
       /**
        * Creating empty row
        */
-      const rowDOM = createKeyboardElement(ClassNames.rowPrefix) as HTMLDivElement;
+      const rowDOM = createKeyboardElement(
+        layoutDirection === LayoutDirection.Vertical
+          ? ClassNames.columnPrefix
+          : ClassNames.rowPrefix,
+      ) as HTMLDivElement;
 
       /** Prevent mistouch lose input focus */
       rowDOM.onmousedown = (event) => {

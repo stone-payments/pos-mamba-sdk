@@ -5,6 +5,8 @@
 export function getDefaultLabels() {
   return {
     '{backspace}': ' ',
+    '{delete}': '⌫',
+    '{check}': '✓',
     '{enter}': 'retorno',
     '{space}': 'espaço',
     '{@}': '@',
