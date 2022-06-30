@@ -9,196 +9,119 @@ $level-shadow-color: rgba(0, 0, 0, 0.2);
   left: 0;
 }
 
-.mb-keyboard-theme-default {
-  user-select: none;
-  overflow: hidden;
-  background-color: $neutral100;
-  padding: 1px;
-  font-size: 15px;
-  overflow-y: hidden;
-  z-index: $layer-keyboard;
-
-  & button.mb-button {
-    border-width: 0;
-    outline: 0;
-    font-size: inherit;
-  }
-
-  & .mb-row {
-    display: flex;
-    user-select: none;
-    flex-direction: row;
-    justify-content: center;
-
-    &:not(:last-child) {
-      margin-bottom: 4px;
-
-      & .mb-button .mb-function-btn {
-        flex-shrink: 1;
-        flex-grow: 0;
-      }
+.mb-keyboard {
+  &.mb-layout-vertical {
+    .mb-rows,
+    .mb-columns {
+      display: flex;
     }
 
-    & .mb-button:not(:last-child) {
-      margin-right: 3px;
-    }
-
-    & > div:last-child {
-      margin-right: 0;
-    }
-
-    & > div:last-child {
-      margin-right: 0;
-    }
-  }
-
-  & .mb-button {
-    cursor: pointer;
-    background: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border-radius: 3px;
-    text-align: center;
-    font-weight: 500;
-    padding: 0;
-    height: 34px;
-    min-width: 21px;
-    color: $neutral900;
-
-    & span {
-      margin: 0 auto;
-      display: inline-block;
-      line-height: 34px;
-      height: 34px;
-    }
-
-    & > * {
-      pointer-events: none;
-    }
-
-    &.mb-standard-btn {
-      & span {
-        width: 21px;
-        max-width: 21px;
-        min-width: 21px;
-      }
-    }
-
-    &.mb-function-btn {
-      min-width: 32px;
+    .mb-row,
+    .mb-column {
+      display: inline-flex;
       flex-grow: 1;
-      flex-shrink: 0;
-
-      &:not(.mb-button-space) {
-        max-width: 60px;
-      }
-    }
-
-    &.mb-active {
-      background: $neutral200;
-    }
-
-    &.mb-standard-btn[data-mb-key='@'] {
-      max-width: 60px;
-    }
-
-    &[data-mb-key='{space}'] {
-      flex: 3;
-      color: $neutral600;
-    }
-
-    &[data-mb-key='{symbols}'],
-    &[data-mb-key='{altback}'] {
-      font-size: 13px;
-      letter-spacing: 0.5px;
-    }
-
-    &[data-mb-key='{shift}'],
-    &[data-mb-key='{enter}'] {
-      color: transparent;
-
-      & span {
-        background-repeat: no-repeat;
-        background-position: center;
-      }
-    }
-
-    &[data-mb-key='{enter}'] {
-      /* max-width: 55px; */
-      background-color: $green500;
-      border-radius: 3px 3px 12px 3px;
-
-      & span {
-        background-image: url(../assets/stonePowerSymbol.svg);
-        width: 20px;
-        height: 20px;
-      }
-    }
-
-    &[data-mb-key='{altback}'],
-    &[data-mb-key='{symbols}'],
-    &[data-mb-key='{shift}'],
-    &[data-mb-key='{backspace}'] {
-      flex-basis: 30px;
-      flex-grow: 1;
-      flex-shrink: 1;
-    }
-
-    &[data-mb-key='{shift}'],
-    &[data-mb-key='{backspace}'] {
-      & span {
-        mask-size: contain;
-        mask-repeat: no-repeat;
-        mask-position: center;
-        color: $neutral700;
-        background-color: currentcolor;
-      }
-    }
-
-    &[data-mb-key='{shift}'] {
-      & span {
-        width: 18px;
-        height: 18px;
-        mask-image: url(../assets/shift.svg);
-      }
-    }
-
-    &[data-mb-key='{backspace}'] {
-      & span {
-        min-width: 20px;
-        min-height: 20px;
-        mask-image: url(../assets/delete.svg);
-      }
+      flex-direction: column;
     }
   }
 
-  /* Numeric layout */
-  &.mb-layout-numeric .mb-button {
-    width: 33.3%;
-    height: 60px;
-    align-items: center;
-    display: -webkit-box;
-    justify-content: center;
+  &.mb-layout-horizontal {
+    .mb-row,
+    .mb-column {
+      display: flex;
+      flex-direction: row;
+    }
   }
 }
+
+/* Row direction essentials */
+
+.mb-row,
+.mb-column {
+  user-select: none;
+  justify-content: center;
+
+  &:not(:last-child) {
+    & .mb-button .mb-function-btn {
+      flex-shrink: 1;
+      flex-grow: 0;
+    }
+  }
+}
+
+/* Layout direction essentials */
+
+.mb-layout-vertical {
+  & .mb-column {
+    align-items: stretch;
+
+    & .mb-button {
+      flex: 1;
+    }
+  }
+}
+
+/* No definitions */
+/* .mb-layout-horizontal {} */
+
+/* Button essentials */
+
+.mb-button {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  & span {
+    margin: 0 auto;
+    display: inline-block;
+  }
+
+  & * {
+    pointer-events: none;
+  }
+}
+
+/* Event changes */
 
 .mb-keyboard-theme-default.mb-keyboard-hidden {
   display: none;
 }
+
+.mb-keyboard-theme-default .mb-button.mb-active {
+  background-color: $neutral200;
+}
+
+/* Transitions */
 
 .mamba-app:not(.S920) {
   & + .mb-keyboard-theme-default,
   .mb-keyboard-theme-default {
     & .mb-button {
       box-shadow: 0 1px 1px $level-shadow-color;
+
+      &,
+      & span {
+        transition-duration: 100ms;
+        transition-timing-function: linear;
+      }
+
+      & span {
+        transition-property: color;
+      }
+
       transition-property: background-color;
-      transition-duration: 100ms;
-      transition-timing-function: linear;
 
       &[data-mb-key='{enter}'].mb-active {
         background-color: $green600;
       }
+    }
+  }
+
+  & + .mb-keyboard-theme-math,
+  .mb-keyboard-theme-math {
+    & .mb-button {
+      box-shadow: none !important;
+      border: none !important;
     }
   }
 }
@@ -209,5 +132,189 @@ $level-shadow-color: rgba(0, 0, 0, 0.2);
     & .mb-button {
       border-bottom: 1px inset $level-shadow-color;
     }
+  }
+}
+
+/* Customization */
+
+.mb-button {
+  &[data-mb-key='{space}'] {
+    flex: 3;
+    color: $neutral600;
+  }
+
+  &[data-mb-key='{symbols}'],
+  &[data-mb-key='{altback}'] {
+    font-size: 13px;
+    letter-spacing: 0.5px;
+  }
+
+  &[data-mb-key='{shift}'],
+  &[data-mb-key='{enter}'] {
+    color: transparent;
+
+    & span {
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+
+  &[data-mb-key='{enter}'] {
+    background-color: $green500;
+    border-radius: 3px 3px 12px 3px;
+
+    & span {
+      background-image: url(../assets/stonePowerSymbol.svg);
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &[data-mb-key='{altback}'],
+  &[data-mb-key='{symbols}'],
+  &[data-mb-key='{shift}'],
+  &[data-mb-key='{backspace}'] {
+    flex-basis: 30px;
+    flex-grow: 1;
+    flex-shrink: 1;
+  }
+
+  &[data-mb-key='{shift}'],
+  &[data-mb-key='{backspace}'],
+  &[data-mb-key='{delete}'] {
+    & span {
+      mask-size: contain;
+      mask-repeat: no-repeat;
+      mask-position: center;
+    }
+  }
+
+  &[data-mb-key='{shift}'],
+  &[data-mb-key='{backspace}'],
+  &[data-mb-key='{delete}'] {
+    & span {
+      background-color: currentcolor;
+      color: $neutral700;
+    }
+  }
+
+  &[data-mb-key='{shift}'] {
+    & span {
+      width: 18px;
+      height: 18px;
+      mask-image: url(../assets/shift.svg);
+    }
+  }
+
+  &[data-mb-key='{backspace}'],
+  &[data-mb-key='{delete}'] {
+    & span {
+      min-width: 20px;
+      min-height: 20px;
+      mask-image: url(../assets/delete.svg);
+    }
+  }
+
+  &[data-mb-key='{check}'] {
+    color: transparent;
+    background-color: transparent;
+
+    & span {
+      min-width: 28px;
+      min-height: 28px;
+      background-image: url(../assets/checkSymbol.svg);
+      background-size: contain;
+    }
+  }
+}
+
+/* Themes */
+
+.mb-keyboard-theme-default {
+  user-select: none;
+  overflow: hidden;
+  background-color: $neutral100;
+  padding: 1px;
+  font-size: 14px;
+  z-index: $layer-keyboard;
+
+  &.mb-layout-horizontal {
+    & .mb-row {
+      &:not(:last-child) {
+        margin-bottom: 4px;
+      }
+
+      & .mb-button {
+        min-width: 21px;
+
+        &.mb-standard-btn[data-mb-key='@'] {
+          max-width: 60px;
+        }
+
+        & span {
+          line-height: 36px;
+          height: 34px;
+        }
+
+        &.mb-standard-btn {
+          & span {
+            width: 21px;
+            max-width: 21px;
+          }
+        }
+
+        &.mb-function-btn {
+          min-width: 32px;
+          flex-grow: 1;
+          flex-shrink: 0;
+
+          &:not(.mb-button-space) {
+            max-width: 60px;
+          }
+        }
+      }
+
+      & .mb-button:not(:last-child) {
+        margin-right: 3px;
+      }
+
+      & > div:last-child {
+        margin-right: 0;
+      }
+
+      & > div:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  &.mb-layout-vertical {
+    & .mb-column {
+      &:not(:last-child) {
+        margin-right: 4px;
+      }
+
+      & .mb-button:not(:last-child) {
+        margin-bottom: 3px;
+      }
+
+      & > div:last-child {
+        margin-bottom: 0;
+      }
+
+      & > div:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  & .mb-button {
+    min-height: 34px;
+    background: white;
+    border-radius: 3px;
+    text-align: center;
+    font-weight: 500;
+    padding: 0;
+    color: $neutral900;
   }
 }
