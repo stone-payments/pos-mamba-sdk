@@ -49,7 +49,7 @@ const keyboard: KeyboardTypesPredefinedOptions = {
       `${keyDefault} ${keySpace} ${keyEnter}`,
     ],
   },
-  onFunctionKeyPress: (button: string, instance: Keyboard, e?: KeyboardHandlerEvent) => {
+  internalOnFunctionKeyPress: (button: string, instance: Keyboard, e?: KeyboardHandlerEvent) => {
     const currentLayout = instance.options.layoutName;
     let layoutName;
 

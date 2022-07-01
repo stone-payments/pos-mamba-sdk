@@ -84,6 +84,11 @@ export enum BeepTone {
   TONE_6 = 'TONE6',
   TONE_7 = 'TONE7',
 }
+type FunctionKeyPressCallback = (
+  button: string,
+  instance: Keyboard,
+  e?: KeyboardHandlerEvent,
+) => void;
 
 export interface KeyboardTypeEvents {
   /**
@@ -109,7 +114,14 @@ export interface KeyboardTypeEvents {
   /**
    * Execute the callback function on keypress of non-standard type only (functionality type i.e.: “{alt}”).
    */
-  onFunctionKeyPress?: (button: string, instance: Keyboard, e?: KeyboardHandlerEvent) => void;
+  onFunctionKeyPress?: FunctionKeyPressCallback;
+}
+
+export interface PrefabKeyboardEvents {
+  /**
+   * Execute the callback function on keypress of non-standard type only (functionality type i.e.: “{alt}”).
+   */
+  internalOnFunctionKeyPress?: FunctionKeyPressCallback;
 }
 
 export interface KeyboardTypeOptions {
@@ -303,14 +315,13 @@ export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents
   [name: string]: any;
 }
 
-type FunctionKeyPressType = Pick<KeyboardTypeEvents, 'onFunctionKeyPress'>;
 type LabelsOptionType = Pick<
   KeyboardOptions,
   'labels' | 'outputs' | 'layoutSuggestions' | 'enableLayoutSuggestions' | 'allowKeySyntheticEvent'
 >;
 
 export type KeyboardTypesPredefinedOptions = Readonly<
-  NonNullable<Required<KeyboardTypeOptions>> & FunctionKeyPressType & LabelsOptionType
+  (NonNullable<Required<KeyboardTypeOptions>> & LabelsOptionType) & PrefabKeyboardEvents
 >;
 
 export interface KeyboardControllerParams {

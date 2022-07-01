@@ -334,9 +334,9 @@ class Keyboard {
      */
     if (
       keyboardType !== KeyboardType.Custom &&
-      typeof keyboardSelected.onFunctionKeyPress === 'function'
+      typeof keyboardSelected.internalOnFunctionKeyPress === 'function'
     ) {
-      this.internalOnFunctionKeyPress = keyboardSelected.onFunctionKeyPress;
+      this.internalOnFunctionKeyPress = keyboardSelected.internalOnFunctionKeyPress;
     } else {
       this.internalOnFunctionKeyPress = undefined;
     }

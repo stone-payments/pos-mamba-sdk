@@ -34,7 +34,6 @@ const keyboard: KeyboardTypesPredefinedOptions = {
     [plus]: '+',
     [equal]: '=',
   },
-  onFunctionKeyPress: undefined,
   allowKeySyntheticEvent: [divide, multiply, minus, plus, equal],
 };
 

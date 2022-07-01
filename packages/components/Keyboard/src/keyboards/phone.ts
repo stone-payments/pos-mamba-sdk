@@ -1,5 +1,5 @@
 import { KeyboardType, LayoutDirection } from '../types';
-import { themeDefault, layoutPrefix } from '../helpers/classNames';
+import { themeDefault } from '../helpers/classNames';
 import {
   $default,
   keyDefault,
@@ -20,9 +20,9 @@ import type { KeyboardHandlerEvent, KeyboardTypesPredefinedOptions } from '../ty
 
 const keyboard: KeyboardTypesPredefinedOptions = {
   layoutName: 'default',
-  keyboardType: KeyboardType.Default,
+  keyboardType: KeyboardType.Phone,
   layoutDirection: LayoutDirection.Horizontal,
-  theme: `${themeDefault} ${layoutPrefix}-phone`,
+  theme: themeDefault,
   layout: {
     default: [
       'q w e r t y u i o p',
@@ -49,7 +49,7 @@ const keyboard: KeyboardTypesPredefinedOptions = {
       `${keyDefault} ${keySpace} ${keyEnter}`,
     ],
   },
-  onFunctionKeyPress: (button: string, instance: Keyboard, e?: KeyboardHandlerEvent) => {
+  internalOnFunctionKeyPress: (button: string, instance: Keyboard, e?: KeyboardHandlerEvent) => {
     const currentLayout = instance.options.layoutName;
     let layoutName;
 
@@ -77,6 +77,9 @@ const keyboard: KeyboardTypesPredefinedOptions = {
         layoutName,
       });
     }
+  },
+  labels: {
+    [keyEnter]: ' ',
   },
 };
 

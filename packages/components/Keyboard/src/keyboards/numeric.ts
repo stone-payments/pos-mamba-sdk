@@ -17,7 +17,6 @@ const keyboard: KeyboardTypesPredefinedOptions = {
   outputs: {
     [keyCheck]: 'enter',
   },
-  onFunctionKeyPress: undefined,
 };
 
 export default keyboard;
