@@ -312,7 +312,7 @@ class UIPhysicalKeyboard {
    * @returns Return if the given element belongs to `input` element type
    */
   private isProperInput(element?: HTMLElement | EventTarget): boolean {
-    return element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement;
+    return element instanceof HTMLInputElement;
   }
 
   /**
