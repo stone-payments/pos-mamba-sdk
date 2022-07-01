@@ -6,7 +6,6 @@ import type { UIPhysicalKeyboard } from '../controllers/PhysicalKeyboard';
 import CaretWorker from '../common/CaretWorker';
 import {
   getButtonClass,
-  camelCase,
   getButtonLabelsName,
   getButtonType,
   ClassNames,
@@ -155,7 +154,7 @@ class Keyboard {
      */
     if (!window.MambaKeyboardInstance) window.MambaKeyboardInstance = {};
 
-    window.MambaKeyboardInstance[camelCase(this.keyboardDOMClass)] = this;
+    window.MambaKeyboardInstance.instance = this;
 
     /**
      * Physical Keyboard support
