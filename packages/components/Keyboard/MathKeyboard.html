@@ -40,8 +40,6 @@
   import Keyboard, { KeyboardType } from './lib/index.js';
   import './css/KeyboardMathTheme.css';
 
-  console.log(KeyboardType);
-
   export default {
     components: {
       Input: '@mamba/input/Input.html',
@@ -56,7 +54,7 @@
 
       new Keyboard({
         keepVisible,
-        keyboardType: KeyboardType.Numeric,
+        keyboardType: KeyboardType.Math,
       });
     },
   };
