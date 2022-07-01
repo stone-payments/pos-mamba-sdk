@@ -66,7 +66,6 @@ export enum LayoutDirection {
 export enum KeyboardType {
   Default = 'default',
   Numeric = 'numeric',
-  Email = 'email',
   Phone = 'phone',
   Math = 'math',
   Custom = 'custom',
