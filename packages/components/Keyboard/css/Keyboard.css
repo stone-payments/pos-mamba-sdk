@@ -194,8 +194,7 @@ $level-shadow-color: $neutral400;
     }
   }
 
-  &[data-mb-key='{check}'],
-  &[data-mb-key='{checkround}'] {
+  &[data-mb-key='{check}'] {
     color: transparent;
     background-color: transparent;
 
@@ -216,12 +215,6 @@ $level-shadow-color: $neutral400;
   }
 
   &[data-mb-key='{check}'] {
-    & span {
-      background-image: url(../assets/checkSymbol.svg);
-    }
-  }
-
-  &[data-mb-key='{checkround}'] {
     & span {
       background-image: url(../assets/checkSymbolRound.svg);
     }
