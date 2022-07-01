@@ -1,16 +1,16 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable camelcase */
 
-import CreatePhysicalKeyboard from '../controllers/PhysicalKeyboard';
-import type { UIPhysicalKeyboard } from '../controllers/PhysicalKeyboard';
-import CaretWorker from '../common/CaretWorker';
+import CreatePhysicalKeyboard from './controllers/PhysicalKeyboard';
+import type { UIPhysicalKeyboard } from './controllers/PhysicalKeyboard';
+import CaretWorker from './common/CaretWorker';
 import {
   getButtonClass,
   getButtonLabelsName,
   getButtonType,
   ClassNames,
   createKeyboardElement,
-} from '../helpers';
+} from './helpers';
 import {
   KeyboardOptions,
   KeyboardInput,
@@ -23,9 +23,9 @@ import {
   KeyboardTypesPredefinedOptions,
   KeyboardVisibility,
   LayoutDirection,
-} from '../types';
-import keyboardTypesMap from '../keyboards/keyboardTypesMap';
-import '../../css/Keyboard.css';
+} from './types';
+import keyboardTypesMap from './keyboards/keyboardTypesMap';
+import '../css/Keyboard.css';
 
 /**
  * Root class for @mamba/keyboard
@@ -109,6 +109,7 @@ class Keyboard {
      */
     this.options = {
       excludeFromLayout: {},
+      theme: ClassNames.themeDefault,
       /**
        * Parse keyboard type
        */
@@ -325,17 +326,22 @@ class Keyboard {
    */
   private parseKeyboardTypeOptions(
     keyboardOptions?: KeyboardOptions,
-  ): KeyboardTypesPredefinedOptions {
+  ): KeyboardTypesPredefinedOptions | undefined {
     const keyboardType: KeyboardType = keyboardOptions?.keyboardType || KeyboardType.Default;
+
+    if (keyboardType === KeyboardType.Custom) {
+      return undefined;
+    }
+
+    /**
+     * Get keyboard ready
+     */
     const keyboardSelected: KeyboardTypesPredefinedOptions = keyboardTypesMap[keyboardType]();
 
     /**
      * Handle keyboard function key event of not custom keyboard type, for layout changes out-of-box
      */
-    if (
-      keyboardType !== KeyboardType.Custom &&
-      typeof keyboardSelected.internalOnFunctionKeyPress === 'function'
-    ) {
+    if (typeof keyboardSelected.internalOnFunctionKeyPress === 'function') {
       this.internalOnFunctionKeyPress = keyboardSelected.internalOnFunctionKeyPress;
     } else {
       this.internalOnFunctionKeyPress = undefined;
@@ -808,7 +814,7 @@ class Keyboard {
      * Iterating through each row
      */
     layout[layoutName].forEach((row: any, rIndex: any) => {
-      let rowArray = row.split(' ');
+      let rowArray = row.trim().split(' ');
 
       /**
        * Enforce excludeFromLayout

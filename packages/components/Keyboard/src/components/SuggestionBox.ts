@@ -1,5 +1,5 @@
 /* import { SuggestionBoxParams } from '../types'; */
-import type Keyboard from '../components/Keyboard';
+import type Keyboard from '../Keyboard';
 /**
  * Responsible to handle suggestions and suggestions layout
  */

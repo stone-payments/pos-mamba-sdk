@@ -15,7 +15,7 @@ import {
   keySpace,
 } from '../mappings/keyFunction';
 
-import type Keyboard from '../components/Keyboard';
+import type Keyboard from '../Keyboard';
 import type { KeyboardHandlerEvent, KeyboardTypesPredefinedOptions } from '../types';
 
 const keyboard: KeyboardTypesPredefinedOptions = {

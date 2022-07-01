@@ -6,7 +6,7 @@ import {
   CaretWorkerParams,
 } from '../types';
 import { greddyBraces } from './regExps';
-import type Keyboard from '../components/Keyboard';
+import type Keyboard from '../Keyboard';
 
 /**
  * CaretWorker.

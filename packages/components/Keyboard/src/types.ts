@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import type Keyboard from './components/Keyboard';
+import type Keyboard from './Keyboard';
 
 export interface KeyboardLayoutObject {
   [key: string]: string[];

@@ -1,4 +1,4 @@
-import type MambaKeyboard from '../components/Keyboard';
+import type MambaKeyboard from '../Keyboard';
 
 declare global {
   interface Window {

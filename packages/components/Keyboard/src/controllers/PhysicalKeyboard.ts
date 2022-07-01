@@ -7,7 +7,7 @@ import {
   ButtonType,
   KeyboardVisibility,
 } from '../types';
-import type Keyboard from '../components/Keyboard';
+import type Keyboard from '../Keyboard';
 import type { UIGeneralKeyboard } from './GeneralKeyboard';
 import GeneralKeyboard from './GeneralKeyboard';
 import { bindMethods } from '../helpers';

@@ -1,9 +1,8 @@
-import Keyboard from './components/Keyboard';
-import PhysicalKeyboard from './controllers/PhysicalKeyboard';
+import Keyboard from './Keyboard';
 import GeneralKeyboard from './controllers/GeneralKeyboard';
-import * as KEYBOARD from './mappings';
+import * as MAPPINGS from './mappings';
 
 export * from './types';
 
-export { KEYBOARD, GeneralKeyboard, PhysicalKeyboard };
+export { MAPPINGS, GeneralKeyboard };
 export default Keyboard;
