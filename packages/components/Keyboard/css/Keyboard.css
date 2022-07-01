@@ -137,7 +137,7 @@ $level-shadow-color: rgba(0, 0, 0, 0.2);
 
 /* Customization */
 
-.mb-button {
+.mb-keyboard-theme-default .mb-button {
   &[data-mb-key='{space}'] {
     flex: 3;
     color: $neutral600;

@@ -25,6 +25,7 @@ import {
   LayoutDirection,
 } from '../types';
 import keyboardTypesMap from '../keyboards/keyboardTypesMap';
+import '../../css/Keyboard.css';
 
 /**
  * Root class for @mamba/keyboard
