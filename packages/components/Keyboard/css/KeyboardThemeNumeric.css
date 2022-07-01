@@ -1,6 +1,15 @@
 .mb-keyboard-theme-numeric {
   border-top: 1px solid $neutral300;
 
+  & .mb-row,
+  & .mb-column {
+    flex-grow: initial;
+    flex-shrink: initial;
+    align-items: initial;
+    justify-content: initial;
+    flex-direction: initial;
+  }
+
   &.mb-layout-vertical {
     & .mb-columns {
       table-layout: fixed;
@@ -103,10 +112,15 @@
   } */
 }
 
+.mb-keyboard-theme-default,
 .mb-keyboard-theme-numeric {
   & .mb-button {
     background-color: transparent;
     box-shadow: none !important;
     border: none !important;
+
+    &.mb-active {
+      background-color: $neutral300;
+    }
   }
 }

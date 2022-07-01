@@ -1,0 +1,254 @@
+<div class="numeric-wrapper" class:focus="isFocused">
+  <Input
+    ref:inputNumeric
+    autofocus
+    bind:value
+    bind:isValid
+    forceFocus
+    {maxlength}
+    placeholder="Digite algum número"
+    {..._inputProps}
+    on:focus="_openKeyboard()"
+    on:submit="confirm()"
+    on:submitValid="_onSubmitValid()"
+    on:submitInvalid="_onSubmitInvalid()"
+    validation={_validation}
+  />
+
+  {#if isFocused}
+    <div class="keyboard-wrapper">
+      <div class="keyboard">
+        {#each new Array(12) as _, index}
+          {#if (index < 9)}
+            <button class="key" on:click="insertKey(event,index+1)">{index + 1}</button>
+          {:elseif index == 9}
+            <button class="key" on:click="deleteKey()">
+              <img class="icon" src="{deleteIcon}" alt="" />
+            </button>
+          {:elseif index == 10}
+            <button class="key" on:click="insertKey(event,0)">0</button>
+          {:elseif index == 11}
+            <button class="key" on:click="confirm()">
+              <img class="icon" src="{confirmIcon}" alt="" />
+            </button>
+          {/if}
+      {/each}
+      </div>
+    </div>
+  {/if}
+</div>
+
+<script>
+  import { format as formatMoney } from '@mamba/utils/money.js';
+  import deleteIcon from './assets/delete.svg';
+  import confirmIcon from './assets/checkSymbol.svg';
+
+  export default {
+    components: {
+      Input: '@mamba/input/Input.html',
+    },
+    helpers: {
+      deleteIcon,
+      confirmIcon,
+    },
+    data() {
+      return {
+        isFocused: false,
+        maxlength: 99,
+        cents: 0,
+        prefix: 'R$ ',
+        suffix: '',
+        limit: 999999.99,
+        validation: undefined,
+        readonlyOnEnter: false,
+      };
+    },
+    computed: {
+      _inputProps: (
+        props = {
+          bgColor: undefined,
+          label: undefined,
+          placeholder: undefined,
+          textColor: undefined,
+          value: '',
+          validation: undefined,
+          cents: undefined,
+          prefix: undefined,
+          suffix: undefined,
+          mask: undefined,
+          type: undefined,
+        },
+      ) => ({ ...props }),
+      value: ({ prefix, suffix, cents }) => prefix + formatMoney(parseFloat(cents) / 100) + suffix,
+      /** deprecated */
+      rawValue: ({ cents }) => cents,
+    },
+    oncreate() {
+      const appScreen = document.querySelector('.mamba-app');
+
+      appScreen.addEventListener('click', (e) => {
+        const clickClassList = Array.from(e.target.classList);
+
+        const clickOutKeyboard = clickClassList.some((className) => className === 'keyboard-wrapper');
+
+        if (clickOutKeyboard) {
+          this.set({
+            isFocused: false,
+          });
+        }
+      });
+
+      if (this.options.data) {
+        /**
+         * Since the money input doesn't use masks, it's necessary to override the "validation"
+         * property (if exists) with a method that has access to cents in a number format.
+         * The original Input validation uses the "rawValue", which would be "R$ 1,20", and not "120",
+         * since the Money Input doesn't use a mask.
+         */
+        const { validation } = this.options.data;
+        // istanbul ignore next
+        if (typeof this.options.data.validation === 'function') {
+          this.set({
+            _validation: () => validation(this.get().cents),
+          });
+        }
+      }
+    },
+    methods: {
+      insertKey(event, key) {
+        let { cents } = this.get();
+        cents = cents.toString();
+
+        if (this.get().readonly === true) {
+          return;
+        }
+
+        if (cents === '0') {
+          cents = key;
+        } else {
+          cents += key;
+        }
+
+        /** If the value is above the limit, do nothing */
+        if (parseFloat(cents) / 100 > this.get().limit) {
+          return;
+        }
+
+        cents = parseFloat(cents);
+
+        this.set({ cents });
+        this.refs.inputNumeric._onInput(event);
+      },
+      deleteKey() {
+        let { cents } = this.get();
+        cents = cents.toString();
+
+        if (this.get().readonly === true) {
+          return;
+        }
+
+        cents = cents.slice(0, cents.length - 1);
+
+        if (!cents.length) {
+          cents = '0';
+        }
+
+        cents = parseFloat(cents);
+
+        this.set({ cents });
+      },
+      confirm() {
+        this.set({
+          isFocused: false,
+        });
+
+        this.fire('submitValid', this._getSubmissionObj());
+      },
+      _getSubmissionObj() {
+        const { cents, value: formatted, isValid } = this.get();
+        return { cents, value: cents, formatted, isValid };
+      },
+      _openKeyboard() {
+        this.set({
+          isFocused: true,
+        });
+      },
+      _onSubmitValid() {
+        this.fire('submitValid', this._getSubmissionObj());
+      },
+      _onSubmitInvalid() {
+        this.fire('submitInvalid', this._getSubmissionObj());
+      },
+      validate() {
+        /* istanbul ignore next */
+        this.refs.inputNumeric.validate();
+      },
+      invalidate(message) {
+        /* istanbul ignore next */
+        this.refs.inputNumeric.invalidate(message);
+      },
+      makeWritable() {
+        this.set({
+          readonly: false,
+        });
+      },
+      makeReadOnly() {
+        this.set({
+          readonly: true,
+        });
+      },
+    },
+  };
+</script>
+
+<style>
+  :global(.D199) {
+    .numeric-wrapper {
+      /* css debug */
+      /* border: 1px solid red; */
+      position: relative;
+    }
+
+    .keyboard-wrapper {
+      position: fixed;
+      height: 347px;
+      width: 100%;
+      /* css debug */
+      /* border: 1px solid red; */
+    }
+
+    .keyboard {
+      z-index: 999;
+      width: 100%;
+      min-width: 100px;
+      max-height: 320px;
+      box-sizing: border-box;
+      /* css debug */
+      /* border-bottom: 1px solid blue; */
+      border-top: 1px solid $gray700;
+      background-color: $neutral50;
+      position: fixed;
+      bottom: 0;
+
+      * {
+        box-sizing: border-box;
+      }
+
+      .key {
+        max-width: 80px;
+        width: 100%;
+        height: auto;
+        border: 0;
+        font-size: 20px;
+        line-height: 40px;
+        color: $neutral700;
+        background-color: transparent;
+      }
+
+      .icon {
+        max-width: 20px;
+        max-height: 19px;
+      }
+    }
+  }
+</style>

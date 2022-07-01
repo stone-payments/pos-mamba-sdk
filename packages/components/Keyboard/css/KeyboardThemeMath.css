@@ -1,0 +1,198 @@
+.mb-keyboard-theme-default.mb-keyboard-theme-math {
+  max-height: 252px;
+  background-color: #f2f4f7;
+  border-top: 1px solid $neutral300;
+  padding: 8px 6px;
+
+  & .mb-row .mb-button,
+  & .mb-button {
+    &[data-mb-key='{backspace}'],
+    &[data-mb-key='{clear}'],
+    &[data-mb-key='{%}'],
+    &[data-mb-key='{.}'],
+    &[data-mb-key='{=}'],
+    &[data-mb-key='{+}'],
+    &[data-mb-key='{÷}'],
+    &[data-mb-key='{×}'],
+    &[data-mb-key='{*}'] {
+      & span {
+        min-width: 12px;
+        min-height: 12px;
+        width: 15px;
+        height: 15px;
+      }
+    }
+
+    &[data-mb-key='{clear}'] {
+      & span {
+        mask-image: url(../assets/mathClear.svg);
+      }
+    }
+
+    &[data-mb-key='{÷}'] {
+      & span {
+        mask-image: url(../assets/mathDivision.svg);
+      }
+    }
+
+    &[data-mb-key='{.}'] {
+      & span {
+        max-width: 10px;
+        max-height: 10px;
+        mask-image: url(../assets/mathDecimal.svg);
+      }
+    }
+
+    &[data-mb-key='{backspace}'] {
+      & span {
+        width: 18px;
+        height: 18px;
+        left: -1px;
+        position: relative;
+        mask-image: url(../assets/mathBackspace.svg);
+      }
+    }
+
+    &[data-mb-key='{×}'] {
+      & span {
+        width: 12px;
+        height: 12px;
+        mask-image: url(../assets/mathMultiply.svg);
+      }
+    }
+
+    &[data-mb-key='{−}'] {
+      & span {
+        width: 10px;
+        height: 10px;
+        mask-image: url(../assets/mathMinus.svg);
+      }
+    }
+
+    &[data-mb-key='{+}'] {
+      & span {
+        mask-image: url(../assets/mathPlus.svg);
+      }
+    }
+
+    &[data-mb-key='{%}'] {
+      & span {
+        width: 19px;
+        height: 19px;
+        mask-image: url(../assets/mathPercent.svg);
+      }
+    }
+
+    &[data-mb-key='{=}'] {
+      & span {
+        mask-image: url(../assets/mathEqual.svg);
+      }
+    }
+
+    &[data-mb-key='{check}'] {
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-color: transparent;
+
+      &.mb-active {
+        opacity: 0.7;
+      }
+
+      & span {
+        min-width: 100%;
+        min-height: 100%;
+        background-image: url(../assets/checkSymbolRound.svg);
+      }
+    }
+  }
+
+  & .mb-row {
+    & .mb-button {
+      &[data-mb-key='{.}'],
+      &[data-mb-key='{=}'] {
+        background-color: rgba($green300, 0.1);
+      }
+    }
+  }
+
+  &.mb-layout-horizontal .mb-row {
+    justify-content: space-around;
+
+    & .mb-button {
+      margin: 0;
+      display: flex;
+
+      &.mb-standard-btn {
+        background-color: white;
+        border-color: #dbece6;
+        border-width: 2px;
+        border-style: solid;
+
+        &.mb-active {
+          background-color: #dbece6;
+        }
+      }
+
+      &.mb-function-btn {
+        border: none;
+
+        &:not([data-mb-key='{check}']) {
+          background-color: rgba(11, 167, 73, 0.1);
+
+          span {
+            color: $neutral700;
+            mask-size: contain;
+            mask-repeat: no-repeat;
+            mask-position: center;
+            background-color: currentColor;
+          }
+        }
+
+        &.mb-active {
+          background-color: rgba(11, 167, 73, 0.3);
+        }
+      }
+
+      &.mb-standard-btn,
+      &.mb-function-btn {
+        &,
+        &:not(.mb-button-space) {
+          border-radius: 50%;
+          max-height: 42px;
+          height: 42px;
+          width: 42px;
+          max-width: 42px;
+        }
+      }
+    }
+  }
+
+  & .mb-rows {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-content: space-around;
+    height: 100%;
+
+    .mb-row {
+      flex: 1;
+      align-items: center;
+    }
+  }
+
+  height: 252px;
+}
+
+.mb-keyboard-theme-default.mb-keyboard-theme-math {
+  &.mb-layout-horizontal {
+    & .mb-row {
+      &:not(:last-child) {
+        margin-bottom: 0;
+      }
+      & .mb-button,
+      & .mb-button:not(:last-child) {
+        margin-right: 0;
+      }
+    }
+  }
+}

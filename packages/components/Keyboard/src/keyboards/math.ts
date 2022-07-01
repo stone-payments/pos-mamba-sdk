@@ -2,39 +2,51 @@ import { KeyboardType, LayoutDirection, KeyboardTypesPredefinedOptions } from '.
 import { themeDefault, themePrefix } from '../helpers/classNames';
 import { keyCheck, keyBackspace } from '../mappings/keyFunction';
 
-const divide = '{÷}';
+const division = '{÷}';
 const multiply = '{×}';
 const minus = '{−}';
 const plus = '{+}';
 const equal = '{=}';
+const percentage = '{%}';
+const clear = '{clear}';
+const decimal = '{.}';
+
+const outputsDefault = {
+  [division]: '÷',
+  [multiply]: '×',
+  [minus]: '−',
+  [plus]: '+',
+  [equal]: '=',
+  [percentage]: '%',
+  [decimal]: ',',
+};
 
 const keyboard: KeyboardTypesPredefinedOptions = {
   layoutName: 'math',
   keyboardType: KeyboardType.Math,
-  layoutDirection: LayoutDirection.Vertical,
-  theme: `${themeDefault} ${themePrefix}-numeric ${themePrefix}-math`,
+  layoutDirection: LayoutDirection.Horizontal,
+  theme: `${themeDefault} ${themePrefix}-math`,
   layout: {
     math: [
-      `1 2 3`,
-      '4 5 6',
-      `7 8 9`,
-      `${keyBackspace} 0 ${keyCheck}`,
-      `${divide} ${multiply} ${minus} ${plus} ${equal}`,
+      `${clear} ${keyBackspace} ${percentage} ${division}`,
+      `1 2 3 ${multiply}`,
+      `4 5 6 ${plus}`,
+      `7 8 9 ${minus}`,
+      `${decimal} 0 ${equal} ${keyCheck}`,
     ],
   },
   labels: {
+    ...outputsDefault,
     [keyCheck]: ' ',
     [keyBackspace]: ' ',
+    [clear]: 'C',
   },
   outputs: {
+    ...outputsDefault,
     [keyCheck]: 'enter',
-    [divide]: '÷',
-    [multiply]: '×',
-    [minus]: '−',
-    [plus]: '+',
-    [equal]: '=',
+    [clear]: 'AC',
   },
-  allowKeySyntheticEvent: [divide, multiply, minus, plus, equal],
+  allowKeySyntheticEvent: [division, multiply, minus, plus, equal, decimal, clear, percentage],
 };
 
 export default keyboard;

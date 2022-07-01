@@ -275,6 +275,13 @@ export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents
   lockCursor?: boolean;
 
   /**
+   * If  should render keyboard when it's instance creates
+   *
+   * @defaultValue `true`
+   */
+  autoRender?: boolean;
+
+  /**
    * Make beep sound for every key press
    * ! This do not disable POS sound entirely. Only for this Keyboard instance
    * @defaultValue System preference depending of the app, otherwise `false`

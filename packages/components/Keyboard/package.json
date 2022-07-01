@@ -33,11 +33,6 @@
   "peerDependencies": {
     "@mamba/core": "*",
     "@mamba/input": ">=4",
-    "@mamba/pos": ">=4"
-  },
-  "devDependencies": {
-    "typedoc": "^0.23.2",
-    "typedoc-plugin-markdown": "^3.13.2",
-    "vuepress-plugin-typedoc": "^0.10.3"
+    "@mamba/utils": ">=4"
   }
 }

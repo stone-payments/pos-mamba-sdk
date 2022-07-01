@@ -2,8 +2,10 @@
 /* eslint-disable camelcase */
 
 import CreatePhysicalKeyboard from './controllers/PhysicalKeyboard';
-import type { UIPhysicalKeyboard } from './controllers/PhysicalKeyboard';
+import GeneralKeyboard from './controllers/GeneralKeyboard';
 import CaretWorker from './common/CaretWorker';
+import type { UIPhysicalKeyboard } from './controllers/PhysicalKeyboard';
+import type { UIGeneralKeyboard } from './controllers/GeneralKeyboard';
 import {
   getButtonClass,
   getButtonLabelsName,
@@ -52,6 +54,8 @@ class Keyboard {
 
   physicalKeyboard?: UIPhysicalKeyboard;
 
+  generalKeyboard!: UIGeneralKeyboard;
+
   activeButtonClass: string = ClassNames.activeButtonClassDefault;
 
   hiddenKeyboardClass: string = ClassNames.hiddenKeyboardClassDefault;
@@ -84,6 +88,7 @@ class Keyboard {
    */
   constructor(element?: HTMLDivElement, keyboardOptions?: KeyboardOptions) {
     if (typeof window === 'undefined') return;
+    this.generalKeyboard = GeneralKeyboard;
 
     const {
       keyboardDOMClass,
@@ -172,7 +177,7 @@ class Keyboard {
     /**
      * Rendering keyboard
      */
-    if (this.keyboardDOM) this.render();
+    if (this.keyboardDOM && this.options.autoRender === false) this.render();
     else {
       console.warn(`".${keyboardDOMClass}" was not found in the DOM.`);
       throw new Error('KEYBOARD_DOM_ERROR');
@@ -332,6 +337,11 @@ class Keyboard {
     if (keyboardType === KeyboardType.Custom) {
       return undefined;
     }
+
+    /**
+     * Remove layout override
+     */
+    delete keyboardOptions?.layout;
 
     /**
      * Get keyboard ready
@@ -613,6 +623,10 @@ class Keyboard {
     isValidInputPattern?: boolean,
     e?: KeyboardHandlerEvent,
   ) {
+    const allowKeyPass =
+      Array.isArray(this.options.allowKeySyntheticEvent) &&
+      this.options.allowKeySyntheticEvent.includes(button);
+
     /**
      * Directly updates the active input, if any
      * This events need call always to dispatch synthetic function/action keys
@@ -628,10 +642,9 @@ class Keyboard {
           // on automatic mode only
           this.options.updateMode === KeyboardUpdateMode.Auto) ||
         // or if the button key can pass through configured `allowKeySyntheticEvent` option
-        (Array.isArray(this.options.allowKeySyntheticEvent) &&
-          this.options.allowKeySyntheticEvent.includes(button))
+        allowKeyPass
       ) {
-        this.physicalKeyboard.dispatchSyntheticKeybaordEvent(button, buttonType, e);
+        this.physicalKeyboard.dispatchSyntheticKeybaordEvent(button, buttonType, allowKeyPass, e);
       }
     }
   }

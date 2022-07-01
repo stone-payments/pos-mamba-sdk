@@ -23,6 +23,11 @@ export default function (driver) {
   };
 
   /**
+   * Keyboard instance shortcut.
+   */
+  driver.keyboard = window.MambaKeyboardInstance && window.MambaKeyboardInstance.instance;
+
+  /**
    * Find the key code of given list and key map
    * @param {string[]} list Key list to find
    * @param {{ [key: number]: string }} map Map object with { keyCode : value }

@@ -1,5 +1,5 @@
 import * as Colors from '@mamba/styles/colors.js';
-import { KEYUP, KEYDOWN } from '@mamba/keyboard/native/keymap.js';
+import { KEYUP, KEYDOWN } from '@mamba/keyboard';
 import isFunction from './utils/isFunction.js';
 
 let lastActive;

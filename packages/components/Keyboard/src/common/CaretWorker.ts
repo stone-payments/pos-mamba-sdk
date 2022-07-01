@@ -343,7 +343,9 @@ class CaretWorker {
         output = this.addStringAt(output, ' ', ...commonParams);
         break;
       case '{backspace}':
-        if (output.length > 0) output = this.removeAt(output, ...commonParams);
+        if (output.length > 0 && this.keyboardInstance.generalKeyboard.backspaceEnabled === true) {
+          output = this.removeAt(output, ...commonParams);
+        }
         break;
       case '{delete}':
         if (output.length > 0) output = this.removeForwardsAt(output, ...commonParams);

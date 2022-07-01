@@ -1,6 +1,6 @@
 @import '@mamba/styles/settings.pcss';
 
-$level-shadow-color: rgba(0, 0, 0, 0.2);
+$level-shadow-color: $neutral400;
 
 .mb-keyboard-generic-wrapper {
   position: fixed;
@@ -9,27 +9,25 @@ $level-shadow-color: rgba(0, 0, 0, 0.2);
   left: 0;
 }
 
-.mb-keyboard {
-  &.mb-layout-vertical {
-    .mb-rows,
-    .mb-columns {
-      display: flex;
-    }
-
-    .mb-row,
-    .mb-column {
-      display: inline-flex;
-      flex-grow: 1;
-      flex-direction: column;
-    }
+.mb-layout-vertical {
+  .mb-rows,
+  .mb-columns {
+    display: flex;
   }
 
-  &.mb-layout-horizontal {
-    .mb-row,
-    .mb-column {
-      display: flex;
-      flex-direction: row;
-    }
+  .mb-row,
+  .mb-column {
+    display: inline-flex;
+    flex-grow: 1;
+    flex-direction: column;
+  }
+}
+
+.mb-layout-horizontal {
+  .mb-row,
+  .mb-column {
+    display: flex;
+    flex-direction: row;
   }
 }
 
@@ -88,7 +86,7 @@ $level-shadow-color: rgba(0, 0, 0, 0.2);
 }
 
 .mb-keyboard-theme-default .mb-button.mb-active {
-  background-color: $neutral200;
+  background-color: $neutral300!;
 }
 
 /* Transitions */
@@ -97,8 +95,6 @@ $level-shadow-color: rgba(0, 0, 0, 0.2);
   & + .mb-keyboard-theme-default,
   .mb-keyboard-theme-default {
     & .mb-button {
-      box-shadow: 0 1px 1px $level-shadow-color;
-
       &,
       & span {
         transition-duration: 100ms;
@@ -114,15 +110,6 @@ $level-shadow-color: rgba(0, 0, 0, 0.2);
       &[data-mb-key='{enter}'].mb-active {
         background-color: $green600;
       }
-    }
-  }
-}
-
-.mamba-app.S920 {
-  & + .mb-keyboard-theme-default,
-  .mb-keyboard-theme-default {
-    & .mb-button {
-      border-bottom: 1px inset $level-shadow-color;
     }
   }
 }
@@ -201,15 +188,20 @@ $level-shadow-color: rgba(0, 0, 0, 0.2);
   &[data-mb-key='{backspace}'],
   &[data-mb-key='{delete}'] {
     & span {
-      min-width: 20px;
-      min-height: 20px;
+      width: 20px;
+      height: 20px;
       mask-image: url(../assets/delete.svg);
     }
   }
 
-  &[data-mb-key='{check}'] {
+  &[data-mb-key='{check}'],
+  &[data-mb-key='{checkround}'] {
     color: transparent;
     background-color: transparent;
+
+    &.mb-active {
+      background-color: $green100;
+    }
 
     & span {
       display: block;
@@ -217,10 +209,31 @@ $level-shadow-color: rgba(0, 0, 0, 0.2);
       height: 28px;
       max-width: 28px;
       max-height: 28px;
-      background-image: url(../assets/checkSymbol.svg);
+
       background-size: contain;
       background-repeat: no-repeat;
     }
+  }
+
+  &[data-mb-key='{check}'] {
+    & span {
+      background-image: url(../assets/checkSymbol.svg);
+    }
+  }
+
+  &[data-mb-key='{checkround}'] {
+    & span {
+      background-image: url(../assets/checkSymbolRound.svg);
+    }
+  }
+
+  &[data-mb-key='{default}'],
+  &[data-mb-key='{backspace}'],
+  &[data-mb-key='{alt}'],
+  &[data-mb-key='{altback}'],
+  &[data-mb-key='{symbols}'] {
+    background-color: $neutral400;
+    border-bottom-color: #898b8e;
   }
 }
 
@@ -229,8 +242,8 @@ $level-shadow-color: rgba(0, 0, 0, 0.2);
 .mb-keyboard-theme-default {
   user-select: none;
   overflow: hidden;
-  background-color: $neutral100;
-  padding: 1px;
+  background-color: $neutral200;
+  padding: 1px 1px 2px 1px;
   font-size: 14px;
   z-index: $layer-keyboard;
 
@@ -248,7 +261,7 @@ $level-shadow-color: rgba(0, 0, 0, 0.2);
         }
 
         & span {
-          line-height: 36px;
+          line-height: 35px;
           height: 34px;
         }
 
@@ -312,5 +325,7 @@ $level-shadow-color: rgba(0, 0, 0, 0.2);
     font-weight: 500;
     padding: 0;
     color: $neutral900;
+    border-bottom: 1px inset $level-shadow-color;
+    margin-bottom: -1px;
   }
 }

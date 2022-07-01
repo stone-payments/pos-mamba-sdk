@@ -1,0 +1,18 @@
+<script>
+  import Keyboard from './lib/index.js';
+
+  export default {
+    data() {
+      return {
+        keepVisible: false,
+        debug: __DEV__ || __DEBUG_LVL__ >= 3,
+        autoRender: false,
+      };
+    },
+    oncreate() {
+      new Keyboard({
+        ...this.get(),
+      });
+    },
+  };
+</script>

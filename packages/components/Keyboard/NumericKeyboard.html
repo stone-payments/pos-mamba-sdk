@@ -33,14 +33,14 @@
     on:keyup
     on:input
     on:submit
+    on:submitValid
+    on:submitInvalid
   />
 </div>
 
 <script>
   import Keyboard, { KeyboardType } from './lib/index.js';
-  import './css/KeyboardMathTheme.css';
-
-  console.log(KeyboardType);
+  import './css/KeyboardThemeNumeric.css';
 
   export default {
     components: {
@@ -52,12 +52,15 @@
       };
     },
     oncreate() {
-      const { keepVisible } = this.get();
-
       new Keyboard({
-        keepVisible,
+        ...this.get(),
         keyboardType: KeyboardType.Numeric,
       });
+    },
+    methods: {
+      getInputComponent() {
+        return this.refs.inputComponent;
+      },
     },
   };
 </script>

@@ -8,8 +8,6 @@ import {
   KeyboardVisibility,
 } from '../types';
 import type Keyboard from '../Keyboard';
-import type { UIGeneralKeyboard } from './GeneralKeyboard';
-import GeneralKeyboard from './GeneralKeyboard';
 import { bindMethods } from '../helpers';
 import keyMapTable from '../mappings/keyTableMap';
 import { anyBraces } from '../common/regExps';
@@ -21,8 +19,6 @@ import { anyBraces } from '../common/regExps';
  * Keeps inputs synchronized
  */
 class UIPhysicalKeyboard {
-  private generalKeyboard!: UIGeneralKeyboard;
-
   private keyboardInstance!: Keyboard;
 
   public static instance: UIPhysicalKeyboard;
@@ -39,11 +35,9 @@ class UIPhysicalKeyboard {
    * Creates an instance of the UIPhysicalKeyboard service
    */
   private constructor({ getOptions, keyboardInstance }: PhysicalKeyboardParams) {
-    this.generalKeyboard = GeneralKeyboard;
     /**
      * @type {object} A mamba-keyboard instance
      */
-
     this.getOptions = getOptions;
     this.keyboardInstance = keyboardInstance;
 
@@ -259,7 +253,13 @@ class UIPhysicalKeyboard {
     /**
      * If key index belongs to the second index, infer that is from shift modifier
      */
-    const shiftModifier = keyMapTable[code].indexOf(keyName) > 0;
+    let shiftModifier;
+
+    try {
+      shiftModifier = keyMapTable[code].indexOf(keyName) > 0;
+    } catch (_) {
+      // do nothing
+    }
 
     /**
      * initKeyboardEvent: method compatible with POS
@@ -318,7 +318,12 @@ class UIPhysicalKeyboard {
   /**
    * Dispatch keyboard event to custom input or active document element
    */
-  dispatchSyntheticKeybaordEvent(button: string, buttonType: ButtonType, e?: KeyboardHandlerEvent) {
+  dispatchSyntheticKeybaordEvent(
+    button: string,
+    buttonType: ButtonType,
+    allowPass?: boolean,
+    e?: KeyboardHandlerEvent,
+  ) {
     const options = this.getOptions();
 
     if (e) {
@@ -362,7 +367,7 @@ class UIPhysicalKeyboard {
     }
 
     /** Get the alpha code of a key of keyboard */
-    const keyCode = this.generalKeyboard.getTableKeyCode(
+    const keyCode = this.keyboardInstance.generalKeyboard.getTableKeyCode(
       button,
       buttonType === ButtonType.Standard,
     );
@@ -395,7 +400,7 @@ class UIPhysicalKeyboard {
     /**
      * Key code not found, abort send the event
      */
-    if (!keyCode || Number.isNaN(Number(keyCode))) {
+    if (!allowPass && (!keyCode || Number.isNaN(Number(keyCode)))) {
       if (options.debug) {
         console.log(`\u001b[1;31mCannot map "${button}" key name to its code\u001b[0m`);
       }
