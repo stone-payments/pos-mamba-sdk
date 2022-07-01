@@ -29,7 +29,6 @@ import '../../css/Keyboard.css';
 
 /**
  * Root class for @mamba/keyboard
- * This class:
  * - Parses the options
  * - Renders the rows and buttons
  * - Handles button functionality
@@ -70,6 +69,8 @@ class Keyboard {
   activeTime = 100;
 
   defaultLayoutDirection = LayoutDirection.Horizontal;
+
+  defaultAllowKeySyntheticEvent = ['{backspace}', '{enter}', '{check}'];
 
   internalOnFunctionKeyPress?: (
     button: string,
@@ -341,13 +342,7 @@ class Keyboard {
     }
 
     return {
-      keyboardType: keyboardSelected.keyboardType || keyboardType,
-      layoutName: keyboardSelected.layoutName || this.defaultLayoutAndName,
-      layoutDirection: keyboardSelected.layoutDirection || this.defaultLayoutDirection,
-      layout: keyboardSelected.layout,
-      labels: keyboardSelected.labels,
-      outputs: keyboardSelected.outputs,
-      theme: keyboardSelected.theme || keyboardSelected.theme,
+      ...keyboardSelected,
     };
   }
 
@@ -589,18 +584,9 @@ class Keyboard {
     }
 
     /**
-     * Directly updates the active input, if any
-     * This events need call always to dispatch synthetic function/action keys
+     * Call synthetic event handler
      */
-    if (
-      /** Check for pattern again in order to avoid unnecessary calls */
-      (!this.options.inputPattern || isValidInputPattern) &&
-      /** on automatic mode only */
-      this.options.updateMode === KeyboardUpdateMode.Auto &&
-      this.physicalKeyboard
-    ) {
-      this.physicalKeyboard.dispatchSyntheticKeybaordEvent(button, buttonType, e);
-    }
+    this.shouldDispatchSyntheticKeyEvent(button, buttonType, isValidInputPattern, e);
 
     /**
      * Call active class handler
@@ -609,6 +595,38 @@ class Keyboard {
 
     if (this.options.debug) {
       console.log('Key pressed:', button);
+    }
+  }
+
+  /**
+   * Handles key dispatcher
+   */
+  private shouldDispatchSyntheticKeyEvent(
+    button: string,
+    buttonType: ButtonType,
+    isValidInputPattern?: boolean,
+    e?: KeyboardHandlerEvent,
+  ) {
+    /**
+     * Directly updates the active input, if any
+     * This events need call always to dispatch synthetic function/action keys
+     */
+    if (this.physicalKeyboard) {
+      if (
+        // If button is obligatory key dispatcher
+        this.defaultAllowKeySyntheticEvent.includes(button) ||
+        // Check if key type is standard
+        (buttonType === ButtonType.Standard &&
+          // and for pattern again in order to avoid unnecessary calls
+          (!this.options.inputPattern || isValidInputPattern) &&
+          // on automatic mode only
+          this.options.updateMode === KeyboardUpdateMode.Auto) ||
+        // or if the button key can pass through configured `allowKeySyntheticEvent` option
+        (Array.isArray(this.options.allowKeySyntheticEvent) &&
+          this.options.allowKeySyntheticEvent.includes(button))
+      ) {
+        this.physicalKeyboard.dispatchSyntheticKeybaordEvent(button, buttonType, e);
+      }
     }
   }
 
@@ -683,7 +701,7 @@ class Keyboard {
     }
 
     /**
-     * set EventListeners
+     * Set caret event listeners
      */
     this.caretWorker.setupCaretEventsControl();
 

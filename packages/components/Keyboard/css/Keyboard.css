@@ -116,14 +116,6 @@ $level-shadow-color: rgba(0, 0, 0, 0.2);
       }
     }
   }
-
-  & + .mb-keyboard-theme-math,
-  .mb-keyboard-theme-math {
-    & .mb-button {
-      box-shadow: none !important;
-      border: none !important;
-    }
-  }
 }
 
 .mamba-app.S920 {
@@ -220,10 +212,14 @@ $level-shadow-color: rgba(0, 0, 0, 0.2);
     background-color: transparent;
 
     & span {
-      min-width: 28px;
-      min-height: 28px;
+      display: block;
+      width: 28px;
+      height: 28px;
+      max-width: 28px;
+      max-height: 28px;
       background-image: url(../assets/checkSymbol.svg);
       background-size: contain;
+      background-repeat: no-repeat;
     }
   }
 }

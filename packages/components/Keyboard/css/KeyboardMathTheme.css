@@ -37,4 +37,32 @@
       }
     }
   }
+
+  & .mb-column:last-child {
+    display: flex;
+    position: absolute;
+    justify-content: space-evenly;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 25%;
+    border-left: 1px solid $neutral300;
+
+    & .mb-button {
+      display: flex;
+      flex: 1;
+      font-weight: bold;
+      width: 100%;
+
+      span {
+        width: 14px;
+        height: 14px;
+        mask-size: contain;
+        mask-repeat: no-repeat;
+        mask-position: center;
+        background-color: currentColor;
+        color: $neutral800 !important;
+      }
+    }
+  }
 }

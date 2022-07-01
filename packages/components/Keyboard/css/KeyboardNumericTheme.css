@@ -1,7 +1,6 @@
-.mb-keyboard-theme-math {
+.mb-keyboard-theme-numeric {
   border-top: 1px solid $neutral300;
 
-  &,
   &.mb-layout-vertical {
     & .mb-columns {
       table-layout: fixed;
@@ -50,73 +49,64 @@
     }
   }
 
+  &.mb-layout-horizontal {
+    & .mb-rows {
+      table-layout: fixed;
+      display: table;
+      width: 100%;
+    }
+
+    & .mb-row {
+      display: table-row;
+
+      &,
+      &:not(:last-child) {
+        margin: 0;
+      }
+
+      & .mb-button {
+        display: table-cell;
+        height: 54px;
+        margin: 0;
+        font-size: 18px;
+        border-radius: 2px;
+        vertical-align: middle;
+        flex: none;
+
+        & span {
+          line-height: 36px;
+        }
+
+        &.mb-standard-btn span {
+          color: $neutral700;
+        }
+
+        &:not(.mb-active) {
+          background-color: transparent;
+        }
+      }
+
+      & .mb-button:not(:last-child) {
+        margin-bottom: 0;
+      }
+    }
+
+    & .mb-row,
+    & .mb-rows {
+      margin: 0;
+    }
+  }
+
   /* Uncomment for draw outline around the button */
   /* &.debug .mb-button {
     outline: 0.1px solid red;
   } */
+}
 
-  & .mb-column:last-child {
-    display: flex;
-    position: absolute;
-    justify-content: space-evenly;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    width: 25%;
-    border-left: 1px solid $neutral300;
-
-    & .mb-button {
-      display: flex;
-      flex: 1;
-      font-weight: bold;
-      width: 100%;
-
-      span {
-        width: 14px;
-        height: 14px;
-        mask-size: contain;
-        mask-repeat: no-repeat;
-        mask-position: center;
-        background-color: currentColor;
-        color: $neutral800 !important;
-      }
-    }
-  }
-
-  & .mb-column:last-child .mb-button,
+.mb-keyboard-theme-numeric {
   & .mb-button {
-    &[data-mb-key='{backspace}'] span {
-      color: $neutral600;
-    }
-
-    &[data-mb-key='÷'] {
-      min-height: 54px;
-      & span {
-        width: 15px;
-        height: 15px;
-        mask-image: url(../assets/mathDivision.svg);
-      }
-    }
-
-    &[data-mb-key='×'] span {
-      width: 12px;
-      height: 12px;
-      mask-image: url(../assets/mathMultiply.svg);
-    }
-
-    &[data-mb-key='−'] span {
-      mask-image: url(../assets/mathMinus.svg);
-    }
-
-    &[data-mb-key='+'] span {
-      mask-image: url(../assets/mathPlus.svg);
-    }
-
-    &[data-mb-key='='] {
-      min-height: 54px;
-      & span {
-        mask-image: url(../assets/mathEqual.svg);
-      }
-    }
+    background-color: transparent;
+    box-shadow: none !important;
+    border: none !important;
   }
 }

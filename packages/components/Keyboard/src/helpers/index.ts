@@ -1,4 +1,3 @@
-import { camelCase } from './camelCase';
 import { getButtonClass } from './getButtonClass';
 import { getButtonType } from './getButtonType';
 import { getDefaultLabels } from './getDefaultLabels';
@@ -11,7 +10,6 @@ import { bindMethods } from './bindMethods';
 import * as ClassNames from './classNames';
 
 export {
-  camelCase,
   getButtonClass,
   getButtonType,
   getDefaultLabels,

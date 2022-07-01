@@ -375,16 +375,6 @@ class UIPhysicalKeyboard {
     }
 
     /**
-     * Key code not found, abort send the event
-     */
-    if (!keyCode || Number.isNaN(Number(keyCode))) {
-      if (options.debug) {
-        console.log(`\u001b[1;31m⚠︎ Warning! Cannot map "${button}" key name to its code\u001b[0m`);
-      }
-      return;
-    }
-
-    /**
      * Update the element with the keyboard value
      */
     if (isElementFocused) {
@@ -400,6 +390,16 @@ class UIPhysicalKeyboard {
          */
         (targetElement as HTMLInputElement).value = input;
       }
+    }
+
+    /**
+     * Key code not found, abort send the event
+     */
+    if (!keyCode || Number.isNaN(Number(keyCode))) {
+      if (options.debug) {
+        console.log(`\u001b[1;31mCannot map "${button}" key name to its code\u001b[0m`);
+      }
+      return;
     }
 
     /**

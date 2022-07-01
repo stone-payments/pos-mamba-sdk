@@ -188,9 +188,34 @@ export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents
   inputPattern?: RegExp;
 
   /**
-   * Exclude specific buttons from layout
+   * Exclude specific buttons from each layout
+   * @example
+   *
+   * ```js
+   * excludeFromLayout: {
+   *   default: ['a'],
+   *   shift: ['B'],
+   * }
+   * ```
    */
-  excludeFromLayout?: { [key: string]: string[] };
+  excludeFromLayout?: { [layoutName: string]: string[] };
+
+  /**
+   * Include specific function buttons to go through synthetic event dispatch.
+   * This is useful to send key press of function keys to the input event handler, like math keys.
+   *
+   * The key code will be resolved by String.charcode if it's not already mapped. (only for single char)
+   * @example
+   * ```js
+   * {
+   *   ...
+   *   // These keys will not display on input but send input events without braces
+   *   // (e.g. KeyboardEvent({ key: "+", code: 107 }))
+   *   allowKeySyntheticEvent: ['{+}', '{-}', '{*}', '{≠}'],
+   * }
+   * ```
+   */
+  allowKeySyntheticEvent?: string[];
 
   /**
    * Points key events to a customizable input element, instead of using document active element.
@@ -259,13 +284,30 @@ export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents
   beepTime?: number;
 
   /**
+   * Enable or disables key suggestions
+   * @defaultValue `true`
+   */
+  enableLayoutSuggestions?: boolean;
+
+  /**
+   * Character suggestions for especial and exotic keys
+   * Define it was tuple it max of four optional words
+   * Some prefab keyboard already have some latin words
+   * @see [Default Suggestions](./mappings/defaultSuggestions.ts)
+   */
+  layoutSuggestions?: { [key: string]: [string?, string?, string?, string?] };
+
+  /**
    * Other options can exist
    */
   [name: string]: any;
 }
 
 type FunctionKeyPressType = Pick<KeyboardTypeEvents, 'onFunctionKeyPress'>;
-type LabelsOptionType = Pick<KeyboardOptions, 'labels' | 'outputs'>;
+type LabelsOptionType = Pick<
+  KeyboardOptions,
+  'labels' | 'outputs' | 'layoutSuggestions' | 'enableLayoutSuggestions' | 'allowKeySyntheticEvent'
+>;
 
 export type KeyboardTypesPredefinedOptions = Readonly<
   NonNullable<Required<KeyboardTypeOptions>> & FunctionKeyPressType & LabelsOptionType
@@ -278,4 +320,4 @@ export interface KeyboardControllerParams {
 
 export type CaretWorkerParams = KeyboardControllerParams;
 export type PhysicalKeyboardParams = KeyboardControllerParams;
-export type TouchKeyboardParams = KeyboardControllerParams;
+export type SuggestionBoxParams = KeyboardControllerParams;
