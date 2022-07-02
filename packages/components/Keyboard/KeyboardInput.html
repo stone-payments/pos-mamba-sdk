@@ -36,39 +36,24 @@
     on:submitValid
     on:submitInvalid
   />
-  <!-- <div ref:keyboardRoot class="mb-keyboard-input"></div> -->
+  <div ref:keyboardRoot class="mb-keyboard-input"></div>
 </div>
 
 <script>
   import Keyboard, { KeyboardType } from './lib/index.js';
-  // import './css/KeyboardThemeNumeric.css';
   import './css/KeyboardThemeMath.css';
+  import './css/KeyboardThemeNumeric.css';
+  import './css/KeyboardThemePhone.css';
 
   export default {
     components: {
       Input: '@mamba/input/Input.html',
     },
     oncreate() {
-      // eslint-disable-next-line no-unused-vars
-      const { /* keyboardRoot, */ inputComponent } = this.refs;
-      // const { input: inputDOMElement } = inputComponent.refs;
-
       new Keyboard({
-        // onChange: (input, e) => console.log('[onChange]', button, e);
-        // onKeyPress: (button, e) => console.log('[onKeyPress]', button, e);
-        // onFunctionKeyPress: (button, e) => console.log('[onFunctionKeyPress]', button, e);
-        // onRender: (instance) => console.log('[onRender]', instance);
-        // onInit: (instance) => console.log('[onInit]', instance);
         debug: __DEV__ || __DEBUG_LVL__ >= 3,
-        keepVisible: true,
-        // keyboardType: KeyboardType.Default,
-        keyboardType: KeyboardType.Math,
-        // keyboardType: KeyboardType.Numeric,
-        // keyboardType: KeyboardType.Custom,
-        // keyboardType: KeyboardType.Phone,
-        layoutSuggestions: {
-          e: 'é',
-        },
+        autoRender: false,
+        keyboardType: KeyboardType.Default,
       });
     },
   };

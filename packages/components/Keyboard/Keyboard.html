@@ -1,11 +1,16 @@
 <script>
+  import './css/Keyboard.css';
+  import './css/KeyboardThemeMath.css';
+  import './css/KeyboardThemeNumeric.css';
+  import './css/KeyboardThemePhone.css';
+
   import Keyboard from './lib/index.js';
 
   export default {
     data() {
       return {
-        keepVisible: false,
         debug: __DEV__ || __DEBUG_LVL__ >= 3,
+        keepVisible: false,
         autoRender: false,
       };
     },

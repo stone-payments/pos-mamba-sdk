@@ -1,0 +1,27 @@
+.mb-keyboard-theme-phone {
+  padding: 8px;
+
+  & .mb-button,
+  & .mb-function-btn {
+    max-width: none !important;
+    flex: 1;
+  }
+
+  & .mb-button {
+    border-radius: 4px;
+    font-size: 17px;
+
+    &[data-mb-key='{backspace}'] {
+      background-color: transparent;
+      border: none;
+    }
+  }
+
+  &.mb-layout-horizontal .mb-row:not(:last-child) {
+    margin-bottom: 8px;
+  }
+
+  &.mb-layout-horizontal .mb-row .mb-button:not(:last-child) {
+    margin-right: 8px;
+  }
+}

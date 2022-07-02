@@ -9,28 +9,6 @@ $level-shadow-color: $neutral400;
   left: 0;
 }
 
-.mb-layout-vertical {
-  .mb-rows,
-  .mb-columns {
-    display: flex;
-  }
-
-  .mb-row,
-  .mb-column {
-    display: inline-flex;
-    flex-grow: 1;
-    flex-direction: column;
-  }
-}
-
-.mb-layout-horizontal {
-  .mb-row,
-  .mb-column {
-    display: flex;
-    flex-direction: row;
-  }
-}
-
 /* Row direction essentials */
 
 .mb-row,
@@ -58,6 +36,98 @@ $level-shadow-color: $neutral400;
   }
 }
 
+.mb-layout-vertical {
+  .mb-rows,
+  .mb-columns {
+    display: flex;
+  }
+
+  .mb-row,
+  .mb-column {
+    display: inline-flex;
+    flex-grow: 1;
+    flex-direction: column;
+  }
+}
+
+.mb-layout-horizontal {
+  .mb-row,
+  .mb-column {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.mb-layout-horizontal {
+  & .mb-row {
+    &:not(:last-child) {
+      margin-bottom: 4px;
+    }
+
+    & .mb-button {
+      min-width: 21px;
+
+      &.mb-standard-btn[data-mb-key='@'] {
+        max-width: 60px;
+      }
+
+      & span {
+        line-height: 35px;
+        height: 34px;
+      }
+
+      &.mb-standard-btn {
+        & span {
+          width: 21px;
+          max-width: 21px;
+        }
+      }
+
+      &.mb-function-btn {
+        min-width: 32px;
+        flex-grow: 1;
+        flex-shrink: 0;
+
+        &:not(.mb-button-space) {
+          max-width: 60px;
+        }
+      }
+    }
+
+    & .mb-button:not(:last-child) {
+      margin-right: 3px;
+    }
+
+    & > div:last-child {
+      margin-right: 0;
+    }
+
+    & > div:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.mb-layout-vertical {
+  & .mb-column {
+    &:not(:last-child) {
+      margin-right: 4px;
+    }
+
+    & .mb-button:not(:last-child) {
+      margin-bottom: 3px;
+    }
+
+    & > div:last-child {
+      margin-bottom: 0;
+    }
+
+    & > div:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
 /* No definitions */
 /* .mb-layout-horizontal {} */
 
@@ -81,42 +151,34 @@ $level-shadow-color: $neutral400;
 
 /* Event changes */
 
-.mb-keyboard-theme-default.mb-keyboard-hidden {
+.mb-keyboard-hidden {
   display: none;
 }
 
 .mb-keyboard-theme-default .mb-button.mb-active {
-  background-color: $neutral300!;
+  background-color: $neutral300;
+}
+
+.mb-keyboard-theme-default .mb-button[data-mb-key='{enter}'].mb-active {
+  background-color: $green600;
 }
 
 /* Transitions */
 
-.mamba-app:not(.S920) {
-  & + .mb-keyboard-theme-default,
-  .mb-keyboard-theme-default {
-    & .mb-button {
-      &,
-      & span {
-        transition-duration: 100ms;
-        transition-timing-function: linear;
-      }
-
-      & span {
-        transition-property: color;
-      }
-
-      transition-property: background-color;
-
-      &[data-mb-key='{enter}'].mb-active {
-        background-color: $green600;
-      }
-    }
+.mamba-app-container:not(.S920) {
+  & .mb-keyboard .mb-button {
+    transition-duration: 100ms;
+    transition-timing-function: linear;
+    transition-property: background-color;
   }
 }
 
 /* Customization */
 
-.mb-keyboard-theme-default .mb-button {
+.mb-button {
+  background: white;
+  border-radius: 3px;
+
   &[data-mb-key='{space}'] {
     flex: 3;
     color: $neutral600;
@@ -143,7 +205,7 @@ $level-shadow-color: $neutral400;
     border-radius: 3px 3px 12px 3px;
 
     & span {
-      background-image: url(../assets/stonePowerSymbol.svg);
+      background-image: url(../assets/stone_power_symbol.svg);
       width: 20px;
       height: 20px;
     }
@@ -199,24 +261,17 @@ $level-shadow-color: $neutral400;
     background-color: transparent;
 
     &.mb-active {
-      background-color: $green100;
+      background-color: rgba(11, 167, 73, 0.3);
     }
 
     & span {
       display: block;
       width: 28px;
       height: 28px;
-      max-width: 28px;
-      max-height: 28px;
-
       background-size: contain;
       background-repeat: no-repeat;
-    }
-  }
-
-  &[data-mb-key='{check}'] {
-    & span {
-      background-image: url(../assets/checkSymbolRound.svg);
+      background-color: transparent;
+      background-image: url(../assets/check_symbol_round.svg);
     }
   }
 
@@ -225,7 +280,6 @@ $level-shadow-color: $neutral400;
   &[data-mb-key='{alt}'],
   &[data-mb-key='{altback}'],
   &[data-mb-key='{symbols}'] {
-    background-color: $neutral400;
     border-bottom-color: #898b8e;
   }
 }
@@ -236,84 +290,12 @@ $level-shadow-color: $neutral400;
   user-select: none;
   overflow: hidden;
   background-color: $neutral200;
-  padding: 1px 1px 2px 1px;
+  padding: 4px 2px 4px 2px;
   font-size: 14px;
   z-index: $layer-keyboard;
 
-  &.mb-layout-horizontal {
-    & .mb-row {
-      &:not(:last-child) {
-        margin-bottom: 4px;
-      }
-
-      & .mb-button {
-        min-width: 21px;
-
-        &.mb-standard-btn[data-mb-key='@'] {
-          max-width: 60px;
-        }
-
-        & span {
-          line-height: 35px;
-          height: 34px;
-        }
-
-        &.mb-standard-btn {
-          & span {
-            width: 21px;
-            max-width: 21px;
-          }
-        }
-
-        &.mb-function-btn {
-          min-width: 32px;
-          flex-grow: 1;
-          flex-shrink: 0;
-
-          &:not(.mb-button-space) {
-            max-width: 60px;
-          }
-        }
-      }
-
-      & .mb-button:not(:last-child) {
-        margin-right: 3px;
-      }
-
-      & > div:last-child {
-        margin-right: 0;
-      }
-
-      & > div:last-child {
-        margin-right: 0;
-      }
-    }
-  }
-
-  &.mb-layout-vertical {
-    & .mb-column {
-      &:not(:last-child) {
-        margin-right: 4px;
-      }
-
-      & .mb-button:not(:last-child) {
-        margin-bottom: 3px;
-      }
-
-      & > div:last-child {
-        margin-bottom: 0;
-      }
-
-      & > div:last-child {
-        margin-bottom: 0;
-      }
-    }
-  }
-
   & .mb-button {
     min-height: 34px;
-    background: white;
-    border-radius: 3px;
     text-align: center;
     font-weight: 500;
     padding: 0;
@@ -321,4 +303,10 @@ $level-shadow-color: $neutral400;
     border-bottom: 1px inset $level-shadow-color;
     margin-bottom: -1px;
   }
+
+  /* & .mb-button {
+    &:not(.mb-active),
+    &:not([data-mb-key='{enter}']) {
+    }
+  } */
 }

@@ -1,61 +1,15 @@
 .mb-keyboard-theme-numeric {
   border-top: 1px solid $neutral300;
+  background-color: $neutral200;
 
   & .mb-row,
-  & .mb-column {
+  & .mb-column,
+  & .mb-button {
     flex-grow: initial;
     flex-shrink: initial;
     align-items: initial;
     justify-content: initial;
     flex-direction: initial;
-  }
-
-  &.mb-layout-vertical {
-    & .mb-columns {
-      table-layout: fixed;
-      display: table;
-      width: 75%;
-    }
-
-    & .mb-column {
-      display: table-row;
-
-      &,
-      &:not(:last-child) {
-        margin: 0;
-      }
-
-      & .mb-button {
-        display: table-cell;
-        height: 54px;
-        margin: 0;
-        font-size: 18px;
-        border-radius: 2px;
-        vertical-align: middle;
-        flex: none;
-
-        & span {
-          line-height: 36px;
-        }
-
-        &.mb-standard-btn span {
-          color: $neutral700;
-        }
-
-        &:not(.mb-active) {
-          background-color: transparent;
-        }
-      }
-
-      & .mb-button:not(:last-child) {
-        margin-bottom: 0;
-      }
-    }
-
-    & .mb-column,
-    & .mb-columns {
-      margin: 0;
-    }
   }
 
   &.mb-layout-horizontal {
@@ -86,7 +40,7 @@
           line-height: 36px;
         }
 
-        &.mb-standard-btn span {
+        &.mb-standard-btn {
           color: $neutral700;
         }
 
@@ -110,16 +64,21 @@
   /* &.debug .mb-button {
     outline: 0.1px solid red;
   } */
-}
 
-.mb-keyboard-theme-default,
-.mb-keyboard-theme-numeric {
   & .mb-button {
     background-color: transparent;
     box-shadow: none !important;
     border: none !important;
+    vertical-align: middle;
+    flex: none;
+    text-align: center;
 
-    &.mb-active {
+    & span {
+      line-height: 36px;
+      margin: auto;
+    }
+
+    &:not([data-mb-key='{check}']).mb-active {
       background-color: $neutral300;
     }
   }

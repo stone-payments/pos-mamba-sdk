@@ -13,6 +13,8 @@ export {
   F24,
   KEYUP,
   KEYDOWN,
+  ARROW_UP,
+  ARROW_DOWN,
   KEY_0,
   KEY_1,
   KEY_2,
@@ -25,3 +27,5 @@ export {
   KEY_9,
 } from './keyCodes';
 export { default as KEY_CODE_LIST } from './keyCodeList';
+export { default as KEY_TABLE_MAP } from './keyTableMap';
+export { default as KEY_TABLE_MAP_LIST } from './keyTableMapList';

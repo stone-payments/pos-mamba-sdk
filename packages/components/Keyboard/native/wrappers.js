@@ -25,7 +25,17 @@ export default function (driver) {
   /**
    * Keyboard instance shortcut.
    */
-  driver.keyboard = window.MambaKeyboardInstance && window.MambaKeyboardInstance.instance;
+  Object.defineProperty(driver, 'virtualKeyboard', {
+    get() {
+      const instance = window.MambaKeyboardInstance && window.MambaKeyboardInstance.instance;
+      if (instance) {
+        instance.bindToDriver(driver);
+      }
+      return instance;
+    },
+    configurable: true,
+    enumerable: true,
+  });
 
   /**
    * Find the key code of given list and key map
@@ -104,4 +114,14 @@ export default function (driver) {
    * @memberof GeneralKeyboard
    */
   driver.enableBackspace = GeneralKeyboard.enableBackspace;
+
+  /**
+   * Bind virtual keyboard methods
+   */
+  // eslint-disable-next-line no-unused-expressions
+  setTimeout(() => {
+    if (driver.virtualKeyboard) {
+      console.log('Virtual Keyboard Binded');
+    }
+  }, 1);
 }

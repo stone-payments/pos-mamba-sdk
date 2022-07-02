@@ -1,5 +1,5 @@
 import { KeyboardType, LayoutDirection, KeyboardTypesPredefinedOptions } from '../types';
-import { themeDefault, themePrefix } from '../helpers/classNames';
+import { themePrefix } from '../helpers/classNames';
 import { keyCheck, keyBackspace } from '../mappings/keyFunction';
 
 const division = '{÷}';
@@ -25,7 +25,7 @@ const keyboard: KeyboardTypesPredefinedOptions = {
   layoutName: 'math',
   keyboardType: KeyboardType.Math,
   layoutDirection: LayoutDirection.Horizontal,
-  theme: `${themeDefault} ${themePrefix}-math`,
+  theme: `${themePrefix}-math`,
   layout: {
     math: [
       `${clear} ${keyBackspace} ${percentage} ${division}`,

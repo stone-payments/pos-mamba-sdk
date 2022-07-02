@@ -52,7 +52,7 @@
       const { target } = this.root.options;
 
       /** Add the mamba-app-container class to the root element */
-      target.classList.add('mamba-app-container');
+      target.classList.add('mamba-app-container', this.get().model);
 
       // Add capabilities classes
       try {
@@ -219,7 +219,9 @@
           }
         }
 
-        const keyName = Keyboard.getKeyName(e.keyCode);
+        const keyName = Keyboard.getKeyName(
+          e.code && e.code !== 0 ? e.code : e.charCode || e.which || e.keyCode,
+        );
 
         /**
          * Should cancel the native actions for enter/back keys
@@ -236,7 +238,7 @@
         }
       },
       _onKeyup(e) {
-        const keyCode = e.charCode || e.which || e.keyCode;
+        const keyCode = e.code && e.code !== 0 ? e.code : e.charCode || e.which || e.keyCode;
 
         /**
          * Don't control keys outside of an app scope if at the browser environment.

@@ -131,6 +131,7 @@
           errorMessage,
           validateOn,
           validation,
+          keyboardType,
         } = this.options.data;
 
         this.set({
@@ -154,7 +155,12 @@
           errorMessage: isString(errorMessage) ? errorMessage : undefined,
           validateOn: isString(validateOn) ? validateOn : 'submit',
           validation: typeof validation === 'function' ? validation : undefined,
+          keyboardType: isString(keyboardType) ? keyboardType : undefined,
         });
+
+        if (keyboardType) {
+          this.refs.input.dataset.keyboardType = keyboardType;
+        }
 
         // TODO: remove when undefined prop is not printed
         if (typeof maxlength !== 'undefined') {
@@ -303,7 +309,9 @@
          * - Use e.keyIdentifier{string} to work on POS values
          * - Use e.code{number} to work with alphabet keyboard
          */
-        const key = Keyboard.getKeyName(e.code || e.keyCode || e.key);
+        const key = Keyboard.getKeyName(
+          e.code && e.code !== 0 ? e.code : e.charCode || e.which || e.keyCode,
+        );
 
         this.fire('keyup', e);
 
@@ -426,6 +434,8 @@
 </script>
 
 <style type="text/postcss">
+  @import '@mamba/styles/settings.pcss';
+
   :global(.has-small-screen) {
     .label {
       font-size: 17px;

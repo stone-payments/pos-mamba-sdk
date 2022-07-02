@@ -156,7 +156,7 @@ export interface KeyboardTypeOptions {
 
 export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents {
   /**
-   * Replaces variable buttons (such as `{bksp}`) with a human-friendly name (e.g.: `backspace`).
+   * Replaces variable buttons (such as `{backspace}`) with a human-friendly name (e.g.: `backspace`).
    */
   labels?: { [button: string]: string };
 
@@ -276,7 +276,7 @@ export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents
 
   /**
    * If  should render keyboard when it's instance creates
-   *
+   * Call `render()` method to show the keyboard
    * @defaultValue `true`
    */
   autoRender?: boolean;

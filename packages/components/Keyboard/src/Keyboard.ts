@@ -1,16 +1,16 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable camelcase */
 
-import CreatePhysicalKeyboard from './controllers/PhysicalKeyboard';
+import CreatePhysicalKeyboard, { UIPhysicalKeyboard } from './controllers/PhysicalKeyboard';
 import GeneralKeyboard from './controllers/GeneralKeyboard';
 import CaretWorker from './common/CaretWorker';
-import type { UIPhysicalKeyboard } from './controllers/PhysicalKeyboard';
 import type { UIGeneralKeyboard } from './controllers/GeneralKeyboard';
 import {
   getButtonClass,
   getButtonLabelsName,
   getButtonType,
   ClassNames,
+  isProperInput,
   createKeyboardElement,
 } from './helpers';
 import {
@@ -27,7 +27,6 @@ import {
   LayoutDirection,
 } from './types';
 import keyboardTypesMap from './keyboards/keyboardTypesMap';
-import '../css/Keyboard.css';
 
 /**
  * Root class for @mamba/keyboard
@@ -73,6 +72,8 @@ class Keyboard {
   activeTime = 100;
 
   defaultLayoutDirection = LayoutDirection.Horizontal;
+
+  driverBinded = false;
 
   defaultAllowKeySyntheticEvent = ['{backspace}', '{enter}', '{check}'];
 
@@ -125,10 +126,6 @@ class Keyboard {
       ...options,
     };
 
-    console.log(
-      `${JSON.stringify(options, null, 2)}\n<--->\n${JSON.stringify(this.options, null, 2)}`,
-    );
-
     /**
      * mamba-keyboard uses a non-persistent virtual input to keep track of the entered string (the variable `keyboard.input`).
      * This removes any dependency to input DOM elements. You can type and directly display the value in a div element, for example.
@@ -177,8 +174,9 @@ class Keyboard {
     /**
      * Rendering keyboard
      */
-    if (this.keyboardDOM && this.options.autoRender === false) this.render();
-    else {
+    if (this.keyboardDOM) {
+      if (!(this.options.autoRender === false)) this.render();
+    } else {
       console.warn(`".${keyboardDOMClass}" was not found in the DOM.`);
       throw new Error('KEYBOARD_DOM_ERROR');
     }
@@ -346,20 +344,28 @@ class Keyboard {
     /**
      * Get keyboard ready
      */
-    const keyboardSelected: KeyboardTypesPredefinedOptions = keyboardTypesMap[keyboardType]();
+    try {
+      const keyboardSelected: KeyboardTypesPredefinedOptions = keyboardTypesMap[keyboardType]();
 
-    /**
-     * Handle keyboard function key event of not custom keyboard type, for layout changes out-of-box
-     */
-    if (typeof keyboardSelected.internalOnFunctionKeyPress === 'function') {
-      this.internalOnFunctionKeyPress = keyboardSelected.internalOnFunctionKeyPress;
-    } else {
-      this.internalOnFunctionKeyPress = undefined;
+      /**
+       * Handle keyboard function key event of not custom keyboard type, for layout changes out-of-box
+       */
+      if (typeof keyboardSelected.internalOnFunctionKeyPress === 'function') {
+        this.internalOnFunctionKeyPress = keyboardSelected.internalOnFunctionKeyPress;
+      } else {
+        this.internalOnFunctionKeyPress = undefined;
+      }
+
+      return {
+        ...keyboardSelected,
+      };
+    } catch (e) {
+      console.log(
+        `the given keyboard ${keyboardType} not found. The valid values are Default, Math, Numeric, Phone or Custom`,
+      );
+
+      throw new Error('KEYBOARD_TYPE_NOT_FOUND');
     }
-
-    return {
-      ...keyboardSelected,
-    };
   }
 
   /**
@@ -372,6 +378,15 @@ class Keyboard {
   public set visibility(value: KeyboardVisibility) {
     if (this.options.keepVisible === true) {
       value = KeyboardVisibility.Visible;
+    }
+
+    const input = document.activeElement as HTMLInputElement;
+    const isInput = isProperInput(input);
+
+    if (isInput && 'keyboardType' in input.dataset) {
+      this.setOptions({
+        keyboardType: input.dataset.keyboardType,
+      });
     }
 
     this.keyboardVisible = value;
@@ -431,7 +446,7 @@ class Keyboard {
      */
     this.parseOptionsUpdated(options);
 
-    this.options = Object.assign(this.options, options);
+    this.options = Object.assign(this.options, this.parseKeyboardTypeOptions(options), options);
 
     if (changedOptions.length) {
       if (this.options.debug) {
@@ -488,6 +503,43 @@ class Keyboard {
      * inputPattern doesn't seem to be set for the current input, or input is empty. Pass.
      */
     return true;
+  }
+
+  /**
+   * Render alias
+   */
+  public show() {
+    this.render();
+  }
+
+  /**
+   * Bind public methods to the window.$Keyboard wrapper.
+   * So you can call Keyboard methods grouped with Kernel methods.
+   * e.g `window.$Keyboard.show();`
+   *
+   * @param driver driver wrapper
+   */
+  public bindToDriver(driver: any) {
+    if (!driver || this.driverBinded) return;
+    const accessibleMethods = [
+      'clearInput',
+      'getInput',
+      'setInput',
+      'replaceInput',
+      'setOptions',
+      'getButtonElement',
+      'inputPatternIsValid',
+      'show',
+    ];
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const method of Object.getOwnPropertyNames(Keyboard.prototype)) {
+      if (accessibleMethods.includes(method)) {
+        driver[method] = this[method].bind(this);
+      }
+    }
+
+    this.driverBinded = true;
   }
 
   /**
@@ -763,11 +815,12 @@ class Keyboard {
   };
 
   /**
-   * Render the keyboard buttons
+   * Render or updates the keyboard buttons
+   * Can be called direct if `autoRender` is off
    * @throws LAYOUT_NOT_FOUND_ERROR - layout layout not found
    * @throws LAYOUT_NAME_NOT_FOUND_ERROR - layout name not found in layout object
    */
-  private render() {
+  public render() {
     /**
      * Clear keyboard
      */

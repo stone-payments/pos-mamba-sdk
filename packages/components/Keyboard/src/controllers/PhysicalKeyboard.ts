@@ -8,7 +8,7 @@ import {
   KeyboardVisibility,
 } from '../types';
 import type Keyboard from '../Keyboard';
-import { bindMethods } from '../helpers';
+import { bindMethods, isProperInput } from '../helpers';
 import keyMapTable from '../mappings/keyTableMap';
 import { anyBraces } from '../common/regExps';
 
@@ -18,7 +18,7 @@ import { anyBraces } from '../common/regExps';
  * Send synthetic events to handle input post-processing (e.g. masks)
  * Keeps inputs synchronized
  */
-class UIPhysicalKeyboard {
+export class UIPhysicalKeyboard {
   private keyboardInstance!: Keyboard;
 
   public static instance: UIPhysicalKeyboard;
@@ -93,7 +93,7 @@ class UIPhysicalKeyboard {
     /**
      * Handle focused target
      */
-    if (target && this.isProperInput(target)) {
+    if (target && isProperInput(target)) {
       const options = this.getOptions();
       const input = target as HTMLInputElement;
 
@@ -123,7 +123,7 @@ class UIPhysicalKeyboard {
    */
   handleDOMInputTargetBlur(e?: FocusEvent) {
     this.keyboardInstance.visibility = KeyboardVisibility.Hidden;
-    if (e && e.target && this.isProperInput(e.target)) {
+    if (e && e.target && isProperInput(e.target)) {
       const input = e.target as HTMLInputElement;
 
       input.removeEventListener('input', this.handleDOMInputChange);
@@ -145,7 +145,7 @@ class UIPhysicalKeyboard {
       // and check if target is input
       e &&
       e.target &&
-      this.isProperInput(e.target)
+      isProperInput(e.target)
     ) {
       const input = e.target as HTMLInputElement;
 
@@ -174,7 +174,7 @@ class UIPhysicalKeyboard {
 
     if (
       // If user setup the input property element compatible with DOM Input element
-      this.isProperInput(options.input) ||
+      isProperInput(options.input) ||
       // Or it is non DOM Input element, but a `<div>`
       this.isNonInputButProperElement(options.input)
     ) {
@@ -306,16 +306,6 @@ class UIPhysicalKeyboard {
   }
 
   /**
-   * Detect if element if INPUT type
-   *
-   * @param element Any bottom-level `HTMLElement` type
-   * @returns Return if the given element belongs to `input` element type
-   */
-  private isProperInput(element?: HTMLElement | EventTarget): boolean {
-    return element instanceof HTMLInputElement;
-  }
-
-  /**
    * Dispatch keyboard event to custom input or active document element
    */
   dispatchSyntheticKeybaordEvent(
@@ -389,7 +379,7 @@ class UIPhysicalKeyboard {
        */
       if (this.isNonInputButProperElement(targetElement)) {
         targetElement.innerText = input;
-      } else if (this.isProperInput(targetElement)) {
+      } else if (isProperInput(targetElement)) {
         /**
          * Otherwise set the input value
          */
@@ -434,11 +424,6 @@ class UIPhysicalKeyboard {
     }
   }
 }
-
-/**
- * Export only type
- */
-export type { UIPhysicalKeyboard };
 
 /**
  * Create or get Physical Keyboard instance
