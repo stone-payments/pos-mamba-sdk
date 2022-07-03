@@ -1,4 +1,4 @@
-import KEY_MAP from './keyMap';
+import { KEYBOARD } from '@mamba/core';
 
 /**
  * Represents general key code table with shift modifier
@@ -9,7 +9,7 @@ import KEY_MAP from './keyMap';
 // Which cannot be detected. Assuming that it is a US keyboard layout
 // Any other key non-listed here must avoid input change for POS environment
 export default Object.freeze({
-  ...KEY_MAP,
+  ...KEYBOARD.KEY_MAP,
   48: ['0', ')'],
   49: ['1', '!'],
   50: ['2', '@'],

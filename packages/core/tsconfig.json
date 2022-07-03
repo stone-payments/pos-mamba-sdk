@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "noImplicitAny": true,
-    "outDir": "lib",
+    "outDir": "dist",
     "lib": ["esnext", "DOM"],
     "target": "es6",
     "module": "es2020",
@@ -18,8 +18,7 @@
     "strict": true,
     "strictNullChecks": true,
     "isolatedModules": true,
-    "removeComments": false,
-    "typeRoots": ["../../../node_modules/@types", "src/customTypes"]
+    "removeComments": false
   },
-  "include": ["src"]
+  "include": ["./", "internal", "keymap"]
 }

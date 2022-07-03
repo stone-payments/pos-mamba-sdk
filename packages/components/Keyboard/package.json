@@ -28,7 +28,8 @@
     "start": "yarn run prebuild && tsc -d -w",
     "prebuild": "rimraf dist types",
     "compile": "tsc -p tsconfig.json",
-    "build": "run-s prebuild compile"
+    "build": "run-s prebuild compile",
+    "prepare": "npm run build"
   },
   "peerDependencies": {
     "@mamba/core": "*",
