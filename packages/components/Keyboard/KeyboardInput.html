@@ -41,6 +41,7 @@
 
 <script>
   import Keyboard, { KeyboardType } from './lib/index.js';
+  import './css/Keyboard.css';
   import './css/KeyboardThemeMath.css';
   import './css/KeyboardThemeNumeric.css';
   import './css/KeyboardThemePhone.css';
@@ -52,8 +53,9 @@
     oncreate() {
       new Keyboard({
         debug: __DEV__ || __DEBUG_LVL__ >= 3,
-        autoRender: false,
+        autoRender: true,
         keyboardType: KeyboardType.Default,
+        ...this.get(),
       });
     },
   };
