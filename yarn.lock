@@ -14603,29 +14603,12 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typedoc-plugin-markdown@^3.13.2:
-  version "3.13.2"
-  resolved "https://registry.yarnpkg.com/typedoc-plugin-markdown/-/typedoc-plugin-markdown-3.13.2.tgz#988846ab68365ef215fbae35a75745fa7641a8af"
-  integrity sha512-WpP+XW4TZ7yVIM9jSjTWUznZitXWY8OwSVRZAu65+lOI6tiIeUYEsgiFzIdGjNcWbwD6THNcJqATDoMVIp9RKw==
-  dependencies:
-    handlebars "^4.7.7"
-
 typedoc@^0.22.17:
   version "0.22.17"
   resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.22.17.tgz#bc51cc95f569040112504300831cdac4f8089b7b"
   integrity sha512-h6+uXHVVCPDaANzjwzdsj9aePBjZiBTpiMpBBeyh1zcN2odVsDCNajz8zyKnixF93HJeGpl34j/70yoEE5BfNg==
   dependencies:
     glob "^8.0.3"
-    lunr "^2.3.9"
-    marked "^4.0.16"
-    minimatch "^5.1.0"
-    shiki "^0.10.1"
-
-typedoc@^0.23.2:
-  version "0.23.2"
-  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.23.2.tgz#c5f82752530749c8b541ff9b17883f6fb9e72f14"
-  integrity sha512-THpC4vtb3wu1yck6YHzEc4ck6W4lScf8TD0Rg7XAetDih8BzP+ErYO0/6DtdzYcZyKkDwEoujkMeWW7CffCbrQ==
-  dependencies:
     lunr "^2.3.9"
     marked "^4.0.16"
     minimatch "^5.1.0"
@@ -14936,11 +14919,6 @@ vscode-textmate@5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/vscode-textmate/-/vscode-textmate-5.2.0.tgz#01f01760a391e8222fe4f33fbccbd1ad71aed74e"
   integrity sha512-Uw5ooOQxRASHgu6C7GVvUxisKXfSgW4oFlO+aa+PAkgmH89O3CXxEEzNRNtHSqtXFTl0nAC1uYj0GMSH27uwtQ==
-
-vuepress-plugin-typedoc@^0.10.3:
-  version "0.10.3"
-  resolved "https://registry.yarnpkg.com/vuepress-plugin-typedoc/-/vuepress-plugin-typedoc-0.10.3.tgz#0880e98679d8b17a9dfdae1c8ce86da4138a7d88"
-  integrity sha512-ll9sC/lX2iPji9DALT1V0uEgln7K/Za0hMzrAIkyGWD8VaCJ27pXx6db3G340Ni/Xv7qem9dgSqcHSYMYTZtEQ==
 
 w3c-hr-time@^1.0.2:
   version "1.0.2"
