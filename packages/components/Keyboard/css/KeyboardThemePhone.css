@@ -7,21 +7,38 @@
     flex: 1;
   }
 
+  & .mb-cell {
+    vertical-align: top;
+    height: 36px;
+  }
+
+  &.mb-layout-fixed .mb-row:not(:last-child) .mb-cell {
+    padding-bottom: 8px;
+  }
+
+  &.mb-layout-fixed .mb-row .mb-cell:not(:last-child) {
+    padding-right: 8px;
+  }
+
   & .mb-button {
     border-radius: 4px;
     font-size: 17px;
+    height: 100%;
+    position: relative;
+
+    span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
 
     &[data-mb-key='{backspace}'] {
-      background-color: transparent;
       border: none;
     }
-  }
 
-  &.mb-layout-horizontal .mb-row:not(:last-child) {
-    margin-bottom: 8px;
-  }
-
-  &.mb-layout-horizontal .mb-row .mb-button:not(:last-child) {
-    margin-right: 8px;
+    &[data-mb-key='{backspace}']:not(.mb-active) {
+      background-color: transparent;
+    }
   }
 }

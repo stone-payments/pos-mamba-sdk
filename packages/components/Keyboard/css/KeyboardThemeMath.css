@@ -1,20 +1,18 @@
 .mb-keyboard-theme-math {
-  max-height: 252px;
+  max-height: none;
+  height: auto;
   background-color: #f2f4f7;
   border-top: 1px solid $neutral300;
   padding: 8px 6px;
 
-  /* &.debug .mb-button {
-    outline: 0.1px solid red;
+  $button-size: 42px;
+
+  /* &.debug .mb-cell {
+    outline: 1px solid red;
   } */
 
   & .mb-row .mb-button,
   & .mb-button {
-    & span {
-      text-align: center;
-      margin: auto;
-    }
-
     &[data-mb-key='{backspace}'],
     &[data-mb-key='{clear}'],
     &[data-mb-key='{%}'],
@@ -40,7 +38,7 @@
 
     &[data-mb-key='{÷}'] {
       & span {
-        mask-image: url(../assets/math_division.svg);
+        mask-image: url(../assets/math_division.png);
       }
     }
 
@@ -48,7 +46,7 @@
       & span {
         max-width: 10px;
         max-height: 10px;
-        mask-image: url(../assets/math_decimal.svg);
+        mask-image: url(../assets/math_decimal.png);
       }
     }
 
@@ -58,7 +56,7 @@
         height: 18px;
         left: -1px;
         position: relative;
-        mask-image: url(../assets/math_backspace.svg);
+        mask-image: url(../assets/math_backspace.png);
       }
     }
 
@@ -66,7 +64,7 @@
       & span {
         width: 12px;
         height: 12px;
-        mask-image: url(../assets/math_multiply.svg);
+        mask-image: url(../assets/math_multiply.png);
       }
     }
 
@@ -74,13 +72,13 @@
       & span {
         width: 10px;
         height: 10px;
-        mask-image: url(../assets/math_minus.svg);
+        mask-image: url(../assets/math_minus.png);
       }
     }
 
     &[data-mb-key='{+}'] {
       & span {
-        mask-image: url(../assets/math_plus.svg);
+        mask-image: url(../assets/math_plus.png);
       }
     }
 
@@ -88,13 +86,13 @@
       & span {
         width: 19px;
         height: 19px;
-        mask-image: url(../assets/math_percent.svg);
+        mask-image: url(../assets/math_percent.png);
       }
     }
 
     &[data-mb-key='{=}'] {
       & span {
-        mask-image: url(../assets/math_equal.svg);
+        mask-image: url(../assets/math_equal.png);
       }
     }
 
@@ -119,13 +117,12 @@
     }
   }
 
-  &.mb-layout-horizontal .mb-row {
+  &.mb-layout-fixed .mb-row {
     & .mb-button {
-      margin: 0;
-      display: flex;
       font-weight: 600;
       font-size: 16px;
-      text-align: center;
+      margin: 0 auto;
+      position: relative;
 
       &.mb-standard-btn {
         background-color: white;
@@ -147,9 +144,11 @@
 
           span {
             color: $neutral700;
-            mask-size: contain;
+            mask-size: contain, contain;
             mask-repeat: no-repeat;
-            mask-position: center;
+            mask-position: 50% 50%;
+            background-repeat: no-repeat;
+            background-origin: content-box;
             background-color: currentColor;
           }
         }
@@ -164,41 +163,21 @@
         &,
         &:not(.mb-button-space) {
           border-radius: 50%;
-          max-height: 42px;
-          height: 42px;
-          width: 42px;
-          max-width: 42px;
+          height: $button-size;
+          width: $button-size;
+        }
+
+        &:not([data-mb-key='{check}']) span {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
         }
       }
     }
   }
 
-  & .mb-rows {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-content: space-around;
-    height: 100%;
-
-    .mb-row {
-      flex: 1;
-      align-items: center;
-    }
-  }
-
-  height: 252px;
-}
-
-.mb-keyboard-theme-math {
-  &.mb-layout-horizontal {
-    & .mb-row {
-      &:not(:last-child) {
-        margin-bottom: 0;
-      }
-
-      & .mb-button:not(:last-child) {
-        margin-right: 14px;
-      }
-    }
+  &.mb-layout-fixed .mb-row:not(:last-child) .mb-cell {
+    padding-bottom: 8px;
   }
 }

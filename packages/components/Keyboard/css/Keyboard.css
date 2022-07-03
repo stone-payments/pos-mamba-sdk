@@ -9,12 +9,11 @@ $level-shadow-color: $neutral400;
   left: 0;
 }
 
-/* Row direction essentials */
+/* Layout essentials */
 
 .mb-row,
 .mb-column {
   user-select: none;
-  justify-content: center;
 
   &:not(:last-child) {
     & .mb-button .mb-function-btn {
@@ -24,37 +23,38 @@ $level-shadow-color: $neutral400;
   }
 }
 
-/* Layout direction essentials */
-
-.mb-layout-vertical {
+.mb-keyboard:not(.mb-layout-fixed) {
+  & .mb-row,
   & .mb-column {
-    align-items: stretch;
-
-    & .mb-button {
-      flex: 1;
-    }
+    flex: 1;
   }
-}
 
-.mb-layout-vertical {
-  .mb-rows,
-  .mb-columns {
+  & .mb-row {
     display: flex;
+    flex-direction: row;
+    justify-content: center;
   }
 
-  .mb-row,
-  .mb-column {
+  & .mb-column {
     display: inline-flex;
-    flex-grow: 1;
     flex-direction: column;
   }
 }
 
-.mb-layout-horizontal {
-  .mb-row,
-  .mb-column {
-    display: flex;
-    flex-direction: row;
+.mb-layout-fixed {
+  & .mb-rows {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+
+    & .mb-row {
+      display: table-row;
+
+      & .mb-cell {
+        vertical-align: top;
+        display: table-cell;
+      }
+    }
   }
 }
 
@@ -110,6 +110,12 @@ $level-shadow-color: $neutral400;
 
 .mb-layout-vertical {
   & .mb-column {
+    align-items: stretch;
+
+    & .mb-button {
+      flex: 1;
+    }
+
     &:not(:last-child) {
       margin-right: 4px;
     }
@@ -133,11 +139,25 @@ $level-shadow-color: $neutral400;
 
 /* Button essentials */
 
+:not(.mb-layout-fixed) {
+  & .mb-button {
+    display: flex;
+    vertical-align: middle;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+.mb-layout-fixed {
+  & .mb-button {
+    /* display: inline-block; */
+    vertical-align: middle;
+    text-align: center;
+  }
+}
+
 .mb-button {
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 
   & span {
     margin: 0 auto;

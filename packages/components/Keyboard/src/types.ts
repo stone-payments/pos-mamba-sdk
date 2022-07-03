@@ -57,6 +57,7 @@ export enum KeyboardVisibility {
 export enum LayoutDirection {
   Horizontal = 'horizontal',
   Vertical = 'vertical',
+  Fixed = 'fixed',
 }
 
 /**
@@ -142,7 +143,10 @@ export interface KeyboardTypeOptions {
   layoutName?: string;
 
   /**
-   * Specifies which direction layout should render. Horizontaly or Verticaly.
+   * Specifies which direction layout should render. Horizontaly, Verticaly or Fixed.
+   * - {@link LayoutDirection.Horizontal}, layout will render from left to right axis (row flow)
+   * - {@link LayoutDirection.Vertical}, layout will render from top to bottom axis (column flow)
+   * - {@link LayoutDirection.Fixed}, layout will render in fixed grid mode. This mode helps draw layout like `space-evenly` on POS. But not support flexible arrange.
    * @defaultValue {@link LayoutDirection.Horizontal}
    */
   layoutDirection?: LayoutDirection;

@@ -12,32 +12,26 @@
     flex-direction: initial;
   }
 
-  &.mb-layout-horizontal {
-    & .mb-rows {
-      table-layout: fixed;
-      display: table;
-      width: 100%;
-    }
-
+  &.mb-layout-fixed {
     & .mb-row {
-      display: table-row;
-
       &,
       &:not(:last-child) {
         margin: 0;
       }
 
       & .mb-button {
-        display: table-cell;
         height: 54px;
         margin: 0;
         font-size: 18px;
         border-radius: 2px;
         vertical-align: middle;
-        flex: none;
+        position: relative;
 
-        & span {
-          line-height: 36px;
+        span {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
         }
 
         &.mb-standard-btn {
@@ -70,7 +64,6 @@
     box-shadow: none !important;
     border: none !important;
     vertical-align: middle;
-    flex: none;
     text-align: center;
 
     & span {

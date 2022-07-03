@@ -24,7 +24,7 @@ const outputsDefault = {
 const keyboard: KeyboardTypesPredefinedOptions = {
   layoutName: 'math',
   keyboardType: KeyboardType.Math,
-  layoutDirection: LayoutDirection.Horizontal,
+  layoutDirection: LayoutDirection.Fixed,
   theme: `${themePrefix}-math`,
   layout: {
     math: [

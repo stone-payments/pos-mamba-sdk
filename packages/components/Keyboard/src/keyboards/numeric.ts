@@ -5,7 +5,7 @@ import { keyCheck, keyBackspace } from '../mappings/keyFunction';
 const keyboard: KeyboardTypesPredefinedOptions = {
   layoutName: 'numeric',
   keyboardType: KeyboardType.Numeric,
-  layoutDirection: LayoutDirection.Horizontal,
+  layoutDirection: LayoutDirection.Fixed,
   theme: `${themePrefix}-numeric`,
   layout: {
     numeric: [`1 2 3`, '4 5 6', `7 8 9`, `${keyBackspace} 0 ${keyCheck}`],

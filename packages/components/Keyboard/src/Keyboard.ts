@@ -914,13 +914,13 @@ class Keyboard {
         /**
          * Processing button options
          */
-        const fctBtnClass = getButtonClass(button);
+        const buttonClass = getButtonClass(button);
         const buttonLabelsName = getButtonLabelsName(button, this.options.labels);
 
         /**
          * Creating button
          */
-        const buttonDOM = createKeyboardElement(`${ClassNames.buttonPrefix} ${fctBtnClass}`);
+        const buttonDOM = createKeyboardElement(`${ClassNames.buttonPrefix} ${buttonClass}`);
 
         /**
          * Handle mouse events
@@ -952,9 +952,22 @@ class Keyboard {
         this.buttonElements[button].push(buttonDOM);
 
         /**
-         * Appending button to row
+         * Creating button cell for fixed layout
          */
-        rowDOM.appendChild(buttonDOM);
+        if (layoutDirection === LayoutDirection.Fixed) {
+          const buttonDOMCell = createKeyboardElement(`${ClassNames.cellPrefix}`);
+
+          buttonDOMCell.appendChild(buttonDOM);
+          /**
+           * Appending button to row
+           */
+          rowDOM.appendChild(buttonDOMCell);
+        } else {
+          /**
+           * Appending button to row
+           */
+          rowDOM.appendChild(buttonDOM);
+        }
       });
 
       /**

@@ -4,6 +4,7 @@ const rowsPrefix = `${prefix}-rows`;
 const columnsPrefix = `${prefix}-columns`;
 const rowPrefix = `${prefix}-row`;
 const columnPrefix = `${prefix}-column`;
+const cellPrefix = `${prefix}-cell`;
 const layoutPrefix = `${prefix}-layout`;
 const layoutNamePrefix = `${layoutPrefix}-name`;
 const buttonPrefix = `${prefix}-button`;
@@ -19,6 +20,7 @@ export {
   rowPrefix,
   columnsPrefix,
   columnPrefix,
+  cellPrefix,
   layoutPrefix,
   layoutNamePrefix,
   buttonPrefix,
