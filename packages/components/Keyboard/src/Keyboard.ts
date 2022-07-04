@@ -585,6 +585,13 @@ class Keyboard {
   }
 
   /**
+   * Reset rows alias
+   */
+  public unmount() {
+    this.resetRows();
+  }
+
+  /**
    * Bind public methods to the window.$Keyboard wrapper.
    * So you can call Keyboard methods grouped with Kernel methods.
    * e.g `window.$Keyboard.show();`
@@ -608,6 +615,7 @@ class Keyboard {
       'setKeyboardAsNumericType',
       'setKeyboardAsPhoneType',
       'setKeyboardAsCustomType',
+      'resetRows',
       'show',
       'render',
     ];
