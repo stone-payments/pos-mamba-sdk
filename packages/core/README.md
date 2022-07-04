@@ -22,7 +22,9 @@ Provides the specific key-maps and key-names of POS.
 ### KEY_NAMES
 
 ```js
-import { KEY_NAMES, KEY_NAMES_LIST } from '@mamba/core';
+import { KEYBOARD } from '@mamba/core';
+
+const { KEY_NAMES, KEY_NAMES_LIST } = KEYBOARD;
 
 KEY_NAMES.ENTER; // 'Enter'
 KEY_NAMES_LIST; // ['CLOSE', 'BACK', 'BACKSPACE', 'ENTER', 'HELP', 'SHORTCUTS', 'SPACE', 'KEYUP', 'ARROW_UP', 'KEYDOWN', 'ARROW_DOWN', 'F24', 'F23', 'KEY_0', 'KEY_1', 'KEY_2', 'KEY_3', 'KEY_4', 'KEY_5', 'KEY_6', 'KEY_7', 'KEY_8', 'KEY_9']
@@ -68,7 +70,9 @@ Values:
 ### KEY_CODES
 
 ```js
-import { KEY_CODES, KEY_CODES_LIST } from '@mamba/core';
+import { KEYBOARD } from '@mamba/core';
+
+const { KEY_CODES, KEY_CODES_LIST } = KEYBOARD;
 
 KEY_CODES.ENTER; // 13
 KEY_CODES_LIST; // [13, 8, 8, 27, 17, 16, 134, 135, 32, 38, 38, 40, 40, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57]
@@ -118,7 +122,9 @@ Maped key codes to key names
 [keyboard.getkeyname(keycode)]: #getkeynamekeycode
 
 ```js
-import { KEY_MAP, KEY_NAMES, KEY_1 } from '@mamba/core';
+import { KEYBOARD } from '@mamba/core';
+
+const { KEY_MAP, KEY_NAMES, KEY_1 } = KEYBOARD;
 
 KEY_MAP.13; // 'Enter'
 
