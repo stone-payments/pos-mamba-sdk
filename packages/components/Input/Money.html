@@ -12,20 +12,16 @@
   on:submit="_onSubmit()"
   on:submitValid="_onSubmitValid()"
   on:submitInvalid="_onSubmitInvalid()"
-  keyboardType={KeyboardType.Math}
+  {keyboardType}
 />
 
 <script>
   import Keyboard from '@mamba/keyboard/api/keyboard.js';
-  import { KeyboardType } from '@mamba/keyboard/lib/index.js';
   import { format as formatMoney } from '@mamba/utils/money.js';
 
   export default {
     components: {
       Input: './Input.html',
-    },
-    helpers: {
-      KeyboardType,
     },
     data() {
       return {

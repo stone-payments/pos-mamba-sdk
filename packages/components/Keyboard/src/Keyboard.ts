@@ -86,6 +86,9 @@ class Keyboard {
    */
   constructor(element?: HTMLDivElement, keyboardOptions?: KeyboardOptions) {
     if (typeof window === 'undefined') return;
+
+    Keyboard.bindToDriver(window.$Keyboard, this);
+
     this.generalKeyboard = GeneralKeyboard;
 
     const {
@@ -172,7 +175,11 @@ class Keyboard {
      * Rendering keyboard
      */
     if (this.keyboardDOM) {
-      if (!(this.options.autoRender === false)) this.render();
+      if (!(this.options.autoRender === false)) {
+        setTimeout(() => {
+          this.render();
+        }, 1);
+      }
     } else {
       console.warn(`".${keyboardDOMClass}" was not found in the DOM.`);
       throw new Error('KEYBOARD_DOM_ERROR');
@@ -584,8 +591,8 @@ class Keyboard {
    *
    * @param driver driver wrapper
    */
-  public bindToDriver(driver: any) {
-    if (!driver || this.driverBinded) return;
+  public static bindToDriver(driver: any, instance: Keyboard) {
+    if (!driver || instance.driverBinded) return;
     const accessibleMethods = [
       'clearInput',
       'getInput',
@@ -602,18 +609,18 @@ class Keyboard {
       'setKeyboardAsPhoneType',
       'setKeyboardAsCustomType',
       'show',
+      'render',
     ];
 
     // eslint-disable-next-line no-restricted-syntax
     for (const method of Object.getOwnPropertyNames(Keyboard.prototype)) {
       if (accessibleMethods.includes(method)) {
-        driver[method] = this[method].bind(this);
+        driver[method] = instance[method].bind(instance);
       }
     }
 
-    driver.visibility = this.visibility;
-
-    this.driverBinded = true;
+    driver.visibility = instance.visibility;
+    instance.driverBinded = true;
   }
 
   /**

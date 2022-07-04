@@ -1,5 +1,9 @@
 import { GeneralKeyboard } from '../lib/index.js';
 
+const getKeyboardInstance = () => {
+  return window.MambaKeyboardInstance && window.MambaKeyboardInstance.instance;
+};
+
 export default function (driver) {
   // Original Keyboard methods
   const $KeyboardSetAsAlphanumeric = driver.setKeyboardAsAlphanumeric;
@@ -39,11 +43,7 @@ export default function (driver) {
    */
   Object.defineProperty(driver, 'virtualKeyboard', {
     get() {
-      const instance = window.MambaKeyboardInstance && window.MambaKeyboardInstance.instance;
-      if (instance) {
-        instance.bindToDriver(driver);
-      }
-      return instance;
+      return getKeyboardInstance();
     },
     configurable: true,
     enumerable: true,
@@ -126,14 +126,4 @@ export default function (driver) {
    * @memberof GeneralKeyboard
    */
   driver.enableBackspace = GeneralKeyboard.enableBackspace;
-
-  /**
-   * Bind virtual keyboard methods
-   */
-  // eslint-disable-next-line no-unused-expressions
-  setTimeout(() => {
-    if (driver.virtualKeyboard) {
-      console.log('Virtual Keyboard Binded');
-    }
-  }, 1);
 }
