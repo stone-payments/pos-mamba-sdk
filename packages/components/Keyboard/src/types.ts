@@ -140,6 +140,7 @@ export interface PrefabKeyboardEvents {
 export interface KeyboardTypeOptions {
   /**
    * Specifies which keyboard type should be used out of the box.
+   * Also can enforce by define dataset `<input data-keyboard-type="<type>" />`
    * @defaultValue {@link KeyboardType.Default}
    */
   keyboardType?: KeyboardType;

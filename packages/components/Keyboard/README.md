@@ -1,5 +1,7 @@
 # Keyboard
 
+Como usar:
+
 ```js
 <Keyboard />
 
@@ -49,6 +51,7 @@ interface KeyboardTypeEvents {
 interface KeyboardOptions {
   /**
    * Specifies which keyboard type should be used out of the box.
+   * Also can enforce by define dataset `<input data-keyboard-type="<type>" />`
    * @defaultValue {@link KeyboardType.Default}
    */
   keyboardType?: KeyboardType;
@@ -245,6 +248,72 @@ interface KeyboardOptions {
   [name: string]: any;
 }
 ````
+
+# Teclados predisponíveis
+
+```ts
+enum KeyboardType {
+  Default = 'default',
+  Numeric = 'numeric',
+  Phone = 'phone',
+  Math = 'math',
+  Custom = 'custom',
+}
+```
+
+```js
+import Keyboard from '@mamba/keyboard/api/index.js';
+
+Keyboard.setOptions({
+  keyboardType: 'numeric',
+});
+```
+
+## Ou use um dos métodos prontos:
+
+### ◼︎ Default _(alfanumérico)_
+
+<img src="./images/default_keyboard_type.png" alt="alpha" width="40%" />
+<br/><br/>
+
+```js
+import Keyboard from '@mamba/keyboard/api/index.js';
+
+Keyboard.setKeyboardAsDefaultType();
+```
+
+### ◼︎ Numérico
+
+<img src="./images/numeric_keyboard_type.png" alt="numeric" width="40%" />
+<br/><br/>
+
+```js
+import Keyboard from '@mamba/keyboard/api/index.js';
+
+Keyboard.setKeyboardAsNumericType();
+```
+
+### ◼︎ Calculadora
+
+<img src="./images/math_keyboard_type.png" alt="numeric" width="40%" />
+<br/><br/>
+
+```js
+import Keyboard from '@mamba/keyboard/api/index.js';
+
+Keyboard.setKeyboardAsMathType();
+```
+
+### ◼︎ Telefone (Number pad)
+
+<img src="./images/phone_keyboard_screenshot.png" alt="numeric" width="40%" />
+<br/><br/>
+
+```js
+import Keyboard from '@mamba/keyboard/api/index.js';
+
+Keyboard.setKeyboardAsPhoneType();
+```
 
 # API
 

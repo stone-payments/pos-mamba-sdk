@@ -594,6 +594,13 @@ class Keyboard {
       'setOptions',
       'getButtonElement',
       'inputPatternIsValid',
+      'setKeyboardType',
+      'currentInputPatternIsValid',
+      'setKeyboardAsDefaultType',
+      'setKeyboardAsMathType',
+      'setKeyboardAsNumericType',
+      'setKeyboardAsPhoneType',
+      'setKeyboardAsCustomType',
       'show',
     ];
 
@@ -603,6 +610,8 @@ class Keyboard {
         driver[method] = this[method].bind(this);
       }
     }
+
+    driver.visibility = this.visibility;
 
     this.driverBinded = true;
   }
