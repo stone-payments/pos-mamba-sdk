@@ -353,7 +353,8 @@
         const { validation, validateOn } = this.get();
 
         /** Mask handler */
-        const { value, validationUpdateMask } = this.handleInputMask();
+        const updatedInput = this.handleInputMask();
+        const { value, ...validationUpdateMask } = updatedInput;
 
         if (validation) {
           let validationUpdate = validationUpdateMask;
