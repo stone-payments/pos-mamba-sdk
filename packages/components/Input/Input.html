@@ -41,6 +41,7 @@
 </label>
 
 <script>
+  import { KEYBOARD } from '@mamba/core';
   import Keyboard from '@mamba/keyboard/api/keyboard.js';
   import System from '@mamba/pos/api/system.js';
   import { neutral500 } from '@mamba/styles/colors';
@@ -309,13 +310,11 @@
          * - Use e.keyIdentifier{string} to work on POS values
          * - Use e.code{number} to work with alphabet keyboard
          */
-        const key = Keyboard.getKeyName(
-          e.code && e.code !== 0 ? e.code : e.charCode || e.which || e.keyCode,
-        );
+        const keyCode = e.code && e.code !== 0 ? e.code : e.charCode || e.which || e.keyCode;
 
         this.fire('keyup', e);
 
-        if (key === 'enter') {
+        if (keyCode === KEYBOARD.ENTER) {
           e.stopImmediatePropagation();
           e.stopPropagation();
 
