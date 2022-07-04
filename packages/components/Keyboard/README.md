@@ -341,6 +341,7 @@ interface Keyboard {
   replaceInput(keyboardInput: { default: string }): void;
   render(): void;
   show(): void; // Render alias
+  unmount(): void;
   currentInputPatternIsValid(): boolean;
   getButtonElement(button: string): undefined | KeyboardElement | KeyboardElement[];
   setKeyboardAsCustomType(otherOptions?: {}): void;
