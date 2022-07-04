@@ -1,5 +1,6 @@
 <script>
   import Keyboard from './lib/index.js';
+  import Api from './api/index.js';
   import './css/Keyboard.css';
   import './css/KeyboardThemeMath.css';
   import './css/KeyboardThemeNumeric.css';
@@ -14,6 +15,14 @@
       };
     },
     oncreate() {
+      this.root.on('router:change', () => {
+        try {
+          Api.virtualKeyboard.visibility = 'hidden';
+        } catch (_) {
+          //
+        }
+      });
+
       new Keyboard({
         ...this.get(),
       });
