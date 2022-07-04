@@ -526,8 +526,11 @@ class Keyboard {
    * @param type The keyboard type
    */
   public setKeyboardType(type: KeyboardType): void {
-    this.setOptions({
-      keyboardType: type,
+    // update after route change
+    setTimeout(() => {
+      this.setOptions({
+        keyboardType: type,
+      });
     });
   }
 
@@ -581,7 +584,9 @@ class Keyboard {
    * Render alias
    */
   public show() {
-    this.render();
+    setTimeout(() => {
+      this.render();
+    });
   }
 
   /**
