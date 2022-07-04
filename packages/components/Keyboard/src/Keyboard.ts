@@ -35,7 +35,7 @@ import keyboardTypesMap from './keyboards/keyboardTypesMap';
  * - Handles button functionality
  */
 class Keyboard {
-  input!: KeyboardInput;
+  private input!: KeyboardInput;
 
   options!: KeyboardOptions;
 
@@ -46,10 +46,6 @@ class Keyboard {
   keyboardDOMClass!: string;
 
   buttonElements!: KeyboardButtonElements;
-
-  currentInstanceName!: string;
-
-  keyboardInstanceNames!: string[];
 
   physicalKeyboard?: UIPhysicalKeyboard;
 
@@ -67,11 +63,11 @@ class Keyboard {
 
   keyboardVisible: KeyboardVisibility = KeyboardVisibility.Hidden;
 
+  defaultLayoutDirection = LayoutDirection.Horizontal;
+
   defaultLayoutAndName = 'default';
 
   activeTime = 100;
-
-  defaultLayoutDirection = LayoutDirection.Horizontal;
 
   driverBinded = false;
 
@@ -86,6 +82,7 @@ class Keyboard {
   /**
    * Creates an instance of MambaKeyboard
    * @param params If first parameter is a string, it is considered the container class. The second parameter is then considered the options object. If first parameter is an object, it is considered the options object.
+   * @remarks
    */
   constructor(element?: HTMLDivElement, keyboardOptions?: KeyboardOptions) {
     if (typeof window === 'undefined') return;
@@ -393,6 +390,10 @@ class Keyboard {
     this.handleKeyboardVisibility();
   }
 
+  public get visibility() {
+    return this.keyboardVisible;
+  }
+
   /**
    * Retrieve instance options
    * @returns Parsed options
@@ -482,7 +483,7 @@ class Keyboard {
   /**
    * This handles the "inputPattern" option by checking if the provided inputPattern passes
    */
-  public inputPatternIsValid(inputVal: string): boolean {
+  private inputPatternIsValid(inputVal: string): boolean {
     const { inputPattern } = this.options;
 
     /**
@@ -503,6 +504,70 @@ class Keyboard {
      * inputPattern doesn't seem to be set for the current input, or input is empty. Pass.
      */
     return true;
+  }
+
+  /**
+   * Return of the current input is valid within current pattern option
+   */
+  public currentInputPatternIsValid(): boolean {
+    const insputStr = this.getInput();
+    return this.inputPatternIsValid(insputStr);
+  }
+
+  /**
+   * Change the keyboard type
+   * @param type The keyboard type
+   */
+  public setKeyboardType(type: KeyboardType): void {
+    this.setOptions({
+      keyboardType: type,
+    });
+  }
+
+  /**
+   * Set keyboard as default type
+   */
+  public setKeyboardAsDefaultType() {
+    this.setOptions({
+      keyboardType: KeyboardType.Default,
+    });
+  }
+
+  /**
+   * Set keyboard as math type
+   */
+  public setKeyboardAsMathType() {
+    this.setOptions({
+      keyboardType: KeyboardType.Math,
+    });
+  }
+
+  /**
+   * Set keyboard as numeric type
+   */
+  public setKeyboardAsNumericType() {
+    this.setOptions({
+      keyboardType: KeyboardType.Numeric,
+    });
+  }
+
+  /**
+   * Set keyboard as phone type
+   */
+  public setKeyboardAsPhoneType() {
+    this.setOptions({
+      keyboardType: KeyboardType.Phone,
+    });
+  }
+
+  /**
+   * Set keyboard as custom type
+   */
+  public setKeyboardAsCustomType(otherOptions = {}) {
+    this.setOptions({
+      keyboardType: KeyboardType.Custom,
+      ...otherOptions,
+    });
   }
 
   /**

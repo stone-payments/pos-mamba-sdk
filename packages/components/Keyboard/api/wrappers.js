@@ -9,7 +9,7 @@ export default function (driver) {
   /**
    * Sets the keyboard to enter numbers only.
    */
-  driver.setKeyboardAsNumeric = () => {
+  driver.setKeyboardInputAsNumeric = () => {
     GeneralKeyboard.setKeyboardAsNumeric();
     $KeyboardSetAsAlphanumeric();
   };
@@ -17,10 +17,22 @@ export default function (driver) {
   /**
    * Sets the keyboard to type alphanumeric characters.
    */
-  driver.setKeyboardAsAlphanumeric = () => {
+  driver.setKeyboardInputAsAlphanumeric = () => {
     GeneralKeyboard.setKeyboardAsAlphanumeric();
     $KeyboardSetAsNumeric();
   };
+
+  /**
+   * Sets the keyboard to enter numbers only.
+   * @deprecated
+   */
+  driver.setKeyboardAsNumeric = driver.setKeyboardInputAsNumeric;
+
+  /**
+   * Sets the keyboard to type alphanumeric characters.
+   * @deprecated
+   */
+  driver.setKeyboardAsAlphanumeric = driver.setKeyboardInputAsAlphanumeric;
 
   /**
    * Keyboard instance shortcut.

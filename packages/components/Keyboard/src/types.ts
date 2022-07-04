@@ -91,29 +91,37 @@ type FunctionKeyPressCallback = (
   e?: KeyboardHandlerEvent,
 ) => void;
 
+/**
+ * KeyboardTypeEvents
+ */
 export interface KeyboardTypeEvents {
   /**
    * Executes the callback function every time mamba keyboard is rendered (e.g: when you change layouts).
+   * @event
    */
   onRender?: (instance: Keyboard) => void;
 
   /**
    * Executes the callback function once mamba keyboard is rendered for the first time (on initialization).
+   * @event
    */
   onInit?: (instance: Keyboard) => void;
 
   /**
    * Retrieves the current input
+   * @event
    */
   onChange?: (input: string, e?: KeyboardHandlerEvent) => void;
 
   /**
    * Executes the callback function on any key press. Returns button layout name (i.e.: “{enter}”, "b", "c", "2" ).
+   * @event
    */
   onKeyPress?: (button: string, e?: KeyboardHandlerEvent) => void;
 
   /**
    * Execute the callback function on keypress of non-standard type only (functionality type i.e.: “{alt}”).
+   * @event
    */
   onFunctionKeyPress?: FunctionKeyPressCallback;
 }
@@ -121,10 +129,14 @@ export interface KeyboardTypeEvents {
 export interface PrefabKeyboardEvents {
   /**
    * Execute the callback function on keypress of non-standard type only (functionality type i.e.: “{alt}”).
+   * @event
    */
   internalOnFunctionKeyPress?: FunctionKeyPressCallback;
 }
 
+/**
+ * Keyboard layout options
+ */
 export interface KeyboardTypeOptions {
   /**
    * Specifies which keyboard type should be used out of the box.
@@ -158,6 +170,9 @@ export interface KeyboardTypeOptions {
   theme?: string;
 }
 
+/**
+ * Keyboard options
+ */
 export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents {
   /**
    * Replaces variable buttons (such as `{backspace}`) with a human-friendly name (e.g.: `backspace`).
