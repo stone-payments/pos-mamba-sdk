@@ -11,6 +11,8 @@ declare global {
     Sound?: {
       isEnabled: () => boolean;
     };
+
+    $Keyboard?: any;
   }
 
   const __DEV__: boolean;
