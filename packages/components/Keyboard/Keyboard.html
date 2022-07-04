@@ -17,8 +17,9 @@
     oncreate() {
       this.root.on('router:change', () => {
         try {
-          Api.virtualKeyboard.visibility =
-            document.activeElement instanceof HTMLInputElement ? 'visible' : 'hidden';
+          if (!(document.activeElement instanceof HTMLInputElement)) {
+            Api.virtualKeyboard.unmount();
+          }
         } catch (_) {
           //
         }

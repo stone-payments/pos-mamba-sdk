@@ -615,7 +615,7 @@ class Keyboard {
       'setKeyboardAsNumericType',
       'setKeyboardAsPhoneType',
       'setKeyboardAsCustomType',
-      'resetRows',
+      'unmount',
       'show',
       'render',
     ];
