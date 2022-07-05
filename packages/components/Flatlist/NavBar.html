@@ -1,12 +1,10 @@
-<svelte:window on:keydown="onKeyPress(event)" />
-
 <div class="row">
-  <div class="keydown" on:click="onKeyPress({ keyCode: KEYDOWN })" >
+  <div class="keydown" on:click="fire('listDown')" >
     <Icon symbol="chevron-down" size="large" />
     <p>{labelDown}</p>
   </div>
 
-  <div class="keyup" on:click="onKeyPress({ keyCode: KEYUP })" >
+  <div class="keyup" on:click="fire('listUp')" >
     <Icon symbol="chevron-up" size="large" />
     <p>{labelUp}</p>
   </div>
@@ -14,38 +12,15 @@
 </div>
 
 <script>
-  import { KEYUP, KEYDOWN } from '@mamba/pos/drivers/keyboard/keymap.js';
-
   export default {
     components: {
       Icon: '@mamba/icon',
-    },
-    helpers: {
-      KEYUP,
-      KEYDOWN,
     },
     data() {
       return {
         labelDown: 'Diminuir',
         labelUp: 'Aumentar',
       };
-    },
-    methods: {
-      onKeyPress({ keyCode }) {
-
-        switch (keyCode) {
-          case KEYDOWN:
-            this.fire('keydown');
-            break;
-
-          case KEYUP:
-            this.fire('keyup');
-            break;
-
-          default:
-            break;
-        }
-      },
     },
   };
 </script>
