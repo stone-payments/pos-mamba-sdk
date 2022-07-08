@@ -10,7 +10,7 @@
       class:has-right-sign="_hasRightSign"
       class:has-left-sign="_slots.leftSign"
     >
-      <div class="left-area">
+      <div class="left-area" style={hasActiveDisabled}>
         {#if _slots.leftSign}
           <div class="left-sign" ref:leftSign>
             <slot name="left-sign"></slot>
@@ -56,6 +56,8 @@
 </div>
 
 <script>
+  import { neutral500 } from '@mamba/styles/colors';
+
   /* istanbul ignore next */
   function isChildOf(tgt, el) {
     if (!tgt || tgt.nodeType !== 1) return false;
@@ -82,6 +84,7 @@
         bgColor: undefined,
         primaryColor: undefined,
         secondaryColor: undefined,
+        disabled: false,
         /** Private */
         _slots: {},
       };
@@ -95,6 +98,8 @@
         [secondaryColor && `color: ${secondaryColor}`].filter(Boolean).join(';'),
       _topStyle: ({ bgColor }) =>
         [bgColor && `background-color: ${bgColor}`].filter(Boolean).join(';'),
+      hasActiveDisabled: ({ disabled, neutral500 }) =>
+        [disabled && `color: ${neutral500}`].filter(Boolean).join(';'),
     },
     oncreate() {
       const hasSlots = !!this.options.slots;
