@@ -1871,13 +1871,49 @@
     npmlog "^4.1.2"
     write-file-atomic "^3.0.3"
 
-"@mamba/app@file:packages/components/App":
+"@mamba/app@3.9.3":
   version "3.9.3"
+  resolved "https://registry.yarnpkg.com/@mamba/app/-/app-3.9.3.tgz#91ae35b592ccbd96ab5d1f9eeebcc03d7cb9a7c3"
+  integrity sha512-eRI4+B4M0QOPuqGM0urU7AouN5Mw8RB13cUhKGk+Y14F5T/n/qpnFE+fSn2j0Ls7WQvJQzxlssb1rpq8nEx+TA==
   dependencies:
     "@mamba/utils" "4.2.2"
 
+"@mamba/app@3.9.5":
+  version "3.9.5"
+  resolved "https://registry.yarnpkg.com/@mamba/app/-/app-3.9.5.tgz#d150209f73bc6b6684b86de55118334fc5221173"
+  integrity sha512-8Hov9xTSWcmpEkfcAcow3MxYoNQF7/vDEQIJMxHTlsj3pan0OxFOfVv0SCldAFQa7Vnn2JXLFXfsXTZaSJ05lw==
+  dependencies:
+    "@mamba/utils" "4.2.4"
+
+"@mamba/app@file:packages/components/App":
+  version "4.0.0"
+  dependencies:
+    "@mamba/utils" "4.2.4"
+
+"@mamba/button@3.5.10":
+  version "3.5.10"
+  resolved "https://registry.yarnpkg.com/@mamba/button/-/button-3.5.10.tgz#1b24df121ed733e6733155989208c3772e1d35b2"
+  integrity sha512-2ze2+TLJELqPS2wl6LTreksbfU622huXAaQ8M1RTKoumABqkHhd7SFCOfiqsUtOdZxTjGv2TfvK6Jjw13RWXqg==
+  dependencies:
+    "@mamba/styles" "3.5.9"
+
+"@mamba/button@3.5.8":
+  version "3.5.8"
+  resolved "https://registry.yarnpkg.com/@mamba/button/-/button-3.5.8.tgz#553910954f3142e44b44517aa0fa2063f69df2a8"
+  integrity sha512-yxCVl4px8h6YDSROhCDCTIcm8g7n8RH5IcqRfXZVR9R894Ci1BfGOZHfiN5/KSdM7eR1sRxYMgu6oDXCsQnLAg==
+  dependencies:
+    "@mamba/styles" "3.5.7"
+
+"@mamba/collection@3.5.9":
+  version "3.5.9"
+  resolved "https://registry.yarnpkg.com/@mamba/collection/-/collection-3.5.9.tgz#750d1a3fa348575fc30b3e0cca880c3cff85bc67"
+  integrity sha512-WPVYWMXa65TSyTthIQ29Vv4DnwQhbk6X7tKJuY+E+YRsXbUK/Muj5iIyp8ojDDEXxbN8J4dqQZA/54BUfmSDFw==
+  dependencies:
+    "@mamba/icon" "3.5.9"
+    "@mamba/styles" "3.5.9"
+
 "@mamba/configs@file:packages/configs":
-  version "3.5.7"
+  version "3.5.9"
   dependencies:
     "@babel/plugin-syntax-dynamic-import" "^7.2.0"
     "@babel/plugin-transform-runtime" "^7.2.0"
@@ -1911,6 +1947,21 @@
     stylelint-config-standard "^18.3.0"
     webpack-merge "^4.2.1"
 
+"@mamba/dialog@3.5.8":
+  version "3.5.8"
+  resolved "https://registry.yarnpkg.com/@mamba/dialog/-/dialog-3.5.8.tgz#3592673f993601c7b3b0e27f9f6e13a75ad30a87"
+  integrity sha512-JDyb7pUO4qrEIlPacrG8rpGIWGaTtL8k/nYAXi3BX2H5gsBbJklwKGFNtz1NZ/InO/Q9oYDaSVikrLr1Lz0Uzw==
+  dependencies:
+    "@mamba/icon" "3.5.7"
+    "@mamba/styles" "3.5.7"
+
+"@mamba/icon@3.5.7":
+  version "3.5.7"
+  resolved "https://registry.yarnpkg.com/@mamba/icon/-/icon-3.5.7.tgz#98f72ffaa67570437801fc4a10892316698aac0e"
+  integrity sha512-XA5E0Jsm5vp6E5DvqDJksNtItzjAwXcQTWAS0JyFWcy8XWp6/ljfDcf+PWSqd7QFqHzKBll5LAb+lCYuQCAypQ==
+  dependencies:
+    "@mamba/styles" "3.5.7"
+
 "@mamba/pos@3.13.3":
   version "3.13.3"
   resolved "https://registry.yarnpkg.com/@mamba/pos/-/pos-3.13.3.tgz#8f5d36563d02da3b21e7c0b68e09faa040e49bea"
@@ -1929,22 +1980,55 @@
     svelte "^2.16.1"
 
 "@mamba/pos@file:packages/pos":
-  version "3.13.4"
+  version "3.14.1"
   dependencies:
-    "@mamba/app" "3.9.3"
-    "@mamba/button" "3.5.8"
-    "@mamba/dialog" "3.5.8"
-    "@mamba/icon" "3.5.7"
-    "@mamba/radio" "3.5.7"
-    "@mamba/sprite" "3.5.7"
-    "@mamba/styles" "3.5.7"
-    "@mamba/switch" "3.5.7"
-    "@mamba/utils" "4.2.2"
+    "@mamba/app" "3.9.5"
+    "@mamba/button" "3.5.10"
+    "@mamba/dialog" "3.5.10"
+    "@mamba/icon" "3.5.9"
+    "@mamba/radio" "3.5.9"
+    "@mamba/sprite" "3.5.9"
+    "@mamba/styles" "3.5.9"
+    "@mamba/switch" "3.5.9"
+    "@mamba/utils" "4.2.4"
     immer "^2.1.5"
-    svelte "^2.16.1"
+    svelte "^3.49.0"
+
+"@mamba/radio@3.5.7":
+  version "3.5.7"
+  resolved "https://registry.yarnpkg.com/@mamba/radio/-/radio-3.5.7.tgz#4fcfbdeb8105ef15941c1a93230d2979a67f10df"
+  integrity sha512-Fsz/fPS4dYinjiqmCXIeYE07J7fgFSSIRUuCXXWIRGw9jjrxENqD9pvj76hQOmkPIENmdlMtv9j1OvoWq5A7Rw==
+
+"@mamba/sprite@3.5.7":
+  version "3.5.7"
+  resolved "https://registry.yarnpkg.com/@mamba/sprite/-/sprite-3.5.7.tgz#ea5fef78efe285d3a2c13436af254212d96cb7b3"
+  integrity sha512-A21g28C/gIAiK5YMQ3w1x3dSCxxjUHJo4CMOc2MHnh6r/si7+odL195kf1MBzC+EOsl22kEoh3uV6n6OKZZ1RQ==
+
+"@mamba/styles@3.5.7":
+  version "3.5.7"
+  resolved "https://registry.yarnpkg.com/@mamba/styles/-/styles-3.5.7.tgz#46971faec0f611c132a01e28398281bf6a0d3b57"
+  integrity sha512-wHA1YkaDnmHnJE6MFkl+YeDGoyayrJswLevLTfgFZNM+uREWw8/bFFs/jtIGCzWc+nVwdwe2BoW/z8o1A42gKg==
 
 "@mamba/styles@file:packages/styles":
+  version "3.5.9"
+
+"@mamba/switch@3.5.7":
   version "3.5.7"
+  resolved "https://registry.yarnpkg.com/@mamba/switch/-/switch-3.5.7.tgz#00406087d4778c895c86dd07d82d0d67a6dd2775"
+  integrity sha512-BF5C4Pi7RnhmJCNt0P1jNDKTdjxuVjuxix9Eye73MeTel47bSfPfTSHs04KKlLbQwtv5roTFD4GAkN6QqXxaWA==
+
+"@mamba/switch@3.5.9":
+  version "3.5.9"
+  resolved "https://registry.yarnpkg.com/@mamba/switch/-/switch-3.5.9.tgz#cc9daee7675d3cf135af7e48b7ad6ea6e03a2bfe"
+  integrity sha512-xBVgreUFRvOwwrAJE5reVG6KNCf/FjUSS+BkMRgKWP4431oRxRu/YXA/UmuNdUh/p8NjWuXUQvwfWpFMwTfvwQ==
+
+"@mamba/utils@4.2.2":
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/@mamba/utils/-/utils-4.2.2.tgz#9749f28ba0b84ae3aad8944422e22fb992224f0e"
+  integrity sha512-qH7CMInR7bDLC9tmLHF4hIwn5xZfUYRrOUp1qMPJ536WoIfyuPzcsB7DiPKMSRL2TQtnC/OJVCQZMZ2a2D/gYg==
+  dependencies:
+    date-fns "2.28.0"
+    date-fns-tz "1.2.2"
 
 "@mamba/utils@^3.6.0":
   version "3.7.6"
@@ -13648,10 +13732,15 @@ svelte-preprocess@^2.4.3:
     postcss-load-config "^2.0.0"
     strip-indent "^2.0.0"
 
-svelte@^2.16.0, svelte@^2.16.1:
+svelte@^2.16.1:
   version "2.16.1"
   resolved "https://registry.yarnpkg.com/svelte/-/svelte-2.16.1.tgz#559a68452029e72280311ccc8dfd2ff10d0a5f18"
   integrity sha512-TpXdfukSkmWkMnH6PPVm7FRW8SSFcTyqBiP+6VN8rtZJ7Lp1Xbf/e3oz73eQBxF0UPZw1aAn1b91lX2XTeD3zg==
+
+svelte@^3.49.0:
+  version "3.49.0"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.49.0.tgz#5baee3c672306de1070c3b7888fc2204e36a4029"
+  integrity sha512-+lmjic1pApJWDfPCpUUTc1m8azDqYCG1JN9YEngrx/hUyIcFJo6VZhj0A1Ai0wqoHcEIuQy+e9tk+4uDgdtsFA==
 
 svg-tags@^1.0.0:
   version "1.0.0"

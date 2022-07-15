@@ -19,7 +19,7 @@
     "@mamba/switch": "3.5.9",
     "@mamba/utils": "4.2.4",
     "immer": "^2.1.5",
-    "svelte": "^2.16.1"
+    "svelte": "^3.49.0"
   },
   "gitHead": "ddc05702292f5dea2772130436f0a00fbd5be1db"
 }
