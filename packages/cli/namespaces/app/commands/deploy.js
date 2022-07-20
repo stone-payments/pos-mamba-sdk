@@ -16,8 +16,7 @@ module.exports = {
   desc: 'Deploy the current app',
   builder: {
     force: {
-      description:
-        'Force to upload even unchanged ones files. Work only with rsync tool',
+      description: 'Force to upload even unchanged ones files. Work only with rsync tool',
       default: false,
     },
     legacy: {
@@ -29,8 +28,7 @@ module.exports = {
       default: 'POS',
     },
     tool: {
-      description:
-        'Define the deployer tool. You must have tool installed in your paths',
+      description: 'Define the deployer tool. You must have tool installed in your paths',
       alias: 't',
       default: 'rsync',
       choices: ['rsync', 'xcb', 'adb'],
@@ -60,16 +58,7 @@ module.exports = {
       type: 'boolean',
     },
   },
-  handler({
-    legacy,
-    force,
-    customSSH,
-    args,
-    appsFolder: _folder,
-    platform,
-    tool: _tool,
-    usage,
-  }) {
+  handler({ legacy, force, customSSH, args, appsFolder: _folder, platform, tool: _tool, usage }) {
     if (usage === true) {
       console.log(chalk.yellow(`\n  Examples:\n`));
       console.log(
@@ -77,12 +66,8 @@ module.exports = {
           `mamba app deploy -p MP35P -f /data/users/10004/apps/`,
         )}\n`,
       );
-      console.log(
-        `    Build with Q92: ${chalk.cyan(`mamba app deploy -p Q92`)}\n`,
-      );
-      console.log(
-        `    Build with XCB: ${chalk.cyan(`mamba app deploy -t xcb`)}\n`,
-      );
+      console.log(`    Build with Q92: ${chalk.cyan(`mamba app deploy -p Q92`)}\n`);
+      console.log(`    Build with XCB: ${chalk.cyan(`mamba app deploy -t xcb`)}\n`);
       return;
     }
     const { id } = PKG.mamba;
@@ -118,8 +103,7 @@ module.exports = {
 
     let toolArgs = args;
 
-    const command = (...rest) =>
-      [tool, ...rest].filter(v => v !== '').join(' ');
+    const command = (...rest) => [tool, ...rest].filter((v) => v !== '').join(' ');
 
     const CDW_DIST = fromCwd('dist');
     const DIST_DIR = fromCwd(legacy ? 'ui/dist' : 'dist/bundle.pos');
@@ -139,9 +123,7 @@ module.exports = {
       let sshConfig = customSSH;
       sshConfig = MODELS.V240M;
 
-      console.log(
-        `  Deploying with: ${chalk.cyan(`${command(toolArgs)}`)}\n\n`,
-      );
+      console.log(`  Deploying with: ${chalk.cyan(`${command(toolArgs)}`)}\n\n`);
       shell(`ssh ${sshConfig} "rm -rf ${APPS_DIR}"`);
       shell('sleep 1');
 
@@ -159,25 +141,14 @@ module.exports = {
       shell(scpCmd);
     } else if (useAdb) {
       if (/MAINAPP/g.test(appsFolder) && isGertec) {
-        console.log(
-          `Error: ${chalk.red(
-            `Folder can't be MAINAPP for MP45P\n       Aborting\n`,
-          )}`,
-        );
+        console.log(`Error: ${chalk.red(`Folder can't be MAINAPP for MP45P\n       Aborting\n`)}`);
         return;
       }
       const isValidFolder = /data\/users\/[0-9]+\/apps\//g.test(appsFolder);
       if (isValidFolder) {
         const PUSH = 'push';
-        const adbCmd = command(
-          PUSH,
-          toolArgs,
-          `${DIST_DIR}/.`,
-          `${APPS_DIR}/.`,
-        );
-        console.log(
-          `  Deploying with: ${chalk.cyan(`${command(PUSH, toolArgs)}`)}\n\n`,
-        );
+        const adbCmd = command(PUSH, toolArgs, `${DIST_DIR}/.`, `${APPS_DIR}/.`);
+        console.log(`  Deploying with: ${chalk.cyan(`${command(PUSH, toolArgs)}`)}\n\n`);
         shell('adb root');
         shell(`adb shell rm -rf ${APPS_DIR}`);
         shell('sleep 1');
@@ -187,11 +158,7 @@ module.exports = {
           `adb shell ls -R ${APPS_DIR} | grep -E ".js|.html|.css|assets|.xml|.jpg|.jpeg|.svg|.png|.gif"`,
         );
       } else {
-        console.log(
-          `Error: ${chalk.red(
-            `Wrong folder pattern ${appsFolder}\n       Aborting\n`,
-          )}`,
-        );
+        console.log(`Error: ${chalk.red(`Wrong folder pattern ${appsFolder}\n       Aborting\n`)}`);
         return;
       }
     } else if (useXcb && isPax) {
@@ -252,13 +219,9 @@ module.exports = {
       shell(rsyncCmd);
 
       if (legacy) {
-        console.log(
-          `Moving "manifest.xml" and "icon.bmp" to "${REMOTE_APP_DIR}/"`,
-        );
+        console.log(`Moving "manifest.xml" and "icon.bmp" to "${REMOTE_APP_DIR}/"`);
 
-        const includes = ['manifest.xml', 'icon.bmp']
-          .map(p => `--include="${p}"`)
-          .join(' ');
+        const includes = ['manifest.xml', 'icon.bmp'].map((p) => `--include="${p}"`).join(' ');
 
         rsyncCmd = command(
           toolArgs,

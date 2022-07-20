@@ -2,19 +2,17 @@ import produce, { applyPatches } from 'immer';
 
 import { log, warn } from '../../../libs/utils.js';
 
-export default Registry => {
+export default (Registry) => {
   Registry._data = Object.freeze({});
 
   /** Data */
-  Registry.get = keyPath => {
+  Registry.get = (keyPath) => {
     if (keyPath === undefined) {
       return Registry._data;
     }
 
     if (__DEV__) {
-      warn(
-        'Registry.get(string) is deprecated. Please use Registry.get().Prop1.Prop2.Prop3...',
-      );
+      warn('Registry.get(string) is deprecated. Please use Registry.get().Prop1.Prop2.Prop3...');
     }
 
     const keys = keyPath.replace(/\[(\d+)\]/g, '.$1').split('.');
@@ -34,7 +32,7 @@ export default Registry => {
     if (typeof keyPath === 'function') {
       const changes = [];
 
-      produce(Registry._data, keyPath, patches => {
+      produce(Registry._data, keyPath, (patches) => {
         changes.push(...patches);
       });
 
@@ -45,9 +43,7 @@ export default Registry => {
     }
 
     if (__DEV__) {
-      warn(
-        'Registry.set(string) is deprecated. Please use Registry.set(draft -> newState)',
-      );
+      warn('Registry.set(string) is deprecated. Please use Registry.set(draft -> newState)');
     }
 
     const keys = keyPath.replace(/\[(\d+)\]/g, '.$1').split('.');

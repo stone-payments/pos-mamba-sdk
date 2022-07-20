@@ -4,14 +4,15 @@
   "svelte": "Icon.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
+  "engines": {
+    "node": ">= 8 || <= 14",
+    "npm": "^7 || ^8"
+  },
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {
-    "@mamba/styles": "3.5.9"
-  },
   "gitHead": "ddc05702292f5dea2772130436f0a00fbd5be1db",
   "peerDependencies": {
-    "@mamba/pos": ">3.0.0"
+    "@mamba/styles": ">=4"
   }
 }

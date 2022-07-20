@@ -1,3 +1,4 @@
 node_modules/
 dist/
 /packages/components/*/example/*.js
+packages/components/Keyboard/lib

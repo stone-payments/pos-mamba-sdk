@@ -42,23 +42,21 @@
       };
 
       const checkAboveScreen = (x, y) =>
-        Array.from(document.elementsFromPoint(x, y)).some(n =>
-          n.classList.contains('screen'),
-        );
+        Array.from(document.elementsFromPoint(x, y)).some((n) => n.classList.contains('screen'));
 
-      const onMousedown = e => {
+      const onMousedown = (e) => {
         mouseStartPos = { x: e.clientX, y: e.clientY };
         elPos = { x: cardEl.offsetLeft, y: cardEl.offsetTop };
       };
 
-      const onMouseup = e => {
+      const onMouseup = (e) => {
         if (mouseStartPos.x === e.clientX && mouseStartPos.y === e.clientY) {
           this.toggleCard();
         }
         resetDrag();
       };
 
-      const onMousemove = e => {
+      const onMousemove = (e) => {
         const { isInserted, isDragging } = this.get();
         if (!mouseStartPos || isInserted) {
           return;
@@ -146,7 +144,7 @@
     z-index: 1;
     background-image: url(./assets/creditcard.png);
     cursor: pointer;
-    filter: drop-shadow(8px 8px 2px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(8px 8px 2px rgba(0, 0, 0, 50%));
     transition: all 0.3s ease;
 
     &:hover {
@@ -187,12 +185,12 @@
     }
 
     &.Q92 {
-      top: 853px;
-      left: 87px;
+      top: 730px;
+      left: 56px;
     }
 
     &:not(:hover):not(.is-inserted) {
-      filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+      filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 50%));
     }
 
     &.is-dragging {
@@ -201,7 +199,7 @@
       transition: all 0.3s ease, top 0s, left 0s;
 
       &:not(.is-above-screen) {
-        filter: drop-shadow(18px 18px 6px rgba(0, 0, 0, 0.5));
+        filter: drop-shadow(18px 18px 6px rgba(0, 0, 0, 50%));
       }
     }
 

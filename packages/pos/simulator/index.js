@@ -2,13 +2,7 @@
  * This file initializes every aspect of the simulator (logic and view).
  * */
 
-import {
-  AppManager,
-  HardwareManager,
-  DriverManager,
-  Registry,
-  System,
-} from './plugins/index.js';
+import { AppManager, HardwareManager, DriverManager, Registry, System } from './plugins/index.js';
 import { log, warn, error } from './libs/utils.js';
 import './boot.js';
 import View from './view/manager.js';

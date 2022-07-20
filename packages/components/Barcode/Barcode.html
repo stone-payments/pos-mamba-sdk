@@ -9,7 +9,7 @@
   import generateBarcode from 'jsbarcode';
 
   /* istanbul ignore next */
-  const cssStrToNumber = str =>
+  const cssStrToNumber = (str) =>
     typeof str !== 'string' ? str : parseFloat(str.replace(/[^0-9.]*$/, ''));
 
   let reusableCanvas;
@@ -37,10 +37,7 @@
         margin: 0,
       });
 
-      this.refs.barcodeImg.setAttribute(
-        'src',
-        reusableCanvas.toDataURL('image/jpeg'),
-      );
+      this.refs.barcodeImg.setAttribute('src', reusableCanvas.toDataURL('image/jpeg'));
     },
   };
 </script>

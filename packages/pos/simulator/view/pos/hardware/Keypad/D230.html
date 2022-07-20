@@ -17,7 +17,7 @@
 </div>
 
 <script>
-  import Keyboard from '../../../../../api/keyboard.js';
+  import Keyboard from '@mamba/keyboard/api/keyboard.js';
 
   const getKeyboardEvent = (event, code, keyName) =>
     new KeyboardEvent(event, {
@@ -36,8 +36,7 @@
         event.preventDefault();
         event.stopImmediatePropagation();
         const el = document.activeElement;
-        const isInputOnFocus =
-          el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA');
+        const isInputOnFocus = el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA');
         const keyCode = Keyboard.getKeyCode(keyName);
 
         /** We have to handle input actions manually */
@@ -95,7 +94,7 @@
 
   button:hover {
     color: white;
-    background-color: rgba(22, 22, 22, 0.9);
+    background-color: rgba(22, 22, 22, 90%);
     border: 2px solid white;
   }
 

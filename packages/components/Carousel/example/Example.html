@@ -20,26 +20,25 @@
     font-weight: bold;
   }
 
-  /*  @@ example only @@  */
+  .row {
+    margin: 20px 0px;
+  }
+
+  /** SDK-Docs example override */
+
   :global(.Examples .Code-run .container) {
     width: 300px;
     margin: 80px auto;
   }
 
-  /*  @@ example only @@  */
   :global(.Code-run .carousel .prev, .Code-run .carousel .next) {
     border-radius: 50%;
   }
 
-  /*  @@ example only @@  */
   :global(.carousel .icon) {
     position: absolute;
     left: 2px;
     top: 3px;
-  }
-
-  .row {
-    margin: 20px 0px 20px 0px;
   }
 </style>
 
@@ -50,11 +49,13 @@
     },
     data() {
       return {
-        slides: ['http://placehold.it/145x184/293462/fff?text=Images+via+props',
+        slides: [
+          'http://placehold.it/145x184/293462/fff?text=Images+via+props',
           'http://placehold.it/145x184/216583/fff?text=Images+via+props',
           'http://placehold.it/145x184/00818a/fff?text=Images+via+props',
           'http://placehold.it/145x184/f7be16/fff?text=Images+via+props',
-          'http://placehold.it/145x184/f67e7d/fff?text=Images+via+props'],
+          'http://placehold.it/145x184/f67e7d/fff?text=Images+via+props',
+        ],
       };
     },
   };

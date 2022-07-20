@@ -41,11 +41,15 @@
 </label>
 
 <script>
-  import Keyboard from '@mamba/pos/api/keyboard.js';
+  import { KEYBOARD } from '@mamba/core';
+  import Keyboard from '@mamba/keyboard/api/keyboard.js';
   import System from '@mamba/pos/api/system.js';
   import { neutral500 } from '@mamba/styles/colors';
-import masker from './libs/masker.js';
-import defaultTokens from './libs/tokens.js';
+  import masker from './libs/masker.js';
+  import defaultTokens from './libs/tokens.js';
+
+  const isString = (value) => typeof value === 'string';
+  const isBoolean = (value) => typeof value === 'boolean';
 
   export default {
     components: {
@@ -90,7 +94,7 @@ import defaultTokens from './libs/tokens.js';
       };
     },
     computed: {
-      rawValue({ value, tokens, mask }) {
+      rawValue({ value, tokens = defaultTokens, mask }) {
         return mask ? masker(value, mask, false, tokens) : value;
       },
       _inputType({ _visible, type }) {
@@ -103,16 +107,65 @@ import defaultTokens from './libs/tokens.js';
       },
     },
     oncreate() {
+      /**
+       * Extended <Input> don't handle default params of data() very well, so we need parse them manually
+       */
       if (this.options.data) {
-        const { type, maxlength, autofocus, mask } = this.options.data;
+        const {
+          value,
+          placeholder,
+          label,
+          alphanumeric,
+          type,
+          align,
+          maxlength,
+          autofocus,
+          mask,
+          tokens,
+          labelColor,
+          textColor,
+          bgColor,
+          disabled,
+          readonly,
+          forcefocus,
+          readable,
+          errorMessage,
+          validateOn,
+          validation,
+          keyboardType,
+        } = this.options.data;
+
+        this.set({
+          value: isString(value) ? value : '',
+          placeholder: isString(placeholder) ? placeholder : '',
+          label: isString(label) ? label : undefined,
+          type: isString(type) ? type : 'text',
+          align: isString(align) ? align : 'right',
+          textColor: isString(textColor) ? textColor : neutral500,
+          labelColor: isString(labelColor) ? labelColor : neutral500,
+          bgColor: isString(bgColor) ? bgColor : '#fff',
+          alphanumeric: isBoolean(alphanumeric) ? alphanumeric : false,
+          disabled: isBoolean(disabled) ? disabled : false,
+          readonly: isBoolean(readonly) ? readonly : false,
+          forcefocus: isBoolean(forcefocus) ? forcefocus : false,
+          autofocus: isBoolean(autofocus) ? autofocus : false,
+          readable: isBoolean(readable) ? readable : false,
+          tokens: isString(tokens) ? tokens : defaultTokens,
+          mask: mask || undefined,
+          _visible: !(type === 'password'),
+          errorMessage: isString(errorMessage) ? errorMessage : undefined,
+          validateOn: isString(validateOn) ? validateOn : 'submit',
+          validation: typeof validation === 'function' ? validation : undefined,
+          keyboardType: isString(keyboardType) ? keyboardType : undefined,
+        });
+
+        if (keyboardType) {
+          this.refs.input.dataset.keyboardType = keyboardType;
+        }
 
         // TODO: remove when undefined prop is not printed
         if (typeof maxlength !== 'undefined') {
           this.refs.input.setAttribute('maxlength', parseInt(maxlength, 10));
-        }
-
-        if (type === 'password') {
-          this.set({ _visible: false });
         }
 
         if (autofocus) {
@@ -130,23 +183,14 @@ import defaultTokens from './libs/tokens.js';
         this.refs.input.value = current.value;
       }
 
-      if (
-        changed._errorMsg &&
-        current._errorMsg &&
-        current.validateOn === 'input'
-      ) {
+      if (changed._errorMsg && current._errorMsg && current.validateOn === 'input') {
         this.refs.input.scrollIntoView({
           block: 'center',
           inline: 'center',
         });
       }
 
-      if (
-        changed.forcefocus &&
-        current.forcefocus &&
-        current.autofocus &&
-        !current.isFocused
-      ) {
+      if (changed.forcefocus && current.forcefocus && current.autofocus && !current.isFocused) {
         this.focus();
       }
     },
@@ -230,9 +274,9 @@ import defaultTokens from './libs/tokens.js';
         this.set({ isFocused: true });
 
         if (alphanumeric) {
-          Keyboard.setKeyboardAsAlphanumeric();
+          Keyboard.setKeyboardInputAsAlphanumeric();
         } else {
-          Keyboard.setKeyboardAsNumeric();
+          Keyboard.setKeyboardInputAsNumeric();
         }
 
         this.fire('focus', e);
@@ -255,17 +299,22 @@ import defaultTokens from './libs/tokens.js';
         this.set({ isFocused: false });
 
         if (alphanumeric) {
-          Keyboard.setKeyboardAsNumeric();
+          Keyboard.setKeyboardInputAsNumeric();
         }
 
         this.fire('blur', e);
       },
       _onKeyUp(e) {
-        const key = Keyboard.getKeyName(e.keyCode);
+        /**
+         * - Use e.key{string} on some events on simulator or POS
+         * - Use e.keyIdentifier{string} to work on POS values
+         * - Use e.code{number} to work with alphabet keyboard
+         */
+        const keyCode = e.code && e.code !== 0 ? e.code : e.charCode || e.which || e.keyCode;
 
         this.fire('keyup', e);
 
-        if (key === 'enter') {
+        if (keyCode === KEYBOARD.ENTER) {
           e.stopImmediatePropagation();
           e.stopPropagation();
 
@@ -301,39 +350,14 @@ import defaultTokens from './libs/tokens.js';
         }
       },
       _onInput(e) {
-        let { value } = this.refs.input;
-
-        const { validation, validateOn, mask, tokens } = this.get();
+        const { validation, validateOn } = this.get();
 
         /** Mask handler */
-        if (mask) {
-          const inputEl = this.refs.input;
-
-          let position = inputEl.selectionEnd;
-
-          /* Save the character just inserted */
-          const digit = inputEl.value[position - 1];
-          value = masker(value, mask, true, tokens);
-
-          /**
-           * Overwrite the input text with the masked value.
-           * Needed for fixing the caret position
-           * */
-          this.refs.input.value = value;
-
-          /** If the digit was changed, increment position until find the digit again */
-          while (
-            position < value.length &&
-            value.charAt(position - 1) !== digit
-          ) {
-            position++;
-          }
-
-          setTimeout(() => inputEl.setSelectionRange(position, position));
-        }
+        const updatedInput = this.handleInputMask();
+        const { value, ...validationUpdateMask } = updatedInput;
 
         if (validation) {
-          let validationUpdate;
+          let validationUpdate = validationUpdateMask;
 
           /** If validation is on submit, reset the validation state */
           if (validateOn === 'submit') {
@@ -341,9 +365,6 @@ import defaultTokens from './libs/tokens.js';
               isValid: false,
               _errorMsg: undefined,
             };
-          } else {
-            const rawValue = mask ? masker(value, mask, true, tokens) : value;
-            validationUpdate = this._validate(rawValue, value);
           }
 
           /** Validation state must be set at the same time as the 'value' */
@@ -366,11 +387,55 @@ import defaultTokens from './libs/tokens.js';
           setTimeout(() => this.refs.input && this.focus());
         }
       },
+      /**
+       * Public mask handler mask to use internally and externally by @mamba/keyboard
+       */
+      handleInputMask() {
+        let { value } = this.refs.input;
+        const { mask, validation, validateOn, tokens } = this.get();
+
+        if (mask) {
+          const inputEl = this.refs.input;
+
+          let position = inputEl.selectionEnd;
+
+          /* Save the character just inserted */
+          const digit = inputEl.value[position - 1];
+          value = masker(value, mask, true, tokens);
+
+          /**
+           * Overwrite the input text with the masked value.
+           * Needed for fixing the caret position
+           * */
+          this.refs.input.value = value;
+
+          /** If the digit was changed, increment position until find the digit again */
+          while (position < value.length && value.charAt(position - 1) !== digit) {
+            position++;
+          }
+
+          setTimeout(() => inputEl.setSelectionRange(position, position));
+        }
+
+        if (validation && validateOn !== 'submit') {
+          if (validateOn !== 'submit') {
+            const rawValue = mask ? masker(value, mask, true, tokens) : value;
+            const validationUpdate = this._validate(rawValue, value);
+
+            /** Validation state must be set at the same time as the 'value' */
+            return { value, ...validationUpdate };
+          }
+        } else {
+          return { value };
+        }
+      },
     },
   };
 </script>
 
 <style type="text/postcss">
+  @import '@mamba/styles/settings.pcss';
+
   :global(.has-small-screen) {
     .label {
       font-size: 17px;

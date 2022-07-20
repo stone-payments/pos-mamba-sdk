@@ -9,12 +9,14 @@ module.exports = {
   extends: [
     'airbnb-base',
     'prettier',
+    'plugin:prettier/recommended',
     'plugin:import/recommended',
     'plugin:@tivac/svelte/svelte',
   ],
-  plugins: ['prettier', 'html', '@tivac/svelte', 'import'],
+  plugins: ['prettier', 'html', '@tivac/svelte', 'import', 'jest'],
   settings: {
     'html/html-extensions': ['.html', '.svelte'],
+    'import/extensions': ['.js', '.mjs', '.ts'],
   },
   env: {
     browser: true,
@@ -24,32 +26,34 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2018,
   },
-  globals: merge(additionalGlobals, {
-    __APP_ENV__: true,
-    __NODE_ENV__: true,
-    __BROWSER__: true,
-    __POS__: true,
-    __PROD__: true,
-    __TEST__: true,
-    __DEV__: true,
-    __DEBUG_LVL__: true,
-    __SIMULATOR__: true,
-    __APP_MANIFEST__: true,
-    LOG_INFO: true,
-    LOG_ERROR: true,
-    LOG_WARN: true,
-    LOG: true,
+  globals: merge(additionalGlobals(), {
+    __APP_ENV__: 'readonly',
+    __NODE_ENV__: 'readonly',
+    __BROWSER__: 'readonly',
+    __POS__: 'readonly',
+    __PROD__: 'readonly',
+    __TEST__: 'readonly',
+    __DEV__: 'readonly',
+    __DEBUG_LVL__: 'readonly',
+    __SIMULATOR__: 'readonly',
+    __APP_MANIFEST__: 'writable',
+    DEVHOST_IP: 'readonly',
+    LOG_INFO: 'readonly',
+    LOG_ERROR: 'readonly',
+    LOG_WARN: 'readonly',
+    LOG: 'readonly',
   }),
   rules: {
+    /** Prettier warning */
+    'prettier/prettier': 1,
+
     'import/no-cycle': 'off',
     // ! Code
     /** Allow to use new for side effects */
     'no-new': 'off', // disallow dangling underscores in identifiers
 
     /** Disallow 'console.log' on production */
-    'no-console': IS_PROD
-      ? ['warn', { allow: ['info', 'warn', 'error'] }]
-      : 'off',
+    'no-console': IS_PROD ? ['warn', { allow: ['info', 'warn', 'error'] }] : 'off',
 
     /** Allow implicit return */
     'consistent-return': 'off',
@@ -66,6 +70,21 @@ module.exports = {
     /** Allow class methods to not use 'this' */
     'class-methods-use-this': 'off',
 
+    /** Disallows shorthand type conversions */
+    'no-implicit-coercion': [
+      'error',
+      {
+        boolean: false,
+        number: true,
+        string: true,
+        allow: ['!!'],
+        disallowTemplateShorthand: false,
+      },
+    ],
+
+    /** Allow returning values from Promise executor functions */
+    'no-promise-executor-return': 'off',
+
     // ! Style
 
     /** Allow __variables__ with underscores */
@@ -73,6 +92,9 @@ module.exports = {
 
     /** Allow both LF and CRLF line endings */
     'linebreak-style': 'off',
+
+    /** Allow anonymous functions */
+    'func-names': 'off',
 
     /** Max line length */
     'max-len': [
@@ -103,6 +125,7 @@ module.exports = {
       'always',
       {
         ignorePackages: true,
+        ts: 'never',
       },
     ],
 
@@ -110,7 +133,7 @@ module.exports = {
     'import/no-unresolved': [
       'error',
       {
-        ignore: ['.(?:svelte|html)$', '^(@mamba[\\/]|svelte-)'],
+        ignore: ['.(?:svelte|html)$', '^(@mamba[\\/]|svelte-)', '.(?:ts)$'],
       },
     ],
 
@@ -129,11 +152,7 @@ module.exports = {
     /** Require semicolons without enforcing */
     semi: ['warn', 'always'],
 
-    quotes: [
-      'error',
-      'single',
-      { avoidEscape: true, allowTemplateLiterals: true },
-    ],
+    quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: true }],
 
     'comma-dangle': [
       'error',
@@ -208,4 +227,56 @@ module.exports = {
       },
     ],
   },
+  overrides: [
+    {
+      files: ['*.ts'],
+      parser: '@typescript-eslint/parser',
+      plugins: ['@typescript-eslint'],
+      parserOptions: {
+        ecmaVersion: 2020,
+        sourceType: 'module',
+        ecmaFeatures: {
+          modules: true,
+          experimentalObjectRestSpread: true,
+        },
+      },
+      extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
+      rules: {
+        'no-dupe-class-members': 'off',
+        'no-array-constructor': 'off',
+        'no-useless-constructor': 'off',
+        'import/no-unresolved': 'off',
+        'import/extensions': 'off',
+        '@typescript-eslint/consistent-type-assertions': 'warn',
+        '@typescript-eslint/no-array-constructor': 'warn',
+        '@typescript-eslint/no-useless-constructor': 'warn',
+        '@typescript-eslint/explicit-function-return-type': 0,
+        '@typescript-eslint/explicit-member-accessibility': 0,
+        '@typescript-eslint/indent': 0,
+        '@typescript-eslint/member-delimiter-style': 0,
+        '@typescript-eslint/no-explicit-any': 0,
+        '@typescript-eslint/no-var-requires': 0,
+        '@typescript-eslint/no-use-before-define': 0,
+        'no-unused-vars': 'off',
+        'no-shadow': 'off',
+        '@typescript-eslint/no-shadow': ['error'],
+        '@typescript-eslint/no-unused-vars': [
+          'warn',
+          {
+            args: 'none',
+            ignoreRestSiblings: true,
+          },
+        ],
+        'no-template-curly-in-string': 0,
+        quotes: [
+          'error',
+          'single',
+          {
+            avoidEscape: true,
+            allowTemplateLiterals: true,
+          },
+        ],
+      },
+    },
+  ],
 };

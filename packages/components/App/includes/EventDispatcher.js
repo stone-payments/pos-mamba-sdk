@@ -1,4 +1,4 @@
-export const dispatchEventOn = shortcutEl => {
+export const dispatchEventOn = (shortcutEl) => {
   /**
    * Adapted from:
    * https://stackoverflow.com/questions/15739263/phantomjs-click-an-element

@@ -43,8 +43,7 @@
       };
     },
     computed: {
-      brightnessOpacity: ({ brightnessLevel }) =>
-        1 - rescale(brightnessLevel, [1, 10], [0.4, 1]),
+      brightnessOpacity: ({ brightnessLevel }) => 1 - rescale(brightnessLevel, [1, 10], [0.4, 1]),
     },
     oncreate() {
       if (localStorage) {
@@ -54,7 +53,7 @@
         }
       }
 
-      HardwareManager.on('changeBrightness', brightnessLevel => {
+      HardwareManager.on('changeBrightness', (brightnessLevel) => {
         this.set({ brightnessLevel });
       });
 
@@ -155,11 +154,10 @@
     }
 
     :global(.Q92 .screen) {
-      top: 161px;
-      left: 63px;
-      border-radius: 2px;
-      width: 282px;
-      height: 411px;
+      top: 115px;
+      left: 54px;
+      width: 240px;
+      height: 390px; /* (370px + 20px from status bar) */
     }
 
     .content {

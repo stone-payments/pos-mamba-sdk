@@ -4,7 +4,7 @@ const { newTestRoot } = global;
 
 const root = newTestRoot();
 
-const newSwitch = data => root.createComponent(Switch, { unique: true, data });
+const newSwitch = (data) => root.createComponent(Switch, { unique: true, data });
 
 let switchComp;
 
@@ -22,7 +22,7 @@ it('should be able to disable the checkbox', () => {
 
 it('should fire a change event when value is modified', () => {
   switchComp = newSwitch();
-  return new Promise(res => {
+  return new Promise((res) => {
     switchComp.on('change', res);
     getCheckboxNode().click();
   });

@@ -21,7 +21,7 @@ module.exports = {
 
     console.log(chalk.green('App lint done'));
   },
-  builder: yargs =>
+  builder: (yargs) =>
     yargs.options({
       type: cliArgs.lintType,
     }),

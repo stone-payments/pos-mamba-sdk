@@ -6,8 +6,7 @@ const { newTestRoot } = global;
 const root = newTestRoot();
 let tabPane;
 
-const newTabPane = (data, slots) =>
-  root.createComponent(TabPane, { unique: true, data, slots });
+const newTabPane = (data, slots) => root.createComponent(TabPane, { unique: true, data, slots });
 
 describe(`${name}/TabPane.html`, () => {
   describe('rendering', () => {

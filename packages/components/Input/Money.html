@@ -12,10 +12,11 @@
   on:submit="_onSubmit()"
   on:submitValid="_onSubmitValid()"
   on:submitInvalid="_onSubmitInvalid()"
+  {keyboardType}
 />
 
 <script>
-  import Keyboard from '@mamba/pos/api/keyboard.js';
+  import Keyboard from '@mamba/keyboard/api/keyboard.js';
   import { format as formatMoney } from '@mamba/utils/money.js';
 
   export default {
@@ -34,16 +35,8 @@
     },
     computed: {
       /* istanbul ignore next */
-      _inputProps: ({
-        value,
-        prefix,
-        suffix,
-        mask,
-        placeholder,
-        type,
-        validation,
-        ...props
-      }) => props,
+      _inputProps: ({ value, prefix, suffix, mask, placeholder, type, validation, ...props }) =>
+        props,
       formatted: ({ prefix, suffix, value = '0', limit }) => {
         const parsedMoney = parseFloat(value) / 100;
         const isValidNumber = !Number.isNaN(parsedMoney);
@@ -121,10 +114,7 @@
            * still rendered (it could have been destroyed).
            */
           if (this.refs.amountInput) {
-            this.refs.amountInput.refs.input.setSelectionRange(
-              endPosition,
-              endPosition,
-            );
+            this.refs.amountInput.refs.input.setSelectionRange(endPosition, endPosition);
           }
         });
 
@@ -145,7 +135,8 @@
       },
       _onKeydown(e) {
         e.preventDefault();
-        const keyName = Keyboard.getKeyName(e.keyCode);
+        const keyCode = e.code && e.code !== 0 ? e.code : e.charCode || e.which || e.keyCode;
+        const keyName = Keyboard.getKeyName(keyCode);
         const { readonlyOnEnter } = this.get();
         let { value } = this.get();
         value = value.toString();
@@ -158,7 +149,7 @@
           this.makeReadOnly();
         }
 
-        if (Keyboard.isNumericKey(e.keyCode)) {
+        if (Keyboard.isNumericKey(keyCode)) {
           if (value === '0') {
             value = keyName;
           } else {

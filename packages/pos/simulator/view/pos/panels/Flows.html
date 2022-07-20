@@ -27,7 +27,7 @@
     },
     onupdate({ previous, changed, current }) {
       if (previous) {
-        Registry.set(draft => {
+        Registry.set((draft) => {
           if (changed.printerWillFail) {
             draft.$Printer.panel.shouldFail = current.printerWillFail;
           }

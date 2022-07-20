@@ -4,18 +4,19 @@
   "svelte": "Collection.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
+  "engines": {
+    "node": ">= 8 || <= 14",
+    "npm": "^7 || ^8"
+  },
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
-    "@mamba/switch": "3.5.9"
-  },
-  "dependencies": {
-    "@mamba/icon": "3.5.9",
-    "@mamba/styles": "3.5.9"
+    "@mamba/styles": ">=4",
+    "@mamba/switch": ">=4"
   },
   "peerDependencies": {
-    "@mamba/pos": ">3.0.0"
+    "@mamba/icon": ">=4"
   },
   "gitHead": "ddc05702292f5dea2772130436f0a00fbd5be1db"
 }

@@ -14,12 +14,12 @@ const Apps = {};
 /** Stack of opened apps. The current app is the last one. */
 const openedApps = [];
 
-AppManager.getApp = slug => Apps[slug];
+AppManager.getApp = (slug) => Apps[slug];
 AppManager.getInstalledApps = () => Apps;
 AppManager.getOpenedApps = () => openedApps;
 AppManager.getCurrentApp = () => openedApps[openedApps.length - 1];
 
-const loadApp = appMeta => {
+const loadApp = (appMeta) => {
   AppManager.fire('loading');
   return appMeta.loader().then(({ default: App }) => {
     AppManager.fire('loaded');
@@ -38,9 +38,7 @@ AppManager.installApp = ({ manifest, RootComponent, loader }) => {
 
     AppManager.fire('appInstalled', appMeta);
   } else if (__DEV__) {
-    warn(
-      `Tried to install an already installed app with slug "${manifest.slug}"`,
-    );
+    warn(`Tried to install an already installed app with slug "${manifest.slug}"`);
   }
 
   return Apps[manifest.slug];
@@ -58,14 +56,10 @@ AppManager.open = async (appSlug, options = {}) => {
 
   if (__DEV__) log(`Opening App: ${appMeta.manifest.appName}`);
 
-  const appsEl =
-    document.getElementById('apps-container') ||
-    document.getElementById('app-root');
+  const appsEl = document.getElementById('apps-container') || document.getElementById('app-root');
 
   if (!appsEl) {
-    throw new Error(
-      'Apps container element (#apps-container or #app-root) not found.',
-    );
+    throw new Error('Apps container element (#apps-container or #app-root) not found.');
   }
 
   let target = appsEl;
@@ -110,7 +104,7 @@ AppManager.open = async (appSlug, options = {}) => {
     const { store } = appMeta.runtime.instance;
     if (store) {
       const initialState = { ...store.get() };
-      Object.keys(store._computed).forEach(computedKey => {
+      Object.keys(store._computed).forEach((computedKey) => {
         delete initialState[computedKey];
       });
       appMeta.runtime.store = { ref: store, initialState };
