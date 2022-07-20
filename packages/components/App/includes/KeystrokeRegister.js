@@ -1,4 +1,4 @@
-import Keyboard from '@mamba/keyboard/native/keyboard.js';
+import Keyboard from '@mamba/keyboard/api/index.js';
 
 const register = {
   length: 0,
@@ -28,7 +28,9 @@ export const hasKeystrokeToPrevent = () => {
 };
 
 const keystrokeHandler = (e) => {
-  const keyName = Keyboard.getKeyName(e.charCode || e.which || e.keyCode);
+  const keyName = Keyboard.getKeyName(
+    e.code && e.code !== 0 ? e.code : e.charCode || e.which || e.keyCode,
+  );
   const keyHandlers = register[keyName];
 
   // handlerContext: Do not execute keystroke handlers for non global(window target) events

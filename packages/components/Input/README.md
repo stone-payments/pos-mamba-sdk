@@ -131,11 +131,8 @@ O componente padrão `Input` suporta máscaras para formatar o seu valor. Para d
 
 Exemplo de CPF/CNPJ:
 
-```
-<Input
-  label="CPF/CNPJ"
-  mask={['###.###.###-##', '##.###.###/####-##']}
-/>
+```html
+<Input label="CPF/CNPJ" mask={['###.###.###-##', '##.###.###/####-##']} />
 ```
 
 ### mask()

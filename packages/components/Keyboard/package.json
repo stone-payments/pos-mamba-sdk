@@ -1,8 +1,9 @@
 {
   "name": "@mamba/keyboard",
   "version": "0.0.1",
+  "main": "lib/index.js",
+  "types": "types/index.d.ts",
   "svelte": "Keyboard.html",
-  "main": "build/dist.js",
   "description": "POS physical keyboard handler and virtual ones",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -10,6 +11,10 @@
     "node": ">= 8 || <= 14",
     "npm": "^7 || ^8"
   },
+  "files": [
+    "*",
+    "!src"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/stone-payments/pos-mamba-sdk.git",
@@ -20,13 +25,15 @@
   },
   "homepage": "https://github.com/stone-payments/pos-mamba-sdk#readme",
   "scripts": {
-    "start": "yarn run prebuild && tsc -d -w --declarationDir types --esModuleInterop",
+    "start": "yarn run prebuild && tsc -d -w",
     "prebuild": "rimraf dist types",
     "compile": "tsc -p tsconfig.json",
-    "build": "run-s prebuild compile"
+    "build": "run-s prebuild compile",
+    "prepare": "npm run build"
   },
   "peerDependencies": {
     "@mamba/core": "*",
-    "@mamba/pos": ">=4"
+    "@mamba/input": ">=4",
+    "@mamba/utils": ">=4"
   }
 }

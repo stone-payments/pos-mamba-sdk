@@ -1,7 +1,8 @@
 {
   "name": "@mamba/core",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "types/index.d.ts",
   "description": "Mamba QT bindings, wrappers and embbebded hardware handlers",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -17,5 +18,12 @@
   "bugs": {
     "url": "https://github.com/stone-payments/pos-mamba-sdk/issues"
   },
-  "homepage": "https://github.com/stone-payments/pos-mamba-sdk#readme"
+  "homepage": "https://github.com/stone-payments/pos-mamba-sdk#readme",
+  "scripts": {
+    "start": "yarn run prebuild && tsc -d -w",
+    "prebuild": "rimraf dist types",
+    "compile": "tsc -p tsconfig.json",
+    "build": "run-s prebuild compile",
+    "prepare": "npm run build"
+  }
 }

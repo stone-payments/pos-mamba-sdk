@@ -1,5 +1,5 @@
 import * as Colors from '@mamba/styles/colors.js';
-import { KEYUP, KEYDOWN } from '@mamba/keyboard/native/keymap.js';
+import { ARROW_UP, ARROW_DOWN } from '@mamba/core';
 import isFunction from './utils/isFunction.js';
 
 let lastActive;
@@ -94,7 +94,7 @@ const scrollTo = (yaxis, item) => {
 };
 
 const getPosition = (index, keyAction) => {
-  if (keyAction === KEYUP) {
+  if (keyAction === ARROW_UP) {
     return index !== null && index > 0 ? index - 1 : index;
   }
   return index !== null ? index + 1 : 0;
@@ -105,7 +105,7 @@ export const scrollActiveNodeAtIndex = (nodeList, index, yaxis) => {
   toggleActive(nodeList, index);
 };
 
-export const selectRowItem = (nodeList, index, yaxis, keyAction = KEYDOWN) => {
+export const selectRowItem = (nodeList, index, yaxis, keyAction = ARROW_DOWN) => {
   const selectIndex = getPosition(index, keyAction);
 
   if (nodeList[selectIndex]) {

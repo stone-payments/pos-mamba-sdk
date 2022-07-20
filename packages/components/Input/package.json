@@ -18,7 +18,8 @@
     "@mamba/icon": ">=4",
     "@mamba/pos": ">=4",
     "@mamba/utils": ">=4",
-    "@mamba/keyboard": "*"
+    "@mamba/keyboard": "*",
+    "@mamba/core": "*"
   },
   "gitHead": "ddc05702292f5dea2772130436f0a00fbd5be1db"
 }

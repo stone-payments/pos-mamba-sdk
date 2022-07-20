@@ -1,3 +1,7 @@
-import * as KEYBOARD from './keymap';
+import Keyboard from './Keyboard';
+import GeneralKeyboard from './controllers/GeneralKeyboard';
 
-export { KEYBOARD };
+export * from './types';
+
+export { GeneralKeyboard };
+export default Keyboard;

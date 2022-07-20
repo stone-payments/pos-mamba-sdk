@@ -1,20 +1,25 @@
 {
   "compilerOptions": {
     "noImplicitAny": true,
-    "outDir": "dist",
-    "lib": ["es2020", "DOM"],
-    "module": "commonjs",
-    "target": "es2015",
+    "outDir": "lib",
+    "lib": ["esnext", "DOM"],
+    "target": "es6",
+    "module": "es2020",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "declarationDir": "types",
     "allowJs": true,
     "sourceMap": true,
+    "inlineSourceMap": false,
     "declaration": true,
-    "declarationDir": "types",
     "suppressImplicitAnyIndexErrors": true,
-    "moduleResolution": "node",
     "downlevelIteration": true,
     "strict": true,
+    "strictNullChecks": true,
     "isolatedModules": true,
-    "removeComments": false
+    "removeComments": false,
+    "typeRoots": ["../../../node_modules/@types", "src/customTypes"]
   },
   "include": ["src"]
 }

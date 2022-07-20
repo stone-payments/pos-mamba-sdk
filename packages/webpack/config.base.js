@@ -1,13 +1,13 @@
 /**
  * Common webpack configuration
  */
-const fs = require('fs');
 const merge = require('webpack-merge');
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin');
 const WebpackBar = require('webpackbar');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 const { fromCwd } = require('quickenv');
+const clientEnvironment = require('@mamba/configs/helpers/clientEnvironment.js');
 
 const getHTMLTemplate = require('./helpers/getHTMLTemplate.js');
 const loaders = require('./helpers/loaders.js');
@@ -24,10 +24,18 @@ const {
 } = require('./helpers/consts.js');
 
 const baseInclude = [fromCwd('src')];
-const vendors = fromCwd('vendors/packages');
-if (fs.existsSync(vendors)) {
-  baseInclude.push(vendors);
-}
+
+const definePluginOptions = merge(clientEnvironment('webpack'), {
+  __NODE_ENV__: JSON.stringify(NODE_ENV),
+  __APP_ENV__: JSON.stringify(APP_ENV),
+  __PROD__: IS_PROD,
+  __TEST__: NODE_ENV === 'test',
+  __DEV__: IS_DEV,
+  __DEBUG_LVL__: DEBUG_LVL,
+  __POS__: IS_POS,
+  __SIMULATOR__: ADD_MAMBA_SIMULATOR,
+  __BROWSER__: IS_BROWSER,
+});
 
 module.exports = {
   mode: IS_PROD ? 'production' : 'development',
@@ -43,10 +51,10 @@ module.exports = {
   },
   resolve: {
     /** Do not resolve symlinks */
-    symlinks: true,
+    symlinks: false,
     enforceExtension: false,
     mainFields: ['svelte', 'esnext', 'jsnext:main', 'module', 'main'],
-    extensions: ['.js', '.json', '.pcss', '.css', '.html', '.htmlx', '.svelte'],
+    extensions: ['.js', '.ts', '.json', '.pcss', '.css', '.html', '.htmlx', '.svelte'],
   },
   module: {
     rules: [
@@ -60,7 +68,11 @@ module.exports = {
         use: [loaders.babelEsNext, loaders.svelte, loaders.eslint],
       },
       {
-        test: /\.(js|ts)$/,
+        test: /\.ts$/,
+        use: [loaders.babelEsNext, loaders.eslint],
+      },
+      {
+        test: /\.js$/,
         include: baseInclude,
         exclude: [/node_modules/],
         use: [loaders.babelEsNext, loaders.eslint],
@@ -126,20 +138,7 @@ module.exports = {
       context: { title: 'Application' },
       template: getHTMLTemplate,
     }),
-    new webpack.DefinePlugin(
-      // eslint-disable-next-line
-      merge(require('@mamba/configs/helpers/clientEnvironment.js'), {
-        __NODE_ENV__: JSON.stringify(NODE_ENV),
-        __APP_ENV__: JSON.stringify(APP_ENV),
-        __PROD__: IS_PROD,
-        __TEST__: NODE_ENV === 'test',
-        __DEV__: IS_DEV,
-        __DEBUG_LVL__: DEBUG_LVL,
-        __POS__: IS_POS,
-        __SIMULATOR__: ADD_MAMBA_SIMULATOR,
-        __BROWSER__: IS_BROWSER,
-      }),
-    ),
+    new webpack.DefinePlugin(definePluginOptions),
   ],
   /** Minimal useful output log */
   stats: {

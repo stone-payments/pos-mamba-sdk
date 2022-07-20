@@ -1,21 +1,33 @@
-
-<div
-  class="keyboard"
->
-  <span>
-    A B C
-  </span>
-</div>
-
-
 <script>
-  import { KEYBOARD } from './src/index.ts';
+  import Keyboard from './lib/index.js';
+  import Api from './api/index.js';
+  import './css/Keyboard.css';
+  import './css/KeyboardThemeMath.css';
+  import './css/KeyboardThemeNumeric.css';
+  import './css/KeyboardThemePhone.css';
 
   export default {
+    data() {
+      return {
+        debug: __DEV__ || __DEBUG_LVL__ >= 3,
+        keepVisible: false,
+        autoRender: false,
+      };
+    },
     oncreate() {
-      console.log(KEYBOARD);
+      this.root.on('router:change', () => {
+        try {
+          if (!(document.activeElement instanceof HTMLInputElement)) {
+            Api.virtualKeyboard.unmount();
+          }
+        } catch (_) {
+          //
+        }
+      });
+
+      new Keyboard({
+        ...this.get(),
+      });
     },
   };
 </script>
-
-<style type="text/postcss" src="./src/css/Box.css" ></style>
