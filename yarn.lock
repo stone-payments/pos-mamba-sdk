@@ -2269,7 +2269,7 @@
     write-file-atomic "^3.0.3"
 
 "@mamba/collection@>=4":
-  version "3.5.9"
+  version "3.6.0"
 
 "@mamba/icon@>=4":
   version "3.5.9"

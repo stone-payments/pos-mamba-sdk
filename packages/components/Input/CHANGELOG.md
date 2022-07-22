@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@4.1.3...@mamba/input@6.0.0) (2022-07-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* 🧨 n
+
+### Features
+
+* new mamba keyboard implementation ([23466f2](https://github.com/stone-payments/pos-mamba-sdk/commit/23466f28fbd58067248b308218d4eb91b8889160))
+
+
+### Bug Fixes
+
+* 🐛 fix enter key on onput ([6379e39](https://github.com/stone-payments/pos-mamba-sdk/commit/6379e3961783012c1bf91f760276b59d3865d7ef))
+* 🐛 fix keyboard input validation ([fccee6d](https://github.com/stone-payments/pos-mamba-sdk/commit/fccee6d5e4665d87e2bafcdce497a73f78f35379))
+* 🐛 normalize the dependencies across packages ([43103d7](https://github.com/stone-payments/pos-mamba-sdk/commit/43103d718ba93909cb34ca459f674ceea9354a06))
+* 🐛 update MP35P classes to has-small-screen ([20abe2d](https://github.com/stone-payments/pos-mamba-sdk/commit/20abe2df37d384bf7b3fb3eac501808372278501))
+
+
+### Styles
+
+* 💄 alteraçao de fonte para mp35 e mp35p ([fd3a4f0](https://github.com/stone-payments/pos-mamba-sdk/commit/fd3a4f005a83435ba44a886973300886f2d5dc28))
+
+
+
 ### [4.1.5](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@4.1.0...@mamba/input@4.1.5) (2022-05-11)
 
 **Note:** Version bump only for package @mamba/input

@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/flatlist@4.3.3...@mamba/flatlist@6.0.0) (2022-07-21)
+
+
+### Features
+
+* 🎸 add inital keyboard setup ([a1e8ca3](https://github.com/stone-payments/pos-mamba-sdk/commit/a1e8ca3fc392b14fa9c30cd99dbde67f513c091d))
+* 🎸 new componente - UpDown Bar ([085cbd8](https://github.com/stone-payments/pos-mamba-sdk/commit/085cbd80fb7e460fac381ff5434bfde637119793))
+* new mamba keyboard implementation ([23466f2](https://github.com/stone-payments/pos-mamba-sdk/commit/23466f28fbd58067248b308218d4eb91b8889160))
+
+
+### Bug Fixes
+
+* 🐛 normalize the dependencies across packages ([43103d7](https://github.com/stone-payments/pos-mamba-sdk/commit/43103d718ba93909cb34ca459f674ceea9354a06))
+* 🐛 update MP35P classes to has-small-screen ([20abe2d](https://github.com/stone-payments/pos-mamba-sdk/commit/20abe2df37d384bf7b3fb3eac501808372278501))
+
+
+
 ### [4.3.5](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/flatlist@4.3.0...@mamba/flatlist@4.3.5) (2022-05-11)
 
 **Note:** Version bump only for package @mamba/flatlist
