@@ -14,6 +14,7 @@
 <AdminLock ref:adminLock/>
 
 <script>
+  import _kebabCase from 'lodash/fp/kebabCase';
   import App from '@mamba/pos/api/app.js';
   import Keyboard from '@mamba/keyboard/api/keyboard.js';
   import { getPosModel, Device } from '@mamba/utils/index.js';
@@ -52,7 +53,11 @@
       const { target } = this.root.options;
 
       /** Add the mamba-app-container class to the root element */
-      target.classList.add('mamba-app-container', this.get().model);
+      try {
+        target.classList.add('mamba-app-container', _kebabCase(this.get().model));
+      } catch (e) {
+        console.error(`Failed get pos model. ${e}`);
+      }
 
       // Add capabilities classes
       try {
