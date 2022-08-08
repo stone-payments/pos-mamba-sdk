@@ -41,15 +41,16 @@ DriverManager.attachDrivers = (driverModules) => {
       }
 
       Registry.set((draft) => {
-        draft[driverRef] = Object.assign(draft[driverRef] || {}, dynamicDefaults);
+        draft[driverRef] = Object.assign(dynamicDefaults, draft[driverRef] || {});
       });
     }
 
     if (driverModule.PERSISTENT_SETTINGS) {
       const persistentDefaults = deepCopy(driverModule.PERSISTENT_SETTINGS);
+      // const saved = Registry.persistent.get()[driverRef];
       /** Does any persisted data for this driver exist? */
       Registry.persistent.set((draft) => {
-        draft[driverRef] = Object.assign(draft[driverRef] || {}, persistentDefaults);
+        draft[driverRef] = Object.assign(persistentDefaults, draft[driverRef] || {});
       });
 
       if (__DEBUG_LVL__ >= 1 && __BROWSER__) {
