@@ -47,7 +47,6 @@ DriverManager.attachDrivers = (driverModules) => {
 
     if (driverModule.PERSISTENT_SETTINGS) {
       const persistentDefaults = deepCopy(driverModule.PERSISTENT_SETTINGS);
-      // const saved = Registry.persistent.get()[driverRef];
       /** Does any persisted data for this driver exist? */
       Registry.persistent.set((draft) => {
         draft[driverRef] = Object.assign(persistentDefaults, draft[driverRef] || {});
