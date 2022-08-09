@@ -307,6 +307,10 @@ class Keyboard {
         options.updateMode = KeyboardUpdateMode.Auto;
       }
 
+      if (options.updateMode === KeyboardUpdateMode.Manual) {
+        this.physicalKeyboard = undefined;
+      }
+
       if (!options.soundEnabled && window.Sound) {
         options.soundEnabled = window.Sound.isEnabled();
       } else {

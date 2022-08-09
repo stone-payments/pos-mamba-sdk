@@ -44,7 +44,7 @@ const keyboard: KeyboardTypesPredefinedOptions = {
   },
   outputs: {
     ...outputsDefault,
-    [keyCheck]: 'enter',
+    [keyCheck]: 'check',
     [clear]: 'AC',
   },
   allowKeySyntheticEvent: [division, multiply, minus, plus, equal, decimal, clear, percentage],
