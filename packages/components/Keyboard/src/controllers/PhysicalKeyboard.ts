@@ -342,13 +342,6 @@ export class UIPhysicalKeyboard {
       : false;
 
     /**
-     * Converts button from configured {@link KeyboardOptions.outputs} option if any
-     */
-    if (options.outputs && options.outputs[button]) {
-      button = options.outputs[button];
-    }
-
-    /**
      * Remove function button placeholder to keyName
      */
     if (buttonType === ButtonType.Function) {

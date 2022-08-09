@@ -3,7 +3,7 @@
 
 import CreatePhysicalKeyboard, { UIPhysicalKeyboard } from './controllers/PhysicalKeyboard';
 import GeneralKeyboard from './controllers/GeneralKeyboard';
-import CaretWorker from './common/CaretWorker';
+import CursorWorker from './common/CursorWorker';
 import type { UIGeneralKeyboard } from './controllers/GeneralKeyboard';
 import {
   getButtonClass,
@@ -39,7 +39,7 @@ class Keyboard {
 
   options!: KeyboardOptions;
 
-  caretWorker!: CaretWorker;
+  cursorWorker!: CursorWorker;
 
   keyboardDOM!: KeyboardElement;
 
@@ -98,9 +98,9 @@ class Keyboard {
     } = this.handleParams(element, keyboardOptions);
 
     /**
-     * Initializing CaretWorker
+     * Initializing CursorWorker
      */
-    this.caretWorker = new CaretWorker({
+    this.cursorWorker = new CursorWorker({
       getOptions: this.getOptions,
       keyboardInstance: this,
     });
@@ -414,9 +414,9 @@ class Keyboard {
     this.input.default = '';
 
     /**
-     * Reset caretPosition
+     * Reset cursorPosition
      */
-    this.caretWorker.setCaretPosition(0);
+    this.cursorWorker.setCursorPosition(0);
   }
 
   /**
@@ -661,6 +661,15 @@ class Keyboard {
      */
     if (button === '{//}') return;
 
+    let buttonOutput = button;
+
+    /**
+     * Converts button from configured {@link KeyboardOptions.outputs} option if any
+     */
+    if (this.options.outputs && this.options.outputs[button]) {
+      buttonOutput = this.options.outputs[button];
+    }
+
     /**
      * Creating virtual input if it doesn't exist
      */
@@ -669,12 +678,12 @@ class Keyboard {
     /**
      * Calculating new input
      */
-    const updatedInput = this.caretWorker.getUpdatedInput(button, this.input.default);
+    const updatedInput = this.cursorWorker.getUpdatedInput(button, this.input.default);
 
     /**
      * Calling onKeyPress
      */
-    if (typeof this.options.onKeyPress === 'function') this.options.onKeyPress(button, e);
+    if (typeof this.options.onKeyPress === 'function') this.options.onKeyPress(buttonOutput, e);
 
     /**
      * Defining button type {@link ButtonType}
@@ -689,15 +698,20 @@ class Keyboard {
        * Calling onFunctionKeyPress
        */
       if (typeof this.options.onFunctionKeyPress === 'function') {
-        this.options.onFunctionKeyPress(button, this, e);
+        this.options.onFunctionKeyPress(buttonOutput, this, e);
       }
 
       /**
        * Calling internalOnFunctionKeyPress of prefab keyboard type
        */
       if (typeof this.internalOnFunctionKeyPress === 'function') {
-        this.internalOnFunctionKeyPress(button, this, e);
+        this.internalOnFunctionKeyPress(buttonOutput, this, e);
       }
+    } else if (typeof this.options.onStandardKeyPress === 'function') {
+      /**
+       * Calling onStandardKeyPress
+       */
+      this.options.onStandardKeyPress(buttonOutput, this, e);
     }
 
     /**
@@ -717,24 +731,26 @@ class Keyboard {
       /**
        * If maxLength and handleMaxLength yield true, halting
        */
-      if (this.options.maxLength && this.caretWorker.handleMaxLength(this.input, updatedInput)) {
+      if (this.options.maxLength && this.cursorWorker.handleMaxLength(this.input, updatedInput)) {
         return;
       }
 
       /**
        * Updating input
        */
-      const newInputValue = this.caretWorker.getUpdatedInput(button, this.input.default, true);
+      const newInputValue = this.cursorWorker.getUpdatedInput(button, this.input.default, true);
 
       this.setInput(newInputValue);
 
       if (this.options.debug) {
-        console.log('Input changed:', this.getInput());
+        if (window.MambaKeyboardInstance && window.MambaKeyboardInstance.instance) {
+          console.log('Input changed:', window.MambaKeyboardInstance.instance.input);
+        }
 
         console.log(
-          'Caret at: ',
-          this.caretWorker.getCaretPosition(),
-          this.caretWorker.getCaretPositionEnd(),
+          'Cursor at: ',
+          this.cursorWorker.getCursorPosition(),
+          this.cursorWorker.getCursorPositionEnd(),
           `(${this.keyboardDOMClass})`,
         );
       }
@@ -748,7 +764,7 @@ class Keyboard {
     /**
      * Call synthetic event handler
      */
-    this.shouldDispatchSyntheticKeyEvent(button, buttonType, isValidInputPattern, e);
+    this.shouldDispatchSyntheticKeyEvent(button, buttonOutput, buttonType, isValidInputPattern, e);
 
     /**
      * Call active class handler
@@ -756,7 +772,7 @@ class Keyboard {
     this.handleActiveButton(e);
 
     if (this.options.debug) {
-      console.log('Key pressed:', button);
+      console.log('Key pressed:', { button, buttonOutput });
     }
   }
 
@@ -765,6 +781,7 @@ class Keyboard {
    */
   private shouldDispatchSyntheticKeyEvent(
     button: string,
+    buttonOutput: string,
     buttonType: ButtonType,
     isValidInputPattern?: boolean,
     e?: KeyboardHandlerEvent,
@@ -790,7 +807,12 @@ class Keyboard {
         // or if the button key can pass through configured `allowKeySyntheticEvent` option
         allowKeyPass
       ) {
-        this.physicalKeyboard.dispatchSyntheticKeybaordEvent(button, buttonType, allowKeyPass, e);
+        this.physicalKeyboard.dispatchSyntheticKeybaordEvent(
+          buttonOutput,
+          buttonType,
+          allowKeyPass,
+          e,
+        );
       }
     }
   }
@@ -866,9 +888,9 @@ class Keyboard {
     }
 
     /**
-     * Set caret event listeners
+     * Set cursor event listeners
      */
-    this.caretWorker.setupCaretEventsControl();
+    this.cursorWorker.setupCursorEventsControl();
 
     if (typeof this.options.onInit === 'function') this.options.onInit(this);
   }

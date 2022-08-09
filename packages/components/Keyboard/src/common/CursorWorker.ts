@@ -252,7 +252,7 @@ class CursorWorker {
   setupCursorEventsControl(): void {
     const options = this.getOptions();
 
-    if (!document || options.readOnly === true) return;
+    if (!document || options.readonly === true) return;
 
     if (options.debug) {
       console.log(`Cursor handling started (${this.keyboardInstance.keyboardDOMClass})`);

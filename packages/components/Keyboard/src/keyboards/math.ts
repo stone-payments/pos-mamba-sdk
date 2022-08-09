@@ -12,13 +12,14 @@ const clear = '{clear}';
 const decimal = '{.}';
 
 const outputsDefault = {
-  [division]: '÷',
-  [multiply]: '×',
+  [division]: '/',
+  [multiply]: '*',
   [minus]: '−',
   [plus]: '+',
   [equal]: '=',
   [percentage]: '%',
-  [decimal]: ',',
+  [decimal]: '.',
+  [keyBackspace]: '<',
 };
 
 const keyboard: KeyboardTypesPredefinedOptions = {
