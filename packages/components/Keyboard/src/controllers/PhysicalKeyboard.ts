@@ -150,10 +150,10 @@ export class UIPhysicalKeyboard {
       const input = e.target as HTMLInputElement;
 
       /**
-       * Move caret to final
+       * Move cursor to final
        */
       const endPosition = input.value.length;
-      this.keyboardInstance.caretWorker.setCaretPosition(endPosition, endPosition, true);
+      this.keyboardInstance.cursorWorker.setCursorPosition(endPosition, endPosition, true);
     }
   }
 

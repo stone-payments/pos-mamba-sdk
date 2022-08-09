@@ -14,7 +14,7 @@ export interface KeyboardInput {
   default: string;
 }
 
-export type CaretPosition = number | null;
+export type CursorPosition = number | null;
 export type KeyboardElement = HTMLDivElement | HTMLButtonElement | HTMLSpanElement;
 export type KeyboardInputOption = HTMLInputElement | HTMLDivElement | HTMLElement | undefined;
 export type KeyboardHandlerEvent = KeyboardEvent | MouseEvent | PointerEvent | UIEvent | Event;
@@ -219,7 +219,7 @@ export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents
   /**
    * A prop to ensure characters are always be added/removed at the end of the string.
    */
-  disableCaretPositioning?: boolean;
+  disableCursorPositioning?: boolean;
 
   /**
    * Restrains input(s) change to the defined regular expression pattern.

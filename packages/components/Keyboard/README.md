@@ -125,7 +125,7 @@ interface KeyboardOptions {
   /**
    * A prop to ensure characters are always be added/removed at the end of the string.
    */
-  disableCaretPositioning?: boolean;
+  disableCursorPositioning?: boolean;
 
   /**
    * Restrains input(s) change to the defined regular expression pattern.
