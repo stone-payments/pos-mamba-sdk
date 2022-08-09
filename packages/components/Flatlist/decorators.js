@@ -19,7 +19,7 @@ const SEPARATORS = {
  *
  * @description handle (or customize) the position
  */
-const positionHandler = separator => position => {
+const positionHandler = (separator) => (position) => {
   const positionAsNumber = Number(position);
 
   if (positionAsNumber || positionAsNumber === 0) {
@@ -35,11 +35,7 @@ const positionHandler = separator => position => {
   return '';
 };
 
-const getPrefixOverride = (
-  overrides = {},
-  _default = {},
-  separator = SEPARATORS.DEFAULT,
-) => {
+const getPrefixOverride = (overrides = {}, _default = {}, separator = SEPARATORS.DEFAULT) => {
   const keys = Object.getOwnPropertyNames(overrides);
   const hasPrefix = keys.indexOf('prefix') !== -1;
   const hasPrefixStyle = keys.indexOf('prefixStyle') !== -1;
@@ -91,7 +87,7 @@ export const SetDefaultRowDecorator = (incomingProps = {}, overrides = {}) => {
     highlightSelect: false,
   });
 
-  if (__DEBUG_LVL__ >= 4) {
+  if (__DEBUG_LVL__ >= 6) {
     console.log(JSON.stringify({ DefaultRowDecorator }, null, 2));
   }
 
@@ -130,10 +126,7 @@ const GetDefaultDecorator = (rowProps, overrides = {}) => {
   });
 
   if (currentOverride.showChevron) {
-    ARROW_CAPABILITIES_DECORATOR.endFixture = chevronFixture(
-      incomingProps,
-      currentOverride,
-    );
+    ARROW_CAPABILITIES_DECORATOR.endFixture = chevronFixture(incomingProps, currentOverride);
     const { contentStyle } = ARROW_CAPABILITIES_DECORATOR;
     if (isObject(contentStyle)) {
       contentStyle.paddingRight = '30px';
@@ -151,9 +144,4 @@ const GetDefaultDecorator = (rowProps, overrides = {}) => {
   );
 };
 
-export {
-  GetDefaultDecorator,
-  DefaultRowDecorator,
-  ACTIVE_MODEL,
-  ACTIVE_MODEL_SLUG,
-};
+export { GetDefaultDecorator, DefaultRowDecorator, ACTIVE_MODEL, ACTIVE_MODEL_SLUG };

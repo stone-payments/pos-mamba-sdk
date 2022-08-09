@@ -26,7 +26,6 @@ module.exports = merge(require('./config.base.js'), {
         page: fromCwd('node_modules', 'page'),
         'core-js': fromCwd('node_modules', 'core-js'),
         '@mamba/pos': fromCwd('node_modules', '@mamba', 'pos'),
-        '../vendors': fromCwd('vendors'),
       };
 
       if (IS_BROWSER) {

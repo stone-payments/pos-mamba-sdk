@@ -21,8 +21,7 @@ module.exports = {
     type: 'boolean',
   },
   simulator: {
-    description:
-      'Add the mamba simulator to the bundle (automatically added to target "browser")',
+    description: 'Add the mamba simulator to the bundle (automatically added to target "browser")',
     alias: ['s'],
     default: false,
     type: 'boolean',

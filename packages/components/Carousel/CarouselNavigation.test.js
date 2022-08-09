@@ -5,8 +5,7 @@ const { newTestRoot } = global;
 
 const root = newTestRoot();
 
-const newCarousel = data =>
-  root.createComponent(CarouselNavigation, { unique: true, data });
+const newCarousel = (data) => root.createComponent(CarouselNavigation, { unique: true, data });
 
 // eslint-disable-next-line
 let carouselComp;

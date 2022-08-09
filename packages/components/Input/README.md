@@ -16,18 +16,6 @@ import Input from '@mamba/input';
 import MoneyInput from '@mamba/input/Money.html';
 ```
 
-#### Keyboard
-
-```js
-import KeyboardInput from '@mamba/input/Keyboard.html';
-```
-
-#### NumericKeyboard
-
-```js
-import NumericKeyboard from '@mamba/input/NumericKeyboard.html';
-```
-
 | Parâmetross  | Descrição                                                   | Tipo           | Padrão      |
 | ------------ | ----------------------------------------------------------- | -------------- | ----------- |
 | align        | Alinha a entrada de acordo com parâmetro (`left`, `right`)  | `string`       | `'right'`   |
@@ -49,37 +37,12 @@ import NumericKeyboard from '@mamba/input/NumericKeyboard.html';
 | validateOn   | Define em que momento a validação ocorre (`input`/`submit`) | `string`       | `'submit'`  |
 | mask         | Define uma máscara para o texto                             | `string`       | `null`      |
 
-#Documentação do teclado virtual numérico
-
-A nova versão do teclado numérico consiste em instanciar o componente e configurar os eventos por ele emitido. Essa versão visa uma maior usabilidade do componente e melhor encapsulamento das responsabilidades do próprio, visto que ele independe do cenário que vai ser colocado e permite com que qualquer lógica seja empregada. Os eventos apesar de retornarem o mesmo payload, foram dividos afim de incentivar uma maior segregação de responsabilidade.
-
-###Eventos
-| Nome | Descrição | Payload |
-|--------------|-----------------------------|-------------------|
-| keypress | Teclas comuns do teclado | { input: string } |
-| mathKeypress | Teclas do teclado numerico | { input: string } |
-| backspace | Tecla para apagar caractere | { input: string } |
-| submit | Tecla de submit | { input: string } |
-
 ### Money
 
 | Parâmetross     | Descrição                                                                                                     | Tipo                 | Padrão  |
 | --------------- | ------------------------------------------------------------------------------------------------------------- | -------------------- | ------- |
 | value           | Valor do input em centavos                                                                                    | `string` or `number` | `0`     |
 | readonlyOnEnter | Faz com que o campo se torne somente leitura no keypress do `enter` e se o valor em centavos for igual a zero | `boolean`            | `false` |
-
-## Keyboard
-
-| Parâmetross | Descrição                                | Tipo     | Padrão |
-| ----------- | ---------------------------------------- | -------- | ------ |
-| maxLength   | Limita o número de caracteres do teclado | `number` | `30`   |
-
-## NumericKeyboard
-
-| Parâmetross | Descrição                                          | Tipo      | Padrão  |
-| ----------- | -------------------------------------------------- | --------- | ------- |
-| type        | Define qual o tipo de teclado deve ser renderizado | `string`  | `null`  |
-| isFocused   | Define se o teclado deve ou não começar aberto     | `boolean` | `false` |
 
 ## Eventos
 
@@ -118,13 +81,6 @@ event = {
   isValid: boolean; // Representa o valor da validação (se houver)
 }
 ```
-
-`<NumericKeyboard ... on:event="..." />`
-
-| Eventos  | Disparado quando ...                                   | Tipo              |
-| -------- | ------------------------------------------------------ | ----------------- |
-| submit   | Dispara quando o botão de confirmação for selecionado. | `function(event)` |
-| addInput | Envia os botões de operação matematica selecionado     | `function(event)` |
 
 <br/>
 
@@ -175,11 +131,8 @@ O componente padrão `Input` suporta máscaras para formatar o seu valor. Para d
 
 Exemplo de CPF/CNPJ:
 
-```
-<Input
-  label="CPF/CNPJ"
-  mask={['###.###.###-##', '##.###.###/####-##']}
-/>
+```html
+<Input label="CPF/CNPJ" mask={['###.###.###-##', '##.###.###/####-##']} />
 ```
 
 ### mask()

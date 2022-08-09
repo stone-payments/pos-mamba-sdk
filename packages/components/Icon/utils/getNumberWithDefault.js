@@ -1,7 +1,4 @@
-export default function getNumberWithDefault(
-  value = undefined,
-  _default = undefined,
-) {
+export default function getNumberWithDefault(value = undefined, _default = undefined) {
   if (typeof value === 'string') {
     return getNumberWithDefault(Number(value));
   }

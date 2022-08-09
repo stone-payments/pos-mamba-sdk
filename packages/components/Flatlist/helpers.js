@@ -1,5 +1,5 @@
 import * as Colors from '@mamba/styles/colors.js';
-import { KEYUP, KEYDOWN } from '@mamba/pos/drivers/keyboard/keymap.js';
+import { ARROW_UP, ARROW_DOWN } from '@mamba/core';
 import isFunction from './utils/isFunction.js';
 
 let lastActive;
@@ -10,13 +10,13 @@ export const ALIGN_CLASS = {
   end: 'mb-align-end',
 };
 
-export const getAlignClass = verticalAlign => {
+export const getAlignClass = (verticalAlign) => {
   if (!verticalAlign) return '';
   const value = ALIGN_CLASS[verticalAlign];
   return (value && ` ${value}`) || '';
 };
 
-const unActiveLeast = items => {
+const unActiveLeast = (items) => {
   let hasActive;
 
   if (typeof lastActive === 'object' && lastActive.get) {
@@ -25,7 +25,7 @@ const unActiveLeast = items => {
 
   if (!hasActive) {
     lastActive = undefined;
-    hasActive = items.find(el => el.element.get().isActive);
+    hasActive = items.find((el) => el.element.get().isActive);
   }
 
   if (hasActive) {
@@ -59,10 +59,7 @@ const scrollTo = (yaxis, item) => {
   let { getBoundingClientRect } = element || item.element;
 
   // try get dom getBoundingClientRect in case element doesn't have it
-  if (
-    !getBoundingClientRect &&
-    typeof focusableItem.getBoundingClientRect === 'function'
-  ) {
+  if (!getBoundingClientRect && typeof focusableItem.getBoundingClientRect === 'function') {
     const { getBoundingClientRect: getRect } = focusableItem;
     getBoundingClientRect = getRect;
   }
@@ -76,9 +73,7 @@ const scrollTo = (yaxis, item) => {
     return;
   }
 
-  const { top, height } = getBoundingClientRect.call(
-    element.domElement || element,
-  );
+  const { top, height } = getBoundingClientRect.call(element.domElement || element);
 
   const { innerHeight } = window;
 
@@ -99,7 +94,7 @@ const scrollTo = (yaxis, item) => {
 };
 
 const getPosition = (index, keyAction) => {
-  if (keyAction === KEYUP) {
+  if (keyAction === ARROW_UP) {
     return index !== null && index > 0 ? index - 1 : index;
   }
   return index !== null ? index + 1 : 0;
@@ -110,7 +105,7 @@ export const scrollActiveNodeAtIndex = (nodeList, index, yaxis) => {
   toggleActive(nodeList, index);
 };
 
-export const selectRowItem = (nodeList, index, yaxis, keyAction = KEYDOWN) => {
+export const selectRowItem = (nodeList, index, yaxis, keyAction = ARROW_DOWN) => {
   const selectIndex = getPosition(index, keyAction);
 
   if (nodeList[selectIndex]) {
@@ -124,7 +119,7 @@ export const selectRowItem = (nodeList, index, yaxis, keyAction = KEYDOWN) => {
 export function setComponentEvents(component, eventsObjs) {
   if (eventsObjs && component) {
     const events = Object.getOwnPropertyNames(eventsObjs);
-    events.forEach(evt => {
+    events.forEach((evt) => {
       try {
         if (component.proxyTarget && component.proxyTarget._handlers) {
           if (component.proxyTarget._handlers[evt]) return;
@@ -155,16 +150,16 @@ export function persistComponentRef(cb = () => {}) {
 }
 
 // Post processing
-const repChar = char => `-${char.toLowerCase()}`;
+const repChar = (char) => `-${char.toLowerCase()}`;
 
-const repColor = value => {
+const repColor = (value) => {
   if (value && value.indexOf('$') !== -1) {
-    return value.replace(/\$.+/g, char => Colors[char.slice(1)]);
+    return value.replace(/\$.+/g, (char) => Colors[char.slice(1)]);
   }
   return value;
 };
 
-export const shouldReturnComponent = obj => {
+export const shouldReturnComponent = (obj) => {
   if (!obj) return undefined;
 
   const { value: objValue, props = {}, on = {} } = obj || {};
@@ -199,7 +194,7 @@ export const getStyles = (obj, blackList = []) => {
     const webkitPrefixRules = ['transform'];
 
     return Object.getOwnPropertyNames(obj)
-      .map(str => {
+      .map((str) => {
         const rule = str.replace(/[A-Z]/g, repChar);
 
         if (blackList.indexOf(rule) !== -1) return '';

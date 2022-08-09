@@ -1,14 +1,11 @@
-export default function(driver) {
+export default function (driver) {
   driver.send = function send(opts) {
     return new Promise((resolve, reject) => {
       const refSignal = `${Math.random() * new Date().getMilliseconds()}`;
       let refReply = '';
 
       /** Accept body and data as the body parameter */
-      if (
-        typeof opts.data === 'undefined' &&
-        typeof opts.body !== 'undefined'
-      ) {
+      if (typeof opts.data === 'undefined' && typeof opts.body !== 'undefined') {
         opts.data = opts.body;
       }
 
@@ -45,11 +42,7 @@ export default function(driver) {
       ]);
       const hasDoSendRequest = typeof window.$Http.doSendRequest === 'function';
       /** Asynchronously make a request at the backend */
-      if (
-        hasDoSendRequest &&
-        typeof opts === 'object' &&
-        opts.encodeURI === false
-      ) {
+      if (hasDoSendRequest && typeof opts === 'object' && opts.encodeURI === false) {
         driver.doSendRequest(opts, refSignal);
       } else {
         driver.doSend(opts, refSignal);
@@ -57,12 +50,12 @@ export default function(driver) {
     });
   };
 
-  driver.post = opts => {
+  driver.post = (opts) => {
     opts.method = 'POST';
     return driver.send(opts);
   };
 
-  driver.get = opts => {
+  driver.get = (opts) => {
     opts.method = 'GET';
     return driver.send(opts);
   };

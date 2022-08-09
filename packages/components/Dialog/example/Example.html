@@ -90,7 +90,7 @@
     methods: {
       refreshPromise() {
         this.set({
-          promise: new Promise(resolve => setTimeout(() => resolve(), 2000)),
+          promise: new Promise((resolve) => setTimeout(() => resolve(), 2000)),
         });
       },
       openDialog(dialog, delay) {
@@ -120,6 +120,6 @@
   }
 
   .row {
-    margin: 20px 0px 20px 0px;
+    margin: 20px 0px;
   }
 </style>

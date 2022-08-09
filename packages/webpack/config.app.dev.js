@@ -7,7 +7,7 @@ const { fromCwd } = require('quickenv');
 const bodyParser = require('body-parser');
 
 module.exports = merge(require('./config.app.js'), {
-  devtool: 'eval-source-map',
+  devtool: 'inline-source-map',
 
   plugins: [new webpack.HotModuleReplacementPlugin()],
 
@@ -39,10 +39,7 @@ module.exports = merge(require('./config.app.js'), {
       app.use((req, res, next) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('Access-Control-Allow-Methods', 'POST');
-        res.setHeader(
-          'Access-Control-Allow-Headers',
-          'Content-Type, Authorization',
-        );
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
         next();
       });
       app.post('/POS_LOGGER', function POS_LOGGER(req, res) {

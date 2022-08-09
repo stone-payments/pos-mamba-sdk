@@ -31,15 +31,9 @@ export function setup(Merchant) {
    * @memberof Merchant
    * @return {array} Array of supported brands
    */
-  Merchant.getSupportedBrands = () => [
-    'VISA',
-    'MASTERCARD',
-    'AMERICAN EXPRESS',
-    'ELO',
-    'SODEXO',
-  ];
+  Merchant.getSupportedBrands = () => ['VISA', 'MASTERCARD', 'AMERICAN EXPRESS', 'ELO', 'SODEXO'];
 
-  Merchant.checkPassword = password =>
+  Merchant.checkPassword = (password) =>
     password === Registry.persistent.get().$Merchant.adminPassword;
 
   Merchant.getInfo = () => {

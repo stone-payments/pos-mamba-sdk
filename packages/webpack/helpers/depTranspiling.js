@@ -20,7 +20,7 @@ const INPUT_MODULE_TYPE_CACHE = {};
 
 module.exports = {
   transpileIgnoreBaseCondition,
-  isOfModuleType: depType => input => {
+  isOfModuleType: (depType) => (input) => {
     if (!(input in INPUT_MODULE_TYPE_CACHE)) {
       const pkg = getPkg({ path: input });
       let moduleType = 'cjs';

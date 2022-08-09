@@ -1,7 +1,5 @@
 #!/usr/bin/env node
-require('yargonaut')
-  .helpStyle('green')
-  .errorsStyle('red');
+require('yargonaut').helpStyle('green').errorsStyle('red');
 const yargs = require('yargs');
 
 const externalPlugins = require('./lib/loadPlugins.js');
@@ -12,7 +10,7 @@ const plugins = [
   ...externalPlugins,
 ];
 
-plugins.forEach(commandModule => {
+plugins.forEach((commandModule) => {
   if (commandModule) {
     yargs.command(commandModule);
   }

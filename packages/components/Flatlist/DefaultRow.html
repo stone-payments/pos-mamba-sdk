@@ -142,16 +142,16 @@
       },
       _stateStyle({ highlightColor, highlightSelect, isActive }) {
         const styles = {};
-        if(isActive && highlightSelect) {
+        if (isActive && highlightSelect) {
           styles.backgroundColor = highlightColor;
         }
         return getStyles(styles);
       },
       _wrapperStyle({ wrapperStyle }) {
-        return  getStyles(wrapperStyle);
+        return getStyles(wrapperStyle);
       },
       _label({ label }) {
-        if(!label) return { prefix: {}};
+        if (!label) return { prefix: {} };
         return label;
       },
       _hasRightLabel({ rightLabel }) {

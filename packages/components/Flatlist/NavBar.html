@@ -1,10 +1,10 @@
 <div class="row">
-  <div class="keydown" on:click="fire('listDown')" >
+  <div class="keydown" on:click="onKeyPress({ keyCode: ARROW_DOWN })" >
     <Icon symbol="chevron-down" size="large" />
     <p>{labelDown}</p>
   </div>
 
-  <div class="keyup" on:click="fire('listUp')" >
+  <div class="keyup" on:click="onKeyPress({ keyCode: ARROW_UP })" >
     <Icon symbol="chevron-up" size="large" />
     <p>{labelUp}</p>
   </div>
@@ -12,15 +12,39 @@
 </div>
 
 <script>
+  import { KEYBOARD } from '@mamba/core';
+
+  const { ARROW_UP, ARROW_DOWN } = KEYBOARD;
+
   export default {
     components: {
       Icon: '@mamba/icon',
+    },
+    helpers: {
+      ARROW_UP,
+      ARROW_DOWN,
     },
     data() {
       return {
         labelDown: 'Diminuir',
         labelUp: 'Aumentar',
       };
+    },
+    methods: {
+      onKeyPress({ keyCode }) {
+        switch (keyCode) {
+          case ARROW_DOWN:
+            this.fire('keydown');
+            break;
+
+          case ARROW_UP:
+            this.fire('keyup');
+            break;
+
+          default:
+            break;
+        }
+      },
     },
   };
 </script>

@@ -22,7 +22,7 @@ module.exports = {
 
     console.log(chalk.green('App format done'));
   },
-  builder: yargs =>
+  builder: (yargs) =>
     yargs.options({
       type: cliArgs.lintType,
     }),

@@ -1,7 +1,8 @@
 module.exports = {
-  extends: 'stylelint-config-standard',
+  extends: ['stylelint-config-html', 'stylelint-config-standard', 'stylelint-config-prettier'],
   /** Report when a unnecessary stylelint disable comment is written */
   reportNeedlessDisables: true,
+  customSyntax: 'postcss-html',
   rules: {
     /** Allow postcss @at-rules */
     'at-rule-no-unknown': [
@@ -34,7 +35,8 @@ module.exports = {
     'font-family-name-quotes': 'always-unless-keyword',
 
     /** Prevent confusing colors, use #hex, rgb() or rgba() only */
-    'function-blacklist': ['hsl', 'hsla'],
+    'function-disallowed-list': ['hsl', 'hsla'],
+    'color-function-notation': 'legacy',
     'function-url-no-scheme-relative': true,
 
     /** Require quotes for url() */
@@ -98,5 +100,11 @@ module.exports = {
         ignoreProperties: [/^\{/, /\}$/],
       },
     ],
+
+    /** Allow any case, since we have multiple definitions, like POS devices names */
+    'selector-class-pattern': null,
+
+    /** Allow <style src="..." ></style> tags for compiler */
+    'no-empty-source': null,
   },
 };

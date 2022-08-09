@@ -1,5 +1,3 @@
-import Keyboard from '@mamba/pos/api/keyboard.js';
-
 /** Mock the scrollTo fn */
 Element.prototype.scrollTo = function noop() {};
 
@@ -8,7 +6,7 @@ const MOUSE_EVENTS = ['mousedown', 'mouseup', 'click'];
 
 /** Dispatch a click event on a dom node */
 global.clickOn = (el, opts = {}) => {
-  MOUSE_EVENTS.forEach(event =>
+  MOUSE_EVENTS.forEach((event) =>
     el.dispatchEvent(
       new MouseEvent(event, {
         bubbles: true,
@@ -29,10 +27,10 @@ global.fireKey = (el, keyName) => {
     el = window;
   }
 
-  KEYBOARD_EVENTS.forEach(event =>
+  KEYBOARD_EVENTS.forEach((event) =>
     el.dispatchEvent(
       new KeyboardEvent(event, {
-        keyCode: Keyboard.getKeyCode(keyName),
+        keyName,
         bubbles: true,
         cancelable: false,
       }),
@@ -46,7 +44,7 @@ global.typeOn = (el, keys) => {
   }
 
   keys = keys.split('');
-  keys.forEach(key => {
+  keys.forEach((key) => {
     el.value += key;
     global.fireKey(el, key);
   });
