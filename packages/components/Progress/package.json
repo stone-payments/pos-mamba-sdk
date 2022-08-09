@@ -1,6 +1,6 @@
 {
   "name": "@mamba/progress",
-  "version": "3.5.9",
+  "version": "4.0.0",
   "svelte": "ProgressBar.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",

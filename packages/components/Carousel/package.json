@@ -1,6 +1,6 @@
 {
   "name": "@mamba/carousel",
-  "version": "3.5.9",
+  "version": "4.0.0",
   "svelte": "Carousel.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
