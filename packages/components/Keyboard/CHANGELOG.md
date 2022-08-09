@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [1.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/keyboard@1.0.0...@mamba/keyboard@1.0.2) (2022-08-09)
+
+
+### Bug Fixes
+
+* add gitHead hash ([47a9d1a](https://github.com/stone-payments/pos-mamba-sdk/commit/47a9d1a233cc859a4230ef98573bc7152d918e46))
+
+
+
 ## 1.0.0 (2022-07-21)
 
 

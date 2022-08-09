@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [4.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/collection@4.0.0...@mamba/collection@4.0.1) (2022-08-09)
+
+
+### Bug Fixes
+
+* add gitHead hash ([47a9d1a](https://github.com/stone-payments/pos-mamba-sdk/commit/47a9d1a233cc859a4230ef98573bc7152d918e46))
+* fix import ([282a154](https://github.com/stone-payments/pos-mamba-sdk/commit/282a154931e375bce254046f84a9efb32dac5a3c))
+* fix import ([#800](https://github.com/stone-payments/pos-mamba-sdk/issues/800)) ([47add09](https://github.com/stone-payments/pos-mamba-sdk/commit/47add092264ca8af5e733db54233ce2b55f3d6bf))
+
+
+
 ## [4.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/collection@3.5.7...@mamba/collection@4.0.0) (2022-07-21)
 
 
