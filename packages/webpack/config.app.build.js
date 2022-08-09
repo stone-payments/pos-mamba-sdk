@@ -28,12 +28,6 @@ module.exports = merge(require('./config.app.js'), {
         ],
       },
       onEnd: {
-        copy: [
-          {
-            source: './src/assets',
-            destination: `./dist/${BUNDLE_NAME}/assets`,
-          },
-        ],
         archive: [
           {
             source: `./dist/${BUNDLE_NAME}/`,

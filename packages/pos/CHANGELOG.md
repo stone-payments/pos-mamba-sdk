@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [4.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@4.0.0...@mamba/pos@4.0.1) (2022-08-09)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+## [4.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.13.3...@mamba/pos@4.0.0) (2022-07-21)
+
+
+### Features
+
+* new mamba keyboard implementation ([23466f2](https://github.com/stone-payments/pos-mamba-sdk/commit/23466f28fbd58067248b308218d4eb91b8889160))
+
+
+### Bug Fixes
+
+* 🐛 normalize dev dependencies of others packages ([39456e8](https://github.com/stone-payments/pos-mamba-sdk/commit/39456e8e35877020ae0c95acb88dd8e988849d4e))
+* 🐛 normalize the dependencies across packages ([43103d7](https://github.com/stone-payments/pos-mamba-sdk/commit/43103d718ba93909cb34ca459f674ceea9354a06))
+
+
+
 ### [3.14.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@3.13.0...@mamba/pos@3.14.1) (2022-05-11)
 
 ## 3.14.0 (2022-05-10)

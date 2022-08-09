@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [4.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/collection@4.0.0...@mamba/collection@4.0.1) (2022-08-09)
+
+
+### Bug Fixes
+
+* add gitHead hash ([47a9d1a](https://github.com/stone-payments/pos-mamba-sdk/commit/47a9d1a233cc859a4230ef98573bc7152d918e46))
+* fix import ([282a154](https://github.com/stone-payments/pos-mamba-sdk/commit/282a154931e375bce254046f84a9efb32dac5a3c))
+* fix import ([#800](https://github.com/stone-payments/pos-mamba-sdk/issues/800)) ([47add09](https://github.com/stone-payments/pos-mamba-sdk/commit/47add092264ca8af5e733db54233ce2b55f3d6bf))
+
+
+
+## [4.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/collection@3.5.7...@mamba/collection@4.0.0) (2022-07-21)
+
+
+### Features
+
+* add style to disabled labels ([08bd1c2](https://github.com/stone-payments/pos-mamba-sdk/commit/08bd1c2e2332a37214f034542115f892619e32bf))
+* add variable to color ([b9a7acd](https://github.com/stone-payments/pos-mamba-sdk/commit/b9a7acdba55a8d12f7204504bbb97d9b5bf4c471))
+
+
+### Bug Fixes
+
+* 🐛 normalize the dependencies across packages ([43103d7](https://github.com/stone-payments/pos-mamba-sdk/commit/43103d718ba93909cb34ca459f674ceea9354a06))
+
+
+
 ### [3.5.9](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/collection@3.5.4...@mamba/collection@3.5.9) (2022-05-11)
 
 **Note:** Version bump only for package @mamba/collection

@@ -1,6 +1,6 @@
 {
   "name": "@mamba/appbar",
-  "version": "3.6.0",
+  "version": "4.0.1",
   "svelte": "AppBar.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
