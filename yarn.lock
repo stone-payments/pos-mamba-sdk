@@ -2269,13 +2269,19 @@
     write-file-atomic "^3.0.3"
 
 "@mamba/collection@>=4":
-  version "3.5.9"
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@mamba/collection/-/collection-4.0.0.tgz#8874b496527460da176cd0876e15972bc00afe7d"
+  integrity sha512-4IskSUZ9b9kfuC7REiNzRWc9QEl0aAMPcgMH986hRGsdinwecgCq8m+76mkkMS9skzlW0bHx4++G42W+oCZHcQ==
 
 "@mamba/icon@>=4":
-  version "3.5.9"
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@mamba/icon/-/icon-4.0.0.tgz#7f2ed9c3646b24e0f374bd63ffc55cb81996914d"
+  integrity sha512-N4jBweERHk3mw4m7RZMqAmkis1XDHxFibeejp9vtER7NE0DzIGjR2VEPDYozWEWvBIYAJFOeGVKCIRPQk0+mhw==
 
 "@mamba/styles@>=4":
-  version "3.5.9"
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@mamba/styles/-/styles-4.0.0.tgz#308906f657c0004f29d4feb6d8713079d389591d"
+  integrity sha512-TLujHcmzzgMzUqXwRrprt5F6WoSGk+RP1O7R2XoCOq2YioWwh30uC/bszN05ul0QYTxTSXzj1thLJq61iIwBOA==
 
 "@marionebl/sander@^0.6.0":
   version "0.6.1"
@@ -14233,9 +14239,9 @@ terser-webpack-plugin@^1.4.3:
     worker-farm "^1.7.0"
 
 terser@^4.1.2:
-  version "4.8.0"
-  resolved "https://registry.yarnpkg.com/terser/-/terser-4.8.0.tgz#63056343d7c70bb29f3af665865a46fe03a0df17"
-  integrity sha512-EAPipTNeWsb/3wLPeup1tVPaXfIaU68xMnVdPafIL1TV05OhASArYyIfFvnvJCNrR2NIOvDVNNTFRa+Re2MWyw==
+  version "4.8.1"
+  resolved "https://registry.yarnpkg.com/terser/-/terser-4.8.1.tgz#a00e5634562de2239fd404c649051bf6fc21144f"
+  integrity sha512-4GnLC0x667eJG0ewJTa6z/yXrbLGv80D9Ru6HIpCQmO+Q4PfEtBFi0ObSckqwL6VyQv/7ENJieXHo2ANmdQwgw==
   dependencies:
     commander "^2.20.0"
     source-map "~0.6.1"
