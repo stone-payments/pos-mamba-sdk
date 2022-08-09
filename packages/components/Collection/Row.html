@@ -56,7 +56,7 @@
 </div>
 
 <script>
-  import { neutral500 } from '@mamba/styles/colors';
+  import { neutral500 } from '@mamba/styles/colors.js';
 
   /* istanbul ignore next */
   function isChildOf(tgt, el) {
@@ -98,7 +98,7 @@
         [secondaryColor && `color: ${secondaryColor}`].filter(Boolean).join(';'),
       _topStyle: ({ bgColor }) =>
         [bgColor && `background-color: ${bgColor}`].filter(Boolean).join(';'),
-      hasActiveDisabled: ({ disabled, neutral500 }) =>
+      hasActiveDisabled: ({ disabled }) =>
         [disabled && `color: ${neutral500}`].filter(Boolean).join(';'),
     },
     oncreate() {
