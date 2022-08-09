@@ -35,5 +35,6 @@
     "@mamba/core": "*",
     "@mamba/input": ">=4",
     "@mamba/utils": ">=4"
-  }
+  },
+  "gitHead": "798929523737000b8c07303e9c66feff5a8b9340"
 }
