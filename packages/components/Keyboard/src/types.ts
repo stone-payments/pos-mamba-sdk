@@ -210,6 +210,13 @@ export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents
   maxLength?: any;
 
   /**
+   * If input is readOnly(or static `div` element as input), keyboard will disable cursor event handlers since it won't be necessary.
+   *
+   * This property do not change or include <input> readOnly attribute
+   */
+  readOnly?: boolean;
+
+  /**
    * A prop to ensure characters are always be added/removed at the end of the string.
    */
   disableCaretPositioning?: boolean;
