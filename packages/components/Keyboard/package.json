@@ -35,5 +35,9 @@
     "@mamba/core": "*",
     "@mamba/input": ">=4",
     "@mamba/utils": ">=4"
+  },
+  "dependencies": {
+    "@types/lodash": "^4.14.182",
+    "lodash": "^4.17.21"
   }
 }

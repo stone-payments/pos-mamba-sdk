@@ -1,6 +1,7 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable camelcase */
 
+import { merge } from 'lodash';
 import CreatePhysicalKeyboard, { UIPhysicalKeyboard } from './controllers/PhysicalKeyboard';
 import GeneralKeyboard from './controllers/GeneralKeyboard';
 import CursorWorker from './common/CursorWorker';
@@ -81,10 +82,13 @@ class Keyboard {
 
   /**
    * Creates an instance of MambaKeyboard
-   * @param params If first parameter is a string, it is considered the container class. The second parameter is then considered the options object. If first parameter is an object, it is considered the options object.
+   * @param params If first parameter is a HTMLDivElement, it is considered as element to mount the keybaord, otherwise it will create a generic one on app-root, and the second parameter is then considered the options object. If first parameter is an object, it is considered as {@link KeyboardOptions} object.
    * @remarks
    */
-  constructor(element?: HTMLDivElement, keyboardOptions?: KeyboardOptions) {
+  constructor(
+    elementOrOptions?: HTMLDivElement | KeyboardOptions,
+    keyboardOptions?: KeyboardOptions,
+  ) {
     if (typeof window === 'undefined') return;
 
     Keyboard.bindToDriver(window.$Keyboard, this);
@@ -95,7 +99,7 @@ class Keyboard {
       keyboardDOMClass,
       keyboardDOM,
       options = {},
-    } = this.handleParams(element, keyboardOptions);
+    } = this.handleParams(elementOrOptions, keyboardOptions);
 
     /**
      * Initializing CursorWorker
@@ -113,18 +117,21 @@ class Keyboard {
     /**
      * @type {KeyboardOptions}
      */
-    this.options = {
+    this.options = merge(
+      {
       excludeFromLayout: {},
       theme: ClassNames.themeDefault,
+      },
       /**
        * Parse keyboard type
        */
-      ...this.parseKeyboardTypeOptions(options),
+      this.parseKeyboardTypeOptions(options),
       /**
        * Parse the rest of the options
        */
-      ...options,
-    };
+      options,
+    );
+
 
     /**
      * mamba-keyboard uses a non-persistent virtual input to keep track of the entered string (the variable `keyboard.input`).
@@ -391,10 +398,17 @@ class Keyboard {
     const input = document.activeElement as HTMLInputElement;
     const isInput = isProperInput(input);
 
-    if (isInput && 'keyboardType' in input.dataset) {
+    if (
+      isInput &&
+      'keyboardType' in input.dataset &&
+      typeof input.dataset.keyboardType === 'string'
+    ) {
+      const keyboardType = KeyboardType[input.dataset.keyboardType];
+      if (keyboardType) {
       this.setOptions({
-        keyboardType: input.dataset.keyboardType,
+          keyboardType,
       });
+      }
     }
 
     this.keyboardVisible = value;
@@ -450,7 +464,7 @@ class Keyboard {
    * Set new option or modify existing ones after initialization.
    * @param options The options to set
    */
-  public setOptions(options = {}): void {
+  public setOptions(options: KeyboardOptions = {}): void {
     const changedOptions = this.changedOptions(options);
 
     /**
@@ -458,7 +472,7 @@ class Keyboard {
      */
     this.parseOptionsUpdated(options);
 
-    this.options = Object.assign(this.options, this.parseKeyboardTypeOptions(options), options);
+    this.options = merge(this.options, this.parseKeyboardTypeOptions(options), options);
 
     if (changedOptions.length) {
       if (this.options.debug) {
