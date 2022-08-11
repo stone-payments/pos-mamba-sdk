@@ -21,6 +21,8 @@ import { anyBraces } from '../common/regExps';
 export class UIPhysicalKeyboard {
   private keyboardInstance!: Keyboard;
 
+  private focusedDOMInput?: HTMLInputElement | null;
+
   public static instance: UIPhysicalKeyboard;
 
   cachedTargetInput?: HTMLInputElement = undefined;
@@ -109,9 +111,7 @@ export class UIPhysicalKeyboard {
         this.keyboardInstance.setInput(input.value);
       }
 
-      input.addEventListener('blur', this.handleDOMInputTargetBlur);
-      input.addEventListener('click', this.handleDOMInputFocus);
-      input.addEventListener('input', this.handleDOMInputChange);
+      this.addDOMInputEventListeners(input);
       input.focus();
     }
   }
@@ -125,10 +125,40 @@ export class UIPhysicalKeyboard {
     this.keyboardInstance.visibility = KeyboardVisibility.Hidden;
     if (e && e.target && isProperInput(e.target)) {
       const input = e.target as HTMLInputElement;
+      this.removeDOMInputEventListeners(input);
+    }
+  }
 
-      input.removeEventListener('input', this.handleDOMInputChange);
-      input.removeEventListener('click', this.handleDOMInputFocus);
-      input.removeEventListener('blur', this.handleDOMInputTargetBlur);
+  /**
+   * Remove input target event listeners
+   *
+   * @param input
+   */
+  removeDOMInputEventListeners(input: HTMLInputElement) {
+    input.removeEventListener('input', this.handleDOMInputChange);
+    input.removeEventListener('click', this.handleDOMInputFocus);
+    input.removeEventListener('blur', this.handleDOMInputTargetBlur);
+    this.focusedDOMInput = null;
+  }
+
+  /**
+   * Add input target event listeners
+   *
+   * @param input
+   */
+  addDOMInputEventListeners(input: HTMLInputElement) {
+    input.addEventListener('blur', this.handleDOMInputTargetBlur);
+    input.addEventListener('click', this.handleDOMInputFocus);
+    input.addEventListener('input', this.handleDOMInputChange);
+    this.focusedDOMInput = input;
+  }
+
+  /**
+   * Remove any input listeners, for life-cycle destroy
+   */
+  destroy() {
+    if (this.focusedDOMInput) {
+      this.removeDOMInputEventListeners(this.focusedDOMInput);
     }
   }
 

@@ -615,6 +615,72 @@ class Keyboard {
   }
 
   /**
+   * Destroy keyboard, remove listeners and DOM elements
+   */
+  public destroy() {
+    if (this.options.debug) {
+      console.log('Destroying Keyboard ans its events');
+    }
+
+    /**
+     * Destroy physical keyboard and its listeners
+     */
+    if (this.physicalKeyboard) {
+      this.physicalKeyboard.destroy();
+    }
+
+    if (this.cursorWorker) {
+      this.cursorWorker.ceaseCursorEventsControl();
+    }
+
+    /**
+     * Remove wrappers mouse down event
+     */
+    this.keyboardDOM.onmousedown = null;
+
+    const layoutDirection = this.options.layoutDirection || this.defaultLayoutDirection;
+
+    const rowDOM = this.keyboardRowsDOM.querySelector(
+      layoutDirection === LayoutDirection.Vertical ? ClassNames.columnPrefix : ClassNames.rowPrefix,
+    ) as HTMLDivElement;
+
+    if (rowDOM) rowDOM.onmousedown = null;
+
+    /**
+     * Remove buttons callback
+     */
+    const removeButton = (buttonElement: KeyboardElement | null) => {
+      if (buttonElement) {
+        buttonElement.onmousedown = null;
+        buttonElement.onclick = null;
+
+        buttonElement.parentElement?.removeChild(buttonElement);
+        buttonElement = null;
+      }
+    };
+
+    /**
+     * Remove buttons
+     */
+    Object.keys(this.buttonElements).forEach((buttonName) =>
+      this.buttonElements[buttonName].forEach(removeButton),
+    );
+
+    this.keyboardDOM.innerHTML = '';
+    this.keyboardDOM.parentElement?.removeChild(this.keyboardDOM);
+
+    /**
+     * Remove instance
+     */
+    window.MambaKeyboardInstance.instance = null;
+
+    /**
+     * Reset initialized flag
+     */
+    this.initialized = false;
+  }
+
+  /**
    * Bind public methods to the window.$Keyboard wrapper.
    * So you can call Keyboard methods grouped with Kernel methods.
    * e.g `window.$Keyboard.show();`

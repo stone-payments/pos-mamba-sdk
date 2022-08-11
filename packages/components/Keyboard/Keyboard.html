@@ -6,6 +6,9 @@
   import './css/KeyboardThemeNumeric.css';
   import './css/KeyboardThemePhone.css';
 
+  let firstLoad = true;
+  let keyboard = null;
+
   export default {
     data() {
       return {
@@ -16,17 +19,26 @@
     },
     oncreate() {
       this.root.on('router:change', () => {
+        if (firstLoad) return;
+        firstLoad = false;
         try {
           if (!(document.activeElement instanceof HTMLInputElement)) {
-            Api.virtualKeyboard.unmount();
+            Api.virtualKeyboard.reset();
           }
         } catch (_) {
           //
         }
       });
 
-      new Keyboard({
+      keyboard = new Keyboard({
         ...this.get(),
+      });
+
+      this.on('destroy', () => {
+        if (keyboard) {
+          keyboard.destroy();
+          keyboard = null;
+        }
       });
     },
   };

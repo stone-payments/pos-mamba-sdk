@@ -39,6 +39,11 @@ class CursorWorker {
   cursorInputTarget?: HTMLInputElement;
 
   /**
+   * Control flag for events setup
+   */
+  setuped = false;
+
+  /**
    * Creates an instance of the CursorWorker
    */
   constructor({ getOptions, keyboardInstance }: CursorWorkerParams) {
@@ -249,10 +254,10 @@ class CursorWorker {
   /**
    * Handles mamba-keyboard event listeners
    */
-  setupCursorEventsControl(): void {
+  public setupCursorEventsControl(): void {
     const options = this.getOptions();
 
-    if (!document || options.readonly === true) return;
+    if (!document || options.readonly === true || this.setuped) return;
 
     if (options.debug) {
       console.log(`Cursor handling started (${this.keyboardInstance.keyboardDOMClass})`);
@@ -265,6 +270,19 @@ class CursorWorker {
     document.addEventListener('mouseup', (e) => this.cursorEventHandler(e));
     document.addEventListener('select', (e) => this.cursorEventHandler(e));
     document.addEventListener('selectionchange', (e) => this.cursorEventHandler(e));
+    this.setuped = true;
+  }
+
+  /**
+   * Remove cursor worker controls events
+   */
+  public ceaseCursorEventsControl() {
+    if (!this.setuped) return;
+    document.removeEventListener('keyup', (e) => this.cursorEventHandler(e));
+    document.removeEventListener('mouseup', (e) => this.cursorEventHandler(e));
+    document.removeEventListener('select', (e) => this.cursorEventHandler(e));
+    document.removeEventListener('selectionchange', (e) => this.cursorEventHandler(e));
+    this.setuped = false;
   }
 
   /**
