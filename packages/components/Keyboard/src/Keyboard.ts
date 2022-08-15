@@ -3,9 +3,8 @@
 
 import { merge } from 'lodash';
 import CreatePhysicalKeyboard, { UIPhysicalKeyboard } from './controllers/PhysicalKeyboard';
-import GeneralKeyboard from './controllers/GeneralKeyboard';
+import GeneralKeyboard, { UIGeneralKeyboard } from './controllers/GeneralKeyboard';
 import CursorWorker from './common/CursorWorker';
-import type { UIGeneralKeyboard } from './controllers/GeneralKeyboard';
 import {
   getButtonClass,
   getButtonLabelsName,
@@ -37,6 +36,8 @@ import keyboardTypesMap from './keyboards/keyboardTypesMap';
  */
 class Keyboard {
   private input!: KeyboardInput;
+
+  private initialOptions!: KeyboardOptions;
 
   options!: KeyboardOptions;
 
@@ -91,8 +92,6 @@ class Keyboard {
   ) {
     if (typeof window === 'undefined') return;
 
-    Keyboard.bindToDriver(window.$Keyboard, this);
-
     this.generalKeyboard = GeneralKeyboard;
 
     const {
@@ -119,8 +118,8 @@ class Keyboard {
      */
     this.options = merge(
       {
-      excludeFromLayout: {},
-      theme: ClassNames.themeDefault,
+        excludeFromLayout: {},
+        theme: ClassNames.themeDefault,
       },
       /**
        * Parse keyboard type
@@ -132,6 +131,10 @@ class Keyboard {
       options,
     );
 
+    /**
+     * Keep keyboard initial props for reset work
+     */
+    this.initialOptions = { ...this.options };
 
     /**
      * mamba-keyboard uses a non-persistent virtual input to keep track of the entered string (the variable `keyboard.input`).
@@ -167,6 +170,11 @@ class Keyboard {
     if (!window.MambaKeyboardInstance) window.MambaKeyboardInstance = {};
 
     window.MambaKeyboardInstance.instance = this;
+
+    /**
+     * Bind methods to the Keyboard warapper API
+     */
+    Keyboard.bindToDriver(window.$Keyboard, window.MambaKeyboardInstance.instance);
 
     /**
      * Physical Keyboard support
@@ -405,9 +413,9 @@ class Keyboard {
     ) {
       const keyboardType = KeyboardType[input.dataset.keyboardType];
       if (keyboardType) {
-      this.setOptions({
+        this.setOptions({
           keyboardType,
-      });
+        });
       }
     }
 
@@ -471,6 +479,15 @@ class Keyboard {
      * Parse some options that need be checked first
      */
     this.parseOptionsUpdated(options);
+
+    /**
+     * Cease ou setup cursor events again
+     */
+    if (options.readonly === true) {
+      this.cursorWorker.ceaseCursorEventsControl();
+    } else {
+      this.cursorWorker.setupCursorEventsControl();
+    }
 
     this.options = merge(this.options, this.parseKeyboardTypeOptions(options), options);
 
@@ -608,18 +625,29 @@ class Keyboard {
   }
 
   /**
-   * Reset rows alias
+   * Remove all keyboard rows to reset keyboard elements.
    */
   public unmount() {
     this.resetRows();
   }
 
   /**
-   * Destroy keyboard, remove listeners and DOM elements
+   * Reset keyboard properties and keyboard elements.
+   */
+  public reset() {
+    this.options = { ...this.initialOptions };
+    this.resetRows();
+  }
+
+  /**
+   * Destroy keyboard, remove listeners and DOM elements.
+   * This method should called by svelte component on:destroy
    */
   public destroy() {
     if (this.options.debug) {
-      console.log('Destroying Keyboard ans its events');
+      console.log(
+        'Destroying Keyboard ans its events. This method should called by svelte component.',
+      );
     }
 
     /**
@@ -705,18 +733,31 @@ class Keyboard {
       'setKeyboardAsPhoneType',
       'setKeyboardAsCustomType',
       'unmount',
+      'reset',
       'show',
       'render',
+      'destroy',
     ];
 
     // eslint-disable-next-line no-restricted-syntax
     for (const method of Object.getOwnPropertyNames(Keyboard.prototype)) {
       if (accessibleMethods.includes(method)) {
-        driver[method] = instance[method].bind(instance);
+        driver[method] = UIGeneralKeyboard.bindWrapper(instance[method].bind(instance));
       }
     }
 
-    driver.visibility = instance.visibility;
+    /**
+     * Rewrite driver get/set of keyboard visibility
+     */
+    Object.defineProperty(driver, 'visibility', {
+      get() {
+        return instance.visibility;
+      },
+      set(value: KeyboardVisibility) {
+        instance.visibility = value;
+      },
+    });
+
     instance.driverBinded = true;
   }
 
@@ -950,7 +991,7 @@ class Keyboard {
   }
 
   /**
-   * Remove all keyboard rows and reset keyboard values.
+   * Remove all keyboard rows to reset keyboard elements.
    * Used internally between re-renders.
    */
   private resetRows(): void {
@@ -1199,5 +1240,7 @@ class Keyboard {
     }
   }
 }
+
+export type { Keyboard };
 
 export default Keyboard;

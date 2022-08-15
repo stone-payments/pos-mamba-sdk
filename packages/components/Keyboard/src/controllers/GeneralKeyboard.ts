@@ -1,6 +1,7 @@
 import { KEYBOARD } from '@mamba/core';
 import KEY_TABLE_MAP from '../mappings/keyTableMap';
 import KEY_TABLE_LIST from '../mappings/keyTableMapList';
+import type { Keyboard } from '../Keyboard';
 
 const { KEY_MAP, KEY_CODE_LIST } = KEYBOARD;
 /**
@@ -16,6 +17,42 @@ class UIGeneralKeyboard {
    * Define if keyboard is alphanumeric or numeric
    */
   alphanumericEnabled = true;
+
+  static hasKeyboardInstance(): boolean {
+    return Boolean(window.MambaKeyboardInstance && window.MambaKeyboardInstance.instance);
+  }
+
+  /**
+   * Check Keyboard instance
+   * @returns Returns if instance exist or not
+   */
+  static checkInstanceIsValid(): boolean {
+    console.log('checkInstanceIsValid', window.MambaKeyboardInstance);
+
+    if (!UIGeneralKeyboard.hasKeyboardInstance()) {
+      throw new Error(
+        'Cant call the method of null Keyboard instance. You should start a Keyboard instance to use its methods',
+      );
+
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Keyboard method wrapper to validate Keyboard instance if something happens to it (eg. destroyed)
+   * @param method Keybaord method
+   */
+  static bindWrapper(method: (...args: any[]) => any | void): any | void {
+    if (typeof method !== 'function') return;
+
+    return (...args: any[]) => {
+      if (UIGeneralKeyboard.checkInstanceIsValid()) {
+        method.apply(window.MambaKeyboardInstance.instance, args);
+      }
+    };
+  }
 
   /**
    * Internal control for virtual keyboard when Sets the kernel keyboard to enter numbers only.
@@ -157,7 +194,7 @@ class UIGeneralKeyboard {
   }
 }
 
-export type { UIGeneralKeyboard };
+export { UIGeneralKeyboard };
 
 // This is necessary to not duplicate the wrappers code and not create another class instance in order to they stay synchronized with backend config on embeded POS application.
 const GeneralKeyboard = new UIGeneralKeyboard();
