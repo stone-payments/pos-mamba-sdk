@@ -91,6 +91,10 @@ class Keyboard {
     keyboardOptions?: KeyboardOptions,
   ) {
     if (typeof window === 'undefined') return;
+    if (UIGeneralKeyboard.hasKeyboardInstance()) {
+      throw new Error('INSTANCE_ALREADY_EXIST');
+      return;
+    }
 
     this.generalKeyboard = GeneralKeyboard;
 

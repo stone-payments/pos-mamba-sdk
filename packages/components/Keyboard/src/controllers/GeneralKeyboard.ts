@@ -1,7 +1,6 @@
 import { KEYBOARD } from '@mamba/core';
 import KEY_TABLE_MAP from '../mappings/keyTableMap';
 import KEY_TABLE_LIST from '../mappings/keyTableMapList';
-import type { Keyboard } from '../Keyboard';
 
 const { KEY_MAP, KEY_CODE_LIST } = KEYBOARD;
 /**
@@ -18,17 +17,15 @@ class UIGeneralKeyboard {
    */
   alphanumericEnabled = true;
 
-  static hasKeyboardInstance(): boolean {
-    return Boolean(window.MambaKeyboardInstance && window.MambaKeyboardInstance.instance);
-  }
-
   /**
    * Check Keyboard instance
    * @returns Returns if instance exist or not
    */
-  static checkInstanceIsValid(): boolean {
-    console.log('checkInstanceIsValid', window.MambaKeyboardInstance);
+  static hasKeyboardInstance(): boolean {
+    return Boolean(window.MambaKeyboardInstance && window.MambaKeyboardInstance.instance);
+  }
 
+  static checkInstanceIsValid(): boolean {
     if (!UIGeneralKeyboard.hasKeyboardInstance()) {
       throw new Error(
         'Cant call the method of null Keyboard instance. You should start a Keyboard instance to use its methods',
