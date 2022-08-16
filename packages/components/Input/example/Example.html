@@ -72,16 +72,6 @@
   <div class="row">
     <MoneyInput cents="100" label="DINHEIRO" on:submit="console.log(event)" />
   </div>
-
-  <h4>Input com Keyboard</h4>
-  <div class="row">
-    <KeyboardInput />
-  </div>
-
-  <h4>Input Numérico [Exclusivo D199]</h4>
-  <div class="row">
-    <NumericKeyboard on:submit="console.log('submitou!')" />
-  </div>
 </div>
 
 <style>
@@ -109,9 +99,7 @@
   export default {
     components: {
       Input: '@mamba/input/Input.html',
-      KeyboardInput: '@mamba/input/Keyboard.html',
       MoneyInput: '@mamba/input/Money.html',
-      NumericKeyboard: '@mamba/input/NumericKeyboard.html',
     },
     helpers: {
       neutral300,
