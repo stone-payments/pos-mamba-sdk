@@ -326,10 +326,6 @@ class Keyboard {
         options.updateMode = KeyboardUpdateMode.Auto;
       }
 
-      if (options.updateMode === KeyboardUpdateMode.Manual) {
-        this.physicalKeyboard = undefined;
-      }
-
       if (!options.soundEnabled && window.Sound) {
         options.soundEnabled = window.Sound.isEnabled();
       } else {
@@ -493,6 +489,19 @@ class Keyboard {
     }
 
     this.options = merge(this.options, this.parseKeyboardTypeOptions(options), options);
+
+    /**
+     * Recreates or destroy physical keyboard handler
+     */
+    if (this.options.updateMode === KeyboardUpdateMode.Manual && this.physicalKeyboard) {
+      this.physicalKeyboard.destroy();
+      this.physicalKeyboard = undefined;
+    } else if (this.options.updateMode === KeyboardUpdateMode.Auto && !this.physicalKeyboard) {
+      this.physicalKeyboard = CreatePhysicalKeyboard({
+        getOptions: this.getOptions,
+        keyboardInstance: this,
+      });
+    }
 
     if (changedOptions.length) {
       if (this.options.debug) {
