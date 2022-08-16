@@ -423,8 +423,7 @@ class Keyboard {
       }
     }
 
-    this.keyboardVisible = value;
-    this.handleKeyboardVisibility();
+    this.handleKeyboardVisibility(value);
   }
 
   public get visibility() {
@@ -629,9 +628,10 @@ class Keyboard {
   }
 
   /**
-   * Remove all keyboard rows to reset keyboard elements.
+   * Remove all keyboard rows and set visibility to hidden
    */
   public unmount() {
+    this.handleKeyboardVisibility(KeyboardVisibility.Hidden);
     this.resetRows();
   }
 
@@ -968,8 +968,17 @@ class Keyboard {
 
   /**
    * Handles keyboard visibility class
+   * @param visibility
    */
-  private handleKeyboardVisibility() {
+  private handleKeyboardVisibility(visibility = KeyboardVisibility.Visible) {
+    /**
+     * Set the instance visibility
+     */
+    this.keyboardVisible = visibility;
+
+    /**
+     * Ignore if keyboard not exist yet
+     */
     if (!this.keyboardDOM) return;
 
     /**
