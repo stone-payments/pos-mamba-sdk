@@ -443,20 +443,20 @@ class Keyboard {
     this.input.default = '';
 
     /**
-     * Reset cursorPosition
+     * Resets cursorPosition
      */
     this.cursorWorker.setCursorPosition(0);
   }
 
   /**
-   * Get the keyboard’s input (You can also get it from the onChange prop).
+   * Gets the keyboard’s input (You can also get it from the onChange prop).
    */
   public getInput(): string {
     return this.input.default;
   }
 
   /**
-   * Set the keyboard’s input.
+   * Sets the keyboard’s input.
    * @param input the input value
    */
   public setInput(input: string): void {
@@ -464,7 +464,7 @@ class Keyboard {
   }
 
   /**
-   * Replace the input object (`keyboard.input`)
+   * Replaces the input object (`keyboard.input`)
    * @param keyboardInput The input object
    */
   public replaceInput(keyboardInput: KeyboardInput): void {
@@ -472,14 +472,14 @@ class Keyboard {
   }
 
   /**
-   * Set new option or modify existing ones after initialization.
+   * Sets new option or modify existing ones after initialization.
    * @param options The options to set
    */
   public setOptions(options: KeyboardOptions = {}): void {
     const changedOptions = this.changedOptions(options);
 
     /**
-     * Parse some options that need be checked first
+     * Parse some options that need be checked first.
      */
     this.parseOptionsUpdated(options);
 
@@ -526,7 +526,7 @@ class Keyboard {
   }
 
   /**
-   * This handles the "inputPattern" option by checking if the provided inputPattern passes
+   * This handles the "inputPattern" option by checking if the provided inputPattern passes.
    */
   private inputPatternIsValid(inputVal: string): boolean {
     const { inputPattern } = this.options;
@@ -552,7 +552,7 @@ class Keyboard {
   }
 
   /**
-   * Return of the current input is valid within current pattern option
+   * Returns if the current input is valid within current pattern option.
    */
   public currentInputPatternIsValid(): boolean {
     const insputStr = this.getInput();
@@ -560,7 +560,7 @@ class Keyboard {
   }
 
   /**
-   * Change the keyboard type
+   * Change the keyboard type.
    * @param type The keyboard type
    */
   public setKeyboardType(type: KeyboardType): void {
@@ -573,7 +573,7 @@ class Keyboard {
   }
 
   /**
-   * Set keyboard as default type
+   * Set keyboard as default type.
    */
   public setKeyboardAsDefaultType() {
     this.setOptions({
@@ -582,7 +582,7 @@ class Keyboard {
   }
 
   /**
-   * Set keyboard as math type
+   * Set keyboard as math type.
    */
   public setKeyboardAsMathType() {
     this.setOptions({
@@ -591,7 +591,7 @@ class Keyboard {
   }
 
   /**
-   * Set keyboard as numeric type
+   * Set keyboard as numeric type.
    */
   public setKeyboardAsNumericType() {
     this.setOptions({
@@ -600,7 +600,7 @@ class Keyboard {
   }
 
   /**
-   * Set keyboard as phone type
+   * Set keyboard as phone type.
    */
   public setKeyboardAsPhoneType() {
     this.setOptions({
@@ -609,38 +609,56 @@ class Keyboard {
   }
 
   /**
-   * Set keyboard as custom type
+   * Set keyboard as custom type.
    */
-  public setKeyboardAsCustomType(otherOptions = {}) {
+  public setKeyboardAsCustomType(options: KeyboardOptions = {}) {
     this.setOptions({
       keyboardType: KeyboardType.Custom,
-      ...otherOptions,
+      ...options,
     });
   }
 
   /**
-   * Render alias
+   * Shows keyboard and mount it if already not.
    */
   public show() {
     setTimeout(() => {
       this.render();
+      this.handleKeyboardVisibility(KeyboardVisibility.Visible);
     });
   }
 
   /**
-   * Remove all keyboard rows and set visibility to hidden
+   * Hides keyboard.
+   * This method do less things than {@link visibility}.
    */
-  public unmount() {
-    this.handleKeyboardVisibility(KeyboardVisibility.Hidden);
-    this.resetRows();
+  public hide() {
+    setTimeout(() => {
+      this.handleKeyboardVisibility(KeyboardVisibility.Hidden);
+    });
   }
 
   /**
-   * Reset keyboard properties and keyboard elements.
+   * Resets keyboard properties.
+   */
+  public resetOptions() {
+    this.options = { ...this.initialOptions };
+  }
+
+  /**
+   * Removes all keyboard rows and set visibility to hidden.
+   */
+  public unmount() {
+    this.handleKeyboardVisibility(KeyboardVisibility.Hidden);
+    this.clearRows();
+  }
+
+  /**
+   * Resets keyboard properties and keyboard elements.
    */
   public reset() {
-    this.options = { ...this.initialOptions };
-    this.resetRows();
+    this.resetOptions();
+    this.clearRows();
   }
 
   /**
@@ -666,7 +684,7 @@ class Keyboard {
     }
 
     /**
-     * Remove wrappers mouse down event
+     * Removes wrappers mouse down event
      */
     this.keyboardDOM.onmousedown = null;
 
@@ -679,7 +697,7 @@ class Keyboard {
     if (rowDOM) rowDOM.onmousedown = null;
 
     /**
-     * Remove buttons callback
+     * Removes buttons callback
      */
     const removeButton = (buttonElement: KeyboardElement | null) => {
       if (buttonElement) {
@@ -702,12 +720,12 @@ class Keyboard {
     this.keyboardDOM.parentElement?.removeChild(this.keyboardDOM);
 
     /**
-     * Remove instance
+     * Removes instance
      */
     window.MambaKeyboardInstance.instance = null;
 
     /**
-     * Reset initialized flag
+     * Resets initialized flag
      */
     this.initialized = false;
   }
@@ -722,24 +740,25 @@ class Keyboard {
   public static bindToDriver(driver: any, instance: Keyboard) {
     if (!driver || instance.driverBinded) return;
     const accessibleMethods = [
-      'clearInput',
-      'getInput',
-      'setInput',
-      'replaceInput',
-      'setOptions',
-      'getButtonElement',
-      'inputPatternIsValid',
       'setKeyboardType',
+      'setOptions',
+      'setInput',
+      'getInput',
+      'clearInput',
+      'replaceInput',
+      'render',
+      'show',
+      'hide',
+      'unmount',
+      'resetOptions',
+      'reset',
       'currentInputPatternIsValid',
+      'getButtonElement',
       'setKeyboardAsDefaultType',
       'setKeyboardAsMathType',
       'setKeyboardAsNumericType',
       'setKeyboardAsPhoneType',
       'setKeyboardAsCustomType',
-      'unmount',
-      'reset',
-      'show',
-      'render',
       'destroy',
     ];
 
@@ -770,8 +789,8 @@ class Keyboard {
    */
 
   /**
-   * Detecting changes to non-function options
-   * This allows us to ascertain whether a button re-render is needed
+   * Detecting changes to non-function options.
+   * This allows us to ascertain whether a button re-render is needed.
    */
   private changedOptions(newOptions: Partial<KeyboardOptions>): string[] {
     return Object.keys(newOptions).filter(
@@ -781,7 +800,7 @@ class Keyboard {
   }
 
   /**
-   * Handles clicks made to keyboard buttons
+   * Handles clicks made to keyboard buttons.
    * @param button The button's layout name.
    */
   private handleButtonClicked(button: string, e?: KeyboardHandlerEvent): void {
@@ -1007,7 +1026,7 @@ class Keyboard {
    * Remove all keyboard rows to reset keyboard elements.
    * Used internally between re-renders.
    */
-  private resetRows(): void {
+  private clearRows(): void {
     if (this.keyboardRowsDOM) {
       const { parentNode } = this.keyboardRowsDOM;
       if (parentNode) parentNode.removeChild(this.keyboardRowsDOM);
@@ -1069,16 +1088,16 @@ class Keyboard {
   };
 
   /**
-   * Render or updates the keyboard buttons
+   * Renders or update the keyboard buttons
    * Can be called direct if `autoRender` is off
-   * @throws LAYOUT_NOT_FOUND_ERROR - layout layout not found
+   * @throws LAYOUT_NOT_FOUND_ERROR - layout not found
    * @throws LAYOUT_NAME_NOT_FOUND_ERROR - layout name not found in layout object
    */
   public render() {
     /**
      * Clear keyboard
      */
-    this.resetRows();
+    this.clearRows();
 
     /**
      * Calling beforeFirstRender
