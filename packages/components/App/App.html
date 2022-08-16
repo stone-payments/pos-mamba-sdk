@@ -26,6 +26,8 @@
     isEditableInputOnFocus,
   } from './includes/index.js';
 
+  let routeClassName;
+
   export default {
     components: {
       AdminLock: './AdminLock.html',
@@ -148,6 +150,28 @@
       } else {
         root.on('router:change', resetScroll);
       }
+
+      /**
+       * Add router class
+       */
+      root.on('router:change', (context) => {
+        try {
+          if (routeClassName) {
+            target.classList.remove(routeClassName);
+          }
+          routeClassName = _kebabCase(context.path);
+
+          if (typeof routeClassName === 'string' && routeClassName === '') {
+            routeClassName = 'router-home';
+          } else {
+            routeClassName = `router-${routeClassName}`;
+          }
+
+          if (routeClassName) target.classList.add(routeClassName);
+        } catch (_) {
+          //
+        }
+      });
     },
     onstate({ previous }) {
       /** Set a reference on the root component to the <App/> meta component */
