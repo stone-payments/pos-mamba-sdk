@@ -1172,6 +1172,16 @@ class Keyboard {
     );
 
     /**
+     * Change keyboard positon to handle mamba <Button /> sticky at the bottom
+     */
+    const bottomButton = document.querySelector('.button.at-bottom') as HTMLButtonElement;
+    if (bottomButton) {
+      this.keyboardDOM.style.marginBottom = `${bottomButton.offsetHeight}px`;
+    } else {
+      this.keyboardDOM.style.marginBottom = '';
+    }
+
+    /**
      * Create row wrapper
      */
     this.keyboardRowsDOM = createKeyboardElement(
