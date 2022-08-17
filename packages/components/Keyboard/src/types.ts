@@ -73,6 +73,17 @@ export enum KeyboardType {
 }
 
 /**
+ * Keyboard theme variation
+ * @enum
+ */
+export enum KeyboardThemeVariation {
+  Large = 'large', // For large screens and high DPI without zoom
+  Default = 'default', // Default variation for general purpose
+  Compact = 'compact', // Reduced spaces and height
+  UltraSmall = 'ultra-small', // For very small screens
+}
+
+/**
  * Beep tone enum
  * @enum
  */
@@ -173,6 +184,7 @@ export interface KeyboardTypeOptions {
   /**
    * A prop to add your own css classes to the keyboard wrapper.
    * You can add multiple classes separated by a space.
+   * Prefab keyboards have their own themes... set this property will remove its theme.
    */
   theme?: string;
 }
@@ -181,6 +193,14 @@ export interface KeyboardTypeOptions {
  * Keyboard options
  */
 export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents {
+  /**
+   * Defines a class modifier to work with theme variations.
+   * You can use some pre-variations of {@link KeyboardThemeVariation} or add your own css class, that can have multiple classes separated by space. Strings will be transformed to kebab-case automatically.
+   *
+   * The class its self will be the concatenation of keyboard slug with two dashes. eg.: `mb-variation--compact`, `mb-variation--my-class`
+   */
+  themeVariation?: KeyboardThemeVariation | string;
+
   /**
    * Replaces variable buttons (such as `{backspace}`) with a human-friendly name (e.g.: `backspace`).
    */

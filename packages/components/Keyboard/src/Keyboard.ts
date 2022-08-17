@@ -25,6 +25,7 @@ import {
   KeyboardTypesPredefinedOptions,
   KeyboardVisibility,
   LayoutDirection,
+  KeyboardThemeVariation,
 } from './types';
 import keyboardTypesMap from './keyboards/keyboardTypesMap';
 
@@ -1086,10 +1087,28 @@ class Keyboard {
    * getKeyboardClassString
    */
   private getKeyboardClassString = (...baseDOMClasses: any[]) => {
+    let { themeVariation: variation } = this.options;
+    const getVariationClass = (value: string) => `${ClassNames.variationPrefix}--${value}`;
+
+    /**
+     * Determine the theme variation, string or `KeyboardThemeVariation`
+     */
+    if (typeof variation === 'string') {
+      const fromType = KeyboardThemeVariation[variation];
+      if (fromType) {
+        variation = fromType;
+      } else {
+        variation = kebabCase(variation);
+      }
+    } else {
+      variation = KeyboardThemeVariation.Default;
+    }
+
     const keyboardClasses = [
       ClassNames.keyBoardPrefix,
       this.keyboardDOMClass,
       this.options.debug && 'debug',
+      variation && getVariationClass(variation),
       ...baseDOMClasses,
     ].filter(Boolean);
 

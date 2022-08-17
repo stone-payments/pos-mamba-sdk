@@ -141,6 +141,14 @@ interface KeyboardOptions {
   theme?: string;
 
   /**
+   * Defines a class modifier to work with theme variations.
+   * You can use some pre-variations of {@link KeyboardThemeVariation} or add your own css class, that can have multiple classes separated by space. Strings will be transformed to kebab-case automatically.
+   *
+   * The class its self will be the concatenation of keyboard slug with two dashes. eg.: `mb-variation--small`, `mb-variation--my-class`
+   */
+  themeVariation?: KeyboardThemeVariation | string;
+
+  /**
    * Replaces variable buttons (such as `{backspace}`) with a human-friendly name (e.g.: `backspace`).
    */
   labels?: { [button: string]: string };

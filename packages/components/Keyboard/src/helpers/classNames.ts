@@ -1,5 +1,6 @@
 const prefix = 'mb';
 const keyBoardPrefix = `${prefix}-keyboard`;
+const variationPrefix = `${prefix}-variation`;
 const rowsPrefix = `${prefix}-rows`;
 const columnsPrefix = `${prefix}-columns`;
 const rowPrefix = `${prefix}-row`;
@@ -16,6 +17,7 @@ const themeDefault = `${themePrefix}-default`;
 export {
   prefix,
   keyBoardPrefix,
+  variationPrefix,
   rowsPrefix,
   rowPrefix,
   columnsPrefix,
