@@ -1,6 +1,5 @@
 .mb-keyboard-theme-numeric {
   border-top: 1px solid $neutral300;
-  background-color: $neutral200;
 
   & .mb-row,
   & .mb-column,
@@ -73,6 +72,19 @@
 
     &:not([data-mb-key='{check}']).mb-active {
       background-color: $neutral300;
+    }
+  }
+
+  /* Variations */
+  &.mb-variation {
+    &--compact {
+      background-color: transparent;
+
+      & .mb-row .mb-button {
+        font-size: 20px;
+        height: 36px;
+        margin: 3px;
+      }
     }
   }
 }
