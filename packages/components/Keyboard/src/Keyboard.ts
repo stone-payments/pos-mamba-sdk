@@ -1,7 +1,7 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable camelcase */
 
-import { merge } from 'lodash';
+import { merge, kebabCase } from 'lodash';
 import CreatePhysicalKeyboard, { UIPhysicalKeyboard } from './controllers/PhysicalKeyboard';
 import GeneralKeyboard, { UIGeneralKeyboard } from './controllers/GeneralKeyboard';
 import CursorWorker from './common/CursorWorker';
@@ -142,7 +142,7 @@ class Keyboard {
     this.initialOptions = { ...this.options };
 
     /**
-     * mamba-keyboard uses a non-persistent virtual input to keep track of the entered string (the variable `keyboard.input`).
+     * Mamba virtual keyboard uses a non-persistent virtual input to keep track of the entered string (the variable `keyboard.input`).
      * This removes any dependency to input DOM elements. You can type and directly display the value in a div element, for example.
      * @example
      * // To get entered input
@@ -159,7 +159,7 @@ class Keyboard {
     };
 
     /**
-     * @type {string} DOM class of the keyboard wrapper, normally "mamba-keyboard" by default.
+     * @type {string} DOM class of the keyboard wrapper, normally "mb-keyboard" by default.
      */
     this.keyboardDOMClass = keyboardDOMClass;
 
@@ -1047,7 +1047,7 @@ class Keyboard {
   }
 
   /**
-   * Executes the callback function once mamba-keyboard is rendered for the first time (on initialization).
+   * Executes the callback function once virtual keyboard is rendered for the first time (on initialization).
    */
   private onInit() {
     if (this.options.debug) {
@@ -1063,21 +1063,21 @@ class Keyboard {
   }
 
   /**
-   * Executes the callback function before a simple-keyboard render.
+   * Executes the callback function before a virtual keyboard render.
    */
   private beforeFirstRender() {
     if (typeof this.options.beforeFirstRender === 'function') this.options.beforeFirstRender(this);
   }
 
   /**
-   * Executes the callback function before a simple-keyboard render.
+   * Executes the callback function before a virtual keyboard render.
    */
   private beforeRender() {
     if (typeof this.options.beforeRender === 'function') this.options.beforeRender(this);
   }
 
   /**
-   * Executes the callback function every time simple-keyboard is rendered (e.g: when you change layouts).
+   * Executes the callback function every time virtual keyboard is rendered (e.g: when you change layouts).
    */
   private onRender() {
     if (typeof this.options.onRender === 'function') this.options.onRender(this);

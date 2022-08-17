@@ -107,13 +107,25 @@ type FunctionKeyPressCallback = (
  */
 export interface KeyboardTypeEvents {
   /**
-   * Executes the callback function every time mamba keyboard is rendered (e.g: when you change layouts).
+   * Executes thae callback function when virtual keyboard rendered by the first time.
+   * @event
+   */
+  beforeFirstRender?: (instance: Keyboard) => void;
+
+  /**
+   * Executes a callback function before a virtual keyboard render.
+   * @event
+   */
+  beforeRender?: (beforeRender: Keyboard) => void;
+
+  /**
+   * Executes a callback function every time virtual keyboard is rendered (e.g: when you change layouts).
    * @event
    */
   onRender?: (instance: Keyboard) => void;
 
   /**
-   * Executes the callback function once mamba keyboard is rendered for the first time (on initialization).
+   * Executes a callback function once virtual keyboard is rendered for the first time (on initialization).
    * @event
    */
   onInit?: (instance: Keyboard) => void;
@@ -125,19 +137,19 @@ export interface KeyboardTypeEvents {
   onChange?: (input: string, e?: KeyboardHandlerEvent) => void;
 
   /**
-   * Executes the callback function on any key press. Returns button layout name (i.e.: “{enter}”, "b", "c", "2" ).
+   * Executes a callback function on any key press of virtual keyboard. Returns button layout name (i.e.: “{enter}”, "b", "c", "2" ).
    * @event
    */
   onKeyPress?: (button: string, e?: KeyboardHandlerEvent) => void;
 
   /**
-   * Execute the callback function on keypress of non-standard type only (functionality type i.e.: “{alt}”).
+   * Execute a callback function on keypress of non-standard type only (functionality type i.e.: “{alt}”) of virtual keyboard.
    * @event
    */
   onFunctionKeyPress?: FunctionKeyPressCallback;
 
   /**
-   * Execute the callback function on keypress of standard type only (type i.e.: “a”, “k”, “5”).
+   * Execute a callback function on keypress of standard type only (type i.e.: “a”, “k”, “5”) of virtual keyboard.
    * @event
    */
   onStandardKeyPress?: FunctionKeyPressCallback;

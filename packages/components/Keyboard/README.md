@@ -76,31 +76,60 @@ Keyboard.hide();
 ## Eventos
 
 ```ts
+type FunctionKeyPressCallback = (
+  button: string,
+  instance: Keyboard,
+  e?: KeyboardHandlerEvent,
+) => void;
+
 interface KeyboardTypeEvents {
   /**
-   * Executes the callback function every time mamba keyboard is rendered (e.g: when you change layouts).
+   * Executes thae callback function when virtual keyboard rendered by the first time.
+   * @event
+   */
+  beforeFirstRender?: (instance: Keyboard) => void;
+
+  /**
+   * Executes a callback function before a virtual keyboard render.
+   * @event
+   */
+  beforeRender?: (instance: Keyboard) => void;
+
+  /**
+   * Executes a callback function every time virtual keyboard is rendered (e.g: when you change layouts).
+   * @event
    */
   onRender?: (instance: Keyboard) => void;
 
   /**
-   * Executes the callback function once mamba keyboard is rendered for the first time (on initialization).
+   * Executes a callback function once virtual keyboard is rendered for the first time (on initialization).
+   * @event
    */
   onInit?: (instance: Keyboard) => void;
 
   /**
    * Retrieves the current input
+   * @event
    */
   onChange?: (input: string, e?: KeyboardHandlerEvent) => void;
 
   /**
-   * Executes the callback function on any key press. Returns button layout name (i.e.: “{enter}”, "b", "c", "2" ).
+   * Executes a callback function on any key press of virtual keyboard. Returns button layout name (i.e.: “{enter}”, "b", "c", "2" ).
+   * @event
    */
   onKeyPress?: (button: string, e?: KeyboardHandlerEvent) => void;
 
   /**
-   * Execute the callback function on keypress of non-standard type only (functionality type i.e.: “{alt}”).
+   * Execute a callback function on keypress of non-standard type only (functionality type i.e.: “{alt}”) of virtual keyboard.
+   * @event
    */
-  onFunctionKeyPress?: (button: string, instance: Keyboard, e?: KeyboardHandlerEvent) => void;
+  onFunctionKeyPress?: FunctionKeyPressCallback;
+
+  /**
+   * Execute a callback function on keypress of standard type only (type i.e.: “a”, “k”, “5”) of virtual keyboard.
+   * @event
+   */
+  onStandardKeyPress?: FunctionKeyPressCallback;
 }
 ```
 
@@ -137,6 +166,7 @@ interface KeyboardOptions {
   /**
    * A prop to add your own css classes to the keyboard wrapper.
    * You can add multiple classes separated by a space.
+   * Prefab keyboards have their own themes... set this property will remove its theme..
    */
   theme?: string;
 
@@ -602,6 +632,16 @@ enum KeyboardType {
   Phone = 'phone',
   Math = 'math',
   Custom = 'custom',
+}
+
+/**
+ * Keyboard theme variation
+ */
+export enum KeyboardThemeVariation {
+  Large = 'large', // For large screens and high DPI without zoom
+  Default = 'default', // Default variation for general purpose
+  Compact = 'compact', // Reduced spaces and height
+  UltraSmall = 'ultra-small', // For very small screens
 }
 
 /**
