@@ -112,6 +112,7 @@ export class UIPhysicalKeyboard {
       }
 
       this.addDOMInputEventListeners(input);
+      this.keyboardInstance.handleDOMInputDataset();
       input.focus();
     }
   }

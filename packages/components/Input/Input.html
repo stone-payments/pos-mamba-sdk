@@ -132,7 +132,6 @@
           errorMessage,
           validateOn,
           validation,
-          keyboardType,
         } = this.options.data;
 
         this.set({
@@ -156,12 +155,7 @@
           errorMessage: isString(errorMessage) ? errorMessage : undefined,
           validateOn: isString(validateOn) ? validateOn : 'submit',
           validation: typeof validation === 'function' ? validation : undefined,
-          keyboardType: isString(keyboardType) ? keyboardType : undefined,
         });
-
-        if (keyboardType) {
-          this.refs.input.dataset.keyboardType = keyboardType;
-        }
 
         // TODO: remove when undefined prop is not printed
         if (typeof maxlength !== 'undefined') {
@@ -192,6 +186,13 @@
 
       if (changed.forcefocus && current.forcefocus && current.autofocus && !current.isFocused) {
         this.focus();
+      }
+
+      if (changed.keyboardOptions) {
+        const { keyboardOptions } = current;
+        if (typeof keyboardOptions === 'object' && keyboardOptions !== null && Keyboard.setOptions) {
+          Keyboard.setOptions(keyboardOptions);
+        }
       }
     },
     methods: {

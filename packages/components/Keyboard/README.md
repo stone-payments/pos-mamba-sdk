@@ -139,7 +139,6 @@ interface KeyboardTypeEvents {
 interface KeyboardOptions {
   /**
    * Specifies which keyboard type should be used out of the box.
-   * Also can enforce by define dataset `<input data-keyboard-type="<type>" />`
    * @defaultValue {@link KeyboardType.Default}
    */
   keyboardType?: KeyboardType;
@@ -352,6 +351,32 @@ interface KeyboardOptions {
   [name: string]: any;
 }
 ````
+
+### Passando opções pelo `<Input />`
+
+Você pode passar opções simples, compatíveis com **JSON** _(não aceita funções/eventos do teclado)_, pelo elemento HTML input:
+
+```html
+<input
+  data-keyboard="true"
+  data-keyboard-options='{ "themeVariation": "my-variation", "keepVisible": false }'
+/>
+```
+
+Caso você utilize o `@mamba/input`, é mais permissivo:
+
+```html
+<Input label="Insira o valor" keyboardOptions={{ themeVariation: KeyboardThemeVariation.Compact }}
+/>
+
+<script>
+  export default {
+    components: {
+      Input: '@mamba/input',
+    },
+  };
+</script>
+```
 
 ---
 

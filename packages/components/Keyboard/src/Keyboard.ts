@@ -397,6 +397,31 @@ class Keyboard {
    */
 
   /**
+   * Handles dataset of HTML input and parse its options
+   */
+  public handleDOMInputDataset() {
+    const input = document.activeElement as HTMLInputElement;
+    const isInput = isProperInput(input);
+
+    if (
+      isInput &&
+      'keyboardOptions' in input.dataset &&
+      typeof input.dataset.keyboardOptions === 'string'
+    ) {
+      try {
+        const keyboardOptions = JSON.parse(input.dataset.keyboardOptions);
+        if (keyboardOptions) {
+          this.setOptions(keyboardOptions);
+        }
+      } catch (e) {
+        console.warn(
+          `Invalid 'data-keyboard-options' declared on <input>. Must be JSON compatible. ${e}`,
+        );
+      }
+    }
+  }
+
+  /**
    * Controls keyboard visibility, to handle effects
    */
   public set visibility(value: KeyboardVisibility) {
@@ -404,21 +429,7 @@ class Keyboard {
       value = KeyboardVisibility.Visible;
     }
 
-    const input = document.activeElement as HTMLInputElement;
-    const isInput = isProperInput(input);
-
-    if (
-      isInput &&
-      'keyboardType' in input.dataset &&
-      typeof input.dataset.keyboardType === 'string'
-    ) {
-      const keyboardType = KeyboardType[input.dataset.keyboardType];
-      if (keyboardType) {
-        this.setOptions({
-          keyboardType,
-        });
-      }
-    }
+    this.handleDOMInputDataset();
 
     this.handleKeyboardVisibility(value);
   }
