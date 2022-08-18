@@ -14,18 +14,29 @@
     }
   };
 
+  const debug = __DEV__ || __DEBUG_LVL__ >= 3;
+
   export default {
     data() {
       return {
-        debug: __DEV__ || __DEBUG_LVL__ >= 3,
+        debug,
         keepVisible: false,
         autoRender: false,
       };
     },
     oncreate() {
       this.root.on('router:change', (context = {}) => {
+        if (debug) {
+          console.log(
+            `<Keyboard> route:change ${JSON.stringify({
+              init: context.init,
+              path: context.path,
+            })}`,
+          );
+        }
+
         if (context.init) return;
-        if (context.canonicalPath.length === 1) return;
+        if (context.path.length === 1) return;
 
         try {
           if (!(document.activeElement instanceof HTMLInputElement) && keyboard) {
@@ -44,6 +55,10 @@
     onupdate({ changed, current }) {
       if (changed.keyboardOptions) {
         const { keyboardOptions } = current;
+
+        if (debug) {
+          console.log(`<Keyboard> keyboardOptions changed`, keyboardOptions);
+        }
 
         if (
           typeof keyboardOptions === 'object' &&

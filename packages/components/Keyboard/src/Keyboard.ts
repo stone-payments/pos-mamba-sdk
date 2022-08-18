@@ -643,6 +643,9 @@ class Keyboard {
    * Set keyboard as custom type.
    */
   public setKeyboardAsCustomType(options: KeyboardOptions = {}) {
+    if (this.options.debug) {
+      console.log(`keyboard.setKeyboardAsCustomType() called`);
+    }
     this.setOptions({
       keyboardType: KeyboardType.Custom,
       ...options,
@@ -653,6 +656,9 @@ class Keyboard {
    * Shows keyboard and mount it if already not.
    */
   public show() {
+    if (this.options.debug) {
+      console.log(`keyboard.show() called`);
+    }
     setTimeout(() => {
       this.render();
       this.handleKeyboardVisibility(KeyboardVisibility.Visible);
@@ -664,6 +670,9 @@ class Keyboard {
    * This method do less things than {@link visibility}.
    */
   public hide() {
+    if (this.options.debug) {
+      console.log(`keyboard.hide() called`);
+    }
     setTimeout(() => {
       this.handleKeyboardVisibility(KeyboardVisibility.Hidden);
     });
@@ -673,6 +682,9 @@ class Keyboard {
    * Resets keyboard properties.
    */
   public resetOptions() {
+    if (this.options.debug) {
+      console.log(`keyboard.resetOptions() called`);
+    }
     this.options = { ...this.initialOptions };
   }
 
@@ -680,6 +692,9 @@ class Keyboard {
    * Removes all keyboard rows and set visibility to hidden.
    */
   public unmount() {
+    if (this.options.debug) {
+      console.log(`keyboard.unmount() called`);
+    }
     this.handleKeyboardVisibility(KeyboardVisibility.Hidden);
     this.clearRows();
   }
@@ -688,6 +703,9 @@ class Keyboard {
    * Resets keyboard properties and keyboard elements.
    */
   public reset() {
+    if (this.options.debug) {
+      console.log(`keyboard.reset() called`);
+    }
     this.resetOptions();
     this.clearRows();
   }
@@ -697,6 +715,9 @@ class Keyboard {
    * This method should called by svelte component on:destroy
    */
   public destroy() {
+    if (this.options.debug) {
+      console.log(`keyboard.destroy() called`);
+    }
     if (this.options.debug) {
       console.log(
         'Destroying Keyboard ans its events. This method should called by svelte component.',
@@ -1168,7 +1189,14 @@ class Keyboard {
      * Stops if not allowed to render by condition
      */
     if (!this.isRenderAllowed()) {
+      if (this.options.debug) {
+        console.log('Keyboard render not allowed! Check keyboard options.');
+      }
       return;
+    }
+
+    if (this.options.debug) {
+      console.log(`Rendering/Updating keyboard`);
     }
 
     /**

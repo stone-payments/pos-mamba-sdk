@@ -354,7 +354,7 @@ export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents
   autoRender?: boolean;
 
   /**
-   * Make beep sound for every key press
+   * Make beep sound for every key press.
    * ! This do not disable POS sound entirely. Only for this Keyboard instance
    * @defaultValue System preference depending of the app, otherwise `false`
    */
