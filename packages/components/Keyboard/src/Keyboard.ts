@@ -1127,6 +1127,22 @@ class Keyboard {
   };
 
   /**
+   * Parse render condition
+   * @returns If keyboard can work or not
+   */
+  private isRenderAllowed(): boolean {
+    if (typeof this.options.renderCondition === 'function') {
+      return Boolean(this.options.renderCondition());
+    }
+
+    if (typeof this.options.renderCondition === 'undefined') {
+      return true;
+    }
+
+    return Boolean(this.options.renderCondition);
+  }
+
+  /**
    * Renders or update the keyboard buttons
    * Can be called direct if `autoRender` is off
    * @throws LAYOUT_NOT_FOUND_ERROR - layout not found
@@ -1137,6 +1153,13 @@ class Keyboard {
      * Clear keyboard
      */
     this.clearRows();
+
+    /**
+     * Stops if not allowed to render by condition
+     */
+    if (!this.isRenderAllowed()) {
+      return;
+    }
 
     /**
      * Calling beforeFirstRender

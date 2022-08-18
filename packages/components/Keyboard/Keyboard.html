@@ -7,6 +7,13 @@
 
   let keyboard = null;
 
+  const destroyInstance = () => {
+    if (keyboard) {
+      keyboard.destroy();
+      keyboard = null;
+    }
+  };
+
   export default {
     data() {
       return {
@@ -21,7 +28,7 @@
         if (context.canonicalPath.length === 1) return;
 
         try {
-          if (!(document.activeElement instanceof HTMLInputElement)) {
+          if (!(document.activeElement instanceof HTMLInputElement) && keyboard) {
             keyboard.resetOptions();
             keyboard.unmount();
           }
@@ -30,16 +37,31 @@
         }
       });
 
-      keyboard = new Keyboard({
-        ...this.get(),
-      });
-
       this.on('destroy', () => {
-        if (keyboard) {
-          keyboard.destroy();
-          keyboard = null;
-        }
+        destroyInstance();
       });
+    },
+    onupdate({ changed, current }) {
+      if (changed.keyboardOptions) {
+        const { keyboardOptions } = current;
+
+        if (
+          typeof keyboardOptions === 'object' &&
+          keyboardOptions !== null &&
+          'renderCondition' in keyboardOptions
+        ) {
+          if (keyboardOptions.renderCondition === false) {
+            destroyInstance();
+            return;
+          }
+
+          if (!keyboard) {
+            keyboard = new Keyboard({
+              ...this.get(),
+            });
+          }
+        }
+      }
     },
   };
 </script>

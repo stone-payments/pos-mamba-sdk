@@ -219,6 +219,13 @@ interface KeyboardOptions {
   readonly?: boolean;
 
   /**
+   * Optionally set a condition for the virtual keyboard to render or work.
+   * Its instance will be destroyed if exist.
+   * Can be a Boolean or a function that do something and return a boolean.
+   */
+  renderCondition?: boolean | (() => boolean);
+
+  /**
    * A prop to ensure characters are always be added/removed at the end of the string.
    */
   disableCursorPositioning?: boolean;
