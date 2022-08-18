@@ -1,22 +1,22 @@
 export default Object.freeze({
-  CLOSE: 'Close',
-  BACK: 'Back',
+  CLOSE: 'close',
+  BACK: 'back',
 
-  ENTER: 'Enter',
-  HELP: 'Help',
-  SHORTCUTS: 'Shortcuts',
-  SPACE: 'Space',
+  ENTER: 'enter',
+  HELP: 'help',
+  SHORTCUTS: 'shortcuts',
+  SPACE: 'space',
 
   /**
    * @deprecated Use `ARROW_UP`
    */
-  KEYUP: 'KeyUp',
-  ARROW_UP: 'ArrowUp',
+  KEYUP: 'keyUp',
+  ARROW_UP: 'arrowUp',
   /**
    * @deprecated Use `ARROW_DOWN`
    */
-  KEYDOWN: 'KeyDown',
-  ARROW_DOWN: 'ArrowDown',
+  KEYDOWN: 'keyDown',
+  ARROW_DOWN: 'arrowDown',
 
   F24: 'F24',
   F23: 'F23',
