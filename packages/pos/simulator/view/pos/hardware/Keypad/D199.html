@@ -1,19 +1,29 @@
 <div class="keypad">
   <!-- Column One -->
   <div class="column">
-    <button class="close" on:mousedown="fire('key', { event, keyName: 'close'})">X</button>
+    <button class="close" on:mousedown="fire('key', { event, keyName: KEY.CLOSE})">X</button>
   </div>
 
   <!-- Column Thow -->
   <div class="column">
-    <button class="key-0" on:mousedown="fire('key', { event, keyName: 'back'})">&lt;</button>
+    <button class="key-0" on:mousedown="fire('key', { event, keyName: KEY.BACK})">&lt;</button>
   </div>
 
   <!-- Column Three -->
   <div class="column">
-    <button class="enter" on:mousedown="fire('key', { event, keyName: 'enter'})">O</button>
+    <button class="enter" on:mousedown="fire('key', { event, keyName: KEY.ENTER})">O</button>
   </div>
 </div>
+
+<script>
+  import { KEYBOARD } from '@mamba/core';
+
+  export default {
+    helpers: {
+      KEY: KEYBOARD.KEY_NAMES,
+    },
+  };
+</script>
 
 <style type="text/postcss">
   .keypad {

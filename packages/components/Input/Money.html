@@ -16,6 +16,7 @@
 />
 
 <script>
+  import { KEYBOARD } from '@mamba/core';
   import Keyboard from '@mamba/keyboard/api/keyboard.js';
   import { format as formatMoney } from '@mamba/utils/money.js';
 
@@ -145,7 +146,7 @@
           return;
         }
 
-        if (readonlyOnEnter === true && value !== '0' && keyName === 'enter') {
+        if (readonlyOnEnter === true && value !== '0' && keyName === KEYBOARD.KEY_NAMES.ENTER) {
           this.makeReadOnly();
         }
 
@@ -160,7 +161,7 @@
           if (parseFloat(value) / 100 > this.get().limit) {
             return;
           }
-        } else if (keyName === 'back') {
+        } else if (keyName === KEYBOARD.KEY_NAMES.BACK) {
           value = value.slice(0, value.length - 1);
 
           if (!value.length) {

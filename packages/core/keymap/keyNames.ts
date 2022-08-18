@@ -7,16 +7,17 @@ export default Object.freeze({
   SHORTCUTS: 'shortcuts',
   SPACE: 'space',
 
+  ARROW_UP: 'keyup',
+  ARROW_DOWN: 'keydown',
+
   /**
    * @deprecated Use `ARROW_UP`
    */
-  KEYUP: 'keyUp',
-  ARROW_UP: 'arrowUp',
+  KEYUP: 'keyup',
   /**
    * @deprecated Use `ARROW_DOWN`
    */
-  KEYDOWN: 'keyDown',
-  ARROW_DOWN: 'arrowDown',
+  KEYDOWN: 'keydown',
 
   F24: 'F24',
   F23: 'F23',

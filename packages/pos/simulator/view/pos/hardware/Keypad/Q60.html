@@ -1,24 +1,34 @@
 <div class="keypad">
   <button class="power" on:mousedown="fire('key', { event, keyName: 'power'})">power</button>
-  <button class="keyup" on:mousedown="fire('key', { event, keyName: 'keyup'})">&#x2303;</button>
-  <button class="keydown" on:mousedown="fire('key', { event, keyName: 'keydown'})">&#x2304;</button>
+  <button class="keyup" on:mousedown="fire('key', { event, keyName: KEY.ARROW_UP})">&#x2303;</button>
+  <button class="keydown" on:mousedown="fire('key', { event, keyName: KEY.ARROW_DOWN})">&#x2304;</button>
   <button class="print" on:mousedown="fire('key', { event, keyName: 'print'})">print</button>
-  <button class="key-1" on:mousedown="fire('key', { event, keyName: '1'})">1</button>
-  <button class="key-2" on:mousedown="fire('key', { event, keyName: '2'})">2</button>
-  <button class="key-3" on:mousedown="fire('key', { event, keyName: '3'})">3</button>
-  <button class="key-4" on:mousedown="fire('key', { event, keyName: '4'})">4</button>
-  <button class="key-5" on:mousedown="fire('key', { event, keyName: '5'})">5</button>
-  <button class="key-6" on:mousedown="fire('key', { event, keyName: '6'})">6</button>
-  <button class="key-7" on:mousedown="fire('key', { event, keyName: '7'})">7</button>
-  <button class="key-8" on:mousedown="fire('key', { event, keyName: '8'})">8</button>
-  <button class="key-9" on:mousedown="fire('key', { event, keyName: '9'})">9</button>
-  <button class="key-0" on:mousedown="fire('key', { event, keyName: '0'})">0</button>
-  <button class="back" on:mousedown="fire('key', { event, keyName: 'back'})">back</button>
-  <button class="close" on:mousedown="fire('key', { event, keyName: 'close'})">close</button>
-  <button class="enter" on:mousedown="fire('key', { event, keyName: 'enter'})">enter</button>
-  <button class="shortcuts" on:mousedown="fire('key', { event, keyName: 'shortcuts'})">shortcuts</button>
-  <button class="help" on:mousedown="fire('key', { event, keyName: 'help'})">help</button>
+  <button class="key-1" on:mousedown="fire('key', { event, keyName: KEY.KEY_1})">1</button>
+  <button class="key-2" on:mousedown="fire('key', { event, keyName: KEY.KEY_2})">2</button>
+  <button class="key-3" on:mousedown="fire('key', { event, keyName: KEY.KEY_3})">3</button>
+  <button class="key-4" on:mousedown="fire('key', { event, keyName: KEY.KEY_4})">4</button>
+  <button class="key-5" on:mousedown="fire('key', { event, keyName: KEY.KEY_5})">5</button>
+  <button class="key-6" on:mousedown="fire('key', { event, keyName: KEY.KEY_6})">6</button>
+  <button class="key-7" on:mousedown="fire('key', { event, keyName: KEY.KEY_7})">7</button>
+  <button class="key-8" on:mousedown="fire('key', { event, keyName: KEY.KEY_8})">8</button>
+  <button class="key-9" on:mousedown="fire('key', { event, keyName: KEY.KEY_9})">9</button>
+  <button class="key-0" on:mousedown="fire('key', { event, keyName: KEY.KEY_0})">0</button>
+  <button class="back" on:mousedown="fire('key', { event, keyName: KEY.BACK})">back</button>
+  <button class="close" on:mousedown="fire('key', { event, keyName: KEY.CLOSE})">close</button>
+  <button class="enter" on:mousedown="fire('key', { event, keyName: KEY.ENTER})">enter</button>
+  <button class="shortcuts" on:mousedown="fire('key', { event, keyName: KEY.SHORTCUTS})">shortcuts</button>
+  <button class="help" on:mousedown="fire('key', { event, keyName: KEY.HELP})">help</button>
 </div>
+
+<script>
+  import { KEYBOARD } from '@mamba/core';
+
+  export default {
+    helpers: {
+      KEY: KEYBOARD.KEY_NAMES,
+    },
+  };
+</script>
 
 <style type="text/postcss">
   .keypad {

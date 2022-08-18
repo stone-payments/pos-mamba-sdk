@@ -42,6 +42,7 @@ As propriedades declaradas no elemento HTML, serão usadas no inicializador do t
 ## Examplo de uso da API
 
 ```js
+import { KEYBOARD } from '@mamba/core';
 import Keyboard from '@mamba/keyboard/api/index.js';
 import { KeyboardType, KeyboardUpdateMode } from '@mamba/keyboard/lib/index.js';
 
@@ -61,7 +62,7 @@ Keyboard.setOptions({
   updateMode: KeyboardUpdateMode.Manual,
   maxLength: String(999.99).length - 1,
   onKeyPress: (button) => {
-    if (button === 'enter') {
+    if (button === KEYBOARD.ENTER) {
       // pay
     } else {
       // add input
@@ -459,6 +460,8 @@ Retorna o `código da tecla` referente a uma tecla da máquina.
 import Keyboard from '@mamba/keyboard/api/index.js'
 
 Keyboard.getKeyCode('Enter'); // 13
+Keyboard.getKeyCode('enter'); // 13
+
 Keyboard.getKeyCode('Back'); // 8
 Keyboard.getKeyCode('Close'); // 27
 Keyboard.getKeyCode('Help'); // 17

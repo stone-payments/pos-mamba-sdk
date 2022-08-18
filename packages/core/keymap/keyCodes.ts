@@ -48,17 +48,18 @@ export default Object.freeze({
   F24, // MP35 F2. The 'F24' is the keyIdentifier from MP35 POS
   SPACE,
 
+  ARROW_UP,
+  ARROW_DOWN,
+
   /**
    * @deprecated Use `ARROW_UP`
    */
   KEYUP,
-  ARROW_UP,
 
   /**
    * @deprecated Use `ARROW_DOWN`
    */
   KEYDOWN,
-  ARROW_DOWN,
 
   /** Numbers */
   KEY_0,

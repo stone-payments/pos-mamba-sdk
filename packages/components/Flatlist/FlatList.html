@@ -47,9 +47,9 @@
     {/each}
   </div>
 
-  <Keystroke key="enter" on:keystroke="selectRowItems(ENTER)"/>
-  <Keystroke key="keyup" on:keystroke="selectRowItems(ARROW_UP)"/>
-  <Keystroke key="keydown" on:keystroke="selectRowItems(ARROW_DOWN)"/>
+  <Keystroke key={KEY_NAMES.ENTER} on:keystroke="selectRowItems(ENTER)"/>
+  <Keystroke key={KEY_NAMES.ARROW_UP} on:keystroke="selectRowItems(ARROW_UP)"/>
+  <Keystroke key={KEY_NAMES.ARROW_DOWN} on:keystroke="selectRowItems(ARROW_DOWN)"/>
 
   {#if navBar}
     <NavBar labelDown={navDownLabel} labelUp={navUpLabel} on:keyup="selectRowItems(ARROW_UP)" on:keydown="selectRowItems(ARROW_DOWN)" />
@@ -71,7 +71,7 @@
   import { ACTIVE_MODEL } from './decorators.js';
   import { ARROW_CAPABILITIES_MODELS } from './const.js';
 
-  const { ARROW_UP, ARROW_DOWN, ENTER } = KEYBOARD;
+  const { ARROW_UP, ARROW_DOWN, ENTER, KEY_NAMES } = KEYBOARD;
 
   const EVENTS = {
     ITEM_SELECTED: 'itemSelected',
@@ -88,6 +88,7 @@
       NavBar: './NavBar.html',
     },
     helpers: {
+      KEY_NAMES,
       ENTER,
       ARROW_UP,
       ARROW_DOWN,
