@@ -354,16 +354,26 @@ class Keyboard {
   private parseKeyboardTypeOptions(
     keyboardOptions?: KeyboardOptions,
   ): KeyboardTypesPredefinedOptions | undefined {
-    const keyboardType: KeyboardType = keyboardOptions?.keyboardType || KeyboardType.Default;
+    if (!keyboardOptions || typeof keyboardOptions !== 'object') return undefined;
+
+    const keyboardType: KeyboardType = keyboardOptions.keyboardType || KeyboardType.Default;
+
+    /**
+     * Reset last properties
+     */
+    if (this.options) {
+      delete this.options.layoutName;
+      delete this.options.layoutDirection;
+      delete this.options.theme;
+      delete this.options.layout;
+      delete this.options.outputs;
+      delete this.options.labels;
+      delete this.options.internalOnFunctionKeyPress;
+    }
 
     if (keyboardType === KeyboardType.Custom) {
       return undefined;
     }
-
-    /**
-     * Remove layout override
-     */
-    delete keyboardOptions?.layout;
 
     /**
      * Get keyboard ready
