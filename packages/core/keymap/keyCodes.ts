@@ -2,9 +2,7 @@
  * Represents keycodes of POS physical keyboard
  */
 
-export const BACKSPACE = 8;
-/** Alias `BACKSPACE` */
-export const KEYBACK = BACKSPACE;
+export const BACK = 8;
 export const ENTER = 13;
 export const SHORTCUTS = 16; // MP35 F3 of keyIdentifier: "U+1000020"
 export const HELP = 17; // MP35 F1 of keyIdentifier: "U+1000021"
@@ -42,11 +40,7 @@ export const KEYDOWN = ARROW_DOWN;
 
 export default Object.freeze({
   ENTER,
-
-  /** Alias `BACKSPACE` */
-  KEYBACK,
-  BACKSPACE,
-
+  BACK,
   CLOSE, // Escape key
   HELP, // MP35 F1 of keyIdentifier: "U+1000021". `Control` key alias
   SHORTCUTS, // MP35 F3 of keyIdentifier: "U+1000020". `Shift` key alias

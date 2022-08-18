@@ -4,7 +4,6 @@ export { default as KEY_NAMES } from './keyNames';
 export {
   default as KEY_CODES,
   ENTER,
-  KEYBACK,
   CLOSE,
   HELP,
   SHORTCUTS,

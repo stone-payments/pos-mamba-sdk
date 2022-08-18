@@ -27,7 +27,7 @@ import { KEYBOARD } from '@mamba/core';
 const { KEY_NAMES, KEY_NAMES_LIST } = KEYBOARD;
 
 KEY_NAMES.ENTER; // 'Enter'
-KEY_NAMES_LIST; // ['CLOSE', 'BACK', 'BACKSPACE', 'ENTER', 'HELP', 'SHORTCUTS', 'SPACE', 'KEYUP', 'ARROW_UP', 'KEYDOWN', 'ARROW_DOWN', 'F24', 'F23', 'KEY_0', 'KEY_1', 'KEY_2', 'KEY_3', 'KEY_4', 'KEY_5', 'KEY_6', 'KEY_7', 'KEY_8', 'KEY_9']
+KEY_NAMES_LIST; // ['CLOSE', 'BACK', 'ENTER', 'HELP', 'SHORTCUTS', 'SPACE', 'KEYUP', 'ARROW_UP', 'KEYDOWN', 'ARROW_DOWN', 'F24', 'F23', 'KEY_0', 'KEY_1', 'KEY_2', 'KEY_3', 'KEY_4', 'KEY_5', 'KEY_6', 'KEY_7', 'KEY_8', 'KEY_9']
 ```
 
 Values:
@@ -35,8 +35,7 @@ Values:
 ```ts
 {
   CLOSE: 'Close',
-  BACK: 'Backspace',
-  BACKSPACE: 'Backspace',
+  BACK: 'Back',
   ENTER: 'Enter',
   HELP: 'Help',
   SHORTCUTS: 'Shortcuts',
@@ -82,8 +81,7 @@ Values:
 
 ```ts
 {
-  BACKSPACE: 8,
-  KEYBACK: 8, // `BACKSPACE `Alias`
+  BACK: 8,
   ENTER: 13,
   SHORTCUTS: 16,
   HELP: 17,

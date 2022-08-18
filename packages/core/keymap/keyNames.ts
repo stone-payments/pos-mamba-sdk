@@ -1,9 +1,6 @@
-const BACK = 'Backspace';
-
 export default Object.freeze({
   CLOSE: 'Close',
-  BACK,
-  BACKSPACE: BACK,
+  BACK: 'Back',
 
   ENTER: 'Enter',
   HELP: 'Help',
