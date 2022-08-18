@@ -56,9 +56,14 @@
           }
 
           if (!keyboard) {
-            keyboard = new Keyboard({
+            const options = {
               ...this.get(),
-            });
+              ...keyboardOptions,
+            };
+
+            delete options.keyboardOptions;
+
+            keyboard = new Keyboard(options);
           }
         }
       }
