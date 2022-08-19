@@ -34,6 +34,7 @@ if (IS_TEST()) {
 } else {
   /** Accept dynamic import syntax and leave it to bundler */
   config.plugins.push('@babel/plugin-syntax-dynamic-import');
+  config.plugins.push('lodash');
 }
 
 module.exports = config;
