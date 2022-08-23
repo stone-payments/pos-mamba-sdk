@@ -170,6 +170,8 @@
         if (mask) {
           this.mask();
         }
+
+        this.refs.input.instance = this;
       }
     },
     onupdate({ changed, current }) {

@@ -15,6 +15,10 @@ declare global {
     $Keyboard?: any;
   }
 
+  interface HTMLInputElement {
+    instance: any;
+  }
+
   const __DEV__: boolean;
   const __DEBUG_LVL__: number;
   const __SIMULATOR__: boolean;

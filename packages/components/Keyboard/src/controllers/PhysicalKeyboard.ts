@@ -93,7 +93,19 @@ class PhysicalKeyboard {
        * If the keepVisible option is on and user hit some button without input focus, we need ensure that virtual input do not update its values back to the DOM input on next update.
        */
       if (this.keyboardInstance.getInput() !== input.value && !options.input) {
-        this.keyboardInstance.setInput(input.value);
+        let { value } = input;
+        /**
+         * We need remove formatted, get raw value of mamba input component...
+         */
+        try {
+          const { instance } = input;
+          if (instance) {
+            value = String(instance.get().rawValue || '');
+          }
+        } catch (_) {
+          // do nothing
+        }
+        this.keyboardInstance.setInput(value);
       }
 
       this.addDOMInputEventListeners(input);
