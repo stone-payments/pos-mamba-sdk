@@ -2,7 +2,7 @@
 /* eslint-disable camelcase */
 
 import { merge, kebabCase } from 'lodash';
-import CreatePhysicalKeyboard, { UIPhysicalKeyboard } from './controllers/PhysicalKeyboard';
+import PhysicalKeyboard from './controllers/PhysicalKeyboard';
 import GeneralKeyboard, { UIGeneralKeyboard } from './controllers/GeneralKeyboard';
 import CursorWorker from './common/CursorWorker';
 import {
@@ -50,7 +50,7 @@ class Keyboard {
 
   buttonElements!: KeyboardButtonElements;
 
-  physicalKeyboard?: UIPhysicalKeyboard;
+  physicalKeyboard?: PhysicalKeyboard;
 
   generalKeyboard!: UIGeneralKeyboard;
 
@@ -185,7 +185,7 @@ class Keyboard {
      * Physical Keyboard support
      */
     if (this.options.updateMode === KeyboardUpdateMode.Auto) {
-      this.physicalKeyboard = CreatePhysicalKeyboard({
+      this.physicalKeyboard = new PhysicalKeyboard({
         getOptions: this.getOptions,
         keyboardInstance: this,
       });
@@ -519,7 +519,7 @@ class Keyboard {
       this.physicalKeyboard.destroy();
       this.physicalKeyboard = undefined;
     } else if (this.options.updateMode === KeyboardUpdateMode.Auto && !this.physicalKeyboard) {
-      this.physicalKeyboard = CreatePhysicalKeyboard({
+      this.physicalKeyboard = new PhysicalKeyboard({
         getOptions: this.getOptions,
         keyboardInstance: this,
       });
@@ -686,6 +686,19 @@ class Keyboard {
       console.log(`keyboard.resetOptions() called`);
     }
     this.options = { ...this.initialOptions };
+
+    /**
+     * Reset cursor positions
+     */
+    if (this.cursorWorker) {
+      this.cursorWorker.cursorPosition = null;
+      this.cursorWorker.cursorPositionEnd = null;
+    }
+
+    /**
+     * Reset input value
+     */
+    this.setInput('');
   }
 
   /**
@@ -729,6 +742,7 @@ class Keyboard {
      */
     if (this.physicalKeyboard) {
       this.physicalKeyboard.destroy();
+      this.physicalKeyboard = undefined;
     }
 
     if (this.cursorWorker) {
@@ -825,6 +839,7 @@ class Keyboard {
      * Rewrite driver get/set of keyboard visibility
      */
     Object.defineProperty(driver, 'visibility', {
+      configurable: true,
       get() {
         return instance.visibility;
       },
@@ -1014,6 +1029,11 @@ class Keyboard {
           e,
         );
       }
+    } else if (this.options.soundEnabled === true) {
+      /**
+       * Pontually handle beep sound on key press for manual update mode
+       */
+      PhysicalKeyboard.handleBeepSound(this.options);
     }
   }
 

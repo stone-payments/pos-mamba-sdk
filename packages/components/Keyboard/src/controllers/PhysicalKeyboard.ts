@@ -18,27 +18,25 @@ import { anyBraces } from '../common/regExps';
  * Send synthetic events to handle input post-processing (e.g. masks)
  * Keeps inputs synchronized
  */
-export class UIPhysicalKeyboard {
+class PhysicalKeyboard {
   private keyboardInstance!: Keyboard;
 
   private focusedDOMInput?: HTMLInputElement | null;
 
-  public static instance: UIPhysicalKeyboard;
+  public static beepTone = 'TONE3';
+
+  public static beepTime = 90;
 
   cachedTargetInput?: HTMLInputElement = undefined;
-
-  beepTone = 'TONE3';
-
-  beepTime = 90;
 
   getOptions: () => KeyboardOptions;
 
   /**
-   * Creates an instance of the UIPhysicalKeyboard service
+   * Creates an instance of the PhysicalKeyboard service
    */
-  private constructor({ getOptions, keyboardInstance }: PhysicalKeyboardParams) {
+  constructor({ getOptions, keyboardInstance }: PhysicalKeyboardParams) {
     /**
-     * @type {object} A mamba-keyboard instance
+     * @type {object} A mamba keyboard instance
      */
     this.getOptions = getOptions;
     this.keyboardInstance = keyboardInstance;
@@ -46,38 +44,25 @@ export class UIPhysicalKeyboard {
     /**
      * Bindings
      */
-    bindMethods(UIPhysicalKeyboard, this);
+    bindMethods(PhysicalKeyboard, this);
 
     /**
      * Register element focus changes for automatic mode only
      */
     if (this.getOptions().updateMode === KeyboardUpdateMode.Auto) {
       /** Add before focus event */
-      document.addEventListener(
-        'focusin',
-        (e) => this.handleFocusIn(e.target || undefined, e),
-        true,
-      );
+      document.addEventListener('focusin', this.handleDocumentFocusIn, true);
       /** Compute first interation */
       this.handleFocusIn(document.activeElement);
     }
   }
 
   /**
-   * Get physical keyboard instance
-   * @param params Keyboard options. Same of {@link KeyboardOptions}
-   * @param params.getOptions Function that instance call to retrieve keyboard properties
-   * @returns `UIPhysicalKeyboard` instance
+   * Handle document global focus in target
+   * @param event The Document event
    */
-  public static getInstance({
-    getOptions,
-    keyboardInstance,
-  }: PhysicalKeyboardParams): UIPhysicalKeyboard {
-    if (!UIPhysicalKeyboard.instance) {
-      UIPhysicalKeyboard.instance = new UIPhysicalKeyboard({ getOptions, keyboardInstance });
-    }
-
-    return UIPhysicalKeyboard.instance;
+  handleDocumentFocusIn(event: FocusEvent) {
+    this.handleFocusIn(event.target || undefined, event);
   }
 
   /**
@@ -148,6 +133,11 @@ export class UIPhysicalKeyboard {
    * @param input
    */
   addDOMInputEventListeners(input: HTMLInputElement) {
+    /**
+     * If already has last focused input, do not add listener again
+     */
+    if (this.focusedDOMInput) return;
+
     input.addEventListener('blur', this.handleDOMInputTargetBlur);
     input.addEventListener('click', this.handleDOMInputFocus);
     input.addEventListener('input', this.handleDOMInputChange);
@@ -161,6 +151,8 @@ export class UIPhysicalKeyboard {
     if (this.focusedDOMInput) {
       this.removeDOMInputEventListeners(this.focusedDOMInput);
     }
+
+    document.removeEventListener('focusin', this.handleDocumentFocusIn, true);
   }
 
   /**
@@ -220,11 +212,12 @@ export class UIPhysicalKeyboard {
   /**
    * Handles beep sound
    */
-  private handleBeepSound() {
-    const options = this.getOptions();
-
+  public static handleBeepSound(options: KeyboardOptions) {
     try {
-      window.$System.beep(options.beepTone || this.beepTone, options.beepTime || this.beepTime);
+      window.$System.beep(
+        options.beepTone || PhysicalKeyboard.beepTone,
+        options.beepTime || PhysicalKeyboard.beepTime,
+      );
     } catch (e) {
       console.log(e);
     }
@@ -355,7 +348,10 @@ export class UIPhysicalKeyboard {
       e.preventDefault();
     }
 
-    const targetElement = (document.activeElement as KeyboardInputOption) || this.cachedTargetInput;
+    const targetElement =
+      (document.activeElement as KeyboardInputOption) ||
+      this.focusedDOMInput ||
+      this.cachedTargetInput;
 
     /**
      * Our target element can be undefined on both sides, or not a valid element
@@ -381,16 +377,18 @@ export class UIPhysicalKeyboard {
     }
 
     /** Get the alpha code of a key of keyboard */
-    const keyCode = this.keyboardInstance.generalKeyboard.getTableKeyCode(
-      button,
-      buttonType === ButtonType.Standard,
+    const keyCode = Number(
+      this.keyboardInstance.generalKeyboard.getTableKeyCode(
+        button,
+        buttonType === ButtonType.Standard,
+      ),
     );
 
     /**
      * Make beep sound for the key press
      */
     if (options.soundEnabled === true) {
-      this.handleBeepSound();
+      PhysicalKeyboard.handleBeepSound(options);
     }
 
     /**
@@ -414,7 +412,7 @@ export class UIPhysicalKeyboard {
     /**
      * Key code not found, abort send the event
      */
-    if (!allowPass && (!keyCode || Number.isNaN(Number(keyCode)))) {
+    if (!allowPass && (!keyCode || Number.isNaN(keyCode))) {
       if (options.debug) {
         console.log(`\u001b[1;31mCannot map "${button}" key name to its code\u001b[0m`);
       }
@@ -449,14 +447,4 @@ export class UIPhysicalKeyboard {
   }
 }
 
-/**
- * Create or get Physical Keyboard instance
- */
-const CreatePhysicalKeyboard = ({
-  getOptions,
-  keyboardInstance,
-}: PhysicalKeyboardParams): UIPhysicalKeyboard => {
-  return UIPhysicalKeyboard.getInstance({ getOptions, keyboardInstance });
-};
-
-export default CreatePhysicalKeyboard;
+export default PhysicalKeyboard;
