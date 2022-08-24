@@ -350,7 +350,7 @@ class CursorWorker {
    */
   shouldFilterNumericValue(value: string): string {
     const options = this.getOptions();
-    if (options.keyboardType === KeyboardType.Numeric) {
+    if (options.filtersNumbersOnly === true) {
       value = Number(value.replace(/\D/g, '')).toString();
     }
 

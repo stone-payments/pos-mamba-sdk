@@ -226,6 +226,13 @@ interface KeyboardOptions {
   lastValue?: string;
 
   /**
+   * Tells keyboard if it should get or set number values only.
+   * If some cases you dont want capture formatted values to internal keyboard virtual input, this props cleans the input work to number, to able to be formatted back again.
+   * Useful for fields with formatting that happen after key events.
+   */
+  filtersNumbersOnly?: boolean;
+
+  /**
    * Optionally set a condition for the virtual keyboard to render or work.
    * Its instance will be destroyed if exist.
    * Can be a Boolean or a function that do something and return a boolean.
