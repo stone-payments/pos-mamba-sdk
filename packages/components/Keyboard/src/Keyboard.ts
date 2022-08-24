@@ -881,10 +881,12 @@ class Keyboard {
    * @param button The button's layout name.
    */
   private handleButtonClicked(button: string, e?: KeyboardHandlerEvent): void {
+    const focusedInput = document.activeElement as HTMLInputElement;
+
     /**
      * Ignoring placeholder buttons
      */
-    if (button === '{//}') return;
+    if (button === '{//}' || (focusedInput && focusedInput.disabled)) return;
 
     let buttonOutput = button;
 
