@@ -470,6 +470,10 @@ class Keyboard {
    * Gets the keyboard’s input (You can also get it from the onChange prop).
    */
   public getInput(): string {
+    const value = this.input.default;
+    if (typeof this.options.startValue === 'string' && value.length <= 1) {
+      return this.options.startValue;
+    }
     return this.input.default;
   }
 

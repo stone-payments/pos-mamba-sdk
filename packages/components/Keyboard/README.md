@@ -220,6 +220,12 @@ interface KeyboardOptions {
   readonly?: boolean;
 
   /**
+   * Tells keyboard which value it should use at input start position after key press input change. Like a currency placeholder.
+   * Only works if the {@link updateMode} are on mode {@link KeyboardUpdateMode.Auto}.
+   */
+  lastValue?: string;
+
+  /**
    * Optionally set a condition for the virtual keyboard to render or work.
    * Its instance will be destroyed if exist.
    * Can be a Boolean or a function that do something and return a boolean.
