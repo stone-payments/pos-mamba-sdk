@@ -482,7 +482,13 @@ class Keyboard {
    * @param input the input value
    */
   public setInput(input: string): void {
-    this.input.default = input;
+    this.input.default = this.cursorWorker.shouldFilterNumericValue(input);
+
+    if (this.options.debug) {
+      if (window.MambaKeyboardInstance && window.MambaKeyboardInstance.instance) {
+        console.log('Input changed:', window.MambaKeyboardInstance.instance.input);
+      }
+    }
   }
 
   /**
@@ -962,10 +968,6 @@ class Keyboard {
       this.setInput(newInputValue);
 
       if (this.options.debug) {
-        if (window.MambaKeyboardInstance && window.MambaKeyboardInstance.instance) {
-          console.log('Input changed:', window.MambaKeyboardInstance.instance.input);
-        }
-
         console.log(
           'Cursor at: ',
           this.cursorWorker.getCursorPosition(),

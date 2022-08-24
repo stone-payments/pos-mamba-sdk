@@ -4,6 +4,7 @@ import {
   KeyboardHandlerEvent,
   CursorPosition,
   CursorWorkerParams,
+  KeyboardType,
 } from '../types';
 import { greddyBraces } from './regExps';
 import type Keyboard from '../Keyboard';
@@ -341,6 +342,22 @@ class CursorWorker {
   }
 
   /**
+   * Filters numeric output to handle formatted inputs
+   * @experimental
+   *
+   * @param value
+   * @returns
+   */
+  shouldFilterNumericValue(value: string): string {
+    const options = this.getOptions();
+    if (options.keyboardType === KeyboardType.Numeric) {
+      value = Number(value.replace(/\D/g, '')).toString();
+    }
+
+    return value;
+  }
+
+  /**
    * Returns the updated input resulting from clicking a given button
    *
    * @param button The button's layout name
@@ -379,6 +396,8 @@ class CursorWorker {
         if (!greddyBraces.test(button)) {
           output = this.addStringAt(output, button, ...commonParams);
         }
+
+        output = this.shouldFilterNumericValue(output);
     }
 
     return output;
