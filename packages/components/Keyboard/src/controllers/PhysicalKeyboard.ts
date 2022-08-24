@@ -1,3 +1,4 @@
+import { KEYBOARD } from '@mamba/core';
 import {
   KeyboardOptions,
   KeyboardHandlerEvent,
@@ -28,6 +29,8 @@ class PhysicalKeyboard {
   public static beepTime = 90;
 
   cachedTargetInput?: HTMLInputElement = undefined;
+
+  svelteListener?: any;
 
   getOptions: () => KeyboardOptions;
 
@@ -81,7 +84,6 @@ class PhysicalKeyboard {
      * Handle focused target
      */
     if (target && isProperInput(target)) {
-      const options = this.getOptions();
       const input = target as HTMLInputElement;
 
       /**
@@ -92,25 +94,32 @@ class PhysicalKeyboard {
       /**
        * If the keepVisible option is on and user hit some button without input focus, we need ensure that virtual input do not update its values back to the DOM input on next update.
        */
-      if (this.keyboardInstance.getInput() !== input.value && !options.input) {
-        let { value } = input;
-        /**
-         * We need remove formatted, get raw value of mamba input component...
-         */
-        try {
-          const { instance } = input;
-          if (instance) {
-            value = String(instance.get().rawValue || '');
-          }
-        } catch (_) {
-          // do nothing
-        }
-        this.keyboardInstance.setInput(value);
-      }
+      this.updateVirtualInputfromDOMValue(input);
 
+      /**
+       * Add listeners on focused input
+       */
       this.addDOMInputEventListeners(input);
+
+      /**
+       * Handle focused input data set
+       */
       this.keyboardInstance.handleDOMInputDataset();
-      input.focus();
+    }
+  }
+
+  /**
+   * Update virtual value from real one.
+   * @param input HTML <input> focused
+   */
+  updateVirtualInputfromDOMValue(input: HTMLInputElement) {
+    const options = this.getOptions();
+    if (this.keyboardInstance.getInput() !== input.value && !options.input) {
+      const { value } = input;
+      /**
+       * Get and set value from input component...
+       */
+      this.keyboardInstance.setInput(value);
     }
   }
 
@@ -123,19 +132,30 @@ class PhysicalKeyboard {
     this.keyboardInstance.visibility = KeyboardVisibility.Hidden;
     if (e && e.target && isProperInput(e.target)) {
       const input = e.target as HTMLInputElement;
-      this.removeDOMInputEventListeners(input);
+      this.updateVirtualInputfromDOMValue(input);
+      this.removeDOMInputEventListeners();
     }
   }
 
   /**
-   * Remove input target event listeners
-   *
-   * @param input
+   * Remove input target event listeners.
    */
-  removeDOMInputEventListeners(input: HTMLInputElement) {
-    input.removeEventListener('input', this.handleDOMInputChange);
-    input.removeEventListener('click', this.handleDOMInputFocus);
-    input.removeEventListener('blur', this.handleDOMInputTargetBlur);
+  removeDOMInputEventListeners() {
+    if (!this.focusedDOMInput) return;
+
+    this.focusedDOMInput.removeEventListener('input', this.handleDOMInputChange);
+    this.focusedDOMInput.removeEventListener('click', this.handleDOMInputFocus);
+    this.focusedDOMInput.removeEventListener('blur', this.handleDOMInputTargetBlur);
+
+    /**
+     * Cancel svelte component listener. https://v2.svelte.dev/guide#component-on-eventname-callback-
+     */
+    try {
+      this.svelteListener.cancel();
+    } catch (_) {
+      // do nothing
+    }
+
     this.focusedDOMInput = null;
   }
 
@@ -153,17 +173,34 @@ class PhysicalKeyboard {
     input.addEventListener('blur', this.handleDOMInputTargetBlur);
     input.addEventListener('click', this.handleDOMInputFocus);
     input.addEventListener('input', this.handleDOMInputChange);
+
     this.focusedDOMInput = input;
+
+    /**
+     * Hack svelte component `on:destroy` for routless flow(e.g. payment state)
+     */
+    setTimeout(() => {
+      try {
+        // The `input.instance` have only on @mamba/input components
+        this.svelteListener = input.instance.on('destroy', this.removeDOMInputEventListeners);
+      } catch (_) {
+        // do nothing
+      }
+    });
+  }
+
+  /**
+   * Clear input listeners for keyboard route reset.
+   */
+  clearInputListeners() {
+    this.removeDOMInputEventListeners();
   }
 
   /**
    * Remove any input listeners, for life-cycle destroy
    */
   destroy() {
-    if (this.focusedDOMInput) {
-      this.removeDOMInputEventListeners(this.focusedDOMInput);
-    }
-
+    this.clearInputListeners();
     document.removeEventListener('focusin', this.handleDocumentFocusIn, true);
   }
 
@@ -197,7 +234,18 @@ class PhysicalKeyboard {
    * @param event
    */
   handleDOMInputChange(event: any) {
-    this.keyboardInstance.setInput((event.target as HTMLInputElement).value);
+    setTimeout(() => {
+      const options = this.getOptions();
+      if (options.debug) {
+        console.log(`Handle DOM input changes`, event);
+      }
+
+      const target = event.target || undefined;
+      if (target && isProperInput(target)) {
+        const input = target as HTMLInputElement;
+        this.updateVirtualInputfromDOMValue(input);
+      }
+    });
   }
 
   /**
@@ -406,7 +454,7 @@ class PhysicalKeyboard {
     /**
      * Update the element with the keyboard value
      */
-    if (isElementFocused) {
+    if (isElementFocused && keyCode !== KEYBOARD.ENTER) {
       const input = this.keyboardInstance.getInput();
       /**
        * Check if the computed element is a different element than `input`, so we update using innerText
@@ -435,7 +483,6 @@ class PhysicalKeyboard {
      * Dispatch key and input events
      */
     targetElement.dispatchEvent(this.createSyntheticKeyEvent('keydown', keyCode, button));
-    targetElement.dispatchEvent(this.createSyntheticKeyEvent('keypress', keyCode, button));
 
     if (isElementFocused) {
       /**
@@ -445,6 +492,7 @@ class PhysicalKeyboard {
     }
 
     targetElement.dispatchEvent(this.createSyntheticKeyEvent('keyup', keyCode, button));
+    targetElement.dispatchEvent(this.createSyntheticKeyEvent('keypress', keyCode, button));
 
     if (options.debug) {
       // Compact key event log
