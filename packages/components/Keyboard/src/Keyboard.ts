@@ -471,8 +471,8 @@ class Keyboard {
    */
   public getInput(): string {
     const value = this.input.default;
-    if (typeof this.options.startValue === 'string' && value.length <= 1) {
-      return this.options.startValue;
+    if (typeof this.options.lastValue === 'string' && value.length <= 1) {
+      return this.options.lastValue;
     }
     return this.input.default;
   }
