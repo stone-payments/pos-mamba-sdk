@@ -16,7 +16,7 @@
 />
 
 <script>
-  import { KEYBOARD } from '@mamba/core';
+  import { KEYBOARD, CURRENCY } from '@mamba/core';
   import Keyboard from '@mamba/keyboard/api/keyboard.js';
   import { format as formatMoney } from '@mamba/utils/money.js';
 
@@ -29,7 +29,7 @@
         value: 0,
         prefix: 'R$ ',
         suffix: '',
-        limit: 999999.99,
+        limit: CURRENCY.LIMIT,
         validation: undefined,
         readonlyOnEnter: false,
       };
@@ -42,7 +42,7 @@
         const parsedMoney = parseFloat(value) / 100;
         const isValidNumber = !Number.isNaN(parsedMoney);
         const returnFactory = (money = 0) => {
-          return prefix + formatMoney(money) + suffix;
+          return `${prefix}${formatMoney(money)}${suffix}`;
         };
 
         if (parsedMoney > limit) {

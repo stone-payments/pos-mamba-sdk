@@ -1,10 +1,10 @@
 # Core
 
-Core mamba packages with some essential and shared code.
+Pacotes principais do mamba com alguns códigos essenciais e compartilhados.
 
 ## Extend
 
-Extend a driver with the base driver.
+Estenda um driver com o driver base.
 
 ```js
 import extendDriver from '@mamba/core/index.js';
@@ -15,9 +15,21 @@ import wrappers from './wrappers.js';
 export default extendDriver(driverTarget, wrappers);
 ```
 
+## Currency
+
+Fornece constante da moeda no POS.
+
+### Limite máximo
+
+```js
+import { CURRENCY } from '@mamba/core';
+
+CURRENCY.LIMIT; // 999999.99
+```
+
 ## Keymap
 
-Provides the specific key-maps and key-names of POS.
+Fornece os mapas-chave e nomes-chave específicos do POS.
 
 ### KEY_NAMES
 
@@ -115,7 +127,7 @@ Values:
 
 ### KEYMAP
 
-Maped key codes to key names
+Códigos de chave mapeados para nomes de chave
 
 [keyboard.getkeyname(keycode)]: #getkeynamekeycode
 
@@ -159,7 +171,7 @@ Values:
 
 ## Usage example
 
-Let's say you want to do some action on your screen based on some POS key.
+Digamos que você queira fazer alguma ação na tela com base em alguma chave POS.
 
 ```html
 <svelte:window on:keyup="onKeyup(event)" />
