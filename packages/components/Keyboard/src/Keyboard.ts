@@ -1095,6 +1095,13 @@ class Keyboard {
       return;
     }
     this.keyboardDOM.classList.remove(this.hiddenKeyboardClass);
+
+    /**
+     * Check if keyboard isn't rendered yet to call render.
+     */
+    if (Object.keys(this.buttonElements).length === 0) {
+      this.render();
+    }
   }
 
   /**
