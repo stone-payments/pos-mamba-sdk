@@ -195,7 +195,7 @@ class Keyboard {
      * Rendering keyboard
      */
     if (this.keyboardDOM) {
-      if (!(this.options.autoRender === false)) {
+      if (!(this.options.autoRender === false) || this.options.keepVisible) {
         setTimeout(() => {
           this.render();
         }, 1);
