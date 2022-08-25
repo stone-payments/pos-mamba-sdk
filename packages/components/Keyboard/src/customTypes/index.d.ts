@@ -22,4 +22,5 @@ declare global {
   const __DEV__: boolean;
   const __DEBUG_LVL__: number;
   const __SIMULATOR__: boolean;
+  const __POS__: boolean;
 }

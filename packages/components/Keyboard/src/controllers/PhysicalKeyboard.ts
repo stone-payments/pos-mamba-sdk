@@ -75,6 +75,25 @@ class PhysicalKeyboard {
    * @param e The Focus event
    */
   handleFocusIn(target?: EventTarget | Element | null, e?: FocusEvent) {
+    if (!__POS__ && e) {
+      let avoidExternals = false;
+      try {
+        const path = e.composedPath();
+        /** We need avoid other inputs on the simulator page, like panel inputs */
+        avoidExternals = !path.some(
+          (id: EventTarget) =>
+            (id as Element).className && (id as Element).className.includes('mamba-app'),
+        );
+      } catch (_) {
+        console.error(
+          'Failed to get composedPath() from mamba simulator. Update you browser to newer version.',
+          e,
+        );
+      }
+
+      if (avoidExternals) return;
+    }
+
     /**
      * Update cached target input for key dispatch event
      */
