@@ -13,6 +13,7 @@ import {
   ClassNames,
   isProperInput,
   createKeyboardElement,
+  isNonInputButProperElement,
 } from './helpers';
 import {
   KeyboardOptions,
@@ -378,10 +379,16 @@ class Keyboard {
       return undefined;
     }
 
+    /**
+     * Handle suggestions box
+     */
     if (!this.suggestionsBox && keyboardType === KeyboardType.Default) {
       this.suggestionsBox = new SuggestionBox({
         getOptions: this.getOptions,
         keyboardInstance: this,
+        onSelect: (button: string, e?: KeyboardHandlerEvent) => {
+          this.handleButtonClicked(button, e);
+        },
       });
     } else if (this.suggestionsBox) {
       this.suggestionsBox.destroy();
@@ -1022,7 +1029,15 @@ class Keyboard {
     /**
      * Call suggestion box update if exist
      */
-    if (this.suggestionsBox) {
+    if (
+      this.suggestionsBox &&
+      // Suggestions to work only when Standard button pressed
+      buttonType !== ButtonType.Function &&
+      // If user setup the input property element compatible with DOM Input element
+      (isProperInput(this.options.input || focusedInput) ||
+        // Or it is non DOM Input element, but a `<div>`
+        isNonInputButProperElement(this.options.input || focusedInput))
+    ) {
       this.suggestionsBox.shouldUpdateOrCease();
     }
 

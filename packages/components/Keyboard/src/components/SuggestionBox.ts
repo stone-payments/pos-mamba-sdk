@@ -1,7 +1,12 @@
 /* import { SuggestionBoxParams } from '../types'; */
 import type Keyboard from '../Keyboard';
 import { createKeyboardElement, ClassNames } from '../helpers';
-import { KeyboardOptions, SuggestionBoxParams } from '../types';
+import {
+  KeyboardOptions,
+  SuggestionBoxParams,
+  onSuggestionSelect,
+  KeyboardHandlerEvent,
+} from '../types';
 import { DEFAULT_SUGGESTIONS } from '../mappings';
 
 /**
@@ -14,9 +19,12 @@ class SuggestionBox {
 
   suggestionDOMElement!: HTMLDivElement;
 
-  constructor({ getOptions, keyboardInstance }: SuggestionBoxParams) {
+  onSelect!: onSuggestionSelect;
+
+  constructor({ getOptions, keyboardInstance, onSelect }: SuggestionBoxParams) {
     this.keyboardInstance = keyboardInstance;
     this.getOptions = getOptions;
+    this.onSelect = onSelect;
   }
 
   /**
@@ -67,6 +75,7 @@ class SuggestionBox {
         ClassNames.suggestionBoxButton,
       ]) as HTMLDivElement;
       suggestionButton.textContent = suggestionValue;
+      suggestionButton.onclick = (e: KeyboardHandlerEvent) => this.onSelect(suggestionValue, e);
 
       // Add button to the table cell
       suggestionCell.appendChild(suggestionButton);
