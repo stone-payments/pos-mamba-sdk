@@ -38,9 +38,6 @@ class PhysicalKeyboard {
    * Creates an instance of the PhysicalKeyboard service
    */
   constructor({ getOptions, keyboardInstance }: PhysicalKeyboardParams) {
-    /**
-     * @type {object} A mamba keyboard instance
-     */
     this.getOptions = getOptions;
     this.keyboardInstance = keyboardInstance;
 

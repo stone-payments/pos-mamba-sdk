@@ -5,6 +5,7 @@ import { merge, kebabCase } from 'lodash';
 import PhysicalKeyboard from './controllers/PhysicalKeyboard';
 import GeneralKeyboard, { UIGeneralKeyboard } from './controllers/GeneralKeyboard';
 import CursorWorker from './common/CursorWorker';
+import SuggestionBox from './components/SuggestionBox';
 import {
   getButtonClass,
   getButtonLabelsName,
@@ -53,6 +54,8 @@ class Keyboard {
   physicalKeyboard?: PhysicalKeyboard;
 
   generalKeyboard!: UIGeneralKeyboard;
+
+  suggestionsBox?: SuggestionBox;
 
   activeButtonClass: string = ClassNames.activeButtonClassDefault;
 
@@ -373,6 +376,16 @@ class Keyboard {
 
     if (keyboardType === KeyboardType.Custom) {
       return undefined;
+    }
+
+    if (!this.suggestionsBox && keyboardType === KeyboardType.Default) {
+      this.suggestionsBox = new SuggestionBox({
+        getOptions: this.getOptions,
+        keyboardInstance: this,
+      });
+    } else if (this.suggestionsBox) {
+      this.suggestionsBox.destroy();
+      this.suggestionsBox = undefined;
     }
 
     /**
@@ -762,8 +775,18 @@ class Keyboard {
       this.physicalKeyboard = undefined;
     }
 
+    /**
+     * Cleans cursor events
+     */
     if (this.cursorWorker) {
       this.cursorWorker.ceaseCursorEventsControl();
+    }
+
+    /**
+     * Destroy suggestion box if any
+     */
+    if (this.suggestionsBox) {
+      this.suggestionsBox.destroy();
     }
 
     /**
@@ -995,6 +1018,13 @@ class Keyboard {
      * Call synthetic event handler
      */
     this.shouldDispatchSyntheticKeyEvent(button, buttonOutput, buttonType, isValidInputPattern, e);
+
+    /**
+     * Call suggestion box update if exist
+     */
+    if (this.suggestionsBox) {
+      this.suggestionsBox.shouldUpdateOrCease();
+    }
 
     /**
      * Call active class handler
