@@ -14,7 +14,7 @@ const decimal = '{.}';
 const outputsDefault = {
   [division]: '/',
   [multiply]: '*',
-  [minus]: '−',
+  [minus]: '-',
   [plus]: '+',
   [equal]: '=',
   [percentage]: '%',
