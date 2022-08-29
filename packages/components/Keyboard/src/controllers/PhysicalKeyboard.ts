@@ -9,7 +9,7 @@ import {
   KeyboardVisibility,
 } from '../types';
 import type Keyboard from '../Keyboard';
-import { bindMethods, isProperInput } from '../helpers';
+import { bindMethods, isProperInput, isNonInputButProperElement } from '../helpers';
 import keyMapTable from '../mappings/keyTableMap';
 import { anyBraces } from '../common/regExps';
 
@@ -22,13 +22,15 @@ import { anyBraces } from '../common/regExps';
 class PhysicalKeyboard {
   private keyboardInstance!: Keyboard;
 
+  /**
+   * Cache target input from keyboard options to not use document active element.
+   * This saves some performance to not compute every key press
+   */
   private focusedDOMInput?: HTMLInputElement | null;
 
   public static beepTone = 'TONE3';
 
   public static beepTime = 90;
-
-  cachedTargetInput?: HTMLInputElement = undefined;
 
   svelteListener?: any;
 
@@ -38,9 +40,6 @@ class PhysicalKeyboard {
    * Creates an instance of the PhysicalKeyboard service
    */
   constructor({ getOptions, keyboardInstance }: PhysicalKeyboardParams) {
-    /**
-     * @type {object} A mamba keyboard instance
-     */
     this.getOptions = getOptions;
     this.keyboardInstance = keyboardInstance;
 
@@ -75,10 +74,24 @@ class PhysicalKeyboard {
    * @param e The Focus event
    */
   handleFocusIn(target?: EventTarget | Element | null, e?: FocusEvent) {
-    /**
-     * Update cached target input for key dispatch event
-     */
-    this.setCachedTargetInput();
+    if (!__POS__ && e) {
+      let avoidExternals = false;
+      try {
+        const path = e.composedPath();
+        /** We need avoid other inputs on the simulator page, like panel inputs */
+        avoidExternals = !path.some(
+          (id: EventTarget) =>
+            (id as Element).className && (id as Element).className.includes('mamba-app'),
+        );
+      } catch (_) {
+        console.error(
+          'Failed to get composedPath() from mamba simulator. Update you browser to newer version.',
+          e,
+        );
+      }
+
+      if (avoidExternals) return;
+    }
 
     /**
      * Handle focused target
@@ -249,27 +262,6 @@ class PhysicalKeyboard {
   }
 
   /**
-   * Updates and cache target input from keyboard options to not use document active element.
-   * This saves some performance to not compute every key press
-   */
-  private setCachedTargetInput(): void {
-    const options = this.getOptions();
-
-    if (
-      // If user setup the input property element compatible with DOM Input element
-      isProperInput(options.input) ||
-      // Or it is non DOM Input element, but a `<div>`
-      this.isNonInputButProperElement(options.input)
-    ) {
-      /** Define our target element to dispatch events instead use the document active element */
-      this.cachedTargetInput = options.input as HTMLInputElement;
-      return;
-    }
-
-    this.cachedTargetInput = undefined;
-  }
-
-  /**
    * Handles beep sound
    */
   public static handleBeepSound(options: KeyboardOptions) {
@@ -365,31 +357,6 @@ class PhysicalKeyboard {
   }
 
   /**
-   * Detect if element defined the data-keyboard value
-   *
-   * @param element
-   * @returns Return if the given element belongs to `input` element type
-   */
-  private hasDataKeyboard(element?: HTMLElement): boolean {
-    return element ? 'keyboard' in element : false;
-  }
-
-  /**
-   * Detect if element if DIV
-   *
-   * @param element Any bottom-level `HTMLElement` type
-   * @returns Return if the given element belongs to `div` element type
-   */
-  private isNonInputButProperElement(element?: HTMLElement): boolean {
-    return (
-      // If it is non DOM Input element, but a `<div>`
-      element instanceof HTMLDivElement &&
-      // And it have the dataset `keyboard` defined to true;
-      this.hasDataKeyboard(element)
-    );
-  }
-
-  /**
    * Dispatch keyboard event to custom input or active document element
    */
   dispatchSyntheticKeybaordEvent(
@@ -408,10 +375,7 @@ class PhysicalKeyboard {
       e.preventDefault();
     }
 
-    const targetElement =
-      (document.activeElement as KeyboardInputOption) ||
-      this.focusedDOMInput ||
-      this.cachedTargetInput;
+    const targetElement = (document.activeElement as KeyboardInputOption) || this.focusedDOMInput;
 
     /**
      * Our target element can be undefined on both sides, or not a valid element
@@ -459,7 +423,7 @@ class PhysicalKeyboard {
       /**
        * Check if the computed element is a different element than `input`, so we update using innerText
        */
-      if (this.isNonInputButProperElement(targetElement)) {
+      if (isNonInputButProperElement(targetElement)) {
         targetElement.innerText = input;
       } else if (isProperInput(targetElement)) {
         /**

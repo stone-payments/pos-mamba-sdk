@@ -13,6 +13,8 @@ const activeButtonClassDefault = `${prefix}-active`;
 const hiddenKeyboardClassDefault = `${keyBoardPrefix}-hidden`;
 const themePrefix = `${keyBoardPrefix}-theme`;
 const themeDefault = `${themePrefix}-default`;
+const suggestionBox = `${prefix}-suggestions`;
+const suggestionBoxButton = `${suggestionBox}-button`;
 
 export {
   prefix,
@@ -30,4 +32,6 @@ export {
   hiddenKeyboardClassDefault,
   themePrefix,
   themeDefault,
+  suggestionBox,
+  suggestionBoxButton,
 };

@@ -5,6 +5,7 @@ import { merge, kebabCase } from 'lodash';
 import PhysicalKeyboard from './controllers/PhysicalKeyboard';
 import GeneralKeyboard, { UIGeneralKeyboard } from './controllers/GeneralKeyboard';
 import CursorWorker from './common/CursorWorker';
+import SuggestionBox from './components/SuggestionBox';
 import {
   getButtonClass,
   getButtonLabelsName,
@@ -12,6 +13,7 @@ import {
   ClassNames,
   isProperInput,
   createKeyboardElement,
+  isNonInputButProperElement,
 } from './helpers';
 import {
   KeyboardOptions,
@@ -53,6 +55,8 @@ class Keyboard {
   physicalKeyboard?: PhysicalKeyboard;
 
   generalKeyboard!: UIGeneralKeyboard;
+
+  suggestionsBox?: SuggestionBox;
 
   activeButtonClass: string = ClassNames.activeButtonClassDefault;
 
@@ -195,7 +199,7 @@ class Keyboard {
      * Rendering keyboard
      */
     if (this.keyboardDOM) {
-      if (!(this.options.autoRender === false)) {
+      if (!(this.options.autoRender === false) || this.options.keepVisible) {
         setTimeout(() => {
           this.render();
         }, 1);
@@ -373,6 +377,22 @@ class Keyboard {
 
     if (keyboardType === KeyboardType.Custom) {
       return undefined;
+    }
+
+    /**
+     * Handle suggestions box
+     */
+    if (!this.suggestionsBox && keyboardType === KeyboardType.Default) {
+      this.suggestionsBox = new SuggestionBox({
+        getOptions: this.getOptions,
+        keyboardInstance: this,
+        onSelect: (button: string, e?: KeyboardHandlerEvent) => {
+          this.handleButtonClicked(button, e);
+        },
+      });
+    } else if (this.suggestionsBox) {
+      this.suggestionsBox.destroy();
+      this.suggestionsBox = undefined;
     }
 
     /**
@@ -762,8 +782,18 @@ class Keyboard {
       this.physicalKeyboard = undefined;
     }
 
+    /**
+     * Cleans cursor events
+     */
     if (this.cursorWorker) {
       this.cursorWorker.ceaseCursorEventsControl();
+    }
+
+    /**
+     * Destroy suggestion box if any
+     */
+    if (this.suggestionsBox) {
+      this.suggestionsBox.destroy();
     }
 
     /**
@@ -997,6 +1027,21 @@ class Keyboard {
     this.shouldDispatchSyntheticKeyEvent(button, buttonOutput, buttonType, isValidInputPattern, e);
 
     /**
+     * Call suggestion box update if exist
+     */
+    if (
+      this.suggestionsBox &&
+      // Suggestions to work only when Standard button pressed
+      buttonType !== ButtonType.Function &&
+      // If user setup the input property element compatible with DOM Input element
+      (isProperInput(this.options.input || focusedInput) ||
+        // Or it is non DOM Input element, but a `<div>`
+        isNonInputButProperElement(this.options.input || focusedInput))
+    ) {
+      this.suggestionsBox.shouldUpdateOrCease();
+    }
+
+    /**
      * Call active class handler
      */
     this.handleActiveButton(e);
@@ -1095,6 +1140,13 @@ class Keyboard {
       return;
     }
     this.keyboardDOM.classList.remove(this.hiddenKeyboardClass);
+
+    /**
+     * Check if keyboard isn't rendered yet to call render.
+     */
+    if (Object.keys(this.buttonElements).length === 0) {
+      this.render();
+    }
   }
 
   /**
