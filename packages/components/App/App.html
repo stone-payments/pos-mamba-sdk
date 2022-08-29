@@ -57,7 +57,10 @@
 
       /** Add the mamba-app-container class to the root element */
       try {
-        target.classList.add('mamba-app-container', _kebabCase(this.get().model).toUpperCase());
+        target.classList.add(
+          'mamba-app-container',
+          _kebabCase(this.get().model).toUpperCase().replace('-', ''),
+        );
       } catch (e) {
         console.error(`Failed get pos model. ${e}`);
       }
