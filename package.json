@@ -12,7 +12,7 @@
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 8 || <= 14",
-    "npm": "^7 || ^8"
+    "npm": ">=6"
   },
   "scripts": {
     "lint": "npm run lint:css; npm run lint:js",
