@@ -1,6 +1,6 @@
 {
   "name": "@mamba/webpack",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "Webpack configs for Mamba Applications",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -9,10 +9,10 @@
   },
   "engines": {
     "node": ">= 8 || <= 14",
-    "npm": "^7 || ^8"
+    "npm": "^6 || ^7 || ^8"
   },
   "peerDependencies": {
-    "@mamba/configs": ">=4"
+    "@mamba/configs": ">=3"
   },
   "dependencies": {
     "babel-loader": "^8.0.4",
