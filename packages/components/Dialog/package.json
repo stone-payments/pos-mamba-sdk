@@ -11,12 +11,10 @@
   "publishConfig": {
     "access": "public"
   },
-  "peerDependencies": {
-    "@mamba/icon": ">=3",
-    "@mamba/styles": ">=3"
-  },
   "gitHead": "ddc05702292f5dea2772130436f0a00fbd5be1db",
   "dependencies": {
-    "@mamba/core": "*"
+    "@mamba/core": "*",
+    "@mamba/icon": ">=3",
+    "@mamba/styles": ">=3"
   }
 }

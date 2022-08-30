@@ -14,7 +14,7 @@
   "devDependencies": {
     "@mamba/styles": "4.0.2"
   },
-  "peerDependencies": {
+  "dependencies": {
     "@mamba/core": "*",
     "@mamba/icon": ">=3",
     "@mamba/keyboard": "*",

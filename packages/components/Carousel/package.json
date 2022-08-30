@@ -11,7 +11,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "peerDependencies": {
+  "dependencies": {
     "@mamba/icon": ">=3",
     "@mamba/styles": ">=3"
   },

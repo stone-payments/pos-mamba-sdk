@@ -11,16 +11,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "peerDependencies": {
-    "@babel/core": "^7",
-    "eslint": "^7.0.0",
-    "postcss": "^7.0.0",
-    "prettier": "^2.0.0",
-    "stylelint": "^14.0.0",
-    "svelte": "<3",
-    "typescript": "^4.0.0"
-  },
   "dependencies": {
+    "@babel/core": "^7",
     "@babel/cli": "^7.17.10",
     "@babel/eslint-parser": "^7.18.2",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
@@ -68,7 +60,12 @@
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard": "^25.0.0",
     "svelte-preprocess": "<3",
-    "webpack-merge": "^4.2.1"
+    "webpack-merge": "^4.2.1",
+    "eslint": "^7.0.0",
+    "postcss": "^7.0.0",
+    "stylelint": "^14.0.0",
+    "svelte": "<3",
+    "typescript": "^4.0.0"
   },
   "gitHead": "ddc05702292f5dea2772130436f0a00fbd5be1db"
 }
