@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [4.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/styles@4.0.1...@mamba/styles@4.0.2) (2022-08-30)
+
+**Note:** Version bump only for package @mamba/styles
+
+
+
+
+
+### [4.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/styles@4.0.0...@mamba/styles@4.0.1) (2022-08-09)
+
+**Note:** Version bump only for package @mamba/styles
+
+
+
+
+
+## [4.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/styles@3.5.7...@mamba/styles@4.0.0) (2022-07-21)
+
+
+### Features
+
+* new mamba keyboard implementation ([23466f2](https://github.com/stone-payments/pos-mamba-sdk/commit/23466f28fbd58067248b308218d4eb91b8889160))
+
+
+### Bug Fixes
+
+* 🐛 fix/update styles build scripts ([85226d2](https://github.com/stone-payments/pos-mamba-sdk/commit/85226d2ca09ce198dd03a1df1d8c4982e5bc16b7))
+* 🐛 normalize the dependencies across packages ([43103d7](https://github.com/stone-payments/pos-mamba-sdk/commit/43103d718ba93909cb34ca459f674ceea9354a06))
+
+
+
 ### [3.5.9](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/styles@3.5.4...@mamba/styles@3.5.9) (2022-05-11)
 
 **Note:** Version bump only for package @mamba/styles

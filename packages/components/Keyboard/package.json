@@ -1,6 +1,6 @@
 {
   "name": "@mamba/keyboard",
-  "version": "0.0.1",
+  "version": "1.0.3",
   "main": "lib/index.js",
   "types": "types/index.d.ts",
   "svelte": "Keyboard.html",
@@ -9,7 +9,7 @@
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 8 || <= 14",
-    "npm": "^7 || ^8"
+    "npm": ">=6"
   },
   "files": [
     "*",
@@ -31,12 +31,10 @@
     "build": "run-s prebuild compile",
     "prepare": "npm run build"
   },
-  "peerDependencies": {
-    "@mamba/core": "*",
-    "@mamba/input": ">=4",
-    "@mamba/utils": ">=4"
-  },
   "dependencies": {
+    "@mamba/core": "*",
+    "@mamba/input": ">=3",
+    "@mamba/utils": ">=3",
     "@types/lodash": "^4.14.182",
     "lodash": "^4.17.21"
   }

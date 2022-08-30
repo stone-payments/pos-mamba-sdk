@@ -1,11 +1,11 @@
 {
   "name": "@mamba/logger",
-  "version": "3.5.8",
+  "version": "4.0.2",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 8 || <= 14",
-    "npm": "^7 || ^8"
+    "npm": ">=6"
   },
   "module": "index.js",
   "main": "index.js",

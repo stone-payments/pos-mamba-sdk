@@ -1,6 +1,6 @@
 {
   "name": "@mamba/core",
-  "version": "1.0.1",
+  "version": "1.1.1",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
   "description": "Mamba QT bindings, wrappers and embbebded hardware handlers",
@@ -8,7 +8,7 @@
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 8 || <= 14",
-    "npm": "^7 || ^8"
+    "npm": ">=6"
   },
   "repository": {
     "type": "git",

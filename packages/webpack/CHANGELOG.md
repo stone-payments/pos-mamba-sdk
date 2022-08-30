@@ -3,6 +3,46 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [4.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@4.0.1...@mamba/webpack@4.0.2) (2022-08-30)
+
+**Note:** Version bump only for package @mamba/webpack
+
+
+
+
+
+### [4.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@4.0.0...@mamba/webpack@4.0.1) (2022-08-09)
+
+**Note:** Version bump only for package @mamba/webpack
+
+
+
+
+
+## [4.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@3.7.3...@mamba/webpack@4.0.0) (2022-07-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* 🧨 Upgraded eslint to 7, along with ts parser
+
+### Features
+
+* new mamba keyboard implementation ([23466f2](https://github.com/stone-payments/pos-mamba-sdk/commit/23466f28fbd58067248b308218d4eb91b8889160))
+
+
+### Bug Fixes
+
+* 🐛 fix compile issues ([415f8de](https://github.com/stone-payments/pos-mamba-sdk/commit/415f8dea92cfe0a7becf657a95b0aa6506d1c91b))
+* 🐛 normalize the dependencies across packages ([43103d7](https://github.com/stone-payments/pos-mamba-sdk/commit/43103d718ba93909cb34ca459f674ceea9354a06))
+
+
+### Code Refactoring
+
+* 💡 reconfigure and fix eslint, prettier, postcss ([9e8e14c](https://github.com/stone-payments/pos-mamba-sdk/commit/9e8e14c7f710c4a4e1dd1d10db52332db5dbd7bb))
+
+
+
 ### [3.7.5](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@3.7.0...@mamba/webpack@3.7.5) (2022-05-11)
 
 **Note:** Version bump only for package @mamba/webpack

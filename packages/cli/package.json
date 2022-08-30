@@ -1,12 +1,12 @@
 {
   "name": "@mamba/cli",
-  "version": "3.4.4",
+  "version": "4.0.2",
   "description": "Mamba CLI",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 8 || <= 14",
-    "npm": "^7 || ^8"
+    "npm": ">=6"
   },
   "publishConfig": {
     "access": "public"

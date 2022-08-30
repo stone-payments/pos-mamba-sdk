@@ -1,12 +1,12 @@
 {
   "name": "@mamba/container",
-  "version": "3.5.9",
+  "version": "4.0.2",
   "svelte": "Container.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 8 || <= 14",
-    "npm": "^7 || ^8"
+    "npm": ">=6"
   },
   "publishConfig": {
     "access": "public"

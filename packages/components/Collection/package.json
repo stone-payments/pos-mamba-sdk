@@ -1,22 +1,22 @@
 {
   "name": "@mamba/collection",
-  "version": "3.6.0",
+  "version": "4.0.2",
   "svelte": "Collection.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 8 || <= 14",
-    "npm": "^7 || ^8"
+    "npm": ">=6"
   },
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
-    "@mamba/styles": ">=4",
-    "@mamba/switch": ">=4"
+    "@mamba/styles": "4.0.2",
+    "@mamba/switch": "5.0.2"
   },
   "peerDependencies": {
-    "@mamba/icon": ">=4"
+    "@mamba/icon": ">=3"
   },
-  "gitHead": "ddc05702292f5dea2772130436f0a00fbd5be1db"
+  "gitHead": "798929523737000b8c07303e9c66feff5a8b9340"
 }
