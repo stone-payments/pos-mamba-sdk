@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 8 || <= 14",
-    "npm": "^7 || ^8"
+    "npm": ">=6"
   },
   "publishConfig": {
     "access": "public"
@@ -16,10 +16,10 @@
   },
   "peerDependencies": {
     "@mamba/core": "*",
-    "@mamba/icon": ">=4",
+    "@mamba/icon": ">=3",
     "@mamba/keyboard": "*",
-    "@mamba/pos": ">=4",
-    "@mamba/utils": ">=4"
+    "@mamba/pos": ">=3",
+    "@mamba/utils": ">=3"
   },
   "gitHead": "ddc05702292f5dea2772130436f0a00fbd5be1db"
 }
