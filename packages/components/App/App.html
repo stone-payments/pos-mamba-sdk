@@ -18,8 +18,7 @@
   import { KEYBOARD } from '@mamba/core';
   import App from '@mamba/pos/api/app.js';
   import Keyboard from '@mamba/keyboard/api/keyboard.js';
-  import { getPosModel, Device } from '@mamba/utils/index.js';
-
+  import { getSanitizedPosModel, Device } from '@mamba/utils/index.js';
   import {
     hasActiveHandlerFor,
     hasKeystrokeToPrevent,
@@ -29,9 +28,14 @@
 
   let routeClassName;
 
+  const model = getSanitizedPosModel();
+
   export default {
     components: {
       AdminLock: './AdminLock.html',
+    },
+    helpers: {
+      model,
     },
     data() {
       return {
@@ -42,7 +46,6 @@
         hideAppBar: false,
         askPasswordOnClose: false,
         doBeforeClose: false,
-        model: getPosModel(),
       };
     },
     oncreate() {
@@ -57,10 +60,7 @@
 
       /** Add the mamba-app-container class to the root element */
       try {
-        target.classList.add(
-          'mamba-app-container',
-          _kebabCase(this.get().model).toUpperCase().replace('-', ''),
-        );
+        target.classList.add('mamba-app-container', model);
       } catch (e) {
         console.error(`Failed get pos model. ${e}`);
       }

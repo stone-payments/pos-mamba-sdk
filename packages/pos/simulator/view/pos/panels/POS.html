@@ -2,7 +2,7 @@
 
 <ul class="controllers">
   {#each MODELS as model}
-    <li class="controller">
+    <li class="controller {getSanitizedPosModel(model)}">
       <span>{model}</span>
       <Radio
         name="model"
@@ -33,7 +33,7 @@
 </ul>
 
 <script>
-  import { MODELS, Device } from '@mamba/utils';
+  import { MODELS, Device, getSanitizedPosModel } from '@mamba/utils';
   import store from '../store.js';
 
   export default {
@@ -45,6 +45,7 @@
       isModelChecked(active = 'S920', model = 'S920') {
         return String(active).toUpperCase() === String(model).toUpperCase();
       },
+      getSanitizedPosModel,
     },
     data() {
       return {
