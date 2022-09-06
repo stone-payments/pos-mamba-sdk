@@ -25,6 +25,8 @@
     "test:watch": "jest --watch --collect-coverage",
     "test:ci": "jest --no-cache --verbose",
     "link:packages": "lerna exec npm link",
+    "build:modules": "lerna run --no-bail --scope=\"@mamba/{keyboard,core}*\" build",
+    "postinstall": "run-s build:modules",
     "packages:clear": "lerna exec -- rm -rf node_modules package-lock.json",
     "check-next-version": "echo 'n' | lerna version",
     "release": "rm -rf packages/**/package-lock.json && lerna publish",
