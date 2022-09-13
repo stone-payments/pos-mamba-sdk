@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@4.0.2...@mamba/pos@4.1.0) (2022-09-13)
+
+
+### Features
+
+* 🎸 force reload on POS change ([8decc4d](https://github.com/stone-payments/pos-mamba-sdk/commit/8decc4d6244e0bfb5cd3d5d50a1d320578ddf115))
+
+
+### Bug Fixes
+
+* 🐛 app bar model to class ([d673df2](https://github.com/stone-payments/pos-mamba-sdk/commit/d673df284dab7ab97bce7118922599e05d6e9253))
+* 🐛 fix assign merge with defaults ([c8ac66d](https://github.com/stone-payments/pos-mamba-sdk/commit/c8ac66d1847eb04fe53e004606426ce02b065e0b))
+* 🐛 fix hard coded keys and its events ([7caddec](https://github.com/stone-payments/pos-mamba-sdk/commit/7caddec0f31d60c3fe2adb16970703b4c1ff7765))
+* 🐛 remove spread from pos immer produce ([4d33a2d](https://github.com/stone-payments/pos-mamba-sdk/commit/4d33a2deb60eb28296d3dfd8605eb5eb28595a9c))
+
+
+
 ### [4.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@4.0.1...@mamba/pos@4.0.2) (2022-08-30)
 
 **Note:** Version bump only for package @mamba/pos

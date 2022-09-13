@@ -1,6 +1,6 @@
 {
   "name": "@mamba/carousel",
-  "version": "4.0.2",
+  "version": "4.1.0",
   "svelte": "Carousel.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -12,8 +12,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@mamba/icon": ">=3",
-    "@mamba/styles": ">=3"
+    "@mamba/icon": "4.1.0",
+    "@mamba/styles": "4.1.0"
   },
   "gitHead": "ddc05702292f5dea2772130436f0a00fbd5be1db"
 }

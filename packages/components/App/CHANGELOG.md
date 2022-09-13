@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/app@5.0.2...@mamba/app@5.1.0) (2022-09-13)
+
+
+### Features
+
+* 🎸 add router class ([cd3b946](https://github.com/stone-payments/pos-mamba-sdk/commit/cd3b9460d17d57f47d67fc849f6adce005cc40ef))
+
+
+### Bug Fixes
+
+* 🐛 app bar model to class ([d673df2](https://github.com/stone-payments/pos-mamba-sdk/commit/d673df284dab7ab97bce7118922599e05d6e9253))
+* 🐛 fix hard coded keys and its events ([7caddec](https://github.com/stone-payments/pos-mamba-sdk/commit/7caddec0f31d60c3fe2adb16970703b4c1ff7765))
+* 🐛 model case ([c281bd6](https://github.com/stone-payments/pos-mamba-sdk/commit/c281bd697ff123327e3ae5a3dad8bdd9a0acb652))
+* 🐛 remove hash from pos model ([17ee126](https://github.com/stone-payments/pos-mamba-sdk/commit/17ee126867f842f90298c08fac4fdf052d5d3369))
+
+
+
 ### [5.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/app@5.0.1...@mamba/app@5.0.2) (2022-08-30)
 
 **Note:** Version bump only for package @mamba/app
