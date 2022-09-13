@@ -14,10 +14,11 @@
 <AdminLock ref:adminLock/>
 
 <script>
+  import _kebabCase from 'lodash/fp/kebabCase';
+  import { KEYBOARD } from '@mamba/core';
   import App from '@mamba/pos/api/app.js';
   import Keyboard from '@mamba/keyboard/api/keyboard.js';
-  import { getPosModel, Device } from '@mamba/utils/index.js';
-
+  import { getSanitizedPosModel, Device } from '@mamba/utils/index.js';
   import {
     hasActiveHandlerFor,
     hasKeystrokeToPrevent,
@@ -25,9 +26,16 @@
     isEditableInputOnFocus,
   } from './includes/index.js';
 
+  let routeClassName;
+
+  const model = getSanitizedPosModel();
+
   export default {
     components: {
       AdminLock: './AdminLock.html',
+    },
+    helpers: {
+      model,
     },
     data() {
       return {
@@ -38,7 +46,6 @@
         hideAppBar: false,
         askPasswordOnClose: false,
         doBeforeClose: false,
-        model: getPosModel(),
       };
     },
     oncreate() {
@@ -52,7 +59,11 @@
       const { target } = this.root.options;
 
       /** Add the mamba-app-container class to the root element */
-      target.classList.add('mamba-app-container', this.get().model);
+      try {
+        target.classList.add('mamba-app-container', model);
+      } catch (e) {
+        console.error(`Failed get pos model. ${e}`);
+      }
 
       // Add capabilities classes
       try {
@@ -143,6 +154,28 @@
       } else {
         root.on('router:change', resetScroll);
       }
+
+      /**
+       * Add router class
+       */
+      root.on('router:change', (context) => {
+        try {
+          if (routeClassName) {
+            target.classList.remove(routeClassName);
+          }
+          routeClassName = _kebabCase(context.path);
+
+          if (typeof routeClassName === 'string' && routeClassName === '') {
+            routeClassName = 'router-home';
+          } else {
+            routeClassName = `router-${routeClassName}`;
+          }
+
+          if (routeClassName) target.classList.add(routeClassName);
+        } catch (_) {
+          //
+        }
+      });
     },
     onstate({ previous }) {
       /** Set a reference on the root component to the <App/> meta component */
@@ -219,15 +252,13 @@
           }
         }
 
-        const keyName = Keyboard.getKeyName(
-          e.code && e.code !== 0 ? e.code : e.charCode || e.which || e.keyCode,
-        );
+        const keyCode = e.code && e.code !== 0 ? e.code : e.charCode || e.which || e.keyCode;
 
         /**
          * Should cancel the native actions for enter/back keys
          * if pressed anywhere but within a editable input
          * */
-        if (keyName === 'back' || keyName === 'enter') {
+        if (keyCode === KEYBOARD.KEY_CODES.BACK || keyCode === KEYBOARD.KEY_CODES.ENTER) {
           if (isEditableInputOnFocus()) {
             return;
           }
@@ -262,7 +293,7 @@
         }
 
         const keyName = Keyboard.getKeyName(keyCode);
-        const shortcutQuery = `[shortcut='${keyName}']`;
+        const shortcutQuery = `[shortcut='${String(keyName).toLowerCase()}']`;
         const tabindexQuery = `[tabindex]`;
 
         // Try focus an element with tabindex first
@@ -287,7 +318,7 @@
          * Close the app if 'close' button clicked,
          * and there's no button with 'shortcut="close"'
          * */
-        if (keyName === 'close') {
+        if (keyCode === KEYBOARD.KEY_CODES.CLOSE) {
           e.preventDefault();
           if (
             !shortcutsEnabled ||
@@ -304,7 +335,7 @@
         }
 
         /** Handles back button */
-        if (keyName === 'back') {
+        if (keyCode === KEYBOARD.KEY_CODES.BACK) {
           /** Guarantees that the 'back' button is enabled and navigable is enabled */
           if (Keyboard.isBackspaceEnabled() && this.get().navigable.back) {
             e.preventDefault();
@@ -346,7 +377,7 @@
           return;
         }
 
-        if (keyName !== 'enter' || document.activeElement !== shortcutEl) {
+        if (keyCode !== KEYBOARD.KEY_CODES.ENTER || document.activeElement !== shortcutEl) {
           dispatchEventOn(shortcutEl);
         }
       },

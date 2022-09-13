@@ -1,5 +1,6 @@
 const prefix = 'mb';
 const keyBoardPrefix = `${prefix}-keyboard`;
+const variationPrefix = `${prefix}-variation`;
 const rowsPrefix = `${prefix}-rows`;
 const columnsPrefix = `${prefix}-columns`;
 const rowPrefix = `${prefix}-row`;
@@ -12,10 +13,13 @@ const activeButtonClassDefault = `${prefix}-active`;
 const hiddenKeyboardClassDefault = `${keyBoardPrefix}-hidden`;
 const themePrefix = `${keyBoardPrefix}-theme`;
 const themeDefault = `${themePrefix}-default`;
+const suggestionBox = `${prefix}-suggestions`;
+const suggestionBoxButton = `${suggestionBox}-button`;
 
 export {
   prefix,
   keyBoardPrefix,
+  variationPrefix,
   rowsPrefix,
   rowPrefix,
   columnsPrefix,
@@ -28,4 +32,6 @@ export {
   hiddenKeyboardClassDefault,
   themePrefix,
   themeDefault,
+  suggestionBox,
+  suggestionBoxButton,
 };

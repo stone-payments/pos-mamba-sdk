@@ -1,10 +1,11 @@
 
 <slot>
-  <svelte:component this="{getModel}" />
+  <svelte:component this="{getModel}" on:key="dispatchKey(event)" />
 </slot>
 
 <script>
   import { MODELS } from '@mamba/utils';
+  import Keyboard from '@mamba/keyboard/api/keyboard.js';
   import store from '../../store.js';
 
   import MP35P from './MP35P.html';
@@ -15,6 +16,16 @@
   import D230 from './D230.html';
   import Q60 from './Q60.html';
   import Q92 from './Q92.html';
+
+  const getKeyboardEvent = (event, code, keyName) =>
+    new KeyboardEvent(event, {
+      bubbles: true,
+      cancelable: true,
+      key: keyName,
+      charCode: code,
+      keyCode: code,
+      which: code,
+    });
 
   export default {
     store: () => store,
@@ -66,6 +77,37 @@
         } catch (error) {
           return defaultKeyboard;
         }
+      },
+    },
+    methods: {
+      dispatchKey({ event, keyName }) {
+        /** Prevent the button from being focused */
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        const el = document.activeElement;
+        const isInputOnFocus = el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA');
+        const keyCode = Keyboard.getKeyCode(keyName);
+
+        /** We have to handle input actions manually */
+        if (isInputOnFocus) {
+          /** If action button clicked */
+          if (Keyboard.isActionKey(keyCode)) {
+            /** The actual 'back' is handled by that 'handleKeyUp' method */
+            if (keyName === 'back') {
+              el.value = el.value.slice(0, -1);
+            }
+            /** If numeric button clicked */
+          } else if (el.maxLength < 0 || el.value.length + 1 <= el.maxLength) {
+            el.value += keyName;
+          }
+        }
+
+        el.dispatchEvent(getKeyboardEvent('keydown', keyCode, keyName));
+        el.dispatchEvent(getKeyboardEvent('keypress', keyCode, keyName));
+        if (isInputOnFocus) {
+          el.dispatchEvent(getKeyboardEvent('input', keyCode, keyName));
+        }
+        el.dispatchEvent(getKeyboardEvent('keyup', keyCode, keyName));
       },
     },
   };

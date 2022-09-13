@@ -64,6 +64,7 @@
 </Dialog>
 
 <script>
+  import { KEYBOARD } from '@mamba/core';
   import { green500, red400 } from '@mamba/styles/colors';
 
   export default {
@@ -105,13 +106,14 @@
       keyHandler(e) {
         if (!this.get().isOpen) return;
 
-        const { key } = e;
-        const isClose = key === 'close';
-        const isEnter = key === 'enter';
+        const keyCode = e.code && e.code !== 0 ? e.code : e.charCode || e.which || e.keyCode;
+
+        const isClose = keyCode === KEYBOARD.KEY_CODES.CLOSE;
+        const isEnter = keyCode === KEYBOARD.KEY_CODES.ENTER;
 
         if (isClose || isEnter) {
           if (__DEV__ || __DEBUG_LVL__ >= 1) {
-            console.log(`[@mamba/dialog/Confirmation.html] !! stopping propagation of key "${key}"`);
+            console.log(`[@mamba/dialog/Confirmation.html] !! stopping propagation of key.`);
           }
           e.stopImmediatePropagation();
           e.preventDefault();

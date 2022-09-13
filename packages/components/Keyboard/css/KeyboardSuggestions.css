@@ -1,0 +1,19 @@
+.mb-suggestions {
+  table {
+    table-layout: fixed;
+    width: 100%;
+  }
+}
+
+.mb-keyboard-theme-default {
+  table {
+    height: 34px;
+    margin-bottom: 4px;
+  }
+
+  tr {
+    td {
+      padding: 0 2px;
+    }
+  }
+}

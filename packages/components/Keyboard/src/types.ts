@@ -14,7 +14,7 @@ export interface KeyboardInput {
   default: string;
 }
 
-export type CaretPosition = number | null;
+export type CursorPosition = number | null;
 export type KeyboardElement = HTMLDivElement | HTMLButtonElement | HTMLSpanElement;
 export type KeyboardInputOption = HTMLInputElement | HTMLDivElement | HTMLElement | undefined;
 export type KeyboardHandlerEvent = KeyboardEvent | MouseEvent | PointerEvent | UIEvent | Event;
@@ -73,6 +73,17 @@ export enum KeyboardType {
 }
 
 /**
+ * Keyboard theme variation
+ * @enum
+ */
+export enum KeyboardThemeVariation {
+  Large = 'large', // For large screens and high DPI without zoom
+  Default = 'default', // Default variation for general purpose
+  Compact = 'compact', // Reduced spaces and height
+  UltraSmall = 'ultra-small', // For very small screens
+}
+
+/**
  * Beep tone enum
  * @enum
  */
@@ -96,13 +107,25 @@ type FunctionKeyPressCallback = (
  */
 export interface KeyboardTypeEvents {
   /**
-   * Executes the callback function every time mamba keyboard is rendered (e.g: when you change layouts).
+   * Executes thae callback function when virtual keyboard rendered by the first time.
+   * @event
+   */
+  beforeFirstRender?: (instance: Keyboard) => void;
+
+  /**
+   * Executes a callback function before a virtual keyboard render.
+   * @event
+   */
+  beforeRender?: (beforeRender: Keyboard) => void;
+
+  /**
+   * Executes a callback function every time virtual keyboard is rendered (e.g: when you change layouts).
    * @event
    */
   onRender?: (instance: Keyboard) => void;
 
   /**
-   * Executes the callback function once mamba keyboard is rendered for the first time (on initialization).
+   * Executes a callback function once virtual keyboard is rendered for the first time (on initialization).
    * @event
    */
   onInit?: (instance: Keyboard) => void;
@@ -114,16 +137,22 @@ export interface KeyboardTypeEvents {
   onChange?: (input: string, e?: KeyboardHandlerEvent) => void;
 
   /**
-   * Executes the callback function on any key press. Returns button layout name (i.e.: “{enter}”, "b", "c", "2" ).
+   * Executes a callback function on any key press of virtual keyboard. Returns button layout name (i.e.: “{enter}”, "b", "c", "2" ).
    * @event
    */
   onKeyPress?: (button: string, e?: KeyboardHandlerEvent) => void;
 
   /**
-   * Execute the callback function on keypress of non-standard type only (functionality type i.e.: “{alt}”).
+   * Execute a callback function on keypress of non-standard type only (functionality type i.e.: “{alt}”) of virtual keyboard.
    * @event
    */
   onFunctionKeyPress?: FunctionKeyPressCallback;
+
+  /**
+   * Execute a callback function on keypress of standard type only (type i.e.: “a”, “k”, “5”) of virtual keyboard.
+   * @event
+   */
+  onStandardKeyPress?: FunctionKeyPressCallback;
 }
 
 export interface PrefabKeyboardEvents {
@@ -167,6 +196,7 @@ export interface KeyboardTypeOptions {
   /**
    * A prop to add your own css classes to the keyboard wrapper.
    * You can add multiple classes separated by a space.
+   * Prefab keyboards have their own themes... set this property will remove its theme.
    */
   theme?: string;
 }
@@ -175,6 +205,14 @@ export interface KeyboardTypeOptions {
  * Keyboard options
  */
 export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents {
+  /**
+   * Defines a class modifier to work with theme variations.
+   * You can use some pre-variations of {@link KeyboardThemeVariation} or add your own css class, that can have multiple classes separated by space. Strings will be transformed to kebab-case automatically.
+   *
+   * The class its self will be the concatenation of keyboard slug with two dashes. eg.: `mb-variation--compact`, `mb-variation--my-class`
+   */
+  themeVariation?: KeyboardThemeVariation | string;
+
   /**
    * Replaces variable buttons (such as `{backspace}`) with a human-friendly name (e.g.: `backspace`).
    */
@@ -210,9 +248,36 @@ export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents
   maxLength?: any;
 
   /**
+   * If input is readonly(or static `div` element as input), keyboard will disable cursor event handlers since it won't be necessary.
+   *
+   * This property do not change or include <input> readonly attribute
+   */
+  readonly?: boolean;
+
+  /**
+   * Tells keyboard which value it should use at input start position after key press input change. Like a currency placeholder.
+   * Only works if the {@link updateMode} are on mode {@link KeyboardUpdateMode.Auto}.
+   */
+  lastValue?: string;
+
+  /**
+   * Tells keyboard if it should get or set number values only.
+   * If some cases you dont want capture formatted values to internal keyboard virtual input, this props cleans the input work to number, to able to be formatted back again.
+   * Useful for fields with formatting that happen after key events.
+   */
+  filtersNumbersOnly?: boolean;
+
+  /**
+   * Optionally set a condition for the virtual keyboard to render or work.
+   * Its instance will be destroyed if exist.
+   * Can be a Boolean or a function that do something and return a boolean.
+   */
+  renderCondition?: boolean | (() => boolean);
+
+  /**
    * A prop to ensure characters are always be added/removed at the end of the string.
    */
-  disableCaretPositioning?: boolean;
+  disableCursorPositioning?: boolean;
 
   /**
    * Restrains input(s) change to the defined regular expression pattern.
@@ -302,7 +367,7 @@ export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents
   autoRender?: boolean;
 
   /**
-   * Make beep sound for every key press
+   * Make beep sound for every key press.
    * ! This do not disable POS sound entirely. Only for this Keyboard instance
    * @defaultValue System preference depending of the app, otherwise `false`
    */
@@ -356,6 +421,10 @@ export interface KeyboardControllerParams {
   keyboardInstance: Keyboard;
 }
 
-export type CaretWorkerParams = KeyboardControllerParams;
+export type onSuggestionSelect = (button: string, e?: KeyboardHandlerEvent) => void;
+
+export type CursorWorkerParams = KeyboardControllerParams;
 export type PhysicalKeyboardParams = KeyboardControllerParams;
-export type SuggestionBoxParams = KeyboardControllerParams;
+export interface SuggestionBoxParams extends KeyboardControllerParams {
+  onSelect: onSuggestionSelect;
+}

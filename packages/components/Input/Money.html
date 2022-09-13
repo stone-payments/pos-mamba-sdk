@@ -12,10 +12,11 @@
   on:submit="_onSubmit()"
   on:submitValid="_onSubmitValid()"
   on:submitInvalid="_onSubmitInvalid()"
-  {keyboardType}
+  {keyboardOptions}
 />
 
 <script>
+  import { KEYBOARD, CURRENCY } from '@mamba/core';
   import Keyboard from '@mamba/keyboard/api/keyboard.js';
   import { format as formatMoney } from '@mamba/utils/money.js';
 
@@ -28,7 +29,7 @@
         value: 0,
         prefix: 'R$ ',
         suffix: '',
-        limit: 999999.99,
+        limit: CURRENCY.LIMIT,
         validation: undefined,
         readonlyOnEnter: false,
       };
@@ -41,7 +42,7 @@
         const parsedMoney = parseFloat(value) / 100;
         const isValidNumber = !Number.isNaN(parsedMoney);
         const returnFactory = (money = 0) => {
-          return prefix + formatMoney(money) + suffix;
+          return `${prefix}${formatMoney(money)}${suffix}`;
         };
 
         if (parsedMoney > limit) {
@@ -54,9 +55,6 @@
 
         return returnFactory();
       },
-      /**
-       * @deprecated
-       */
       rawValue: ({ value }) => value,
     },
     oncreate() {
@@ -75,6 +73,8 @@
           });
         }
       }
+
+      this.refs.amountInput.refs.input.instance = this;
     },
     methods: {
       validate() {
@@ -145,7 +145,7 @@
           return;
         }
 
-        if (readonlyOnEnter === true && value !== '0' && keyName === 'enter') {
+        if (readonlyOnEnter === true && value !== '0' && keyName === KEYBOARD.KEY_NAMES.ENTER) {
           this.makeReadOnly();
         }
 
@@ -160,7 +160,7 @@
           if (parseFloat(value) / 100 > this.get().limit) {
             return;
           }
-        } else if (keyName === 'back') {
+        } else if (keyName === KEYBOARD.KEY_NAMES.BACK) {
           value = value.slice(0, value.length - 1);
 
           if (!value.length) {

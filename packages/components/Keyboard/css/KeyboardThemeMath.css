@@ -5,6 +5,17 @@
   border-top: 1px solid $neutral300;
   padding: 8px 6px;
 
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    background: $neutral200;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 1px;
+  }
+
   $button-size: 42px;
 
   /* &.debug .mb-cell {

@@ -74,7 +74,8 @@ module.exports = {
     const appSlug = `${id}-${PKG.name}`;
 
     const isQ92 = platform === MODELS.Q92;
-    const isPax = isQ92 || platform === MODELS.S920;
+    const isD199 = platform === MODELS.D199;
+    const isPax = isQ92 || isD199 || platform === MODELS.S920;
     const isGertec = platform === MODELS.MP35P;
     const isVerifone = platform === MODELS.V240M;
 
@@ -197,6 +198,7 @@ module.exports = {
 
       // TODO: Implement deploy for V240m
       if (isQ92) sshConfig = MODELS.Q92;
+      if (isD199) sshConfig = MODELS.D199;
 
       if (toolArgs === '') {
         const _defaultsArgs = os.platform() === 'darwin' ? '-arvc' : '-zzaP';

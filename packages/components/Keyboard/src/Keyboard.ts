@@ -1,10 +1,11 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable camelcase */
 
-import CreatePhysicalKeyboard, { UIPhysicalKeyboard } from './controllers/PhysicalKeyboard';
-import GeneralKeyboard from './controllers/GeneralKeyboard';
-import CaretWorker from './common/CaretWorker';
-import type { UIGeneralKeyboard } from './controllers/GeneralKeyboard';
+import { merge, kebabCase } from 'lodash';
+import PhysicalKeyboard from './controllers/PhysicalKeyboard';
+import GeneralKeyboard, { UIGeneralKeyboard } from './controllers/GeneralKeyboard';
+import CursorWorker from './common/CursorWorker';
+import SuggestionBox from './components/SuggestionBox';
 import {
   getButtonClass,
   getButtonLabelsName,
@@ -12,6 +13,7 @@ import {
   ClassNames,
   isProperInput,
   createKeyboardElement,
+  isNonInputButProperElement,
 } from './helpers';
 import {
   KeyboardOptions,
@@ -25,6 +27,7 @@ import {
   KeyboardTypesPredefinedOptions,
   KeyboardVisibility,
   LayoutDirection,
+  KeyboardThemeVariation,
 } from './types';
 import keyboardTypesMap from './keyboards/keyboardTypesMap';
 
@@ -37,9 +40,11 @@ import keyboardTypesMap from './keyboards/keyboardTypesMap';
 class Keyboard {
   private input!: KeyboardInput;
 
+  private initialOptions!: KeyboardOptions;
+
   options!: KeyboardOptions;
 
-  caretWorker!: CaretWorker;
+  cursorWorker!: CursorWorker;
 
   keyboardDOM!: KeyboardElement;
 
@@ -47,9 +52,11 @@ class Keyboard {
 
   buttonElements!: KeyboardButtonElements;
 
-  physicalKeyboard?: UIPhysicalKeyboard;
+  physicalKeyboard?: PhysicalKeyboard;
 
   generalKeyboard!: UIGeneralKeyboard;
+
+  suggestionsBox?: SuggestionBox;
 
   activeButtonClass: string = ClassNames.activeButtonClassDefault;
 
@@ -81,13 +88,18 @@ class Keyboard {
 
   /**
    * Creates an instance of MambaKeyboard
-   * @param params If first parameter is a string, it is considered the container class. The second parameter is then considered the options object. If first parameter is an object, it is considered the options object.
+   * @param params If first parameter is a HTMLDivElement, it is considered as element to mount the keybaord, otherwise it will create a generic one on app-root, and the second parameter is then considered the options object. If first parameter is an object, it is considered as {@link KeyboardOptions} object.
    * @remarks
    */
-  constructor(element?: HTMLDivElement, keyboardOptions?: KeyboardOptions) {
+  constructor(
+    elementOrOptions?: HTMLDivElement | KeyboardOptions,
+    keyboardOptions?: KeyboardOptions,
+  ) {
     if (typeof window === 'undefined') return;
-
-    Keyboard.bindToDriver(window.$Keyboard, this);
+    if (UIGeneralKeyboard.hasKeyboardInstance()) {
+      throw new Error('INSTANCE_ALREADY_EXIST');
+      return;
+    }
 
     this.generalKeyboard = GeneralKeyboard;
 
@@ -95,12 +107,12 @@ class Keyboard {
       keyboardDOMClass,
       keyboardDOM,
       options = {},
-    } = this.handleParams(element, keyboardOptions);
+    } = this.handleParams(elementOrOptions, keyboardOptions);
 
     /**
-     * Initializing CaretWorker
+     * Initializing CursorWorker
      */
-    this.caretWorker = new CaretWorker({
+    this.cursorWorker = new CursorWorker({
       getOptions: this.getOptions,
       keyboardInstance: this,
     });
@@ -113,21 +125,28 @@ class Keyboard {
     /**
      * @type {KeyboardOptions}
      */
-    this.options = {
-      excludeFromLayout: {},
-      theme: ClassNames.themeDefault,
+    this.options = merge(
+      {
+        excludeFromLayout: {},
+        theme: ClassNames.themeDefault,
+      },
       /**
        * Parse keyboard type
        */
-      ...this.parseKeyboardTypeOptions(options),
+      this.parseKeyboardTypeOptions(options),
       /**
        * Parse the rest of the options
        */
-      ...options,
-    };
+      options,
+    );
 
     /**
-     * mamba-keyboard uses a non-persistent virtual input to keep track of the entered string (the variable `keyboard.input`).
+     * Keep keyboard initial props for reset work
+     */
+    this.initialOptions = { ...this.options };
+
+    /**
+     * Mamba virtual keyboard uses a non-persistent virtual input to keep track of the entered string (the variable `keyboard.input`).
      * This removes any dependency to input DOM elements. You can type and directly display the value in a div element, for example.
      * @example
      * // To get entered input
@@ -144,7 +163,7 @@ class Keyboard {
     };
 
     /**
-     * @type {string} DOM class of the keyboard wrapper, normally "mamba-keyboard" by default.
+     * @type {string} DOM class of the keyboard wrapper, normally "mb-keyboard" by default.
      */
     this.keyboardDOMClass = keyboardDOMClass;
 
@@ -162,10 +181,15 @@ class Keyboard {
     window.MambaKeyboardInstance.instance = this;
 
     /**
+     * Bind methods to the Keyboard warapper API
+     */
+    Keyboard.bindToDriver(window.$Keyboard, window.MambaKeyboardInstance.instance);
+
+    /**
      * Physical Keyboard support
      */
     if (this.options.updateMode === KeyboardUpdateMode.Auto) {
-      this.physicalKeyboard = CreatePhysicalKeyboard({
+      this.physicalKeyboard = new PhysicalKeyboard({
         getOptions: this.getOptions,
         keyboardInstance: this,
       });
@@ -175,7 +199,7 @@ class Keyboard {
      * Rendering keyboard
      */
     if (this.keyboardDOM) {
-      if (!(this.options.autoRender === false)) {
+      if (!(this.options.autoRender === false) || this.options.keepVisible) {
         setTimeout(() => {
           this.render();
         }, 1);
@@ -334,16 +358,42 @@ class Keyboard {
   private parseKeyboardTypeOptions(
     keyboardOptions?: KeyboardOptions,
   ): KeyboardTypesPredefinedOptions | undefined {
-    const keyboardType: KeyboardType = keyboardOptions?.keyboardType || KeyboardType.Default;
+    if (!keyboardOptions || typeof keyboardOptions !== 'object') return undefined;
+
+    const keyboardType: KeyboardType = keyboardOptions.keyboardType || KeyboardType.Default;
+
+    /**
+     * Reset last properties
+     */
+    if (this.options) {
+      delete this.options.layoutName;
+      delete this.options.layoutDirection;
+      delete this.options.theme;
+      delete this.options.layout;
+      delete this.options.outputs;
+      delete this.options.labels;
+      delete this.options.internalOnFunctionKeyPress;
+    }
 
     if (keyboardType === KeyboardType.Custom) {
       return undefined;
     }
 
     /**
-     * Remove layout override
+     * Handle suggestions box
      */
-    delete keyboardOptions?.layout;
+    if (!this.suggestionsBox && keyboardType === KeyboardType.Default) {
+      this.suggestionsBox = new SuggestionBox({
+        getOptions: this.getOptions,
+        keyboardInstance: this,
+        onSelect: (button: string, e?: KeyboardHandlerEvent) => {
+          this.handleButtonClicked(button, e);
+        },
+      });
+    } else if (this.suggestionsBox) {
+      this.suggestionsBox.destroy();
+      this.suggestionsBox = undefined;
+    }
 
     /**
      * Get keyboard ready
@@ -377,6 +427,31 @@ class Keyboard {
    */
 
   /**
+   * Handles dataset of HTML input and parse its options
+   */
+  public handleDOMInputDataset() {
+    const input = document.activeElement as HTMLInputElement;
+    const isInput = isProperInput(input);
+
+    if (
+      isInput &&
+      'keyboardOptions' in input.dataset &&
+      typeof input.dataset.keyboardOptions === 'string'
+    ) {
+      try {
+        const keyboardOptions = JSON.parse(input.dataset.keyboardOptions);
+        if (keyboardOptions) {
+          this.setOptions(keyboardOptions);
+        }
+      } catch (e) {
+        console.warn(
+          `Invalid 'data-keyboard-options' declared on <input>. Must be JSON compatible. ${e}`,
+        );
+      }
+    }
+  }
+
+  /**
    * Controls keyboard visibility, to handle effects
    */
   public set visibility(value: KeyboardVisibility) {
@@ -384,17 +459,9 @@ class Keyboard {
       value = KeyboardVisibility.Visible;
     }
 
-    const input = document.activeElement as HTMLInputElement;
-    const isInput = isProperInput(input);
+    this.handleDOMInputDataset();
 
-    if (isInput && 'keyboardType' in input.dataset) {
-      this.setOptions({
-        keyboardType: input.dataset.keyboardType,
-      });
-    }
-
-    this.keyboardVisible = value;
-    this.handleKeyboardVisibility();
+    this.handleKeyboardVisibility(value);
   }
 
   public get visibility() {
@@ -414,28 +481,38 @@ class Keyboard {
     this.input.default = '';
 
     /**
-     * Reset caretPosition
+     * Resets cursorPosition
      */
-    this.caretWorker.setCaretPosition(0);
+    this.cursorWorker.setCursorPosition(0);
   }
 
   /**
-   * Get the keyboard’s input (You can also get it from the onChange prop).
+   * Gets the keyboard’s input (You can also get it from the onChange prop).
    */
   public getInput(): string {
+    const value = this.input.default;
+    if (typeof this.options.lastValue === 'string' && value.length <= 1) {
+      return this.options.lastValue;
+    }
     return this.input.default;
   }
 
   /**
-   * Set the keyboard’s input.
+   * Sets the keyboard’s input.
    * @param input the input value
    */
   public setInput(input: string): void {
-    this.input.default = input;
+    this.input.default = this.cursorWorker.shouldFilterNumericValue(input);
+
+    if (this.options.debug) {
+      if (window.MambaKeyboardInstance && window.MambaKeyboardInstance.instance) {
+        console.log('Input changed:', window.MambaKeyboardInstance.instance.input);
+      }
+    }
   }
 
   /**
-   * Replace the input object (`keyboard.input`)
+   * Replaces the input object (`keyboard.input`)
    * @param keyboardInput The input object
    */
   public replaceInput(keyboardInput: KeyboardInput): void {
@@ -443,18 +520,40 @@ class Keyboard {
   }
 
   /**
-   * Set new option or modify existing ones after initialization.
+   * Sets new option or modify existing ones after initialization.
    * @param options The options to set
    */
-  public setOptions(options = {}): void {
+  public setOptions(options: KeyboardOptions = {}): void {
     const changedOptions = this.changedOptions(options);
 
     /**
-     * Parse some options that need be checked first
+     * Parse some options that need be checked first.
      */
     this.parseOptionsUpdated(options);
 
-    this.options = Object.assign(this.options, this.parseKeyboardTypeOptions(options), options);
+    /**
+     * Cease ou setup cursor events again
+     */
+    if (options.readonly === true) {
+      this.cursorWorker.ceaseCursorEventsControl();
+    } else {
+      this.cursorWorker.setupCursorEventsControl();
+    }
+
+    this.options = merge(this.options, this.parseKeyboardTypeOptions(options), options);
+
+    /**
+     * Recreates or destroy physical keyboard handler
+     */
+    if (this.options.updateMode === KeyboardUpdateMode.Manual && this.physicalKeyboard) {
+      this.physicalKeyboard.destroy();
+      this.physicalKeyboard = undefined;
+    } else if (this.options.updateMode === KeyboardUpdateMode.Auto && !this.physicalKeyboard) {
+      this.physicalKeyboard = new PhysicalKeyboard({
+        getOptions: this.getOptions,
+        keyboardInstance: this,
+      });
+    }
 
     if (changedOptions.length) {
       if (this.options.debug) {
@@ -488,7 +587,7 @@ class Keyboard {
   }
 
   /**
-   * This handles the "inputPattern" option by checking if the provided inputPattern passes
+   * This handles the "inputPattern" option by checking if the provided inputPattern passes.
    */
   private inputPatternIsValid(inputVal: string): boolean {
     const { inputPattern } = this.options;
@@ -514,7 +613,7 @@ class Keyboard {
   }
 
   /**
-   * Return of the current input is valid within current pattern option
+   * Returns if the current input is valid within current pattern option.
    */
   public currentInputPatternIsValid(): boolean {
     const insputStr = this.getInput();
@@ -522,7 +621,7 @@ class Keyboard {
   }
 
   /**
-   * Change the keyboard type
+   * Change the keyboard type.
    * @param type The keyboard type
    */
   public setKeyboardType(type: KeyboardType): void {
@@ -535,7 +634,7 @@ class Keyboard {
   }
 
   /**
-   * Set keyboard as default type
+   * Set keyboard as default type.
    */
   public setKeyboardAsDefaultType() {
     this.setOptions({
@@ -544,7 +643,7 @@ class Keyboard {
   }
 
   /**
-   * Set keyboard as math type
+   * Set keyboard as math type.
    */
   public setKeyboardAsMathType() {
     this.setOptions({
@@ -553,7 +652,7 @@ class Keyboard {
   }
 
   /**
-   * Set keyboard as numeric type
+   * Set keyboard as numeric type.
    */
   public setKeyboardAsNumericType() {
     this.setOptions({
@@ -562,7 +661,7 @@ class Keyboard {
   }
 
   /**
-   * Set keyboard as phone type
+   * Set keyboard as phone type.
    */
   public setKeyboardAsPhoneType() {
     this.setOptions({
@@ -571,29 +670,177 @@ class Keyboard {
   }
 
   /**
-   * Set keyboard as custom type
+   * Set keyboard as custom type.
    */
-  public setKeyboardAsCustomType(otherOptions = {}) {
+  public setKeyboardAsCustomType(options: KeyboardOptions = {}) {
+    if (this.options.debug) {
+      console.log(`keyboard.setKeyboardAsCustomType() called`);
+    }
     this.setOptions({
       keyboardType: KeyboardType.Custom,
-      ...otherOptions,
+      ...options,
     });
   }
 
   /**
-   * Render alias
+   * Shows keyboard and mount it if already not.
    */
   public show() {
+    if (this.options.debug) {
+      console.log(`keyboard.show() called`);
+    }
     setTimeout(() => {
       this.render();
+      this.handleKeyboardVisibility(KeyboardVisibility.Visible);
     });
   }
 
   /**
-   * Reset rows alias
+   * Hides keyboard.
+   * This method do less things than {@link visibility}.
+   */
+  public hide() {
+    if (this.options.debug) {
+      console.log(`keyboard.hide() called`);
+    }
+    setTimeout(() => {
+      this.handleKeyboardVisibility(KeyboardVisibility.Hidden);
+    });
+  }
+
+  /**
+   * Resets keyboard properties.
+   */
+  public resetOptions() {
+    if (this.options.debug) {
+      console.log(`keyboard.resetOptions() called`);
+    }
+    this.options = { ...this.initialOptions };
+
+    /**
+     * Reset cursor positions
+     */
+    if (this.cursorWorker) {
+      this.cursorWorker.cursorPosition = null;
+      this.cursorWorker.cursorPositionEnd = null;
+    }
+
+    /**
+     *  Clear input listeners for keyboard route reset
+     */
+    if (this.physicalKeyboard) {
+      this.physicalKeyboard.clearInputListeners();
+    }
+
+    /**
+     * Reset input value
+     */
+    this.setInput('');
+  }
+
+  /**
+   * Removes all keyboard rows and set visibility to hidden.
    */
   public unmount() {
-    this.resetRows();
+    if (this.options.debug) {
+      console.log(`keyboard.unmount() called`);
+    }
+    this.handleKeyboardVisibility(KeyboardVisibility.Hidden);
+    this.clearRows();
+  }
+
+  /**
+   * Resets keyboard properties and keyboard elements.
+   */
+  public reset() {
+    if (this.options.debug) {
+      console.log(`keyboard.reset() called`);
+    }
+    this.resetOptions();
+    this.clearRows();
+  }
+
+  /**
+   * Destroy keyboard, remove listeners and DOM elements.
+   * This method should called by svelte component on:destroy
+   */
+  public destroy() {
+    if (this.options.debug) {
+      console.log(`keyboard.destroy() called`);
+    }
+    if (this.options.debug) {
+      console.log(
+        'Destroying Keyboard ans its events. This method should called by svelte component.',
+      );
+    }
+
+    /**
+     * Destroy physical keyboard and its listeners
+     */
+    if (this.physicalKeyboard) {
+      this.physicalKeyboard.destroy();
+      this.physicalKeyboard = undefined;
+    }
+
+    /**
+     * Cleans cursor events
+     */
+    if (this.cursorWorker) {
+      this.cursorWorker.ceaseCursorEventsControl();
+    }
+
+    /**
+     * Destroy suggestion box if any
+     */
+    if (this.suggestionsBox) {
+      this.suggestionsBox.destroy();
+    }
+
+    /**
+     * Removes wrappers mouse down event
+     */
+    this.keyboardDOM.onmousedown = null;
+
+    const layoutDirection = this.options.layoutDirection || this.defaultLayoutDirection;
+
+    const rowDOM = this.keyboardRowsDOM.querySelector(
+      layoutDirection === LayoutDirection.Vertical ? ClassNames.columnPrefix : ClassNames.rowPrefix,
+    ) as HTMLDivElement;
+
+    if (rowDOM) rowDOM.onmousedown = null;
+
+    /**
+     * Removes buttons callback
+     */
+    const removeButton = (buttonElement: KeyboardElement | null) => {
+      if (buttonElement) {
+        buttonElement.onmousedown = null;
+        buttonElement.onclick = null;
+
+        buttonElement.parentElement?.removeChild(buttonElement);
+        buttonElement = null;
+      }
+    };
+
+    /**
+     * Remove buttons
+     */
+    Object.keys(this.buttonElements).forEach((buttonName) =>
+      this.buttonElements[buttonName].forEach(removeButton),
+    );
+
+    this.keyboardDOM.innerHTML = '';
+    this.keyboardDOM.parentElement?.removeChild(this.keyboardDOM);
+
+    /**
+     * Removes instance
+     */
+    window.MambaKeyboardInstance.instance = null;
+
+    /**
+     * Resets initialized flag
+     */
+    this.initialized = false;
   }
 
   /**
@@ -606,33 +853,48 @@ class Keyboard {
   public static bindToDriver(driver: any, instance: Keyboard) {
     if (!driver || instance.driverBinded) return;
     const accessibleMethods = [
-      'clearInput',
-      'getInput',
-      'setInput',
-      'replaceInput',
-      'setOptions',
-      'getButtonElement',
-      'inputPatternIsValid',
       'setKeyboardType',
+      'setOptions',
+      'setInput',
+      'getInput',
+      'clearInput',
+      'replaceInput',
+      'render',
+      'show',
+      'hide',
+      'unmount',
+      'resetOptions',
+      'reset',
       'currentInputPatternIsValid',
+      'getButtonElement',
       'setKeyboardAsDefaultType',
       'setKeyboardAsMathType',
       'setKeyboardAsNumericType',
       'setKeyboardAsPhoneType',
       'setKeyboardAsCustomType',
-      'unmount',
-      'show',
-      'render',
+      'destroy',
     ];
 
     // eslint-disable-next-line no-restricted-syntax
     for (const method of Object.getOwnPropertyNames(Keyboard.prototype)) {
       if (accessibleMethods.includes(method)) {
-        driver[method] = instance[method].bind(instance);
+        driver[method] = UIGeneralKeyboard.bindWrapper(instance[method].bind(instance));
       }
     }
 
-    driver.visibility = instance.visibility;
+    /**
+     * Rewrite driver get/set of keyboard visibility
+     */
+    Object.defineProperty(driver, 'visibility', {
+      configurable: true,
+      get() {
+        return instance.visibility;
+      },
+      set(value: KeyboardVisibility) {
+        instance.visibility = value;
+      },
+    });
+
     instance.driverBinded = true;
   }
 
@@ -641,8 +903,8 @@ class Keyboard {
    */
 
   /**
-   * Detecting changes to non-function options
-   * This allows us to ascertain whether a button re-render is needed
+   * Detecting changes to non-function options.
+   * This allows us to ascertain whether a button re-render is needed.
    */
   private changedOptions(newOptions: Partial<KeyboardOptions>): string[] {
     return Object.keys(newOptions).filter(
@@ -652,14 +914,25 @@ class Keyboard {
   }
 
   /**
-   * Handles clicks made to keyboard buttons
+   * Handles clicks made to keyboard buttons.
    * @param button The button's layout name.
    */
   private handleButtonClicked(button: string, e?: KeyboardHandlerEvent): void {
+    const focusedInput = document.activeElement as HTMLInputElement;
+
     /**
      * Ignoring placeholder buttons
      */
-    if (button === '{//}') return;
+    if (button === '{//}' || (focusedInput && focusedInput.disabled)) return;
+
+    let buttonOutput = button;
+
+    /**
+     * Converts button from configured {@link KeyboardOptions.outputs} option if any
+     */
+    if (this.options.outputs && this.options.outputs[button]) {
+      buttonOutput = this.options.outputs[button];
+    }
 
     /**
      * Creating virtual input if it doesn't exist
@@ -669,12 +942,12 @@ class Keyboard {
     /**
      * Calculating new input
      */
-    const updatedInput = this.caretWorker.getUpdatedInput(button, this.input.default);
+    const updatedInput = this.cursorWorker.getUpdatedInput(button, this.input.default);
 
     /**
      * Calling onKeyPress
      */
-    if (typeof this.options.onKeyPress === 'function') this.options.onKeyPress(button, e);
+    if (typeof this.options.onKeyPress === 'function') this.options.onKeyPress(buttonOutput, e);
 
     /**
      * Defining button type {@link ButtonType}
@@ -689,15 +962,20 @@ class Keyboard {
        * Calling onFunctionKeyPress
        */
       if (typeof this.options.onFunctionKeyPress === 'function') {
-        this.options.onFunctionKeyPress(button, this, e);
+        this.options.onFunctionKeyPress(buttonOutput, this, e);
       }
 
       /**
        * Calling internalOnFunctionKeyPress of prefab keyboard type
        */
       if (typeof this.internalOnFunctionKeyPress === 'function') {
-        this.internalOnFunctionKeyPress(button, this, e);
+        this.internalOnFunctionKeyPress(buttonOutput, this, e);
       }
+    } else if (typeof this.options.onStandardKeyPress === 'function') {
+      /**
+       * Calling onStandardKeyPress
+       */
+      this.options.onStandardKeyPress(buttonOutput, this, e);
     }
 
     /**
@@ -717,24 +995,22 @@ class Keyboard {
       /**
        * If maxLength and handleMaxLength yield true, halting
        */
-      if (this.options.maxLength && this.caretWorker.handleMaxLength(this.input, updatedInput)) {
+      if (this.options.maxLength && this.cursorWorker.handleMaxLength(this.input, updatedInput)) {
         return;
       }
 
       /**
        * Updating input
        */
-      const newInputValue = this.caretWorker.getUpdatedInput(button, this.input.default, true);
+      const newInputValue = this.cursorWorker.getUpdatedInput(button, this.input.default, true);
 
       this.setInput(newInputValue);
 
       if (this.options.debug) {
-        console.log('Input changed:', this.getInput());
-
         console.log(
-          'Caret at: ',
-          this.caretWorker.getCaretPosition(),
-          this.caretWorker.getCaretPositionEnd(),
+          'Cursor at: ',
+          this.cursorWorker.getCursorPosition(),
+          this.cursorWorker.getCursorPositionEnd(),
           `(${this.keyboardDOMClass})`,
         );
       }
@@ -748,7 +1024,22 @@ class Keyboard {
     /**
      * Call synthetic event handler
      */
-    this.shouldDispatchSyntheticKeyEvent(button, buttonType, isValidInputPattern, e);
+    this.shouldDispatchSyntheticKeyEvent(button, buttonOutput, buttonType, isValidInputPattern, e);
+
+    /**
+     * Call suggestion box update if exist
+     */
+    if (
+      this.suggestionsBox &&
+      // Suggestions to work only when Standard button pressed
+      buttonType !== ButtonType.Function &&
+      // If user setup the input property element compatible with DOM Input element
+      (isProperInput(this.options.input || focusedInput) ||
+        // Or it is non DOM Input element, but a `<div>`
+        isNonInputButProperElement(this.options.input || focusedInput))
+    ) {
+      this.suggestionsBox.shouldUpdateOrCease();
+    }
 
     /**
      * Call active class handler
@@ -756,7 +1047,7 @@ class Keyboard {
     this.handleActiveButton(e);
 
     if (this.options.debug) {
-      console.log('Key pressed:', button);
+      console.log('Key pressed:', { button, buttonOutput });
     }
   }
 
@@ -765,6 +1056,7 @@ class Keyboard {
    */
   private shouldDispatchSyntheticKeyEvent(
     button: string,
+    buttonOutput: string,
     buttonType: ButtonType,
     isValidInputPattern?: boolean,
     e?: KeyboardHandlerEvent,
@@ -790,8 +1082,18 @@ class Keyboard {
         // or if the button key can pass through configured `allowKeySyntheticEvent` option
         allowKeyPass
       ) {
-        this.physicalKeyboard.dispatchSyntheticKeybaordEvent(button, buttonType, allowKeyPass, e);
+        this.physicalKeyboard.dispatchSyntheticKeybaordEvent(
+          buttonOutput,
+          buttonType,
+          allowKeyPass,
+          e,
+        );
       }
+    } else if (this.options.soundEnabled === true) {
+      /**
+       * Pontually handle beep sound on key press for manual update mode
+       */
+      PhysicalKeyboard.handleBeepSound(this.options);
     }
   }
 
@@ -817,8 +1119,17 @@ class Keyboard {
 
   /**
    * Handles keyboard visibility class
+   * @param visibility
    */
-  private handleKeyboardVisibility() {
+  private handleKeyboardVisibility(visibility = KeyboardVisibility.Visible) {
+    /**
+     * Set the instance visibility
+     */
+    this.keyboardVisible = visibility;
+
+    /**
+     * Ignore if keyboard not exist yet
+     */
     if (!this.keyboardDOM) return;
 
     /**
@@ -829,6 +1140,13 @@ class Keyboard {
       return;
     }
     this.keyboardDOM.classList.remove(this.hiddenKeyboardClass);
+
+    /**
+     * Check if keyboard isn't rendered yet to call render.
+     */
+    if (Object.keys(this.buttonElements).length === 0) {
+      this.render();
+    }
   }
 
   /**
@@ -844,10 +1162,10 @@ class Keyboard {
   }
 
   /**
-   * Remove all keyboard rows and reset keyboard values.
+   * Remove all keyboard rows to reset keyboard elements.
    * Used internally between re-renders.
    */
-  private resetRows(): void {
+  private clearRows(): void {
     if (this.keyboardRowsDOM) {
       const { parentNode } = this.keyboardRowsDOM;
       if (parentNode) parentNode.removeChild(this.keyboardRowsDOM);
@@ -858,7 +1176,7 @@ class Keyboard {
   }
 
   /**
-   * Executes the callback function once mamba-keyboard is rendered for the first time (on initialization).
+   * Executes the callback function once virtual keyboard is rendered for the first time (on initialization).
    */
   private onInit() {
     if (this.options.debug) {
@@ -866,29 +1184,29 @@ class Keyboard {
     }
 
     /**
-     * Set caret event listeners
+     * Set cursor event listeners
      */
-    this.caretWorker.setupCaretEventsControl();
+    this.cursorWorker.setupCursorEventsControl();
 
     if (typeof this.options.onInit === 'function') this.options.onInit(this);
   }
 
   /**
-   * Executes the callback function before a simple-keyboard render.
+   * Executes the callback function before a virtual keyboard render.
    */
   private beforeFirstRender() {
     if (typeof this.options.beforeFirstRender === 'function') this.options.beforeFirstRender(this);
   }
 
   /**
-   * Executes the callback function before a simple-keyboard render.
+   * Executes the callback function before a virtual keyboard render.
    */
   private beforeRender() {
     if (typeof this.options.beforeRender === 'function') this.options.beforeRender(this);
   }
 
   /**
-   * Executes the callback function every time simple-keyboard is rendered (e.g: when you change layouts).
+   * Executes the callback function every time virtual keyboard is rendered (e.g: when you change layouts).
    */
   private onRender() {
     if (typeof this.options.onRender === 'function') this.options.onRender(this);
@@ -898,10 +1216,28 @@ class Keyboard {
    * getKeyboardClassString
    */
   private getKeyboardClassString = (...baseDOMClasses: any[]) => {
+    let { themeVariation: variation } = this.options;
+    const getVariationClass = (value: string) => `${ClassNames.variationPrefix}--${value}`;
+
+    /**
+     * Determine the theme variation, string or `KeyboardThemeVariation`
+     */
+    if (typeof variation === 'string') {
+      const fromType = KeyboardThemeVariation[variation];
+      if (fromType) {
+        variation = fromType;
+      } else {
+        variation = kebabCase(variation);
+      }
+    } else {
+      variation = KeyboardThemeVariation.Default;
+    }
+
     const keyboardClasses = [
       ClassNames.keyBoardPrefix,
       this.keyboardDOMClass,
       this.options.debug && 'debug',
+      variation && getVariationClass(variation),
       ...baseDOMClasses,
     ].filter(Boolean);
 
@@ -909,16 +1245,46 @@ class Keyboard {
   };
 
   /**
-   * Render or updates the keyboard buttons
+   * Parse render condition
+   * @returns If keyboard can work or not
+   */
+  private isRenderAllowed(): boolean {
+    if (typeof this.options.renderCondition === 'function') {
+      return Boolean(this.options.renderCondition());
+    }
+
+    if (typeof this.options.renderCondition === 'undefined') {
+      return true;
+    }
+
+    return Boolean(this.options.renderCondition);
+  }
+
+  /**
+   * Renders or update the keyboard buttons
    * Can be called direct if `autoRender` is off
-   * @throws LAYOUT_NOT_FOUND_ERROR - layout layout not found
+   * @throws LAYOUT_NOT_FOUND_ERROR - layout not found
    * @throws LAYOUT_NAME_NOT_FOUND_ERROR - layout name not found in layout object
    */
   public render() {
     /**
      * Clear keyboard
      */
-    this.resetRows();
+    this.clearRows();
+
+    /**
+     * Stops if not allowed to render by condition
+     */
+    if (!this.isRenderAllowed()) {
+      if (this.options.debug) {
+        console.log('Keyboard render not allowed! Check keyboard options.');
+      }
+      return;
+    }
+
+    if (this.options.debug) {
+      console.log(`Rendering/Updating keyboard`);
+    }
 
     /**
      * Calling beforeFirstRender
@@ -952,6 +1318,16 @@ class Keyboard {
       layoutDirectionClass,
       this.options.theme,
     );
+
+    /**
+     * Change keyboard positon to handle mamba <Button /> sticky at the bottom
+     */
+    const bottomButton = document.querySelector('.button.at-bottom') as HTMLButtonElement;
+    if (bottomButton) {
+      this.keyboardDOM.style.marginBottom = `${bottomButton.offsetHeight}px`;
+    } else {
+      this.keyboardDOM.style.marginBottom = '';
+    }
 
     /**
      * Create row wrapper
@@ -1093,5 +1469,7 @@ class Keyboard {
     }
   }
 }
+
+export type { Keyboard };
 
 export default Keyboard;

@@ -1,6 +1,13 @@
 import { timeout } from './ui.js';
 import * as Money from './money.js';
-import { AVAILABLE_SLUGS, DEFAULT_MODEL, MODELS, getPosModelSlug, getPosModel } from './models.js';
+import {
+  AVAILABLE_SLUGS,
+  DEFAULT_MODEL,
+  MODELS,
+  getPosModelSlug,
+  getPosModel,
+  getSanitizedPosModel,
+} from './models.js';
 
 import * as Device from './models.js';
 
@@ -16,5 +23,6 @@ export {
   MODELS,
   getPosModelSlug,
   getPosModel,
+  getSanitizedPosModel,
   Device,
 };

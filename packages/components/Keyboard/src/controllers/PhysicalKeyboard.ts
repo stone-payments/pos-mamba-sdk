@@ -1,3 +1,4 @@
+import { KEYBOARD } from '@mamba/core';
 import {
   KeyboardOptions,
   KeyboardHandlerEvent,
@@ -8,7 +9,7 @@ import {
   KeyboardVisibility,
 } from '../types';
 import type Keyboard from '../Keyboard';
-import { bindMethods, isProperInput } from '../helpers';
+import { bindMethods, isProperInput, isNonInputButProperElement } from '../helpers';
 import keyMapTable from '../mappings/keyTableMap';
 import { anyBraces } from '../common/regExps';
 
@@ -18,64 +19,52 @@ import { anyBraces } from '../common/regExps';
  * Send synthetic events to handle input post-processing (e.g. masks)
  * Keeps inputs synchronized
  */
-export class UIPhysicalKeyboard {
+class PhysicalKeyboard {
   private keyboardInstance!: Keyboard;
 
-  public static instance: UIPhysicalKeyboard;
+  /**
+   * Cache target input from keyboard options to not use document active element.
+   * This saves some performance to not compute every key press
+   */
+  private focusedDOMInput?: HTMLInputElement | null;
 
-  cachedTargetInput?: HTMLInputElement = undefined;
+  public static beepTone = 'TONE3';
 
-  beepTone = 'TONE3';
+  public static beepTime = 90;
 
-  beepTime = 90;
+  svelteListener?: any;
 
   getOptions: () => KeyboardOptions;
 
   /**
-   * Creates an instance of the UIPhysicalKeyboard service
+   * Creates an instance of the PhysicalKeyboard service
    */
-  private constructor({ getOptions, keyboardInstance }: PhysicalKeyboardParams) {
-    /**
-     * @type {object} A mamba-keyboard instance
-     */
+  constructor({ getOptions, keyboardInstance }: PhysicalKeyboardParams) {
     this.getOptions = getOptions;
     this.keyboardInstance = keyboardInstance;
 
     /**
      * Bindings
      */
-    bindMethods(UIPhysicalKeyboard, this);
+    bindMethods(PhysicalKeyboard, this);
 
     /**
      * Register element focus changes for automatic mode only
      */
     if (this.getOptions().updateMode === KeyboardUpdateMode.Auto) {
       /** Add before focus event */
-      document.addEventListener(
-        'focusin',
-        (e) => this.handleFocusIn(e.target || undefined, e),
-        true,
-      );
+      document.addEventListener('focusin', this.handleDocumentFocusIn, true);
       /** Compute first interation */
       this.handleFocusIn(document.activeElement);
     }
   }
 
   /**
-   * Get physical keyboard instance
-   * @param params Keyboard options. Same of {@link KeyboardOptions}
-   * @param params.getOptions Function that instance call to retrieve keyboard properties
-   * @returns `UIPhysicalKeyboard` instance
+   * Handle document global focus in target
+   * @param event The Document event
    */
-  public static getInstance({
-    getOptions,
-    keyboardInstance,
-  }: PhysicalKeyboardParams): UIPhysicalKeyboard {
-    if (!UIPhysicalKeyboard.instance) {
-      UIPhysicalKeyboard.instance = new UIPhysicalKeyboard({ getOptions, keyboardInstance });
-    }
-
-    return UIPhysicalKeyboard.instance;
+  handleDocumentFocusIn(event: FocusEvent) {
+    this.handleFocusIn(event.target || undefined, event);
   }
 
   /**
@@ -85,16 +74,29 @@ export class UIPhysicalKeyboard {
    * @param e The Focus event
    */
   handleFocusIn(target?: EventTarget | Element | null, e?: FocusEvent) {
-    /**
-     * Update cached target input for key dispatch event
-     */
-    this.setCachedTargetInput();
+    if (!__POS__ && e) {
+      let avoidExternals = false;
+      try {
+        const path = e.composedPath();
+        /** We need avoid other inputs on the simulator page, like panel inputs */
+        avoidExternals = !path.some(
+          (id: EventTarget) =>
+            (id as Element).className && (id as Element).className.includes('mamba-app'),
+        );
+      } catch (_) {
+        console.error(
+          'Failed to get composedPath() from mamba simulator. Update you browser to newer version.',
+          e,
+        );
+      }
+
+      if (avoidExternals) return;
+    }
 
     /**
      * Handle focused target
      */
     if (target && isProperInput(target)) {
-      const options = this.getOptions();
       const input = target as HTMLInputElement;
 
       /**
@@ -105,14 +107,32 @@ export class UIPhysicalKeyboard {
       /**
        * If the keepVisible option is on and user hit some button without input focus, we need ensure that virtual input do not update its values back to the DOM input on next update.
        */
-      if (this.keyboardInstance.getInput() !== input.value && !options.input) {
-        this.keyboardInstance.setInput(input.value);
-      }
+      this.updateVirtualInputfromDOMValue(input);
 
-      input.addEventListener('blur', this.handleDOMInputTargetBlur);
-      input.addEventListener('click', this.handleDOMInputFocus);
-      input.addEventListener('input', this.handleDOMInputChange);
-      input.focus();
+      /**
+       * Add listeners on focused input
+       */
+      this.addDOMInputEventListeners(input);
+
+      /**
+       * Handle focused input data set
+       */
+      this.keyboardInstance.handleDOMInputDataset();
+    }
+  }
+
+  /**
+   * Update virtual value from real one.
+   * @param input HTML <input> focused
+   */
+  updateVirtualInputfromDOMValue(input: HTMLInputElement) {
+    const options = this.getOptions();
+    if (this.keyboardInstance.getInput() !== input.value && !options.input) {
+      const { value } = input;
+      /**
+       * Get and set value from input component...
+       */
+      this.keyboardInstance.setInput(value);
     }
   }
 
@@ -125,11 +145,76 @@ export class UIPhysicalKeyboard {
     this.keyboardInstance.visibility = KeyboardVisibility.Hidden;
     if (e && e.target && isProperInput(e.target)) {
       const input = e.target as HTMLInputElement;
-
-      input.removeEventListener('input', this.handleDOMInputChange);
-      input.removeEventListener('click', this.handleDOMInputFocus);
-      input.removeEventListener('blur', this.handleDOMInputTargetBlur);
+      this.updateVirtualInputfromDOMValue(input);
+      this.removeDOMInputEventListeners();
     }
+  }
+
+  /**
+   * Remove input target event listeners.
+   */
+  removeDOMInputEventListeners() {
+    if (!this.focusedDOMInput) return;
+
+    this.focusedDOMInput.removeEventListener('input', this.handleDOMInputChange);
+    this.focusedDOMInput.removeEventListener('click', this.handleDOMInputFocus);
+    this.focusedDOMInput.removeEventListener('blur', this.handleDOMInputTargetBlur);
+
+    /**
+     * Cancel svelte component listener. https://v2.svelte.dev/guide#component-on-eventname-callback-
+     */
+    try {
+      this.svelteListener.cancel();
+    } catch (_) {
+      // do nothing
+    }
+
+    this.focusedDOMInput = null;
+  }
+
+  /**
+   * Add input target event listeners
+   *
+   * @param input
+   */
+  addDOMInputEventListeners(input: HTMLInputElement) {
+    /**
+     * If already has last focused input, do not add listener again
+     */
+    if (this.focusedDOMInput) return;
+
+    input.addEventListener('blur', this.handleDOMInputTargetBlur);
+    input.addEventListener('click', this.handleDOMInputFocus);
+    input.addEventListener('input', this.handleDOMInputChange);
+
+    this.focusedDOMInput = input;
+
+    /**
+     * Hack svelte component `on:destroy` for routless flow(e.g. payment state)
+     */
+    setTimeout(() => {
+      try {
+        // The `input.instance` have only on @mamba/input components
+        this.svelteListener = input.instance.on('destroy', this.removeDOMInputEventListeners);
+      } catch (_) {
+        // do nothing
+      }
+    });
+  }
+
+  /**
+   * Clear input listeners for keyboard route reset.
+   */
+  clearInputListeners() {
+    this.removeDOMInputEventListeners();
+  }
+
+  /**
+   * Remove any input listeners, for life-cycle destroy
+   */
+  destroy() {
+    this.clearInputListeners();
+    document.removeEventListener('focusin', this.handleDocumentFocusIn, true);
   }
 
   /**
@@ -150,10 +235,10 @@ export class UIPhysicalKeyboard {
       const input = e.target as HTMLInputElement;
 
       /**
-       * Move caret to final
+       * Move cursor to final
        */
       const endPosition = input.value.length;
-      this.keyboardInstance.caretWorker.setCaretPosition(endPosition, endPosition, true);
+      this.keyboardInstance.cursorWorker.setCursorPosition(endPosition, endPosition, true);
     }
   }
 
@@ -162,38 +247,29 @@ export class UIPhysicalKeyboard {
    * @param event
    */
   handleDOMInputChange(event: any) {
-    this.keyboardInstance.setInput((event.target as HTMLInputElement).value);
-  }
+    setTimeout(() => {
+      const options = this.getOptions();
+      if (options.debug) {
+        console.log(`Handle DOM input changes`, event);
+      }
 
-  /**
-   * Updates and cache target input from keyboard options to not use document active element.
-   * This saves some performance to not compute every key press
-   */
-  private setCachedTargetInput(): void {
-    const options = this.getOptions();
-
-    if (
-      // If user setup the input property element compatible with DOM Input element
-      isProperInput(options.input) ||
-      // Or it is non DOM Input element, but a `<div>`
-      this.isNonInputButProperElement(options.input)
-    ) {
-      /** Define our target element to dispatch events instead use the document active element */
-      this.cachedTargetInput = options.input as HTMLInputElement;
-      return;
-    }
-
-    this.cachedTargetInput = undefined;
+      const target = event.target || undefined;
+      if (target && isProperInput(target)) {
+        const input = target as HTMLInputElement;
+        this.updateVirtualInputfromDOMValue(input);
+      }
+    });
   }
 
   /**
    * Handles beep sound
    */
-  private handleBeepSound() {
-    const options = this.getOptions();
-
+  public static handleBeepSound(options: KeyboardOptions) {
     try {
-      window.$System.beep(options.beepTone || this.beepTone, options.beepTime || this.beepTime);
+      window.$System.beep(
+        options.beepTone || PhysicalKeyboard.beepTone,
+        options.beepTime || PhysicalKeyboard.beepTime,
+      );
     } catch (e) {
       console.log(e);
     }
@@ -281,31 +357,6 @@ export class UIPhysicalKeyboard {
   }
 
   /**
-   * Detect if element defined the data-keyboard value
-   *
-   * @param element
-   * @returns Return if the given element belongs to `input` element type
-   */
-  private hasDataKeyboard(element?: HTMLElement): boolean {
-    return element ? 'keyboard' in element : false;
-  }
-
-  /**
-   * Detect if element if DIV
-   *
-   * @param element Any bottom-level `HTMLElement` type
-   * @returns Return if the given element belongs to `div` element type
-   */
-  private isNonInputButProperElement(element?: HTMLElement): boolean {
-    return (
-      // If it is non DOM Input element, but a `<div>`
-      element instanceof HTMLDivElement &&
-      // And it have the dataset `keyboard` defined to true;
-      this.hasDataKeyboard(element)
-    );
-  }
-
-  /**
    * Dispatch keyboard event to custom input or active document element
    */
   dispatchSyntheticKeybaordEvent(
@@ -324,7 +375,7 @@ export class UIPhysicalKeyboard {
       e.preventDefault();
     }
 
-    const targetElement = (document.activeElement as KeyboardInputOption) || this.cachedTargetInput;
+    const targetElement = (document.activeElement as KeyboardInputOption) || this.focusedDOMInput;
 
     /**
      * Our target element can be undefined on both sides, or not a valid element
@@ -342,13 +393,6 @@ export class UIPhysicalKeyboard {
       : false;
 
     /**
-     * Converts button from configured {@link KeyboardOptions.outputs} option if any
-     */
-    if (options.outputs && options.outputs[button]) {
-      button = options.outputs[button];
-    }
-
-    /**
      * Remove function button placeholder to keyName
      */
     if (buttonType === ButtonType.Function) {
@@ -357,27 +401,29 @@ export class UIPhysicalKeyboard {
     }
 
     /** Get the alpha code of a key of keyboard */
-    const keyCode = this.keyboardInstance.generalKeyboard.getTableKeyCode(
-      button,
-      buttonType === ButtonType.Standard,
+    const keyCode = Number(
+      this.keyboardInstance.generalKeyboard.getTableKeyCode(
+        button,
+        buttonType === ButtonType.Standard,
+      ),
     );
 
     /**
      * Make beep sound for the key press
      */
     if (options.soundEnabled === true) {
-      this.handleBeepSound();
+      PhysicalKeyboard.handleBeepSound(options);
     }
 
     /**
      * Update the element with the keyboard value
      */
-    if (isElementFocused) {
+    if (isElementFocused && keyCode !== KEYBOARD.ENTER) {
       const input = this.keyboardInstance.getInput();
       /**
        * Check if the computed element is a different element than `input`, so we update using innerText
        */
-      if (this.isNonInputButProperElement(targetElement)) {
+      if (isNonInputButProperElement(targetElement)) {
         targetElement.innerText = input;
       } else if (isProperInput(targetElement)) {
         /**
@@ -390,7 +436,7 @@ export class UIPhysicalKeyboard {
     /**
      * Key code not found, abort send the event
      */
-    if (!allowPass && (!keyCode || Number.isNaN(Number(keyCode)))) {
+    if (!allowPass && (!keyCode || Number.isNaN(keyCode))) {
       if (options.debug) {
         console.log(`\u001b[1;31mCannot map "${button}" key name to its code\u001b[0m`);
       }
@@ -401,7 +447,6 @@ export class UIPhysicalKeyboard {
      * Dispatch key and input events
      */
     targetElement.dispatchEvent(this.createSyntheticKeyEvent('keydown', keyCode, button));
-    targetElement.dispatchEvent(this.createSyntheticKeyEvent('keypress', keyCode, button));
 
     if (isElementFocused) {
       /**
@@ -411,6 +456,7 @@ export class UIPhysicalKeyboard {
     }
 
     targetElement.dispatchEvent(this.createSyntheticKeyEvent('keyup', keyCode, button));
+    targetElement.dispatchEvent(this.createSyntheticKeyEvent('keypress', keyCode, button));
 
     if (options.debug) {
       // Compact key event log
@@ -425,14 +471,4 @@ export class UIPhysicalKeyboard {
   }
 }
 
-/**
- * Create or get Physical Keyboard instance
- */
-const CreatePhysicalKeyboard = ({
-  getOptions,
-  keyboardInstance,
-}: PhysicalKeyboardParams): UIPhysicalKeyboard => {
-  return UIPhysicalKeyboard.getInstance({ getOptions, keyboardInstance });
-};
-
-export default CreatePhysicalKeyboard;
+export default PhysicalKeyboard;

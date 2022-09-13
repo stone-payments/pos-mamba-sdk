@@ -1,10 +1,10 @@
 # Core
 
-Core mamba packages with some essential and shared code.
+Pacotes principais do mamba com alguns códigos essenciais e compartilhados.
 
 ## Extend
 
-Extend a driver with the base driver.
+Estenda um driver com o driver base.
 
 ```js
 import extendDriver from '@mamba/core/index.js';
@@ -15,9 +15,21 @@ import wrappers from './wrappers.js';
 export default extendDriver(driverTarget, wrappers);
 ```
 
+## Currency
+
+Fornece constante da moeda no POS.
+
+### Limite máximo
+
+```js
+import { CURRENCY } from '@mamba/core';
+
+CURRENCY.LIMIT; // 999999.99
+```
+
 ## Keymap
 
-Provides the specific key-maps and key-names of POS.
+Fornece os mapas-chave e nomes-chave específicos do POS.
 
 ### KEY_NAMES
 
@@ -26,21 +38,20 @@ import { KEYBOARD } from '@mamba/core';
 
 const { KEY_NAMES, KEY_NAMES_LIST } = KEYBOARD;
 
-KEY_NAMES.ENTER; // 'Enter'
-KEY_NAMES_LIST; // ['CLOSE', 'BACK', 'BACKSPACE', 'ENTER', 'HELP', 'SHORTCUTS', 'SPACE', 'KEYUP', 'ARROW_UP', 'KEYDOWN', 'ARROW_DOWN', 'F24', 'F23', 'KEY_0', 'KEY_1', 'KEY_2', 'KEY_3', 'KEY_4', 'KEY_5', 'KEY_6', 'KEY_7', 'KEY_8', 'KEY_9']
+KEY_NAMES.ENTER; // 'enter'
+KEY_NAMES_LIST; // ['CLOSE', 'BACK', 'ENTER', 'HELP', 'SHORTCUTS', 'SPACE', 'KEYUP', 'ARROW_UP', 'KEYDOWN', 'ARROW_DOWN', 'F24', 'F23', 'KEY_0', 'KEY_1', 'KEY_2', 'KEY_3', 'KEY_4', 'KEY_5', 'KEY_6', 'KEY_7', 'KEY_8', 'KEY_9']
 ```
 
 Values:
 
 ```ts
 {
-  CLOSE: 'Close',
-  BACK: 'Backspace',
-  BACKSPACE: 'Backspace',
-  ENTER: 'Enter',
-  HELP: 'Help',
-  SHORTCUTS: 'Shortcuts',
-  SPACE: 'Space',
+  CLOSE: 'close',
+  BACK: 'back',
+  ENTER: 'enter',
+  HELP: 'help',
+  SHORTCUTS: 'shortcuts',
+  SPACE: 'space',
   F24: 'F24',
   F23: 'F23',
   KEY_0: '0',
@@ -57,13 +68,13 @@ Values:
   /**
    * @deprecated Use `ARROW_UP`
    */
-  KEYUP: 'KeyUp',
-  ARROW_UP: 'ArrowUp',
+  KEYUP: 'keyup',
+  ARROW_UP: 'keyup',
   /**
    * @deprecated Use `ARROW_DOWN`
    */
-  KEYDOWN: 'KeyDown',
-  ARROW_DOWN: 'ArrowDown',
+  KEYDOWN: 'keydown',
+  ARROW_DOWN: 'keydown',
 }
 ```
 
@@ -75,15 +86,14 @@ import { KEYBOARD } from '@mamba/core';
 const { KEY_CODES, KEY_CODES_LIST } = KEYBOARD;
 
 KEY_CODES.ENTER; // 13
-KEY_CODES_LIST; // [13, 8, 8, 27, 17, 16, 134, 135, 32, 38, 38, 40, 40, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57]
+KEY_CODES_LIST; // [13, 8, 8, 27, 17, 16, 134, 135, 32, 38, 40, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57]
 ```
 
 Values:
 
 ```ts
 {
-  BACKSPACE: 8,
-  KEYBACK: 8, // `BACKSPACE `Alias`
+  BACK: 8,
   ENTER: 13,
   SHORTCUTS: 16,
   HELP: 17,
@@ -117,7 +127,7 @@ Values:
 
 ### KEYMAP
 
-Maped key codes to key names
+Códigos de chave mapeados para nomes de chave
 
 [keyboard.getkeyname(keycode)]: #getkeynamekeycode
 
@@ -136,14 +146,14 @@ Values:
 
 ```ts
 {
-  "8": "Backspace",
-  "13": "Enter",
-  "16": "Shortcuts",
-  "17": "Help",
-  "27": "Close",
-  "32": "Space",
-  "38": "KeyUp",
-  "40": "KeyDown",
+  "8": "back",
+  "13": "enter",
+  "16": "shortcuts",
+  "17": "help",
+  "27": "close",
+  "32": "space",
+  "38": "keyup",
+  "40": "keydown",
   "48": "0",
   "49": "1",
   "50": "2",
@@ -161,7 +171,7 @@ Values:
 
 ## Usage example
 
-Let's say you want to do some action on your screen based on some POS key.
+Digamos que você queira fazer alguma ação na tela com base em alguma chave POS.
 
 ```html
 <svelte:window on:keyup="onKeyup(event)" />

@@ -1,17 +1,17 @@
 {
   "name": "@mamba/printable",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "svelte": "Printable.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 8 || <= 14",
-    "npm": ">=6"
+    "npm": ">6"
   },
   "publishConfig": {
     "access": "public"
   },
-  "peerDependencies": {
+  "dependencies": {
     "@mamba/dialog": ">=3",
     "@mamba/pos": ">=3"
   },
