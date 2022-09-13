@@ -6,12 +6,12 @@
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 8 || <= 14",
-    "npm": ">=6"
+    "npm": ">6"
   },
   "publishConfig": {
     "access": "public"
   },
-  "peerDependencies": {
+  "dependencies": {
     "@mamba/dialog": ">=3",
     "@mamba/pos": ">=3"
   },

@@ -6,16 +6,14 @@
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 8 || <= 14",
-    "npm": ">=6"
+    "npm": ">6"
   },
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
+    "@mamba/styles": ">=3",
     "qrious": "^4.0.2"
-  },
-  "peerDependencies": {
-    "@mamba/styles": ">=3"
   },
   "gitHead": "ddc05702292f5dea2772130436f0a00fbd5be1db"
 }

@@ -211,8 +211,6 @@ export function setup(System) {
    */
   System.getVersion = () => '3.0.0';
 
-  console.log(Registry.get().$System);
-
   /**
    * Get the current organization that pos is targeting
    * ORG NAME TON = "ton";

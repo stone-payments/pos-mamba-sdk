@@ -6,17 +6,13 @@
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 8 || <= 14",
-    "npm": ">=6"
+    "npm": ">6"
   },
   "publishConfig": {
     "access": "public"
   },
   "main": "index.js",
   "dependencies": {
-    "immer": "^2.1.5",
-    "svelte": "<3"
-  },
-  "peerDependencies": {
     "@mamba/app": ">=3",
     "@mamba/button": ">=3",
     "@mamba/core": "*",
@@ -26,7 +22,10 @@
     "@mamba/radio": ">=3",
     "@mamba/sprite": ">=3",
     "@mamba/switch": ">=3",
-    "@mamba/utils": ">=3"
+    "@mamba/utils": ">=3",
+    "immer": "^2.1.5",
+    "lodash": "^4.17.21",
+    "svelte": "<3"
   },
   "gitHead": "78978116d5c790c51aaf9af9db47ea8beaa4726b"
 }

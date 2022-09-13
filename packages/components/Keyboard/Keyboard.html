@@ -1,33 +1,88 @@
 <script>
   import Keyboard from './lib/index.js';
-  import Api from './api/index.js';
   import './css/Keyboard.css';
   import './css/KeyboardThemeMath.css';
   import './css/KeyboardThemeNumeric.css';
   import './css/KeyboardThemePhone.css';
+  import './css/KeyboardSuggestions.css';
+
+  let keyboard = null;
+
+  const destroyInstance = () => {
+    if (keyboard) {
+      keyboard.destroy();
+      keyboard = null;
+    }
+  };
+
+  const debug = __DEV__ || __DEBUG_LVL__ >= 3;
 
   export default {
     data() {
       return {
-        debug: __DEV__ || __DEBUG_LVL__ >= 3,
+        debug,
         keepVisible: false,
         autoRender: false,
       };
     },
     oncreate() {
-      this.root.on('router:change', () => {
+      this.root.on('router:change', (context = {}) => {
+        if (debug) {
+          console.log(
+            `<Keyboard> route:change ${JSON.stringify({
+              init: context.init,
+              path: context.path,
+            })}`,
+          );
+        }
+
+        if (context.init) return;
+        if (context.path.length === 1) return;
+
         try {
-          if (!(document.activeElement instanceof HTMLInputElement)) {
-            Api.virtualKeyboard.unmount();
+          if (!(document.activeElement instanceof HTMLInputElement) && keyboard) {
+            keyboard.resetOptions();
+            keyboard.unmount();
           }
         } catch (_) {
           //
         }
       });
 
-      new Keyboard({
-        ...this.get(),
+      this.on('destroy', () => {
+        destroyInstance();
       });
+    },
+    onupdate({ changed, current }) {
+      if (changed.keyboardOptions) {
+        const { keyboardOptions } = current;
+
+        if (debug) {
+          console.log(`<Keyboard> keyboardOptions changed`, keyboardOptions);
+        }
+
+        if (
+          typeof keyboardOptions === 'object' &&
+          keyboardOptions !== null &&
+          'renderCondition' in keyboardOptions
+        ) {
+          if (keyboardOptions.renderCondition === false) {
+            destroyInstance();
+            return;
+          }
+
+          if (!keyboard) {
+            const options = {
+              ...this.get(),
+              ...keyboardOptions,
+            };
+
+            delete options.keyboardOptions;
+
+            keyboard = new Keyboard(options);
+          }
+        }
+      }
     },
   };
 </script>

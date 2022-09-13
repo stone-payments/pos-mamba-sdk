@@ -2,51 +2,57 @@ import {
   KeyboardInput,
   KeyboardOptions,
   KeyboardHandlerEvent,
-  CaretPosition,
-  CaretWorkerParams,
+  CursorPosition,
+  CursorWorkerParams,
+  KeyboardType,
 } from '../types';
 import { greddyBraces } from './regExps';
 import type Keyboard from '../Keyboard';
 
 /**
- * CaretWorker.
+ * CursorWorker.
  * Controls input value insertion
  */
-class CaretWorker {
+class CursorWorker {
   getOptions: () => KeyboardOptions;
 
-  getCaretPosition = (): CaretPosition => this.caretPosition;
+  getCursorPosition = (): CursorPosition => this.cursorPosition;
 
-  getCaretPositionEnd = (): CaretPosition => this.caretPositionEnd;
+  getCursorPositionEnd = (): CursorPosition => this.cursorPositionEnd;
 
   keyboardInstance: Keyboard;
 
   maxLengthReached!: boolean;
 
   /**
-   * Caret position
+   * Cursor position
    */
-  caretPosition!: CaretPosition;
+  cursorPosition!: CursorPosition;
 
   /**
-   * Caret position end
+   * Cursor position end
    */
-  caretPositionEnd!: CaretPosition;
+  cursorPositionEnd!: CursorPosition;
 
   /**
-   * Captured caret input target
+   * Captured cursor input target
    */
-  caretInputTarget?: HTMLInputElement;
+  cursorInputTarget?: HTMLInputElement;
 
   /**
-   * Creates an instance of the CaretWorker
+   * Control flag for events setup
    */
-  constructor({ getOptions, keyboardInstance }: CaretWorkerParams) {
+  setuped = false;
+
+  /**
+   * Creates an instance of the CursorWorker
+   */
+  constructor({ getOptions, keyboardInstance }: CursorWorkerParams) {
     this.getOptions = getOptions;
     this.keyboardInstance = keyboardInstance;
 
-    this.caretPosition = null;
-    this.caretPositionEnd = null;
+    this.cursorPosition = null;
+    this.cursorPositionEnd = null;
   }
 
   /**
@@ -55,34 +61,34 @@ class CaretWorker {
    * @param length Represents by how many characters the input should be moved
    * @param minus Whether the cursor should be moved to the left or not.
    */
-  private updateCaretPos(length: number, minus = false) {
-    const newCaretPos = this.updateCaretPosAction(length, minus);
-    this.setCaretPosition(newCaretPos);
+  private updateCursorPos(length: number, minus = false) {
+    const newCursorPos = this.updateCursorPosAction(length, minus);
+    this.setCursorPosition(newCursorPos);
   }
 
   /**
-   * Action method of updateCaretPos
+   * Action method of updateCursorPos
    *
    * @param length Represents by how many characters the input should be moved
    * @param minus Whether the cursor should be moved to the left or not.
    */
-  private updateCaretPosAction(length: number, minus = false) {
+  private updateCursorPosAction(length: number, minus = false) {
     const options = this.getOptions();
-    let caretPosition = this.getCaretPosition();
+    let cursorPosition = this.getCursorPosition();
 
-    if (caretPosition != null) {
+    if (cursorPosition != null) {
       if (minus) {
-        if (caretPosition > 0) caretPosition -= length;
+        if (cursorPosition > 0) cursorPosition -= length;
       } else {
-        caretPosition += length;
+        cursorPosition += length;
       }
     }
 
     if (options.debug) {
-      console.log('Caret at:', caretPosition);
+      console.log('Cursor at:', cursorPosition);
     }
 
-    return caretPosition;
+    return cursorPosition;
   }
 
   /**
@@ -91,14 +97,14 @@ class CaretWorker {
    * @param source The source input
    * @param str The string to add
    * @param position The (cursor) position where the string should be added
-   * @param moveCaret Whether to update mamba-keyboard's cursor
+   * @param moveCursor Whether to update mamba-keyboard's cursor
    */
   private addStringAt(
     source: string,
     str: string,
     position: number = source.length,
     positionEnd: number = source.length,
-    moveCaret = false,
+    moveCursor = false,
   ) {
     let output;
 
@@ -108,10 +114,10 @@ class CaretWorker {
       output = [source.slice(0, position), str, source.slice(positionEnd)].join('');
 
       /**
-       * Avoid caret position change when maxLength is set
+       * Avoid cursor position change when maxLength is set
        */
       if (!this.isMaxLengthReached()) {
-        if (moveCaret) this.updateCaretPos(str.length);
+        if (moveCursor) this.updateCursorPos(str.length);
       }
     }
 
@@ -123,13 +129,13 @@ class CaretWorker {
    *
    * @param source The source input
    * @param position The (cursor) position from where the characters should be removed
-   * @param moveCaret Whether to update mamba-keyboard's cursor
+   * @param moveCursor Whether to update mamba-keyboard's cursor
    */
   private removeAt(
     source: string,
     position: number = source.length,
     positionEnd: number = source.length,
-    moveCaret = false,
+    moveCursor = false,
   ) {
     if (position === 0 && positionEnd === 0) {
       return source;
@@ -140,15 +146,15 @@ class CaretWorker {
     if (position === positionEnd) {
       if (position && position >= 0) {
         output = source.substr(0, position - 1) + source.substr(position);
-        if (moveCaret) this.updateCaretPos(1, true);
+        if (moveCursor) this.updateCursorPos(1, true);
       } else {
         output = source.slice(0, -1);
-        if (moveCaret) this.updateCaretPos(1, true);
+        if (moveCursor) this.updateCursorPos(1, true);
       }
     } else {
       output = source.slice(0, position) + source.slice(positionEnd);
-      if (moveCaret) {
-        this.setCaretPosition(position);
+      if (moveCursor) {
+        this.setCursorPosition(position);
       }
     }
 
@@ -165,7 +171,7 @@ class CaretWorker {
     source: string,
     position: number = source.length,
     positionEnd: number = source.length,
-    moveCaret = false,
+    moveCursor = false,
   ) {
     if (!source?.length || position === null) {
       return source;
@@ -177,8 +183,8 @@ class CaretWorker {
       output = source.substr(0, position) + source.substr(position + 1);
     } else {
       output = source.slice(0, position) + source.slice(positionEnd);
-      if (moveCaret) {
-        this.setCaretPosition(position);
+      if (moveCursor) {
+        this.setCursorPosition(position);
       }
     }
 
@@ -197,7 +203,7 @@ class CaretWorker {
   /**
    * Called by {@link setEventListeners} when an event that warrants a cursor position update is triggered
    */
-  private caretEventHandler(event: KeyboardHandlerEvent): void {
+  private cursorEventHandler(event: KeyboardHandlerEvent): void {
     if (!this) return;
     const options = this.getOptions();
     const isDOMInputType = event.target instanceof HTMLInputElement;
@@ -209,38 +215,38 @@ class CaretWorker {
     if (
       isDOMInputType &&
       ['text', 'tel'].includes(event.target.type) &&
-      !options.disableCaretPositioning
+      !options.disableCursorPositioning
     ) {
       /**
        * Tracks current cursor position
        * As keys are pressed, text will be added/removed at that position within the input.
        */
-      this.setCaretPosition(event.target.selectionStart, event.target.selectionEnd);
+      this.setCursorPosition(event.target.selectionStart, event.target.selectionEnd);
 
       if (options.debug) {
         console.log(
-          'Caret at: ',
-          this.getCaretPosition(),
-          this.getCaretPositionEnd(),
+          'Cursor at: ',
+          this.getCursorPosition(),
+          this.getCursorPositionEnd(),
           event && event.target.tagName.toLowerCase(),
           `(${this.keyboardInstance.keyboardDOMClass})`,
         );
       }
 
-      this.caretInputTarget = event.target;
+      this.cursorInputTarget = event.target;
     } else if (
-      (options.disableCaretPositioning || !isKeyboard) &&
+      (options.disableCursorPositioning || !isKeyboard) &&
       event?.type !== 'selectionchange'
     ) {
       /**
-       * If we toggled off disableCaretPositioning, we must ensure caretPosition doesn't persist once reactivated.
+       * If we toggled off disableCursorPositioning, we must ensure cursorPosition doesn't persist once reactivated.
        */
-      this.setCaretPosition(null);
+      this.setCursorPosition(null);
 
       if (options.debug) {
-        console.log(`Caret position reset due to "${event?.type}" event`, event);
+        console.log(`Cursor position reset due to "${event?.type}" event`, event);
       }
-      this.caretInputTarget = undefined;
+      this.cursorInputTarget = undefined;
     }
   }
 
@@ -249,44 +255,57 @@ class CaretWorker {
   /**
    * Handles mamba-keyboard event listeners
    */
-  setupCaretEventsControl(): void {
-    if (!document) return;
-
+  public setupCursorEventsControl(): void {
     const options = this.getOptions();
 
+    if (!document || options.readonly === true || this.setuped) return;
+
     if (options.debug) {
-      console.log(`Caret handling started (${this.keyboardInstance.keyboardDOMClass})`);
+      console.log(`Cursor handling started (${this.keyboardInstance.keyboardDOMClass})`);
     }
 
     /**
-     * Events for caret control
+     * Events for cursor control
      */
-    document.addEventListener('keyup', (e) => this.caretEventHandler(e));
-    document.addEventListener('mouseup', (e) => this.caretEventHandler(e));
-    document.addEventListener('select', (e) => this.caretEventHandler(e));
-    document.addEventListener('selectionchange', (e) => this.caretEventHandler(e));
+    document.addEventListener('keyup', (e) => this.cursorEventHandler(e));
+    document.addEventListener('mouseup', (e) => this.cursorEventHandler(e));
+    document.addEventListener('select', (e) => this.cursorEventHandler(e));
+    document.addEventListener('selectionchange', (e) => this.cursorEventHandler(e));
+    this.setuped = true;
   }
 
   /**
-   * Changes the internal caret position
+   * Remove cursor worker controls events
+   */
+  public ceaseCursorEventsControl() {
+    if (!this.setuped) return;
+    document.removeEventListener('keyup', (e) => this.cursorEventHandler(e));
+    document.removeEventListener('mouseup', (e) => this.cursorEventHandler(e));
+    document.removeEventListener('select', (e) => this.cursorEventHandler(e));
+    document.removeEventListener('selectionchange', (e) => this.cursorEventHandler(e));
+    this.setuped = false;
+  }
+
+  /**
+   * Changes the internal cursor position
    *
-   * @param position The caret's start position
-   * @param positionEnd The caret's end position
+   * @param position The cursor's start position
+   * @param positionEnd The cursor's end position
    * @param moveCursor Move cursor of target input or not
    * @param customTarget Pass early input event from focusin
    */
-  public setCaretPosition(
-    position: CaretPosition,
+  public setCursorPosition(
+    position: CursorPosition,
     endPosition = position,
     moveCursor = false,
     customTarget: any = undefined,
   ): void {
     const options = this.getOptions();
 
-    this.caretPosition = position;
-    this.caretPositionEnd = endPosition;
+    this.cursorPosition = position;
+    this.cursorPositionEnd = endPosition;
 
-    const input = customTarget || this.caretInputTarget || options.input;
+    const input = customTarget || this.cursorInputTarget || options.input;
 
     /**
      * Try move cursor
@@ -323,18 +342,34 @@ class CaretWorker {
   }
 
   /**
+   * Filters numeric output to handle formatted inputs
+   * @experimental
+   *
+   * @param value
+   * @returns
+   */
+  shouldFilterNumericValue(value: string): string {
+    const options = this.getOptions();
+    if (options.filtersNumbersOnly === true) {
+      value = Number(value.replace(/\D/g, '')).toString();
+    }
+
+    return value;
+  }
+
+  /**
    * Returns the updated input resulting from clicking a given button
    *
    * @param button The button's layout name
    * @param input The input string
-   * @param caretPos The cursor's current position
-   * @param caretPosEnd The cursor's current end position
-   * @param  moveCaret Whether to update mamba-keyboard's cursor
+   * @param cursorPos The cursor's current position
+   * @param cursorPosEnd The cursor's current end position
+   * @param  moveCursor Whether to update mamba-keyboard's cursor
    */
-  getUpdatedInput(button: string, input: string, moveCaret = false) {
-    const caretPos = this.caretPosition as number;
-    const caretPosEnd = this.caretPositionEnd || caretPos;
-    const commonParams: [number, number, boolean] = [caretPos, caretPosEnd, moveCaret];
+  getUpdatedInput(button: string, input: string, moveCursor = false) {
+    const cursorPos = this.cursorPosition as number;
+    const cursorPosEnd = this.cursorPositionEnd || cursorPos;
+    const commonParams: [number, number, boolean] = [cursorPos, cursorPosEnd, moveCursor];
 
     let output = input;
 
@@ -361,6 +396,8 @@ class CaretWorker {
         if (!greddyBraces.test(button)) {
           output = this.addStringAt(output, button, ...commonParams);
         }
+
+        output = this.shouldFilterNumericValue(output);
     }
 
     return output;
@@ -370,6 +407,6 @@ class CaretWorker {
 /**
  * Export only type
  */
-export type { CaretWorker };
+export type { CursorWorker };
 
-export default CaretWorker;
+export default CursorWorker;

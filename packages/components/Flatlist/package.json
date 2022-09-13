@@ -8,14 +8,15 @@
   "main": "index.js",
   "engines": {
     "node": ">= 8 || <= 14",
-    "npm": ">=6"
+    "npm": ">6"
   },
   "publishConfig": {
     "access": "public"
   },
-  "peerDependencies": {
+  "dependencies": {
     "@mamba/core": "*",
     "@mamba/icon": ">=3",
+    "@mamba/keyboard": "*",
     "@mamba/styles": ">=3",
     "@mamba/utils": ">=3"
   },

@@ -5,6 +5,7 @@ const merge = require('webpack-merge');
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin');
 const WebpackBar = require('webpackbar');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const webpack = require('webpack');
 const { fromCwd } = require('quickenv');
 const clientEnvironment = require('@mamba/configs/helpers/clientEnvironment.js');
@@ -75,7 +76,8 @@ module.exports = {
         test: /\.js$/,
         include: baseInclude,
         exclude: [/node_modules/],
-        use: [loaders.babelEsNext, loaders.eslint],
+        enforce: 'pre',
+        use: [loaders.babelEsNext, loaders.eslint, loaders.sourcemaps],
       },
       /**
        * ! Dependency modules
@@ -130,6 +132,7 @@ module.exports = {
   },
   plugins: [
     new WebpackBar(),
+    new LodashModuleReplacementPlugin(),
     new MiniCssExtractPlugin({
       filename: 'style.css',
       chunkFilename: '[name].[hash:5].css',

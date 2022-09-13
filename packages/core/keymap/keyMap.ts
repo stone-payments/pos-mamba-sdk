@@ -7,8 +7,7 @@ import KEY_NAME from './keyNames';
 
 export default Object.freeze({
   [KEY.ENTER]: KEY_NAME.ENTER,
-  [KEY.BACKSPACE]: KEY_NAME.BACKSPACE,
-  [KEY.KEYBACK]: KEY_NAME.BACK,
+  [KEY.BACK]: KEY_NAME.BACK,
   [KEY.CLOSE]: KEY_NAME.CLOSE,
   [KEY.HELP]: KEY_NAME.HELP,
   [KEY.SHORTCUTS]: KEY_NAME.SHORTCUTS,
@@ -28,13 +27,14 @@ export default Object.freeze({
   [KEY.KEY_9]: KEY_NAME.KEY_9,
   [KEY.SPACE]: KEY_NAME.SPACE,
 
-  /**
-   * @deprecated Use `ARROW_UP`
-   */
-  [KEY.KEYUP]: KEY_NAME.KEYUP,
+  /// Comment for reference
+  // /**
+  //  * @deprecated Use `ARROW_UP`
+  //  */
+  // [KEY.KEYUP]: KEY_NAME.KEYUP,
 
-  /**
-   * @deprecated Use `ARROW_UP`
-   */
-  [KEY.KEYDOWN]: KEY_NAME.KEYDOWN,
+  // /**
+  //  * @deprecated Use `ARROW_UP`
+  //  */
+  // [KEY.KEYDOWN]: KEY_NAME.KEYDOWN,
 });

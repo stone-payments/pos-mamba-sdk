@@ -7,7 +7,12 @@
 export function createKeyboardElement(
   className?: string | string[],
   type = 'div',
-): HTMLDivElement | HTMLSpanElement {
+):
+  | HTMLDivElement
+  | HTMLSpanElement
+  | HTMLTableElement
+  | HTMLTableRowElement
+  | HTMLTableCellElement {
   const elm = document.createElement(type);
   if (className) {
     elm.className += Array.isArray(className) ? className.join(' ') : className;
