@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.1.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@6.0.2...@mamba/input@6.1.0) (2022-09-13)
+
+
+### Features
+
+* 🎸 add money input instance referênce for virtual keyboard ([f4f68f5](https://github.com/stone-payments/pos-mamba-sdk/commit/f4f68f552f8c4130c2c43f09cd048574d17d6b45))
+* 🎸 set keyboard options by html input tag attrb ([c1fd2b0](https://github.com/stone-payments/pos-mamba-sdk/commit/c1fd2b0f1be723ed90fad095abaa6dbd1fced6bf))
+
+
+### Bug Fixes
+
+* 🐛 fix hard coded keys and its events ([7caddec](https://github.com/stone-payments/pos-mamba-sdk/commit/7caddec0f31d60c3fe2adb16970703b4c1ff7765))
+
+
+
 ### [6.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@6.0.1...@mamba/input@6.0.2) (2022-08-30)
 
 **Note:** Version bump only for package @mamba/input

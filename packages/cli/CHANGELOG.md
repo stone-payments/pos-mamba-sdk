@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@4.0.2...@mamba/cli@4.1.0) (2022-09-13)
+
+
+### Features
+
+* 🎸 add D199 of cli deploy ([415e9dc](https://github.com/stone-payments/pos-mamba-sdk/commit/415e9dc1a9c1850ded50fc3bd7c6801550b3fdee))
+
+
+
 ### [4.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@4.0.1...@mamba/cli@4.0.2) (2022-08-30)
 
 **Note:** Version bump only for package @mamba/cli

@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@4.0.2...@mamba/webpack@4.1.0) (2022-09-13)
+
+
+### Bug Fixes
+
+* 🐛 app bar model to class ([d673df2](https://github.com/stone-payments/pos-mamba-sdk/commit/d673df284dab7ab97bce7118922599e05d6e9253))
+* 🐛 fix lodash module bundle size ([bc7b0a2](https://github.com/stone-payments/pos-mamba-sdk/commit/bc7b0a2f7a8fac01f06135d7d7085309d9bc6f18))
+
+
+
 ### [4.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@4.0.1...@mamba/webpack@4.0.2) (2022-08-30)
 
 **Note:** Version bump only for package @mamba/webpack
