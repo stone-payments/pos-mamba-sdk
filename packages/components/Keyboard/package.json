@@ -37,5 +37,6 @@
     "@mamba/utils": "5.1.0",
     "@types/lodash": "^4.14.182",
     "lodash": "^4.17.21"
-  }
+  },
+  "gitHead": "35b4ded3263250d164c2724393d7aa8dca572aa6"
 }
