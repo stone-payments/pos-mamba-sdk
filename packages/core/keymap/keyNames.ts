@@ -1,25 +1,23 @@
-const BACK = 'Backspace';
-
 export default Object.freeze({
-  CLOSE: 'Close',
-  BACK,
-  BACKSPACE: BACK,
+  CLOSE: 'close',
+  BACK: 'back',
 
-  ENTER: 'Enter',
-  HELP: 'Help',
-  SHORTCUTS: 'Shortcuts',
-  SPACE: 'Space',
+  ENTER: 'enter',
+  HELP: 'help',
+  SHORTCUTS: 'shortcuts',
+  SPACE: 'space',
+
+  ARROW_UP: 'keyup',
+  ARROW_DOWN: 'keydown',
 
   /**
    * @deprecated Use `ARROW_UP`
    */
-  KEYUP: 'KeyUp',
-  ARROW_UP: 'ArrowUp',
+  KEYUP: 'keyup',
   /**
    * @deprecated Use `ARROW_DOWN`
    */
-  KEYDOWN: 'KeyDown',
-  ARROW_DOWN: 'ArrowDown',
+  KEYDOWN: 'keydown',
 
   F24: 'F24',
   F23: 'F23',

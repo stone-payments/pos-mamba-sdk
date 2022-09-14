@@ -10,6 +10,7 @@ import { KEYBOARD } from '@mamba/core';
 // Any other key non-listed here must avoid input change for POS environment
 export default Object.freeze({
   ...KEYBOARD.KEY_MAP,
+  8: 'Backspace',
   48: ['0', ')'],
   49: ['1', '!'],
   50: ['2', '@'],

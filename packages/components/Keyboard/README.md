@@ -1,8 +1,12 @@
 # Keyboard
 
-Como usar:
+Este módulo oferece uma série de funcionalidades referente ao telcado físico, virtual, mapeamento de teclas, e controle de input do teclado físico do seu POS.
 
-```js
+## Teclado Virtual - Como usar
+
+#### ◼︎ Adicine o componente `<Keyboard/>` na raiz do seu projeto.
+
+```html
 <Keyboard />
 
 <script>
@@ -14,34 +18,119 @@ Como usar:
 </script>
 ```
 
+#### ◼︎ Ou adicine o componente `<Keyboard/>` em uma rota específica, podendo assimm passar alguma de suas propriedades pelo HTML.
+
+```html
+<Keyboard keyboardType="{KeyboardType.Math}" />
+
+<script>
+  import { KeyboardType } from '@mamba/keyboard/lib/index.js';
+
+  export default {
+    components: {
+      Keyboard: '@mamba/keyboard/Keyboard.html',
+    },
+    helpers: {
+      KeyboardType,
+    },
+  };
+</script>
+```
+
+As propriedades declaradas no elemento HTML, serão usadas no inicializador do teclado virtual, podendo também serem sobrescritas por seus métodos(ex.: [Keyboard.setOptions](#setoptionsoptions--void)) mais tarde. Essas propriedades são salvas como ponto de partida, caso use o método [Keyboard.reset](#reset-void) ou [Keyboard.resetOptions](#resetoptions-void)
+
+## Examplo de uso da API
+
+```js
+import { KEYBOARD } from '@mamba/core';
+import Keyboard from '@mamba/keyboard/api/index.js';
+import { KeyboardType, KeyboardUpdateMode } from '@mamba/keyboard/lib/index.js';
+
+Keyboard.isBackspaceEnabled(); // true
+
+/** Disables the physical backspace button */
+Keyboard.disableBackspace();
+
+Keyboard.isBackspaceEnabled(); // false
+
+/** Enables the physical backspace button */
+Keyboard.enableBackspace();
+
+/** Set virtual keyboard options */
+Keyboard.setOptions({
+  keyboardType: KeyboardType.Math,
+  updateMode: KeyboardUpdateMode.Manual,
+  maxLength: String(999.99).length - 1,
+  onKeyPress: (button) => {
+    if (button === KEYBOARD.ENTER) {
+      // pay
+    } else {
+      // add input
+    }
+  },
+});
+
+/** Hide virtual keyboard */
+Keyboard.hide();
+```
+
 ## Eventos
 
 ```ts
+type FunctionKeyPressCallback = (
+  button: string,
+  instance: Keyboard,
+  e?: KeyboardHandlerEvent,
+) => void;
+
 interface KeyboardTypeEvents {
   /**
-   * Executes the callback function every time mamba keyboard is rendered (e.g: when you change layouts).
+   * Executes thae callback function when virtual keyboard rendered by the first time.
+   * @event
+   */
+  beforeFirstRender?: (instance: Keyboard) => void;
+
+  /**
+   * Executes a callback function before a virtual keyboard render.
+   * @event
+   */
+  beforeRender?: (instance: Keyboard) => void;
+
+  /**
+   * Executes a callback function every time virtual keyboard is rendered (e.g: when you change layouts).
+   * @event
    */
   onRender?: (instance: Keyboard) => void;
 
   /**
-   * Executes the callback function once mamba keyboard is rendered for the first time (on initialization).
+   * Executes a callback function once virtual keyboard is rendered for the first time (on initialization).
+   * @event
    */
   onInit?: (instance: Keyboard) => void;
 
   /**
    * Retrieves the current input
+   * @event
    */
   onChange?: (input: string, e?: KeyboardHandlerEvent) => void;
 
   /**
-   * Executes the callback function on any key press. Returns button layout name (i.e.: “{enter}”, "b", "c", "2" ).
+   * Executes a callback function on any key press of virtual keyboard. Returns button layout name (i.e.: “{enter}”, "b", "c", "2" ).
+   * @event
    */
   onKeyPress?: (button: string, e?: KeyboardHandlerEvent) => void;
 
   /**
-   * Execute the callback function on keypress of non-standard type only (functionality type i.e.: “{alt}”).
+   * Execute a callback function on keypress of non-standard type only (functionality type i.e.: “{alt}”) of virtual keyboard.
+   * @event
    */
-  onFunctionKeyPress?: (button: string, instance: Keyboard, e?: KeyboardHandlerEvent) => void;
+  onFunctionKeyPress?: FunctionKeyPressCallback;
+
+  /**
+   * Execute a callback function on keypress of standard type only (type i.e.: “a”, “k”, “5”) of virtual keyboard.
+   * @event
+   */
+  onStandardKeyPress?: FunctionKeyPressCallback;
 }
 ```
 
@@ -51,7 +140,6 @@ interface KeyboardTypeEvents {
 interface KeyboardOptions {
   /**
    * Specifies which keyboard type should be used out of the box.
-   * Also can enforce by define dataset `<input data-keyboard-type="<type>" />`
    * @defaultValue {@link KeyboardType.Default}
    */
   keyboardType?: KeyboardType;
@@ -78,8 +166,17 @@ interface KeyboardOptions {
   /**
    * A prop to add your own css classes to the keyboard wrapper.
    * You can add multiple classes separated by a space.
+   * Prefab keyboards have their own themes... set this property will remove its theme..
    */
   theme?: string;
+
+  /**
+   * Defines a class modifier to work with theme variations.
+   * You can use some pre-variations of {@link KeyboardThemeVariation} or add your own css class, that can have multiple classes separated by space. Strings will be transformed to kebab-case automatically.
+   *
+   * The class its self will be the concatenation of keyboard slug with two dashes. eg.: `mb-variation--small`, `mb-variation--my-class`
+   */
+  themeVariation?: KeyboardThemeVariation | string;
 
   /**
    * Replaces variable buttons (such as `{backspace}`) with a human-friendly name (e.g.: `backspace`).
@@ -116,9 +213,36 @@ interface KeyboardOptions {
   maxLength?: any;
 
   /**
+   * If input is readonly(or static `div` element as input), keyboard will disable cursor event handlers since it won't be necessary.
+   *
+   * This property do not change or include <input> readonly attribute
+   */
+  readonly?: boolean;
+
+  /**
+   * Tells keyboard which value it should use at input start position after key press input change. Like a currency placeholder.
+   * Only works if the {@link updateMode} are on mode {@link KeyboardUpdateMode.Auto}.
+   */
+  lastValue?: string;
+
+  /**
+   * Tells keyboard if it should get or set number values only.
+   * If some cases you dont want capture formatted values to internal keyboard virtual input, this props cleans the input work to number, to able to be formatted back again.
+   * Useful for fields with formatting that happen after key events.
+   */
+  filtersNumbersOnly?: boolean;
+
+  /**
+   * Optionally set a condition for the virtual keyboard to render or work.
+   * Its instance will be destroyed if exist.
+   * Can be a Boolean or a function that do something and return a boolean.
+   */
+  renderCondition?: boolean | (() => boolean);
+
+  /**
    * A prop to ensure characters are always be added/removed at the end of the string.
    */
-  disableCaretPositioning?: boolean;
+  disableCursorPositioning?: boolean;
 
   /**
    * Restrains input(s) change to the defined regular expression pattern.
@@ -249,9 +373,307 @@ interface KeyboardOptions {
 }
 ````
 
-# Teclados predisponíveis
+### Passando opções pelo `<Input />`
+
+Você pode passar opções simples, compatíveis com **JSON** _(não aceita funções/eventos do teclado)_, pelo elemento HTML input:
+
+```html
+<input
+  data-keyboard="true"
+  data-keyboard-options='{ "themeVariation": "my-variation", "keepVisible": false }'
+/>
+```
+
+Caso você utilize o `@mamba/input`, é mais permissivo:
+
+```html
+<Input label="Insira o valor" keyboardOptions={{ themeVariation: KeyboardThemeVariation.Compact }}
+/>
+
+<script>
+  export default {
+    components: {
+      Input: '@mamba/input',
+    },
+  };
+</script>
+```
+
+---
+
+# API
+
+Responsável por expor métodos de controle sobre o teclado físico e virutal, bem como métodos de ajuda auxiliares do POS, e acesso aos métodos do teclado virtual e derivados.
+
+## Interface
 
 ```ts
+interface Keyboard {
+  virtualKeyboard: Keyboard;
+  visibility: KeyboardVisibility;
+  setKeyboardInputAsNumeric: () => void;
+  setKeyboardInputAsAlphanumeric: () => void;
+  getKeyCode: (keyName: string) => number;
+  getKeyName: (keyCode: number) => string;
+  isNumericKey: (keyCode: number) => boolean;
+  isActionKey: (keyCode: number) => boolean;
+  isBackspaceEnabled: () => boolean;
+  disableBackspace: () => void;
+  enableBackspace: () => void;
+  setKeyboardType(type: KeyboardType): void;
+  setOptions(options?: {}): void;
+  setInput(input: string): void;
+  getInput(): string;
+  clearInput(): void;
+  replaceInput(keyboardInput: { default: string }): void;
+  render(): void;
+  show(): void;
+  hide(): void;
+  unmount(): void;
+  resetOptions(): void;
+  reset(): void;
+  currentInputPatternIsValid(): boolean;
+  getButtonElement(button: string): undefined | KeyboardElement | KeyboardElement[];
+  setKeyboardAsCustomType(options: KeyboardOptions = {}): void;
+  setKeyboardAsDefaultType(): void;
+  setKeyboardAsMathType(): void;
+  setKeyboardAsNumericType(): void;
+  setKeyboardAsPhoneType(): void;
+  destroy(): void;
+}
+```
+
+## Métodos
+
+### `setKeyboardInputAsNumeric()`
+
+Define que a máquina irá digitar apenas números.
+
+```js
+import Keyboard from '@mamba/keyboard/api/index.js';
+
+Keyboard.setKeyboardInputAsNumeric();
+```
+
+### `setKeyboardInputAsAlphanumeric()`
+
+Define que a máquina irá digitar caracteres alfanuméricos.
+
+```js
+import Keyboard from '@mamba/keyboard/api/index.js';
+
+Keyboard.setKeyboardInputAsAlphanumeric();
+```
+
+### `getKeyCode(keyName: string)`
+
+Retorna o `código da tecla` referente a uma tecla da máquina.
+
+```js
+import Keyboard from '@mamba/keyboard/api/index.js'
+
+Keyboard.getKeyCode('Enter'); // 13
+Keyboard.getKeyCode('enter'); // 13
+
+Keyboard.getKeyCode('Back'); // 8
+Keyboard.getKeyCode('Close'); // 27
+Keyboard.getKeyCode('Help'); // 17
+Keyboard.getKeyCode('Shortcuts'); // 16
+Keyboard.getKeyCode('0'); // 48
+...
+Keyboard.getKeyCode('9'); // 57
+```
+
+### `getKeyName(keyCode: number)`
+
+Retorna o `nome da tecla` referente ao código de uma tecla da máquina.
+
+```js
+import Keyboard from '@mamba/keyboard/api/index.js'
+
+Keyboard.getKeyName(13); // 'enter'
+Keyboard.getKeyName(8); // 'back'
+Keyboard.getKeyName(27); // 'close'
+Keyboard.getKeyName(17); // 'help'
+Keyboard.getKeyName(16); // 'shortcuts'
+Keyboard.getKeyName(48); // '0'
+...
+Keyboard.getKeyName(57); // '9'
+```
+
+### `isNumericKey(keyCode: number): void`
+
+Retorna se uma tecla representa um número.
+
+```js
+import Keyboard from '@mamba/keyboard/api/index.js';
+
+/** 13 = 'enter' */
+Keyboard.isNumericKey(13); // false
+
+/** 57 = '9' */
+Keyboard.isNumericKey(57); // true
+```
+
+### `isActionKey(keyCode: number): void`
+
+(_Obsoleto_, usar `isFunctionKey()`)
+
+Retorna se uma tecla representa uma ação.
+
+```js
+import Keyboard from '@mamba/keyboard/api/index.js';
+
+/** 13 = 'enter' */
+Keyboard.isActionKey(13); // true
+
+/** 57 = '9' */
+Keyboard.isActionKey(57); // false
+```
+
+### `isFunctionKey(keyCode: number): void`
+
+Retorna se uma tecla representa uma ação.
+
+```js
+import Keyboard from '@mamba/keyboard/api/index.js';
+
+/** 13 = 'enter' */
+Keyboard.isFunctionKey(13); // true
+
+/** 57 = '9' */
+Keyboard.isFunctionKey(57); // false
+```
+
+### `isBackspaceEnabled(): void`
+
+Retorna se o uso do botão físico de `voltar`/`backspace` está habilitado ou não no aplicativo.
+
+### `disableBackspace(): void`
+
+Desabilita o uso do botão físico de `voltar`/`backspace` no aplicativo em questão.
+
+### `enableBackspace(): void`
+
+Habilita o uso do botão físico de `voltar`/`backspace` no aplicativo em questão.
+
+### `setKeyboardType(type: KeyboardType): void`
+
+Altere o tipo de teclado passando um dos tipos do `KeyboardType`.
+
+### `setOptions(options?: {}): void`
+
+Define uma nova opção ou modifica as existentes após a inicialização.
+
+### `setInput(input: string): void`
+
+Defina a entrada virtual do teclado virtual. Este método não altera o valores de elementos `<input>`
+
+### `getInput(): string`
+
+Obtenha a entrada virtual do teclado virtual (você também pode obtê-la pela propriedade `onChange`).
+
+### `clearInput(): void`
+
+Limpa a entrada virtual do teclado virtual.
+
+### `replaceInput(keyboardInput: { default: string }): void`
+
+Substitui o valor de entrada virtual do teclado virtual.
+
+### `render(): void`
+
+Renderiza ou atualiza os botões do teclado.
+Pode ser chamado direto se `autoRender` estiver desativado.
+
+> `@throws LAYOUT_NOT_FOUND_ERROR` - layout não encontrado.
+>
+> `@throws LAYOUT_NAME_NOT_FOUND_ERROR` - nome do layout não encontrado no objeto de layout
+
+### `show(): void`
+
+Mostra o teclado e montá-lo se já não estiver.
+
+### `hide(): void`
+
+Oculta o teclado. Esse método faz menos processamento do que a propriedade `visibility`.
+
+### `unmount(): void`
+
+Remove todas as linhas do teclado e define a visibilidade como oculta.
+
+### `resetOptions(): void`
+
+Redefine as propriedades do teclado.
+
+### `reset(): void`
+
+Redefine as propriedades do teclado e os elementos do teclado.
+
+### `currentInputPatternIsValid(): boolean`
+
+Retorna se a entrada atual é válida com a propriedade `pattern` configurada.
+
+### `getButtonElement(button: string): undefined | KeyboardElement | KeyboardElement[]`
+
+Obtém o elemento DOM de um botão. Se houver vários botões com o mesmo nome, será retornado um array dos Elementos DOM.
+
+### `setKeyboardAsCustomType(options: KeyboardOptions = {}): void`
+
+Defina o teclado virtual como tipo personalizado.
+Esse método ja define por si só, o tipo do teclado para o tipo customizado(`KeyboardType.Custom`)
+
+### `setKeyboardAsDefaultType(): void`
+
+Defina o teclado virtual do tipo alfanumérico padrão.
+
+### `setKeyboardAsMathType(): void`
+
+Defina o teclado virtual do tipo calculadora.
+
+### `setKeyboardAsNumericType(): void`
+
+Defina o teclado virtual como tipo numérico.
+
+### `setKeyboardAsPhoneType(): void`
+
+Defina o teclado virtual como tipo de telefone.
+
+### `destroy(): void`
+
+Destroi o teclado virtual, remove seus ouvintes e elementos do DOM. Este método não deve ser usado se você estiver usando o componente `<Keyboard />`.
+
+## Enumeradores
+
+```ts
+/**
+ * Keyboard update mode
+ */
+enum KeyboardUpdateMode {
+  Auto = 'auto',
+  Manual = 'manual',
+}
+
+/**
+ * Keyboard visibility
+ */
+enum KeyboardVisibility {
+  Hidden = 'hidden',
+  Visible = 'visible',
+}
+
+/**
+ * Layout row direction
+ */
+enum LayoutDirection {
+  Horizontal = 'horizontal',
+  Vertical = 'vertical',
+  Fixed = 'fixed',
+}
+
+/**
+ * Keyboard enum
+ */
 enum KeyboardType {
   Default = 'default',
   Numeric = 'numeric',
@@ -259,13 +681,41 @@ enum KeyboardType {
   Math = 'math',
   Custom = 'custom',
 }
+
+/**
+ * Keyboard theme variation
+ */
+export enum KeyboardThemeVariation {
+  Large = 'large', // For large screens and high DPI without zoom
+  Default = 'default', // Default variation for general purpose
+  Compact = 'compact', // Reduced spaces and height
+  UltraSmall = 'ultra-small', // For very small screens
+}
+
+/**
+ * Beep tone
+ */
+enum BeepTone {
+  TONE_1 = 'TONE1',
+  TONE_2 = 'TONE2',
+  TONE_3 = 'TONE3',
+  TONE_4 = 'TONE4',
+  TONE_5 = 'TONE5',
+  TONE_6 = 'TONE6',
+  TONE_7 = 'TONE7',
+}
 ```
+
+# Teclados pré-disponíveis
+
+São teclados com temas e já configurado para uso.
 
 ```js
 import Keyboard from '@mamba/keyboard/api/index.js';
+import { KeyboardType } from '@mamba/keyboard/lib/index.js';
 
 Keyboard.setOptions({
-  keyboardType: 'numeric',
+  keyboardType: KeyboardType.Numeric,
 });
 ```
 
@@ -313,167 +763,6 @@ Keyboard.setKeyboardAsMathType();
 import Keyboard from '@mamba/keyboard/api/index.js';
 
 Keyboard.setKeyboardAsPhoneType();
-```
-
-# API
-
-Responsável por expor métodos de controle sobre o teclado, bem como métodos de ajuda auxiliares, e acesso aos métodos do teclado virtual e seus métodos derivados.
-
-## Interface
-
-```ts
-interface Keyboard {
-  virtualKeyboard: Keyboard;
-  visibility: KeyboardVisibility;
-  setKeyboardInputAsNumeric: () => void;
-  setKeyboardInputAsAlphanumeric: () => void;
-  getKeyCode: (keyName: string) => number;
-  getKeyName: (keyCode: number) => string;
-  isNumericKey: (keyCode: number) => boolean;
-  isActionKey: (keyCode: number) => boolean;
-  isBackspaceEnabled: () => boolean;
-  disableBackspace: () => void;
-  enableBackspace: () => void;
-  setOptions(options?: {}): void;
-  setInput(input: string): void;
-  getInput(): string;
-  clearInput(): void;
-  replaceInput(keyboardInput: { default: string }): void;
-  render(): void;
-  show(): void; // Render alias
-  unmount(): void;
-  currentInputPatternIsValid(): boolean;
-  getButtonElement(button: string): undefined | KeyboardElement | KeyboardElement[];
-  setKeyboardAsCustomType(otherOptions?: {}): void;
-  setKeyboardAsDefaultType(): void;
-  setKeyboardAsMathType(): void;
-  setKeyboardAsNumericType(): void;
-  setKeyboardAsPhoneType(): void;
-}
-```
-
-### setKeyboardInputAsNumeric()
-
-Define que a máquina irá digitar apenas números.
-
-```js
-import Keyboard from '@mamba/keyboard/api/index.js';
-
-Keyboard.setKeyboardInputAsNumeric();
-```
-
-### setKeyboardInputAsAlphanumeric()
-
-Define que a máquina irá digitar caracteres alfanuméricos.
-
-```js
-import Keyboard from '@mamba/keyboard/api/index.js';
-
-Keyboard.setKeyboardInputAsAlphanumeric();
-```
-
-### getKeyCode(keyName)
-
-Retorna o `código da tecla` referente a uma tecla da máquina.
-
-```js
-import Keyboard from '@mamba/keyboard/api/index.js'
-
-Keyboard.getKeyCode('Enter'); // 13
-Keyboard.getKeyCode('Back'); // 8
-Keyboard.getKeyCode('Close'); // 27
-Keyboard.getKeyCode('Help'); // 17
-Keyboard.getKeyCode('Shortcuts'); // 16
-Keyboard.getKeyCode('0'); // 48
-...
-Keyboard.getKeyCode('9'); // 57
-```
-
-### getKeyName(keyCode)
-
-Retorna o `nome da tecla` referente ao código de uma tecla da máquina.
-
-```js
-import Keyboard from '@mamba/keyboard/api/index.js'
-
-Keyboard.getKeyName(13); // 'enter'
-Keyboard.getKeyName(8); // 'back'
-Keyboard.getKeyName(27); // 'close'
-Keyboard.getKeyName(17); // 'help'
-Keyboard.getKeyName(16); // 'shortcuts'
-Keyboard.getKeyName(48); // '0'
-...
-Keyboard.getKeyName(57); // '9'
-```
-
-### isNumericKey(keyCode)
-
-Retorna se uma tecla representa um número.
-
-```js
-import Keyboard from '@mamba/keyboard/api/index.js';
-
-/** 13 = 'enter' */
-Keyboard.isNumericKey(13); // false
-
-/** 57 = '9' */
-Keyboard.isNumericKey(57); // true
-```
-
-### isActionKey(keyCode)
-
-(_Obsoleto_, usar `isFunctionKey()`)
-
-Retorna se uma tecla representa uma ação.
-
-```js
-import Keyboard from '@mamba/keyboard/api/index.js';
-
-/** 13 = 'enter' */
-Keyboard.isActionKey(13); // true
-
-/** 57 = '9' */
-Keyboard.isActionKey(57); // false
-```
-
-### isFunctionKey(keyCode)
-
-Retorna se uma tecla representa uma ação.
-
-```js
-import Keyboard from '@mamba/keyboard/api/index.js';
-
-/** 13 = 'enter' */
-Keyboard.isFunctionKey(13); // true
-
-/** 57 = '9' */
-Keyboard.isFunctionKey(57); // false
-```
-
-### isBackspaceEnabled()
-
-Retorna se o uso do botão de `voltar`/`backspace` está habilitado ou não no aplicativo.
-
-### disableBackspace()
-
-Desabilita o uso do botão de `voltar`/`backspace` no aplicativo em questão.
-
-### enableBackspace()
-
-Habilita o uso do botão de `voltar`/`backspace` no aplicativo em questão.
-
-```js
-import Keyboard from '@mamba/keyboard/api/index.js';
-
-Keyboard.isBackspaceEnabled(); // true
-
-/** Disable the backspace button */
-Keyboard.disableBackspace();
-
-Keyboard.isBackspaceEnabled(); // false
-
-/** Enable the backspace button */
-Keyboard.enableBackspace();
 ```
 
 ## Keyboard native key map

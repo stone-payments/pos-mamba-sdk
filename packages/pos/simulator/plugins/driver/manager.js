@@ -1,7 +1,8 @@
+import { merge } from 'lodash';
 import EventTarget from '../../libs/EventTarget.js';
 import Registry from '../registry/manager.js';
 import Signal from '../../libs/signal.js';
-import { LOG_PREFIX, deepCopy } from '../../libs/utils.js';
+import { LOG_PREFIX } from '../../libs/utils.js';
 import extend from '../../../extend.js';
 import { HMAC } from './addons.js';
 
@@ -40,23 +41,16 @@ DriverManager.attachDrivers = (driverModules) => {
         console.log('Dynamic settings:', dynamicDefaults);
       }
 
-      Registry.set((draft) => {
-        draft[driverRef] = deepCopy({
-          ...dynamicDefaults,
-          ...(draft[driverRef] || {}),
-        });
+      Registry.set((draft = {}) => {
+        draft[driverRef] = merge(dynamicDefaults, draft[driverRef]);
       });
     }
 
     if (driverModule.PERSISTENT_SETTINGS) {
-      const persistentDefaults = deepCopy(driverModule.PERSISTENT_SETTINGS);
-
+      const persistentDefaults = driverModule.PERSISTENT_SETTINGS;
       /** Does any persisted data for this driver exist? */
       Registry.persistent.set((draft) => {
-        draft[driverRef] = {
-          ...persistentDefaults,
-          ...(draft[driverRef] || {}),
-        };
+        draft[driverRef] = merge(persistentDefaults, draft[driverRef]);
       });
 
       if (__DEBUG_LVL__ >= 1 && __BROWSER__) {

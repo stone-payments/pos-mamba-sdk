@@ -28,13 +28,13 @@ export default function (driver) {
 
   /**
    * Sets the keyboard to enter numbers only.
-   * @deprecated
+   * @deprecated use `setKeyboardInputAsNumeric`
    */
   driver.setKeyboardAsNumeric = driver.setKeyboardInputAsNumeric;
 
   /**
    * Sets the keyboard to type alphanumeric characters.
-   * @deprecated
+   * @deprecated use `setKeyboardInputAsAlphanumeric`
    */
   driver.setKeyboardAsAlphanumeric = driver.setKeyboardInputAsAlphanumeric;
 

@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/core@1.1.1...@mamba/core@1.2.0) (2022-09-13)
+
+
+### Bug Fixes
+
+* 🐛 back and backspace key code conflict ([34fbf45](https://github.com/stone-payments/pos-mamba-sdk/commit/34fbf45d0b69d420d2ea66e15b7ac45768f76d46))
+* 🐛 fix hard coded keys and its events ([7caddec](https://github.com/stone-payments/pos-mamba-sdk/commit/7caddec0f31d60c3fe2adb16970703b4c1ff7765))
+
+
+
 ### [1.1.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/core@1.1.0...@mamba/core@1.1.1) (2022-08-30)
 
 **Note:** Version bump only for package @mamba/core

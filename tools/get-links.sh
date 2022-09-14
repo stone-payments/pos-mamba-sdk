@@ -22,10 +22,9 @@
 #
 
 LINK_CHAIN="yarn link "
-INSTALL_CHAIN="npm link "
+INSTALL_CHAIN="npm i --no-save "
 PATHS=$(find "$PWD"/packages -type f -name "package.json" \
   -not \( -ipath "*/node_modules/*" -prune \) \
-  -not \( -ipath "*/cli/*" -prune \) \
   -not \( -ipath "*/docs/*" -prune \) \
   -not \( -ipath "*/logger/*" -prune \) \
   -not \( -ipath "*/.git/*" -prune \))

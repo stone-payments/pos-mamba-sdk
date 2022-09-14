@@ -1,6 +1,6 @@
 {
   "name": "@mamba/utils",
-  "version": "5.0.2",
+  "version": "5.1.0",
   "description": "Utility methods for mamba apps",
   "module": "index.js",
   "sideEffects": false,
@@ -8,14 +8,15 @@
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 8 || <= 14",
-    "npm": ">=6"
+    "npm": ">6"
   },
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
     "date-fns": "2.28.0",
-    "date-fns-tz": "1.2.2"
+    "date-fns-tz": "1.2.2",
+    "lodash": "^4.17.21"
   },
   "gitHead": "0daaddf15510894989750580009daa93e1fbb6db"
 }

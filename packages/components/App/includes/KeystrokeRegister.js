@@ -1,3 +1,4 @@
+import { KEYBOARD } from '@mamba/core';
 import Keyboard from '@mamba/keyboard/api/index.js';
 
 const register = {
@@ -13,7 +14,10 @@ export const isEditableInputOnFocus = (target) => {
   return isTextInputEl && isEditable;
 };
 
-export const hasActiveHandlerFor = (key) => !!register[key] && register[key].length > 0;
+export const hasActiveHandlerFor = (key) => {
+  const _key = String(key).toLowerCase();
+  return !!register[_key] && register[_key].length > 0;
+};
 
 export const hasKeystrokeToPrevent = () => {
   /**
@@ -40,10 +44,12 @@ const keystrokeHandler = (e) => {
   const isInputOnFocus = isEditableInputOnFocus();
 
   // prevent back or enter keystrokes to execute simultaneously with on:submit event
-  const inputEventOnFocus = isInputOnFocus && (keyName === 'back' || keyName === 'enter');
+  const inputEventOnFocus =
+    isInputOnFocus && (keyName === KEYBOARD.KEY_NAMES.BACK || keyName === KEYBOARD.KEY_NAMES.ENTER);
 
   // foward close event for registered keystrokes
-  const inputEventOnClose = isInputOnFocus && keyName === 'close' && hasActiveHandlerFor(keyName);
+  const inputEventOnClose =
+    isInputOnFocus && keyName === KEYBOARD.KEY_NAMES.CLOSE && hasActiveHandlerFor(keyName);
 
   if (inputEventOnClose || (notPrevent && hasActiveHandlerFor(keyName) && !inputEventOnFocus)) {
     e.preventDefault();

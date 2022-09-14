@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/appbar@4.0.2...@mamba/appbar@4.1.0) (2022-09-13)
+
+
+### Bug Fixes
+
+* change font size ([58e7be1](https://github.com/stone-payments/pos-mamba-sdk/commit/58e7be17804614bfb800b7a887e30b8dd231a4f7))
+
+
+
 ### [4.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/appbar@4.0.1...@mamba/appbar@4.0.2) (2022-08-30)
 
 **Note:** Version bump only for package @mamba/appbar

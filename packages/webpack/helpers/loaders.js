@@ -86,4 +86,7 @@ module.exports = {
       ...svelteConfig,
     },
   },
+  sourcemaps: {
+    loader: 'source-map-loader',
+  },
 };

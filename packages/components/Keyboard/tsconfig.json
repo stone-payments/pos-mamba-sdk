@@ -11,7 +11,7 @@
     "declarationDir": "types",
     "allowJs": true,
     "sourceMap": true,
-    "inlineSourceMap": false,
+    "inlineSources": false,
     "declaration": true,
     "suppressImplicitAnyIndexErrors": true,
     "downlevelIteration": true,

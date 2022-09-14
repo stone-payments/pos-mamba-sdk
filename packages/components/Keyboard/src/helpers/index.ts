@@ -8,6 +8,8 @@ import { isFunction } from './isFunction';
 import { isStandardButton } from './isStandardButton';
 import { bindMethods } from './bindMethods';
 import { isProperInput } from './isProperInput';
+import { isNonInputButProperElement } from './isNonInputButProperElement';
+import { hasDataKeyboard } from './hasDataKeyboard';
 import * as ClassNames from './classNames';
 
 export {
@@ -21,5 +23,7 @@ export {
   isStandardButton,
   bindMethods,
   isProperInput,
+  isNonInputButProperElement,
+  hasDataKeyboard,
   ClassNames,
 };
