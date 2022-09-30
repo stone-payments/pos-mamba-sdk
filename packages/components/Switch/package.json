@@ -1,6 +1,6 @@
 {
   "name": "@mamba/switch",
-  "version": "5.1.0",
+  "version": "5.1.1",
   "svelte": "Switch.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
