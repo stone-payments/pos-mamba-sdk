@@ -25,5 +25,6 @@
     "compile": "tsc -p tsconfig.json",
     "build": "run-s prebuild compile",
     "prepare": "npm run build"
-  }
+  },
+  "gitHead": "e919d0e654f8134f157bf4f6e078685f5dd8a000"
 }
