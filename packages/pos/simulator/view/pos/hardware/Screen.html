@@ -86,120 +86,128 @@
     }
   }
 
-  @media (min-width: 401px) {
-    .screen {
-      position: absolute;
-      top: 231px;
-      left: 50px;
-      width: 240px;
-      height: 320px;
-      display: flex;
-      flex-flow: column;
-      overflow: hidden;
-      filter: url(#pos-color-map);
-
-      /** Firefox is being annoyed by two stack contexts (.screen and .content) and breaking the scroll */
-      @supports (-moz-appearance: none) {
-        filter: none;
-      }
-    }
-
-    :global(.MP35P .screen) {
-      top: 231px;
-      left: 51px;
-      border-radius: 2px;
-      width: 320px;
-      height: 240px;
-    }
-
-    :global(.MP35 .screen) {
-      top: 170px;
-      left: 65px;
-      border-radius: 2px;
-      width: 320px;
-      height: 240px;
-      outline: 2px solid #54545438;
-    }
-
-    :global(.D195 .screen) {
-      top: 202px;
-      left: 87px;
-      border-radius: 2px;
-      width: 320px;
-      height: 240px;
-    }
-
-    :global(.D199 .screen) {
-      top: 69px;
-      left: 27px;
-      border-radius: 1px;
-      width: 260px;
-      height: 455px;
-    }
-
-    :global(.D230 .screen) {
-      top: 155px;
-      left: 42px;
-      border-radius: 2px;
-      width: 274px;
-      height: 205px;
-    }
-
-    :global(.Q60 .screen) {
-      top: 210px;
-      left: 68px;
-      border-radius: 2px;
-      width: 278px;
-      height: 213px;
-    }
-
-    :global(.Q92 .screen) {
-      top: 115px;
-      left: 54px;
-      width: 240px;
-      height: 390px; /* (370px + 20px from status bar) */
-    }
-
-    .content {
-      height: 100%;
-      flex: 0 1 auto;
-      overflow: hidden;
-      /* user-select: text; */
-    }
-
-    /** Makes, in chrome, all fixed elements relative to the screen div */
-    @supports (-webkit-appearance: none) {
-      .content {
-        transform: translateZ(0);
-      }
-    }
-
-    .brightness {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #000;
-      z-index: 100000;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-
+  :global(.simulator-wrapper.force-remove-simulator-pos) {
     .status-bar {
-      position: relative;
-      z-index: 1002;
-      width: 100%;
-      height: 20px;
-      flex: 0 0 20px;
-      background-color: #000;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 4px;
-      color: #fff;
-      font-size: 12px;
-      font-weight: bold;
+      display: none;
+    }
+  }
+
+  :global(.simulator-wrapper:not(.force-remove-simulator-pos)) {
+    @media (min-width: 401px) {
+      .screen {
+        position: absolute;
+        top: 231px;
+        left: 50px;
+        width: 240px;
+        height: 320px;
+        display: flex;
+        flex-flow: column;
+        overflow: hidden;
+        filter: url(#pos-color-map);
+
+        /** Firefox is being annoyed by two stack contexts (.screen and .content) and breaking the scroll */
+        @supports (-moz-appearance: none) {
+          filter: none;
+        }
+      }
+
+      :global(.MP35P .screen) {
+        top: 231px;
+        left: 51px;
+        border-radius: 2px;
+        width: 320px;
+        height: 240px;
+      }
+
+      :global(.MP35 .screen) {
+        top: 170px;
+        left: 65px;
+        border-radius: 2px;
+        width: 320px;
+        height: 240px;
+        outline: 2px solid #54545438;
+      }
+
+      :global(.D195 .screen) {
+        top: 202px;
+        left: 87px;
+        border-radius: 2px;
+        width: 320px;
+        height: 240px;
+      }
+
+      :global(.D199 .screen) {
+        top: 69px;
+        left: 27px;
+        border-radius: 1px;
+        width: 260px;
+        height: 455px;
+      }
+
+      :global(.D230 .screen) {
+        top: 155px;
+        left: 42px;
+        border-radius: 2px;
+        width: 274px;
+        height: 205px;
+      }
+
+      :global(.Q60 .screen) {
+        top: 210px;
+        left: 68px;
+        border-radius: 2px;
+        width: 278px;
+        height: 213px;
+      }
+
+      :global(.Q92 .screen) {
+        top: 115px;
+        left: 54px;
+        width: 240px;
+        height: 390px; /* (370px + 20px from status bar) */
+      }
+
+      .content {
+        height: 100%;
+        flex: 0 1 auto;
+        overflow: hidden;
+        /* user-select: text; */
+      }
+
+      /** Makes, in chrome, all fixed elements relative to the screen div */
+      @supports (-webkit-appearance: none) {
+        .content {
+          transform: translateZ(0);
+        }
+      }
+
+      .brightness {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+        z-index: 100000;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .status-bar {
+        position: relative;
+        z-index: 1002;
+        width: 100%;
+        height: 20px;
+        flex: 0 0 20px;
+        background-color: #000;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 4px;
+        color: #fff;
+        font-size: 12px;
+        font-weight: bold;
+      }
     }
   }
 </style>

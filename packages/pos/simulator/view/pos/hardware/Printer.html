@@ -122,6 +122,10 @@
   $mockup-paper-width: 250;
   $paper-scale: calc($mockup-paper-width / $real-paper-width);
 
+  :global(.simulator-wrapper.force-remove-virtual-pos .printer) {
+    display: none;
+  }
+
   .printer {
     width: 400px;
     position: absolute;
