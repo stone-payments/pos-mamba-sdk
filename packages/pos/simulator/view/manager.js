@@ -17,6 +17,16 @@ const updatePanels = () => {
   panelsToAdd = [];
 };
 
+View.removeSimulatorPos = false;
+
+View.forceRemovePos = () => {
+  View.removeSimulatorPos = true;
+};
+
+View.resetRemovePos = () => {
+  View.removeSimulatorPos = false;
+};
+
 View.addPanel = (panel) => {
   panelsToAdd.push(panel);
   if (instance) {
@@ -26,7 +36,10 @@ View.addPanel = (panel) => {
 
 View.show = () => {
   if (!instance) {
-    instance = new ViewWrapper({ target: document.body });
+    instance = new ViewWrapper({
+      target: document.body,
+      data: { removeSimulatorPos: View.removeSimulatorPos },
+    });
 
     if (panelsToAdd.length) {
       updatePanels();

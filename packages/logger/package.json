@@ -1,6 +1,6 @@
 {
   "name": "@mamba/logger",
-  "version": "4.1.0",
+  "version": "4.1.2",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
   "engines": {
@@ -16,5 +16,6 @@
     "type": "git",
     "url": "https://github.com/stone-payments/pos-mamba-sdk.git",
     "directory": "packages/logger"
-  }
+  },
+  "gitHead": "e919d0e654f8134f157bf4f6e078685f5dd8a000"
 }

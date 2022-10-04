@@ -1,6 +1,6 @@
 {
   "name": "@mamba/utils",
-  "version": "5.1.0",
+  "version": "5.1.2",
   "description": "Utility methods for mamba apps",
   "module": "index.js",
   "sideEffects": false,
@@ -18,5 +18,5 @@
     "date-fns-tz": "1.2.2",
     "lodash": "^4.17.21"
   },
-  "gitHead": "0daaddf15510894989750580009daa93e1fbb6db"
+  "gitHead": "e919d0e654f8134f157bf4f6e078685f5dd8a000"
 }

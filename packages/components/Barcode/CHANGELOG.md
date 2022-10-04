@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [4.1.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/barcode@4.1.1...@mamba/barcode@4.1.2) (2022-09-30)
+
+**Note:** Version bump only for package @mamba/barcode
+
+
+
+
+
+### [4.1.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/barcode@4.1.0...@mamba/barcode@4.1.1) (2022-09-30)
+
+**Note:** Version bump only for package @mamba/barcode
+
+
+
+
+
 ## [4.1.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/barcode@4.0.2...@mamba/barcode@4.1.0) (2022-09-13)
 
 **Note:** Version bump only for package @mamba/barcode

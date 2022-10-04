@@ -1,6 +1,6 @@
 {
   "name": "@mamba/core",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
   "description": "Mamba QT bindings, wrappers and embbebded hardware handlers",
@@ -25,5 +25,6 @@
     "compile": "tsc -p tsconfig.json",
     "build": "run-s prebuild compile",
     "prepare": "npm run build"
-  }
+  },
+  "gitHead": "e919d0e654f8134f157bf4f6e078685f5dd8a000"
 }

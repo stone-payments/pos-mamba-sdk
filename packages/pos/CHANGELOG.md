@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [4.2.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@4.2.0...@mamba/pos@4.2.1) (2022-09-30)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+## [4.2.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@4.1.0...@mamba/pos@4.2.0) (2022-09-30)
+
+
+### Features
+
+* 🎸 changes for work with static snapshot site ([7cda952](https://github.com/stone-payments/pos-mamba-sdk/commit/7cda952005a6d18e933d76764c3b7c9c8d660704))
+
+
+
 ## [4.1.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@4.0.2...@mamba/pos@4.1.0) (2022-09-13)
 
 
