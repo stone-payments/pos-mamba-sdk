@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [4.2.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@4.2.1...@mamba/webpack@4.2.2) (2022-10-04)
+
+**Note:** Version bump only for package @mamba/webpack
+
+
+
+
+
+### [4.2.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@4.2.0...@mamba/webpack@4.2.1) (2022-09-30)
+
+**Note:** Version bump only for package @mamba/webpack
+
+
+
+
+
+## [4.2.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@4.1.0...@mamba/webpack@4.2.0) (2022-09-30)
+
+
+### Features
+
+* 🎸 changes for work with static snapshot site ([7cda952](https://github.com/stone-payments/pos-mamba-sdk/commit/7cda952005a6d18e933d76764c3b7c9c8d660704))
+
+
+### Bug Fixes
+
+* 🐛 bundle copy logo ([2e740f9](https://github.com/stone-payments/pos-mamba-sdk/commit/2e740f9861553957bec763d33e293950c20f5c11))
+
+
+
 ## [4.1.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@4.0.2...@mamba/webpack@4.1.0) (2022-09-13)
 
 

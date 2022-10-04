@@ -1,10 +1,12 @@
 {#if ENGINE === 'webkit'}
-  <div class="container {$ACTIVE_MODEL}" >
+  <div class="container simulator-wrapper {$ACTIVE_MODEL} {removeSimulatorPos ? 'force-remove-simulator-pos' : ''}" >
     <div class="main-wrapper">
       <POS ref:POS>
         <Launcher />
       </POS>
-      <Card ref:card />
+      {#if !removeSimulatorPos}
+        <Card ref:card />
+      {/if}
     </div>
   </div>
 {:else}
@@ -72,8 +74,13 @@
     }
   }
 
+  :global(.force-remove-virtual-pos body) {
+    height: 100%;
+    @extend %hide-scrollbar;
+  }
+
   @media (min-width: 401px) {
-    .container {
+    .container:not(.force-remove-simulator-pos) {
       display: flex;
       height: 100vh;
       width: 100%;
@@ -82,31 +89,32 @@
       background-image: url(./assets/wood.jpg);
       background-size: cover;
       overflow: hidden;
+
+      &.MP35P {
+        align-items: initial;
+        padding-top: 32px;
+      }
+
+      &.MP35 {
+        align-items: initial;
+        padding-top: 32px;
+      }
+
+      &.D195 {
+        align-items: initial;
+        padding-top: 32px;
+      }
+
+      &.Q60 {
+        align-items: initial;
+        padding-top: 32px;
+      }
     }
 
     .main-wrapper {
       position: relative;
     }
 
-    .container.MP35P {
-      align-items: initial;
-      padding-top: 32px;
-    }
-
-    .container.MP35 {
-      align-items: initial;
-      padding-top: 32px;
-    }
-
-    .container.D195 {
-      align-items: initial;
-      padding-top: 32px;
-    }
-
-    .container.Q60 {
-      align-items: initial;
-      padding-top: 32px;
-    }
   }
 
   .engine-alert {

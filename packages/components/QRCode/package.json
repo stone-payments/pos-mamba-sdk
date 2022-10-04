@@ -1,6 +1,6 @@
 {
   "name": "@mamba/qrcode",
-  "version": "4.1.0",
+  "version": "4.1.3",
   "svelte": "QRCode.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -12,8 +12,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@mamba/styles": "4.1.0",
+    "@mamba/styles": "4.2.2",
     "qrious": "^4.0.2"
   },
-  "gitHead": "35b4ded3263250d164c2724393d7aa8dca572aa6"
+  "gitHead": "e919d0e654f8134f157bf4f6e078685f5dd8a000"
 }

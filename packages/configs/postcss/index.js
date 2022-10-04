@@ -41,7 +41,7 @@ module.exports = {
     }),
     postcssHexRGBA(),
     postcssPresetEnv({
-      stage: 2 /** Defaults postcss-preset-env to stage 2 */,
+      stage: 0 /** Defaults postcss-preset-env to stage 2 */,
       features: {
         'custom-properties': {
           preserve: false,

@@ -1,6 +1,6 @@
 {
   "name": "@mamba/sprite",
-  "version": "4.1.0",
+  "version": "4.1.3",
   "svelte": "Sprite.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -11,5 +11,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "35b4ded3263250d164c2724393d7aa8dca572aa6"
+  "gitHead": "e919d0e654f8134f157bf4f6e078685f5dd8a000"
 }
