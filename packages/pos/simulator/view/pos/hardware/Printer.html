@@ -117,8 +117,11 @@
 
 <style type="text/postcss">
   $paper-color: #add8e6;
-  $max-paper-height: 370px;
-  $real-paper-width: calc(384 + 36);
+  $paper-inset-h: 20px;
+  $max-paper-height: 380px;
+  $paper-width-px: 380px;
+
+  $real-paper-width: calc(380 + 40);
   $mockup-paper-width: 250;
   $paper-scale: calc($mockup-paper-width / $real-paper-width);
 
@@ -127,7 +130,7 @@
   }
 
   .printer {
-    width: 400px;
+    width: calc($paper-width-px + $paper-inset-h);
     position: absolute;
     left: 42px;
     bottom: 584px;
@@ -212,7 +215,7 @@
   .content {
     position: relative;
     z-index: 1;
-    padding: 20px 21px 15px 20px;
+    padding: 20px $paper-inset-h 15px $paper-inset-h;
     filter: contrast(300%) grayscale(100%) url(#remove-colors-alpha);
   }
 
