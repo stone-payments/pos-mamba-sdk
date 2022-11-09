@@ -51,8 +51,12 @@ const scrollTo = (item) => {
   const { focusableItem = {}, element: { refs } } = item;
 
   const { element } = refs || focusableItem;
-
-  element.scrollIntoView({ behavior: "auto", block: "start", inline: "start" });
+  try {
+    element.scrollIntoView();
+  } catch (error) {
+    // Hot Realod can trigger error of element being null, but watch out on POS
+    if (__POS__) console.log(`${error}`);
+  }
 };
 
 const getPosition = (index, keyAction) => {
@@ -67,7 +71,7 @@ export const scrollActiveNodeAtIndex = (nodeList, index, yaxis) => {
   toggleActive(nodeList, index);
 };
 
-export const selectRowItem = (nodeList, index, yaxis, keyAction) => {
+export const selectRowItem = ({ nodeList, index, yaxis, keyAction}) => {
   if (!keyAction) return index;
 
   const selectIndex = getPosition(index, keyAction);

@@ -31,6 +31,8 @@
       };
     },
     oncreate() {
+      // Fires setup event to "Flatlist" listen and compute the height of navbar
+      // here since the required DOM div element exist in this oncreate lifecycle.
       this.fire('setup', { boundingHeight: this.getBoundingHeight() });
     },
     methods: {
