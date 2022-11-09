@@ -195,7 +195,7 @@ export const getStyles = (obj, blackList = []) => {
 
     const webkitPrefixRules = ['transform'];
 
-    return Object.getOwnPropertyNames(obj)
+    return Object.keys(obj)
       .map((str) => {
         const rule = str.replace(/[A-Z]/g, repChar);
 
