@@ -47,50 +47,12 @@ export const toggleActive = (items, index) => {
   });
 };
 
-const scrollTo = (yaxis, item) => {
-  const {
-    focusableItem = {},
-    element: { refs },
-  } = item;
+const scrollTo = (item) => {
+  const { focusableItem = {}, element: { refs } } = item;
 
   const { element } = refs || focusableItem;
 
-  // use a custom getBoundingClientRect of svelte component or dom element
-  let { getBoundingClientRect } = element || item.element;
-
-  // try get dom getBoundingClientRect in case element doesn't have it
-  if (!getBoundingClientRect && typeof focusableItem.getBoundingClientRect === 'function') {
-    const { getBoundingClientRect: getRect } = focusableItem;
-    getBoundingClientRect = getRect;
-  }
-
-  const { offsetHeight = 0 } = document.querySelector('.status-bar') || {};
-
-  if (!element) {
-    if (__DEV__) {
-      console.warn('Refresh the page to reset <FlatList /> references');
-    }
-    return;
-  }
-
-  const { top, height } = getBoundingClientRect.call(element.domElement || element);
-
-  const { innerHeight } = window;
-
-  const upperBounds = top + offsetHeight; // top of the element
-  const lowerBounds = top + offsetHeight + height; // bottom of the element
-
-  if (upperBounds < 0) {
-    const newTop = yaxis + lowerBounds - innerHeight; // bottom of the element will be bottom of new page
-    if (newTop < 0) {
-      window.scroll(0, 0);
-    } else {
-      window.scrollTo(0, newTop);
-    }
-  } else if (lowerBounds > innerHeight) {
-    const newTop = top + yaxis + offsetHeight;
-    window.scrollTo(0, newTop);
-  }
+  element.scrollIntoView({ behavior: "auto", block: "start", inline: "start" });
 };
 
 const getPosition = (index, keyAction) => {
@@ -101,7 +63,7 @@ const getPosition = (index, keyAction) => {
 };
 
 export const scrollActiveNodeAtIndex = (nodeList, index, yaxis) => {
-  scrollTo(yaxis, nodeList[index]);
+  scrollTo(nodeList[index]);
   toggleActive(nodeList, index);
 };
 
