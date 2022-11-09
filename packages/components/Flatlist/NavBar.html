@@ -1,4 +1,4 @@
-<div class="row">
+<div class="mb-navbar" ref:navbarDom>
   <div class="keydown" on:click="onKeyPress({ keyCode: ARROW_DOWN })" >
     <Icon symbol="chevron-down" size="large" />
     <p>{labelDown}</p>
@@ -30,6 +30,9 @@
         labelUp: 'Aumentar',
       };
     },
+    oncreate() {
+      this.fire('setup', { boundingHeight: this.getBoundingHeight() });
+    },
     methods: {
       onKeyPress({ keyCode }) {
         switch (keyCode) {
@@ -45,12 +48,20 @@
             break;
         }
       },
+      getBoundingHeight() {
+        const { navbarDom } = this.refs;
+        if(navbarDom) {
+          const { height } = navbarDom.getBoundingClientRect();
+          return height;
+        }
+        return 0;
+      }
     },
   };
 </script>
 
 <style>
-  .row {
+  .mb-navbar {
     width: 100%;
     background-color: #f7fafd;
     display: flex;
