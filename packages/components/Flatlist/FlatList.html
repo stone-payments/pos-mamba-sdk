@@ -58,6 +58,7 @@
       ref:navBar
       labelDown={navDownLabel}
       labelUp={navUpLabel}
+      className={isFirstOrLastSelectedOption}
       on:keyup="selectRowItems(ARROW_UP)"
       on:keydown="selectRowItems(ARROW_DOWN)"
       on:setup="_onNavbarSetup(event)"
@@ -161,16 +162,25 @@
       _separator({ separator }) {
         return shouldReturnComponent(separator);
       },
+      isFirstOrLastSelectedOption({ selectedIndex, dataSection }) {
+        let className = '';
+
+        if (selectedIndex === 0) {
+          className = 'keyUpDisabled';
+        } else if (dataSection && dataSection[0].data.length === selectedIndex + 1) {
+          className = 'keyDownDisabled';
+        }
+        return className;
+      },
     },
     oncreate() {
       this.fire('setup', { setupFirstFocusable: (elm, fr) => this.setupFirstFocusable(elm, fr) });
     },
     onupdate({ changed, current }) {
-
       // Watch for navbar changes after mount
-      if(changed.navBar) {
+      if (changed.navBar) {
         const { navBar } = this.refs;
-        if(current.navBar === true && navBar && typeof navBar.getBoundingHeight === 'function') {
+        if (current.navBar === true && navBar && typeof navBar.getBoundingHeight === 'function') {
           this.set({ _extraBounds: navBar.getBoundingHeight() });
         } else {
           this.set({ _extraBounds: 0 });
@@ -294,13 +304,13 @@
         }
 
         if (keyCode === ARROW_UP || keyCode === ARROW_DOWN) {
-          const { scrollY, selectedIndex, _elementsRefs, _extraBounds } = this.get();
+          const { scrollY, selectedIndex, _elementsRefs } = this.get();
 
           const internalIndex = selectRowItem({
             nodeList: _elementsRefs,
-             index: selectedIndex,
-             yaxis: scrollY,
-             keyAction: keyCode,
+            index: selectedIndex,
+            yaxis: scrollY,
+            keyAction: keyCode,
           });
 
           const target = _elementsRefs[internalIndex];

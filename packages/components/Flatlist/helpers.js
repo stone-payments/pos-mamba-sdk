@@ -48,7 +48,10 @@ export const toggleActive = (items, index) => {
 };
 
 const scrollTo = (item) => {
-  const { focusableItem = {}, element: { refs } } = item;
+  const {
+    focusableItem = {},
+    element: { refs },
+  } = item;
 
   const { element } = refs || focusableItem;
   try {
@@ -66,12 +69,12 @@ const getPosition = (index, keyAction) => {
   return index !== null ? index + 1 : 0;
 };
 
-export const scrollActiveNodeAtIndex = (nodeList, index, yaxis) => {
+export const scrollActiveNodeAtIndex = (nodeList, index) => {
   scrollTo(nodeList[index]);
   toggleActive(nodeList, index);
 };
 
-export const selectRowItem = ({ nodeList, index, yaxis, keyAction}) => {
+export const selectRowItem = ({ nodeList, index, yaxis, keyAction }) => {
   if (!keyAction) return index;
 
   const selectIndex = getPosition(index, keyAction);
