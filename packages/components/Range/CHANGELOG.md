@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [5.1.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/range@5.1.2...@mamba/range@5.1.3) (2022-10-04)
+
+**Note:** Version bump only for package @mamba/range
+
+
+
+
+
 ### [5.1.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/range@5.1.1...@mamba/range@5.1.2) (2022-09-30)
 
 **Note:** Version bump only for package @mamba/range

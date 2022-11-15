@@ -58,8 +58,8 @@ for file in $PATHS; do
   package_name=$(awk -F'\"' '/\"name\": \".+\"/{ print $4; exit; }' "$file")
   directory=${file%/*}
   if [[ "$mode" == "name" ]]; then
-    echo $'\e[32m'"⛓ Linking $package_name"$'\e[0m'
-    (cd $directory && yarn unlink && yarn --silent link)
+    echo $'\e[32m'"⛓ Linking $package_name"$'\e[0m'" at $directory"
+    (cd $directory && yarn --silent link)
     LINK_CHAIN+="$package_name "
   else
     INSTALL_CHAIN+="$directory "

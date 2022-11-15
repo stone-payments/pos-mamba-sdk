@@ -121,7 +121,7 @@
   $max-paper-height: 380px;
   $paper-width-px: 380px;
 
-  $real-paper-width: calc(380 + 40);
+  $real-paper-width: calc(380 + 40 + 4);
   $mockup-paper-width: 250;
   $paper-scale: calc($mockup-paper-width / $real-paper-width);
 
@@ -130,7 +130,7 @@
   }
 
   .printer {
-    width: calc($paper-width-px + $paper-inset-h);
+    width: calc($paper-width-px + $paper-inset-h * 2);
     position: absolute;
     left: 42px;
     bottom: 584px;
@@ -250,7 +250,7 @@
   }
 
   :global(.Q92 .printer) {
-    left: 59px;
+    left: 53px;
     bottom: 677px;
   }
 </style>
