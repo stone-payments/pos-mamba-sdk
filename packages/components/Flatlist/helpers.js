@@ -47,49 +47,18 @@ export const toggleActive = (items, index) => {
   });
 };
 
-const scrollTo = (yaxis, item) => {
+const scrollTo = (item) => {
   const {
     focusableItem = {},
     element: { refs },
   } = item;
 
   const { element } = refs || focusableItem;
-
-  // use a custom getBoundingClientRect of svelte component or dom element
-  let { getBoundingClientRect } = element || item.element;
-
-  // try get dom getBoundingClientRect in case element doesn't have it
-  if (!getBoundingClientRect && typeof focusableItem.getBoundingClientRect === 'function') {
-    const { getBoundingClientRect: getRect } = focusableItem;
-    getBoundingClientRect = getRect;
-  }
-
-  const { offsetHeight = 0 } = document.querySelector('.status-bar') || {};
-
-  if (!element) {
-    if (__DEV__) {
-      console.warn('Refresh the page to reset <FlatList /> references');
-    }
-    return;
-  }
-
-  const { top, height } = getBoundingClientRect.call(element.domElement || element);
-
-  const { innerHeight } = window;
-
-  const upperBounds = top + offsetHeight; // top of the element
-  const lowerBounds = top + offsetHeight + height; // bottom of the element
-
-  if (upperBounds < 0) {
-    const newTop = yaxis + lowerBounds - innerHeight; // bottom of the element will be bottom of new page
-    if (newTop < 0) {
-      window.scroll(0, 0);
-    } else {
-      window.scrollTo(0, newTop);
-    }
-  } else if (lowerBounds > innerHeight) {
-    const newTop = top + yaxis + offsetHeight;
-    window.scrollTo(0, newTop);
+  try {
+    element.scrollIntoView();
+  } catch (error) {
+    // Hot Realod can trigger error of element being null, but watch out on POS
+    if (__POS__) console.log(`${error}`);
   }
 };
 
@@ -100,12 +69,12 @@ const getPosition = (index, keyAction) => {
   return index !== null ? index + 1 : 0;
 };
 
-export const scrollActiveNodeAtIndex = (nodeList, index, yaxis) => {
-  scrollTo(yaxis, nodeList[index]);
+export const scrollActiveNodeAtIndex = (nodeList, index) => {
+  scrollTo(nodeList[index]);
   toggleActive(nodeList, index);
 };
 
-export const selectRowItem = (nodeList, index, yaxis, keyAction) => {
+export const selectRowItem = ({ nodeList, index, yaxis, keyAction }) => {
   if (!keyAction) return index;
 
   const selectIndex = getPosition(index, keyAction);
@@ -195,7 +164,7 @@ export const getStyles = (obj, blackList = []) => {
 
     const webkitPrefixRules = ['transform'];
 
-    return Object.getOwnPropertyNames(obj)
+    return Object.keys(obj)
       .map((str) => {
         const rule = str.replace(/[A-Z]/g, repChar);
 

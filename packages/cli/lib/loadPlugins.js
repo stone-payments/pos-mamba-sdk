@@ -35,12 +35,16 @@ const pkgListPaths = [
 ].filter(Boolean);
 
 const externalPlugins = pkgListPaths.reduce((acc, pkgListPath) => {
-  const orgPluginPath = resolve(pkgListPath, '@mamba');
-  return [
-    ...acc,
-    ...getPackagesFrom(pkgListPath, 'mamba-cli-plugin-'),
-    ...getPackagesFrom(orgPluginPath, 'cli-plugin-').map((pkg) => `@mamba/${pkg}`),
-  ];
+  try {
+    const orgPluginPath = resolve(pkgListPath, '@mamba');
+    return [
+      ...acc,
+      ...getPackagesFrom(pkgListPath, 'mamba-cli-plugin-'),
+      ...getPackagesFrom(orgPluginPath, 'cli-plugin-').map((pkg) => `@mamba/${pkg}`),
+    ];
+  } catch (_) {
+    return [];
+  }
 }, []);
 
 module.exports = externalPlugins.reduce((acc, moduleName) => {
