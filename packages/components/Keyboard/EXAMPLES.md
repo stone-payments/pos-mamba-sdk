@@ -5,10 +5,14 @@ Real-life examples for teammates
 - USE YARN!!!
 - Keyboard and Input UP TO DATE, to prevent bugs
 - Core for handling key inputs ([Core examples](https://github.com/stone-payments/pos-mamba-sdk/blob/master/packages/core/README.md))
-- `yarn add @mamba/input@next @mamba/keyboard@next @mamba/core`
 
-### Basic Usage
-- *Global keyboard for app*
+```bash
+yarn add @mamba/input@next @mamba/keyboard@next @mamba/core
+```
+
+## Basic Usage
+
+### Global keyboard for app
 
 ```js
   import { KeyboardType } from '@mamba/keyboard/lib/index.js';
@@ -22,7 +26,7 @@ Real-life examples for teammates
   />
 ```
 
-- **Calling inside inputs**
+### Calling inside inputs
   - easier to implement and connected to inside component methods
   - this use OVERWRITES setOptions via JS
 
@@ -41,7 +45,7 @@ Real-life examples for teammates
 ```
 
 
-- **Calling from JS**
+### Calling from JS
   - in case you need, here is the way to do it
   - ⚠️ **Attention:** this implementation changes global settings, maybe needing to change after the route
   - ⚠️ **Attention:** call setOptions() INSIDE SETTIMEOUT WITH NO DELAY PARAMETER, forcing it to wait the block to trigger
