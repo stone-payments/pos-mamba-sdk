@@ -4,13 +4,35 @@ const ThisStore = {
   _storedModel: undefined,
 };
 
+function VerifyMethodOnSystemWrapper(method) {
+
+  try {
+
+    /* Necessary because the circular dependency with simulator */
+    const _system = window.$System || window.System;
+
+    return _system[method]();
+
+  } catch (error) {
+
+    if (__DEV__) console.error(error);
+  }
+}
+
 /**
- * All models available
+ * #####################
+ * ###### MODELS #######
+ * #####################
+ */
+
+/**
+ * @description All models available
  * @returns {Object} All models.
  */
 export const MODELS = Object.freeze({
   S920: 'S920',
   Q92: 'Q92',
+  Q92S: 'Q92S',
   MP35P: 'Gertec MP35P',
   MP35: 'Gertec MP35',
   V240M: 'Verifone V240M',
@@ -21,19 +43,19 @@ export const MODELS = Object.freeze({
 });
 
 /**
- * Default mamba model
+ * @description Default mamba model
  * @returns {string} Default mamba model
  */
 export const DEFAULT_MODEL = MODELS.S920;
 
 /**
- * List Model slugs
+ * @description List Model slugs
  * @returns {array} return a list os model slugs
  */
 export const MODELS_SLUGS = Object.keys(MODELS);
 
 /**
- * Model slugs key pair
+ * @description Model slugs key pair
  * @returns {object} return Pos Model available slugs key pair
  */
 const _slugs = MODELS_SLUGS.reduce((result, model) => {
@@ -44,25 +66,19 @@ const _slugs = MODELS_SLUGS.reduce((result, model) => {
 export const AVAILABLE_SLUGS = _slugs;
 
 /**
- * Checks if the method exists
+ * @description Checks if the method exists
  * @returns {String} return Pos Model
  */
 export const getPosModel = () => {
+
   const { _storedModel } = ThisStore;
+
   // Return cached value on POS. Just need run once.
   if (__POS__ && typeof _storedModel === 'string') {
     return _storedModel;
   }
 
-  let _model = DEFAULT_MODEL;
-
-  try {
-    /* Necessary because the circular dependency with simulator */
-    const _system = window.$System || window.System;
-    _model = _system.getPosModel();
-  } catch (error) {
-    if (__DEV__) console.error(error);
-  }
+  const _model = VerifyMethodOnSystemWrapper('getPosModel');
 
   ThisStore._storedModel = _model;
 
@@ -70,7 +86,7 @@ export const getPosModel = () => {
 };
 
 /**
- * Return a sanitized version of pos model, compatible for class names.
+ * @description Return a sanitized version of pos model, compatible for class names.
  * @param {String} model other model to sanitize
  * @returns {String} return sanitized Pos Model
  */
@@ -81,7 +97,7 @@ export const getSanitizedPosModel = (model = undefined) => {
 };
 
 /**
- * Get POS checks
+ * @description Get POS checks
  * @returns {object} return IS_ object key relative to the running pos
  */
 export const getPOSChecksObject = () => {
@@ -89,6 +105,7 @@ export const getPOSChecksObject = () => {
   return {
     IS_S920: model === MODELS.S920,
     IS_Q92: model === MODELS.Q92,
+    IS_Q92S: model === MODELS.Q92S,
     IS_V240M: model === MODELS.V240M,
     IS_MP35: model === MODELS.MP35,
     IS_MP35P: model === MODELS.MP35P,
@@ -100,7 +117,7 @@ export const getPOSChecksObject = () => {
 };
 
 /**
- * Get POS model slug
+ * @description Get POS model slug
  * @returns {String} return Pos Model Slug
  */
 export const getPosModelSlug = (currentModel) => {
@@ -119,9 +136,14 @@ const _hasModelAtList = (list = []) => {
   return list.indexOf(getPosModel()) !== -1;
 };
 
+/**
+ * #####################
+ * ###### SCREEN #######
+ * #####################
+ */
 
 /**
- * Small screen devices
+ * @description Small screen devices
  * @returns {array} A list of small screen devices
  */
 export const SMALL_SCREEN_DEVICES = [
@@ -133,14 +155,21 @@ export const SMALL_SCREEN_DEVICES = [
 ];
 
 /**
- * @returns {boolean} If current model have a small screen
+ * #####################
+ * ### CAPABILITIES ####
+ * #####################
+ */
+
+/**
+ * @description If current model have a small screen
+ * @returns {boolean}
  */
 export function hasSmallScreen() {
   return _hasModelAtList(SMALL_SCREEN_DEVICES);
 }
 
 /**
- * Arrow keys devices
+ * @description Arrow keys devices
  * @returns {array} A list of devices that can navigate by arrow keys
  */
 export const ARROW_NAVIGATION_DEVICES = [
@@ -152,45 +181,49 @@ export const ARROW_NAVIGATION_DEVICES = [
 ];
 
 /**
- * @returns {boolean} If current model can navigate by arrows
+ * @description If current model can navigate by arrows
+ * @returns {boolean}
  */
 export function hasArrowNavigation() {
   return _hasModelAtList(ARROW_NAVIGATION_DEVICES);
 }
 
 /**
- * Devices with only touch, like smartphone
- * @returns {array} A list of devices that is smartphone like screen, no keyboard.
+ * @description Devices with only touch, like smartphone
+ * @returns {array} A list of devices that is smartphone like screen, no physical keyboard.
  */
 export const ONLY_TOUCH = [MODELS.D199];
 
 /**
- * @returns {boolean} If current model have only touch screen(no keyboard)
+ * @description If current model have only touch screen (no physical keyboard)
+ * @returns {boolean}
  */
 export function hasOnlyTouch() {
   return _hasModelAtList(ONLY_TOUCH);
 }
 
 /**
- * Devices with no touch capability
+ * @description Devices with no touch capability
  * @returns {array} A list of devices that doesn't have touch screen
  */
 export const NO_TOUCH = [MODELS.D195, MODELS.Q60, MODELS.D230];
 
 /**
- * @returns {boolean} If current model have no touch screen
+ * @description If current model have no touch screen
+ * @returns {boolean}
  */
 export function hasNoTouch() {
-  return _hasModelAtList(NO_TOUCH);
+  return !VerifyMethodOnSystemWrapper('hasTouch') || _hasModelAtList(NO_TOUCH);
 }
 
 /**
- * Devices with no touch capability
+ * @description Devices with no touch capability
  * @returns {array} A list of devices that have touch screen
  */
 export const WITH_TOUCH = [
   MODELS.S920,
   MODELS.Q92,
+  MODELS.Q92S,
   MODELS.MP35P,
   MODELS.MP35,
   MODELS.V240M,
@@ -198,42 +231,91 @@ export const WITH_TOUCH = [
 ];
 
 /**
- * @returns {boolean} If current model has touch screen
+ * @description If current model has touch screen
+ * @returns {boolean}
  */
 export function hasTouch() {
-  return _hasModelAtList(WITH_TOUCH);
+  return VerifyMethodOnSystemWrapper('hasTouch') || _hasModelAtList(WITH_TOUCH);
 }
 
 /**
- * Devices with no printer
+ * @description Devices with no printer
  * @returns {array} A list of devices that doesn't have printer
  */
 export const NO_PRINTER = [MODELS.MP35, MODELS.D199, MODELS.D195];
 
 /**
- * @returns {boolean} If current model have no printer
+ * @description If current model have printer
+ * @returns {boolean}
  */
-export function hasNoPrinter() {
-  return _hasModelAtList(NO_PRINTER);
+export function hasPrinter() {
+  return VerifyMethodOnSystemWrapper('hasPrinter') ||  !_hasModelAtList(NO_PRINTER);
 }
 
 /**
- * Devices with keyboard light
- * @returns {array} A list of devices that have keyboard light
+ * @description If current model have no printer
+ * @returns {boolean}
  */
-export const HAS_KEYBOARD_LIGHT = [MODELS.MP35P, MODELS.D230, ...STANDARD_MAMBA_DEVICES];
+export function hasNoPrinter() {
+  return !VerifyMethodOnSystemWrapper('hasPrinter') ||  _hasModelAtList(NO_PRINTER);
+}
 
 /**
+ * @description If current model have keyboard light
  * @returns {boolean} If current model have keyboard light
  */
 export function hasKeyboardLight() {
   return _hasModelAtList(HAS_KEYBOARD_LIGHT);
 }
 
-/****** START BLOCK  ******/
+/**
+ * @description Devices with keyboard light
+ * @returns {array} A list of devices that have keyboard light
+ */
+export const HAS_KEYBOARD_LIGHT = [MODELS.MP35P, MODELS.D230, ...STANDARD_MAMBA_DEVICES];
 
 /**
- * @brief hasHighDPI and hasFunctionKeys works right now,
+ * @description If current model have physical keyboard
+ * @returns {boolean}
+ */
+export function hasKeyboard() {
+  return VerifyMethodOnSystemWrapper('hasKeyboard');
+}
+
+/**
+ * #####################
+ * ###### NETWORK ######
+ * #####################
+ */
+
+/**
+ * @description If POS has an Ethernet adapter
+ * @returns {boolean}
+ */
+export function hasEthernet() {
+  return VerifyMethodOnSystemWrapper('hasEthernet');
+}
+/**
+ * @description If POS has a WiFi adapter
+ * @returns {boolean}
+ */
+export function hasWifi() {
+  return VerifyMethodOnSystemWrapper('hasWifi');
+}
+/**
+ * @description If POS has a GPRS adapter
+ * @returns {boolean}
+ */
+export function hasGprs() {
+  return VerifyMethodOnSystemWrapper('hasGprs');
+}
+
+/**
+ * #####################
+ * #### UNAVAILABLE ####
+ * #####################
+ *
+ * @description hasHighDPI and hasFunctionKeys works right now,
  *  but turned unavailable due to lack of use.
  *  Can be uncommented at any time!
  */
@@ -262,8 +344,6 @@ export function hasKeyboardLight() {
   // export function hasFunctionKeys() {
     //   return _hasModelAtList(FUNCTION_KEYS_DEVICES);
     // }
-
-/****** END BLOCK  ******/
 
 export function getDeviceCapabilitiesClassList() {
   return [
