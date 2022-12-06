@@ -1276,9 +1276,6 @@ class Keyboard {
      * Stops if not allowed to render by condition
      */
     if (!this.isRenderAllowed()) {
-      if (this.options.debug) {
-        console.log('Keyboard render not allowed! Check keyboard options.');
-      }
       return;
     }
 
