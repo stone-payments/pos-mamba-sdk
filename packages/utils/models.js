@@ -170,31 +170,39 @@ export function hasArrowNavigation() {
   return _hasModelAtList(ARROW_NAVIGATION_DEVICES);
 }
 
+/****** START BLOCK  ******/
 /**
- * High DPI devices
- * @returns {array} A list of devices with high dpi
+ * @brief hasHighDPI and hasFunctionKeys works right now,
+ *  but turned unavailable due to lack of use.
+ *  Can be uncommented at any time!
  */
-export const HIGH_DPI_DEVICES = [MODELS.Q92, MODELS.D199];
 
-/**
- * @returns {boolean} If current model have a high DPI screen
- */
-export function hasHighDPI() {
-  return _hasModelAtList(HIGH_DPI_DEVICES);
-}
+//  * High DPI devices
+//  * @returns {array} A list of devices with high dpi
+//  */
+// export const HIGH_DPI_DEVICES = [MODELS.Q92, MODELS.D199];
 
-/**
- * Devices with Function Keys
- * @returns {array} A list of devices that have function keys
- */
-export const FUNCTION_KEYS_DEVICES = [MODELS.MP35P, MODELS.MP35];
+// /**
+//  * @returns {boolean} If current model have a high DPI screen
+//  */
+// export function hasHighDPI() {
+  //   return _hasModelAtList(HIGH_DPI_DEVICES);
+  // }
 
-/**
- * @returns {boolean} If current model have function keys
- */
-export function hasFunctionKeys() {
-  return _hasModelAtList(FUNCTION_KEYS_DEVICES);
-}
+  // /**
+  //  * Devices with Function Keys
+  //  * @returns {array} A list of devices that have function keys
+  //  */
+  // export const FUNCTION_KEYS_DEVICES = [MODELS.MP35P, MODELS.MP35];
+
+  // /**
+  //  * @returns {boolean} If current model have function keys
+  //  */
+  // export function hasFunctionKeys() {
+    //   return _hasModelAtList(FUNCTION_KEYS_DEVICES);
+    // }
+
+/****** END BLOCK  ******/
 
 /**
  * Devices with only touch, like smartphone
@@ -320,8 +328,8 @@ export function getDeviceCapabilitiesClassList() {
     hasTouch() && 'has-touch',
     hasNoTouch() && 'has-no-touch',
     hasOnlyTouch() && 'has-only-touch',
-    hasFunctionKeys() && 'has-function-keys',
-    hasHighDPI() && 'has-high-dpi',
+    // hasFunctionKeys() && 'has-function-keys',
+    // hasHighDPI() && 'has-high-dpi',
     hasArrowNavigation() && 'has-arrow-navigation',
     hasSmallScreen() && 'has-small-screen',
     isStandardModel() && 'is-standard-model',
