@@ -119,18 +119,6 @@ const _hasModelAtList = (list = []) => {
   return list.indexOf(getPosModel()) !== -1;
 };
 
-/**
- * Standard mamba devices
- * @returns {array} A list of standard devices
- */
-export const STANDARD_MAMBA_DEVICES = [MODELS.S920, MODELS.Q92, MODELS.V240M];
-
-/**
- * @returns {boolean} If current model is standard
- */
-export function isStandardModel() {
-  return _hasModelAtList(STANDARD_MAMBA_DEVICES);
-}
 
 /**
  * Small screen devices
@@ -169,40 +157,6 @@ export const ARROW_NAVIGATION_DEVICES = [
 export function hasArrowNavigation() {
   return _hasModelAtList(ARROW_NAVIGATION_DEVICES);
 }
-
-/****** START BLOCK  ******/
-/**
- * @brief hasHighDPI and hasFunctionKeys works right now,
- *  but turned unavailable due to lack of use.
- *  Can be uncommented at any time!
- */
-
-//  * High DPI devices
-//  * @returns {array} A list of devices with high dpi
-//  */
-// export const HIGH_DPI_DEVICES = [MODELS.Q92, MODELS.D199];
-
-// /**
-//  * @returns {boolean} If current model have a high DPI screen
-//  */
-// export function hasHighDPI() {
-  //   return _hasModelAtList(HIGH_DPI_DEVICES);
-  // }
-
-  // /**
-  //  * Devices with Function Keys
-  //  * @returns {array} A list of devices that have function keys
-  //  */
-  // export const FUNCTION_KEYS_DEVICES = [MODELS.MP35P, MODELS.MP35];
-
-  // /**
-  //  * @returns {boolean} If current model have function keys
-  //  */
-  // export function hasFunctionKeys() {
-    //   return _hasModelAtList(FUNCTION_KEYS_DEVICES);
-    // }
-
-/****** END BLOCK  ******/
 
 /**
  * Devices with only touch, like smartphone
@@ -276,51 +230,40 @@ export function hasKeyboardLight() {
   return _hasModelAtList(HAS_KEYBOARD_LIGHT);
 }
 
-/**
- * PAX Devices
- * @returns {array} A list of devices from the manufacturer PAX
- */
-export const PAX_DEVICES = [
-  MODELS.S920,
-  MODELS.Q92,
-  MODELS.D195,
-  MODELS.Q60,
-  MODELS.D199,
-  MODELS.D230,
-];
+/****** START BLOCK  ******/
 
 /**
- * @returns {boolean} If the current model is from the PAX manufacturer
+ * @brief hasHighDPI and hasFunctionKeys works right now,
+ *  but turned unavailable due to lack of use.
+ *  Can be uncommented at any time!
  */
-export function isPAXDevices() {
-  return _hasModelAtList(PAX_DEVICES);
-}
 
-/**
- * Verifone Devices
- * @returns {array} A list of devices from the manufacturer Verifone
- */
-export const VERIFONE_DEVICES = [MODELS.V240M];
+//  * High DPI devices
+//  * @returns {array} A list of devices with high dpi
+//  */
+// export const HIGH_DPI_DEVICES = [MODELS.Q92, MODELS.D199];
 
-/**
- * @returns {boolean} If the current model is from the Verifone manufacturer
- */
-export function isVerifoneDevices() {
-  return _hasModelAtList(VERIFONE_DEVICES);
-}
+// /**
+//  * @returns {boolean} If current model have a high DPI screen
+//  */
+// export function hasHighDPI() {
+  //   return _hasModelAtList(HIGH_DPI_DEVICES);
+  // }
 
-/**
- * Gertec Devices
- * @returns {array} A list of devices from the manufacturer Gertec
- */
-export const GERTEC_DEVICES = [MODELS.MP35, MODELS.MP35P];
+  // /**
+  //  * Devices with Function Keys
+  //  * @returns {array} A list of devices that have function keys
+  //  */
+  // export const FUNCTION_KEYS_DEVICES = [MODELS.MP35P, MODELS.MP35];
 
-/**
- * @returns {boolean} If the current model is from the Gertec manufacturer
- */
-export function isGertecDevices() {
-  return _hasModelAtList(GERTEC_DEVICES);
-}
+  // /**
+  //  * @returns {boolean} If current model have function keys
+  //  */
+  // export function hasFunctionKeys() {
+    //   return _hasModelAtList(FUNCTION_KEYS_DEVICES);
+    // }
+
+/****** END BLOCK  ******/
 
 export function getDeviceCapabilitiesClassList() {
   return [
@@ -332,9 +275,5 @@ export function getDeviceCapabilitiesClassList() {
     // hasHighDPI() && 'has-high-dpi',
     hasArrowNavigation() && 'has-arrow-navigation',
     hasSmallScreen() && 'has-small-screen',
-    isStandardModel() && 'is-standard-model',
-    isPAXDevices() && 'is-pax',
-    isVerifoneDevices() && 'is-verifone',
-    isGertecDevices() && 'is-gertec',
   ].filter(Boolean);
 }
