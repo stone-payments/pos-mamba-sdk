@@ -240,6 +240,12 @@ interface KeyboardOptions {
   renderCondition?: boolean | (() => boolean);
 
   /**
+   * Controls keyboard visibility.
+   * Setting this propertie with `renderCondition: false` has no effect.
+   */
+  visibility?: KeyboardVisibility | string;
+
+  /**
    * A prop to ensure characters are always be added/removed at the end of the string.
    */
   disableCursorPositioning?: boolean;
