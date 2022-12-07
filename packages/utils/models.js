@@ -5,16 +5,12 @@ const ThisStore = {
 };
 
 function VerifyMethodOnSystemWrapper(method) {
-
   try {
-
     /* Necessary because the circular dependency with simulator */
     const _system = window.$System || window.System;
 
     return _system[method]();
-
   } catch (error) {
-
     if (__DEV__) console.error(error);
   }
 }
@@ -70,7 +66,6 @@ export const AVAILABLE_SLUGS = _slugs;
  * @returns {String} return Pos Model
  */
 export const getPosModel = () => {
-
   const { _storedModel } = ThisStore;
 
   // Return cached value on POS. Just need run once.
@@ -249,7 +244,7 @@ export const NO_PRINTER = [MODELS.MP35, MODELS.D199, MODELS.D195];
  * @returns {boolean}
  */
 export function hasPrinter() {
-  return VerifyMethodOnSystemWrapper('hasPrinter') ||  !_hasModelAtList(NO_PRINTER);
+  return VerifyMethodOnSystemWrapper('hasPrinter') || !_hasModelAtList(NO_PRINTER);
 }
 
 /**
@@ -257,8 +252,14 @@ export function hasPrinter() {
  * @returns {boolean}
  */
 export function hasNoPrinter() {
-  return !VerifyMethodOnSystemWrapper('hasPrinter') ||  _hasModelAtList(NO_PRINTER);
+  return !VerifyMethodOnSystemWrapper('hasPrinter') || _hasModelAtList(NO_PRINTER);
 }
+
+/**
+ * @description Devices with keyboard light
+ * @returns {array} A list of devices that have keyboard light
+ */
+export const HAS_KEYBOARD_LIGHT = [MODELS.MP35P, MODELS.D230STANDARD_MAMBA_DEVICES];
 
 /**
  * @description If current model have keyboard light
@@ -267,12 +268,6 @@ export function hasNoPrinter() {
 export function hasKeyboardLight() {
   return _hasModelAtList(HAS_KEYBOARD_LIGHT);
 }
-
-/**
- * @description Devices with keyboard light
- * @returns {array} A list of devices that have keyboard light
- */
-export const HAS_KEYBOARD_LIGHT = [MODELS.MP35P, MODELS.D230, ...STANDARD_MAMBA_DEVICES];
 
 /**
  * @description If current model have physical keyboard
@@ -329,31 +324,40 @@ export function hasGprs() {
 //  * @returns {boolean} If current model have a high DPI screen
 //  */
 // export function hasHighDPI() {
-  //   return _hasModelAtList(HIGH_DPI_DEVICES);
-  // }
+//   return _hasModelAtList(HIGH_DPI_DEVICES);
+// }
 
-  // /**
-  //  * Devices with Function Keys
-  //  * @returns {array} A list of devices that have function keys
-  //  */
-  // export const FUNCTION_KEYS_DEVICES = [MODELS.MP35P, MODELS.MP35];
+// /**
+//  * Devices with Function Keys
+//  * @returns {array} A list of devices that have function keys
+//  */
+// export const FUNCTION_KEYS_DEVICES = [MODELS.MP35P, MODELS.MP35];
 
-  // /**
-  //  * @returns {boolean} If current model have function keys
-  //  */
-  // export function hasFunctionKeys() {
-    //   return _hasModelAtList(FUNCTION_KEYS_DEVICES);
-    // }
+// /**
+//  * @returns {boolean} If current model have function keys
+//  */
+// export function hasFunctionKeys() {
+//   return _hasModelAtList(FUNCTION_KEYS_DEVICES);
+// }
 
 export function getDeviceCapabilitiesClassList() {
   return [
+    // SCREEN
+    hasSmallScreen() && 'has-small-screen',
+    // CAPABILITY
     hasNoPrinter() && 'has-no-printer',
     hasTouch() && 'has-touch',
     hasNoTouch() && 'has-no-touch',
     hasOnlyTouch() && 'has-only-touch',
+    hasPrinter() && 'has-printer',
+    hasKeyboard() && 'has-keyboard',
+    hasArrowNavigation() && 'has-arrow-navigation',
+    // NETWORK
+    hasEthernet() && 'has-ethernet',
+    hasWifi() && 'has-wifi',
+    hasGprs() && 'has-gprs',
+    // UNAVAILABLE
     // hasFunctionKeys() && 'has-function-keys',
     // hasHighDPI() && 'has-high-dpi',
-    hasArrowNavigation() && 'has-arrow-navigation',
-    hasSmallScreen() && 'has-small-screen',
   ].filter(Boolean);
 }
