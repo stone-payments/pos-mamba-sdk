@@ -62,7 +62,7 @@ class Keyboard {
 
   hiddenKeyboardClass: string = ClassNames.hiddenKeyboardClassDefault;
 
-  initialized!: boolean;
+  initialized = false;
 
   keyboardRowsDOM!: KeyboardElement;
 
@@ -385,17 +385,34 @@ class Keyboard {
     /**
      * Handle suggestions box
      */
-    if (!this.suggestionsBox && keyboardType === KeyboardType.Default) {
-      this.suggestionsBox = new SuggestionBox({
-        getOptions: this.getOptions,
-        keyboardInstance: this,
-        onSelect: (button: string, e?: KeyboardHandlerEvent) => {
-          this.handleButtonClicked(button, e);
-        },
-      });
-    } else if (this.suggestionsBox) {
+    const { enableLayoutSuggestions = true } = keyboardOptions;
+    if (
+      (keyboardType !== KeyboardType.Default && this.suggestionsBox) ||
+      (this.suggestionsBox && !enableLayoutSuggestions)
+    ) {
       this.suggestionsBox.destroy();
       this.suggestionsBox = undefined;
+    } else if (
+      !this.suggestionsBox &&
+      enableLayoutSuggestions &&
+      keyboardType === KeyboardType.Default
+    ) {
+      if (enableLayoutSuggestions)
+        this.suggestionsBox = new SuggestionBox({
+          getOptions: this.getOptions,
+          keyboardInstance: this,
+          onSelect: (button: string, e?: KeyboardHandlerEvent) => {
+            if (button.length === 1) {
+              this.handleButtonClicked(button, e);
+              return;
+            }
+
+            const buttonList = button.split('');
+            for (let i = 0; i < buttonList.length; i++) {
+              this.handleButtonClicked(buttonList[i], e, true);
+            }
+          },
+        });
     }
 
     /**
@@ -928,8 +945,14 @@ class Keyboard {
   /**
    * Handles clicks made to keyboard buttons.
    * @param button The button's layout name.
+   * @param e Click event
+   * @param isMultipleInsert If the button comes from a list of multiple words from suggestion box.
    */
-  private handleButtonClicked(button: string, e?: KeyboardHandlerEvent): void {
+  private handleButtonClicked(
+    button: string,
+    e?: KeyboardHandlerEvent,
+    isMultipleInsert = false,
+  ): void {
     if (this.isRenderAllowed !== true) return;
     if (this.options.disabled === true) return;
 
@@ -955,19 +978,38 @@ class Keyboard {
     if (!this.input.default) this.input.default = '';
 
     /**
+     * Defining button type {@link ButtonType}
+     */
+    const buttonType: ButtonType = getButtonType(button);
+
+    /**
      * Calculating new input
      */
-    const updatedInput = this.cursorWorker.getUpdatedInput(button, this.input.default);
+    const updatedInput = this.cursorWorker.getUpdatedInput(button, this.input.default, true);
+
+    /**
+     * Call suggestion box update if exist
+     */
+    if (
+      // Disallow use of suggestion box when inserting multiple words
+      !isMultipleInsert &&
+      // Suggestion instance must exist before use
+      this.suggestionsBox &&
+      // Suggestions to work only when Standard button pressed
+      buttonType !== ButtonType.Function &&
+      // If user setup the input property element compatible with DOM Input element
+      (isProperInput(this.options.input || focusedInput) ||
+        // Or it is non DOM Input element, but a `<div>`
+        isNonInputButProperElement(this.options.input || focusedInput))
+    ) {
+      const hasSuggestion = this.suggestionsBox.shouldUpdateOrCease(updatedInput);
+      if (hasSuggestion) return;
+    }
 
     /**
      * Calling onKeyPress
      */
     if (typeof this.options.onKeyPress === 'function') this.options.onKeyPress(buttonOutput, e);
-
-    /**
-     * Defining button type {@link ButtonType}
-     */
-    const buttonType: ButtonType = getButtonType(button);
 
     /**
      * If key is a function key lie "{alt}". Calling function key press eventd
@@ -994,6 +1036,13 @@ class Keyboard {
     }
 
     /**
+     * If maxLength and handleMaxLength yield true, halting
+     */
+    if (this.options.maxLength && this.cursorWorker.handleMaxLength(this.input, updatedInput)) {
+      return;
+    }
+
+    /**
      * Define is pattern and value is valid
      */
     const isValidInputPattern = this.options.inputPattern && this.inputPatternIsValid(updatedInput);
@@ -1008,18 +1057,10 @@ class Keyboard {
         isValidInputPattern)
     ) {
       /**
-       * If maxLength and handleMaxLength yield true, halting
-       */
-      if (this.options.maxLength && this.cursorWorker.handleMaxLength(this.input, updatedInput)) {
-        return;
-      }
-
-      /**
        * Updating input
        */
-      const newInputValue = this.cursorWorker.getUpdatedInput(button, this.input.default, true);
 
-      this.setInput(newInputValue);
+      this.setInput(updatedInput);
 
       if (this.options.debug) {
         console.log(
@@ -1027,7 +1068,7 @@ class Keyboard {
           this.cursorWorker.getCursorPosition(),
           this.cursorWorker.getCursorPositionEnd(),
           `(${this.keyboardDOMClass})`,
-          `New input value: "${newInputValue}"`,
+          `New input value: "${updatedInput}"`,
         );
       }
 
@@ -1035,26 +1076,17 @@ class Keyboard {
        * Calling onChange
        */
       if (typeof this.options.onChange === 'function') this.options.onChange(this.getInput(), e);
-    }
 
-    /**
-     * Call synthetic event handler
-     */
-    this.shouldDispatchSyntheticKeyEvent(button, buttonOutput, buttonType, isValidInputPattern, e);
-
-    /**
-     * Call suggestion box update if exist
-     */
-    if (
-      this.suggestionsBox &&
-      // Suggestions to work only when Standard button pressed
-      buttonType !== ButtonType.Function &&
-      // If user setup the input property element compatible with DOM Input element
-      (isProperInput(this.options.input || focusedInput) ||
-        // Or it is non DOM Input element, but a `<div>`
-        isNonInputButProperElement(this.options.input || focusedInput))
-    ) {
-      this.suggestionsBox.shouldUpdateOrCease();
+      /**
+       * Call synthetic event handler
+       */
+      this.shouldDispatchSyntheticKeyEvent(
+        button,
+        buttonOutput,
+        buttonType,
+        isValidInputPattern,
+        e,
+      );
     }
 
     /**
