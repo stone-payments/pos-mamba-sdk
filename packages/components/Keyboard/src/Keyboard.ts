@@ -198,11 +198,10 @@ class Keyboard {
     /**
      * Rendering keyboard
      */
+    const { autoRender = true } = this.options;
     if (this.keyboardDOM) {
-      if (!(this.options.autoRender === false) || this.options.keepVisible) {
-        setTimeout(() => {
+      if (this.isRenderAllowed && (autoRender || this.options.keepVisible)) {
           this.render();
-        }, 1);
       }
     } else {
       console.warn(`".${keyboardDOMClass}" was not found in the DOM.`);
