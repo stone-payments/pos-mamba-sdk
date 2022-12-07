@@ -140,6 +140,10 @@ class Keyboard {
       options,
     );
 
+    if (this.options.debug) {
+      console.log(`Initial keyboard options: `, this.options);
+    }
+
     /**
      * Keep keyboard initial props for reset work
      */
@@ -201,7 +205,7 @@ class Keyboard {
     const { autoRender = true } = this.options;
     if (this.keyboardDOM) {
       if (this.isRenderAllowed && (autoRender || this.options.keepVisible)) {
-          this.render();
+        this.render();
       }
     } else {
       console.warn(`".${keyboardDOMClass}" was not found in the DOM.`);
