@@ -928,6 +928,8 @@ class Keyboard {
    */
   private handleButtonClicked(button: string, e?: KeyboardHandlerEvent): void {
     if (this.isRenderAllowed !== true) return;
+    if (this.options.disabled === true) return;
+
     const focusedInput = document.activeElement as HTMLInputElement;
 
     /**
@@ -1022,6 +1024,7 @@ class Keyboard {
           this.cursorWorker.getCursorPosition(),
           this.cursorWorker.getCursorPositionEnd(),
           `(${this.keyboardDOMClass})`,
+          `New input value: "${newInputValue}"`,
         );
       }
 
@@ -1072,6 +1075,7 @@ class Keyboard {
     e?: KeyboardHandlerEvent,
   ) {
     if (this.isRenderAllowed !== true) return;
+    if (this.options.disabled === true) return;
     const allowKeyPass =
       Array.isArray(this.options.allowKeySyntheticEvent) &&
       this.options.allowKeySyntheticEvent.includes(button);

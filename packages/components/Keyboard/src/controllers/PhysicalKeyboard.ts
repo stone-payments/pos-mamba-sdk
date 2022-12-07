@@ -103,22 +103,22 @@ class PhysicalKeyboard {
        * Set keyboard visibility
        */
       if (this.keyboardInstance.isRenderAllowed === true) {
-      this.keyboardInstance.visibility = KeyboardVisibility.Visible;
+        this.keyboardInstance.visibility = KeyboardVisibility.Visible;
 
-      /**
-       * If the keepVisible option is on and user hit some button without input focus, we need ensure that virtual input do not update its values back to the DOM input on next update.
-       */
-      this.updateVirtualInputfromDOMValue(input);
+        /**
+         * If the keepVisible option is on and user hit some button without input focus, we need ensure that virtual input do not update its values back to the DOM input on next update.
+         */
+        this.updateVirtualInputfromDOMValue(input);
 
-      /**
-       * Add listeners on focused input
-       */
-      this.addDOMInputEventListeners(input);
+        /**
+         * Add listeners on focused input
+         */
+        this.addDOMInputEventListeners(input);
 
-      /**
-       * Handle focused input data set
-       */
-      this.keyboardInstance.handleDOMInputDataset();
+        /**
+         * Handle focused input data set
+         */
+        this.keyboardInstance.handleDOMInputDataset();
         return;
       }
 
