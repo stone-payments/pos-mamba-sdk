@@ -8,6 +8,7 @@ import {
 } from '../types';
 import { greddyBraces } from './regExps';
 import type Keyboard from '../Keyboard';
+import { bindMethods } from '../helpers';
 
 /**
  * CursorWorker.
@@ -50,6 +51,7 @@ class CursorWorker {
   constructor({ getOptions, keyboardInstance }: CursorWorkerParams) {
     this.getOptions = getOptions;
     this.keyboardInstance = keyboardInstance;
+    bindMethods(CursorWorker, this);
 
     this.cursorPosition = null;
     this.cursorPositionEnd = null;
@@ -267,10 +269,10 @@ class CursorWorker {
     /**
      * Events for cursor control
      */
-    document.addEventListener('keyup', (e) => this.cursorEventHandler(e));
-    document.addEventListener('mouseup', (e) => this.cursorEventHandler(e));
-    document.addEventListener('select', (e) => this.cursorEventHandler(e));
-    document.addEventListener('selectionchange', (e) => this.cursorEventHandler(e));
+    document.addEventListener('keyup', this.cursorEventHandler);
+    document.addEventListener('mouseup', this.cursorEventHandler);
+    document.addEventListener('select', this.cursorEventHandler);
+    document.addEventListener('selectionchange', this.cursorEventHandler);
     this.setuped = true;
   }
 
@@ -279,10 +281,10 @@ class CursorWorker {
    */
   public ceaseCursorEventsControl() {
     if (!this.setuped) return;
-    document.removeEventListener('keyup', (e) => this.cursorEventHandler(e));
-    document.removeEventListener('mouseup', (e) => this.cursorEventHandler(e));
-    document.removeEventListener('select', (e) => this.cursorEventHandler(e));
-    document.removeEventListener('selectionchange', (e) => this.cursorEventHandler(e));
+    document.removeEventListener('keyup', this.cursorEventHandler);
+    document.removeEventListener('mouseup', this.cursorEventHandler);
+    document.removeEventListener('select', this.cursorEventHandler);
+    document.removeEventListener('selectionchange', this.cursorEventHandler);
     this.setuped = false;
   }
 
