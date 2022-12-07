@@ -190,6 +190,14 @@
         this.focus();
       }
 
+      if (changed.alphanumeric) {
+        if (current.alphanumeric) {
+          Keyboard.setKeyboardInputAsNumeric();
+        } else {
+          Keyboard.setKeyboardInputAsAlphanumeric();
+        }
+      }
+
       if (changed.keyboardOptions) {
         const { keyboardOptions } = current;
         if (typeof keyboardOptions === 'object' && keyboardOptions !== null && Keyboard.setOptions) {
@@ -272,20 +280,12 @@
       },
       // TODO: when '_visible' changes, it triggers a focus
       _onFocus(e) {
-        const { alphanumeric } = this.get();
-
         this.set({ isFocused: true });
-
-        if (alphanumeric) {
-          Keyboard.setKeyboardInputAsAlphanumeric();
-        } else {
-          Keyboard.setKeyboardInputAsNumeric();
-        }
 
         this.fire('focus', e);
       },
       _onBlur(e) {
-        const { alphanumeric, forcefocus, disabled } = this.get();
+        const { forcefocus, disabled } = this.get();
 
         if (forcefocus && disabled !== true) {
           e.stopImmediatePropagation();
@@ -300,10 +300,6 @@
         }
 
         this.set({ isFocused: false });
-
-        if (alphanumeric) {
-          Keyboard.setKeyboardInputAsNumeric();
-        }
 
         this.fire('blur', e);
       },
