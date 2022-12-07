@@ -455,6 +455,15 @@ class Keyboard {
    * Controls keyboard visibility, to handle effects
    */
   public set visibility(value: KeyboardVisibility) {
+    const allowed = this.isRenderAllowed;
+    if (this.options.debug) {
+      if (value === KeyboardVisibility.Visible && !allowed) {
+        console.info(`Set visibility to "${value}" has no effect with renderCondition \`false\``);
+      }
+    }
+
+    if (!allowed) return;
+
     if (this.options.keepVisible === true) {
       value = KeyboardVisibility.Visible;
     }
@@ -918,6 +927,7 @@ class Keyboard {
    * @param button The button's layout name.
    */
   private handleButtonClicked(button: string, e?: KeyboardHandlerEvent): void {
+    if (this.isRenderAllowed !== true) return;
     const focusedInput = document.activeElement as HTMLInputElement;
 
     /**
@@ -1061,6 +1071,7 @@ class Keyboard {
     isValidInputPattern?: boolean,
     e?: KeyboardHandlerEvent,
   ) {
+    if (this.isRenderAllowed !== true) return;
     const allowKeyPass =
       Array.isArray(this.options.allowKeySyntheticEvent) &&
       this.options.allowKeySyntheticEvent.includes(button);
@@ -1122,6 +1133,7 @@ class Keyboard {
    * @param visibility
    */
   private handleKeyboardVisibility(visibility = KeyboardVisibility.Visible) {
+    if (!this.isRenderAllowed) return;
     /**
      * Set the instance visibility
      */
@@ -1248,7 +1260,7 @@ class Keyboard {
    * Parse render condition
    * @returns If keyboard can work or not
    */
-  private isRenderAllowed(): boolean {
+  public get isRenderAllowed(): boolean {
     if (typeof this.options.renderCondition === 'function') {
       return Boolean(this.options.renderCondition());
     }
@@ -1275,9 +1287,12 @@ class Keyboard {
     /**
      * Stops if not allowed to render by condition
      */
-    if (!this.isRenderAllowed()) {
+    if (!this.isRenderAllowed) {
+      this.cursorWorker.ceaseCursorEventsControl();
       return;
     }
+
+    this.cursorWorker.setupCursorEventsControl();
 
     if (this.options.debug) {
       console.log(`Rendering/Updating keyboard`);

@@ -4,7 +4,6 @@ import {
   KeyboardHandlerEvent,
   CursorPosition,
   CursorWorkerParams,
-  KeyboardType,
 } from '../types';
 import { greddyBraces } from './regExps';
 import type Keyboard from '../Keyboard';
@@ -208,6 +207,9 @@ class CursorWorker {
   private cursorEventHandler(event: KeyboardHandlerEvent): void {
     if (!this) return;
     const options = this.getOptions();
+    if (this.keyboardInstance.isRenderAllowed !== true) return;
+    if (options.disabled === true) return;
+
     const isDOMInputType = event.target instanceof HTMLInputElement;
 
     const isKeyboard =
@@ -368,9 +370,10 @@ class CursorWorker {
    * @param input The input string
    * @param cursorPos The cursor's current position
    * @param cursorPosEnd The cursor's current end position
-   * @param  moveCursor Whether to update mamba-keyboard's cursor
+   * @param moveCursor Whether to update mamba-keyboard's cursor
+   * @return Updated input value
    */
-  getUpdatedInput(button: string, input: string, moveCursor = false) {
+  getUpdatedInput(button: string, input: string, moveCursor = false): string {
     const cursorPos = this.cursorPosition as number;
     const cursorPosEnd = this.cursorPositionEnd || cursorPos;
     const commonParams: [number, number, boolean] = [cursorPos, cursorPosEnd, moveCursor];

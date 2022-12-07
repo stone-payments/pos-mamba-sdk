@@ -73,7 +73,7 @@ class PhysicalKeyboard {
    * @param target The Event target
    * @param e The Focus event
    */
-  handleFocusIn(target?: EventTarget | Element | null, e?: FocusEvent) {
+  handleFocusIn(target?: EventTarget | Element | null, e?: FocusEvent): void {
     if (!__POS__ && e) {
       let avoidExternals = false;
       try {
@@ -102,6 +102,7 @@ class PhysicalKeyboard {
       /**
        * Set keyboard visibility
        */
+      if (this.keyboardInstance.isRenderAllowed === true) {
       this.keyboardInstance.visibility = KeyboardVisibility.Visible;
 
       /**
@@ -118,6 +119,10 @@ class PhysicalKeyboard {
        * Handle focused input data set
        */
       this.keyboardInstance.handleDOMInputDataset();
+        return;
+      }
+
+      this.removeDOMInputEventListeners();
     }
   }
 
