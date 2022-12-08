@@ -225,7 +225,12 @@ class CursorWorker {
        * Tracks current cursor position
        * As keys are pressed, text will be added/removed at that position within the input.
        */
-      this.setCursorPosition(event.target.selectionStart, event.target.selectionEnd);
+      this.setCursorPosition(
+        event.target.selectionStart,
+        event.target.selectionEnd,
+        false,
+        event.target,
+      );
 
       if (options.debug) {
         console.log(
