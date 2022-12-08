@@ -988,6 +988,11 @@ class Keyboard {
     const updatedInput = this.cursorWorker.getUpdatedInput(button, this.input.default, true);
 
     /**
+     * Call active class handler
+     */
+    if (!isMultipleInsert) this.handleActiveButton(e);
+
+    /**
      * Call suggestion box update if exist
      */
     if (
@@ -1045,16 +1050,15 @@ class Keyboard {
     /**
      * Define is pattern and value is valid
      */
-    const isValidInputPattern = this.options.inputPattern && this.inputPatternIsValid(updatedInput);
+    const isValidInputPattern =
+      (this.options.inputPattern && this.inputPatternIsValid(updatedInput)) || true;
 
     if (
       // If input will change as a result of this button press
       this.input.default !== updatedInput &&
       // This pertains to the "inputPattern" option:
-      // If inputPattern isn't set
-      (!this.options.inputPattern ||
-        // Or, if it is set and if the pattern is valid - we proceed.
-        isValidInputPattern)
+      // If inputPattern validation passes
+      isValidInputPattern
     ) {
       /**
        * Updating input
@@ -1076,23 +1080,21 @@ class Keyboard {
        * Calling onChange
        */
       if (typeof this.options.onChange === 'function') this.options.onChange(this.getInput(), e);
+    }
 
-      /**
-       * Call synthetic event handler
-       */
+    /**
+     * Call synthetic event handler if inputPattern validation passes
+     */
+    if (isValidInputPattern) {
       this.shouldDispatchSyntheticKeyEvent(
         button,
         buttonOutput,
         buttonType,
         isValidInputPattern,
         e,
+        isMultipleInsert,
       );
     }
-
-    /**
-     * Call active class handler
-     */
-    this.handleActiveButton(e);
 
     if (this.options.debug) {
       console.log('Key pressed:', { button, buttonOutput });
@@ -1108,6 +1110,7 @@ class Keyboard {
     buttonType: ButtonType,
     isValidInputPattern?: boolean,
     e?: KeyboardHandlerEvent,
+    isMultipleInsert = false,
   ) {
     if (this.isRenderAllowed !== true) return;
     if (this.options.disabled === true) return;
@@ -1139,7 +1142,7 @@ class Keyboard {
           e,
         );
       }
-    } else if (this.options.soundEnabled === true) {
+    } else if (this.options.soundEnabled === true && !isMultipleInsert) {
       /**
        * Pontually handle beep sound on key press for manual update mode
        */
