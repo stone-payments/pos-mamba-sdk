@@ -160,7 +160,7 @@ export const SMALL_SCREEN_DEVICES = [
  * @returns {boolean}
  */
 export function hasSmallScreen() {
-  return _hasModelAtList(SMALL_SCREEN_DEVICES);
+  return VerifyMethodOnSystemWrapper('hasSmallScreen') || _hasModelAtList(SMALL_SCREEN_DEVICES);
 }
 
 /**
@@ -180,7 +180,43 @@ export const ARROW_NAVIGATION_DEVICES = [
  * @returns {boolean}
  */
 export function hasArrowNavigation() {
-  return _hasModelAtList(ARROW_NAVIGATION_DEVICES);
+  return (
+    VerifyMethodOnSystemWrapper('hasArrowNavigation') || _hasModelAtList(ARROW_NAVIGATION_DEVICES)
+  );
+}
+
+export const HAS_KEYBOARD = [
+  MODELS.S920,
+  MODELS.Q92,
+  MODELS.Q92S,
+  MODELS.MP35P,
+  MODELS.MP35,
+  MODELS.V240M,
+  MODELS.D195,
+  MODELS.Q60,
+  MODELS.D230,
+];
+
+/**
+ * @description If current model has physical keyboard
+ * @returns {boolean} If current model has physical keyboard
+ */
+export function hasKeyboard() {
+  return VerifyMethodOnSystemWrapper('hasKeyboard') || _hasModelAtList(HAS_KEYBOARD);
+}
+
+/**
+ * @description Devices with keyboard light
+ * @returns {array} A list of devices that has keyboard light
+ */
+export const HAS_KEYBOARD_LIGHT = [MODELS.MP35P, MODELS.D230];
+
+/**
+ * @description If current model have keyboard light
+ * @returns {boolean} If current model has keyboard light
+ */
+export function hasKeyboardLight() {
+  return VerifyMethodOnSystemWrapper('hasKeyboardLight') || _hasModelAtList(HAS_KEYBOARD_LIGHT);
 }
 
 /**
@@ -194,7 +230,7 @@ export const ONLY_TOUCH = [MODELS.D199];
  * @returns {boolean}
  */
 export function hasOnlyTouch() {
-  return _hasModelAtList(ONLY_TOUCH);
+  return !VerifyMethodOnSystemWrapper('hasKeyboard') || _hasModelAtList(ONLY_TOUCH);
 }
 
 /**
@@ -253,28 +289,6 @@ export function hasPrinter() {
  */
 export function hasNoPrinter() {
   return !VerifyMethodOnSystemWrapper('hasPrinter') || _hasModelAtList(NO_PRINTER);
-}
-
-/**
- * @description Devices with keyboard light
- * @returns {array} A list of devices that have keyboard light
- */
-export const HAS_KEYBOARD_LIGHT = [MODELS.MP35P, MODELS.D230STANDARD_MAMBA_DEVICES];
-
-/**
- * @description If current model have keyboard light
- * @returns {boolean} If current model have keyboard light
- */
-export function hasKeyboardLight() {
-  return _hasModelAtList(HAS_KEYBOARD_LIGHT);
-}
-
-/**
- * @description If current model have physical keyboard
- * @returns {boolean}
- */
-export function hasKeyboard() {
-  return VerifyMethodOnSystemWrapper('hasKeyboard');
 }
 
 /**
