@@ -486,7 +486,12 @@ class Keyboard {
 
     if (!allowed) return;
 
-    if (this.options.keepVisible === true) {
+    if (value === KeyboardVisibility.Hidden && this.options.keepVisible === true) {
+      if (this.options.debug) {
+        console.log(
+          `Cannot set keyboard visibility to ${value} while keepVisible property is "true"`,
+        );
+      }
       value = KeyboardVisibility.Visible;
     }
 
