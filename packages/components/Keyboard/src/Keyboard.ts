@@ -80,6 +80,8 @@ class Keyboard {
 
   updateId?: number;
 
+  renderDebounceId?: number;
+
   defaultAllowKeySyntheticEvent = ['{backspace}', '{enter}', '{check}'];
 
   internalOnFunctionKeyPress?: (
@@ -1335,12 +1337,22 @@ class Keyboard {
   }
 
   /**
-   * Renders or update the keyboard buttons
+   * Debounce keyboard rendering
+   */
+  public render() {
+    window.clearTimeout(this.renderDebounceId);
+    this.renderDebounceId = window.setTimeout(() => {
+      this.trueRender();
+    }, 3);
+  }
+
+  /**
+   * True renders or update the keyboard buttons
    * Can be called direct if `autoRender` is off
    * @throws LAYOUT_NOT_FOUND_ERROR - layout not found
    * @throws LAYOUT_NAME_NOT_FOUND_ERROR - layout name not found in layout object
    */
-  public render() {
+  public trueRender() {
     /**
      * Clear keyboard
      */
