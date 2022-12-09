@@ -4,6 +4,7 @@ import {
   KeyboardHandlerEvent,
   CursorPosition,
   CursorWorkerParams,
+  KeyboardVisibility,
 } from '../types';
 import { greddyBraces } from './regExps';
 import type Keyboard from '../Keyboard';
@@ -209,6 +210,7 @@ class CursorWorker {
     const options = this.getOptions();
     if (this.keyboardInstance.isRenderAllowed !== true) return;
     if (options.disabled === true) return;
+    if (this.keyboardInstance.visibility === KeyboardVisibility.Hidden) return;
 
     const isDOMInputType = event.target instanceof HTMLInputElement;
 
