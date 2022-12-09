@@ -655,6 +655,10 @@ Defina o teclado virtual como tipo de telefone.
 
 Destroi o teclado virtual, remove seus ouvintes e elementos do DOM. Este método não deve ser usado se você estiver usando o componente `<Keyboard />`.
 
+### `shouldUpdateKeyboardView(): void`
+
+Atualiza os estilos automáticos do teclado virtual. Normalmente posicionamento na tela.
+
 ## Enumeradores
 
 ```ts

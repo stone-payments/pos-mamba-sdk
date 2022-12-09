@@ -74,9 +74,11 @@ class Keyboard {
 
   defaultLayoutAndName = 'default';
 
-  activeTime = 100;
+  activeTime = 150;
 
   driverBinded = false;
+
+  updateId?: number;
 
   defaultAllowKeySyntheticEvent = ['{backspace}', '{enter}', '{check}'];
 
@@ -901,6 +903,7 @@ class Keyboard {
       'setKeyboardAsNumericType',
       'setKeyboardAsPhoneType',
       'setKeyboardAsCustomType',
+      'shouldUpdateKeyboardView',
       'destroy',
     ];
 
@@ -1315,6 +1318,31 @@ class Keyboard {
   }
 
   /**
+   * Update keyboard view
+   */
+  public shouldUpdateKeyboardView() {
+    if (!this.keyboardDOM) return;
+    if (typeof this.updateId === 'number') {
+      clearTimeout(this.updateId);
+    }
+
+    // Wait next tick, for svelte render component
+    this.updateId = window.setTimeout(() => {
+      /**
+       * Change keyboard positon to handle mamba <Button /> sticky at the bottom
+       */
+
+      const bottomButton = document.querySelector('.button.at-bottom') as HTMLButtonElement;
+
+      if (bottomButton) {
+        this.keyboardDOM.style.marginBottom = `${bottomButton.offsetHeight}px`;
+      } else {
+        this.keyboardDOM.style.marginBottom = '';
+      }
+    }, 10);
+  }
+
+  /**
    * Renders or update the keyboard buttons
    * Can be called direct if `autoRender` is off
    * @throws LAYOUT_NOT_FOUND_ERROR - layout not found
@@ -1372,16 +1400,6 @@ class Keyboard {
       layoutDirectionClass,
       this.options.theme,
     );
-
-    /**
-     * Change keyboard positon to handle mamba <Button /> sticky at the bottom
-     */
-    const bottomButton = document.querySelector('.button.at-bottom') as HTMLButtonElement;
-    if (bottomButton) {
-      this.keyboardDOM.style.marginBottom = `${bottomButton.offsetHeight}px`;
-    } else {
-      this.keyboardDOM.style.marginBottom = '';
-    }
 
     /**
      * Create row wrapper
@@ -1504,6 +1522,11 @@ class Keyboard {
      * Appending row to keyboard
      */
     this.keyboardDOM.appendChild(this.keyboardRowsDOM);
+
+    /**
+     * Update keyboard view if need
+     */
+    this.shouldUpdateKeyboardView();
 
     /**
      * Calling onRender
