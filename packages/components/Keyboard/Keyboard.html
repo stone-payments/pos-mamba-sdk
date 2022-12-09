@@ -36,9 +36,6 @@
           );
         }
 
-        if (context.init) return;
-        if (context.path.length === 1) return;
-
         try {
           if (!(document.activeElement instanceof HTMLInputElement) && keyboard) {
             keyboard.resetOptions();
