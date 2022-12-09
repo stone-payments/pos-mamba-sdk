@@ -914,19 +914,6 @@ class Keyboard {
       }
     }
 
-    /**
-     * Rewrite driver get/set of keyboard visibility
-     */
-    Object.defineProperty(driver, 'visibility', {
-      configurable: true,
-      get() {
-        return instance.visibility;
-      },
-      set(value: KeyboardVisibility) {
-        instance.visibility = value;
-      },
-    });
-
     instance.driverBinded = true;
   }
 
