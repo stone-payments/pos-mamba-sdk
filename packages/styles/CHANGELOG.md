@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [4.3.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/styles@4.3.0...@mamba/styles@4.3.1) (2022-12-13)
+
+
+### Bug Fixes
+
+* 🐛 fix simulator fonts ([4088183](https://github.com/stone-payments/pos-mamba-sdk/commit/40881839cf7987dca074e4fb9413a3e09200c7cc))
+
+
+
 ## [4.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/styles@4.2.2...@mamba/styles@4.3.0) (2022-11-15)
 
 **Note:** Version bump only for package @mamba/styles

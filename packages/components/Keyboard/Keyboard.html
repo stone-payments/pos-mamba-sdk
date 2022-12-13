@@ -36,9 +36,6 @@
           );
         }
 
-        if (context.init) return;
-        if (context.path.length === 1) return;
-
         try {
           if (!(document.activeElement instanceof HTMLInputElement) && keyboard) {
             keyboard.resetOptions();
@@ -53,35 +50,30 @@
         destroyInstance();
       });
     },
-    onupdate({ changed, current }) {
-      if (changed.keyboardOptions) {
-        const { keyboardOptions } = current;
+    onupdate({ current }) {
+      if (debug) {
+        console.log(`<Keyboard> keyboardOptions changed`, current);
+      }
 
-        if (debug) {
-          console.log(`<Keyboard> keyboardOptions changed`, keyboardOptions);
-        }
+      let { renderCondition = true } = current;
+      if (typeof renderCondition !== 'boolean' && !!keyboard) {
+        const options = keyboard.getOptions();
+        renderCondition = options.renderCondition;
+      }
 
-        if (
-          typeof keyboardOptions === 'object' &&
-          keyboardOptions !== null &&
-          'renderCondition' in keyboardOptions
-        ) {
-          if (keyboardOptions.renderCondition === false) {
-            destroyInstance();
-            return;
-          }
+      if (renderCondition === false) {
+        destroyInstance();
+        return;
+      }
 
-          if (!keyboard) {
-            const options = {
-              ...this.get(),
-              ...keyboardOptions,
-            };
+      if (renderCondition === true && !keyboard) {
+        keyboard = new Keyboard(current);
+        return;
+      }
 
-            delete options.keyboardOptions;
-
-            keyboard = new Keyboard(options);
-          }
-        }
+      // Set keyboard options, if exist
+      if (keyboard) {
+        keyboard.setOptions(current);
       }
     },
   };
