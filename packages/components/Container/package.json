@@ -1,6 +1,6 @@
 {
   "name": "@mamba/container",
-  "version": "4.2.0",
+  "version": "4.3.0",
   "svelte": "Container.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",

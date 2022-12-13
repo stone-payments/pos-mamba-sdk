@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.4.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/configs@4.3.1...@mamba/configs@4.4.0) (2022-12-13)
+
+**Note:** Version bump only for package @mamba/configs
+
+
+
+
+
+### [4.3.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/configs@4.3.0...@mamba/configs@4.3.1) (2022-12-13)
+
+
+### Features
+
+* 🎸 add class propertiers ([fffcdd5](https://github.com/stone-payments/pos-mamba-sdk/commit/fffcdd5b2823882632c43f429015ece5499bcfaf))
+
+
+
 ## [4.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/configs@4.2.2...@mamba/configs@4.3.0) (2022-11-15)
 
 **Note:** Version bump only for package @mamba/configs

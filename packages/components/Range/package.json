@@ -1,6 +1,6 @@
 {
   "name": "@mamba/range",
-  "version": "5.2.0",
+  "version": "5.3.0",
   "svelte": "Range.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -12,7 +12,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@mamba/styles": "4.3.0"
+    "@mamba/styles": "4.4.0"
   },
   "gitHead": "e919d0e654f8134f157bf4f6e078685f5dd8a000"
 }
