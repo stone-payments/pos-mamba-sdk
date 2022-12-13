@@ -12,6 +12,7 @@
     "allowJs": true,
     "sourceMap": true,
     "inlineSources": false,
+    "sourceRoot": "",
     "declaration": true,
     "suppressImplicitAnyIndexErrors": true,
     "downlevelIteration": true,

@@ -19,6 +19,8 @@ class SuggestionBox {
 
   suggestionDOMElement!: HTMLDivElement;
 
+  lastSuggestionList?: string;
+
   onSelect!: onSuggestionSelect;
 
   constructor({ getOptions, keyboardInstance, onSelect }: SuggestionBoxParams) {
@@ -34,15 +36,33 @@ class SuggestionBox {
     this.clearBox();
   }
 
-  shouldUpdateOrCease() {
-    const input = this.keyboardInstance.getInput();
-    const last = input.slice(-1);
-    const suggestionFound: string = DEFAULT_SUGGESTIONS[last];
+  reset() {
+    this.clearBox();
+    this.lastSuggestionList = undefined;
+  }
+
+  /**
+   * Shows or hides suggestion box on button click.
+   * @param inputValueCandidate The input value about to show before sending to the DOM input.
+   * @return Return `true` if button has some suggestions to show
+   */
+  shouldUpdateOrCease(inputValueCandidate?: string): boolean {
+    if (!inputValueCandidate) inputValueCandidate = this.keyboardInstance.getInput();
+    const last = inputValueCandidate.slice(-1);
+    const suggestionFound: string | undefined = DEFAULT_SUGGESTIONS[last];
     if (suggestionFound) {
+      if (this.lastSuggestionList === suggestionFound) {
+        this.reset();
+        return false;
+      }
+
+      this.lastSuggestionList = suggestionFound;
       this.render(suggestionFound.split(' '));
     } else {
-      this.clearBox();
+      this.reset();
     }
+
+    return !!suggestionFound;
   }
 
   /**
@@ -61,7 +81,6 @@ class SuggestionBox {
   private render(suggestionList: string[]) {
     // Remove last suggestion box, if any
     this.clearBox();
-
     this.suggestionDOMElement = createKeyboardElement(ClassNames.suggestionBox) as HTMLDivElement;
 
     const suggestionTable = createKeyboardElement(undefined, 'table') as HTMLTableElement;
@@ -75,7 +94,10 @@ class SuggestionBox {
         ClassNames.suggestionBoxButton,
       ]) as HTMLDivElement;
       suggestionButton.textContent = suggestionValue;
-      suggestionButton.onclick = (e: KeyboardHandlerEvent) => this.onSelect(suggestionValue, e);
+      suggestionButton.onclick = (e: KeyboardHandlerEvent) => {
+        this.reset();
+        this.onSelect(suggestionValue, e);
+      };
 
       // Add button to the table cell
       suggestionCell.appendChild(suggestionButton);

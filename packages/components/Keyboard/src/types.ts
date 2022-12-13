@@ -271,8 +271,15 @@ export interface KeyboardOptions extends KeyboardTypeOptions, KeyboardTypeEvents
    * Optionally set a condition for the virtual keyboard to render or work.
    * Its instance will be destroyed if exist.
    * Can be a Boolean or a function that do something and return a boolean.
+   * This property change keybpard visibility and stop its events and actions too.
    */
   renderCondition?: boolean | (() => boolean);
+
+  /**
+   * Enabled or disables keyboard events and actions.
+   * This property do not change keybpard visibility.
+   */
+  disabled?: boolean;
 
   /**
    * A prop to ensure characters are always be added/removed at the end of the string.

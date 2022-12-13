@@ -74,10 +74,15 @@ module.exports = {
       },
       {
         test: /\.js$/,
+        enforce: 'pre',
+        use: [loaders.sourcemaps],
+      },
+      {
+        test: /\.js$/,
         include: baseInclude,
         exclude: [/node_modules/],
         enforce: 'pre',
-        use: [loaders.babelEsNext, loaders.eslint, loaders.sourcemaps],
+        use: [loaders.babelEsNext, loaders.eslint],
       },
       /**
        * ! Dependency modules

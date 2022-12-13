@@ -3,6 +3,7 @@
   class:is-readable="readable"
   class:is-invalid="!isValid && !!_errorMsg"
   class:is-focused="isFocused"
+  class:has-password-toggle="_hasPasswordToggle"
   style="background-color: {bgColor}; color: {labelColor};"
 >
   {#if label}
@@ -25,7 +26,7 @@
       on:input="_onInput(event)"
     />
 
-    {#if type === 'password' && readable}
+    {#if _hasPasswordToggle}
       <div class="type-toggle" on:mousedown="_onMousedown(event)">
         <Icon symbol="{_visible ? 'eye' : 'eye-off'}" />
       </div>
@@ -45,6 +46,7 @@
   import Keyboard from '@mamba/keyboard/api/keyboard.js';
   import System from '@mamba/pos/api/system.js';
   import { neutral500 } from '@mamba/styles/colors';
+  import { Device } from '@mamba/utils/index.js';
   import masker from './libs/masker.js';
   import defaultTokens from './libs/tokens.js';
 
@@ -91,6 +93,8 @@
         /** Mask */
         mask: undefined,
         tokens: defaultTokens,
+        /** Controls eye toogle display */
+        showPasswordToggle: Device.hasNoTouch(true),
       };
     },
     computed: {
@@ -104,6 +108,9 @@
         if (type === 'password') return 'text';
         /** otherwise, we use what was passed to the 'type' prop */
         return type;
+      },
+      _hasPasswordToggle({ type, readable, showPasswordToggle }) {
+        return type === 'password' && readable && showPasswordToggle;
       },
     },
     oncreate() {
@@ -132,6 +139,7 @@
           errorMessage,
           validateOn,
           validation,
+          showPasswordToggle,
         } = this.options.data;
 
         this.set({
@@ -155,6 +163,7 @@
           errorMessage: isString(errorMessage) ? errorMessage : undefined,
           validateOn: isString(validateOn) ? validateOn : 'submit',
           validation: typeof validation === 'function' ? validation : undefined,
+          showPasswordToggle: isBoolean(showPasswordToggle) ? showPasswordToggle : true,
         });
 
         // TODO: remove when undefined prop is not printed
@@ -188,6 +197,14 @@
 
       if (changed.forcefocus && current.forcefocus && current.autofocus && !current.isFocused) {
         this.focus();
+      }
+
+      if (changed.alphanumeric) {
+        if (current.alphanumeric) {
+          Keyboard.setKeyboardInputAsNumeric();
+        } else {
+          Keyboard.setKeyboardInputAsAlphanumeric();
+        }
       }
 
       if (changed.keyboardOptions) {
@@ -272,20 +289,12 @@
       },
       // TODO: when '_visible' changes, it triggers a focus
       _onFocus(e) {
-        const { alphanumeric } = this.get();
-
         this.set({ isFocused: true });
-
-        if (alphanumeric) {
-          Keyboard.setKeyboardInputAsAlphanumeric();
-        } else {
-          Keyboard.setKeyboardInputAsNumeric();
-        }
 
         this.fire('focus', e);
       },
       _onBlur(e) {
-        const { alphanumeric, forcefocus, disabled } = this.get();
+        const { forcefocus, disabled } = this.get();
 
         if (forcefocus && disabled !== true) {
           e.stopImmediatePropagation();
@@ -300,10 +309,6 @@
         }
 
         this.set({ isFocused: false });
-
-        if (alphanumeric) {
-          Keyboard.setKeyboardInputAsNumeric();
-        }
 
         this.fire('blur', e);
       },
@@ -457,7 +462,7 @@
     background-color: #fff;
     border-bottom: 2px solid $input-border-color;
 
-    &.is-readable input {
+    &.has-password-toggle input {
       padding-right: 40px;
     }
 

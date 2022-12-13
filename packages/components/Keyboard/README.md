@@ -240,6 +240,18 @@ interface KeyboardOptions {
   renderCondition?: boolean | (() => boolean);
 
   /**
+   * Enabled or disables keyboard events and actions.
+   * This property do not change keybpard visibility.
+   */
+  disabled?: boolean;
+
+  /**
+   * Controls keyboard visibility.
+   * Setting this propertie with `renderCondition: false` has no effect.
+   */
+  visibility?: KeyboardVisibility | string;
+
+  /**
    * A prop to ensure characters are always be added/removed at the end of the string.
    */
   disableCursorPositioning?: boolean;
@@ -642,6 +654,10 @@ Defina o teclado virtual como tipo de telefone.
 ### `destroy(): void`
 
 Destroi o teclado virtual, remove seus ouvintes e elementos do DOM. Este método não deve ser usado se você estiver usando o componente `<Keyboard />`.
+
+### `shouldUpdateKeyboardView(): void`
+
+Atualiza os estilos automáticos do teclado virtual. Normalmente posicionamento na tela.
 
 ## Enumeradores
 
