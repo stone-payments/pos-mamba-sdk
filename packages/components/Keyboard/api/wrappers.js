@@ -45,8 +45,26 @@ export default function (driver) {
     get() {
       return getKeyboardInstance();
     },
-    configurable: true,
+    configurable: false,
     enumerable: true,
+  });
+
+  /**
+   * Rewrite driver get/set of keyboard visibility
+   */
+  Object.defineProperty(driver, 'visibility', {
+    configurable: false,
+    get() {
+      const _keyboard = getKeyboardInstance();
+      if (_keyboard) return _keyboard.visibility;
+      return undefined;
+    },
+    set(value) {
+      const _keyboard = getKeyboardInstance();
+      if (_keyboard) {
+        _keyboard.visibility = value;
+      }
+    },
   });
 
   /**
