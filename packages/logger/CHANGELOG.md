@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [4.2.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/logger@4.2.0...@mamba/logger@4.2.1) (2022-12-13)
+
+**Note:** Version bump only for package @mamba/logger
+
+
+
+
+
 ## [4.2.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/logger@4.1.3...@mamba/logger@4.2.0) (2022-11-15)
 
 **Note:** Version bump only for package @mamba/logger

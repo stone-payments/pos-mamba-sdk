@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [1.2.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/keyboard@1.2.0...@mamba/keyboard@1.2.1) (2022-12-13)
+
+
+### Features
+
+* 🎸 implement disabled prop ([9801a95](https://github.com/stone-payments/pos-mamba-sdk/commit/9801a95e4f7fa1a31e08ef41ad4561a0e62a32e5))
+* 🎸 implement shouldUpdateKeyboardView ([0b4393f](https://github.com/stone-payments/pos-mamba-sdk/commit/0b4393f98e4662c5223f1b1d3cfe33285aea3c08))
+
+
+### Bug Fixes
+
+* 🐛 always reset/unmount when route change ([3f8d407](https://github.com/stone-payments/pos-mamba-sdk/commit/3f8d407cb27dc9a8e33ce0a63c4788a281ae3220))
+* 🐛 dandles keyboard  events cleaning and add guards, with render condition property ([a913856](https://github.com/stone-payments/pos-mamba-sdk/commit/a91385609b06d68b26246c6690ee0fc0bdef0cde))
+* 🐛 disable effetcs on multiple inserts ([a46700f](https://github.com/stone-payments/pos-mamba-sdk/commit/a46700f658708a4d1ea2414ad1413f85995c01cb))
+* 🐛 fix autoRender prop ([684c05b](https://github.com/stone-payments/pos-mamba-sdk/commit/684c05b4ca709f9cd0e4f9633e2560393fdbe413))
+* 🐛 fix cursor worker listener callback references ([1087354](https://github.com/stone-payments/pos-mamba-sdk/commit/1087354589deb30b427f53545a91f84b356f6e22))
+* 🐛 fix delete icon displaying as trash bin icon for some reason ([3595515](https://github.com/stone-payments/pos-mamba-sdk/commit/35955157d0a43288f6e905116becd3607821f598))
+* 🐛 fix filter numbers only output ([f656600](https://github.com/stone-payments/pos-mamba-sdk/commit/f656600adb039dd12a542c1f727a210572f2d514))
+* 🐛 fix keyboard core instance of svelte update ([e9053de](https://github.com/stone-payments/pos-mamba-sdk/commit/e9053dede00aa0d365af02f04835cb3aca21e795))
+* 🐛 fix suggestion box and its multiple button inserts ([b16d598](https://github.com/stone-payments/pos-mamba-sdk/commit/b16d59805e9fa4de40473397e030d1c276a7464a))
+* 🐛 fix webpack source map loader order ([c04c8c7](https://github.com/stone-payments/pos-mamba-sdk/commit/c04c8c72ff4b6c522efe775099da31186a7d278a))
+* 🐛 prevents cursor worker work when keyboard is not visible ([4c7b830](https://github.com/stone-payments/pos-mamba-sdk/commit/4c7b830f9ef11ff34a5732d4dde2d24d34d727e8))
+
+
+### Performance Improvements
+
+* ⚡️ debounce keyboard render ([0c9dcc4](https://github.com/stone-payments/pos-mamba-sdk/commit/0c9dcc48fd307c25531f1daccd13582f285c43ed))
+
+
+
 ## [1.2.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/keyboard@1.1.3...@mamba/keyboard@1.2.0) (2022-11-15)
 
 **Note:** Version bump only for package @mamba/keyboard
