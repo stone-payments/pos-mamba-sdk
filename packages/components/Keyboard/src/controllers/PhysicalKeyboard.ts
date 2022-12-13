@@ -73,7 +73,7 @@ class PhysicalKeyboard {
    * @param target The Event target
    * @param e The Focus event
    */
-  handleFocusIn(target?: EventTarget | Element | null, e?: FocusEvent) {
+  handleFocusIn(target?: EventTarget | Element | null, e?: FocusEvent): void {
     if (!__POS__ && e) {
       let avoidExternals = false;
       try {
@@ -102,22 +102,27 @@ class PhysicalKeyboard {
       /**
        * Set keyboard visibility
        */
-      this.keyboardInstance.visibility = KeyboardVisibility.Visible;
+      if (this.keyboardInstance.isRenderAllowed === true) {
+        this.keyboardInstance.visibility = KeyboardVisibility.Visible;
 
-      /**
-       * If the keepVisible option is on and user hit some button without input focus, we need ensure that virtual input do not update its values back to the DOM input on next update.
-       */
-      this.updateVirtualInputfromDOMValue(input);
+        /**
+         * If the keepVisible option is on and user hit some button without input focus, we need ensure that virtual input do not update its values back to the DOM input on next update.
+         */
+        this.updateVirtualInputfromDOMValue(input);
 
-      /**
-       * Add listeners on focused input
-       */
-      this.addDOMInputEventListeners(input);
+        /**
+         * Add listeners on focused input
+         */
+        this.addDOMInputEventListeners(input);
 
-      /**
-       * Handle focused input data set
-       */
-      this.keyboardInstance.handleDOMInputDataset();
+        /**
+         * Handle focused input data set
+         */
+        this.keyboardInstance.handleDOMInputDataset();
+        return;
+      }
+
+      this.removeDOMInputEventListeners();
     }
   }
 

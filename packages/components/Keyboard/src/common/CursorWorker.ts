@@ -4,10 +4,11 @@ import {
   KeyboardHandlerEvent,
   CursorPosition,
   CursorWorkerParams,
-  KeyboardType,
+  KeyboardVisibility,
 } from '../types';
 import { greddyBraces } from './regExps';
 import type Keyboard from '../Keyboard';
+import { bindMethods } from '../helpers';
 
 /**
  * CursorWorker.
@@ -50,6 +51,7 @@ class CursorWorker {
   constructor({ getOptions, keyboardInstance }: CursorWorkerParams) {
     this.getOptions = getOptions;
     this.keyboardInstance = keyboardInstance;
+    bindMethods(CursorWorker, this);
 
     this.cursorPosition = null;
     this.cursorPositionEnd = null;
@@ -206,6 +208,10 @@ class CursorWorker {
   private cursorEventHandler(event: KeyboardHandlerEvent): void {
     if (!this) return;
     const options = this.getOptions();
+    if (this.keyboardInstance.isRenderAllowed !== true) return;
+    if (options.disabled === true) return;
+    if (this.keyboardInstance.visibility === KeyboardVisibility.Hidden) return;
+
     const isDOMInputType = event.target instanceof HTMLInputElement;
 
     const isKeyboard =
@@ -221,7 +227,12 @@ class CursorWorker {
        * Tracks current cursor position
        * As keys are pressed, text will be added/removed at that position within the input.
        */
-      this.setCursorPosition(event.target.selectionStart, event.target.selectionEnd);
+      this.setCursorPosition(
+        event.target.selectionStart,
+        event.target.selectionEnd,
+        false,
+        event.target,
+      );
 
       if (options.debug) {
         console.log(
@@ -267,10 +278,10 @@ class CursorWorker {
     /**
      * Events for cursor control
      */
-    document.addEventListener('keyup', (e) => this.cursorEventHandler(e));
-    document.addEventListener('mouseup', (e) => this.cursorEventHandler(e));
-    document.addEventListener('select', (e) => this.cursorEventHandler(e));
-    document.addEventListener('selectionchange', (e) => this.cursorEventHandler(e));
+    document.addEventListener('keyup', this.cursorEventHandler);
+    document.addEventListener('mouseup', this.cursorEventHandler);
+    document.addEventListener('select', this.cursorEventHandler);
+    document.addEventListener('selectionchange', this.cursorEventHandler);
     this.setuped = true;
   }
 
@@ -279,10 +290,10 @@ class CursorWorker {
    */
   public ceaseCursorEventsControl() {
     if (!this.setuped) return;
-    document.removeEventListener('keyup', (e) => this.cursorEventHandler(e));
-    document.removeEventListener('mouseup', (e) => this.cursorEventHandler(e));
-    document.removeEventListener('select', (e) => this.cursorEventHandler(e));
-    document.removeEventListener('selectionchange', (e) => this.cursorEventHandler(e));
+    document.removeEventListener('keyup', this.cursorEventHandler);
+    document.removeEventListener('mouseup', this.cursorEventHandler);
+    document.removeEventListener('select', this.cursorEventHandler);
+    document.removeEventListener('selectionchange', this.cursorEventHandler);
     this.setuped = false;
   }
 
@@ -350,10 +361,12 @@ class CursorWorker {
    */
   shouldFilterNumericValue(value: string): string {
     const options = this.getOptions();
-    if (options.filtersNumbersOnly === true) {
-      value = Number(value.replace(/\D/g, '')).toString();
+    if (
+      options.filtersNumbersOnly === true ||
+      this.keyboardInstance.generalKeyboard.alphanumericEnabled === true
+    ) {
+      value = value.replace(/\D/g, '');
     }
-
     return value;
   }
 
@@ -364,9 +377,10 @@ class CursorWorker {
    * @param input The input string
    * @param cursorPos The cursor's current position
    * @param cursorPosEnd The cursor's current end position
-   * @param  moveCursor Whether to update mamba-keyboard's cursor
+   * @param moveCursor Whether to update mamba-keyboard's cursor
+   * @return Updated input value
    */
-  getUpdatedInput(button: string, input: string, moveCursor = false) {
+  getUpdatedInput(button: string, input: string, moveCursor = false): string {
     const cursorPos = this.cursorPosition as number;
     const cursorPosEnd = this.cursorPositionEnd || cursorPos;
     const commonParams: [number, number, boolean] = [cursorPos, cursorPosEnd, moveCursor];

@@ -272,7 +272,7 @@ $level-shadow-color: $neutral400;
     & span {
       width: 20px;
       height: 20px;
-      mask-image: url(../assets/delete.svg);
+      mask-image: url(../assets/delete.png);
     }
   }
 
