@@ -72,17 +72,18 @@
       updateCapabilities() {
         setTimeout(() => {
           this.set({
+            hasPrinter: Device.hasPrinter(),
             hasNoPrinter: Device.hasNoPrinter(),
             hasTouch: Device.hasTouch(),
             hasOnlyTouch: Device.hasOnlyTouch(),
-            hasFunctionKeys: Device.hasFunctionKeys(),
+            hasNoTouch: Device.hasNoTouch(),
             hasKeyboardLight: Device.hasKeyboardLight(),
-            hasHighDPI: Device.hasHighDPI(),
             hasArrowNavigation: Device.hasArrowNavigation(),
             hasSmallScreen: Device.hasSmallScreen(),
-            isPAXDevices: Device.isPAXDevices(),
-            isGertecDevices: Device.isGertecDevices(),
-            isVerifoneDevices: Device.isVerifoneDevices(),
+            hasKeyboard: Device.hasKeyboard(),
+            hasEthernet: Device.hasEthernet(),
+            hasWifi: Device.hasWifi(),
+            hasGprs: Device.hasGprs(),
           });
         });
       },
