@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/utils@5.3.0...@mamba/utils@6.0.0) (2022-12-19)
+
+
+### Bug Fixes
+
+* 🐛 added css classes & minor fixes ([34bcaa4](https://github.com/stone-payments/pos-mamba-sdk/commit/34bcaa48b7405d54f8849b3a85ae607e01e60d73))
+
+
+
 ### [5.3.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/utils@5.3.0...@mamba/utils@5.3.1) (2022-12-16)
 
 
