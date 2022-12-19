@@ -321,38 +321,44 @@ export function hasGprs() {
 
 /**
  * #####################
- * #### UNAVAILABLE ####
+ * #### DEPRECATED ####
  * #####################
  *
- * @description hasHighDPI and hasFunctionKeys works right now,
- *  but turned unavailable due to lack of use.
- *  Can be uncommented at any time!
+ * @description deprecated methods since @mamba/utils v6.0.0
+ *
  */
 
-//  * High DPI devices
-//  * @returns {array} A list of devices with high dpi
-//  */
-// export const HIGH_DPI_DEVICES = [MODELS.Q92, MODELS.D199];
+/**
+ * High DPI devices
+ *
+ * @description A list of devices with high dpi
+ * @returns {array}
+ */
+export const HIGH_DPI_DEVICES = [MODELS.Q92, MODELS.D199];
 
-// /**
-//  * @returns {boolean} If current model have a high DPI screen
-//  */
-// export function hasHighDPI() {
-//   return _hasModelAtList(HIGH_DPI_DEVICES);
-// }
+/**
+ * @description If current model have a high DPI screen
+ * @returns {boolean}
+ */
+export function hasHighDPI() {
+  return _hasModelAtList(HIGH_DPI_DEVICES);
+}
 
-// /**
-//  * Devices with Function Keys
-//  * @returns {array} A list of devices that have function keys
-//  */
-// export const FUNCTION_KEYS_DEVICES = [MODELS.MP35P, MODELS.MP35];
+/**
+ * Devices with Function Keys
+ *
+ * @description A list of devices that have function keys
+ * @returns {array}
+ */
+export const FUNCTION_KEYS_DEVICES = [MODELS.MP35P, MODELS.MP35];
 
-// /**
-//  * @returns {boolean} If current model have function keys
-//  */
-// export function hasFunctionKeys() {
-//   return _hasModelAtList(FUNCTION_KEYS_DEVICES);
-// }
+/**
+ * @description If current model have function keys
+ * @returns {boolean}
+ */
+export function hasFunctionKeys() {
+  return _hasModelAtList(FUNCTION_KEYS_DEVICES);
+}
 
 export function getDeviceCapabilitiesClassList() {
   return [
@@ -370,8 +376,8 @@ export function getDeviceCapabilitiesClassList() {
     hasEthernet() && 'has-ethernet',
     hasWifi() && 'has-wifi',
     hasGprs() && 'has-gprs',
-    // UNAVAILABLE
-    // hasFunctionKeys() && 'has-function-keys',
-    // hasHighDPI() && 'has-high-dpi',
+    // DEPRECATED
+    hasFunctionKeys() && 'has-function-keys',
+    hasHighDPI() && 'has-high-dpi',
   ].filter(Boolean);
 }
