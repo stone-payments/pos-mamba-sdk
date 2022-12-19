@@ -17,9 +17,10 @@
     <span>Capacidades do POS selecionado</span>
     <ul>
       <li>
-        <div class="box-status" class:active="!hasNoPrinter">Impressora</div>
+        <div class="box-status" class:active="hasPrinter">Impressora</div>
         <div class="box-status" class:active="hasTouch">Touch</div>
         <div class="box-status" class:active="hasOnlyTouch">Apenas touch</div>
+        <div class="box-status" class:active="hasKeyboard">Teclado</div>
         <div class="box-status" class:active="hasKeyboardLight">Luz de teclado</div>
         <div class="box-status" class:active="hasArrowNavigation">Navegação por setas</div>
         <div class="box-status" class:active="hasSmallScreen">Tela pequena</div>
@@ -71,12 +72,12 @@
             hasPrinter: Device.hasPrinter(),
             hasNoPrinter: Device.hasNoPrinter(),
             hasTouch: Device.hasTouch(),
-            hasOnlyTouch: Device.hasOnlyTouch(),
             hasNoTouch: Device.hasNoTouch(),
+            hasOnlyTouch: Device.hasOnlyTouch(),
+            hasKeyboard: Device.hasKeyboard(),
             hasKeyboardLight: Device.hasKeyboardLight(),
             hasArrowNavigation: Device.hasArrowNavigation(),
             hasSmallScreen: Device.hasSmallScreen(),
-            hasKeyboard: Device.hasKeyboard(),
             hasEthernet: Device.hasEthernet(),
             hasWifi: Device.hasWifi(),
             hasGprs: Device.hasGprs(),
