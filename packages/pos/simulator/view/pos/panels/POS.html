@@ -2,14 +2,15 @@
 
 <ul class="controllers">
   {#each MODELS as model}
-    <li class="controller {getSanitizedPosModel(model)}">
-      <span>{model}</span>
-      <Radio
-        name="model"
-        checked="{isModelChecked($ACTIVE_MODEL, model)}"
-        on:change="updateCapabilities()"
-        on:click="setPosModel(model)" />
-    </li>
+  <li class="controller {getSanitizedPosModel(model)}">
+    <span>{model}</span>
+    <Radio
+      name="model"
+      checked="{isModelChecked($ACTIVE_MODEL, model)}"
+      on:change="updateCapabilities()"
+      on:click="setPosModel(model)"
+    />
+  </li>
   {/each}
 
   <li class="controller is-full">
@@ -19,14 +20,9 @@
         <div class="box-status" class:active="!hasNoPrinter">Impressora</div>
         <div class="box-status" class:active="hasTouch">Touch</div>
         <div class="box-status" class:active="hasOnlyTouch">Apenas touch</div>
-        <div class="box-status" class:active="hasFunctionKeys">Teclas de <u>F</u>unções</div>
         <div class="box-status" class:active="hasKeyboardLight">Luz de teclado</div>
-        <div class="box-status" class:active="hasHighDPI">DPI alto</div>
         <div class="box-status" class:active="hasArrowNavigation">Navegação por setas</div>
         <div class="box-status" class:active="hasSmallScreen">Tela pequena</div>
-        <div class="box-status" class:active="isPAXDevices">Pax</div>
-        <div class="box-status" class:active="isGertecDevices">Gertec</div>
-        <div class="box-status" class:active="isVerifoneDevices">Verifone</div>
       </li>
     </ul>
   </li>
