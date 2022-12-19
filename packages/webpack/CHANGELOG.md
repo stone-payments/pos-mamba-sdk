@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.4.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@4.3.1...@mamba/webpack@4.4.0) (2022-12-13)
+
+**Note:** Version bump only for package @mamba/webpack
+
+
+
+
+
+### [4.3.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@4.3.0...@mamba/webpack@4.3.1) (2022-12-13)
+
+
+### Bug Fixes
+
+* 🐛 fix webpack source map loader order ([c04c8c7](https://github.com/stone-payments/pos-mamba-sdk/commit/c04c8c72ff4b6c522efe775099da31186a7d278a))
+
+
+
+## [4.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@4.2.2...@mamba/webpack@4.3.0) (2022-11-15)
+
+**Note:** Version bump only for package @mamba/webpack
+
+
+
+
+
 ### [4.2.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@4.2.1...@mamba/webpack@4.2.2) (2022-10-04)
 
 **Note:** Version bump only for package @mamba/webpack

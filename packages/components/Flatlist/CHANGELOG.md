@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/flatlist@6.2.1...@mamba/flatlist@6.3.0) (2022-12-13)
+
+**Note:** Version bump only for package @mamba/flatlist
+
+
+
+
+
+### [6.2.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/flatlist@6.2.0...@mamba/flatlist@6.2.1) (2022-12-13)
+
+**Note:** Version bump only for package @mamba/flatlist
+
+
+
+
+
+## [6.2.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/flatlist@6.1.3...@mamba/flatlist@6.2.0) (2022-11-15)
+
+
+### Features
+
+* 🎸 implement navbar setup event for dom operation ([75b8eb4](https://github.com/stone-payments/pos-mamba-sdk/commit/75b8eb430b2dd9eea4de303cccc4383b2016e553))
+* apply disabled to NavBar ([9601878](https://github.com/stone-payments/pos-mamba-sdk/commit/96018783679c9af42ee811a241164e4500491881))
+
+
+### Bug Fixes
+
+* 🐛 fix item scrolling using native method ([c589fd1](https://github.com/stone-payments/pos-mamba-sdk/commit/c589fd13fcd41b9258a413ee8fee9f25fa5a51f7))
+* delete bump version ([8563d5b](https://github.com/stone-payments/pos-mamba-sdk/commit/8563d5b2d9a8aaa621fd2359c0e33da943968303))
+
+
+
 ### [6.1.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/flatlist@6.1.2...@mamba/flatlist@6.1.3) (2022-10-04)
 
 **Note:** Version bump only for package @mamba/flatlist

@@ -216,10 +216,19 @@ export function hasOnlyTouch() {
 export const NO_TOUCH = [MODELS.D195, MODELS.Q60, MODELS.D230];
 
 /**
+ * If device doesn't have touch.
+ * @param {boolean} useCache If should use stored value or not, to avoid
+ * access bridge unnecessary, usually for defualt values across components.
  * @returns {boolean} If current model have no touch screen
  */
-export function hasNoTouch() {
-  return _hasModelAtList(NO_TOUCH);
+export function hasNoTouch(useCache = true) {
+  if (useCache === true && '_hasNoTouch' in ThisStore) {
+    return ThisStore._hasNoTouch;
+  }
+
+  const _hasNoTouch = _hasModelAtList(NO_TOUCH);
+  ThisStore._hasNoTouch = _hasNoTouch;
+  return _hasNoTouch;
 }
 
 /**

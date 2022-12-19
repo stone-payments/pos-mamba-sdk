@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/utils@5.2.1...@mamba/utils@5.3.0) (2022-12-13)
+
+**Note:** Version bump only for package @mamba/utils
+
+
+
+
+
+### [5.2.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/utils@5.2.0...@mamba/utils@5.2.1) (2022-12-13)
+
+
+### Features
+
+* 🎸 cache hasNoTouch ([d47af3a](https://github.com/stone-payments/pos-mamba-sdk/commit/d47af3a14776395c3e1138a0cfdac179807705d1))
+
+
+
+## [5.2.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/utils@5.1.3...@mamba/utils@5.2.0) (2022-11-15)
+
+**Note:** Version bump only for package @mamba/utils
+
+
+
+
+
 ### [5.1.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/utils@5.1.2...@mamba/utils@5.1.3) (2022-10-04)
 
 **Note:** Version bump only for package @mamba/utils

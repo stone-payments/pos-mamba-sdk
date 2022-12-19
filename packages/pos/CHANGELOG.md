@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.4.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@4.3.1...@mamba/pos@4.4.0) (2022-12-13)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+### [4.3.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@4.3.0...@mamba/pos@4.3.1) (2022-12-13)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+## [4.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@4.2.2...@mamba/pos@4.3.0) (2022-11-15)
+
+
+### Bug Fixes
+
+* 🐛 adjust content width ([2daba83](https://github.com/stone-payments/pos-mamba-sdk/commit/2daba83c0df0c641cde030a15f0d95903110b561))
+
+
+
 ### [4.2.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@4.2.1...@mamba/pos@4.2.2) (2022-10-04)
 
 **Note:** Version bump only for package @mamba/pos

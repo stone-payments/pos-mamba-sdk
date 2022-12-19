@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@6.2.1...@mamba/input@6.3.0) (2022-12-13)
+
+**Note:** Version bump only for package @mamba/input
+
+
+
+
+
+### [6.2.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@6.2.0...@mamba/input@6.2.1) (2022-12-13)
+
+
+### Features
+
+* 🎸 implements showPasswordToggle prop for input, with POS hasTouch default value ([51f14ee](https://github.com/stone-payments/pos-mamba-sdk/commit/51f14eefcd07da3fe8481cf751eb21616757acfd))
+
+
+
+## [6.2.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@6.1.3...@mamba/input@6.2.0) (2022-11-15)
+
+**Note:** Version bump only for package @mamba/input
+
+
+
+
+
 ### [6.1.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@6.1.2...@mamba/input@6.1.3) (2022-10-04)
 
 **Note:** Version bump only for package @mamba/input
