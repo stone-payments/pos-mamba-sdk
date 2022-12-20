@@ -13,7 +13,9 @@ function VerifyMethodOnSystemWrapper(method) {
     /* Necessary because the circular dependency with simulator */
     const _system = window.$System || window.System;
 
-    return _system[method]();
+    if (typeof _system[method] === 'function') return _system[method]();
+
+    throw new Error('Method not available on Mamba');
   } catch (error) {
     if (__DEV__) console.error(error);
     return false;
@@ -235,7 +237,7 @@ export const ONLY_TOUCH = [MODELS.D199];
  * @returns {boolean}
  */
 export function hasOnlyTouch() {
-  return !VerifyMethodOnSystemWrapper('hasKeyboard') || _hasModelAtList(ONLY_TOUCH);
+  return VerifyMethodOnSystemWrapper('hasOnlyTouch') || _hasModelAtList(ONLY_TOUCH);
 }
 
 /**
@@ -249,7 +251,7 @@ export const NO_TOUCH = [MODELS.D195, MODELS.Q60, MODELS.D230];
  * @returns {boolean}
  */
 export function hasNoTouch() {
-  return !VerifyMethodOnSystemWrapper('hasTouch') || _hasModelAtList(NO_TOUCH);
+  return VerifyMethodOnSystemWrapper('hasNoTouch') || _hasModelAtList(NO_TOUCH);
 }
 
 /**
@@ -293,7 +295,7 @@ export function hasPrinter() {
  * @returns {boolean}
  */
 export function hasNoPrinter() {
-  return !VerifyMethodOnSystemWrapper('hasPrinter') || _hasModelAtList(NO_PRINTER);
+  return VerifyMethodOnSystemWrapper('hasNoPrinter') || _hasModelAtList(NO_PRINTER);
 }
 
 /**
