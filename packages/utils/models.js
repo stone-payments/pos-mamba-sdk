@@ -70,6 +70,25 @@ const _slugs = MODELS_SLUGS.reduce((result, model) => {
 export const AVAILABLE_SLUGS = _slugs;
 
 /**
+ * @description A list of devices from the manufacturer PAX
+ * @returns {array}
+ */
+export const PAX_DEVICES = [
+  MODELS.S920,
+  MODELS.Q92,
+  MODELS.D195,
+  MODELS.Q60,
+  MODELS.D199,
+  MODELS.D230,
+];
+
+/**
+ * @description A list of devices from the manufacturer GERTEC
+ * @returns {array}
+ */
+export const GERTEC_DEVICES = [MODELS.MP35, MODELS.MP35P];
+
+/**
  * @description Checks if the method exists
  * @returns {String} return Pos Model
  */
