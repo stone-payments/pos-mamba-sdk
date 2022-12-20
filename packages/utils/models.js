@@ -331,12 +331,16 @@ export function hasGprs() {
 /**
  * High DPI devices
  *
+ * @DEPRECATED since @mamba/utils v6.0.0
+ *
  * @description A list of devices with high dpi
  * @returns {array}
  */
 export const HIGH_DPI_DEVICES = [MODELS.Q92, MODELS.D199];
 
 /**
+ * @DEPRECATED since @mamba/utils v6.0.0
+ *
  * @description If current model have a high DPI screen
  * @returns {boolean}
  */
@@ -347,12 +351,16 @@ export function hasHighDPI() {
 /**
  * Devices with Function Keys
  *
+ * @DEPRECATED since @mamba/utils v6.0.0
+ *
  * @description A list of devices that have function keys
  * @returns {array}
  */
 export const FUNCTION_KEYS_DEVICES = [MODELS.MP35P, MODELS.MP35];
 
 /**
+ * @DEPRECATED since @mamba/utils v6.0.0
+ *
  * @description If current model have function keys
  * @returns {boolean}
  */
