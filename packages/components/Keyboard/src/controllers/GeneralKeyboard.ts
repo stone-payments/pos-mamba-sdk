@@ -54,15 +54,23 @@ class UIGeneralKeyboard {
   /**
    * Internal control for virtual keyboard when Sets the kernel keyboard to enter numbers only.
    */
-  setKeyboardAsNumeric() {
+  setKeyboardAsNumeric(): void {
     this.alphanumericEnabled = false;
   }
 
   /**
    * Internal control for virtual keyboard when Sets the kernek keyboard to type alphanumeric characters.
    */
-  setKeyboardAsAlphanumeric() {
+  setKeyboardAsAlphanumeric(): void {
     this.alphanumericEnabled = true;
+  }
+
+  /**
+   * Get alphanumeric state
+   * @returns alphanumeric state value
+   */
+  isAlphanumeric(): boolean {
+    return this.alphanumericEnabled;
   }
 
   /**
