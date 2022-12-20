@@ -155,6 +155,7 @@ module.exports = {
     colors: true,
     children: false,
     env: true,
+    warningsFilter: [/source-map-loader/, /Failed to parse source map/],
   },
   optimization: {
     namedChunks: true,
