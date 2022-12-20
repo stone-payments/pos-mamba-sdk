@@ -135,8 +135,9 @@
       },
       _onKeydown(e) {
         e.preventDefault();
-        const keyCode = e.code && e.code !== 0 ? e.code : e.charCode || e.which || e.keyCode;
+        const keyCode = Keyboard.parseEventKeyCode(e);
         const keyName = Keyboard.getKeyName(keyCode);
+
         const { readonlyOnEnter } = this.get();
         let { value } = this.get();
         value = value.toString();
