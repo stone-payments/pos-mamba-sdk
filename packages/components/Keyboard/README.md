@@ -6,7 +6,7 @@ Este módulo oferece uma série de funcionalidades referente ao telcado físico,
 
 #### ◼︎ Adicine o componente `<Keyboard/>` na raiz do seu projeto.
 
-```html
+```xml
 <Keyboard />
 
 <script>
@@ -20,8 +20,8 @@ Este módulo oferece uma série de funcionalidades referente ao telcado físico,
 
 #### ◼︎ Ou adicine o componente `<Keyboard/>` em uma rota específica, podendo assimm passar alguma de suas propriedades pelo HTML.
 
-```html
-<Keyboard keyboardType="{KeyboardType.Math}" />
+```xml
+<Keyboard keyboardType={KeyboardType.Math} />
 
 <script>
   import { KeyboardType } from '@mamba/keyboard/lib/index.js';
@@ -389,8 +389,8 @@ interface KeyboardOptions {
 
 Você pode passar opções simples, compatíveis com **JSON** _(não aceita funções/eventos do teclado)_, pelo elemento HTML input:
 
-```html
-<input
+```xml
+<Input
   data-keyboard="true"
   data-keyboard-options='{ "themeVariation": "my-variation", "keepVisible": false }'
 />
@@ -398,7 +398,7 @@ Você pode passar opções simples, compatíveis com **JSON** _(não aceita fun�
 
 Caso você utilize o `@mamba/input`, é mais permissivo:
 
-```html
+```xml
 <Input label="Insira o valor" keyboardOptions={{ themeVariation: KeyboardThemeVariation.Compact }}
 />
 
