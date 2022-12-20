@@ -11,11 +11,15 @@ const ThisStore = {
 function VerifyMethodOnSystemWrapper(method) {
   try {
     /* Necessary because the circular dependency with simulator */
-    const _system = window.$System || window.System;
+    if (__POS__) {
+      const _system = window.$System || window.System;
 
-    if (typeof _system[method] === 'function') return _system[method]();
+      if (typeof _system[method] === 'function') return _system[method]();
 
-    throw new Error('Method not available on Mamba');
+      throw new Error('Method not available on Mamba');
+    }
+
+    return false;
   } catch (error) {
     if (__DEV__) console.error(error);
     return false;
