@@ -4,6 +4,10 @@ const ThisStore = {
   _storedModel: undefined,
 };
 
+/**
+ * @description Check if method is available via Mamba
+ * @returns {boolean}
+ */
 function VerifyMethodOnSystemWrapper(method) {
   try {
     /* Necessary because the circular dependency with simulator */
@@ -12,6 +16,7 @@ function VerifyMethodOnSystemWrapper(method) {
     return _system[method]();
   } catch (error) {
     if (__DEV__) console.error(error);
+    return false;
   }
 }
 
