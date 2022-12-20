@@ -157,7 +157,7 @@
           forcefocus: isBoolean(forcefocus) ? forcefocus : false,
           autofocus: isBoolean(autofocus) ? autofocus : false,
           readable: isBoolean(readable) ? readable : false,
-          tokens: isString(tokens) ? tokens : defaultTokens,
+          tokens: tokens || defaultTokens,
           mask: mask || undefined,
           _visible: !(type === 'password'),
           errorMessage: isString(errorMessage) ? errorMessage : undefined,
