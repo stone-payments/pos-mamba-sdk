@@ -102,6 +102,22 @@ export default function (driver) {
   driver.getKeyName = GeneralKeyboard.getKeyName;
 
   /**
+   * Get the mamba normalized key code from user input event
+   * @memberof GeneralKeyboard
+   * @param {KeyboardEvent} event - Key code
+   * @returns {any} - Relative key name
+   */
+  driver.parseEventKeyCode = GeneralKeyboard.parseEventKeyCode;
+
+  /**
+   * Get the mamba normalized key name from user input event
+   * @memberof GeneralKeyboard
+   * @param {KeyboardEvent} event - Key code
+   * @returns {any} - Relative key name
+   */
+  driver.parseEventKeyName = GeneralKeyboard.parseEventKeyName;
+
+  /**
    * Check if a certain key is a numeric key
    * @memberof GeneralKeyboard
    * @param {number} keyCode - Key code

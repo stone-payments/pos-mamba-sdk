@@ -131,13 +131,37 @@ class UIGeneralKeyboard {
    * @param keyCode Key code
    * @returns Relative key name
    */
-  getKeyName(keyCode: number) {
+  getKeyName(keyCode: number | string | undefined): any {
+    if (typeof keyCode === 'undefined') return keyCode;
     const key = KEY_MAP[keyCode];
     if (key) {
       return String(KEY_MAP[keyCode]);
     }
 
-    return key;
+    return keyCode;
+  }
+
+  /**
+   * Get the mamba normalized key code from user input event
+   * @param event User input event
+   * @returns Relative key name
+   */
+  parseEventKeyCode(event: KeyboardEvent): any {
+    const keyCode =
+      typeof event.keyCode === 'number'
+        ? event.keyCode
+        : event.charCode || event.which || event.code;
+    return keyCode;
+  }
+
+  /**
+   * Get the mamba normalized key name from user input event
+   * @param event User input event
+   * @returns Relative key name
+   */
+  parseEventKeyName(event: KeyboardEvent): any {
+    const keyCode = this.parseEventKeyName(event);
+    return this.getKeyName(keyCode);
   }
 
   /**
