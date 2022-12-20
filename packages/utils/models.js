@@ -8,8 +8,8 @@ const ThisStore = {
  * @description Check if method is available via Mamba
  * @returns {boolean}
  */
-function VerifyMethodOnSystemWrapper(method) {
-  if (!__POS__) return false;
+function VerifyMethodOnSystemWrapper(method, placeholder = false) {
+  if (!__POS__) return placeholder;
 
   try {
     /* Necessary because the circular dependency with simulator */
@@ -17,9 +17,9 @@ function VerifyMethodOnSystemWrapper(method) {
 
     if (typeof _system[method] === 'function') return _system[method]();
 
-    return false;
+    return placeholder;
   } catch (error) {
-    return false;
+    return placeholder;
   }
 }
 
@@ -229,7 +229,7 @@ export const HAS_KEYBOARD = [
  * @returns {boolean} If current model has physical keyboard
  */
 export function hasKeyboard() {
-  return VerifyMethodOnSystemWrapper('hasKeyboard') || _hasModelAtList(HAS_KEYBOARD);
+  return VerifyMethodOnSystemWrapper('hasKeyboard', _hasModelAtList(HAS_KEYBOARD));
 }
 
 /**
@@ -271,7 +271,7 @@ export const NO_TOUCH = [MODELS.D195, MODELS.Q60, MODELS.D230];
  * @returns {boolean}
  */
 export function hasNoTouch() {
-  return VerifyMethodOnSystemWrapper('hasNoTouch') || _hasModelAtList(NO_TOUCH);
+  return VerifyMethodOnSystemWrapper('hasNoTouch', _hasModelAtList(NO_TOUCH));
 }
 
 /**
@@ -307,7 +307,7 @@ export const NO_PRINTER = [MODELS.MP35, MODELS.D199, MODELS.D195];
  * @returns {boolean}
  */
 export function hasPrinter() {
-  return VerifyMethodOnSystemWrapper('hasPrinter') || !_hasModelAtList(NO_PRINTER);
+  return VerifyMethodOnSystemWrapper('hasPrinter', !_hasModelAtList(NO_PRINTER));
 }
 
 /**
