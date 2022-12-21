@@ -146,6 +146,7 @@ const _hasModelAtList = (list = []) => {
 export const PAX_DEVICES = [
   MODELS.S920,
   MODELS.Q92,
+  MODELS.Q92S,
   MODELS.D195,
   MODELS.Q60,
   MODELS.D199,
