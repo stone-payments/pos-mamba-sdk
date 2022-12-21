@@ -60,6 +60,8 @@
     },
     oncreate() {
       this.updateCapabilities();
+
+      console.log('hasTouch', window.$System.hasTouch());
     },
     methods: {
       setPosModel(model) {

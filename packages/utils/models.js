@@ -81,7 +81,15 @@ export const getPosModel = () => {
     return _storedModel;
   }
 
-  const _model = VerifyMethodOnSystemWrapper('getPosModel');
+  let _model = DEFAULT_MODEL;
+
+  try {
+    /* Necessary because the circular dependency with simulator */
+    const _system = window.$System || window.System;
+    _model = _system.getPosModel();
+  } catch (error) {
+    if (__DEV__) console.error(error);
+  }
 
   ThisStore._storedModel = _model;
 
@@ -218,7 +226,7 @@ export const SMALL_SCREEN_DEVICES = [
  * @returns {boolean}
  */
 export function hasSmallScreen() {
-  return VerifyMethodOnSystemWrapper('hasSmallScreen') || _hasModelAtList(SMALL_SCREEN_DEVICES);
+  return VerifyMethodOnSystemWrapper('hasSmallScreen', _hasModelAtList(SMALL_SCREEN_DEVICES));
 }
 
 /**
@@ -238,8 +246,9 @@ export const ARROW_NAVIGATION_DEVICES = [
  * @returns {boolean}
  */
 export function hasArrowNavigation() {
-  return (
-    VerifyMethodOnSystemWrapper('hasArrowNavigation') || _hasModelAtList(ARROW_NAVIGATION_DEVICES)
+  return VerifyMethodOnSystemWrapper(
+    'hasArrowNavigation',
+    _hasModelAtList(ARROW_NAVIGATION_DEVICES),
   );
 }
 
@@ -274,7 +283,7 @@ export const HAS_KEYBOARD_LIGHT = [MODELS.MP35P, MODELS.D230];
  * @returns {boolean} If current model has keyboard light
  */
 export function hasKeyboardLight() {
-  return VerifyMethodOnSystemWrapper('hasKeyboardLight') || _hasModelAtList(HAS_KEYBOARD_LIGHT);
+  return VerifyMethodOnSystemWrapper('hasKeyboardLight', _hasModelAtList(HAS_KEYBOARD_LIGHT));
 }
 
 /**
@@ -288,7 +297,7 @@ export const ONLY_TOUCH = [MODELS.D199];
  * @returns {boolean}
  */
 export function hasOnlyTouch() {
-  return VerifyMethodOnSystemWrapper('hasOnlyTouch') || _hasModelAtList(ONLY_TOUCH);
+  return VerifyMethodOnSystemWrapper('hasOnlyTouch', _hasModelAtList(ONLY_TOUCH));
 }
 
 /**
@@ -324,7 +333,7 @@ export const WITH_TOUCH = [
  * @returns {boolean}
  */
 export function hasTouch() {
-  return VerifyMethodOnSystemWrapper('hasTouch') || _hasModelAtList(WITH_TOUCH);
+  return VerifyMethodOnSystemWrapper('hasTouch', _hasModelAtList(WITH_TOUCH));
 }
 
 /**
@@ -346,7 +355,7 @@ export function hasPrinter() {
  * @returns {boolean}
  */
 export function hasNoPrinter() {
-  return VerifyMethodOnSystemWrapper('hasNoPrinter') || _hasModelAtList(NO_PRINTER);
+  return VerifyMethodOnSystemWrapper('hasNoPrinter', _hasModelAtList(NO_PRINTER));
 }
 
 /**
@@ -360,21 +369,21 @@ export function hasNoPrinter() {
  * @returns {boolean}
  */
 export function hasEthernet() {
-  return VerifyMethodOnSystemWrapper('hasEthernet');
+  return VerifyMethodOnSystemWrapper('hasEthernet', false);
 }
 /**
  * @description If POS has a WiFi adapter
  * @returns {boolean}
  */
 export function hasWifi() {
-  return VerifyMethodOnSystemWrapper('hasWifi');
+  return VerifyMethodOnSystemWrapper('hasWifi', true);
 }
 /**
  * @description If POS has a GPRS adapter
  * @returns {boolean}
  */
 export function hasGprs() {
-  return VerifyMethodOnSystemWrapper('hasGprs');
+  return VerifyMethodOnSystemWrapper('hasGprs', true);
 }
 
 /**
