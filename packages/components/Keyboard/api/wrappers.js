@@ -15,7 +15,7 @@ export default function (driver) {
    */
   driver.setKeyboardInputAsNumeric = () => {
     GeneralKeyboard.setKeyboardAsNumeric();
-    $KeyboardSetAsAlphanumeric();
+    $KeyboardSetAsNumeric();
   };
 
   /**
@@ -23,7 +23,7 @@ export default function (driver) {
    */
   driver.setKeyboardInputAsAlphanumeric = () => {
     GeneralKeyboard.setKeyboardAsAlphanumeric();
-    $KeyboardSetAsNumeric();
+    $KeyboardSetAsAlphanumeric();
   };
 
   /**
