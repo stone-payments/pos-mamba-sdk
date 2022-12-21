@@ -6,7 +6,8 @@ Este módulo oferece uma série de funcionalidades referente ao telcado físico,
 
 #### ◼︎ Adicine o componente `<Keyboard/>` na raiz do seu projeto.
 
-```xml
+<!-- prettier-ignore -->
+```html
 <Keyboard />
 
 <script>
@@ -20,7 +21,8 @@ Este módulo oferece uma série de funcionalidades referente ao telcado físico,
 
 #### ◼︎ Ou adicine o componente `<Keyboard/>` em uma rota específica, podendo assimm passar alguma de suas propriedades pelo HTML.
 
-```xml
+<!-- prettier-ignore -->
+```html
 <Keyboard keyboardType={KeyboardType.Math} />
 
 <script>
@@ -389,7 +391,8 @@ interface KeyboardOptions {
 
 Você pode passar opções simples, compatíveis com **JSON** _(não aceita funções/eventos do teclado)_, pelo elemento HTML input:
 
-```xml
+<!-- prettier-ignore -->
+```html
 <Input
   data-keyboard="true"
   data-keyboard-options='{ "themeVariation": "my-variation", "keepVisible": false }'
@@ -398,8 +401,11 @@ Você pode passar opções simples, compatíveis com **JSON** _(não aceita fun�
 
 Caso você utilize o `@mamba/input`, é mais permissivo:
 
-```xml
-<Input label="Insira o valor" keyboardOptions={{ themeVariation: KeyboardThemeVariation.Compact }}
+<!-- prettier-ignore -->
+```html
+<Input
+  label="Insira o valor"
+  keyboardOptions={{ themeVariation: KeyboardThemeVariation.Compact }}
 />
 
 <script>
@@ -494,6 +500,22 @@ Keyboard.getKeyCode('Shortcuts'); // 16
 Keyboard.getKeyCode('0'); // 48
 ...
 Keyboard.getKeyCode('9'); // 57
+```
+
+### `parseEventKeys(event: KeyboardEvent) `
+
+Obtem o código e nome da tecla normalizado de acordo com a tabela de teclas do POS através de um evento de entrada de teclado.
+Retorna uma tupla de tamanho 2, onde o índice 0 é o código encontrado, e o de índice 1, o nome da tecla.
+
+```js
+import Keyboard from '@mamba/keyboard/api/index.js';
+
+/**
+ * @param {KeyboardEvent} event
+ */
+function onKeydown(event) {
+  const [keyCode, keyName] = Keyboard.parseEventKeys(event);
+}
 ```
 
 ### `getKeyName(keyCode: number)`
