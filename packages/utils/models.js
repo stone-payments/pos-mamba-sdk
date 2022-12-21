@@ -4,14 +4,22 @@ const ThisStore = {
   _storedModel: undefined,
 };
 
-function VerifyMethodOnSystemWrapper(method) {
+/**
+ * @description Check if method is available via Mamba
+ * @returns {boolean}
+ */
+function VerifyMethodOnSystemWrapper(method, placeholder = false) {
+  if (!__POS__) return placeholder;
+
   try {
     /* Necessary because the circular dependency with simulator */
     const _system = window.$System || window.System;
 
-    return _system[method]();
+    if (typeof _system[method] === 'function') return _system[method]();
+
+    return placeholder;
   } catch (error) {
-    if (__DEV__) console.error(error);
+    return placeholder;
   }
 }
 
@@ -60,6 +68,25 @@ const _slugs = MODELS_SLUGS.reduce((result, model) => {
 }, {});
 
 export const AVAILABLE_SLUGS = _slugs;
+
+/**
+ * @description A list of devices from the manufacturer PAX
+ * @returns {array}
+ */
+export const PAX_DEVICES = [
+  MODELS.S920,
+  MODELS.Q92,
+  MODELS.D195,
+  MODELS.Q60,
+  MODELS.D199,
+  MODELS.D230,
+];
+
+/**
+ * @description A list of devices from the manufacturer GERTEC
+ * @returns {array}
+ */
+export const GERTEC_DEVICES = [MODELS.MP35, MODELS.MP35P];
 
 /**
  * @description Checks if the method exists
@@ -202,7 +229,7 @@ export const HAS_KEYBOARD = [
  * @returns {boolean} If current model has physical keyboard
  */
 export function hasKeyboard() {
-  return VerifyMethodOnSystemWrapper('hasKeyboard') || _hasModelAtList(HAS_KEYBOARD);
+  return VerifyMethodOnSystemWrapper('hasKeyboard', _hasModelAtList(HAS_KEYBOARD));
 }
 
 /**
@@ -230,7 +257,7 @@ export const ONLY_TOUCH = [MODELS.D199];
  * @returns {boolean}
  */
 export function hasOnlyTouch() {
-  return !VerifyMethodOnSystemWrapper('hasKeyboard') || _hasModelAtList(ONLY_TOUCH);
+  return VerifyMethodOnSystemWrapper('hasOnlyTouch') || _hasModelAtList(ONLY_TOUCH);
 }
 
 /**
@@ -244,7 +271,7 @@ export const NO_TOUCH = [MODELS.D195, MODELS.Q60, MODELS.D230];
  * @returns {boolean}
  */
 export function hasNoTouch() {
-  return !VerifyMethodOnSystemWrapper('hasTouch') || _hasModelAtList(NO_TOUCH);
+  return VerifyMethodOnSystemWrapper('hasNoTouch', _hasModelAtList(NO_TOUCH));
 }
 
 /**
@@ -280,7 +307,7 @@ export const NO_PRINTER = [MODELS.MP35, MODELS.D199, MODELS.D195];
  * @returns {boolean}
  */
 export function hasPrinter() {
-  return VerifyMethodOnSystemWrapper('hasPrinter') || !_hasModelAtList(NO_PRINTER);
+  return VerifyMethodOnSystemWrapper('hasPrinter', !_hasModelAtList(NO_PRINTER));
 }
 
 /**
@@ -288,7 +315,7 @@ export function hasPrinter() {
  * @returns {boolean}
  */
 export function hasNoPrinter() {
-  return !VerifyMethodOnSystemWrapper('hasPrinter') || _hasModelAtList(NO_PRINTER);
+  return VerifyMethodOnSystemWrapper('hasNoPrinter') || _hasModelAtList(NO_PRINTER);
 }
 
 /**
@@ -331,12 +358,16 @@ export function hasGprs() {
 /**
  * High DPI devices
  *
+ * @DEPRECATED since @mamba/utils v6.0.0
+ *
  * @description A list of devices with high dpi
  * @returns {array}
  */
 export const HIGH_DPI_DEVICES = [MODELS.Q92, MODELS.D199];
 
 /**
+ * @DEPRECATED since @mamba/utils v6.0.0
+ *
  * @description If current model have a high DPI screen
  * @returns {boolean}
  */
@@ -347,12 +378,16 @@ export function hasHighDPI() {
 /**
  * Devices with Function Keys
  *
+ * @DEPRECATED since @mamba/utils v6.0.0
+ *
  * @description A list of devices that have function keys
  * @returns {array}
  */
 export const FUNCTION_KEYS_DEVICES = [MODELS.MP35P, MODELS.MP35];
 
 /**
+ * @DEPRECATED since @mamba/utils v6.0.0
+ *
  * @description If current model have function keys
  * @returns {boolean}
  */
