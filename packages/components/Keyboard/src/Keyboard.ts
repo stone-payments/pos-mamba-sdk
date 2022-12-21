@@ -640,7 +640,9 @@ class Keyboard {
 
       if (this.options.debug) {
         console.log(
-          `inputPattern ("${inputPattern}"): ${didInputMatch ? 'passed' : 'did not pass!'}`,
+          `"${inputVal}" with inputPattern ("${inputPattern}"): ${
+            didInputMatch ? 'passed' : 'did not pass!'
+          }`,
         );
       }
 
