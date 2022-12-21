@@ -154,6 +154,7 @@ export const PAX_DEVICES = [
 ];
 
 /**
+ * DON'T DELETE THIS METHOD! Used on Simulator
  * @returns {boolean} If the current model is from the PAX manufacturer
  */
 export function isPAXDevices() {
@@ -167,6 +168,7 @@ export function isPAXDevices() {
 export const VERIFONE_DEVICES = [MODELS.V240M];
 
 /**
+ * DON'T DELETE THIS METHOD! Used on Simulator
  * @returns {boolean} If the current model is from the Verifone manufacturer
  */
 export function isVerifoneDevices() {
@@ -174,6 +176,7 @@ export function isVerifoneDevices() {
 }
 
 /**
+ * DON'T DELETE THIS METHOD! Used on Simulator
  * @description A list of devices from the manufacturer GERTEC
  * @returns {array}
  */
