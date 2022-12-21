@@ -991,7 +991,18 @@ class Keyboard {
     /**
      * Call active class handler
      */
-    if (!isMultipleInsert) this.handleActiveButton(e);
+    this.handleActiveButton(e);
+
+    /**
+     * Calling onKeyPress
+     */
+    if (typeof this.options.onKeyPress === 'function') this.options.onKeyPress(buttonOutput, e);
+
+    /**
+     * Check if value is valid against pattern value
+     */
+    const isValidInputPattern = this.options.inputPattern && this.inputPatternIsValid(updatedInput);
+    if (buttonType !== ButtonType.Function && !isValidInputPattern) return;
 
     /**
      * Call suggestion box update if exist
@@ -1048,18 +1059,9 @@ class Keyboard {
       return;
     }
 
-    /**
-     * Define is pattern and value is valid
-     */
-    const isValidInputPattern =
-      (this.options.inputPattern && this.inputPatternIsValid(updatedInput)) || true;
-
     if (
       // If input will change as a result of this button press
-      this.input.default !== updatedInput &&
-      // This pertains to the "inputPattern" option:
-      // If inputPattern validation passes
-      isValidInputPattern
+      this.input.default !== updatedInput
     ) {
       /**
        * Updating input
@@ -1084,18 +1086,9 @@ class Keyboard {
     }
 
     /**
-     * Call synthetic event handler if inputPattern validation passes
+     * Call synthetic event handler
      */
-    if (isValidInputPattern) {
-      this.shouldDispatchSyntheticKeyEvent(
-        button,
-        buttonOutput,
-        buttonType,
-        isValidInputPattern,
-        e,
-        isMultipleInsert,
-      );
-    }
+    this.shouldDispatchSyntheticKeyEvent(button, buttonOutput, buttonType, isValidInputPattern, e);
 
     if (this.options.debug) {
       console.log('Key pressed:', { button, buttonOutput });
