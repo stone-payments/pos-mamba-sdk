@@ -210,7 +210,8 @@
       if (changed.keyboardOptions) {
         const { keyboardOptions } = current;
         if (typeof keyboardOptions === 'object' && keyboardOptions !== null && Keyboard.setOptions) {
-          Keyboard.setOptions(keyboardOptions);
+          // Need try on next tick
+          setTimeout(() => Keyboard.setOptions(keyboardOptions));
         }
       }
     },
