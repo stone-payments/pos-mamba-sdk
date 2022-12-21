@@ -37,6 +37,7 @@ import MoneyInput from '@mamba/input/Money.html';
 | validateOn         | Define em que momento a validação ocorre (`input`/`submit`)                                                                                                               | `string`       | `'submit'`  |
 | mask               | Define uma máscara para o texto                                                                                                                                           | `string`       | `null`      |
 | showPasswordToggle | Define se deve mostrar o símbolo de olho, para alternar entre a exibição de um campo de senha ou não. O valor default vai depender do modelo do POS, se ele possuí touch. | `boolean`      | `unknown`   |
+| keyboardOptions    | Define as propriedades do [teclado virtual](../Keyboard/README.md) no momento da criação do componente `<Input />`.                                                       | `object`       | `{}`        |
 
 ### Money
 
