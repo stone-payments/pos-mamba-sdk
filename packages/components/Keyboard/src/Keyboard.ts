@@ -84,6 +84,8 @@ class Keyboard {
 
   defaultAllowKeySyntheticEvent = ['{backspace}', '{enter}', '{check}'];
 
+  renderDebounceTime = 3;
+
   internalOnFunctionKeyPress?: (
     button: string,
     instance: Keyboard,
@@ -1343,7 +1345,7 @@ class Keyboard {
     window.clearTimeout(this.renderDebounceId);
     this.renderDebounceId = window.setTimeout(() => {
       this.trueRender();
-    }, 3);
+    }, this.renderDebounceTime);
   }
 
   /**
