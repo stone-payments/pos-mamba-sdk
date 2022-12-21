@@ -38,5 +38,10 @@
     "@types/lodash": "^4.14.182",
     "lodash": "^4.17.21"
   },
+  "peerDependencies": {
+    "@mamba/core": ">=1",
+    "@mamba/input": ">=6",
+    "@mamba/utils": ">=5"
+  },
   "gitHead": "e919d0e654f8134f157bf4f6e078685f5dd8a000"
 }
