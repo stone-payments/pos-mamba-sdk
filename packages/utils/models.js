@@ -8,19 +8,20 @@ const ThisStore = {
  * @description Check if method is available via Mamba
  * @returns {boolean}
  */
-function VerifyMethodOnSystemWrapper(method, placeholder = false) {
-  if (!__POS__) return placeholder;
+function VerifyMethodOnSystemWrapper(method) {
+  if (!__POS__) return null;
 
   try {
     /* Necessary because the circular dependency with simulator */
     const _system = window.$System || window.System;
 
+    // Caso ele encontre o método, retorna imediatamente o valor dela
     if (typeof _system[method] === 'function') return _system[method]();
-
-    return placeholder;
-  } catch (error) {
-    return placeholder;
+  } catch (_) {
+    // Cair aqui é esperado, então não faz nada. que vai pra linha seguinte.
   }
+
+  return null;
 }
 
 /**
@@ -226,7 +227,7 @@ export const SMALL_SCREEN_DEVICES = [
  * @returns {boolean}
  */
 export function hasSmallScreen() {
-  return VerifyMethodOnSystemWrapper('hasSmallScreen', _hasModelAtList(SMALL_SCREEN_DEVICES));
+  return VerifyMethodOnSystemWrapper('hasSmallScreen') || _hasModelAtList(SMALL_SCREEN_DEVICES);
 }
 
 /**
@@ -246,9 +247,8 @@ export const ARROW_NAVIGATION_DEVICES = [
  * @returns {boolean}
  */
 export function hasArrowNavigation() {
-  return VerifyMethodOnSystemWrapper(
-    'hasArrowNavigation',
-    _hasModelAtList(ARROW_NAVIGATION_DEVICES),
+  return (
+    VerifyMethodOnSystemWrapper('hasArrowNavigation') || _hasModelAtList(ARROW_NAVIGATION_DEVICES)
   );
 }
 
@@ -269,7 +269,7 @@ export const HAS_KEYBOARD = [
  * @returns {boolean} If current model has physical keyboard
  */
 export function hasKeyboard() {
-  return VerifyMethodOnSystemWrapper('hasKeyboard', _hasModelAtList(HAS_KEYBOARD));
+  return VerifyMethodOnSystemWrapper('hasKeyboard') || _hasModelAtList(HAS_KEYBOARD);
 }
 
 /**
@@ -283,35 +283,7 @@ export const HAS_KEYBOARD_LIGHT = [MODELS.MP35P, MODELS.D230];
  * @returns {boolean} If current model has keyboard light
  */
 export function hasKeyboardLight() {
-  return VerifyMethodOnSystemWrapper('hasKeyboardLight', _hasModelAtList(HAS_KEYBOARD_LIGHT));
-}
-
-/**
- * @description Devices with only touch, like smartphone
- * @returns {array} A list of devices that is smartphone like screen, no physical keyboard.
- */
-export const ONLY_TOUCH = [MODELS.D199];
-
-/**
- * @description If current model have only touch screen (no physical keyboard)
- * @returns {boolean}
- */
-export function hasOnlyTouch() {
-  return VerifyMethodOnSystemWrapper('hasOnlyTouch', _hasModelAtList(ONLY_TOUCH));
-}
-
-/**
- * @description Devices with no touch capability
- * @returns {array} A list of devices that doesn't have touch screen
- */
-export const NO_TOUCH = [MODELS.D195, MODELS.Q60, MODELS.D230];
-
-/**
- * @description If current model have no touch screen
- * @returns {boolean}
- */
-export function hasNoTouch() {
-  return VerifyMethodOnSystemWrapper('hasNoTouch', _hasModelAtList(NO_TOUCH));
+  return VerifyMethodOnSystemWrapper('hasKeyboardLight') || _hasModelAtList(HAS_KEYBOARD_LIGHT);
 }
 
 /**
@@ -333,7 +305,51 @@ export const WITH_TOUCH = [
  * @returns {boolean}
  */
 export function hasTouch() {
-  return VerifyMethodOnSystemWrapper('hasTouch', _hasModelAtList(WITH_TOUCH));
+  return VerifyMethodOnSystemWrapper('hasTouch') || _hasModelAtList(WITH_TOUCH);
+}
+
+/**
+ * @description Devices with only touch, like smartphone
+ * @returns {array} A list of devices that is smartphone like screen, no physical keyboard.
+ */
+export const ONLY_TOUCH = [MODELS.D199];
+
+/**
+ * @description If current model have only touch screen (no physical keyboard)
+ * @returns {boolean}
+ */
+export function hasOnlyTouch() {
+  return VerifyMethodOnSystemWrapper('hasOnlyTouch') || !_hasModelAtList(HAS_KEYBOARD);
+}
+
+/**
+ * @description Devices with no touch capability
+ * @returns {array} A list of devices that doesn't have touch screen
+ */
+export const NO_TOUCH = [MODELS.D195, MODELS.Q60, MODELS.D230];
+
+/**
+ * @description If current model have no touch screen
+ * @returns {boolean}
+ */
+export function hasNoTouch() {
+  /**  `value` pode ser qualquer coisa e null;
+   * Se for null, significa que não achou no backend
+   */
+
+  /* esse seria o valor default inicial(o que vem do back) independente de qualquer coisa. */
+  let value = VerifyMethodOnSystemWrapper('hasTouch');
+
+  /**
+   * Se por ventura o método que checa se existe a função no back,
+   * retornou null (pq não achou o método ou outro motivo), usaremos o valor hard coded
+   */
+  if (!value) {
+    value = _hasModelAtList(WITH_TOUCH);
+  }
+
+  // Finalmente podemos retornar o valor dela, com negação.
+  return !value;
 }
 
 /**
@@ -347,7 +363,14 @@ export const NO_PRINTER = [MODELS.MP35, MODELS.D199, MODELS.D195];
  * @returns {boolean}
  */
 export function hasPrinter() {
-  return VerifyMethodOnSystemWrapper('hasPrinter', !_hasModelAtList(NO_PRINTER));
+  /** negação explicada e comentada em hasNoTouch() */
+  let value = VerifyMethodOnSystemWrapper('hasPrinter');
+
+  if (!value) {
+    value = _hasModelAtList(NO_PRINTER);
+  }
+
+  return !value;
 }
 
 /**
@@ -355,7 +378,7 @@ export function hasPrinter() {
  * @returns {boolean}
  */
 export function hasNoPrinter() {
-  return VerifyMethodOnSystemWrapper('hasNoPrinter', _hasModelAtList(NO_PRINTER));
+  return VerifyMethodOnSystemWrapper('hasNoPrinter') || _hasModelAtList(NO_PRINTER);
 }
 
 /**
@@ -369,21 +392,21 @@ export function hasNoPrinter() {
  * @returns {boolean}
  */
 export function hasEthernet() {
-  return VerifyMethodOnSystemWrapper('hasEthernet', false);
+  return VerifyMethodOnSystemWrapper('hasEthernet');
 }
 /**
  * @description If POS has a WiFi adapter
  * @returns {boolean}
  */
 export function hasWifi() {
-  return VerifyMethodOnSystemWrapper('hasWifi', true);
+  return VerifyMethodOnSystemWrapper('hasWifi');
 }
 /**
  * @description If POS has a GPRS adapter
  * @returns {boolean}
  */
 export function hasGprs() {
-  return VerifyMethodOnSystemWrapper('hasGprs', true);
+  return VerifyMethodOnSystemWrapper('hasGprs');
 }
 
 /**
