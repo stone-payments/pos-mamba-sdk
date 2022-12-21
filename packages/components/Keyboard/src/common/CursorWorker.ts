@@ -363,7 +363,7 @@ class CursorWorker {
     const options = this.getOptions();
     if (
       options.filtersNumbersOnly === true ||
-      !this.keyboardInstance.generalKeyboard.isAlphanumeric()
+      !this.keyboardInstance.generalKeyboard.alphanumericEnabled === true
     ) {
       value = value.replace(/\D/g, '');
     }

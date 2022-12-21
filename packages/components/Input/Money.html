@@ -135,8 +135,7 @@
       },
       _onKeydown(e) {
         e.preventDefault();
-        const keyCode = Keyboard.parseEventKeyCode(e);
-        const keyName = Keyboard.getKeyName(keyCode);
+        const [keyCode, keyName] = Keyboard.parseEventKeys(e);
 
         const { readonlyOnEnter } = this.get();
         let { value } = this.get();
@@ -150,7 +149,9 @@
           this.makeReadOnly();
         }
 
-        if (Keyboard.isNumericKey(keyCode)) {
+        const isNumeric = Keyboard.isNumericKey(keyCode) && !e.shiftKey && !e.altKey && !e.metaKey;
+
+        if (isNumeric) {
           if (value === '0') {
             value = keyName;
           } else {

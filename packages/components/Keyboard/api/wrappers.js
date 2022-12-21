@@ -72,9 +72,17 @@ export default function (driver) {
    * @param {string[]} list Key list to find
    * @param {{ [key: number]: string }} map Map object with { keyCode : value }
    * @param {string} keyName  Key name to find its code
-   * @returns {number | null} Found key code or `undefined`
+   * @returns {number | null} Found key code or `null`
    */
   driver.getMappedKeyCode = GeneralKeyboard.getMappedKeyCode;
+
+  /**
+   * Find the key name of given list and map for an KeyboardEvent
+   * @param {number} keyCode  Key code to find its code
+   * @param {{ shiftKey: boolean }} modifiers Keyboard event modifierds
+   * @returns {number | null} Found key name or `null`
+   */
+  driver.getEventMappedKeyName = GeneralKeyboard.getEventMappedKeyName;
 
   /**
    * Get the key code relative to a specific key name
@@ -116,6 +124,13 @@ export default function (driver) {
    * @returns {any} - Relative key name
    */
   driver.parseEventKeyName = GeneralKeyboard.parseEventKeyName;
+
+  /**
+   * Get the mamba normalized key code and name from user input event
+   * @param {KeyboardEvent} event User input event
+   * @returns {[string | number | undefined, string | number | undefined]}A tuple containing the key code and key name respectively. Ex.: [13, "enter"]
+   */
+  driver.parseEventKeys = GeneralKeyboard.parseEventKeys;
 
   /**
    * Check if a certain key is a numeric key
