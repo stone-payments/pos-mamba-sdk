@@ -138,6 +138,8 @@ interface KeyboardTypeEvents {
 
 ## Opções
 
+Tenha cuidado se tiver mais de um campo de entrada na mesma página, pois essas são propriedades globais do teclado (O que se aplicar para um `<Input />`, será aplicado para todos).
+
 ````ts
 interface KeyboardOptions {
   /**
