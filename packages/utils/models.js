@@ -9,7 +9,7 @@ const ThisStore = {
  * @returns {boolean}
  */
 function VerifyMethodOnSystemWrapper(method) {
-  if (!__POS__) return null;
+  if (!__POS__) return undefined;
 
   try {
     /* Necessary because the circular dependency with simulator */
@@ -21,7 +21,7 @@ function VerifyMethodOnSystemWrapper(method) {
     // Cair aqui é esperado, então não faz nada. que vai pra linha seguinte.
   }
 
-  return null;
+  return undefined;
 }
 
 /**
@@ -319,7 +319,7 @@ export const ONLY_TOUCH = [MODELS.D199];
  * @returns {boolean}
  */
 export function hasOnlyTouch() {
-  return VerifyMethodOnSystemWrapper('hasOnlyTouch') || !_hasModelAtList(HAS_KEYBOARD);
+  return !hasKeyboard();
 }
 
 /**
@@ -366,11 +366,11 @@ export function hasPrinter() {
   /** negação explicada e comentada em hasNoTouch() */
   let value = VerifyMethodOnSystemWrapper('hasPrinter');
 
-  if (!value) {
-    value = _hasModelAtList(NO_PRINTER);
+  if (typeof value === 'undefined') {
+    value = !_hasModelAtList(NO_PRINTER);
   }
 
-  return !value;
+  return value;
 }
 
 /**
