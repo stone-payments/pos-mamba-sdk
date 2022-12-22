@@ -225,7 +225,9 @@
         this.set({ value: this.get().value + value });
       },
       focus() {
-        this.refs.input.focus();
+        if (this.refs.input) {
+          this.refs.input.focus();
+        }
       },
       clearInput() {
         this.set({ isValid: false, _errorMsg: undefined, value: '' });
@@ -302,9 +304,7 @@
           e.preventDefault();
           /** onBlur can be fired just before a <Input/> destruction */
           setTimeout(() => {
-            if (this.refs.input) {
-              this.focus();
-            }
+            this.focus();
           });
           return false;
         }
@@ -314,12 +314,7 @@
         this.fire('blur', e);
       },
       _onKeyUp(e) {
-        /**
-         * - Use e.key{string} on some events on simulator or POS
-         * - Use e.keyIdentifier{string} to work on POS values
-         * - Use e.code{number} to work with alphabet keyboard
-         */
-        const keyCode = e.code && e.code !== 0 ? e.code : e.charCode || e.which || e.keyCode;
+        const keyCode = Keyboard.parseEventKeyCode(e);
 
         this.fire('keyup', e);
 

@@ -8,7 +8,7 @@ import {
 } from '../types';
 import { greddyBraces } from './regExps';
 import type Keyboard from '../Keyboard';
-import { bindMethods } from '../helpers';
+import { bindMethods, isProperInput } from '../helpers';
 
 /**
  * CursorWorker.
@@ -17,7 +17,7 @@ import { bindMethods } from '../helpers';
 class CursorWorker {
   getOptions: () => KeyboardOptions;
 
-  getCursorPosition = (): CursorPosition => this.cursorPosition;
+  getCursorPositionStart = (): CursorPosition => this.cursorPositionStart;
 
   getCursorPositionEnd = (): CursorPosition => this.cursorPositionEnd;
 
@@ -26,9 +26,9 @@ class CursorWorker {
   maxLengthReached!: boolean;
 
   /**
-   * Cursor position
+   * Cursor position at start
    */
-  cursorPosition!: CursorPosition;
+  cursorPositionStart!: CursorPosition;
 
   /**
    * Cursor position end
@@ -38,7 +38,7 @@ class CursorWorker {
   /**
    * Captured cursor input target
    */
-  cursorInputTarget?: HTMLInputElement;
+  cursorInputTarget?: HTMLInputElement | null;
 
   /**
    * Control flag for events setup
@@ -53,7 +53,7 @@ class CursorWorker {
     this.keyboardInstance = keyboardInstance;
     bindMethods(CursorWorker, this);
 
-    this.cursorPosition = null;
+    this.cursorPositionStart = null;
     this.cursorPositionEnd = null;
   }
 
@@ -62,10 +62,17 @@ class CursorWorker {
    *
    * @param length Represents by how many characters the input should be moved
    * @param minus Whether the cursor should be moved to the left or not.
+   * @param moveCursor Move cursor of target input or not
+   * @param customTarget Pass early input event from focus
    */
-  private updateCursorPos(length: number, minus = false) {
+  public updateCursorPos(
+    length: number,
+    minus = false,
+    moveCursor = false,
+    customTarget: any = undefined,
+  ) {
     const newCursorPos = this.updateCursorPosAction(length, minus);
-    this.setCursorPosition(newCursorPos);
+    this.setCursorPosition(newCursorPos, newCursorPos, moveCursor, customTarget);
   }
 
   /**
@@ -75,22 +82,17 @@ class CursorWorker {
    * @param minus Whether the cursor should be moved to the left or not.
    */
   private updateCursorPosAction(length: number, minus = false) {
-    const options = this.getOptions();
-    let cursorPosition = this.getCursorPosition();
+    let cursorPositionStart = this.getCursorPositionStart();
 
-    if (cursorPosition != null) {
+    if (cursorPositionStart != null) {
       if (minus) {
-        if (cursorPosition > 0) cursorPosition -= length;
+        if (cursorPositionStart > 0) cursorPositionStart -= length;
       } else {
-        cursorPosition += length;
+        cursorPositionStart += length;
       }
     }
 
-    if (options.debug) {
-      console.log('Cursor at:', cursorPosition);
-    }
-
-    return cursorPosition;
+    return cursorPositionStart;
   }
 
   /**
@@ -98,25 +100,26 @@ class CursorWorker {
    *
    * @param source The source input
    * @param str The string to add
-   * @param position The (cursor) position where the string should be added
+   * @param positionStart The (cursor) position where the string should be added
+   * @param positionEnd The end (cursor) position, normally same as positionStart
    * @param moveCursor Whether to update mamba-keyboard's cursor
    */
   private addStringAt(
     source: string,
     str: string,
-    position: number = source.length,
+    positionStart: number = source.length,
     positionEnd: number = source.length,
     moveCursor = false,
   ) {
     let output;
 
-    if (!position && position !== 0) {
+    if (!positionStart && positionStart !== 0) {
       output = source + str;
     } else {
-      output = [source.slice(0, position), str, source.slice(positionEnd)].join('');
+      output = [source.slice(0, positionStart), str, source.slice(positionEnd)].join('');
 
       /**
-       * Avoid cursor position change when maxLength is set
+       * Avoid cursor positionStart change when maxLength is set
        */
       if (!this.isMaxLengthReached()) {
         if (moveCursor) this.updateCursorPos(str.length);
@@ -156,7 +159,7 @@ class CursorWorker {
     } else {
       output = source.slice(0, position) + source.slice(positionEnd);
       if (moveCursor) {
-        this.setCursorPosition(position);
+        this.setCursorPosition(position, position, moveCursor);
       }
     }
 
@@ -212,45 +215,65 @@ class CursorWorker {
     if (options.disabled === true) return;
     if (this.keyboardInstance.visibility === KeyboardVisibility.Hidden) return;
 
-    const isDOMInputType = event.target instanceof HTMLInputElement;
+    const target = document.activeElement;
+    const isDOMInputType = target instanceof HTMLInputElement;
+
+    // POS Hack of a edge case flow
+    /* if (
+      __POS__ &&
+      !isDOMInputType &&
+      event.type === 'selectionchange' &&
+      etarget instanceof Document &&
+      isProperInput(document.activeElement)
+    ) {
+      isDOMInputType = true;
+      target = document.activeElement;
+    } */
 
     const isKeyboard =
-      event.target === this.keyboardInstance.keyboardDOM ||
-      (event.target && this.keyboardInstance.keyboardDOM.contains(event.target as Node));
+      target === this.keyboardInstance.keyboardDOM ||
+      (target && this.keyboardInstance.keyboardDOM.contains(target as Node));
+
+    console.log(event);
+    console.log(`isDOMInputType : ${isDOMInputType}`);
+
+    console.log(
+      `is ['text', 'tel', 'password'] : ${
+        isDOMInputType && ['text', 'tel', 'password'].includes(target.type)
+      }`,
+    );
 
     if (
       isDOMInputType &&
-      ['text', 'tel'].includes(event.target.type) &&
+      ['text', 'tel', 'password'].includes(target.type) &&
       !options.disableCursorPositioning
     ) {
       /**
        * Tracks current cursor position
        * As keys are pressed, text will be added/removed at that position within the input.
        */
-      this.setCursorPosition(
-        event.target.selectionStart,
-        event.target.selectionEnd,
-        false,
-        event.target,
-      );
+      this.setCursorPosition(target.selectionStart, target.selectionEnd, false, target);
 
       if (options.debug) {
         console.log(
           'Cursor at: ',
-          this.getCursorPosition(),
+          this.getCursorPositionStart(),
           this.getCursorPositionEnd(),
-          event && event.target.tagName.toLowerCase(),
+          event && target.tagName.toLowerCase(),
           `(${this.keyboardInstance.keyboardDOMClass})`,
         );
       }
 
-      this.cursorInputTarget = event.target;
+      this.cursorInputTarget = target;
     } else if (
       (options.disableCursorPositioning || !isKeyboard) &&
-      event?.type !== 'selectionchange'
+      event?.type !== 'selectionchange' &&
+      // Do not reset cursor position if the last input is the same of the event target.
+      this.cursorInputTarget &&
+      !this.cursorInputTarget.isEqualNode(this.cursorInputTarget)
     ) {
       /**
-       * If we toggled off disableCursorPositioning, we must ensure cursorPosition doesn't persist once reactivated.
+       * If we toggled off disableCursorPositioning, we must ensure cursorPositionStart doesn't persist once reactivated.
        */
       this.setCursorPosition(null);
 
@@ -258,6 +281,13 @@ class CursorWorker {
         console.log(`Cursor position reset due to "${event?.type}" event`, event);
       }
       this.cursorInputTarget = undefined;
+    }
+
+    /**
+     * Clear last suggestions if cursor postion changes
+     */
+    if (event?.type === 'mouseup') {
+      this.keyboardInstance.suggestionsBox?.resetIfExist();
     }
   }
 
@@ -313,7 +343,7 @@ class CursorWorker {
   ): void {
     const options = this.getOptions();
 
-    this.cursorPosition = position;
+    this.cursorPositionStart = position;
     this.cursorPositionEnd = endPosition;
 
     const input = customTarget || this.cursorInputTarget || options.input;
@@ -381,7 +411,7 @@ class CursorWorker {
    * @return Updated input value
    */
   getUpdatedInput(button: string, input: string, moveCursor = false): string {
-    const cursorPos = this.cursorPosition as number;
+    const cursorPos = this.cursorPositionStart as number;
     const cursorPosEnd = this.cursorPositionEnd || cursorPos;
     const commonParams: [number, number, boolean] = [cursorPos, cursorPosEnd, moveCursor];
 

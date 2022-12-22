@@ -17,16 +17,17 @@ class SuggestionBox {
 
   getOptions: () => KeyboardOptions;
 
-  suggestionDOMElement!: HTMLDivElement;
-
-  lastSuggestionList?: string;
+  suggestionDOMElement: HTMLDivElement | null;
 
   onSelect!: onSuggestionSelect;
+
+  candidate?: string;
 
   constructor({ getOptions, keyboardInstance, onSelect }: SuggestionBoxParams) {
     this.keyboardInstance = keyboardInstance;
     this.getOptions = getOptions;
     this.onSelect = onSelect;
+    this.suggestionDOMElement = null;
   }
 
   /**
@@ -38,25 +39,30 @@ class SuggestionBox {
 
   reset() {
     this.clearBox();
-    this.lastSuggestionList = undefined;
+    this.candidate = undefined;
+  }
+
+  resetIfExist() {
+    if (this.suggestionDOMElement) {
+      // Postpone the reset after all event of cursor worker dispatch.
+      setTimeout(() => this.reset());
+    }
   }
 
   /**
    * Shows or hides suggestion box on button click.
-   * @param inputValueCandidate The input value about to show before sending to the DOM input.
+   * @param keyCandidate The last key pressed
    * @return Return `true` if button has some suggestions to show
    */
-  shouldUpdateOrCease(inputValueCandidate?: string): boolean {
-    if (!inputValueCandidate) inputValueCandidate = this.keyboardInstance.getInput();
-    const last = inputValueCandidate.slice(-1);
-    const suggestionFound: string | undefined = DEFAULT_SUGGESTIONS[last];
-    if (suggestionFound) {
-      if (this.lastSuggestionList === suggestionFound) {
-        this.reset();
-        return false;
-      }
+  shouldUpdateOrCease(keyCandidate?: string): boolean {
+    if (!keyCandidate) {
+      this.reset();
+      return false;
+    }
 
-      this.lastSuggestionList = suggestionFound;
+    const suggestionFound: string | undefined = DEFAULT_SUGGESTIONS[keyCandidate];
+    if (suggestionFound) {
+      this.candidate = keyCandidate;
       this.render(suggestionFound.split(' '));
     } else {
       this.reset();
@@ -72,6 +78,7 @@ class SuggestionBox {
     if (this.suggestionDOMElement) {
       const { parentNode } = this.suggestionDOMElement;
       if (parentNode) parentNode.removeChild(this.suggestionDOMElement);
+      this.suggestionDOMElement = null;
     }
   }
 
@@ -79,6 +86,10 @@ class SuggestionBox {
    * Renders or update the keyboard suggestions box
    */
   private render(suggestionList: string[]) {
+    if (this.keyboardInstance.options.debug) {
+      console.log(`Start suggestion render with ${suggestionList}`);
+    }
+
     // Remove last suggestion box, if any
     this.clearBox();
     this.suggestionDOMElement = createKeyboardElement(ClassNames.suggestionBox) as HTMLDivElement;
@@ -95,8 +106,10 @@ class SuggestionBox {
       ]) as HTMLDivElement;
       suggestionButton.textContent = suggestionValue;
       suggestionButton.onclick = (e: KeyboardHandlerEvent) => {
-        this.reset();
-        this.onSelect(suggestionValue, e);
+        if (typeof this.candidate === 'string') {
+          this.onSelect(suggestionValue, this.candidate, e);
+          this.reset();
+        }
       };
 
       // Add button to the table cell

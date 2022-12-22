@@ -32,6 +32,8 @@ class PhysicalKeyboard {
 
   public static beepTime = 90;
 
+  private dispatchingEvent = false;
+
   svelteListener?: any;
 
   getOptions: () => KeyboardOptions;
@@ -54,8 +56,46 @@ class PhysicalKeyboard {
     if (this.getOptions().updateMode === KeyboardUpdateMode.Auto) {
       /** Add before focus event */
       document.addEventListener('focusin', this.handleDocumentFocusIn, true);
-      /** Compute first interation */
-      this.handleFocusIn(document.activeElement);
+      /** Compute first interation. We need wait svelte render the active element, again... */
+      setTimeout(() => {
+        this.handleFocusIn(document.activeElement);
+        this.shouldOnFocusUpdateCursorPosition(document.activeElement);
+      });
+    }
+  }
+
+  /**
+   * Updates cursor worker cursor position when a event target input element gets its focus
+   * @param event Event target
+   */
+  onFocusUpdateCursorPosition(event: FocusEvent): void {
+    const { target } = event;
+    setTimeout(() => {
+      this.shouldOnFocusUpdateCursorPosition(target);
+    }, 1);
+  }
+
+  /**
+   * Try update cursor worker cursor position when a supposed input element gets its focus
+   * @param element target focused element
+   */
+  shouldOnFocusUpdateCursorPosition(element?: any): void {
+    // Set cursor worker cursor position of the early input focus cursor positions.
+    if (element && isProperInput(element)) {
+      const input = element as HTMLInputElement;
+
+      this.keyboardInstance.cursorWorker?.setCursorPosition(
+        input.selectionStart,
+        input.selectionEnd,
+        false,
+        input,
+      );
+
+      if (this.getOptions().debug) {
+        console.log(
+          `Updating cursor position for the new focus element with ${input.selectionStart} ${input.selectionEnd}`,
+        );
+      }
     }
   }
 
@@ -64,7 +104,7 @@ class PhysicalKeyboard {
    * @param event The Document event
    */
   handleDocumentFocusIn(event: FocusEvent) {
-    this.handleFocusIn(event.target || undefined, event);
+    this.handleFocusIn(document.activeElement || event.target || undefined, event);
   }
 
   /**
@@ -119,6 +159,11 @@ class PhysicalKeyboard {
          * Handle focused input data set
          */
         this.keyboardInstance.handleDOMInputDataset();
+
+        /**
+         * If an input receives focus, the next tick will dice to update the virtual keyboard cursor position with the focused input position.
+         */
+        // setTimeout(() => this.shouldOnFocusUpdateCursorPosition(input));
         return;
       }
 
@@ -131,6 +176,7 @@ class PhysicalKeyboard {
    * @param input HTML <input> focused
    */
   updateVirtualInputfromDOMValue(input: HTMLInputElement) {
+    if (this.dispatchingEvent) return;
     const options = this.getOptions();
     if (this.keyboardInstance.getInput() !== input.value && !options.input) {
       const { value } = input;
@@ -147,6 +193,7 @@ class PhysicalKeyboard {
    * @param e
    */
   handleDOMInputTargetBlur(e?: FocusEvent) {
+    if (this.dispatchingEvent) return;
     this.keyboardInstance.visibility = KeyboardVisibility.Hidden;
     if (e && e.target && isProperInput(e.target)) {
       const input = e.target as HTMLInputElement;
@@ -164,6 +211,7 @@ class PhysicalKeyboard {
     this.focusedDOMInput.removeEventListener('input', this.handleDOMInputChange);
     this.focusedDOMInput.removeEventListener('click', this.handleDOMInputFocus);
     this.focusedDOMInput.removeEventListener('blur', this.handleDOMInputTargetBlur);
+    this.focusedDOMInput.removeEventListener('focus', this.onFocusUpdateCursorPosition);
 
     /**
      * Cancel svelte component listener. https://v2.svelte.dev/guide#component-on-eventname-callback-
@@ -191,6 +239,7 @@ class PhysicalKeyboard {
     input.addEventListener('blur', this.handleDOMInputTargetBlur);
     input.addEventListener('click', this.handleDOMInputFocus);
     input.addEventListener('input', this.handleDOMInputChange);
+    input.addEventListener('focus', this.onFocusUpdateCursorPosition);
 
     this.focusedDOMInput = input;
 
@@ -363,6 +412,10 @@ class PhysicalKeyboard {
 
   /**
    * Dispatch keyboard event to custom input or active document element
+   * @param button The button key value
+   * @param buttonType The button type
+   * @param allowPass If the key is allowed to trigger the synthetic event
+   * @param e Keyboard event if any
    */
   dispatchSyntheticKeybaordEvent(
     button: string,
@@ -375,7 +428,7 @@ class PhysicalKeyboard {
     if (e) {
       /**
        * Calling preventDefault for the mousedown events keeps the focus on the input.
-       * Its importante not stop event propagation in this stage.
+       * Its importante not stop event default behavior in this stage.
        */
       e.preventDefault();
     }
@@ -420,6 +473,8 @@ class PhysicalKeyboard {
       PhysicalKeyboard.handleBeepSound(options);
     }
 
+    this.dispatchingEvent = true;
+
     /**
      * Update the element with the keyboard value
      */
@@ -434,7 +489,12 @@ class PhysicalKeyboard {
         /**
          * Otherwise set the input value
          */
-        (targetElement as HTMLInputElement).value = input;
+        const targetDOMInput = targetElement as HTMLInputElement;
+
+        targetDOMInput.value = input;
+
+        // Modifying input value, make its cursor moves to the end. So we need to update to the last value it was.
+        this.keyboardInstance.cursorWorker.updateCursorPos(0, false, true, targetDOMInput);
       }
     }
 
@@ -462,6 +522,8 @@ class PhysicalKeyboard {
 
     targetElement.dispatchEvent(this.createSyntheticKeyEvent('keyup', keyCode, button));
     targetElement.dispatchEvent(this.createSyntheticKeyEvent('keypress', keyCode, button));
+
+    this.dispatchingEvent = false;
 
     if (options.debug) {
       // Compact key event log

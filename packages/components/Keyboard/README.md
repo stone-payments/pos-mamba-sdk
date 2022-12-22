@@ -520,6 +520,38 @@ function onKeydown(event) {
 }
 ```
 
+### `parseEventKeyName(event: KeyboardEvent) `
+
+Obtem o nome da tecla normalizado de acordo com a tabela de teclas do POS através de um evento de entrada de teclado.
+Retorna o nome da tecla.
+
+```js
+import Keyboard from '@mamba/keyboard/api/index.js';
+
+/**
+ * @param {KeyboardEvent} event
+ */
+function onKeydown(event) {
+  const keyName = Keyboard.parseEventKeyName(event);
+}
+```
+
+### `parseEventKeyCode(event: KeyboardEvent) `
+
+Obtem o código da telca compatível com o ecosistema do simulador, teclado virtual e POS físico.
+Retorna o código da tecla do hardware.
+
+```js
+import Keyboard from '@mamba/keyboard/api/index.js';
+
+/**
+ * @param {KeyboardEvent} event
+ */
+function onKeydown(event) {
+  const keyCode = Keyboard.parseEventKeyCode(event);
+}
+```
+
 ### `getKeyName(keyCode: number)`
 
 Retorna o `nome da tecla` referente ao código de uma tecla da máquina.

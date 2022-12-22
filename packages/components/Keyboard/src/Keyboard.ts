@@ -407,16 +407,8 @@ class Keyboard {
         this.suggestionsBox = new SuggestionBox({
           getOptions: this.getOptions,
           keyboardInstance: this,
-          onSelect: (button: string, e?: KeyboardHandlerEvent) => {
-            if (button.length === 1) {
-              this.handleButtonClicked(button, e);
-              return;
-            }
-
-            const buttonList = button.split('');
-            for (let i = 0; i < buttonList.length; i++) {
-              this.handleButtonClicked(buttonList[i], e, true);
-            }
+          onSelect: (button: string, candidate: string, e?: KeyboardHandlerEvent) => {
+            this.handleButtonClicked(button, e, candidate);
           },
         });
     }
@@ -521,7 +513,7 @@ class Keyboard {
     this.input.default = '';
 
     /**
-     * Resets cursorPosition
+     * Resets cursorPositionStart
      */
     this.cursorWorker.setCursorPosition(0);
   }
@@ -763,7 +755,7 @@ class Keyboard {
      * Reset cursor positions
      */
     if (this.cursorWorker) {
-      this.cursorWorker.cursorPosition = null;
+      this.cursorWorker.cursorPositionStart = null;
       this.cursorWorker.cursorPositionEnd = null;
     }
 
@@ -947,12 +939,12 @@ class Keyboard {
    * Handles clicks made to keyboard buttons.
    * @param button The button's layout name.
    * @param e Click event
-   * @param isMultipleInsert If the button comes from a list of multiple words from suggestion box.
+   * @param suggestionCandidate Key candidate to suggestion replacement.
    */
   private handleButtonClicked(
     button: string,
     e?: KeyboardHandlerEvent,
-    isMultipleInsert = false,
+    suggestionCandidate?: string,
   ): void {
     if (this.isRenderAllowed !== true) return;
     if (this.options.disabled === true) return;
@@ -986,7 +978,34 @@ class Keyboard {
     /**
      * Calculating new input
      */
-    const updatedInput = this.cursorWorker.getUpdatedInput(button, this.input.default, true);
+    let updatedInput: string;
+
+    /**
+     * Determine if we have a suggestion button here
+     */
+    const isSuggestion = typeof suggestionCandidate === 'string';
+
+    // For suggestion button entry, we need do a lot of processing to handle character replacement
+    if (isSuggestion) {
+      const currentInput = this.getInput();
+      const initialCaretPosition = this.cursorWorker?.getCursorPositionEnd() || 0;
+      const inputSubstr = currentInput.substring(0, initialCaretPosition || 0) || currentInput;
+
+      const cleanButton = suggestionCandidate.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
+      const regexp = new RegExp(`${cleanButton}$`, 'g');
+      const newInputSubstr = inputSubstr.replace(regexp, button);
+      const newInput = currentInput.replace(inputSubstr, newInputSubstr);
+
+      const caretPositionDiff = newInputSubstr.length - inputSubstr.length;
+      let newCaretPosition = (initialCaretPosition || currentInput.length) + caretPositionDiff;
+
+      if (newCaretPosition < 0) newCaretPosition = 0;
+
+      updatedInput = newInput;
+      this.cursorWorker?.setCursorPosition(newCaretPosition);
+    } else {
+      updatedInput = this.cursorWorker.getUpdatedInput(button, this.input.default, true);
+    }
 
     /**
      * Call active class handler
@@ -1001,15 +1020,13 @@ class Keyboard {
     /**
      * Check if value is valid against pattern value
      */
-    const isValidInputPattern = this.options.inputPattern && this.inputPatternIsValid(updatedInput);
+    const isValidInputPattern = this.inputPatternIsValid(updatedInput);
     if (buttonType !== ButtonType.Function && !isValidInputPattern) return;
 
     /**
      * Call suggestion box update if exist
      */
     if (
-      // Disallow use of suggestion box when inserting multiple words
-      !isMultipleInsert &&
       // Suggestion instance must exist before use
       this.suggestionsBox &&
       // Suggestions to work only when Standard button pressed
@@ -1019,14 +1036,8 @@ class Keyboard {
         // Or it is non DOM Input element, but a `<div>`
         isNonInputButProperElement(this.options.input || focusedInput))
     ) {
-      const hasSuggestion = this.suggestionsBox.shouldUpdateOrCease(updatedInput);
-      if (hasSuggestion) return;
+      this.suggestionsBox.shouldUpdateOrCease(button);
     }
-
-    /**
-     * Calling onKeyPress
-     */
-    if (typeof this.options.onKeyPress === 'function') this.options.onKeyPress(buttonOutput, e);
 
     /**
      * If key is a function key lie "{alt}". Calling function key press eventd
@@ -1072,7 +1083,7 @@ class Keyboard {
       if (this.options.debug) {
         console.log(
           'Cursor at: ',
-          this.cursorWorker.getCursorPosition(),
+          this.cursorWorker.getCursorPositionStart(),
           this.cursorWorker.getCursorPositionEnd(),
           `(${this.keyboardDOMClass})`,
           `New input value: "${updatedInput}"`,
@@ -1104,7 +1115,6 @@ class Keyboard {
     buttonType: ButtonType,
     isValidInputPattern?: boolean,
     e?: KeyboardHandlerEvent,
-    isMultipleInsert = false,
   ) {
     if (this.isRenderAllowed !== true) return;
     if (this.options.disabled === true) return;
@@ -1136,7 +1146,7 @@ class Keyboard {
           e,
         );
       }
-    } else if (this.options.soundEnabled === true && !isMultipleInsert) {
+    } else if (this.options.soundEnabled === true) {
       /**
        * Pontually handle beep sound on key press for manual update mode
        */

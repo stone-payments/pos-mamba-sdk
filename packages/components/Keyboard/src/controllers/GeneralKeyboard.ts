@@ -171,6 +171,11 @@ class UIGeneralKeyboard {
 
   /**
    * Get the mamba normalized key code from user input event
+   *
+   * - Use e.key{string} on some events on simulator or POS
+   * - Use e.keyIdentifier{string} to work on POS values
+   * - Use e.code{number} to work with alphabet keyboard
+   *
    * @param event User input event
    * @returns Relative key code
    */
