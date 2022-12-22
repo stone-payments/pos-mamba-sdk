@@ -378,7 +378,7 @@ export function hasPrinter() {
  * @returns {boolean}
  */
 export function hasNoPrinter() {
-  return VerifyMethodOnSystemWrapper('hasNoPrinter') || _hasModelAtList(NO_PRINTER);
+  return !hasPrinter;
 }
 
 /**
