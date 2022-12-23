@@ -333,21 +333,7 @@ export const NO_TOUCH = [MODELS.D195, MODELS.Q60, MODELS.D230];
  * @returns {boolean}
  */
 export function hasNoTouch() {
-  /**
-   * value starts with anything it outputs, even if null
-   * null means didn't find method
-   * */
-  let value = VerifyMethodOnSystemWrapper('hasTouch');
-
-  /**
-   * if method returns null, we use hardcoded value
-   */
-  if (!value) {
-    value = _hasModelAtList(WITH_TOUCH);
-  }
-
-  /** finally we can return, with NEGATION */
-  return !value;
+  return !hasTouch();
 }
 
 /**
