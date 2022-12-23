@@ -309,24 +309,12 @@ export function hasTouch() {
 }
 
 /**
- * @description Devices with only touch, like smartphone
- * @returns {array} A list of devices that is smartphone like screen, no physical keyboard.
- */
-export const ONLY_TOUCH = [MODELS.D199];
-
-/**
  * @description If current model have only touch screen (no physical keyboard)
  * @returns {boolean}
  */
 export function hasOnlyTouch() {
   return !hasKeyboard();
 }
-
-/**
- * @description Devices with no touch capability
- * @returns {array} A list of devices that doesn't have touch screen
- */
-export const NO_TOUCH = [MODELS.D195, MODELS.Q60, MODELS.D230];
 
 /**
  * @description If current model have no touch screen
