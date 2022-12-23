@@ -3,6 +3,7 @@
   class:is-readable="readable"
   class:is-invalid="!isValid && !!_errorMsg"
   class:is-focused="isFocused"
+  class:is-compact="compact"
   class:has-password-toggle="_hasPasswordToggle"
   style="background-color: {bgColor}; color: {labelColor};"
 >
@@ -95,6 +96,8 @@
         tokens: defaultTokens,
         /** Controls eye toogle display */
         showPasswordToggle: Device.hasNoTouch(true),
+        /** Controls if the input is compact in some ways */
+        isCompact: false,
       };
     },
     computed: {
@@ -485,7 +488,7 @@
     appearance: none;
     border: none;
     font-size: 30px;
-    height: 36px;
+    height: 34px;
     /* border-bottom: 1px dotted #dedede; */
 
     &.align-right {
@@ -535,5 +538,16 @@
 
   .wrapper-input {
     position: relative;
+  }
+
+  .input.is-compact {
+    .label {
+      margin-bottom: 8px;
+    }
+
+    .validation-msg {
+      padding-top: 2px;
+      padding-bottom: 2px;
+    }
   }
 </style>
