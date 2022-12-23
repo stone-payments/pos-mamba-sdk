@@ -38,7 +38,7 @@ import keyboardTypesMap from './keyboards/keyboardTypesMap';
  * - Handles button functionality
  */
 class Keyboard {
-  private input!: KeyboardInput;
+  public input!: KeyboardInput;
 
   private initialOptions!: KeyboardOptions;
 

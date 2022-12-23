@@ -493,7 +493,8 @@ class PhysicalKeyboard {
 
         targetDOMInput.value = input;
 
-        // Modifying input value, make its cursor moves to the end. So we need to update to the last value it was.
+        // Modifying input value, make its cursor moves to the end,
+        // so we need to update to the last value it was.
         this.keyboardInstance.cursorWorker.updateCursorPos(0, false, true, targetDOMInput);
       }
     }

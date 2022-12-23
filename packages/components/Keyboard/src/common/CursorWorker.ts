@@ -130,10 +130,12 @@ class CursorWorker {
     } else {
       output = [source.slice(0, positionStart), str, source.slice(positionEnd)].join('');
 
+      // Update max length for the new output
+      this.handleMaxLength(this.keyboardInstance.input, output);
       /**
        * Avoid cursor positionStart change when maxLength is set
        */
-      if (!this.isMaxLengthReached()) {
+      if (!this.isMaxLengthReached() || str.length === 1) {
         if (moveCursor) this.updateCursorPos(str.length);
       }
     }
@@ -174,7 +176,6 @@ class CursorWorker {
         this.setCursorPosition(position, position, moveCursor);
       }
     }
-
     return output;
   }
 
@@ -213,7 +214,7 @@ class CursorWorker {
    *
    * @returns If max length reached
    */
-  private isMaxLengthReached(): boolean {
+  public isMaxLengthReached(): boolean {
     return this.maxLengthReached;
   }
 
@@ -236,9 +237,6 @@ class CursorWorker {
     const isKeyboard =
       target === this.keyboardInstance.keyboardDOM ||
       (target && this.keyboardInstance.keyboardDOM.contains(target as Node));
-
-    console.log(event);
-    console.log(`isDOMInputType : ${target instanceof HTMLInputElement}`);
 
     if (
       target instanceof HTMLInputElement &&
