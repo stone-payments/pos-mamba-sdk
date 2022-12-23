@@ -21,7 +21,7 @@ class UIGeneralKeyboard {
   /**
    * Define if keyboard is alphanumeric or numeric
    */
-  alphanumericEnabled = true;
+  alphanumericEnabled = false;
 
   /**
    * Check Keyboard instance
