@@ -15,10 +15,10 @@ function VerifyMethodOnSystemWrapper(method) {
     /* Necessary because the circular dependency with simulator */
     const _system = window.$System || window.System;
 
-    // Caso ele encontre o método, retorna imediatamente o valor dela
+    // if it finds method, run it
     if (typeof _system[method] === 'function') return _system[method]();
   } catch (_) {
-    // Cair aqui é esperado, então não faz nada. que vai pra linha seguinte.
+    // code not needed here, created just to don't crash app
   }
 
   return undefined;
@@ -333,22 +333,20 @@ export const NO_TOUCH = [MODELS.D195, MODELS.Q60, MODELS.D230];
  * @returns {boolean}
  */
 export function hasNoTouch() {
-  /**  `value` pode ser qualquer coisa e null;
-   * Se for null, significa que não achou no backend
-   */
-
-  /* esse seria o valor default inicial(o que vem do back) independente de qualquer coisa. */
+  /**
+   * value starts with anything it outputs, even if null
+   * null means didn't find method
+   * */
   let value = VerifyMethodOnSystemWrapper('hasTouch');
 
   /**
-   * Se por ventura o método que checa se existe a função no back,
-   * retornou null (pq não achou o método ou outro motivo), usaremos o valor hard coded
+   * if method returns null, we use hardcoded value
    */
   if (!value) {
     value = _hasModelAtList(WITH_TOUCH);
   }
 
-  // Finalmente podemos retornar o valor dela, com negação.
+  /** finally we can return, with NEGATION */
   return !value;
 }
 
@@ -363,9 +361,9 @@ export const NO_PRINTER = [MODELS.MP35, MODELS.D199, MODELS.D195];
  * @returns {boolean}
  */
 export function hasPrinter() {
-  /** negação explicada e comentada em hasNoTouch() */
   let value = VerifyMethodOnSystemWrapper('hasPrinter');
 
+  /** negation explained on hasNoTouch() */
   if (typeof value === 'undefined') {
     value = !_hasModelAtList(NO_PRINTER);
   }
@@ -378,7 +376,7 @@ export function hasPrinter() {
  * @returns {boolean}
  */
 export function hasNoPrinter() {
-  return !hasPrinter;
+  return !hasPrinter();
 }
 
 /**
