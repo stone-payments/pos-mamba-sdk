@@ -8,7 +8,7 @@ import {
 } from '../types';
 import { greddyBraces } from './regExps';
 import type Keyboard from '../Keyboard';
-import { bindMethods, isProperInput } from '../helpers';
+import { bindMethods } from '../helpers';
 
 /**
  * CursorWorker.
@@ -24,6 +24,16 @@ class CursorWorker {
   keyboardInstance: Keyboard;
 
   maxLengthReached!: boolean;
+
+  /**
+   * Last cursor position at start for POS keyup event fix
+   */
+  lastCursorPositionStart!: CursorPosition;
+
+  /**
+   * Last cursor  position end for POS keyup event fix
+   */
+  lastCursorPositionEnd!: CursorPosition;
 
   /**
    * Cursor position at start
@@ -55,6 +65,8 @@ class CursorWorker {
 
     this.cursorPositionStart = null;
     this.cursorPositionEnd = null;
+    this.lastCursorPositionStart = null;
+    this.lastCursorPositionEnd = null;
   }
 
   /**
@@ -215,36 +227,21 @@ class CursorWorker {
     if (options.disabled === true) return;
     if (this.keyboardInstance.visibility === KeyboardVisibility.Hidden) return;
 
-    const target = document.activeElement;
-    const isDOMInputType = target instanceof HTMLInputElement;
+    if (event.type === 'keypress') {
+      event.preventDefault();
+    }
 
-    // POS Hack of a edge case flow
-    /* if (
-      __POS__ &&
-      !isDOMInputType &&
-      event.type === 'selectionchange' &&
-      etarget instanceof Document &&
-      isProperInput(document.activeElement)
-    ) {
-      isDOMInputType = true;
-      target = document.activeElement;
-    } */
+    const target = document.activeElement || event.target;
 
     const isKeyboard =
       target === this.keyboardInstance.keyboardDOM ||
       (target && this.keyboardInstance.keyboardDOM.contains(target as Node));
 
     console.log(event);
-    console.log(`isDOMInputType : ${isDOMInputType}`);
-
-    console.log(
-      `is ['text', 'tel', 'password'] : ${
-        isDOMInputType && ['text', 'tel', 'password'].includes(target.type)
-      }`,
-    );
+    console.log(`isDOMInputType : ${target instanceof HTMLInputElement}`);
 
     if (
-      isDOMInputType &&
+      target instanceof HTMLInputElement &&
       ['text', 'tel', 'password'].includes(target.type) &&
       !options.disableCursorPositioning
     ) {
@@ -252,6 +249,22 @@ class CursorWorker {
        * Tracks current cursor position
        * As keys are pressed, text will be added/removed at that position within the input.
        */
+
+      // Try to deal a discrepancy of keyup behavior that reset target input cursor to the end of it on POS old browser
+      if (__POS__) {
+        if (
+          event.type === 'keyup' &&
+          this.cursorPositionStart !== target.selectionStart &&
+          this.cursorPositionEnd !== target.selectionEnd
+        ) {
+          target.selectionStart = this.lastCursorPositionStart;
+          target.selectionEnd = this.lastCursorPositionEnd;
+          console.log(
+            `Try to deal a discrepancy of keyup behavior that reset target input cursor to the end of it on POS old browser\n-> target.lastCursorPositionStart = ${this.lastCursorPositionStart}`,
+          );
+        }
+      }
+
       this.setCursorPosition(target.selectionStart, target.selectionEnd, false, target);
 
       if (options.debug) {
@@ -345,6 +358,9 @@ class CursorWorker {
 
     this.cursorPositionStart = position;
     this.cursorPositionEnd = endPosition;
+
+    this.lastCursorPositionStart = position;
+    this.lastCursorPositionEnd = endPosition;
 
     const input = customTarget || this.cursorInputTarget || options.input;
 
