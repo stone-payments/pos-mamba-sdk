@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [4.4.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@4.4.0...@mamba/pos@4.4.1) (2022-12-16)
+
+
+### Bug Fixes
+
+* 🐛 remove remnant code on simulator files ([51eb644](https://github.com/stone-payments/pos-mamba-sdk/commit/51eb644f386613f9f2c9e286a2d5bb72c4d420d6))
+
+
+
 ## [4.4.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@4.3.1...@mamba/pos@4.4.0) (2022-12-13)
 
 **Note:** Version bump only for package @mamba/pos
