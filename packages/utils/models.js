@@ -4,15 +4,24 @@ const ThisStore = {
   _storedModel: undefined,
 };
 
+/**
+ * @description Check if method is available via Mamba
+ * @returns {boolean}
+ */
 function VerifyMethodOnSystemWrapper(method) {
+  if (!__POS__) return undefined;
+
   try {
     /* Necessary because the circular dependency with simulator */
     const _system = window.$System || window.System;
 
-    return _system[method]();
-  } catch (error) {
-    if (__DEV__) console.error(error);
+    // if it finds method, run it
+    if (typeof _system[method] === 'function') return _system[method]();
+  } catch (_) {
+    // code not needed here, created just to don't crash app
   }
+
+  return undefined;
 }
 
 /**
@@ -73,7 +82,15 @@ export const getPosModel = () => {
     return _storedModel;
   }
 
-  const _model = VerifyMethodOnSystemWrapper('getPosModel');
+  let _model = DEFAULT_MODEL;
+
+  try {
+    /* Necessary because the circular dependency with simulator */
+    const _system = window.$System || window.System;
+    _model = _system.getPosModel();
+  } catch (error) {
+    if (__DEV__) console.error(error);
+  }
 
   ThisStore._storedModel = _model;
 
@@ -130,6 +147,56 @@ export const getPosModelSlug = (currentModel) => {
 const _hasModelAtList = (list = []) => {
   return list.indexOf(getPosModel()) !== -1;
 };
+
+/**
+ * @description A list of devices from the manufacturer PAX
+ * @returns {array}
+ */
+export const PAX_DEVICES = [
+  MODELS.S920,
+  MODELS.Q92,
+  MODELS.Q92S,
+  MODELS.D195,
+  MODELS.Q60,
+  MODELS.D199,
+  MODELS.D230,
+];
+
+/**
+ * DON'T DELETE THIS METHOD! Used on Simulator
+ * @returns {boolean} If the current model is from the PAX manufacturer
+ */
+export function isPAXDevices() {
+  return _hasModelAtList(PAX_DEVICES);
+}
+
+/**
+ * Verifone Devices
+ * @returns {array} A list of devices from the manufacturer Verifone
+ */
+export const VERIFONE_DEVICES = [MODELS.V240M];
+
+/**
+ * DON'T DELETE THIS METHOD! Used on Simulator
+ * @returns {boolean} If the current model is from the Verifone manufacturer
+ */
+export function isVerifoneDevices() {
+  return _hasModelAtList(VERIFONE_DEVICES);
+}
+
+/**
+ * DON'T DELETE THIS METHOD! Used on Simulator
+ * @description A list of devices from the manufacturer GERTEC
+ * @returns {array}
+ */
+export const GERTEC_DEVICES = [MODELS.MP35, MODELS.MP35P];
+
+/**
+ * @returns {boolean} If the current model is from the Gertec manufacturer
+ */
+export function isGertecDevices() {
+  return _hasModelAtList(GERTEC_DEVICES);
+}
 
 /**
  * #####################
@@ -220,34 +287,6 @@ export function hasKeyboardLight() {
 }
 
 /**
- * @description Devices with only touch, like smartphone
- * @returns {array} A list of devices that is smartphone like screen, no physical keyboard.
- */
-export const ONLY_TOUCH = [MODELS.D199];
-
-/**
- * @description If current model have only touch screen (no physical keyboard)
- * @returns {boolean}
- */
-export function hasOnlyTouch() {
-  return !VerifyMethodOnSystemWrapper('hasKeyboard') || _hasModelAtList(ONLY_TOUCH);
-}
-
-/**
- * @description Devices with no touch capability
- * @returns {array} A list of devices that doesn't have touch screen
- */
-export const NO_TOUCH = [MODELS.D195, MODELS.Q60, MODELS.D230];
-
-/**
- * @description If current model have no touch screen
- * @returns {boolean}
- */
-export function hasNoTouch() {
-  return !VerifyMethodOnSystemWrapper('hasTouch') || _hasModelAtList(NO_TOUCH);
-}
-
-/**
  * @description Devices with no touch capability
  * @returns {array} A list of devices that have touch screen
  */
@@ -270,6 +309,22 @@ export function hasTouch() {
 }
 
 /**
+ * @description If current model have only touch screen (no physical keyboard)
+ * @returns {boolean}
+ */
+export function hasOnlyTouch() {
+  return !hasKeyboard();
+}
+
+/**
+ * @description If current model have no touch screen
+ * @returns {boolean}
+ */
+export function hasNoTouch() {
+  return !hasTouch();
+}
+
+/**
  * @description Devices with no printer
  * @returns {array} A list of devices that doesn't have printer
  */
@@ -280,7 +335,14 @@ export const NO_PRINTER = [MODELS.MP35, MODELS.D199, MODELS.D195];
  * @returns {boolean}
  */
 export function hasPrinter() {
-  return VerifyMethodOnSystemWrapper('hasPrinter') || !_hasModelAtList(NO_PRINTER);
+  let value = VerifyMethodOnSystemWrapper('hasPrinter');
+
+  /** negation explained on hasNoTouch() */
+  if (typeof value === 'undefined') {
+    value = !_hasModelAtList(NO_PRINTER);
+  }
+
+  return value;
 }
 
 /**
@@ -288,7 +350,7 @@ export function hasPrinter() {
  * @returns {boolean}
  */
 export function hasNoPrinter() {
-  return !VerifyMethodOnSystemWrapper('hasPrinter') || _hasModelAtList(NO_PRINTER);
+  return !hasPrinter();
 }
 
 /**
@@ -331,12 +393,16 @@ export function hasGprs() {
 /**
  * High DPI devices
  *
+ * @DEPRECATED since @mamba/utils v6.0.0
+ *
  * @description A list of devices with high dpi
  * @returns {array}
  */
 export const HIGH_DPI_DEVICES = [MODELS.Q92, MODELS.D199];
 
 /**
+ * @DEPRECATED since @mamba/utils v6.0.0
+ *
  * @description If current model have a high DPI screen
  * @returns {boolean}
  */
@@ -347,12 +413,16 @@ export function hasHighDPI() {
 /**
  * Devices with Function Keys
  *
+ * @DEPRECATED since @mamba/utils v6.0.0
+ *
  * @description A list of devices that have function keys
  * @returns {array}
  */
 export const FUNCTION_KEYS_DEVICES = [MODELS.MP35P, MODELS.MP35];
 
 /**
+ * @DEPRECATED since @mamba/utils v6.0.0
+ *
  * @description If current model have function keys
  * @returns {boolean}
  */
