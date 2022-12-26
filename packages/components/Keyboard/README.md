@@ -76,6 +76,36 @@ Keyboard.setOptions({
 Keyboard.hide();
 ```
 
+### Melhores Práticas
+
+- Por hora, o teclado virtual nunca será iniciado em POS's menores, então não é necessário iniciar seu componente para esses casos, para não usar processamento e memória desnecessariamente
+
+```html
+<!-- index.html -->
+<!-- Disable Keyboard for small pos at all -->
+{#if !$POS.CAPABILITIES.IS_SMALL_SCREEN}
+<Keyboard autoRender="{false}" visibility="{KeyboardVisibility.Hidden}" keepVisible="{false}" />
+{/if}
+```
+
+```js
+// svelte.js
+import { Device } from '@mamba/utils/index.js';
+
+// ...
+export const INITIAL_DATA = {
+  POS: {
+    CAPABILITIES: {
+      IS_SMALL_SCREEN: Device.hasSmallScreen(),
+    },
+  },
+};
+
+const store = new Store(INITIAL_DATA);
+
+// ...
+```
+
 ## Eventos
 
 ```ts
