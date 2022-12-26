@@ -10,6 +10,12 @@
     "node": ">= 8 || <= 14",
     "npm": ">6"
   },
+  "files": [
+    "*",
+    "!tsconfig.json",
+    "!keymap",
+    "!currency"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/stone-payments/pos-mamba-sdk.git",
