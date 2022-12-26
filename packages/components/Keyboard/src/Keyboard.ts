@@ -84,7 +84,7 @@ class Keyboard {
 
   defaultAllowKeySyntheticEvent = ['{backspace}', '{enter}', '{check}'];
 
-  renderDebounceTime = 3;
+  renderDebounceTime = 20;
 
   internalOnFunctionKeyPress?: (
     button: string,
