@@ -1,6 +1,6 @@
 {
   "name": "@mamba/webpack",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "Webpack configs for Mamba Applications",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",

@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [8.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@7.0.0...@mamba/input@8.0.0) (2022-12-26)
+
+
+### Bug Fixes
+
+* 🐛 alphanumeric and numeric methods were switched ([0965cbb](https://github.com/stone-payments/pos-mamba-sdk/commit/0965cbb2e55c54903170938f5073881cc6697417))
+
+
+
 ## [7.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@6.3.0...@mamba/input@7.0.0) (2022-12-19)
 
 **Note:** Version bump only for package @mamba/input

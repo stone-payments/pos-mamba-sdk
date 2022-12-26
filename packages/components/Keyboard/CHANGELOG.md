@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/keyboard@2.0.0...@mamba/keyboard@3.0.0) (2022-12-26)
+
+
+### Bug Fixes
+
+* 🐛 alphanumeric and numeric methods were switched ([0965cbb](https://github.com/stone-payments/pos-mamba-sdk/commit/0965cbb2e55c54903170938f5073881cc6697417))
+* 🐛 alphanumeric enabled value switched ([9e05e85](https://github.com/stone-payments/pos-mamba-sdk/commit/9e05e85b29eb8af3e124eacde320e2f0406c4708))
+
+
+
 ## [2.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/keyboard@1.3.0...@mamba/keyboard@2.0.0) (2022-12-19)
 
 **Note:** Version bump only for package @mamba/keyboard
