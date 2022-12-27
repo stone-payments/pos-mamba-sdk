@@ -26,16 +26,7 @@
       };
     },
     oncreate() {
-      this.root.on('router:change', (context = {}) => {
-        if (debug) {
-          console.log(
-            `<Keyboard> route:change ${JSON.stringify({
-              init: context.init,
-              path: context.path,
-            })}`,
-          );
-        }
-
+      this.root.on('router:change', () => {
         try {
           if (!(document.activeElement instanceof HTMLInputElement) && keyboard) {
             keyboard.resetOptions();
