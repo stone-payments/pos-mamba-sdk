@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [7.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/utils@7.0.0...@mamba/utils@7.0.1) (2022-12-28)
+
+
+### Bug Fixes
+
+* 🐛 rollback isStandardModel ([379fff6](https://github.com/stone-payments/pos-mamba-sdk/commit/379fff6c76f518cc875d70fc51bff4330c0ca268))
+
+
+
 ## [7.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/utils@6.0.0...@mamba/utils@7.0.0) (2022-12-26)
 
 
