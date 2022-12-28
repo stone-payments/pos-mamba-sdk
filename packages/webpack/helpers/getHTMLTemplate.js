@@ -4,11 +4,12 @@ const { minify: htmlMinifier } = require('html-minifier');
 
 const { generateCSSReferences, generateJSReferences } = MiniHtmlWebpackPlugin;
 
-const { IS_BROWSER, WEINRE_IP } = require('./consts.js');
+const { IS_BROWSER, WEINRE_IP, HTML_BASE_URL } = require('./consts.js');
 
 module.exports = ({ css, js, title, publicPath }) => {
   console.log('WEINRE_IP: ', WEINRE_IP);
-  let weinre = false;
+  let weinre;
+  let baseUrl;
   if (WEINRE_IP) {
     // const ip = String(WEINRE_IP).trim();
     const ipRegEx = /\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}\b/gm;
@@ -30,9 +31,15 @@ module.exports = ({ css, js, title, publicPath }) => {
       );
     }
   }
+
+  if (HTML_BASE_URL) {
+    baseUrl = `<base href="${HTML_BASE_URL}">`;
+  }
+
   const htmlTemplate = `<!DOCTYPE html>
 <html>
   <head>
+    ${baseUrl || ''}
     <meta charset="UTF-8">
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
     ${IS_BROWSER ? '<meta name="mobile-web-app-capable" content="yes">' : ''}
