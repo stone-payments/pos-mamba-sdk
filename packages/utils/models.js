@@ -163,7 +163,23 @@ export const PAX_DEVICES = [
 ];
 
 /**
+ * Standard mamba devices
+ * @deprecated
+ * @returns {array} A list of standard devices
+ */
+export const STANDARD_MAMBA_DEVICES = [MODELS.S920, MODELS.Q92, MODELS.V240M];
+
+/**
+ * @deprecated
+ * @returns {boolean} If current model is standard
+ */
+export function isStandardModel() {
+  return _hasModelAtList(STANDARD_MAMBA_DEVICES);
+}
+
+/**
  * DON'T DELETE THIS METHOD! Used on Simulator
+ * @deprecated
  * @returns {boolean} If the current model is from the PAX manufacturer
  */
 export function isPAXDevices() {
@@ -172,12 +188,14 @@ export function isPAXDevices() {
 
 /**
  * Verifone Devices
+ * @deprecated
  * @returns {array} A list of devices from the manufacturer Verifone
  */
 export const VERIFONE_DEVICES = [MODELS.V240M];
 
 /**
  * DON'T DELETE THIS METHOD! Used on Simulator
+ * @deprecated
  * @returns {boolean} If the current model is from the Verifone manufacturer
  */
 export function isVerifoneDevices() {
@@ -187,11 +205,13 @@ export function isVerifoneDevices() {
 /**
  * DON'T DELETE THIS METHOD! Used on Simulator
  * @description A list of devices from the manufacturer GERTEC
+ * @deprecated
  * @returns {array}
  */
 export const GERTEC_DEVICES = [MODELS.MP35, MODELS.MP35P];
 
 /**
+ * @deprecated
  * @returns {boolean} If the current model is from the Gertec manufacturer
  */
 export function isGertecDevices() {
@@ -449,5 +469,9 @@ export function getDeviceCapabilitiesClassList() {
     // DEPRECATED
     hasFunctionKeys() && 'has-function-keys',
     hasHighDPI() && 'has-high-dpi',
+    isStandardModel() && 'is-standard-model',
+    isPAXDevices() && 'is-pax',
+    isVerifoneDevices() && 'is-verifone',
+    isGertecDevices() && 'is-gertec',
   ].filter(Boolean);
 }
