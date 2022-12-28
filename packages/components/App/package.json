@@ -1,6 +1,6 @@
 {
   "name": "@mamba/app",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "svelte": "App.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -15,10 +15,10 @@
   "dependencies": {
     "@mamba/button": "6.0.0",
     "@mamba/core": "2.0.0",
-    "@mamba/keyboard": "3.0.0",
-    "@mamba/pos": "6.0.0",
+    "@mamba/keyboard": "3.0.1",
+    "@mamba/pos": "6.0.1",
     "@mamba/styles": "5.0.0",
-    "@mamba/utils": "7.0.0",
+    "@mamba/utils": "7.0.1",
     "lodash": "^4.17.21"
   }
 }
