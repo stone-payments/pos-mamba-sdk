@@ -5,6 +5,19 @@ const getKeyboardInstance = () => {
 };
 
 export default function (driver) {
+  // Add virtual keyboard dummy functions for preventing its misuse and broke some code. (Just some most used)
+  // The full list is at `packages/components/Keyboard/src/Keyboard.ts:~889` (bindToDriver method)
+  const notInitialized = () =>
+    __DEV__ && console.error('The virtual keyboard was not initialized! Your method did nothing.');
+  if (!driver.setKeyboardType) driver.setKeyboardType = notInitialized;
+  if (!driver.setOptions) driver.setOptions = notInitialized;
+  if (!driver.show) driver.show = notInitialized;
+  if (!driver.hide) driver.hide = notInitialized;
+  if (!driver.unmount) driver.unmount = notInitialized;
+  if (!driver.reset) driver.reset = notInitialized;
+  if (!driver.shouldUpdateKeyboardView) driver.shouldUpdateKeyboardView = notInitialized;
+  if (!driver.destroy) driver.destroy = notInitialized;
+
   // Original Keyboard methods
   const $KeyboardSetAsAlphanumeric = driver.setKeyboardAsAlphanumeric;
 
