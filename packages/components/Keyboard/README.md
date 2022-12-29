@@ -76,7 +76,7 @@ Keyboard.setOptions({
 Keyboard.hide();
 ```
 
-### Melhores Práticas
+### Boas Práticas e Dicas
 
 - Por hora, o teclado virtual nunca será iniciado em POS's menores, então não é necessário iniciar seu componente para esses casos, para não usar processamento e memória desnecessariamente
 
@@ -84,6 +84,7 @@ Keyboard.hide();
 <!-- index.html -->
 <!-- Disable Keyboard for small pos at all -->
 {#if !$POS.CAPABILITIES.IS_SMALL_SCREEN}
+<!-- prettier-ignore-next-line -->
 <Keyboard autoRender="{false}" visibility="{KeyboardVisibility.Hidden}" keepVisible="{false}" />
 {/if}
 ```
@@ -105,6 +106,38 @@ const store = new Store(INITIAL_DATA);
 
 // ...
 ```
+
+- Como saber se o teclado virtual existe ou foi inicializado?
+
+A api do teclado exporta uma propriedade em sua [Interface](#interface), que se chama `virtualKeyboard: Keyboard`, onde ela consulta e retorna se existe o teclado virtual ou não. Exemplo:
+
+> No console do seu app:
+
+```js
+window.$Keyboard.virtualKeyboard; // `undefined` quer dizer não existe enhuma instância do teclado virtual
+// ...
+window.$Keyboard.virtualKeyboard; // `Keyboard {...}` quer dizer que existe uma instância do teclado virtual
+```
+
+> No código do seu app:
+
+```diff
++ import Keyboard from '@mamba/keyboard/api/index.js';
+
+# Pode quebrar:
+- Keyboard.setOptions({
+-   keyboardType: KeyboardType.Numeric,
+- )}
+
+# Ao invés, verifique se ele existe antes:
++ if (Keyboard.virtualKeyboard) {
++   Keyboard.setOptions({
++     keyboardType: KeyboardType.Numeric,
++   )}
++ }
+```
+
+Isso se faz útil para casos onde seu fluxo precisa fazer algum tratamento em sua rota, mas não sabe se o teclado virtual existe.
 
 ## Eventos
 

@@ -58,7 +58,7 @@ export default function (driver) {
     get() {
       return getKeyboardInstance();
     },
-    configurable: true,
+    configurable: true, // Make it possible to configure every time.
     enumerable: true,
   });
 
