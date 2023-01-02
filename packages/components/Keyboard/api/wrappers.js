@@ -66,7 +66,7 @@ export default function (driver) {
    * Rewrite driver get/set of keyboard visibility
    */
   Object.defineProperty(driver, 'visibility', {
-    configurable: false,
+    configurable: true,
     get() {
       const _keyboard = getKeyboardInstance();
       if (_keyboard) return _keyboard.visibility;
