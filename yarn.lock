@@ -2279,6 +2279,117 @@
     npmlog "^4.1.2"
     write-file-atomic "^3.0.3"
 
+"@mamba/app@5.3.0":
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/@mamba/app/-/app-5.3.0.tgz#00314b92193aaa2b9aa020ce2f79a3c11d1245bc"
+  integrity sha512-YxY9gDIMDux4ARHxzIYc3kR8QoF9HvlLY0rQccs9wjzN9iLzMNGZp/q77EYXIkVwk6Ak6Mg6+wRRNjkUJ2Z1Og==
+  dependencies:
+    "@mamba/button" "5.3.0"
+    "@mamba/core" "1.4.0"
+    "@mamba/keyboard" "1.3.0"
+    "@mamba/pos" "4.4.0"
+    "@mamba/styles" "4.4.0"
+    "@mamba/utils" "5.3.0"
+    lodash "^4.17.21"
+
+"@mamba/button@5.3.0":
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/@mamba/button/-/button-5.3.0.tgz#135ea20f100e37b83163053ca3cf9de72c70fc23"
+  integrity sha512-Fxtyajoa7vIVv6DVVbWXSNHaEduIs/YsRn5FZ2hjEOOQ+bNIauNUe9Tb7OgVCpT5qNjsLMsbx4w7EohJlDaBOA==
+  dependencies:
+    "@mamba/styles" "4.4.0"
+
+"@mamba/core@1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@mamba/core/-/core-1.4.0.tgz#532df9b60f5a270d880f26003d6718d1c554c093"
+  integrity sha512-VvhblVOv9/x0y8fCFXcGuqflGY1P/QbyQcpGeB0RFydAbpG+ZbQruJ1ylX3fy5o7HE3ho3qOeIxCS8vJGtG04w==
+
+"@mamba/dialog@4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@mamba/dialog/-/dialog-4.3.0.tgz#c2c2942413900eca867db00f9ddd55eb7454aa72"
+  integrity sha512-yuk+eCmjKjKUd645sjhLyC1ItZcLZ3LLgPoCxGkVuStc3msb9K1JKLyDWCt2TgnG8tD8CccEEUFhrrl9fExHCA==
+  dependencies:
+    "@mamba/core" "1.4.0"
+    "@mamba/icon" "4.3.0"
+    "@mamba/styles" "4.4.0"
+
+"@mamba/icon@4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@mamba/icon/-/icon-4.3.0.tgz#e2a334afa5aba18ab7177f1aee1767956993958e"
+  integrity sha512-uSNeL+yckDLjwKW2Js+Yq6XtUjkjZkVmK61t9nt/0BOHQlxyZundClXS8zNrNVbYX48xnjiStfTDbIyFyxf4SQ==
+  dependencies:
+    "@mamba/styles" "4.4.0"
+
+"@mamba/input@6.3.0":
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/@mamba/input/-/input-6.3.0.tgz#b8c9e64d3bdc1d21cc47319662ab139b3265cbd8"
+  integrity sha512-7A7EywJMYU5ECnsSlO2IVcJutujaSLOEb53KljX2HFicJUjrgb/Mr6mZQ1vHzntf6AwjQpgU7HtntKr2fKg9BQ==
+  dependencies:
+    "@mamba/core" "1.4.0"
+    "@mamba/icon" "4.3.0"
+    "@mamba/keyboard" "1.3.0"
+    "@mamba/pos" "4.4.0"
+    "@mamba/utils" "5.3.0"
+
+"@mamba/keyboard@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@mamba/keyboard/-/keyboard-1.3.0.tgz#8eadc941b30b4112a9a88d7accc9b8baadf0b80a"
+  integrity sha512-Mh4bD6Czx1lkXI9qJ66aEfXut7yNIphDFtCk3x1IIkNDcYFFlzBohDT18z4z8oIhOHtYfm5dtR8fmaY+XuuutQ==
+  dependencies:
+    "@mamba/core" "1.4.0"
+    "@mamba/input" "6.3.0"
+    "@mamba/utils" "5.3.0"
+    "@types/lodash" "^4.14.182"
+    lodash "^4.17.21"
+
+"@mamba/pos@4.4.0":
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/@mamba/pos/-/pos-4.4.0.tgz#775bd269e5bdb6304bd15ea6451cce38ab61dcb4"
+  integrity sha512-RL9FxZrJJjAeVu3Hw21zaazq+G6JNuqHQajBvKZhbhZVjwl/ZKKe5lvirEca9Q2kqCSOdX39Elj9eh6IcRq1ZA==
+  dependencies:
+    "@mamba/app" "5.3.0"
+    "@mamba/button" "5.3.0"
+    "@mamba/core" "1.4.0"
+    "@mamba/dialog" "4.3.0"
+    "@mamba/icon" "4.3.0"
+    "@mamba/keyboard" "1.3.0"
+    "@mamba/radio" "4.3.0"
+    "@mamba/sprite" "4.3.0"
+    "@mamba/switch" "5.3.0"
+    "@mamba/utils" "5.3.0"
+    immer "^2.1.5"
+    lodash "^4.17.21"
+    svelte "<3"
+
+"@mamba/radio@4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@mamba/radio/-/radio-4.3.0.tgz#02f806a80292620e59b4f797737319aa7608442b"
+  integrity sha512-HlheYxqtmKrKAPnDsLqaxUcNBDLE7Mvgze3PItLVXGFCx1EOFquHjS15+ufua239UI3Od7l94VyJc6lJtlfBrg==
+
+"@mamba/sprite@4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@mamba/sprite/-/sprite-4.3.0.tgz#cdcbaf6b41a44cbebad61a719299c7b35bf15777"
+  integrity sha512-nf0gA3nnyQCkGbCxNiIQBS4qM7UgS5EQkQZP/dl85j6vhFZDjOWwdzB5/1sjm7CWkifk75FPiyD6DLZm7eCD2w==
+
+"@mamba/styles@4.4.0":
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/@mamba/styles/-/styles-4.4.0.tgz#0a0c561c4ae9a47a7a3d73fcdab7fffaf028e480"
+  integrity sha512-HqRVF0UN7gF11kfxAzDphupJdnSmiphww89N+0kRuTWrKZOWEub+evWUJSYJ2VN05CcAjN7aFjLcAuKZjRlnZw==
+
+"@mamba/switch@5.3.0":
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/@mamba/switch/-/switch-5.3.0.tgz#0005883846659729080a85bd1f2d993a4fb0bb38"
+  integrity sha512-R1sAugl8sSt1ls76rquEyD413ti+KNJieH1lB57OKogN4xkPJRRdUlN9TwURr3J6xVaKJiDwrNEsWIuoHOpMYg==
+
+"@mamba/utils@5.3.0":
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/@mamba/utils/-/utils-5.3.0.tgz#64af71f4e3f6e140c25fefdedd3d1c6393bf40b8"
+  integrity sha512-pYqaYtp/JDkltrLHieiZzBm6bki36g7DFO1HrtQZvKpeh77unOyh9V+Kq61JdRi+pzeL/rz4TGhRE1tifeHzRg==
+  dependencies:
+    date-fns "2.28.0"
+    date-fns-tz "1.2.2"
+    lodash "^4.17.21"
+
 "@marionebl/sander@^0.6.0":
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/@marionebl/sander/-/sander-0.6.1.tgz#1958965874f24bc51be48875feb50d642fc41f7b"
