@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [5.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@5.0.0...@mamba/dialog@5.0.1) (2023-01-04)
+
+
+### Bug Fixes
+
+* outdated code ([61c9797](https://github.com/stone-payments/pos-mamba-sdk/commit/61c9797e9b13c43824726ec24d52a0012cda29f8))
+
+
+### Reverts
+
+* Revert "bump: dialog version to 5.1.0" ([ffd2159](https://github.com/stone-payments/pos-mamba-sdk/commit/ffd21596f4a051f3b1756555c1fa5960dd79bf14))
+
+
+
 ## [5.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@4.3.0...@mamba/dialog@5.0.0) (2022-12-19)
 
 **Note:** Version bump only for package @mamba/dialog

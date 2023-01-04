@@ -1,6 +1,6 @@
 {
   "name": "@mamba/keyboard",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "main": "lib/index.js",
   "types": "types/index.d.ts",
   "svelte": "Keyboard.html",
@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@mamba/core": "2.0.0",
-    "@mamba/input": "8.0.1",
+    "@mamba/input": "8.0.2",
     "@mamba/utils": "7.0.1",
     "@types/lodash": "^4.14.182",
     "lodash": "^4.17.21"
