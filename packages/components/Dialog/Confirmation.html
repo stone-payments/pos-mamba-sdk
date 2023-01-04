@@ -118,8 +118,8 @@
           e.stopImmediatePropagation();
           e.preventDefault();
 
-          if(isEnter) this.close('positive', 'keyboard');
-          if(isClose) this.close('negative', 'keyboard');
+          if (isEnter) this.close('positive', 'keyboard');
+          if (isClose) this.close('negative', 'keyboard');
         }
       },
       open(duration) {
@@ -128,8 +128,8 @@
       close(event, handler) {
         return this.refs.dialog.close().then(() => {
           if (event) {
-            this.fire(event,{
-              handler
+            this.fire(event, {
+              handler,
             });
           }
         });
