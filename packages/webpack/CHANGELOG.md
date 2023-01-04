@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [6.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@6.0.0...@mamba/webpack@6.0.1) (2022-12-28)
+
+
+### Features
+
+* 🎸 add base href env config ([d9c8fe8](https://github.com/stone-payments/pos-mamba-sdk/commit/d9c8fe82d74fb99c64507234f63002bc1ebe19f6))
+
+
+
+## [6.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@5.0.0...@mamba/webpack@6.0.0) (2022-12-26)
+
+**Note:** Version bump only for package @mamba/webpack
+
+
+
+
+
+## [5.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@4.4.0...@mamba/webpack@5.0.0) (2022-12-19)
+
+**Note:** Version bump only for package @mamba/webpack
+
+
+
+
+
 ### [4.4.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@4.4.0...@mamba/webpack@4.4.1) (2022-12-16)
 
 **Note:** Version bump only for package @mamba/webpack

@@ -15,10 +15,10 @@ function VerifyMethodOnSystemWrapper(method) {
     /* Necessary because the circular dependency with simulator */
     const _system = window.$System || window.System;
 
-    // Caso ele encontre o método, retorna imediatamente o valor dela
+    // if it finds method, run it
     if (typeof _system[method] === 'function') return _system[method]();
   } catch (_) {
-    // Cair aqui é esperado, então não faz nada. que vai pra linha seguinte.
+    // code not needed here, created just to don't crash app
   }
 
   return undefined;
@@ -163,7 +163,23 @@ export const PAX_DEVICES = [
 ];
 
 /**
+ * Standard mamba devices
+ * @deprecated
+ * @returns {array} A list of standard devices
+ */
+export const STANDARD_MAMBA_DEVICES = [MODELS.S920, MODELS.Q92, MODELS.V240M];
+
+/**
+ * @deprecated
+ * @returns {boolean} If current model is standard
+ */
+export function isStandardModel() {
+  return _hasModelAtList(STANDARD_MAMBA_DEVICES);
+}
+
+/**
  * DON'T DELETE THIS METHOD! Used on Simulator
+ * @deprecated
  * @returns {boolean} If the current model is from the PAX manufacturer
  */
 export function isPAXDevices() {
@@ -172,12 +188,14 @@ export function isPAXDevices() {
 
 /**
  * Verifone Devices
+ * @deprecated
  * @returns {array} A list of devices from the manufacturer Verifone
  */
 export const VERIFONE_DEVICES = [MODELS.V240M];
 
 /**
  * DON'T DELETE THIS METHOD! Used on Simulator
+ * @deprecated
  * @returns {boolean} If the current model is from the Verifone manufacturer
  */
 export function isVerifoneDevices() {
@@ -187,11 +205,13 @@ export function isVerifoneDevices() {
 /**
  * DON'T DELETE THIS METHOD! Used on Simulator
  * @description A list of devices from the manufacturer GERTEC
+ * @deprecated
  * @returns {array}
  */
 export const GERTEC_DEVICES = [MODELS.MP35, MODELS.MP35P];
 
 /**
+ * @deprecated
  * @returns {boolean} If the current model is from the Gertec manufacturer
  */
 export function isGertecDevices() {
@@ -309,12 +329,6 @@ export function hasTouch() {
 }
 
 /**
- * @description Devices with only touch, like smartphone
- * @returns {array} A list of devices that is smartphone like screen, no physical keyboard.
- */
-export const ONLY_TOUCH = [MODELS.D199];
-
-/**
  * @description If current model have only touch screen (no physical keyboard)
  * @returns {boolean}
  */
@@ -323,33 +337,11 @@ export function hasOnlyTouch() {
 }
 
 /**
- * @description Devices with no touch capability
- * @returns {array} A list of devices that doesn't have touch screen
- */
-export const NO_TOUCH = [MODELS.D195, MODELS.Q60, MODELS.D230];
-
-/**
  * @description If current model have no touch screen
  * @returns {boolean}
  */
 export function hasNoTouch() {
-  /**  `value` pode ser qualquer coisa e null;
-   * Se for null, significa que não achou no backend
-   */
-
-  /* esse seria o valor default inicial(o que vem do back) independente de qualquer coisa. */
-  let value = VerifyMethodOnSystemWrapper('hasTouch');
-
-  /**
-   * Se por ventura o método que checa se existe a função no back,
-   * retornou null (pq não achou o método ou outro motivo), usaremos o valor hard coded
-   */
-  if (!value) {
-    value = _hasModelAtList(WITH_TOUCH);
-  }
-
-  // Finalmente podemos retornar o valor dela, com negação.
-  return !value;
+  return !hasTouch();
 }
 
 /**
@@ -363,9 +355,9 @@ export const NO_PRINTER = [MODELS.MP35, MODELS.D199, MODELS.D195];
  * @returns {boolean}
  */
 export function hasPrinter() {
-  /** negação explicada e comentada em hasNoTouch() */
   let value = VerifyMethodOnSystemWrapper('hasPrinter');
 
+  /** negation explained on hasNoTouch() */
   if (typeof value === 'undefined') {
     value = !_hasModelAtList(NO_PRINTER);
   }
@@ -378,7 +370,7 @@ export function hasPrinter() {
  * @returns {boolean}
  */
 export function hasNoPrinter() {
-  return !hasPrinter;
+  return !hasPrinter();
 }
 
 /**
@@ -478,5 +470,9 @@ export function getDeviceCapabilitiesClassList() {
     // DEPRECATED
     hasFunctionKeys() && 'has-function-keys',
     hasHighDPI() && 'has-high-dpi',
+    isStandardModel() && 'is-standard-model',
+    isPAXDevices() && 'is-pax',
+    isVerifoneDevices() && 'is-verifone',
+    isGertecDevices() && 'is-gertec',
   ].filter(Boolean);
 }

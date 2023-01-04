@@ -3,6 +3,43 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [7.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/utils@7.0.0...@mamba/utils@7.0.1) (2022-12-28)
+
+
+### Bug Fixes
+
+* 🐛 rollback isStandardModel ([379fff6](https://github.com/stone-payments/pos-mamba-sdk/commit/379fff6c76f518cc875d70fc51bff4330c0ca268))
+
+
+
+## [7.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/utils@6.0.0...@mamba/utils@7.0.0) (2022-12-26)
+
+
+### Features
+
+* 🎸 Q92S on PAX Devices ([7cf50b3](https://github.com/stone-payments/pos-mamba-sdk/commit/7cf50b31895e8a718ea4e735e26de8a2c6f0b156))
+
+
+### Bug Fixes
+
+* 🐛 adjustments on Models ([1ec412e](https://github.com/stone-payments/pos-mamba-sdk/commit/1ec412edd2df549f2b8ff58410ecae8967653994))
+* 🐛 getPosModel ([bab1ee3](https://github.com/stone-payments/pos-mamba-sdk/commit/bab1ee31dbb1805732d284c028f15bd256990e25))
+* 🐛 method typo and comments ([07bceb0](https://github.com/stone-payments/pos-mamba-sdk/commit/07bceb01026a2a9ac5c83b36d46f3ef28078f765))
+* 🐛 pr requests ([74330bd](https://github.com/stone-payments/pos-mamba-sdk/commit/74330bddd95a5cee0d184b129e3d9c051d3989a8))
+* 🐛 remove redundant code ([d3c4a95](https://github.com/stone-payments/pos-mamba-sdk/commit/d3c4a95bd299a1e36f00bb90d4209dfc677049b3))
+* 🐛 VerifyMethod logic ([4cefe10](https://github.com/stone-payments/pos-mamba-sdk/commit/4cefe1048261cc2c9bdba89e7f61e8b540af741a))
+
+
+
+## [6.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/utils@5.3.0...@mamba/utils@6.0.0) (2022-12-19)
+
+
+### Bug Fixes
+
+* 🐛 added css classes & minor fixes ([34bcaa4](https://github.com/stone-payments/pos-mamba-sdk/commit/34bcaa48b7405d54f8849b3a85ae607e01e60d73))
+
+
+
 ### [5.3.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/utils@5.3.0...@mamba/utils@5.3.1) (2022-12-16)
 
 

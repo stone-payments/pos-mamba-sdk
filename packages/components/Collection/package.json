@@ -1,6 +1,6 @@
 {
   "name": "@mamba/collection",
-  "version": "4.3.1",
+  "version": "5.0.0",
   "svelte": "Collection.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -12,8 +12,8 @@
     "access": "public"
   },
   "devDependencies": {
-    "@mamba/styles": "4.4.1",
-    "@mamba/switch": "5.3.1"
+    "@mamba/styles": "5.0.0",
+    "@mamba/switch": "6.0.0"
   },
   "peerDependencies": {
     "@mamba/icon": ">=3"
