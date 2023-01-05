@@ -16,7 +16,7 @@ import Input from '@mamba/input';
 import MoneyInput from '@mamba/input/Money.html';
 ```
 
-| Parâmetross        | Descrição                                                                                                                                                                                                                                                                                                          | Tipo           | Padrão      |
+| Propriedades       | Descrição                                                                                                                                                                                                                                                                                                          | Tipo           | Padrão      |
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------- | ----------- |
 | align              | Alinha a entrada de acordo com parâmetro (`left`, `right`)                                                                                                                                                                                                                                                         | `string`       | `'right'`   |
 | alphanumeric       | Define o modo de entrada como alfanumérico                                                                                                                                                                                                                                                                         | `boolean`      | `false`     |
@@ -42,7 +42,7 @@ import MoneyInput from '@mamba/input/Money.html';
 
 ### Money
 
-| Parâmetross     | Descrição                                                                                                     | Tipo                 | Padrão  |
+| Propriedades    | Descrição                                                                                                     | Tipo                 | Padrão  |
 | --------------- | ------------------------------------------------------------------------------------------------------------- | -------------------- | ------- |
 | value           | Valor do input em centavos                                                                                    | `string` or `number` | `0`     |
 | readonlyOnEnter | Faz com que o campo se torne somente leitura no keypress do `enter` e se o valor em centavos for igual a zero | `boolean`            | `false` |
