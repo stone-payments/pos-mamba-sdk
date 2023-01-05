@@ -160,10 +160,6 @@ class PhysicalKeyboard {
          */
         this.keyboardInstance.handleDOMInputDataset();
 
-        /**
-         * If an input receives focus, the next tick will dice to update the virtual keyboard cursor position with the focused input position.
-         */
-        // setTimeout(() => this.shouldOnFocusUpdateCursorPosition(input));
         return;
       }
 
