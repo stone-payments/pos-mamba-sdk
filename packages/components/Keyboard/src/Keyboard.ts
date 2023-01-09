@@ -341,8 +341,26 @@ class Keyboard {
         this.handleKeyboardVisibility();
       }
 
-      if (!options.updateMode) {
+      if (
+        // No options and no incoming update mode at all
+        (!this.options && !options.updateMode) ||
+        // or we have options but no update mode in it.
+        (this.options && !this.options.updateMode)
+      ) {
+        // ... set the default to auto
         options.updateMode = KeyboardUpdateMode.Auto;
+      } else if (
+        // If update mode changed, we need to check its value,
+        changed.indexOf('updateMode') !== -1 &&
+        // so it needs to be auto or manual, otherwise use auto.
+        options.updateMode !== KeyboardUpdateMode.Auto &&
+        options.updateMode !== KeyboardUpdateMode.Manual
+      ) {
+        // ... keep last value or auto
+        options.updateMode =
+          this.options && this.options.updateMode
+            ? this.options.updateMode
+            : KeyboardUpdateMode.Auto;
       }
 
       /**
