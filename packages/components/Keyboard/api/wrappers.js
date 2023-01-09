@@ -17,6 +17,7 @@ export default function (driver) {
   if (!driver.reset) driver.reset = notInitialized;
   if (!driver.shouldUpdateKeyboardView) driver.shouldUpdateKeyboardView = notInitialized;
   if (!driver.destroy) driver.destroy = notInitialized;
+  if (!driver.updateSoundEnabledState) driver.updateSoundEnabledState = notInitialized;
 
   // Original Keyboard methods
   const $KeyboardSetAsAlphanumeric = driver.setKeyboardAsAlphanumeric;

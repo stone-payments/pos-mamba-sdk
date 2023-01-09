@@ -299,6 +299,11 @@ class Keyboard {
      */
     this.parseOptionsUpdated(options);
 
+    /**
+     * Update initial sound enabled state
+     */
+    this.updateSoundEnabledState(options);
+
     /** Prevent mistouch lose input focus */
     keyboardDOM.onmousedown = (event) => {
       event.preventDefault();
@@ -317,7 +322,7 @@ class Keyboard {
    * @param keyboardOptions
    * @returns Some options that need be parsed
    */
-  private parseOptionsUpdated(options?: KeyboardOptions): void {
+  private parseOptionsUpdated(options?: KeyboardOptions, changed: string[] = []): void {
     if (!options) return;
 
     if (typeof options === 'object') {
@@ -340,10 +345,11 @@ class Keyboard {
         options.updateMode = KeyboardUpdateMode.Auto;
       }
 
-      if (!options.soundEnabled && window.Sound) {
-        options.soundEnabled = window.Sound.isEnabled();
-      } else {
-        options.soundEnabled = false;
+      /**
+       * Update sound enabled state if the props changed
+       */
+      if (changed.indexOf('soundEnabled') !== -1) {
+        this.updateSoundEnabledState(options);
       }
 
       /**
@@ -354,6 +360,22 @@ class Keyboard {
         if (pattern) {
           options.inputPattern = new RegExp(pattern);
         }
+      }
+    }
+  }
+
+  /**
+   * Update sound enabled state from user config
+   */
+  public updateSoundEnabledState(options?: KeyboardOptions) {
+    try {
+      const { soundEnabled } = options || this.options;
+      if (soundEnabled === false) return;
+
+      (this.options || options).soundEnabled = window.Sound && window.Sound.isEnabled();
+    } catch (e) {
+      if (__DEV__) {
+        console.error(e);
       }
     }
   }
@@ -561,7 +583,7 @@ class Keyboard {
     /**
      * Parse some options that need be checked first.
      */
-    this.parseOptionsUpdated(options);
+    this.parseOptionsUpdated(options, changedOptions);
 
     /**
      * Cease ou setup cursor events again
@@ -907,6 +929,7 @@ class Keyboard {
       'setKeyboardAsPhoneType',
       'setKeyboardAsCustomType',
       'shouldUpdateKeyboardView',
+      'updateSoundEnabledState',
       'destroy',
     ];
 
@@ -1011,6 +1034,13 @@ class Keyboard {
      * Call active class handler
      */
     this.handleActiveButton(e);
+
+    if (this.options.soundEnabled === true) {
+      /**
+       * Pontually handle beep sound on key press for manual update mode
+       */
+      PhysicalKeyboard.handleBeepSound(this.options);
+    }
 
     /**
      * Calling onKeyPress
@@ -1146,11 +1176,6 @@ class Keyboard {
           e,
         );
       }
-    } else if (this.options.soundEnabled === true) {
-      /**
-       * Pontually handle beep sound on key press for manual update mode
-       */
-      PhysicalKeyboard.handleBeepSound(this.options);
     }
   }
 

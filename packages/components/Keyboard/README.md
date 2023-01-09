@@ -358,9 +358,12 @@ interface KeyboardOptions {
   autoRender?: boolean;
 
   /**
-   * Make beep sound for every key press
-   * ! This do not disable POS sound entirely. Only for this Keyboard instance
-   * @defaultValue System preference depending of the app, otherwise `false`
+   * Make beep sound for every key press.
+   * ! If set to `false`, you'll do not disable POS sound entirely. Only for this Keyboard instance.
+   * If set to `true`, system sound preference will prevail(can be enabled or disable).
+   * Other value different from boolean, will use system sound preference.
+   * In other words, you can only disable sound of virtual keyboard but not force enable it.
+   * @defaultValue System sound preference.
    */
   soundEnabled?: boolean;
 
@@ -784,6 +787,10 @@ Destroi o teclado virtual, remove seus ouvintes e elementos do DOM. Este método
 ### `shouldUpdateKeyboardView(): void`
 
 Atualiza os estilos automáticos do teclado virtual. Normalmente posicionamento na tela.
+
+### `updateSoundEnabledState(): void`
+
+Atualiza o estado do som do teclado virtual com base nas configurações do POS.
 
 ## Enumeradores
 

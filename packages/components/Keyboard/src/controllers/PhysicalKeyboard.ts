@@ -320,6 +320,10 @@ class PhysicalKeyboard {
         options.beepTone || PhysicalKeyboard.beepTone,
         options.beepTime || PhysicalKeyboard.beepTime,
       );
+
+      if (options.debug) {
+        console.log('Handle beep sound on virtual keyboard.');
+      }
     } catch (e) {
       console.log(e);
     }
@@ -461,13 +465,6 @@ class PhysicalKeyboard {
         buttonType === ButtonType.Standard,
       ),
     );
-
-    /**
-     * Make beep sound for the key press
-     */
-    if (options.soundEnabled === true) {
-      PhysicalKeyboard.handleBeepSound(options);
-    }
 
     this.dispatchingEvent = true;
 
