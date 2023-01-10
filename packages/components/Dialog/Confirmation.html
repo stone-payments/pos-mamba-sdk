@@ -19,13 +19,13 @@
             <button
               class="action negative"
               style={_negativeLabelStyle}
-              on:click="close('negative')"
+              on:click="close('negative', 'touch')"
               shortcut="close"
             >
               {negativeLabel}
             </button>
           {:else}
-            <div class="action" on:click="close('negative')" shortcut="close">
+            <div class="action" on:click="close('negative', 'touch')" shortcut="close">
               <RoundIcon
                 symbol="close"
                 size="giant"
@@ -41,13 +41,13 @@
             <button
               class="action positive"
               style={_positiveLabelStyle}
-              on:click="close('positive')"
+              on:click="close('positive', 'touch')"
               shortcut="enter"
             >
               {positiveLabel}
             </button>
           {:else}
-            <div class="action" on:click="close('positive')" shortcut="enter">
+            <div class="action" on:click="close('positive', 'touch')" shortcut="enter">
               <RoundIcon
                 symbol="check"
                 size="giant"
@@ -118,17 +118,19 @@
           e.stopImmediatePropagation();
           e.preventDefault();
 
-          if (isEnter) this.close('positive');
-          if (isClose) this.close('negative');
+          if (isEnter) this.close('positive', 'keyboard');
+          if (isClose) this.close('negative', 'keyboard');
         }
       },
       open(duration) {
         return this.refs.dialog.open(duration);
       },
-      close(event) {
+      close(event, handler) {
         return this.refs.dialog.close().then(() => {
           if (event) {
-            this.fire(event);
+            this.fire(event, {
+              handler,
+            });
           }
         });
       },
