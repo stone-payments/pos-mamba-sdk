@@ -1417,6 +1417,13 @@ class Keyboard {
     this.clearRows();
 
     /**
+     * Clear suggestion box if any
+     */
+    if (this.suggestionsBox) {
+      this.suggestionsBox.reset();
+    }
+
+    /**
      * Stops if not allowed to render by condition
      */
     if (!this.isRenderAllowed) {
