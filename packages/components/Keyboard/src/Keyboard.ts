@@ -62,6 +62,8 @@ class Keyboard {
 
   hiddenKeyboardClass: string = ClassNames.hiddenKeyboardClassDefault;
 
+  disabledKeyboardClass: string = ClassNames.disabledKeyboardClassDefault;
+
   initialized = false;
 
   keyboardRowsDOM!: KeyboardElement;
@@ -1343,6 +1345,7 @@ class Keyboard {
       ClassNames.keyBoardPrefix,
       this.keyboardDOMClass,
       this.options.debug && 'debug',
+      this.options.disabled && this.disabledKeyboardClass,
       variation && getVariationClass(variation),
       ...baseDOMClasses,
     ].filter(Boolean);
