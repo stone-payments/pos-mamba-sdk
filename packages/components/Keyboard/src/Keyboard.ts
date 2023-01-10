@@ -383,22 +383,6 @@ class Keyboard {
   }
 
   /**
-   * Update sound enabled state from user config
-   */
-  public updateSoundEnabledState(options?: KeyboardOptions) {
-    try {
-      const { soundEnabled } = options || this.options;
-      if (soundEnabled === false) return;
-
-      (this.options || options).soundEnabled = window.Sound && window.Sound.isEnabled();
-    } catch (e) {
-      if (__DEV__) {
-        console.error(e);
-      }
-    }
-  }
-
-  /**
    * Define keyboard type and its properties
    *
    * @param keyboardOptions
@@ -409,10 +393,13 @@ class Keyboard {
   ): KeyboardTypesPredefinedOptions | undefined {
     if (!keyboardOptions || typeof keyboardOptions !== 'object') return undefined;
 
-    const keyboardType: KeyboardType = keyboardOptions.keyboardType || KeyboardType.Default;
+    const keyboardType: KeyboardType =
+      keyboardOptions.keyboardType ||
+      (this.options && this.options.keyboardType) ||
+      KeyboardType.Default;
 
     /**
-     * Reset last properties
+     * Reset last keyboard properties
      */
     if (this.options) {
       delete this.options.layoutName;
@@ -431,7 +418,9 @@ class Keyboard {
     /**
      * Handle suggestions box
      */
-    const { enableLayoutSuggestions = true } = keyboardOptions;
+    const enableLayoutSuggestionsDefault =
+      (this.options && this.options.enableLayoutSuggestionsDefault) || true;
+    const { enableLayoutSuggestions = enableLayoutSuggestionsDefault } = keyboardOptions;
     if (
       (keyboardType !== KeyboardType.Default && this.suggestionsBox) ||
       (this.suggestionsBox && !enableLayoutSuggestions)
@@ -483,6 +472,70 @@ class Keyboard {
   /**
    * ! Methods
    */
+
+  /**
+   * Sets new option or modify existing ones after initialization.
+   * @param options The options to set
+   */
+  public setOptions(options: KeyboardOptions = {}): void {
+    const changedOptions = this.changedOptions(options);
+
+    /**
+     * Parse some options that need be checked first.
+     */
+    this.parseOptionsUpdated(options, changedOptions);
+
+    /**
+     * Cease ou setup cursor events again
+     */
+    if (options.readonly === true) {
+      this.cursorWorker.ceaseCursorEventsControl();
+    } else {
+      this.cursorWorker.setupCursorEventsControl();
+    }
+
+    this.options = merge(this.options, this.parseKeyboardTypeOptions(options), options);
+
+    /**
+     * Recreates or destroy physical keyboard handler
+     */
+    if (this.options.updateMode === KeyboardUpdateMode.Manual && this.physicalKeyboard) {
+      this.physicalKeyboard.destroy();
+      this.physicalKeyboard = undefined;
+    } else if (this.options.updateMode === KeyboardUpdateMode.Auto && !this.physicalKeyboard) {
+      this.physicalKeyboard = new PhysicalKeyboard({
+        getOptions: this.getOptions,
+        keyboardInstance: this,
+      });
+    }
+
+    if (changedOptions.length) {
+      if (this.options.debug) {
+        console.log('changedOptions', changedOptions);
+      }
+
+      /**
+       * Updating keyboard
+       */
+      this.render();
+    }
+  }
+
+  /**
+   * Update sound enabled state from user config
+   */
+  public updateSoundEnabledState(options?: KeyboardOptions) {
+    try {
+      const { soundEnabled } = options || this.options;
+      if (soundEnabled === false) return;
+
+      (this.options || options).soundEnabled = window.Sound && window.Sound.isEnabled();
+    } catch (e) {
+      if (__DEV__) {
+        console.error(e);
+      }
+    }
+  }
 
   /**
    * Handles dataset of HTML input and parse its options
@@ -589,54 +642,6 @@ class Keyboard {
    */
   public replaceInput(keyboardInput: KeyboardInput): void {
     this.input = keyboardInput;
-  }
-
-  /**
-   * Sets new option or modify existing ones after initialization.
-   * @param options The options to set
-   */
-  public setOptions(options: KeyboardOptions = {}): void {
-    const changedOptions = this.changedOptions(options);
-
-    /**
-     * Parse some options that need be checked first.
-     */
-    this.parseOptionsUpdated(options, changedOptions);
-
-    /**
-     * Cease ou setup cursor events again
-     */
-    if (options.readonly === true) {
-      this.cursorWorker.ceaseCursorEventsControl();
-    } else {
-      this.cursorWorker.setupCursorEventsControl();
-    }
-
-    this.options = merge(this.options, this.parseKeyboardTypeOptions(options), options);
-
-    /**
-     * Recreates or destroy physical keyboard handler
-     */
-    if (this.options.updateMode === KeyboardUpdateMode.Manual && this.physicalKeyboard) {
-      this.physicalKeyboard.destroy();
-      this.physicalKeyboard = undefined;
-    } else if (this.options.updateMode === KeyboardUpdateMode.Auto && !this.physicalKeyboard) {
-      this.physicalKeyboard = new PhysicalKeyboard({
-        getOptions: this.getOptions,
-        keyboardInstance: this,
-      });
-    }
-
-    if (changedOptions.length) {
-      if (this.options.debug) {
-        console.log('changedOptions', changedOptions);
-      }
-
-      /**
-       * Updating keyboard
-       */
-      this.render();
-    }
   }
 
   /**
