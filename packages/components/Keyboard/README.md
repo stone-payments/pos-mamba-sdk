@@ -148,7 +148,7 @@ Para exemplos de uso, [veja aqui](./EXAMPLES.md).
 
 ## Opções do teclado virtual
 
-Tenha cuidado se tiver mais de um campo de entrada na mesma página, pois essas são propriedades globais do teclado (O que se aplicar para um `<Input />`, será aplicado para todos).
+Tenha cuidado se tiver mais de um campo de entrada na mesma página, pois essas são propriedades globais do teclado (O que se aplicar para um `<Input />`, será aplicado para todos) no modo `KeyboardUpdateMode.Auto`. Se precisar trabalhar com mais de um campo por página, utilize a propriedade `input` e/ou `updadeMode = KeyboardUpdateMode.Manual`.
 
 ````ts
 interface KeyboardOptions {
@@ -256,6 +256,7 @@ interface KeyboardOptions {
   /**
    * Enabled or disables keyboard events and actions.
    * This property do not change keybpard visibility.
+   * It also adds a class name to the keyboard element, but the disabled style is up to you using :global css.
    */
   disabled?: boolean;
 
