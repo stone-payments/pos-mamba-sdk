@@ -34,7 +34,7 @@ class SuggestionBox {
    * Destruct its elements and remove it from keyboard
    */
   destroy() {
-    this.clearBox();
+    this.reset();
   }
 
   reset() {
@@ -60,7 +60,11 @@ class SuggestionBox {
       return false;
     }
 
-    const suggestionFound: string | undefined = DEFAULT_SUGGESTIONS[keyCandidate];
+    const { layoutSuggestions } = this.getOptions();
+
+    const suggestionFound: string | undefined = (layoutSuggestions || DEFAULT_SUGGESTIONS)[
+      keyCandidate
+    ];
     if (suggestionFound) {
       this.candidate = keyCandidate;
       this.render(suggestionFound.split(' '));
