@@ -319,10 +319,6 @@ class PhysicalKeyboard {
         options.beepTone || PhysicalKeyboard.beepTone,
         options.beepTime || PhysicalKeyboard.beepTime,
       );
-
-      if (options.debug) {
-        console.log('Handle beep sound on virtual keyboard.');
-      }
     } catch (e) {
       console.log(e);
     }
