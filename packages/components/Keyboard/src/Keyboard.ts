@@ -879,41 +879,51 @@ class Keyboard {
       this.suggestionsBox.destroy();
     }
 
-    /**
-     * Removes wrappers mouse down event
-     */
-    this.keyboardDOM.onmousedown = null;
+    try {
+      /**
+       * Removes wrappers mouse down event
+       */
+      this.keyboardDOM.onmousedown = null;
 
-    const layoutDirection = this.options.layoutDirection || this.defaultLayoutDirection;
+      const layoutDirection = this.options.layoutDirection || this.defaultLayoutDirection;
 
-    const rowDOM = this.keyboardRowsDOM.querySelector(
-      layoutDirection === LayoutDirection.Vertical ? ClassNames.columnPrefix : ClassNames.rowPrefix,
-    ) as HTMLDivElement;
+      const rowDOM = this.keyboardRowsDOM.querySelector(
+        layoutDirection === LayoutDirection.Vertical
+          ? ClassNames.columnPrefix
+          : ClassNames.rowPrefix,
+      ) as HTMLDivElement;
 
-    if (rowDOM) rowDOM.onmousedown = null;
+      if (rowDOM) rowDOM.onmousedown = null;
+    } catch (_) {
+      // do nothing, maybe the DOMs do not exist anymore.
+    }
 
-    /**
-     * Removes buttons callback
-     */
-    const removeButton = (buttonElement: KeyboardElement | null) => {
-      if (buttonElement) {
-        buttonElement.onmousedown = null;
-        buttonElement.onclick = null;
+    try {
+      /**
+       * Removes buttons callback
+       */
+      const removeButton = (buttonElement: KeyboardElement | null) => {
+        if (buttonElement) {
+          buttonElement.onmousedown = null;
+          buttonElement.onclick = null;
 
-        buttonElement.parentElement?.removeChild(buttonElement);
-        buttonElement = null;
-      }
-    };
+          buttonElement.parentElement?.removeChild(buttonElement);
+          buttonElement = null;
+        }
+      };
 
-    /**
-     * Remove buttons
-     */
-    Object.keys(this.buttonElements).forEach((buttonName) =>
-      this.buttonElements[buttonName].forEach(removeButton),
-    );
+      /**
+       * Remove buttons
+       */
+      Object.keys(this.buttonElements).forEach((buttonName) =>
+        this.buttonElements[buttonName].forEach(removeButton),
+      );
 
-    this.keyboardDOM.innerHTML = '';
-    this.keyboardDOM.parentElement?.removeChild(this.keyboardDOM);
+      this.keyboardDOM.innerHTML = '';
+      this.keyboardDOM.parentElement?.removeChild(this.keyboardDOM);
+    } catch (_) {
+      // do nothing, maybe the DOMs do not exist anymore.
+    }
 
     /**
      * Removes instance
