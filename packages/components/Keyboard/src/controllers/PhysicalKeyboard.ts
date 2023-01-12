@@ -298,11 +298,6 @@ class PhysicalKeyboard {
    */
   handleDOMInputChange(event: any) {
     setTimeout(() => {
-      const options = this.getOptions();
-      if (options.debug) {
-        console.log(`Handle DOM input changes`, event);
-      }
-
       const target = event.target || undefined;
       if (target && isProperInput(target)) {
         const input = target as HTMLInputElement;
@@ -486,9 +481,11 @@ class PhysicalKeyboard {
 
         targetDOMInput.value = input;
 
-        // Modifying input value, make its cursor moves to the end,
-        // so we need to update to the last value it was.
-        this.keyboardInstance.cursorWorker.updateCursorPos(0, false, true, targetDOMInput);
+        if (!options.lockCursor) {
+          // Modifying input value, make its cursor moves to the end,
+          // so we need to update to the last value it was.
+          this.keyboardInstance.cursorWorker.updateCursorPos(0, false, true, targetDOMInput);
+        }
       }
     }
 

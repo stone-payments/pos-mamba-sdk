@@ -13,7 +13,7 @@
   on:submit="_onSubmit()"
   on:submitValid="_onSubmitValid()"
   on:submitInvalid="_onSubmitInvalid()"
-  keyboardOptions={{...keyboardOptions, inputPattern: virtualKeyboardPattern}}
+  {keyboardOptions}
 />
 
 <script>
@@ -47,7 +47,6 @@
       return {
         value: 0,
         prefix: 'R$ ',
-        virtualKeyboardPattern: /^R\$\s?[\d.]+(,\d*)?$/,
         suffix: '',
         limit: CURRENCY.LIMIT,
         validation: undefined,

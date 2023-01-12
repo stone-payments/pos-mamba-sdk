@@ -66,6 +66,8 @@ class Keyboard {
 
   initialized = false;
 
+  exist = false;
+
   keyboardRowsDOM!: KeyboardElement;
 
   keyboardType: KeyboardType = KeyboardType.Default;
@@ -1230,6 +1232,9 @@ class Keyboard {
    */
   private handleKeyboardVisibility(visibility = KeyboardVisibility.Visible) {
     if (!this.isRenderAllowed) return;
+    if (this.options.autoRender === false && !this.initialized) {
+      return;
+    }
     /**
      * Set the instance visibility
      */
@@ -1281,6 +1286,7 @@ class Keyboard {
 
     this.keyboardDOM.className = this.keyboardDOMClass;
     this.buttonElements = {};
+    this.exist = false;
   }
 
   /**
@@ -1443,6 +1449,8 @@ class Keyboard {
     if (!this.initialized) {
       this.beforeFirstRender();
     }
+
+    this.exist = true;
 
     /**
      * Calling beforeRender

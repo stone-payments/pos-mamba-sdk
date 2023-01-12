@@ -28,7 +28,7 @@
     oncreate() {
       this.root.on('router:change', (context = {}) => {
         try {
-          if (!(document.activeElement instanceof HTMLInputElement) && keyboard) {
+          if (keyboard) {
             keyboard.unmount();
             if (context.init) return;
             if (context.path.length === 1) return;
