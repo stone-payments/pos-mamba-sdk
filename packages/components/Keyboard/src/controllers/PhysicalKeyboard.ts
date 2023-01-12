@@ -156,6 +156,11 @@ class PhysicalKeyboard {
         this.addDOMInputEventListeners(input);
 
         /**
+         * Update cursor of focused input if the cursor
+         */
+        this.shouldOnFocusUpdateCursorPosition(input);
+
+        /**
          * Handle focused input data set
          */
         this.keyboardInstance.handleDOMInputDataset();

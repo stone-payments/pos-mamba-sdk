@@ -362,6 +362,10 @@ class CursorWorker {
 
     const input = customTarget || this.cursorInputTarget || options.input;
 
+    if (options.debug) {
+      console.log(`Set cursor positons to ${position} start, ${endPosition} end.`);
+    }
+
     /**
      * Try move cursor
      */
