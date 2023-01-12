@@ -52,34 +52,38 @@ export default function (driver) {
    */
   driver.setKeyboardAsAlphanumeric = driver.setKeyboardInputAsAlphanumeric;
 
-  /**
-   * Keyboard instance shortcut.
-   */
-  Object.defineProperty(driver, 'virtualKeyboard', {
-    get() {
-      return getKeyboardInstance();
-    },
-    configurable: true, // Make it possible to configure every time.
-    enumerable: true,
-  });
+  try {
+    /**
+     * Keyboard instance shortcut.
+     */
+    Object.defineProperty(driver, 'virtualKeyboard', {
+      get() {
+        return getKeyboardInstance();
+      },
+      configurable: true, // Make it possible to configure every time.
+      enumerable: true,
+    });
 
-  /**
-   * Rewrite driver get/set of keyboard visibility
-   */
-  Object.defineProperty(driver, 'visibility', {
-    configurable: true,
-    get() {
-      const _keyboard = getKeyboardInstance();
-      if (_keyboard) return _keyboard.visibility;
-      return undefined;
-    },
-    set(value) {
-      const _keyboard = getKeyboardInstance();
-      if (_keyboard) {
-        _keyboard.visibility = value;
-      }
-    },
-  });
+    /**
+     * Rewrite driver get/set of keyboard visibility
+     */
+    Object.defineProperty(driver, 'visibility', {
+      configurable: true,
+      get() {
+        const _keyboard = getKeyboardInstance();
+        if (_keyboard) return _keyboard.visibility;
+        return undefined;
+      },
+      set(value) {
+        const _keyboard = getKeyboardInstance();
+        if (_keyboard) {
+          _keyboard.visibility = value;
+        }
+      },
+    });
+  } catch (_) {
+    // properties already defined
+  }
 
   /**
    * Find the key code of given list and key map
