@@ -210,7 +210,7 @@ class Keyboard {
     /**
      * Rendering keyboard
      */
-    const { autoRender = true } = this.options;
+    const { autoRender = false } = this.options;
     if (this.keyboardDOM) {
       if (this.isRenderAllowed && (autoRender || this.options.keepVisible)) {
         this.render();
