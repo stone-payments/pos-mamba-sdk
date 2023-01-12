@@ -405,10 +405,7 @@ class CursorWorker {
    */
   shouldFilterNumericValue(value: string): string {
     const options = this.getOptions();
-    if (
-      options.filtersNumbersOnly === true ||
-      !this.keyboardInstance.generalKeyboard.alphanumericEnabled === true
-    ) {
+    if (options.filtersNumbersOnly === true) {
       value = value.replace(/\D/g, '');
     }
     return value;

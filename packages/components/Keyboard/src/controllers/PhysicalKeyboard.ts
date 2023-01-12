@@ -133,10 +133,6 @@ class PhysicalKeyboard {
       if (avoidExternals) return;
     }
 
-    if (!this.keyboardInstance.exist) {
-      return;
-    }
-
     /**
      * Handle focused target
      */
