@@ -462,6 +462,7 @@ export function getDeviceCapabilitiesClassList() {
     hasPrinter() && 'has-printer',
     hasKeyboard() && 'has-keyboard',
     hasArrowNavigation() && 'has-arrow-navigation',
+    hasKeyboardLight() && 'has-keyboard-light',
     // NETWORK
     hasEthernet() && 'has-ethernet',
     hasWifi() && 'has-wifi',

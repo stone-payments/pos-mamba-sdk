@@ -11,6 +11,7 @@ const layoutNamePrefix = `${layoutPrefix}-name`;
 const buttonPrefix = `${prefix}-button`;
 const activeButtonClassDefault = `${prefix}-active`;
 const hiddenKeyboardClassDefault = `${keyBoardPrefix}-hidden`;
+const disabledKeyboardClassDefault = `${keyBoardPrefix}-disabled`;
 const themePrefix = `${keyBoardPrefix}-theme`;
 const themeDefault = `${themePrefix}-default`;
 const suggestionBox = `${prefix}-suggestions`;
@@ -30,6 +31,7 @@ export {
   buttonPrefix,
   activeButtonClassDefault,
   hiddenKeyboardClassDefault,
+  disabledKeyboardClassDefault,
   themePrefix,
   themeDefault,
   suggestionBox,

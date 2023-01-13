@@ -3,38 +3,36 @@
 O módulo `Collection` é composto por dois componentes: `Collection` e `Row`, que juntos ajudam a organizar itens em listas.
 `Collection` é um conjunto de `Row` de um assunto comum, semelhante a uma tabela com apenas uma coluna e diversas linhas.
 
-
-
 `<Collection ...props />`
 
-| Parâmetros   | Descrição                         | Tipo               | Padrão        |
-|-------------|-----------------------------------|--------------------|---------------|
-| title       | Título da coleção                 | `string`           | `undefined`   |
+| Propriedades | Descrição         | Tipo     | Padrão      |
+| ------------ | ----------------- | -------- | ----------- |
+| title        | Título da coleção | `string` | `undefined` |
 
 `<Row ...props />`
 
-| Parâmetros   | Descrição                         | Tipo               | Padrão        |
-|-------------|-----------------------------------|--------------------|---------------|
-| label        | Texto da linha  | `string`           | `''`   |
-| leftLabel        | Igual a prop `label`   | `string`           | `''`   |
-| rightLabel  | Texto que é exibido no canto direito da linha | `string` | `undefined` |
-| description | Texto de descrição abaixo do título          | `string`           | `undefined`   |
-| href        | Link acionado quando a `<Row/>` é clicada  | `string`           | `undefined`   |
-| showExtra   | Mostra o conteúdo extra           | `boolean`          | `false`       |
-| shortcut    | Tecla de atalho para a ação da `<Row/>`: `0..9`,`enter`,`shortcuts`,`help` | `string` (keyname) | `undefined`   |
-| bgColor | Cor de fundo da linha | `string`| `undefined`|
-| primaryColor | Cor primária da linha | `string`| `undefined`|
-| secondaryColor | Cor secundária da linha | `string`| `undefined`|
+| Propriedades   | Descrição                                                                  | Tipo               | Padrão      |
+| -------------- | -------------------------------------------------------------------------- | ------------------ | ----------- |
+| label          | Texto da linha                                                             | `string`           | `''`        |
+| leftLabel      | Igual a prop `label`                                                       | `string`           | `''`        |
+| rightLabel     | Texto que é exibido no canto direito da linha                              | `string`           | `undefined` |
+| description    | Texto de descrição abaixo do título                                        | `string`           | `undefined` |
+| href           | Link acionado quando a `<Row/>` é clicada                                  | `string`           | `undefined` |
+| showExtra      | Mostra o conteúdo extra                                                    | `boolean`          | `false`     |
+| shortcut       | Tecla de atalho para a ação da `<Row/>`: `0..9`,`enter`,`shortcuts`,`help` | `string` (keyname) | `undefined` |
+| bgColor        | Cor de fundo da linha                                                      | `string`           | `undefined` |
+| primaryColor   | Cor primária da linha                                                      | `string`           | `undefined` |
+| secondaryColor | Cor secundária da linha                                                    | `string`           | `undefined` |
 
 ## Eventos
 
 `<Row ... on:event="..."/>`
 
-| Eventos     | Disparado quando ...           | Tipo        |
-|-------------|--------------------------------|-------------|
-| click       | Uma Row é clicada              |`function()` |
-| showExtra   | O conteúdo extra é exibido     |`function()` |
-| hideExtra   | O conteúdo extra é escondido   |`function()` |
+| Eventos   | Disparado quando ...         | Tipo         |
+| --------- | ---------------------------- | ------------ |
+| click     | Uma Row é clicada            | `function()` |
+| showExtra | O conteúdo extra é exibido   | `function()` |
+| hideExtra | O conteúdo extra é escondido | `function()` |
 
 #### Exemplos:
 
@@ -60,9 +58,9 @@ Quando o conteúdo em `extra` for escondido, executa o método `myMethod()`.
 
 `<Row ... />`
 
-| Slot        | Descrição                                                                                  |
-|-------------|--------------------------------------------------------------------------------------------|
-| right-sign  | Adiciona html customizado ao lado esquerdo da *label*                                      |
-| left-sign   | Adiciona html customizado ao lado direito da *rightLabel*                                  |
-| description | Adiciona uma descrição à `Row`                                                             |
-| extra       | Adiciona conteúdo adicional após o contéudo da `Row`                                       |
+| Slot        | Descrição                                                 |
+| ----------- | --------------------------------------------------------- |
+| right-sign  | Adiciona html customizado ao lado esquerdo da _label_     |
+| left-sign   | Adiciona html customizado ao lado direito da _rightLabel_ |
+| description | Adiciona uma descrição à `Row`                            |
+| extra       | Adiciona conteúdo adicional após o contéudo da `Row`      |

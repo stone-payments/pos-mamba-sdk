@@ -428,7 +428,11 @@ export interface KeyboardControllerParams {
   keyboardInstance: Keyboard;
 }
 
-export type onSuggestionSelect = (button: string, e?: KeyboardHandlerEvent) => void;
+export type onSuggestionSelect = (
+  button: string,
+  candidate: string,
+  e?: KeyboardHandlerEvent,
+) => void;
 
 export type CursorWorkerParams = KeyboardControllerParams;
 export type PhysicalKeyboardParams = KeyboardControllerParams;

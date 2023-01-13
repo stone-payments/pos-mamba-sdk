@@ -6,6 +6,7 @@ Este módulo oferece uma série de funcionalidades referente ao telcado físico,
 
 #### ◼︎ Adicine o componente `<Keyboard/>` na raiz do seu projeto.
 
+<!-- prettier-ignore -->
 ```html
 <Keyboard />
 
@@ -20,8 +21,9 @@ Este módulo oferece uma série de funcionalidades referente ao telcado físico,
 
 #### ◼︎ Ou adicine o componente `<Keyboard/>` em uma rota específica, podendo assimm passar alguma de suas propriedades pelo HTML.
 
+<!-- prettier-ignore -->
 ```html
-<Keyboard keyboardType="{KeyboardType.Math}" />
+<Keyboard keyboardType={KeyboardType.Math} />
 
 <script>
   import { KeyboardType } from '@mamba/keyboard/lib/index.js';
@@ -74,67 +76,79 @@ Keyboard.setOptions({
 Keyboard.hide();
 ```
 
-## Eventos
+### Boas Práticas e Dicas
 
-```ts
-type FunctionKeyPressCallback = (
-  button: string,
-  instance: Keyboard,
-  e?: KeyboardHandlerEvent,
-) => void;
+- Por hora, o teclado virtual nunca será iniciado em POS's menores, então não é necessário iniciar seu componente para esses casos, para não usar processamento e memória desnecessariamente
 
-interface KeyboardTypeEvents {
-  /**
-   * Executes thae callback function when virtual keyboard rendered by the first time.
-   * @event
-   */
-  beforeFirstRender?: (instance: Keyboard) => void;
-
-  /**
-   * Executes a callback function before a virtual keyboard render.
-   * @event
-   */
-  beforeRender?: (instance: Keyboard) => void;
-
-  /**
-   * Executes a callback function every time virtual keyboard is rendered (e.g: when you change layouts).
-   * @event
-   */
-  onRender?: (instance: Keyboard) => void;
-
-  /**
-   * Executes a callback function once virtual keyboard is rendered for the first time (on initialization).
-   * @event
-   */
-  onInit?: (instance: Keyboard) => void;
-
-  /**
-   * Retrieves the current input
-   * @event
-   */
-  onChange?: (input: string, e?: KeyboardHandlerEvent) => void;
-
-  /**
-   * Executes a callback function on any key press of virtual keyboard. Returns button layout name (i.e.: “{enter}”, "b", "c", "2" ).
-   * @event
-   */
-  onKeyPress?: (button: string, e?: KeyboardHandlerEvent) => void;
-
-  /**
-   * Execute a callback function on keypress of non-standard type only (functionality type i.e.: “{alt}”) of virtual keyboard.
-   * @event
-   */
-  onFunctionKeyPress?: FunctionKeyPressCallback;
-
-  /**
-   * Execute a callback function on keypress of standard type only (type i.e.: “a”, “k”, “5”) of virtual keyboard.
-   * @event
-   */
-  onStandardKeyPress?: FunctionKeyPressCallback;
-}
+```xml
+<!-- index.html -->
+<!-- Disable Keyboard for small pos at all -->
+{#if !$POS.CAPABILITIES.IS_SMALL_SCREEN}
+  <Keyboard autoRender="{false}" visibility="{KeyboardVisibility.Hidden}" keepVisible="{false}" />
+{/if}
 ```
 
-## Opções
+```js
+// svelte.js
+import { Device } from '@mamba/utils/index.js';
+
+// ...
+export const INITIAL_DATA = {
+  POS: {
+    CAPABILITIES: {
+      IS_SMALL_SCREEN: Device.hasSmallScreen(),
+    },
+  },
+};
+
+const store = new Store(INITIAL_DATA);
+
+// ...
+```
+
+- Como saber se o teclado virtual existe ou foi inicializado?
+
+A api do teclado exporta uma propriedade em sua [Interface](#interface), que se chama `virtualKeyboard: Keyboard`, onde ela consulta e retorna se existe o teclado virtual ou não. Exemplo:
+
+> No console do seu app:
+
+```js
+window.$Keyboard.virtualKeyboard; // `undefined` quer dizer não existe enhuma instância do teclado virtual
+// ...
+window.$Keyboard.virtualKeyboard; // `Keyboard {...}` quer dizer que existe uma instância do teclado virtual
+```
+
+> No código do seu app:
+
+```diff
++ import Keyboard from '@mamba/keyboard/api/index.js';
+
+# Pode quebrar:
+- Keyboard.setOptions({
+-   keyboardType: KeyboardType.Numeric,
+- )}
+
+# Ao invés, verifique se ele existe antes:
++ if (Keyboard.virtualKeyboard) {
++   Keyboard.setOptions({
++     keyboardType: KeyboardType.Numeric,
++   )}
++ }
+```
+
+Isso se faz útil para casos onde seu fluxo precisa fazer algum tratamento em sua rota, mas não sabe se o teclado virtual existe.
+
+### Exemplos
+
+Para exemplos de uso, [veja aqui](./EXAMPLES.md).
+
+---
+
+# API
+
+## Opções do teclado virtual
+
+Tenha cuidado se tiver mais de um campo de entrada na mesma página, pois essas são propriedades globais do teclado (O que se aplicar para um `<Input />`, será aplicado para todos) no modo `KeyboardUpdateMode.Auto`. Se precisar trabalhar com mais de um campo por página, utilize a propriedade `input` e/ou `updadeMode = KeyboardUpdateMode.Manual`.
 
 ````ts
 interface KeyboardOptions {
@@ -242,6 +256,7 @@ interface KeyboardOptions {
   /**
    * Enabled or disables keyboard events and actions.
    * This property do not change keybpard visibility.
+   * It also adds a class name to the keyboard element, but the disabled style is up to you using :global css.
    */
   disabled?: boolean;
 
@@ -344,9 +359,12 @@ interface KeyboardOptions {
   autoRender?: boolean;
 
   /**
-   * Make beep sound for every key press
-   * ! This do not disable POS sound entirely. Only for this Keyboard instance
-   * @defaultValue System preference depending of the app, otherwise `false`
+   * Make beep sound for every key press.
+   * ! If set to `false`, you'll do not disable POS sound entirely. Only for this Keyboard instance.
+   * If set to `true`, system sound preference will prevail(can be enabled or disable).
+   * Other value different from boolean, will use system sound preference.
+   * In other words, you can only disable sound of virtual keyboard but not force enable it.
+   * @defaultValue System sound preference.
    */
   soundEnabled?: boolean;
 
@@ -385,12 +403,73 @@ interface KeyboardOptions {
 }
 ````
 
+## Eventos do teclado virtual
+
+```ts
+type FunctionKeyPressCallback = (
+  button: string,
+  instance: Keyboard,
+  e?: KeyboardHandlerEvent,
+) => void;
+
+interface KeyboardTypeEvents {
+  /**
+   * Executes thae callback function when virtual keyboard rendered by the first time.
+   * @event
+   */
+  beforeFirstRender?: (instance: Keyboard) => void;
+
+  /**
+   * Executes a callback function before a virtual keyboard render.
+   * @event
+   */
+  beforeRender?: (instance: Keyboard) => void;
+
+  /**
+   * Executes a callback function every time virtual keyboard is rendered (e.g: when you change layouts).
+   * @event
+   */
+  onRender?: (instance: Keyboard) => void;
+
+  /**
+   * Executes a callback function once virtual keyboard is rendered for the first time (on initialization).
+   * @event
+   */
+  onInit?: (instance: Keyboard) => void;
+
+  /**
+   * Retrieves the current input
+   * @event
+   */
+  onChange?: (input: string, e?: KeyboardHandlerEvent) => void;
+
+  /**
+   * Executes a callback function on any key press of virtual keyboard. Returns button layout name (i.e.: “{enter}”, "b", "c", "2" ).
+   * @event
+   */
+  onKeyPress?: (button: string, e?: KeyboardHandlerEvent) => void;
+
+  /**
+   * Execute a callback function on keypress of non-standard type only (functionality type i.e.: “{alt}”) of virtual keyboard.
+   * @event
+   */
+  onFunctionKeyPress?: FunctionKeyPressCallback;
+
+  /**
+   * Execute a callback function on keypress of standard type only (type i.e.: “a”, “k”, “5”) of virtual keyboard.
+   * @event
+   */
+  onStandardKeyPress?: FunctionKeyPressCallback;
+}
+```
+
 ### Passando opções pelo `<Input />`
 
 Você pode passar opções simples, compatíveis com **JSON** _(não aceita funções/eventos do teclado)_, pelo elemento HTML input:
 
+<!-- prettier-ignore -->
 ```html
-<input
+<Input
   data-keyboard="true"
   data-keyboard-options='{ "themeVariation": "my-variation", "keepVisible": false }'
 />
@@ -398,8 +477,11 @@ Você pode passar opções simples, compatíveis com **JSON** _(não aceita fun�
 
 Caso você utilize o `@mamba/input`, é mais permissivo:
 
+<!-- prettier-ignore -->
 ```html
-<Input label="Insira o valor" keyboardOptions={{ themeVariation: KeyboardThemeVariation.Compact }}
+<Input
+  label="Insira o valor"
+  keyboardOptions={{ themeVariation: KeyboardThemeVariation.Compact }}
 />
 
 <script>
@@ -494,6 +576,54 @@ Keyboard.getKeyCode('Shortcuts'); // 16
 Keyboard.getKeyCode('0'); // 48
 ...
 Keyboard.getKeyCode('9'); // 57
+```
+
+### `parseEventKeys(event: KeyboardEvent) `
+
+Obtem o código e nome da tecla normalizado de acordo com a tabela de teclas do POS através de um evento de entrada de teclado.
+Retorna uma tupla de tamanho 2, onde o índice 0 é o código encontrado, e o de índice 1, o nome da tecla.
+
+```js
+import Keyboard from '@mamba/keyboard/api/index.js';
+
+/**
+ * @param {KeyboardEvent} event
+ */
+function onKeydown(event) {
+  const [keyCode, keyName] = Keyboard.parseEventKeys(event);
+}
+```
+
+### `parseEventKeyName(event: KeyboardEvent) `
+
+Obtem o nome da tecla normalizado de acordo com a tabela de teclas do POS através de um evento de entrada de teclado.
+Retorna o nome da tecla.
+
+```js
+import Keyboard from '@mamba/keyboard/api/index.js';
+
+/**
+ * @param {KeyboardEvent} event
+ */
+function onKeydown(event) {
+  const keyName = Keyboard.parseEventKeyName(event);
+}
+```
+
+### `parseEventKeyCode(event: KeyboardEvent) `
+
+Obtem o código da telca compatível com o ecosistema do simulador, teclado virtual e POS físico.
+Retorna o código da tecla do hardware.
+
+```js
+import Keyboard from '@mamba/keyboard/api/index.js';
+
+/**
+ * @param {KeyboardEvent} event
+ */
+function onKeydown(event) {
+  const keyCode = Keyboard.parseEventKeyCode(event);
+}
 ```
 
 ### `getKeyName(keyCode: number)`
@@ -659,6 +789,10 @@ Destroi o teclado virtual, remove seus ouvintes e elementos do DOM. Este método
 
 Atualiza os estilos automáticos do teclado virtual. Normalmente posicionamento na tela.
 
+### `updateSoundEnabledState(): void`
+
+Atualiza o estado do som do teclado virtual com base nas configurações do POS.
+
 ## Enumeradores
 
 ```ts
@@ -791,3 +925,33 @@ import { KEYBOARD } from '@mamba/core';
 ```
 
 See [@mamba/core Docs](../../core/README.md) for more info.
+
+## Migração para v8.x.x
+
+- As propriedades iniciais do componente `@mamba/keyboard/Keyboard.html`, deixaram de ser feitas pela propriedade `keyboardOptions`, e sendo usadas/lidas diretamente:
+
+  ```diff
+  - <Keyboard keyboardOptions={{
+  -     autoRender: false,
+  -     visibility: KeyboardVisibility.Hidden,
+  -     keepVisible: false
+  -   }}
+  - />
+
+  + <Keyboard
+  +   autoRender={false}
+  +   visibility={KeyboardVisibility.Hidden}
+  +   keepVisible={false}
+  + />
+  ```
+
+- Use o método `Keyboard.parseEventKeyCode(event: KeyboardEvent )` para parsear corretamente o código da telca de entrada e descobrir qual o `keyCode` (código da tecla) ou `keyName` (nome da tecla):
+
+  ```diff
+  + import Keyboard from '@mamba/keyboard/api/keyboard.js';
+
+  - const keyCode = event.code && event.code !== 0 ? event.code : event.charCode || event.which || event.keyCode;
+  - const keyName = Keyboard.getKeyName(keyCode);
+
+  + const [keyCode, keyName] = Keyboard.parseEventKeys(event);
+  ```

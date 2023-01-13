@@ -27,19 +27,12 @@
     },
     oncreate() {
       this.root.on('router:change', (context = {}) => {
-        if (debug) {
-          console.log(
-            `<Keyboard> route:change ${JSON.stringify({
-              init: context.init,
-              path: context.path,
-            })}`,
-          );
-        }
-
         try {
-          if (!(document.activeElement instanceof HTMLInputElement) && keyboard) {
-            keyboard.resetOptions();
+          if (keyboard) {
             keyboard.unmount();
+            if (context.init) return;
+            if (context.path.length === 1) return;
+            keyboard.resetOptions();
           }
         } catch (_) {
           //
@@ -54,7 +47,9 @@
       if (debug) {
         console.log(`<Keyboard> keyboardOptions changed`, current);
       }
-
+      /**
+       * 8.x.x - Usage with direct prop instead keyboardOptions. Ex: <Keyboard keyboardType={KeyboardType.Math} />
+       */
       let { renderCondition = true } = current;
       if (typeof renderCondition !== 'boolean' && !!keyboard) {
         const options = keyboard.getOptions();

@@ -2,6 +2,12 @@ import { KEYBOARD } from '@mamba/core';
 import KEY_TABLE_MAP from '../mappings/keyTableMap';
 import KEY_TABLE_LIST from '../mappings/keyTableMapList';
 
+type AnyParsedKeyValue = number | string | undefined;
+type ParsedEventInfo = [AnyParsedKeyValue, AnyParsedKeyValue | null];
+interface KeyEventSupportedModifier {
+  shiftKey: boolean;
+}
+
 const { KEY_MAP, KEY_CODE_LIST } = KEYBOARD;
 /**
  *  General methods to map and handle keys, and change keyboard mode
@@ -15,7 +21,7 @@ class UIGeneralKeyboard {
   /**
    * Define if keyboard is alphanumeric or numeric
    */
-  alphanumericEnabled = true;
+  alphanumericEnabled = false;
 
   /**
    * Check Keyboard instance
@@ -54,14 +60,14 @@ class UIGeneralKeyboard {
   /**
    * Internal control for virtual keyboard when Sets the kernel keyboard to enter numbers only.
    */
-  setKeyboardAsNumeric() {
+  setKeyboardAsNumeric(): void {
     this.alphanumericEnabled = false;
   }
 
   /**
    * Internal control for virtual keyboard when Sets the kernek keyboard to type alphanumeric characters.
    */
-  setKeyboardAsAlphanumeric() {
+  setKeyboardAsAlphanumeric(): void {
     this.alphanumericEnabled = true;
   }
 
@@ -71,7 +77,7 @@ class UIGeneralKeyboard {
    * @param list Key list to find
    * @param map Map object with { keyCode : value }
    * @param keyName Key name to find its code
-   * @returns Found key code or `undefined`
+   * @returns Found key code or `null`
    */
   getMappedKeyCode(
     list: any[],
@@ -87,6 +93,28 @@ class UIGeneralKeyboard {
 
       return false;
     });
+
+    return found || null;
+  }
+
+  /**
+   * Find the key name of given list and map for an KeyboardEvent
+   *
+   * @param keyCode Key code to find its name
+   * @param modifiers Keyboard event modifierds
+   * @returns Found key name or `null`
+   */
+  getEventMappedKeyName(keyCode: number, modifiers: KeyEventSupportedModifier): string | null {
+    const found = KEY_TABLE_MAP[keyCode];
+    if (!found) return null;
+
+    if (Array.isArray(found)) {
+      if (modifiers.shiftKey && found.length > 1) {
+        return found[1];
+      }
+
+      return found[0];
+    }
 
     return found || null;
   }
@@ -131,13 +159,55 @@ class UIGeneralKeyboard {
    * @param keyCode Key code
    * @returns Relative key name
    */
-  getKeyName(keyCode: number) {
+  getKeyName(keyCode: number | undefined): string | undefined {
+    if (typeof keyCode === 'undefined') return keyCode;
     const key = KEY_MAP[keyCode];
     if (key) {
       return String(KEY_MAP[keyCode]);
     }
 
-    return key;
+    return undefined;
+  }
+
+  /**
+   * Get the mamba normalized key code from user input event
+   *
+   * - Use e.key{string} on some events on simulator or POS
+   * - Use e.keyIdentifier{string} to work on POS values
+   * - Use e.code{number} to work with alphabet keyboard
+   *
+   * @param event User input event
+   * @returns Relative key code
+   */
+  parseEventKeyCode(event: KeyboardEvent): any {
+    const keyCode =
+      typeof event.keyCode === 'number' && event.keyCode !== 0
+        ? event.keyCode
+        : event.charCode || event.which || event.code;
+    return keyCode;
+  }
+
+  /**
+   * Get the mamba normalized key name from user input event
+   * @param event User input event
+   * @returns The key name relative to its number
+   */
+  parseEventKeyName(event: KeyboardEvent) {
+    const code = this.parseEventKeyCode(event);
+    return this.getKeyName(code);
+  }
+
+  /**
+   * Gets the normalized key code and name according to the POS key map through a keyboard input event.
+   * @param event User input event
+   * @returns A tuple containing the key code and key name respectively. Ex.: [13, "enter"]
+   */
+  parseEventKeys(event: KeyboardEvent): ParsedEventInfo {
+    const code = this.parseEventKeyCode(event);
+    if (event.shiftKey) {
+      return [code, this.getEventMappedKeyName(code, { shiftKey: event.shiftKey })];
+    }
+    return [code, this.getKeyName(code)];
   }
 
   /**

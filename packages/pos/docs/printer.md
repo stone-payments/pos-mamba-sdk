@@ -10,14 +10,14 @@ Este módulo da API Nativa é responsável por controlar a impressora da máquin
 
 ```ts
 interface Printer {
-  print: (element: HTMLElement, options: PrinterOptions) => Promise
-  getPaperWidth: () => number
-  isPrinting: () => boolean
-  failedPrinting: () => boolean
+  print: (element: HTMLElement, options: PrinterOptions) => Promise;
+  getPaperWidth: () => number;
+  isPrinting: () => boolean;
+  failedPrinting: () => boolean;
 }
 
 interface PrinterOptions {
-  use_dithering: boolean
+  use_dithering: boolean;
 }
 ```
 
@@ -27,18 +27,18 @@ Recebe um `HTMLElement` e o imprime. Este método retorna uma [`Promise`](https:
 
 #### Opções
 
-| Parâmetros | Descrição           | Tipo            | Padrão    |
-| :-------- | :------------------ | :-------------- | :-------- |
+| Propriedades  | Descrição                                                                                                                                                                     | Tipo      | Padrão  |
+| :------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------- | :------ |
 | use_dithering | Define se deve ser aplicado um algoritmo de dithering na impressão. Use esta função somente para imprimir imagens, pois o dithering diminui a qualidade da impressão de texto | `boolean` | `false` |
 
 ```js
 import Printer from '@mamba/pos/api/printer.js';
 
-const fooElement = document.querySelector('.receipt')
+const fooElement = document.querySelector('.receipt');
 
 Printer.print(fooElement, {
-  use_dithering: true
-})
+  use_dithering: true,
+});
 ```
 
 ### getPaperWidth()
@@ -48,7 +48,7 @@ Retorna a largura do papel, em `px`, da impressora.
 ```js
 import Printer from '@mamba/pos/api/printer.js';
 
-Printer.getPaperWidth() // 384
+Printer.getPaperWidth(); // 384
 ```
 
 ### isPrinting()
