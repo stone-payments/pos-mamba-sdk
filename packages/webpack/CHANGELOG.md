@@ -3,6 +3,46 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [8.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.33.2...v8.0.0) (2023-01-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* 🧨 Upgraded eslint to 7, along with ts parser
+
+### Features
+
+* 🎸 add a app root reference for mamba-pkgs packages ([d120820](https://github.com/stone-payments/pos-mamba-sdk/commit/d12082085f0dad2f9937dcdaaa9b6189d5aa8391))
+* 🎸 add base href env config ([d9c8fe8](https://github.com/stone-payments/pos-mamba-sdk/commit/d9c8fe82d74fb99c64507234f63002bc1ebe19f6))
+* 🎸 changes for work with static snapshot site ([7cda952](https://github.com/stone-payments/pos-mamba-sdk/commit/7cda952005a6d18e933d76764c3b7c9c8d660704))
+* 🎸 implement development log endpoint ([627dbac](https://github.com/stone-payments/pos-mamba-sdk/commit/627dbac7c2582ebf78e6175dd5cba8e86141456f))
+* 🎸 Include build for all platforms ([e4f0a6f](https://github.com/stone-payments/pos-mamba-sdk/commit/e4f0a6f4748a91e6137ffad004ce23ffc2074f9e))
+* 🎸 Included BUILD_ALL invironment variable ([fe7d0de](https://github.com/stone-payments/pos-mamba-sdk/commit/fe7d0de56b9f79c6f5efb32b460f409f9dd7c8a4))
+* 🎸 Update of multiple platforms in simulator ([fca8e94](https://github.com/stone-payments/pos-mamba-sdk/commit/fca8e94785b15d9bb15397c52e977b98cfdb52e3))
+* 🎸 Update packages ([b8044fe](https://github.com/stone-payments/pos-mamba-sdk/commit/b8044fe52daa682e98b71c275f509acd60c77f40))
+* 🎸 Updating core sdk ([712bd78](https://github.com/stone-payments/pos-mamba-sdk/commit/712bd7806456386a6b92a2415e0df81ce34eded2))
+* new mamba keyboard implementation ([23466f2](https://github.com/stone-payments/pos-mamba-sdk/commit/23466f28fbd58067248b308218d4eb91b8889160))
+
+
+### Bug Fixes
+
+* 🐛 app bar model to class ([d673df2](https://github.com/stone-payments/pos-mamba-sdk/commit/d673df284dab7ab97bce7118922599e05d6e9253))
+* 🐛 bundle copy logo ([2e740f9](https://github.com/stone-payments/pos-mamba-sdk/commit/2e740f9861553957bec763d33e293950c20f5c11))
+* 🐛 fix ([2c634dd](https://github.com/stone-payments/pos-mamba-sdk/commit/2c634dd3ffa7c6ad9a08f0ed6c917286b136d79b))
+* 🐛 fix compile issues ([415f8de](https://github.com/stone-payments/pos-mamba-sdk/commit/415f8dea92cfe0a7becf657a95b0aa6506d1c91b))
+* 🐛 fix lodash module bundle size ([bc7b0a2](https://github.com/stone-payments/pos-mamba-sdk/commit/bc7b0a2f7a8fac01f06135d7d7085309d9bc6f18))
+* 🐛 fix webpack source map loader order ([c04c8c7](https://github.com/stone-payments/pos-mamba-sdk/commit/c04c8c72ff4b6c522efe775099da31186a7d278a))
+* 🐛 Fixed build multiplatform to s920 and included redecompras logo ([da7b139](https://github.com/stone-payments/pos-mamba-sdk/commit/da7b13941f1d057dcddcee21577045e8a9f0a1cc))
+* 🐛 normalize the dependencies across packages ([43103d7](https://github.com/stone-payments/pos-mamba-sdk/commit/43103d718ba93909cb34ca459f674ceea9354a06))
+* 🐛 revert core-js alias ([b008654](https://github.com/stone-payments/pos-mamba-sdk/commit/b008654d943bd0f963d2662ea10f06f66da34791))
+
+
+### Code Refactoring
+
+* 💡 reconfigure and fix eslint, prettier, postcss ([9e8e14c](https://github.com/stone-payments/pos-mamba-sdk/commit/9e8e14c7f710c4a4e1dd1d10db52332db5dbd7bb))
+
+
+
 ### [6.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@6.0.0...@mamba/webpack@6.0.1) (2022-12-28)
 
 

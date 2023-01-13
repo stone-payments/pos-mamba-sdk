@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [8.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.33.2...v8.0.0) (2023-01-13)
+
+
+### Features
+
+* 🎸 Update packages ([b8044fe](https://github.com/stone-payments/pos-mamba-sdk/commit/b8044fe52daa682e98b71c275f509acd60c77f40))
+
+
+### Bug Fixes
+
+* 🐛 normalize the dependencies across packages ([43103d7](https://github.com/stone-payments/pos-mamba-sdk/commit/43103d718ba93909cb34ca459f674ceea9354a06))
+* 🐛 update MP35P classes to has-small-screen ([20abe2d](https://github.com/stone-payments/pos-mamba-sdk/commit/20abe2df37d384bf7b3fb3eac501808372278501))
+
+
+
 ## [6.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/switch@5.3.0...@mamba/switch@6.0.0) (2022-12-19)
 
 **Note:** Version bump only for package @mamba/switch

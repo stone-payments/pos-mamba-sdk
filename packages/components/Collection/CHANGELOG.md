@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [8.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.33.2...v8.0.0) (2023-01-13)
+
+
+### Features
+
+* 🎸 Update packages ([b8044fe](https://github.com/stone-payments/pos-mamba-sdk/commit/b8044fe52daa682e98b71c275f509acd60c77f40))
+* add style to disabled labels ([08bd1c2](https://github.com/stone-payments/pos-mamba-sdk/commit/08bd1c2e2332a37214f034542115f892619e32bf))
+* add variable to color ([b9a7acd](https://github.com/stone-payments/pos-mamba-sdk/commit/b9a7acdba55a8d12f7204504bbb97d9b5bf4c471))
+
+
+### Bug Fixes
+
+* 🐛 missing imports ([b78a71f](https://github.com/stone-payments/pos-mamba-sdk/commit/b78a71fde15bf98e99c05e5c214819f98a128cc4))
+* 🐛 normalize the dependencies across packages ([43103d7](https://github.com/stone-payments/pos-mamba-sdk/commit/43103d718ba93909cb34ca459f674ceea9354a06))
+* 🐛 remove global body from examples ([0f64e61](https://github.com/stone-payments/pos-mamba-sdk/commit/0f64e61f28eec0a18c3405dad78520a53e04335c))
+* 🐛 update variables to camcelCase ([ae7e14a](https://github.com/stone-payments/pos-mamba-sdk/commit/ae7e14a9b18bb5373d5f508096134b3a6d343321))
+* 🐛 update variables to camcelCase ([87bbeeb](https://github.com/stone-payments/pos-mamba-sdk/commit/87bbeeb494eeba68991d04361d304b20f3e29ce8))
+* add gitHead hash ([47a9d1a](https://github.com/stone-payments/pos-mamba-sdk/commit/47a9d1a233cc859a4230ef98573bc7152d918e46))
+* fix import ([282a154](https://github.com/stone-payments/pos-mamba-sdk/commit/282a154931e375bce254046f84a9efb32dac5a3c))
+* fix import ([#800](https://github.com/stone-payments/pos-mamba-sdk/issues/800)) ([47add09](https://github.com/stone-payments/pos-mamba-sdk/commit/47add092264ca8af5e733db54233ce2b55f3d6bf))
+
+
+
 ## [5.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/collection@4.3.0...@mamba/collection@5.0.0) (2022-12-19)
 
 **Note:** Version bump only for package @mamba/collection

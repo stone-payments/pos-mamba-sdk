@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [8.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.33.2...v8.0.0) (2023-01-13)
+
+
+### Features
+
+* 🎸 (cli) multiplataform  deploy ([2b3ff45](https://github.com/stone-payments/pos-mamba-sdk/commit/2b3ff45d55ac99adeb00b2802380d8c89a3ef9b0))
+* 🎸 add D199 of cli deploy ([415e9dc](https://github.com/stone-payments/pos-mamba-sdk/commit/415e9dc1a9c1850ded50fc3bd7c6801550b3fdee))
+* 🎸 implement scp/verifone deploy ([788b05e](https://github.com/stone-payments/pos-mamba-sdk/commit/788b05e78a51b0c75ddbb8532e210250644caca4))
+* 🎸 Include build for all platforms ([e4f0a6f](https://github.com/stone-payments/pos-mamba-sdk/commit/e4f0a6f4748a91e6137ffad004ce23ffc2074f9e))
+* 🎸 Included BUILD_ALL invironment variable ([fe7d0de](https://github.com/stone-payments/pos-mamba-sdk/commit/fe7d0de56b9f79c6f5efb32b460f409f9dd7c8a4))
+* 🎸 Update packages ([b8044fe](https://github.com/stone-payments/pos-mamba-sdk/commit/b8044fe52daa682e98b71c275f509acd60c77f40))
+* 🎸 Updating core sdk ([712bd78](https://github.com/stone-payments/pos-mamba-sdk/commit/712bd7806456386a6b92a2415e0df81ce34eded2))
+
+
+### Bug Fixes
+
+* 🐛 adb shell listing dir ([da2297a](https://github.com/stone-payments/pos-mamba-sdk/commit/da2297a57a52d4ec55c12e8958aa31bdccad5236))
+* 🐛 prevent throw of trying find [@mamba](https://github.com/mamba) global pack when not exist ([6bd80db](https://github.com/stone-payments/pos-mamba-sdk/commit/6bd80db110acd8e4260ab256e9c7eaab2294f41a))
+* 🐛 Remove code from shell ([32f0255](https://github.com/stone-payments/pos-mamba-sdk/commit/32f0255ff90c6d1d36aff9919de4bc3e44c77b4e))
+* 🐛 rsync for darwin os ([be9e73d](https://github.com/stone-payments/pos-mamba-sdk/commit/be9e73d2c3025bf9f577e79ceb184dd1435830b1))
+* 🐛 Update build webpack to keep build event error ([bae8663](https://github.com/stone-payments/pos-mamba-sdk/commit/bae8663290c59500edc3559d7849e2165b329e07))
+
+
+
 ## [5.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@4.3.0...@mamba/cli@5.0.0) (2022-12-19)
 
 **Note:** Version bump only for package @mamba/cli

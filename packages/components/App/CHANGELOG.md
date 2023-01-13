@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [8.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.33.2...v8.0.0) (2023-01-13)
+
+
+### Features
+
+* 🎸 add a app root reference for mamba-pkgs packages ([d120820](https://github.com/stone-payments/pos-mamba-sdk/commit/d12082085f0dad2f9937dcdaaa9b6189d5aa8391))
+* 🎸 add a app root reference for mamba-pkgs packages ([508fafe](https://github.com/stone-payments/pos-mamba-sdk/commit/508fafe3fd16897b4ee8c9054856d3c49e2e7b30))
+* 🎸 add router class ([cd3b946](https://github.com/stone-payments/pos-mamba-sdk/commit/cd3b9460d17d57f47d67fc849f6adce005cc40ef))
+* 🎸 get and apply device class capabilities ([06dec6a](https://github.com/stone-payments/pos-mamba-sdk/commit/06dec6a6b6936501cbb27d7c47d3c13c972bad71))
+* 🎸 New structure ([180d071](https://github.com/stone-payments/pos-mamba-sdk/commit/180d0710140a08454787ac7a45b6007de2d0a0ba))
+* 🎸 Update packages ([b8044fe](https://github.com/stone-payments/pos-mamba-sdk/commit/b8044fe52daa682e98b71c275f509acd60c77f40))
+* new mamba keyboard implementation ([23466f2](https://github.com/stone-payments/pos-mamba-sdk/commit/23466f28fbd58067248b308218d4eb91b8889160))
+
+
+### Bug Fixes
+
+* 🐛 app bar model to class ([d673df2](https://github.com/stone-payments/pos-mamba-sdk/commit/d673df284dab7ab97bce7118922599e05d6e9253))
+* 🐛 fix hard coded keys and its events ([7caddec](https://github.com/stone-payments/pos-mamba-sdk/commit/7caddec0f31d60c3fe2adb16970703b4c1ff7765))
+* 🐛 fix several issues related with cursors and/or suggestions ([d4a3b62](https://github.com/stone-payments/pos-mamba-sdk/commit/d4a3b62673a69ee01974b3668954322389e410bb))
+* 🐛 model case ([c281bd6](https://github.com/stone-payments/pos-mamba-sdk/commit/c281bd697ff123327e3ae5a3dad8bdd9a0acb652))
+* 🐛 normalize the dependencies across packages ([43103d7](https://github.com/stone-payments/pos-mamba-sdk/commit/43103d718ba93909cb34ca459f674ceea9354a06))
+* 🐛 pos compatible way to add classLists ([da42d75](https://github.com/stone-payments/pos-mamba-sdk/commit/da42d7579f4ee99ca42fe051f369a10a3f23d209))
+* 🐛 remove hash from pos model ([17ee126](https://github.com/stone-payments/pos-mamba-sdk/commit/17ee126867f842f90298c08fac4fdf052d5d3369))
+* 🐛 shortcut not firing with tabindex together shortcut attribute ([2768685](https://github.com/stone-payments/pos-mamba-sdk/commit/276868576176f9f6fe151fc589918a60865a98ab))
+
+
+
 ### [7.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/app@7.0.1...@mamba/app@7.0.2) (2023-01-04)
 
 **Note:** Version bump only for package @mamba/app
