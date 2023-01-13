@@ -6,19 +6,19 @@
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 8 || <= 14",
-    "npm": ">6"
+    "npm": "> 6"
   },
   "publishConfig": {
     "access": "public"
   },
   "main": "index.js",
   "dependencies": {
+    "@mamba/core": "*",
+    "@mamba/keyboard": "^3.0.0",
     "@mamba/app": "7.0.1",
     "@mamba/button": "6.0.0",
-    "@mamba/core": "2.0.0",
     "@mamba/dialog": "5.0.0",
     "@mamba/icon": "5.0.0",
-    "@mamba/keyboard": "3.0.1",
     "@mamba/radio": "5.0.0",
     "@mamba/sprite": "5.0.0",
     "@mamba/switch": "6.0.0",

@@ -3,23 +3,22 @@
 O módulo `Dialog` é composto por 3 componentes: `Dialog`, `ConfirmationDialog` e `PromisedDialog`. Cada um deles cria um modal próprio de tela cheia com suas especificações.
 O `PromisedDialog` é exibido durante a execução de uma `Promise` e após sua conclusão fecha o modal. Já o `ConfirmationDialog` exibe uma tela com dois botões que controlam o fluxo da aplicação. Para casos de apenas uma exibição de mensagem durante um período de tempo, o uso do `Dialog` é aconselhável.
 
-
 `<Dialog ...props />`
 
-| Parâmetros  | Descrição                                             | Tipo      | Padrão      |
-| ---------- | --------------------------------------------------    | --------- | ----------- |
-| align      | Alinhamento vertical do conteúdo (`top`, `center`)    | `string`  | `center`    |
-| bgColor    | Define a cor de fundo do modal                        | `string`  | `'#e3e3e3'` |
-| textColor  | Define a cor do texto do modal                        | `boolean` | `'#4a4a4a'` |
-| isOpen     | Define se o modal vai estar aberto por padrão         | `boolean` | `'false'`   |
-| title      | Título do modal                                       | `string`  | `undefined` |
-| fullscreen | Define se o modal ocupará a tela inteira              | `boolean` | `false`     |
-| className  | Classe a ser adicionado ao elemento pai do componente | `string`  | ``          |
+| Propriedades | Descrição                                             | Tipo      | Padrão      |
+| ------------ | ----------------------------------------------------- | --------- | ----------- |
+| align        | Alinhamento vertical do conteúdo (`top`, `center`)    | `string`  | `center`    |
+| bgColor      | Define a cor de fundo do modal                        | `string`  | `'#e3e3e3'` |
+| textColor    | Define a cor do texto do modal                        | `boolean` | `'#4a4a4a'` |
+| isOpen       | Define se o modal vai estar aberto por padrão         | `boolean` | `'false'`   |
+| title        | Título do modal                                       | `string`  | `undefined` |
+| fullscreen   | Define se o modal ocupará a tela inteira              | `boolean` | `false`     |
+| className    | Classe a ser adicionado ao elemento pai do componente | `string`  | ``          |
 
 `<ConfirmationDialog ...props />`
 
-| Parâmetros     | Descrição                                             | Tipo      | Padrão        |
-| ------------- | ---------------------------------------------         | --------- | ------------- |
+| Propriedades  | Descrição                                             | Tipo      | Padrão        |
+| ------------- | ----------------------------------------------------- | --------- | ------------- |
 | negativeLabel | Texto no Botão de Confirmação Negativa                | `string`  | `'Cancelar'`  |
 | positiveLabel | Texto no Botão de Confirmação Positiva                | `string`  | `'Confirmar'` |
 | isOpen        | Define se o modal vai estar aberto por padrão         | `boolean` | `'false'`     |
@@ -28,48 +27,48 @@ O `PromisedDialog` é exibido durante a execução de uma `Promise` e após sua 
 
 `<PromisedDialog ...props />`
 
-| Parâmetros | Descrição                                             | Tipo      | Padrão      |
-| --------- | ----------------------------------------------        | --------- | ----------- |
-| delay     | Tempo de espera depois de executar a `Promise`        | `string`  | `'right'`   |
-| promise   | A `Promise` a ser executada                           | `boolean` | `false`     |
-| isOpen    | Define se o modal vai estar aberto por padrão         | `boolean` | `'false'`   |
-| title     | Título do modal                                       | `string`  | `undefined` |
-| className | Classe a ser adicionado ao elemento pai do componente | `string`  | ``          |
+| Propriedades | Descrição                                             | Tipo      | Padrão      |
+| ------------ | ----------------------------------------------------- | --------- | ----------- |
+| delay        | Tempo de espera depois de executar a `Promise`        | `string`  | `'right'`   |
+| promise      | A `Promise` a ser executada                           | `boolean` | `false`     |
+| isOpen       | Define se o modal vai estar aberto por padrão         | `boolean` | `'false'`   |
+| title        | Título do modal                                       | `string`  | `undefined` |
+| className    | Classe a ser adicionado ao elemento pai do componente | `string`  | ``          |
 
 `<Popup ...props />`
 
-| Parâmetros | Descrição                                      | Tipo      | Padrão    |
-| --------- | ---------------------------------------------- | --------- | --------- |
-| isOpen    | Define se o pop-up vai estar aberto por padrão | `boolean` | `'false'` |
+| Propriedades | Descrição                                      | Tipo      | Padrão    |
+| ------------ | ---------------------------------------------- | --------- | --------- |
+| isOpen       | Define se o pop-up vai estar aberto por padrão | `boolean` | `'false'` |
 
 ## Eventos
 
 `<Dialog ... on:event="..." />`
 
 | Eventos | Disparado quando ...  | Tipo         |
-| ------ | --------------------- | ------------ |
-| open   | O diálogo for exibido | `function()` |
-| close  | O diálogo fechar      | `function()` |
+| ------- | --------------------- | ------------ |
+| open    | O diálogo for exibido | `function()` |
+| close   | O diálogo fechar      | `function()` |
 
 #### Exemplos:
 
 Chama `myMethod()` quando o diálogo for exibido.
 
 ```html
-<Dialog on:open="myMethod()" />
+<dialog on:open="myMethod()" />
 ```
 
 Chama o `console.log` quando o diálogo fechar.
 
 ```html
-<Dialog on:close="console.log('Dialog fechou')" />
+<dialog on:close="console.log('Dialog fechou')" />
 ```
 
 ---
 
 `<PromisedDialog ... on:event="..." />`
 
-| Eventos  | Descrição                                                                                                                        | Tipo              |
+| Eventos | Descrição                                                                                                                        | Tipo              |
 | ------- | -------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
 | success | Especifique uma função que será chamada quando a Promise do diálogo for de sucesso(`.then`). Recebe o valor da `Promise.resolve` | `function(event)` |
 | failure | Especifique uma função que será chamada quando a Promise do diálogo for de falha(`.catch`). Recebe o valor da `Promise.reject`   | `function(event)` |
@@ -94,7 +93,7 @@ Chama o método `promiseFailed` quando o Promise falhar.
 
 `<ConfirmationDialog ... on:event="..." />`
 
-| Eventos   | Descrição                                                                                                        | Tipo         |
+| Eventos  | Descrição                                                                                                        | Tipo         |
 | -------- | ---------------------------------------------------------------------------------------------------------------- | ------------ |
 | negative | Especifique uma função que será chamada quando o diálogo receber a ação negativa ou do botão vermelho do teclado | `function()` |
 | positive | Especifique uma função que será chamada quando o diálogo receber a ação positiva ou do botão verde do teclado    | `function()` |
@@ -118,9 +117,9 @@ Chama o `console.log` quando o diálogo receber ação negativa.
 `<Popup ... on:event="..." />`
 
 | Eventos | Disparado quando ... | Tipo         |
-| ------ | -------------------- | ------------ |
-| open   | O pop-up for exibido | `function()` |
-| close  | O pop-up fechar      | `function()` |
+| ------- | -------------------- | ------------ |
+| open    | O pop-up for exibido | `function()` |
+| close   | O pop-up fechar      | `function()` |
 
 #### Exemplos:
 
@@ -177,17 +176,17 @@ Fecha o `Popup`.
 Exemplo:
 
 ```html
-<Dialog>
+<dialog>
   Minha mensagem
   <div slot="extra">Conteúdo extra</div>
-</Dialog>
+</dialog>
 ```
 
 `<ConfirmationDialog ... />`
 
-| Slot   | Descrição                                                                                       |
-| ------ | ----------------------------------------------------------------------------------------------- |
-| footer | O slot `footer` pode ser usado para adicionar conteúdo no final do diálogo, ou terceiro botão.  |
+| Slot   | Descrição                                                                                      |
+| ------ | ---------------------------------------------------------------------------------------------- |
+| footer | O slot `footer` pode ser usado para adicionar conteúdo no final do diálogo, ou terceiro botão. |
 
 <br/>
 

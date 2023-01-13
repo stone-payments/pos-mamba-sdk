@@ -13,8 +13,15 @@
   },
   "gitHead": "e919d0e654f8134f157bf4f6e078685f5dd8a000",
   "dependencies": {
-    "@mamba/core": "2.0.0",
-    "@mamba/icon": "5.0.0",
-    "@mamba/styles": "5.0.0"
+    "@mamba/core": "*",
+    "@mamba/icon": "^4.3.0",
+    "@mamba/styles": "^4.4.0",
+    "@mamba/keyboard": "^3.0.0"
+  },
+  "peerDependencies": {
+    "@mamba/keyboard": "^3.0.0",
+    "@mamba/core": "^2.0.0",
+    "@mamba/icon": "^5.0.0",
+    "@mamba/styles": "^5.0.0"
   }
 }

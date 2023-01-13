@@ -252,7 +252,7 @@
           }
         }
 
-        const keyCode = e.code && e.code !== 0 ? e.code : e.charCode || e.which || e.keyCode;
+        const keyCode = Keyboard.parseEventKeyCode(e);
 
         /**
          * Should cancel the native actions for enter/back keys
@@ -269,7 +269,7 @@
         }
       },
       _onKeyup(e) {
-        const keyCode = e.code && e.code !== 0 ? e.code : e.charCode || e.which || e.keyCode;
+        const [keyCode, keyName] = Keyboard.parseEventKeys(e);
 
         /**
          * Don't control keys outside of an app scope if at the browser environment.
@@ -292,7 +292,6 @@
           }
         }
 
-        const keyName = Keyboard.getKeyName(keyCode);
         const shortcutQuery = `[shortcut='${String(keyName).toLowerCase()}']`;
         const tabindexQuery = `[tabindex]`;
 

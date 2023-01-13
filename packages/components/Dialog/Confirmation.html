@@ -64,6 +64,7 @@
 </Dialog>
 
 <script>
+  import Keyboard from '@mamba/keyboard/api/keyboard.js';
   import { KEYBOARD } from '@mamba/core';
   import { green500, red400 } from '@mamba/styles/colors';
 
@@ -105,8 +106,7 @@
     methods: {
       keyHandler(e) {
         if (!this.get().isOpen) return;
-
-        const keyCode = e.code && e.code !== 0 ? e.code : e.charCode || e.which || e.keyCode;
+        const keyCode = Keyboard.parseEventKeyCode(e);
 
         const isClose = keyCode === KEYBOARD.KEY_CODES.CLOSE;
         const isEnter = keyCode === KEYBOARD.KEY_CODES.ENTER;

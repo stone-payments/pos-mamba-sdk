@@ -1,4 +1,10 @@
-import { hasNoPrinter, hasTouch } from '@mamba/utils/models.js';
+import {
+  hasNoPrinter,
+  hasTouch,
+  isPAXDevices,
+  isGertecDevices,
+  isVerifoneDevices,
+} from '@mamba/utils/models.js';
 import { Registry, System as SimulatorSystem } from '../index.js';
 import { error, log } from '../libs/utils.js';
 import systemEnums from '../../drivers/system/enums.js';
@@ -102,6 +108,18 @@ export function setup(System) {
    * @return {String} String 'S920' || 'MP35P' || 'Q92' || 'V240M'
    */
   System.getPosModel = () => Registry.persistent.get().$System.model;
+
+  /**
+   * Returns the device's manufacturer name
+   * @memberOf System
+   * @return {String} String 'PAX' || 'GERTEC' || 'VERIFONE'
+   */
+  System.getPosBrand = () => {
+    if (isPAXDevices()) return 'PAX';
+    if (isGertecDevices()) return 'GERTEC';
+    if (isVerifoneDevices()) return 'VERIFONE';
+    return '';
+  };
 
   /**
    * Change adapter network wifi or 3g

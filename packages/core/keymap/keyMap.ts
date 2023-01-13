@@ -27,6 +27,18 @@ export default Object.freeze({
   [KEY.KEY_9]: KEY_NAME.KEY_9,
   [KEY.SPACE]: KEY_NAME.SPACE,
 
+  // These keymaps is specific for virtual keyboard and mamba inputs numpad codes
+  96: KEY_NAME.KEY_0,
+  97: KEY_NAME.KEY_1,
+  98: KEY_NAME.KEY_2,
+  99: KEY_NAME.KEY_3,
+  100: KEY_NAME.KEY_4,
+  101: KEY_NAME.KEY_5,
+  102: KEY_NAME.KEY_6,
+  103: KEY_NAME.KEY_7,
+  104: KEY_NAME.KEY_8,
+  105: KEY_NAME.KEY_9,
+
   /// Comment for reference
   // /**
   //  * @deprecated Use `ARROW_UP`

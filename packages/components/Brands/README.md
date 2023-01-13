@@ -4,11 +4,10 @@ O componente `Brands` permite de modo fácil exibir o ícone das principais band
 
 Caso não haja a bandeira especificada, ele exibe a bandeira padrão `blank`.
 
-
-| Parâmetros | Descrição                      | Tipo     | Padrão  |
-| :-------- | :----------------------------- | :------- | :------ |
-| icon      | Nome (caixa baixa) da bandeira | `string` | `blank` |
-| width     | Largura da imagem              | `string` | `30`    |
+| Propriedades | Descrição                      | Tipo     | Padrão  |
+| :----------- | :----------------------------- | :------- | :------ |
+| icon         | Nome (caixa baixa) da bandeira | `string` | `blank` |
+| width        | Largura da imagem              | `string` | `30`    |
 
 <br />
 
@@ -38,7 +37,7 @@ Caso use tag `img`, utilize o componenent `@mamba/brands/Brands.html`.
   import getBrand from '@mamba/brands/getBrand.js';
 
   export default {
-     helpers: { getBrand },
-  }
+    helpers: { getBrand },
+  };
 </script>
 ```

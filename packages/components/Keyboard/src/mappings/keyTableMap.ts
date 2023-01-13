@@ -58,7 +58,17 @@ export default Object.freeze({
   220: ['\\', '|'],
   221: [']', '}'],
   222: [`'`, `"`],
-  // Numpad math key codes
+  // Numpad and math key codes
+  96: 'Numpad0',
+  97: 'Numpad1',
+  98: 'Numpad2',
+  99: 'Numpad3',
+  100: 'Numpad4',
+  101: 'Numpad5',
+  102: 'Numpad6',
+  103: 'Numpad7',
+  104: 'Numpad8',
+  105: 'Numpad9',
   106: '×',
   109: '−',
   107: '+',
