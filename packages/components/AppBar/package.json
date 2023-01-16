@@ -16,5 +16,12 @@
     "@mamba/styles": "8.0.0",
     "svelte": "<3"
   },
+  "examples": [
+    {
+      "title": "",
+      "path": "example/Example.html",
+      "ih": 240
+    }
+  ],
   "gitHead": "e919d0e654f8134f157bf4f6e078685f5dd8a000"
 }
