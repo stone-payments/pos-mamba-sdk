@@ -40,7 +40,7 @@
     "lodash": "^4.17.21"
   },
   "peerDependencies": {
-    "@mamba/core": "8.0.0"
+    "@mamba/core": "9.0.0"
   },
   "gitHead": "e919d0e654f8134f157bf4f6e078685f5dd8a000"
 }

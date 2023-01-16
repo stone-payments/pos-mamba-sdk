@@ -22,7 +22,7 @@
     "lodash": "^4.17.21"
   },
   "peerDependencies": {
-    "@mamba/core": "8.0.0",
-    "@mamba/keyboard": "8.0.0"
+    "@mamba/core": "9.0.0",
+    "@mamba/keyboard": "9.0.0"
   }
 }

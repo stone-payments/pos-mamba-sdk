@@ -16,7 +16,7 @@
     "@mamba/switch": "9.0.0"
   },
   "peerDependencies": {
-    "@mamba/icon": "8.0.0"
+    "@mamba/icon": "9.0.0"
   },
   "examples": [
     {
