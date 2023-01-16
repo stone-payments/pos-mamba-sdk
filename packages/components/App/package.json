@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 8 || <= 14",
-    "npm": ">6"
+    "npm": ">= 7"
   },
   "publishConfig": {
     "access": "public"
@@ -20,5 +20,9 @@
     "@mamba/styles": "8.0.0",
     "@mamba/utils": "8.0.0",
     "lodash": "^4.17.21"
+  },
+  "peerDependencies": {
+    "@mamba/keyboard": "8.0.0",
+    "@mamba/core": "8.0.0"
   }
 }

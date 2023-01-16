@@ -9,7 +9,7 @@
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 8 || <= 14",
-    "npm": ">6"
+    "npm": ">= 7"
   },
   "files": [
     "*",
@@ -40,9 +40,7 @@
     "lodash": "^4.17.21"
   },
   "peerDependencies": {
-    "@mamba/core": ">=1",
-    "@mamba/input": ">=6",
-    "@mamba/utils": ">=5"
+    "@mamba/core": "8.0.0"
   },
   "gitHead": "e919d0e654f8134f157bf4f6e078685f5dd8a000"
 }

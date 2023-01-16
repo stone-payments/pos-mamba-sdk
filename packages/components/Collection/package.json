@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 8 || <= 14",
-    "npm": ">6"
+    "npm": ">= 7"
   },
   "publishConfig": {
     "access": "public"
@@ -16,7 +16,7 @@
     "@mamba/switch": "8.0.0"
   },
   "peerDependencies": {
-    "@mamba/icon": ">=3"
+    "@mamba/icon": "8.0.0"
   },
   "gitHead": "e919d0e654f8134f157bf4f6e078685f5dd8a000"
 }
