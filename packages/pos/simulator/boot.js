@@ -11,6 +11,7 @@ import * as $Cancellation from './drivers/cancellation.js';
 import * as $Http from './drivers/http.js';
 import * as $Card from './drivers/card.js';
 import * as $Gif from './drivers/gif.js';
+import * as Sound from './drivers/sound.js';
 
 DriverManager.attachDrivers([
   $Printer,
@@ -24,4 +25,5 @@ DriverManager.attachDrivers([
   $Http,
   $Card,
   $Gif,
+  Sound,
 ]);

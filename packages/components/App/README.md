@@ -35,6 +35,7 @@ Sempre que executado o método `this.root.close()` do [componente raiz](https://
 
 Por padrão, quando o usuário clicar no botão `close`/`x` o fluxo se inicia automaticamente. Caso, deseje que para fechar a aplicação a senha de administrador do `POS` seja informada, basta adicionar `askPasswordOnClose` no seu componente `App`.
 <br/><br/>
+
 ```html
 <App askPasswordOnClose>
   <!--
@@ -49,6 +50,7 @@ Entretanto, também é possível sobrescrever este comportamento através de um 
 <br/>
 
 ---
+
 ### Meta informações
 
 O componente `<App/>` se registra como a propriedade `meta` no [componente raiz](https://svelte.technology/guide#component-root). Possibilitando o acesso meta informações de estado e fluxos do aplicativo:
@@ -60,25 +62,22 @@ O componente `<App/>` se registra como a propriedade `meta` no [componente raiz]
   Habilita/desabilita a navegação do app. Passa-se um objeto composto por `back` e `home` com um valor _booleano_ ou um valor _booleano_ único que será usado para ambos os casos.
 
   ```js
-  this.root.meta.setNavigable({ home: boolean, back: boolean } | boolean)
+  this.root.meta.setNavigable({ home: boolean, back: boolean } | boolean);
   ```
-
 
 - Esconde/mostra o `AppBar`. Passa-se um valor _booleano_:
 
   ```js
-  this.root.meta.hideAppBar(boolean)
+  this.root.meta.hideAppBar(boolean);
   ```
-
 
 - Navegação da `AppBar` no botão de voltar com rota customizada e passagem de parâmetros:
 
   Customiza a rota quando for clicado no botão de voltar no `AppBar`. Passa-se um objeto composto por `route` e `params`, a propriedade `route` é obrigatória e precisa receber uma _string_, a propriedade `params` é opcional e o valor precisa ser um _object_.
 
   ```js
-  this.root.meta.setNavigableRoute('/', { name: 'Mamba' })
+  this.root.meta.setNavigableRoute('/', { name: 'Mamba' });
   ```
-
 
 - Atalhos de tecla automáticos `shortcut="nomeDaTecla"`
 
@@ -88,13 +87,11 @@ O componente `<App/>` se registra como a propriedade `meta` no [componente raiz]
   this.root.meta.setShortcuts(boolean);
   ```
 
-
 - Bloqueio de _scroll_. Habilita/desabilita o _scroll_ do app.
 
   ```js
   this.root.meta.setScrollable(boolean);
   ```
-
 
 ## Sub componentes
 
@@ -122,13 +119,12 @@ O componente `Keystroke` associa um evento de tecla á uma tecla específica e o
 </script>
 ```
 
-
 `<Keystroke ...props/>`
 
-| Parâmetros | Descrição                                    | Tipo      | Padrão |
-| --------- | -------------------------------------------- | --------- | ------ |
-| key       | Define a tecla associada ao handler          | `string`  | `null` |
-| active    | Define ser o handler deve estar ativo ou não | `boolean` | `true` |
+| Propriedades | Descrição                                    | Tipo      | Padrão |
+| ------------ | -------------------------------------------- | --------- | ------ |
+| key          | Define a tecla associada ao handler          | `string`  | `null` |
+| active       | Define ser o handler deve estar ativo ou não | `boolean` | `true` |
 
 ## Eventos
 

@@ -1,12 +1,12 @@
 {
   "name": "@mamba/styles",
-  "version": "5.0.0",
+  "version": "9.0.0",
   "description": "Mamba core and reset styles",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 8 || <= 14",
-    "npm": ">6"
+    "npm": ">= 7"
   },
   "publishConfig": {
     "access": "public"

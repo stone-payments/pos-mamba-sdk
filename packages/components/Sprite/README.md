@@ -1,13 +1,12 @@
 # Sprite
 
-O componente `Sprite` ajuda na criação de animações utilizando uma *SpriteSheet*. É recomendado que se utilize este componente no lugar de arquivos `.gif` por ter um desempenho melhor.
+O componente `Sprite` ajuda na criação de animações utilizando uma _SpriteSheet_. É recomendado que se utilize este componente no lugar de arquivos `.gif` por ter um desempenho melhor.
 
-
-| Parâmetross  | Descrição                         | Tipo               | Padrão        |
-|-------------|-----------------------------------|--------------------|---------------|
-| src         | Caminho para a spritesheet       | `string`            | `undefined`   |
-| width       | Largura da animação              | `int` (px)          | `undefined`   |
-| height      | Altura da animação               | `int` (px)          | `width`       |
+| Propriedades | Descrição                  | Tipo       | Padrão      |
+| ------------ | -------------------------- | ---------- | ----------- |
+| src          | Caminho para a spritesheet | `string`   | `undefined` |
+| width        | Largura da animação        | `int` (px) | `undefined` |
+| height       | Altura da animação         | `int` (px) | `width`     |
 
 ## Métodos
 

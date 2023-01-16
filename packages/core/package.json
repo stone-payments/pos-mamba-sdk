@@ -1,6 +1,6 @@
 {
   "name": "@mamba/core",
-  "version": "2.0.0",
+  "version": "9.0.0",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
   "description": "Mamba QT bindings, wrappers and embbebded hardware handlers",
@@ -8,8 +8,14 @@
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 8 || <= 14",
-    "npm": ">6"
+    "npm": ">= 7"
   },
+  "files": [
+    "*",
+    "!tsconfig.json",
+    "!keymap",
+    "!currency"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/stone-payments/pos-mamba-sdk.git",

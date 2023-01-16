@@ -3,6 +3,87 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+## [9.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v8.0.0...v9.0.0) (2023-01-16)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
+## [8.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.33.2...v8.0.0) (2023-01-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* 🧨 New Warning component
+
+### Features
+
+* 🎸 add footer slot ([aae3d3e](https://github.com/stone-payments/pos-mamba-sdk/commit/aae3d3e46cdb02e1de9c2104aa8e1e2a11c799b0))
+* 🎸 add new Warning dialog ([1aa5e66](https://github.com/stone-payments/pos-mamba-sdk/commit/1aa5e66a8da0e35830d0b5e0d87b20361d96e01c))
+* 🎸 Update packages ([b8044fe](https://github.com/stone-payments/pos-mamba-sdk/commit/b8044fe52daa682e98b71c275f509acd60c77f40))
+
+
+### Bug Fixes
+
+* 🐛 camelcase props ([b6db695](https://github.com/stone-payments/pos-mamba-sdk/commit/b6db695baa6cd05826f8de393b0c3020b0210152))
+* 🐛 crash on Dialog ([d35bf1f](https://github.com/stone-payments/pos-mamba-sdk/commit/d35bf1faa7ee3630a06bcf065f89548aee7ce10d))
+* 🐛 duration type check ([7fec03b](https://github.com/stone-payments/pos-mamba-sdk/commit/7fec03be2b34d28297895b25fa8ee59a83264f01))
+* 🐛 fix hard coded keys and its events ([7caddec](https://github.com/stone-payments/pos-mamba-sdk/commit/7caddec0f31d60c3fe2adb16970703b4c1ff7765))
+* 🐛 fix several issues related with cursors and/or suggestions ([d4a3b62](https://github.com/stone-payments/pos-mamba-sdk/commit/d4a3b62673a69ee01974b3668954322389e410bb))
+* 🐛 normalize the dependencies across packages ([43103d7](https://github.com/stone-payments/pos-mamba-sdk/commit/43103d718ba93909cb34ca459f674ceea9354a06))
+* 🐛 Q92 layout ([ad32128](https://github.com/stone-payments/pos-mamba-sdk/commit/ad32128f661eff98e5ad0f2a2f63d2ec0aca9929))
+* 🐛 refix wrong replace ([55c7d42](https://github.com/stone-payments/pos-mamba-sdk/commit/55c7d42458cf583186d4fcc640989359f4f07cd5))
+* 🐛 remove global body from examples ([0f64e61](https://github.com/stone-payments/pos-mamba-sdk/commit/0f64e61f28eec0a18c3405dad78520a53e04335c))
+* 🐛 update MP35P classes to has-small-screen ([20abe2d](https://github.com/stone-payments/pos-mamba-sdk/commit/20abe2df37d384bf7b3fb3eac501808372278501))
+* 🐛 update variables to camcelCase ([ae7e14a](https://github.com/stone-payments/pos-mamba-sdk/commit/ae7e14a9b18bb5373d5f508096134b3a6d343321))
+* 🐛 update variables to camcelCase ([87bbeeb](https://github.com/stone-payments/pos-mamba-sdk/commit/87bbeeb494eeba68991d04361d304b20f3e29ce8))
+* 🐛 wrong color importing ([a994113](https://github.com/stone-payments/pos-mamba-sdk/commit/a994113bfabe2a734e5cfbb906cd7a44711c28ee))
+* 🐛 wrong color importing ([1ad1e17](https://github.com/stone-payments/pos-mamba-sdk/commit/1ad1e176030d7865e2ac20d5055719ad56e697fc))
+* outdated code ([61c9797](https://github.com/stone-payments/pos-mamba-sdk/commit/61c9797e9b13c43824726ec24d52a0012cda29f8))
+* outdated code ([530538b](https://github.com/stone-payments/pos-mamba-sdk/commit/530538ba5d52d580a136b6a1d18199b9f44f0231))
+
+
+### Reverts
+
+* Revert "bump: dialog version to 5.1.0" ([ffd2159](https://github.com/stone-payments/pos-mamba-sdk/commit/ffd21596f4a051f3b1756555c1fa5960dd79bf14))
+* Revert "bump: dialog version to 5.1.0" ([1d1f998](https://github.com/stone-payments/pos-mamba-sdk/commit/1d1f99805174c078d3cc56dfc463e48db6cd1424))
+
+
+
 ### [5.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@5.0.0...@mamba/dialog@5.0.1) (2023-01-04)
 
 

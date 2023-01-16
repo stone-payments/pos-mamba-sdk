@@ -1,15 +1,22 @@
 {
   "name": "@mamba/container",
-  "version": "5.0.0",
+  "version": "9.0.0",
   "svelte": "Container.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 8 || <= 14",
-    "npm": ">6"
+    "npm": ">= 7"
   },
   "publishConfig": {
     "access": "public"
   },
+  "examples": [
+    {
+      "title": "",
+      "path": "example/Example.html",
+      "ih": 240
+    }
+  ],
   "gitHead": "e919d0e654f8134f157bf4f6e078685f5dd8a000"
 }

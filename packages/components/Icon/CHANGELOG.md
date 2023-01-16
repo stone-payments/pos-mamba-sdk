@@ -3,6 +3,59 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v8.0.0...v9.0.0) (2023-01-16)
+
+**Note:** Version bump only for package @mamba/icon
+
+
+
+
+
+
+
+**Note:** Version bump only for package @mamba/icon
+
+
+
+
+
+
+
+**Note:** Version bump only for package @mamba/icon
+
+
+
+
+
+
+
+**Note:** Version bump only for package @mamba/icon
+
+
+
+
+
+## [8.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.33.2...v8.0.0) (2023-01-13)
+
+
+### Features
+
+* 🎸 add getPxOf util ([a5d8757](https://github.com/stone-payments/pos-mamba-sdk/commit/a5d8757f5e3528fbaec0e928997d6e853f007630))
+* 🎸 add specialized warning icon ([8c5ae8c](https://github.com/stone-payments/pos-mamba-sdk/commit/8c5ae8cc91fd17133b63b86b1355992638337e3e))
+* 🎸 Update packages ([b8044fe](https://github.com/stone-payments/pos-mamba-sdk/commit/b8044fe52daa682e98b71c275f509acd60c77f40))
+
+
+### Bug Fixes
+
+* 🐛 default color like doc reference ([381df50](https://github.com/stone-payments/pos-mamba-sdk/commit/381df50892d4d2ee558c7c520763b600cc06ae9f))
+* 🐛 normalize the dependencies across packages ([43103d7](https://github.com/stone-payments/pos-mamba-sdk/commit/43103d718ba93909cb34ca459f674ceea9354a06))
+* 🐛 proper render of style value with unit ([0f84581](https://github.com/stone-payments/pos-mamba-sdk/commit/0f84581f66827e2c4ef255ff692a7b1f94e76353))
+* 🐛 Q92 layout ([ad32128](https://github.com/stone-payments/pos-mamba-sdk/commit/ad32128f661eff98e5ad0f2a2f63d2ec0aca9929))
+* 🐛 update variables to camcelCase ([ae7e14a](https://github.com/stone-payments/pos-mamba-sdk/commit/ae7e14a9b18bb5373d5f508096134b3a6d343321))
+* 🐛 update variables to camcelCase ([87bbeeb](https://github.com/stone-payments/pos-mamba-sdk/commit/87bbeeb494eeba68991d04361d304b20f3e29ce8))
+
+
+
 ## [5.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/icon@4.3.0...@mamba/icon@5.0.0) (2022-12-19)
 
 **Note:** Version bump only for package @mamba/icon

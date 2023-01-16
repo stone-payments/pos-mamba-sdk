@@ -3,6 +3,57 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v8.0.0...v9.0.0) (2023-01-16)
+
+**Note:** Version bump only for package @mamba/appbar
+
+
+
+
+
+
+
+**Note:** Version bump only for package @mamba/appbar
+
+
+
+
+
+
+
+**Note:** Version bump only for package @mamba/appbar
+
+
+
+
+
+
+
+**Note:** Version bump only for package @mamba/appbar
+
+
+
+
+
+## [8.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.33.2...v8.0.0) (2023-01-13)
+
+
+### Features
+
+* 🎸 Update packages ([b8044fe](https://github.com/stone-payments/pos-mamba-sdk/commit/b8044fe52daa682e98b71c275f509acd60c77f40))
+
+
+### Bug Fixes
+
+* 🐛 app bar shrinks in flax container with flatlist ([b858cf5](https://github.com/stone-payments/pos-mamba-sdk/commit/b858cf57192e18438559561c7c1fedaf29960635))
+* 🐛 missing imports ([b78a71f](https://github.com/stone-payments/pos-mamba-sdk/commit/b78a71fde15bf98e99c05e5c214819f98a128cc4))
+* 🐛 normalize the dependencies across packages ([43103d7](https://github.com/stone-payments/pos-mamba-sdk/commit/43103d718ba93909cb34ca459f674ceea9354a06))
+* 🐛 refix wrong replace ([55c7d42](https://github.com/stone-payments/pos-mamba-sdk/commit/55c7d42458cf583186d4fcc640989359f4f07cd5))
+* 🐛 update MP35P classes to has-small-screen ([20abe2d](https://github.com/stone-payments/pos-mamba-sdk/commit/20abe2df37d384bf7b3fb3eac501808372278501))
+* change font size ([58e7be1](https://github.com/stone-payments/pos-mamba-sdk/commit/58e7be17804614bfb800b7a887e30b8dd231a4f7))
+
+
+
 ## [5.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/appbar@4.3.0...@mamba/appbar@5.0.0) (2022-12-19)
 
 **Note:** Version bump only for package @mamba/appbar

@@ -1,28 +1,28 @@
 {
   "name": "@mamba/pos",
-  "version": "6.0.2",
+  "version": "9.0.0",
   "description": "Mamba web environment wrapper and simulator",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 8 || <= 14",
-    "npm": ">6"
+    "npm": ">= 7"
   },
   "publishConfig": {
     "access": "public"
   },
   "main": "index.js",
   "dependencies": {
-    "@mamba/app": "7.0.2",
-    "@mamba/button": "6.0.0",
-    "@mamba/core": "2.0.0",
-    "@mamba/dialog": "5.0.1",
-    "@mamba/icon": "5.0.0",
-    "@mamba/keyboard": "3.0.2",
-    "@mamba/radio": "5.0.0",
-    "@mamba/sprite": "5.0.0",
-    "@mamba/switch": "6.0.0",
-    "@mamba/utils": "7.0.1",
+    "@mamba/app": "9.0.0",
+    "@mamba/button": "9.0.0",
+    "@mamba/core": "9.0.0",
+    "@mamba/dialog": "9.0.0",
+    "@mamba/icon": "9.0.0",
+    "@mamba/keyboard": "9.0.0",
+    "@mamba/radio": "9.0.0",
+    "@mamba/sprite": "9.0.0",
+    "@mamba/switch": "9.0.0",
+    "@mamba/utils": "9.0.0",
     "immer": "^2.1.5",
     "lodash": "^4.17.21",
     "svelte": "<3"

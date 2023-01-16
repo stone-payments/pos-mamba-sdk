@@ -3,6 +3,63 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+
+
+**Note:** Version bump only for package @mamba/printable
+
+
+
+
+
+## [9.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v8.0.0...v9.0.0) (2023-01-16)
+
+**Note:** Version bump only for package @mamba/printable
+
+
+
+
+
+
+
+**Note:** Version bump only for package @mamba/printable
+
+
+
+
+
+
+
+**Note:** Version bump only for package @mamba/printable
+
+
+
+
+
+
+
+**Note:** Version bump only for package @mamba/printable
+
+
+
+
+
+## [8.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v2.33.2...v8.0.0) (2023-01-13)
+
+
+### Features
+
+* 🎸 Update packages ([b8044fe](https://github.com/stone-payments/pos-mamba-sdk/commit/b8044fe52daa682e98b71c275f509acd60c77f40))
+
+
+### Bug Fixes
+
+* 🐛 normalize the dependencies across packages ([43103d7](https://github.com/stone-payments/pos-mamba-sdk/commit/43103d718ba93909cb34ca459f674ceea9354a06))
+* 🐛 Printable error trigger ([0fbb91d](https://github.com/stone-payments/pos-mamba-sdk/commit/0fbb91db9f901b91f434adc467a75920e0941b7e))
+* 🐛 remove printable__test wrong file ([1bb46c0](https://github.com/stone-payments/pos-mamba-sdk/commit/1bb46c0051f4007eeb154162f1927512b1af9718))
+* 🐛 update variables to camcelCase ([ae7e14a](https://github.com/stone-payments/pos-mamba-sdk/commit/ae7e14a9b18bb5373d5f508096134b3a6d343321))
+
+
+
 ### [7.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/printable@7.0.1...@mamba/printable@7.0.2) (2023-01-04)
 
 **Note:** Version bump only for package @mamba/printable

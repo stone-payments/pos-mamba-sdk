@@ -7,6 +7,7 @@
   on:keyup
   on:input
   on:blur
+  alphanumeric={false}
   on:focus="_onFocus(event)"
   on:keydown="_onKeydown(event)"
   on:submit="_onSubmit()"
@@ -19,6 +20,24 @@
   import { KEYBOARD, CURRENCY } from '@mamba/core';
   import Keyboard from '@mamba/keyboard/api/keyboard.js';
   import { format as formatMoney } from '@mamba/utils/money.js';
+
+  function getFormattedValue({ prefix, suffix, value = '0', limit }) {
+    const parsedMoney = parseFloat(value) / 100;
+    const isValidNumber = !Number.isNaN(parsedMoney);
+    const returnFactory = (money = 0) => {
+      return `${prefix}${formatMoney(money)}${suffix}`;
+    };
+
+    if (parsedMoney > limit) {
+      const limitedMoney = parseFloat(parsedMoney.toString().substr(0, String(limit).length));
+
+      return returnFactory(limitedMoney);
+    }
+
+    if (isValidNumber) return returnFactory(parsedMoney);
+
+    return returnFactory();
+  }
 
   export default {
     components: {
@@ -39,21 +58,7 @@
       _inputProps: ({ value, prefix, suffix, mask, placeholder, type, validation, ...props }) =>
         props,
       formatted: ({ prefix, suffix, value = '0', limit }) => {
-        const parsedMoney = parseFloat(value) / 100;
-        const isValidNumber = !Number.isNaN(parsedMoney);
-        const returnFactory = (money = 0) => {
-          return `${prefix}${formatMoney(money)}${suffix}`;
-        };
-
-        if (parsedMoney > limit) {
-          const limitedMoney = parseFloat(parsedMoney.toString().substr(0, String(limit).length));
-
-          return returnFactory(limitedMoney);
-        }
-
-        if (isValidNumber) return returnFactory(parsedMoney);
-
-        return returnFactory();
+        return getFormattedValue({ prefix, suffix, value, limit });
       },
       rawValue: ({ value }) => value,
     },
@@ -135,8 +140,8 @@
       },
       _onKeydown(e) {
         e.preventDefault();
-        const keyCode = e.code && e.code !== 0 ? e.code : e.charCode || e.which || e.keyCode;
-        const keyName = Keyboard.getKeyName(keyCode);
+        const [keyCode, keyName] = Keyboard.parseEventKeys(e);
+
         const { readonlyOnEnter } = this.get();
         let { value } = this.get();
         value = value.toString();
@@ -149,7 +154,9 @@
           this.makeReadOnly();
         }
 
-        if (Keyboard.isNumericKey(keyCode)) {
+        const isNumeric = Keyboard.isNumericKey(keyCode) && !e.shiftKey && !e.altKey && !e.metaKey;
+
+        if (isNumeric) {
           if (value === '0') {
             value = keyName;
           } else {
@@ -166,11 +173,22 @@
           if (!value.length) {
             value = '0';
           }
+        } else if (!isNumeric) {
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+          const { prefix, suffix, limit } = this.get();
+          // For reset to original value, since key is not a number, since
+          // svelte not trigger the formatted computed property if its params not change.
+          const resetFormattedValue = getFormattedValue({ prefix, suffix, value, limit });
+          // SetTimeout is need, because virtual keyboard apply input value before we reach here;
+          // we can see a dirty blink of input value change, but hopefully this is an edge scenario.
+          setTimeout(() => this.refs.amountInput.set({ value: resetFormattedValue }));
         }
 
         value = parseFloat(value);
 
         this.set({ value });
+
         this.refs.amountInput._onInput(e);
       },
     },
