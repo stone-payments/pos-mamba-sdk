@@ -1,6 +1,6 @@
 {
   "name": "@mamba/printable",
-  "version": "8.0.0",
+  "version": "9.0.0",
   "svelte": "Printable.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -12,8 +12,15 @@
     "access": "public"
   },
   "dependencies": {
-    "@mamba/dialog": "8.0.0",
-    "@mamba/pos": "8.0.0"
+    "@mamba/dialog": "9.0.0",
+    "@mamba/pos": "9.0.0"
   },
+  "examples": [
+    {
+      "title": "",
+      "path": "example/Example.html",
+      "ih": 240
+    }
+  ],
   "gitHead": "e919d0e654f8134f157bf4f6e078685f5dd8a000"
 }

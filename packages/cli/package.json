@@ -1,6 +1,6 @@
 {
   "name": "@mamba/cli",
-  "version": "8.0.0",
+  "version": "9.0.0",
   "description": "Mamba CLI",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
