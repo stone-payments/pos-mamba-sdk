@@ -2279,18 +2279,6 @@
     npmlog "^4.1.2"
     write-file-atomic "^3.0.3"
 
-"@mamba/icon@^4.3.0":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@mamba/icon/-/icon-4.3.0.tgz#e2a334afa5aba18ab7177f1aee1767956993958e"
-  integrity sha512-uSNeL+yckDLjwKW2Js+Yq6XtUjkjZkVmK61t9nt/0BOHQlxyZundClXS8zNrNVbYX48xnjiStfTDbIyFyxf4SQ==
-  dependencies:
-    "@mamba/styles" "4.4.0"
-
-"@mamba/styles@4.4.0", "@mamba/styles@^4.4.0":
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/@mamba/styles/-/styles-4.4.0.tgz#0a0c561c4ae9a47a7a3d73fcdab7fffaf028e480"
-  integrity sha512-HqRVF0UN7gF11kfxAzDphupJdnSmiphww89N+0kRuTWrKZOWEub+evWUJSYJ2VN05CcAjN7aFjLcAuKZjRlnZw==
-
 "@marionebl/sander@^0.6.0":
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/@marionebl/sander/-/sander-0.6.1.tgz#1958965874f24bc51be48875feb50d642fc41f7b"
