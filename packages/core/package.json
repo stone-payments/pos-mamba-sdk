@@ -12,9 +12,11 @@
   },
   "files": [
     "*",
+    "dist",
     "!tsconfig.json",
-    "!keymap",
-    "!currency"
+    "!keymap/*.ts",
+    "!currency/*.ts",
+    "!index.ts"
   ],
   "repository": {
     "type": "git",
