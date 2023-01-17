@@ -15,14 +15,14 @@
   "dependencies": {
     "@mamba/button": "9.0.0",
     "@mamba/core": "9.0.1",
-    "@mamba/keyboard": "9.0.1",
-    "@mamba/pos": "9.0.1",
+    "@mamba/keyboard": "^9.0.1",
+    "@mamba/pos": "^9.0.1",
     "@mamba/styles": "9.0.0",
     "@mamba/utils": "9.0.0",
     "lodash": "^4.17.21"
   },
   "peerDependencies": {
-    "@mamba/core": "9.0.0",
-    "@mamba/keyboard": "9.0.0"
+    "@mamba/core": "^9.0.0",
+    "@mamba/keyboard": "^9.0.0"
   }
 }

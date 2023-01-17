@@ -12,8 +12,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@mamba/dialog": "9.0.1",
-    "@mamba/pos": "9.0.1"
+    "@mamba/dialog": "^9.0.1",
+    "@mamba/pos": "^9.0.1"
   },
   "examples": [
     {

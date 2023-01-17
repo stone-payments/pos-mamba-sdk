@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@mamba/core": "9.0.1",
-    "@mamba/input": "9.0.1",
+    "@mamba/input": "^9.0.1",
     "@mamba/utils": "9.0.0",
     "@types/lodash": "^4.14.182",
     "lodash": "^4.17.21"
