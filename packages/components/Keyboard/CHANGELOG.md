@@ -11,6 +11,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+
+
+**Note:** Version bump only for package @mamba/keyboard
+
+
+
+
+
 ### [9.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.0.0...v9.0.1) (2023-01-17)
 
 **Note:** Version bump only for package @mamba/keyboard
