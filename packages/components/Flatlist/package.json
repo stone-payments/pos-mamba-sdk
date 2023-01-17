@@ -14,11 +14,11 @@
     "access": "public"
   },
   "dependencies": {
-    "@mamba/core": "9.0.1",
-    "@mamba/icon": "9.0.0",
-    "@mamba/keyboard": "9.0.1",
-    "@mamba/styles": "9.0.0",
-    "@mamba/utils": "9.0.0"
+    "@mamba/core": "^9.0.1",
+    "@mamba/icon": "^9.0.1",
+    "@mamba/keyboard": "^9.0.1",
+    "@mamba/styles": "^9.0.0",
+    "@mamba/utils": "^9.0.0"
   },
   "peerDependencies": {
     "@mamba/core": "^9.0.0",

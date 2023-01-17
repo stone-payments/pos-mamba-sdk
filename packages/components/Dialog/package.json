@@ -20,10 +20,10 @@
   ],
   "gitHead": "e919d0e654f8134f157bf4f6e078685f5dd8a000",
   "dependencies": {
-    "@mamba/core": "9.0.1",
-    "@mamba/icon": "9.0.0",
-    "@mamba/keyboard": "9.0.1",
-    "@mamba/styles": "9.0.0"
+    "@mamba/core": "^9.0.1",
+    "@mamba/icon": "^9.0.1",
+    "@mamba/keyboard": "^9.0.1",
+    "@mamba/styles": "^9.0.0"
   },
   "peerDependencies": {
     "@mamba/core": "^9.0.0",
