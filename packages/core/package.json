@@ -1,6 +1,6 @@
 {
   "name": "@mamba/core",
-  "version": "9.0.1",
+  "version": "9.0.2",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
   "description": "Mamba QT bindings, wrappers and embbebded hardware handlers",
