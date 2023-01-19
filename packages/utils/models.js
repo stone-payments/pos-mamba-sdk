@@ -247,7 +247,14 @@ export const SMALL_SCREEN_DEVICES = [
  * @returns {boolean}
  */
 export function hasSmallScreen() {
-  return VerifyMethodOnSystemWrapper('hasSmallScreen') || _hasModelAtList(SMALL_SCREEN_DEVICES);
+  let value = VerifyMethodOnSystemWrapper('hasSmallScreen');
+
+  /** negation explained on hasNoTouch() */
+  if (typeof value === 'undefined') {
+    value = _hasModelAtList(SMALL_SCREEN_DEVICES);
+  }
+
+  return value;
 }
 
 /**
@@ -267,9 +274,14 @@ export const ARROW_NAVIGATION_DEVICES = [
  * @returns {boolean}
  */
 export function hasArrowNavigation() {
-  return (
-    VerifyMethodOnSystemWrapper('hasArrowNavigation') || _hasModelAtList(ARROW_NAVIGATION_DEVICES)
-  );
+  let value = VerifyMethodOnSystemWrapper('hasArrowNavigation');
+
+  /** negation explained on hasNoTouch() */
+  if (typeof value === 'undefined') {
+    value = _hasModelAtList(ARROW_NAVIGATION_DEVICES);
+  }
+
+  return value;
 }
 
 export const HAS_KEYBOARD = [
@@ -289,7 +301,14 @@ export const HAS_KEYBOARD = [
  * @returns {boolean} If current model has physical keyboard
  */
 export function hasKeyboard() {
-  return VerifyMethodOnSystemWrapper('hasKeyboard') || _hasModelAtList(HAS_KEYBOARD);
+  let value = VerifyMethodOnSystemWrapper('hasKeyboard');
+
+  /** negation explained on hasNoTouch() */
+  if (typeof value === 'undefined') {
+    value = _hasModelAtList(HAS_KEYBOARD);
+  }
+
+  return value;
 }
 
 /**
@@ -303,7 +322,14 @@ export const HAS_KEYBOARD_LIGHT = [MODELS.MP35P, MODELS.D230];
  * @returns {boolean} If current model has keyboard light
  */
 export function hasKeyboardLight() {
-  return VerifyMethodOnSystemWrapper('hasKeyboardLight') || _hasModelAtList(HAS_KEYBOARD_LIGHT);
+  let value = VerifyMethodOnSystemWrapper('hasKeyboardLight');
+
+  /** negation explained on hasNoTouch() */
+  if (typeof value === 'undefined') {
+    value = _hasModelAtList(HAS_KEYBOARD_LIGHT);
+  }
+
+  return value;
 }
 
 /**
@@ -325,7 +351,14 @@ export const WITH_TOUCH = [
  * @returns {boolean}
  */
 export function hasTouch() {
-  return VerifyMethodOnSystemWrapper('hasTouch') || _hasModelAtList(WITH_TOUCH);
+  let value = VerifyMethodOnSystemWrapper('hasTouch');
+
+  /** negation explained on hasNoTouch() */
+  if (typeof value === 'undefined') {
+    value = _hasModelAtList(WITH_TOUCH);
+  }
+
+  return value;
 }
 
 /**
