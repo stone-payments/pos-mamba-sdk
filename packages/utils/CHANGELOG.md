@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [9.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.0.1...v9.0.2) (2023-01-19)
+
+
+### Bug Fixes
+
+* 🐛 capabilities return ([0c7ef47](https://github.com/stone-payments/pos-mamba-sdk/commit/0c7ef472b7c8e7532858f21b368bc9bbaa8ebd76))
+
+
+
 ## [9.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v8.0.0...v9.0.0) (2023-01-16)
 
 **Note:** Version bump only for package @mamba/utils
