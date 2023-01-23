@@ -315,7 +315,7 @@ export function hasKeyboard() {
  * @description Devices with keyboard light
  * @returns {array} A list of devices that has keyboard light
  */
-export const HAS_KEYBOARD_LIGHT = [MODELS.MP35P, MODELS.D230];
+export const HAS_KEYBOARD_LIGHT = [MODELS.MP35P, MODELS.D230, MODELS.S920, MODELS.Q92, MODELS.Q92S];
 
 /**
  * @description If current model have keyboard light
