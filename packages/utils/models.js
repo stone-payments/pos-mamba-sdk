@@ -183,7 +183,14 @@ export function isStandardModel() {
  * @returns {boolean} If the current model is from the PAX manufacturer
  */
 export function isPAXDevices() {
-  return _hasModelAtList(PAX_DEVICES);
+  let value = VerifyMethodOnSystemWrapper('getPosBrand');
+
+  if (typeof value === 'undefined') {
+    value = _hasModelAtList(PAX_DEVICES);
+    return value;
+  }
+
+  return value.toUpperCase() === 'PAX';
 }
 
 /**
@@ -199,7 +206,14 @@ export const VERIFONE_DEVICES = [MODELS.V240M];
  * @returns {boolean} If the current model is from the Verifone manufacturer
  */
 export function isVerifoneDevices() {
-  return _hasModelAtList(VERIFONE_DEVICES);
+  let value = VerifyMethodOnSystemWrapper('getPosBrand');
+
+  if (typeof value === 'undefined') {
+    value = _hasModelAtList(VERIFONE_DEVICES);
+    return value;
+  }
+
+  return value.toUpperCase() === 'VERIFONE';
 }
 
 /**
@@ -215,7 +229,14 @@ export const GERTEC_DEVICES = [MODELS.MP35, MODELS.MP35P];
  * @returns {boolean} If the current model is from the Gertec manufacturer
  */
 export function isGertecDevices() {
-  return _hasModelAtList(GERTEC_DEVICES);
+  let value = VerifyMethodOnSystemWrapper('getPosBrand');
+
+  if (typeof value === 'undefined') {
+    value = _hasModelAtList(GERTEC_DEVICES);
+    return value;
+  }
+
+  return value.toUpperCase() === 'GERTEC';
 }
 
 /**
