@@ -1,6 +1,6 @@
 {
   "name": "@mamba/printable",
-  "version": "9.0.0",
+  "version": "9.0.2",
   "svelte": "Printable.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -12,8 +12,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@mamba/dialog": "9.0.0",
-    "@mamba/pos": "9.0.0"
+    "@mamba/dialog": "^9.0.2",
+    "@mamba/pos": "^9.0.2"
   },
   "examples": [
     {
