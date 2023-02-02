@@ -28,7 +28,7 @@
             <div class="action" on:click="close('negative', 'touch')" shortcut="close">
               <RoundIcon
                 symbol="close"
-                size="giant"
+                size={buttonSize}
                 borderRadius="11px"
                 bgColor={red400}
               />
@@ -50,7 +50,7 @@
             <div class="action" on:click="close('positive', 'touch')" shortcut="enter">
               <RoundIcon
                 symbol="check"
-                size="giant"
+                size={buttonSize}
                 borderRadius="11px"
                 bgColor={green500}
               />
@@ -83,6 +83,7 @@
         positiveLabel: null,
         negativeLabel: null,
         primaryColor: green500,
+        buttonSize: 'giant',
       };
     },
     computed: {
