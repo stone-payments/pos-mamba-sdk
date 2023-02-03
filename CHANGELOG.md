@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.1.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.0.3...v9.1.0) (2023-02-03)
+
+
+### Features
+
+* Include button size input for CorfirmationDialog component ([3c046f1](https://github.com/stone-payments/pos-mamba-sdk/commit/3c046f1246a78c5d87126b4174988b660b55df67))
+
+
+
 ### [9.0.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.0.2...v9.0.3) (2023-01-23)
 
 
