@@ -30,7 +30,7 @@ module.exports = merge(require('./config.app.js'), {
       onEnd: {
         copy: [
           {
-            source: './src/assets',
+            source: `./src/${PKG.mamba.iconPath}`,
             destination: `./dist/${BUNDLE_NAME}/assets`,
           },
         ],
@@ -62,6 +62,7 @@ module.exports = merge(require('./config.app.js'), {
     IS_PROD && new webpack.HashedModuleIdsPlugin(),
   ].filter(Boolean),
   optimization: {
+    usedExports: true,
     minimize: IS_PROD,
     minimizer: [
       /** Minify the bundle's css */

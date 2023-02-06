@@ -26,7 +26,7 @@ module.exports = {
         ADD_SIMULATOR && 'MAMBA_SIMULATOR=true',
         (choseAllPlatforms || platforms.length > 1) && 'BUILD_ALL=true',
         `PLATFORM=${plat}`,
-        `webpack --config "${getWebpackConfigPath('app.build')}"`,
+        `webpack --env PLATFORM=${plat} --config "${getWebpackConfigPath('app.build')}"`,
       ]
         .filter(Boolean)
         .join(' ');

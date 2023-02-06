@@ -36,6 +36,13 @@ const definePluginOptions = merge(clientEnvironment('webpack'), {
   __POS__: IS_POS,
   __SIMULATOR__: ADD_MAMBA_SIMULATOR,
   __BROWSER__: IS_BROWSER,
+  __PLATFORM__: process.env.PLATFORM,
+  __PLATFORM_S920__: process.env.PLATFORM === 'S920',
+  __PLATFORM_Q92__: process.env.PLATFORM === 'Q92',
+  __PLATFORM_D199__: process.env.PLATFORM === 'D199',
+  __PLATFORM_MP35__: process.env.PLATFORM === 'MP35',
+  __PLATFORM_MP35P__: process.env.PLATFORM === 'MP35P',
+  __PLATFORM_V240M__: process.env.PLATFORM === 'V240M',
 });
 
 module.exports = {

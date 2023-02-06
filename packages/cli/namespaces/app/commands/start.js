@@ -17,7 +17,7 @@ module.exports = {
       /** If development flag has a numeric value */
       Number.isInteger(debug) && `DEBUG_LVL=${debug}`,
       `PLATFORM=${platform}`,
-      `webpack-dev-server --port ${port} --config "${webpackConfigPath}"`,
+      `webpack-dev-server --env PLATFORM=${platform} --port ${port} --config "${webpackConfigPath}"`,
     ]
       .filter(Boolean)
       .join(' ');
