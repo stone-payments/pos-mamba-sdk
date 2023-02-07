@@ -56,7 +56,6 @@ module.exports = merge(require('./config.base.js'), {
     new webpack.NormalModuleReplacementPlugin(
       /(.*)\.PLATFORM(\.(gif|jpe?g|png|ico|svg|bmp|js|html))/,
       function (resource) {
-        console.log(resource.request);
         /* relevant resource obj sample
         {
           context: '<absolute folder>',
