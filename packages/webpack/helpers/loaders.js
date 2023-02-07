@@ -73,7 +73,7 @@ module.exports = {
       fallback: 'file-loader',
       limit: 1,
       outputPath: 'assets/',
-      name: `./images/[name].[ext]`,
+      name: `./images/[name]${IS_DEV ? '.[hash:5]' : ''}.[ext]`,
     },
   },
   svelte: {

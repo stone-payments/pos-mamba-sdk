@@ -39,10 +39,15 @@ const definePluginOptions = merge(clientEnvironment('webpack'), {
   __PLATFORM__: process.env.PLATFORM,
   __PLATFORM_S920__: process.env.PLATFORM === 'S920',
   __PLATFORM_Q92__: process.env.PLATFORM === 'Q92',
+  __PLATFORM_Q92S__: process.env.PLATFORM === 'Q92S',
   __PLATFORM_D199__: process.env.PLATFORM === 'D199',
+  __PLATFORM_D195__: process.env.PLATFORM === 'D195',
+  __PLATFORM_Q60__: process.env.PLATFORM === 'Q60',
   __PLATFORM_MP35__: process.env.PLATFORM === 'MP35',
   __PLATFORM_MP35P__: process.env.PLATFORM === 'MP35P',
+  __PLATFORM_D230__: process.env.PLATFORM === 'D230',
   __PLATFORM_V240M__: process.env.PLATFORM === 'V240M',
+  __SUPPORT_SMALL_SCREEN__: process.env.__SUPPORT_SMALL_SCREEN__ === true,
 });
 
 module.exports = {

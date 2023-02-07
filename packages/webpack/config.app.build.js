@@ -62,7 +62,6 @@ module.exports = merge(require('./config.app.js'), {
     IS_PROD && new webpack.HashedModuleIdsPlugin(),
   ].filter(Boolean),
   optimization: {
-    usedExports: true,
     minimize: IS_PROD,
     minimizer: [
       /** Minify the bundle's css */
@@ -79,7 +78,7 @@ module.exports = merge(require('./config.app.js'), {
       new UglifyJsPlugin({
         cache: true, // Enables file caching
         parallel: true, // Use multiple CPUs if available,
-        sourceMap: true, // Enables sourcemap
+        sourceMap: !IS_PROD, // Enables sourcemap
         uglifyOptions: {
           compress: {
             reduce_funcs: false,

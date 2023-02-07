@@ -48,7 +48,7 @@ module.exports = {
     __PLATFORM_MP35P__: 'readonly',
     __PLATFORM_V240M__: 'readonly',
     __PLATFORM_D230__: 'readonly',
-    __SUPPORT_SMALL_SCREEN__: 'readonly',
+    __SUPPORT_SMALL_SCREEN__: 'writable',
     DEVHOST_IP: 'readonly',
     LOG_INFO: 'readonly',
     LOG_ERROR: 'readonly',
