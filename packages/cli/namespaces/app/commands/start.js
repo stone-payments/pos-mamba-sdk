@@ -11,6 +11,7 @@ module.exports = {
     const webpackConfigPath = getWebpackConfigPath('app.dev');
 
     console.log(chalk.cyan(`Starting the development server at: http://localhost:${port}`));
+    if (platform) console.log(`PLATFORM: ${chalk.yellow(platform)}`);
 
     const cmd = [
       'cross-env',

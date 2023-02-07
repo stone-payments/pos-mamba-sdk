@@ -1,6 +1,8 @@
 /**
  * Common webpack configuration
  */
+const { existsSync } = require('fs');
+const { join, resolve } = require('path');
 const merge = require('webpack-merge');
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin');
 const WebpackBar = require('webpackbar');
@@ -49,6 +51,14 @@ const definePluginOptions = merge(clientEnvironment('webpack'), {
   __PLATFORM_V240M__: process.env.PLATFORM === 'V240M',
   __SUPPORT_SMALL_SCREEN__: process.env.__SUPPORT_SMALL_SCREEN__ === true,
 });
+
+const { PLATFORM } = process.env;
+
+const hasEnvOf = (env) => typeof env === 'string' && env !== '';
+
+const PLATFORM_TARGET = String(
+  hasEnvOf(PLATFORM) && PLATFORM !== 'GENERIC' ? `.${PLATFORM}` : '',
+).toUpperCase();
 
 module.exports = {
   mode: IS_PROD ? 'production' : 'development',
@@ -150,6 +160,50 @@ module.exports = {
   plugins: [
     new WebpackBar(),
     new LodashModuleReplacementPlugin(),
+    new webpack.NormalModuleReplacementPlugin(
+      /(.*)\.PLATFORM(\.(gif|jpe?g|png|ico|svg|bmp|js|html))/,
+      function (resource) {
+        /* relevant resource obj sample
+        {
+          context: '<absolute folder>',
+          request: './<file path>/<file name>.PLATFORM.js',
+        } */
+
+        const replacement = resource.request.replace(/\.PLATFORM/, `${PLATFORM_TARGET}`);
+        if (existsSync(join(resource.context, replacement))) {
+          resource.request = replacement;
+        } else {
+          const getPathFileName = (request) => {
+            const paths = request.split('!');
+            const lastPath = paths[paths.length - 1];
+            return lastPath.split('/').slice(0, -1).join('/');
+          };
+
+          const defaultSameNameFile = resource.request.replace(/\.PLATFORM/, '');
+
+          // Try use a file with the same name but(whitout platform slug)
+          if (existsSync(join(resource.context, defaultSameNameFile))) {
+            resource.request = defaultSameNameFile;
+          }
+          // Try use index.js instead
+          else if (resource.context.includes('.js')) {
+            const nextPath = join(resource.context, getPathFileName(resource.request), 'index.js');
+            if (existsSync(nextPath)) resource.request = nextPath;
+          }
+          // Try use index.html instead
+          else if (resource.context.includes('.html')) {
+            const nextPath = join(
+              resource.context,
+              getPathFileName(resource.request),
+              'index.html',
+            );
+            if (existsSync(nextPath)) resource.request = nextPath;
+          } else if (/(.*)\.(gif|jpe?g|png|ico|svg|bmp)/.test(resource.request)) {
+            resource.request = resolve(__dirname, './virtual-files/dummy.gif');
+          }
+        }
+      },
+    ),
     new MiniCssExtractPlugin({
       filename: 'style.css',
       chunkFilename: '[name].[hash:5].css',
