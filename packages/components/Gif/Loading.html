@@ -1,0 +1,14 @@
+<Gif {src} width="70" ref:gif/>
+
+<script>
+  import loadingGif from './assets/loading.gif';
+
+  export default {
+    components: {
+      Gif: './Gif.html',
+    },
+    helpers: {
+      src: loadingGif,
+    },
+  };
+</script>

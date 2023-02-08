@@ -1,0 +1,32 @@
+<div
+  ref:gif
+  class="gif"
+>
+  <img
+    {src}
+    {width}
+    height="{imgHeight}"
+    alt=""
+  >
+</div>
+
+<script>
+  export default {
+    data() {
+      return {
+        src: null,
+        width: 0,
+        height: 0,
+      };
+    },
+    computed: {
+			imgHeight: ({ width, height }) => height || width,
+    }
+  };
+</script>
+
+<style>
+  .gif {
+    display: inline-block;
+  }
+</style>
