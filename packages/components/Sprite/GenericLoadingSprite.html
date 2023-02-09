@@ -1,0 +1,26 @@
+<Sprite {src} {width} {height} FPS="8" timing="700" ref:sprite/>
+
+<script>
+  import genericLoadingSprite from './assets/loading-generic-sprite.png';
+
+  export default {
+    components: {
+      Sprite: './Sprite.html',
+    },
+    data() {
+      return {
+        src: genericLoadingSprite,
+        width: 90,
+        height: 90,
+      };
+    },
+    methods: {
+      start() {
+        this.refs.sprite.start();
+      },
+      stop() {
+        this.refs.sprite.stop();
+      },
+    },
+  };
+</script>

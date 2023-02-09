@@ -5,8 +5,6 @@
 ></div>
 
 <script>
-  const FPS = 60;
-
   export default {
     data() {
       return {
@@ -14,6 +12,8 @@
         src: null,
         width: 0,
         height: 0,
+        FPS: 60,
+        timing: 1000,
       };
     },
     oncreate() {
@@ -21,9 +21,11 @@
       const { sprite } = this.refs;
       const image = new Image();
 
+      const numberToPx = (prop) => (typeof prop === 'number' ? `${prop}px` : prop);
+
       sprite.style.backgroundImage = `url(${src})`;
-      sprite.style.width = width;
-      sprite.style.height = height || width;
+      sprite.style.width = numberToPx(width);
+      sprite.style.height = numberToPx(height || width);
 
       image.onload = () => {
         this.spriteWidth = image.width;
@@ -43,7 +45,7 @@
         }
 
         const { spriteWidth } = this;
-        const { _position } = this.get();
+        const { _position, FPS, timing } = this.get();
 
         /* istanbul ignore next */
         const STEP = spriteWidth ? spriteWidth / FPS : 0;
@@ -57,7 +59,7 @@
             positionAux = 0;
           }
           this.set({ _position: positionAux });
-        }, 1000 / FPS);
+        }, timing / FPS);
 
         this.interval = interval;
       },
