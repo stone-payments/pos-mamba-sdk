@@ -162,10 +162,12 @@
   .printing-sprite {
     background-image: url(./assets/images/printing-sprite.png);
     display: block;
-    width: 110px;
+    width: 130px;
     height: 110px;
     margin: auto;
-    animation: printing-animation 2s steps(65) infinite;
+    animation: printing-animation 1.2s steps(60) infinite;
+    background-position-y: 0;
+    background-repeat: repeat-x;
   }
 
   .title-dialog {
@@ -214,7 +216,7 @@
 
   @keyframes printing-animation {
     0% {
-      background-position-x: 7150px;
+      background-position-x: 7920px;
     }
 
     100% {
