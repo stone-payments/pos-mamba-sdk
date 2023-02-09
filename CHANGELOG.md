@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.2.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.1.0...v9.2.0) (2023-02-09)
+
+
+### Features
+
+* 🎸 implement generic loadings ([fe0f7d7](https://github.com/stone-payments/pos-mamba-sdk/commit/fe0f7d7b162ae969bcdef84b949e1ded257f8a07))
+
+
+### Bug Fixes
+
+* 🐛 fix loading position center ([157afd9](https://github.com/stone-payments/pos-mamba-sdk/commit/157afd93c29e402883988f11cd1d60d14afa50e5))
+
+
+
+## [9.1.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.0.3...v9.1.0) (2023-02-03)
+
+
+### Features
+
+* Include button size input for CorfirmationDialog component ([3c046f1](https://github.com/stone-payments/pos-mamba-sdk/commit/3c046f1246a78c5d87126b4174988b660b55df67))
+
+
+
+### [9.0.3](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.0.2...v9.0.3) (2023-01-23)
+
+
+### Bug Fixes
+
+* 🐛 pos wrongly excluded from has keyboard light ([7d2a38d](https://github.com/stone-payments/pos-mamba-sdk/commit/7d2a38d0dafd3382a7fadd27eafd082702374cf1))
+
+
+
 ### [9.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.0.1...v9.0.2) (2023-01-19)
 
 
