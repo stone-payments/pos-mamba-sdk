@@ -1,14 +1,18 @@
 <div class="loader" style="width: {size}px; height: {size}px;">
-  <svg class="circular" viewBox="25 25 50 50">
-    <circle class="path" cx="50" cy="50" r="19" fill="none" stroke-width="3" stroke-miterlimit="10"/>
-  </svg>
+  <img src="{genericLoadingSprite}" class="circular" alt="" style="width: {arcSize}px; height: {arcSize}px;" />
 </div>
 
 <script>
+  import genericLoadingSprite from './assets/spinning-arc.png';
+
   export default {
+    helpers: {
+      genericLoadingSprite,
+    },
     data() {
       return {
         size: 90,
+        arcSize: 80,
       };
     },
   };
@@ -42,16 +46,6 @@
     left: 0;
     right: 0;
     margin: auto;
-  }
-
-  .path {
-    stroke-dasharray: 89, 200;
-    stroke-dashoffset: -35;
-    /* stylelint-disable-next-line property-no-vendor-prefix */
-    -webkit-animation: dash 1.5s ease-in-out infinite;
-    animation: dash 1.5s ease-in-out infinite;
-    stroke-linecap: round;
-    stroke: white;
   }
 
   /* stylelint-disable-next-line at-rule-no-vendor-prefix */
