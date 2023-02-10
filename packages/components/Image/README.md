@@ -1,6 +1,6 @@
-# Sprite
+# Image
 
-O componente `Gif` permite a utilização de imagens Gifs em substituição ao componente de `Sprite`.
+O componente `Image` permite adicionar imagens através da tag `img`, sendo possível definir a altura e largura.
 
 | Propriedades | Descrição                  | Tipo       | Padrão      |
 | ------------ | -------------------------- | ---------- | ----------- |
@@ -10,8 +10,8 @@ O componente `Gif` permite a utilização de imagens Gifs em substituição ao c
 
 ## Sub componentes
 
-### LoadingGif
+### GenericLoading
 
-`import LoadingGif from '@mamba/gif/Loading.html';`
+`import GenericLoading from '@mamba/image/GenericLoading.html';`
 
-O component `LoadingGif` é um component `Gif` já configurado com a animação padrão de loading do POS.
+O component `GenericLoading` é um component `Image` já configurado com uma imagem Gif da animação padrão de loading do POS.
