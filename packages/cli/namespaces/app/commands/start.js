@@ -11,13 +11,14 @@ module.exports = {
     const webpackConfigPath = getWebpackConfigPath('app.dev');
 
     console.log(chalk.cyan(`Starting the development server at: http://localhost:${port}`));
+    if (platform) console.log(`PLATFORM: ${chalk.yellow(platform)}`);
 
     const cmd = [
       'cross-env',
       /** If development flag has a numeric value */
       Number.isInteger(debug) && `DEBUG_LVL=${debug}`,
       `PLATFORM=${platform}`,
-      `webpack-dev-server --port ${port} --config "${webpackConfigPath}"`,
+      `webpack-dev-server --env PLATFORM=${platform} --port ${port} --config "${webpackConfigPath}"`,
     ]
       .filter(Boolean)
       .join(' ');

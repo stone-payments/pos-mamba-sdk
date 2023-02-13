@@ -39,7 +39,7 @@
     },
     store: () => store,
     helpers: {
-      isModelChecked(active = 'S920', model = 'S920') {
+      isModelChecked(active = __PLATFORM__, model = __PLATFORM__) {
         return String(active).toUpperCase() === String(model).toUpperCase();
       },
       getSanitizedPosModel,

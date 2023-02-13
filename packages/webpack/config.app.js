@@ -6,7 +6,6 @@ const merge = require('webpack-merge');
 const VirtualModulesPlugin = require('webpack-virtual-modules');
 const webpack = require('webpack');
 const { getPkg, fromCwd } = require('quickenv');
-
 const getEntrypoints = require('./helpers/getEntrypoints.js');
 const getVirtualFiles = require('./helpers/getVirtualFiles.js');
 const MambaFixesPlugin = require('./plugins/MambaFixesPlugin.js');
@@ -14,6 +13,7 @@ const { BUNDLE_NAME, IS_BROWSER } = require('./helpers/consts.js');
 const loaders = require('./helpers/loaders.js');
 
 const PKG = getPkg();
+
 module.exports = merge(require('./config.base.js'), {
   entry: getEntrypoints(),
   output: {

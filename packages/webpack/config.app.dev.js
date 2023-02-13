@@ -29,6 +29,7 @@ module.exports = merge(require('./config.app.js'), {
   plugins: [new webpack.HotModuleReplacementPlugin()],
 
   optimization: {
+    usedExports: true,
     namedModules: true,
     noEmitOnErrors: true,
   },
