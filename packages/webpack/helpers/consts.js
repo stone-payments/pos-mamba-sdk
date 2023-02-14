@@ -22,7 +22,12 @@ if (env.APP_ENV === 'browser') {
   env.MAMBA_SIMULATOR = 'true';
 }
 
+if (typeof env.SDK_ASSETS_FOLDER === 'undefined') {
+  env.SDK_ASSETS_FOLDER = '@mamba';
+}
+
 module.exports = {
+  SDK_ASSETS_FOLDER: env.SDK_ASSETS_FOLDER,
   NODE_ENV: env.NODE_ENV,
   APP_ENV: env.APP_ENV,
   IS_PROD: env.NODE_ENV === 'production',

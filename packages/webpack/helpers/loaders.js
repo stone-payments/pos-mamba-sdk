@@ -6,7 +6,14 @@ const { extendPresetEnv } = require('@mamba/configs/babel/utils.js');
 /** Read the svelte config file from the project */
 const svelteConfig = require('@mamba/configs/svelte/index.js');
 
-const { IS_DEV } = require('./consts.js');
+const { IS_DEV, SDK_ASSETS_FOLDER } = require('./consts.js');
+
+function resolveFileLoaderName(resourcePath) {
+  if (/@mamba/.test(resourcePath)) {
+    return `${SDK_ASSETS_FOLDER}/[name].[ext][query]`;
+  }
+  return `[path][name].[ext][query]`;
+}
 
 const babelLoaderConfig = {
   loader: 'babel-loader',
@@ -63,8 +70,7 @@ module.exports = {
     options: {
       fallback: 'file-loader',
       limit: 1, // Copy font files instead of inserting them on the css
-      outputPath: 'assets/',
-      name: './fonts/[name].[ext]',
+      name: resolveFileLoaderName,
     },
   },
   images: {
@@ -72,8 +78,7 @@ module.exports = {
     options: {
       fallback: 'file-loader',
       limit: 1,
-      outputPath: 'assets/',
-      name: `./images/[name]${IS_DEV ? '.[hash:5]' : ''}.[ext]`,
+      name: resolveFileLoaderName,
     },
   },
   svelte: {
