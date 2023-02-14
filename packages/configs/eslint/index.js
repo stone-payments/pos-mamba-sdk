@@ -37,6 +37,18 @@ module.exports = {
     __DEBUG_LVL__: 'readonly',
     __SIMULATOR__: 'readonly',
     __APP_MANIFEST__: 'writable',
+    __PLATFORM__: 'readonly',
+    __PLATFORM_S920__: 'readonly',
+    __PLATFORM_Q92__: 'readonly',
+    __PLATFORM_Q92S__: 'readonly',
+    __PLATFORM_Q60__: 'readonly',
+    __PLATFORM_D195__: 'readonly',
+    __PLATFORM_D199__: 'readonly',
+    __PLATFORM_MP35__: 'readonly',
+    __PLATFORM_MP35P__: 'readonly',
+    __PLATFORM_V240M__: 'readonly',
+    __PLATFORM_D230__: 'readonly',
+    __SUPPORT_SMALL_SCREEN__: 'writable',
     DEVHOST_IP: 'readonly',
     LOG_INFO: 'readonly',
     LOG_ERROR: 'readonly',
@@ -133,7 +145,12 @@ module.exports = {
     'import/no-unresolved': [
       'error',
       {
-        ignore: ['.(?:svelte|html)$', '^(@mamba[\\/]|svelte-)', '.(?:ts)$'],
+        ignore: [
+          '.(?:svelte|html)$',
+          '^(@mamba[\\/]|svelte-)',
+          '.(?:ts)$',
+          '(.*).PLATFORM(.(gif|jpe?g|png|ico|svg|bmp))',
+        ],
       },
     ],
 

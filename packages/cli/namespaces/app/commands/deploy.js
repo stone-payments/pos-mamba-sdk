@@ -62,7 +62,7 @@ module.exports = {
     if (usage === true) {
       console.log(chalk.yellow(`\n  Examples:\n`));
       console.log(
-        `    Build for MP35P: ${chalk.cyan(
+        `    Build for MP35(P): ${chalk.cyan(
           `mamba app deploy -p MP35P -f /data/users/10004/apps/`,
         )}\n`,
       );
@@ -76,7 +76,7 @@ module.exports = {
     const isQ92 = platform === MODELS.Q92;
     const isD199 = platform === MODELS.D199;
     const isPax = isQ92 || isD199 || platform === MODELS.S920;
-    const isGertec = platform === MODELS.MP35P;
+    const isGertec = platform === MODELS.MP35P || platform === MODELS.MP35;
     const isVerifone = platform === MODELS.V240M;
 
     const ADB_TOOL = 'adb';
