@@ -27,7 +27,7 @@ module.exports = {
       platform: {
         description: 'Choose the platform to analyze',
         alias: ['pl'],
-        default: 'S920',
+        default: 'GENERIC',
         choices: [...PLATFORMS],
       },
     }),

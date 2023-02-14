@@ -30,7 +30,7 @@ module.exports = {
     description: 'Choose the platform to build artifact',
     alias: ['pl'],
     type: 'array',
-    default: ['S920'],
+    default: ['GENERIC'],
     choices: [...PLATFORMS, 'all'],
   },
 };
