@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.2.1...v9.3.0) (2023-02-14)
+
+
+### Features
+
+* 🎸 suport specific platform target build ([3b3a85d](https://github.com/stone-payments/pos-mamba-sdk/commit/3b3a85d71859e350718148e8f1728e32a08eb8b7))
+
+
+### Reverts
+
+* Revert "refactor: 💡 remove platform build" ([d537ff1](https://github.com/stone-payments/pos-mamba-sdk/commit/d537ff1d4f599d23227628f2fbffd6acb6f126fa))
+
+
+
 ### [9.2.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.2.0...v9.2.1) (2023-02-09)
 
 **Note:** Version bump only for package @mamba/webpack
