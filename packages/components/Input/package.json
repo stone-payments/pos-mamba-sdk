@@ -1,6 +1,6 @@
 {
   "name": "@mamba/input",
-  "version": "9.2.0",
+  "version": "9.3.0",
   "svelte": "Input.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -12,14 +12,14 @@
     "access": "public"
   },
   "devDependencies": {
-    "@mamba/styles": "^9.2.0"
+    "@mamba/styles": "^9.3.0"
   },
   "dependencies": {
-    "@mamba/core": "^9.2.0",
-    "@mamba/icon": "^9.2.0",
-    "@mamba/keyboard": "^9.2.0",
-    "@mamba/pos": "^9.2.0",
-    "@mamba/utils": "^9.2.0"
+    "@mamba/core": "^9.3.0",
+    "@mamba/icon": "^9.3.0",
+    "@mamba/keyboard": "^9.3.0",
+    "@mamba/pos": "^9.3.0",
+    "@mamba/utils": "^9.3.0"
   },
   "peerDependencies": {
     "@mamba/core": "^9.0.0",
