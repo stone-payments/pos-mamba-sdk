@@ -31,7 +31,7 @@ module.exports = merge(require('./config.app.js'), {
         copy: [
           {
             source: `./src/${PKG.mamba.iconPath}`,
-            destination: `./dist/${BUNDLE_NAME}/assets`,
+            destination: `./dist/${BUNDLE_NAME}/${PKG.mamba.iconPath}`,
           },
         ],
         archive: [
