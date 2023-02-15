@@ -5,7 +5,7 @@ O componente `Image` permite adicionar imagens através da tag `img`, sendo poss
 | Propriedades | Descrição                  | Tipo       | Padrão      |
 | ------------ | -------------------------- | ---------- | ----------- |
 | src          | Caminho para a imagem      | `string`   | `undefined` |
-| width        | Largura da imagem          | `int` (px) | `undefined` |
+| width        | Largura da imagem          | `int` (px) | `0`         |
 | height       | Altura da imagem           | `int` (px) | `width`     |
 
 ## Sub componentes
@@ -14,4 +14,4 @@ O componente `Image` permite adicionar imagens através da tag `img`, sendo poss
 
 `import GenericLoading from '@mamba/image/GenericLoading.html';`
 
-O component `GenericLoading` é um component `Image` já configurado com uma imagem Gif da animação padrão de loading do POS.
+O componente `GenericLoading` é um componente `Image` já configurado com uma imagem Gif da animação padrão de loading do POS.
