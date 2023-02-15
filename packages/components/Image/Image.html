@@ -1,0 +1,31 @@
+<div style="width: {width}px; height: {imgHeight}px">
+  <img {src} alt="">
+</div>
+
+<script>
+  export default {
+    data() {
+      return {
+        src: null,
+        width: 0,
+        height: 0,
+      };
+    },
+    computed: {
+			imgHeight: ({ width, height }) => height || width,
+    }
+  };
+</script>
+
+<style>
+  div {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+</style>
