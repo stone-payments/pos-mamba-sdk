@@ -26,7 +26,12 @@ if (typeof env.SDK_ASSETS_FOLDER === 'undefined') {
   env.SDK_ASSETS_FOLDER = '@mamba';
 }
 
+if (typeof env.ORG_ASSETS_FOLDER === 'undefined') {
+  env.ORG_ASSETS_FOLDER = 'assets/org';
+}
+
 module.exports = {
+  ORG_ASSETS_FOLDER: env.ORG_ASSETS_FOLDER,
   SDK_ASSETS_FOLDER: env.SDK_ASSETS_FOLDER,
   NODE_ENV: env.NODE_ENV,
   APP_ENV: env.APP_ENV,
