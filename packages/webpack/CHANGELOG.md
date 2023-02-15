@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [9.3.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.3.0...v9.3.1) (2023-02-15)
+
+
+### Features
+
+* 🎸 conditionally copy org assets to dist ([876264b](https://github.com/stone-payments/pos-mamba-sdk/commit/876264b64c65218db865d2f665d8b25675a4d263))
+
+
+
 ## [9.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.2.1...v9.3.0) (2023-02-14)
 
 
