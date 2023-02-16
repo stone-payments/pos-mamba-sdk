@@ -35,6 +35,7 @@ function VerifyMethodOnSystemWrapper(method) {
  * @returns {Object} All models.
  */
 export const MODELS = Object.freeze({
+  GENERIC: 'GENERIC',
   S920: 'S920',
   Q92: 'Q92',
   Q92S: 'Q92S',

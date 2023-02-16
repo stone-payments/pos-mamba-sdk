@@ -13,11 +13,16 @@ const SMALL_SCREEN = 'SMALL_SCREEN';
 
 module.exports = {
   MODELS: Object.freeze({
+    GENERIC,
     S920,
     Q92,
+    Q92S,
     D199,
     MP35,
     MP35P,
+    D195,
+    Q60,
+    D230,
     V240M,
   }),
   PLATFORMS: [GENERIC, S920, Q92, Q92S, D199, MP35, MP35P, V240M, Q60, D195, D230, SMALL_SCREEN],
