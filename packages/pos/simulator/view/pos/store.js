@@ -3,7 +3,7 @@ import { AVAILABLE_SLUGS, MODELS } from '@mamba/utils';
 import { Registry } from '../../index.js';
 
 export const INITIAL_DATA = {
-  ACTIVE_MODEL: MODELS[__PLATFORM__] || Registry.persistent.get().$System.model,
+  ACTIVE_MODEL: MODELS[__PLATFORM__ || MODELS.S920] || Registry.persistent.get().$System.model,
 };
 
 const store = new Store(INITIAL_DATA);
