@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [9.4.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.4.0...v9.4.1) (2023-02-16)
+
+
+### Bug Fixes
+
+* 🐛 fix related generic bundle erros ([bf65592](https://github.com/stone-payments/pos-mamba-sdk/commit/bf65592be9af7de2cd355838f43872d829ef119a))
+
+
+
 ## [9.4.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.3.1...v9.4.0) (2023-02-15)
 
 **Note:** Version bump only for package @mamba/webpack
