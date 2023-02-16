@@ -1,9 +1,19 @@
 import { Store } from 'svelte/store.js';
-import { AVAILABLE_SLUGS, MODELS } from '@mamba/utils';
+import { AVAILABLE_SLUGS, MODELS } from '@mamba/utils/models.js';
 import { Registry } from '../../index.js';
 
+let selectedModel = Registry.persistent.get().$System.model || MODELS.S920;
+
+try {
+  if (__PLATFORM__ !== MODELS.GENERIC) {
+    selectedModel = MODELS[__PLATFORM__];
+  }
+} catch (_) {
+  //
+}
+
 export const INITIAL_DATA = {
-  ACTIVE_MODEL: MODELS[__PLATFORM__] || Registry.persistent.get().$System.model,
+  ACTIVE_MODEL: selectedModel,
 };
 
 const store = new Store(INITIAL_DATA);
