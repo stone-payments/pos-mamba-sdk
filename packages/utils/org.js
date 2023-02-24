@@ -1,16 +1,41 @@
-export function getAppOrgParams(defaultAppOrgParams) {
-  try {
-    const xhr = new XMLHttpRequest();
+function isObject(obj) {
+  return obj && obj.constructor === Object;
+}
 
-    xhr.overrideMimeType('application/json; charset=utf-8');
-    xhr.open('GET', window.Org.getOrgConfigFilePath(), false);
-    xhr.send(null);
+function isSameType(value, newValue) {
+  return typeof value === typeof newValue;
+}
 
-    // status should be 200 but when running in POS it always returns 0.
-    if (xhr.status === 0 || xhr.status === 200) {
-      return JSON.parse(xhr.responseText);
+function replaceValue(value, newValue) {
+  if (isSameType(value, newValue) === false) {
+    return value;
+  }
+
+  if (isObject(value) && isObject(newValue)) {
+    // eslint-disable-next-line no-use-before-define
+    return mergeJSON(value, newValue);
+  }
+
+  return newValue;
+}
+
+function mergeJSON(obj, source) {
+  // eslint-disable-next-line no-restricted-syntax
+  for (const key in source) {
+    // eslint-disable-next-line no-prototype-builtins
+    if (source.hasOwnProperty(key)) {
+      obj[key] = replaceValue(obj[key], source[key]);
     }
-  } catch (_) {
+  }
+  return obj;
+}
+
+export function getAppOrgParams(defaultAppOrgParams) {
+  const appOrgParamsFile = window.Org.getOrgConfig();
+
+  if (appOrgParamsFile === 'undefined') {
     return defaultAppOrgParams;
   }
+
+  return mergeJSON(defaultAppOrgParams, JSON.parse(appOrgParamsFile));
 }
