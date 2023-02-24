@@ -31,7 +31,7 @@ function mergeJSON(obj, source) {
 }
 
 export function getAppOrgParams(defaultAppOrgParams) {
-  const appOrgParamsFile = window.Org.getOrgConfig();
+  const appOrgParamsFile = window.Org.getCustomizationFile();
 
   if (appOrgParamsFile === 'undefined') {
     return defaultAppOrgParams;
