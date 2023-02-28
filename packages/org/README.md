@@ -4,7 +4,7 @@ O pacote `@mamba/org` contém métodos que aplicam as customizações específic
 
 ## Image
 
-O componente `Image` trata as imagens espeficicas de cada organização através da tag `img`.
+O componente `Image` trata as imagens específicas de cada organização através da tag `img`.
 
 | Propriedades | Descrição                  | Tipo       | Padrão      |
 | ------------ | -------------------------- | ---------- | ----------- |
