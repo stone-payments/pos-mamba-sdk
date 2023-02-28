@@ -1,8 +1,4 @@
-{#if checkImageExists("{path}/{fileName}")}
-<img class="{className}" src="{path}/{fileName}" alt="" />
-{:else}
-  <p>Imagem {fileName} não encontrada</p>
-{/if}
+<img class="{className}" src="{path}/{fileName}" onerror="this.src='assets/org/{fileName}';" />
 
 <script>
   export default {
@@ -16,21 +12,6 @@
           './assets/org',
         className: '',
       };
-    },
-    methods: {
-      checkImageExists({ imageUrl }) {
-        const img = new Image();
-
-        img.onload = () => {
-          this.imageExists = true;
-        };
-
-        img.onerror = () => {
-          this.imageExists = false;
-        };
-
-        img.src = imageUrl;
-      },
     },
 };
 </script>
