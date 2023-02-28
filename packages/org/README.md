@@ -13,7 +13,7 @@ O componente `Image` trata as imagens espeficicas de cada organização através
 
 ## ORG
 
-`import * as UI from '@mamba/org/org.js';`
+`import * as ORG from '@mamba/org/org.js';`
 
 ### `getAppOrgParams(defaultAppOrgParams: string)`
 
