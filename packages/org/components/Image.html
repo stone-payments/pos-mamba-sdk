@@ -1,14 +1,17 @@
-<img src="{path}/{fileName}" alt="missing '{fileName}'">
+<img class="{className}" src="{path}/{fileName}" alt="missing '{fileName}'">
 
 <script>
   export default {
     data() {
       return {
         fileName: null,
+        path:
+          (window.Org &&
+            window.Org.getCustomizationFolderPath &&
+            window.Org.getCustomizationFolderPath()) ||
+          './assets/org',
+        className: '',
       };
-    },
-    computed: {
-      path: () => window.Org.getCustomizationFolderPath(),
     },
 };
 </script>
