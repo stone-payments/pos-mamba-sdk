@@ -1,6 +1,6 @@
 # `@mamba/org`
 
-O pacote `@mamba/org` contém métodos que aplicam as customizações espeficicas para cada organização.
+O pacote `@mamba/org` contém métodos que aplicam as customizações específicas para cada organização.
 
 ## Image
 
