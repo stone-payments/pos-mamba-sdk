@@ -1,15 +1,18 @@
-<img class="{className}" src="{path}/{fileName}" onerror="this.src='assets/org/{fileName}';" />
+<img class="{className}" src="{path}/{fileName}" onerror="this.src='{defImgPath}/{fileName}';" />
 
 <script>
+  const defaultImagePath = './assets/org';
+
   export default {
     data() {
       return {
+        defImgPath: defaultImagePath,
         fileName: null,
         path:
           (window.Org &&
             window.Org.getCustomizationFolderPath &&
             window.Org.getCustomizationFolderPath()) ||
-          './assets/org',
+          defaultImagePath,
         className: '',
       };
     },
