@@ -17,7 +17,9 @@ O componente `Image` trata as imagens específicas de cada organização atravé
 
 ### `getAppOrgParams(defaultAppOrgParams: string)`
 
-`ORG.getAppOrgParams()` faz o merge do arquivo json default do app com o arquivo fornecido pelo backend, substituindo o `value` de cada `key` se forem do mesmo tipo. Análogo ao `lodash.merge`.
+`ORG.getAppOrgParams()` faz o merge do arquivo json default do app com o arquivo fornecido pelo backend, substituindo o `value` de cada `key` se forem do mesmo tipo. Análogo ao `lodash.merge`, porém levemente diferente. Nessa implementação o merge substitui objetos do tipo Array, enquanto o lodash os mescla.
+
+Caso o arquivo de configuração do backend não esteja acessível (arquivo não encontrado no POS ou execução no desktop), o arquivo default será usado.
 
 ```js
 import { getAppOrgParams } from '@mamba/org/org.js';
