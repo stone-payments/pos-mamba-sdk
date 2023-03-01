@@ -11,6 +11,8 @@ O componente `Image` trata as imagens específicas de cada organização atravé
 | fileName     | Nome da imagem             | `string`   | `null`      |
 | class        | Classe CSS                 | `string`   | ``          |
 
+Caso ocorra um erro no carregamento da imagem (onerror) (ex: arquivo não encontrado no POS ou a execução está acontecendo no desktop), a propriedade `src` da tag `img` será redirecionada automaticamente para o caminho da imagem padrão (`/src/assets/org/{fileName}`).
+
 ## ORG
 
 `import * as ORG from '@mamba/org/org.js';`
