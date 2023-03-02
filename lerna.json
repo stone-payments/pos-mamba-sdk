@@ -26,7 +26,8 @@
     "packages/styles",
     "packages/utils",
     "packages/webpack",
-    "packages/logger"
+    "packages/logger",
+    "packages/org"
   ],
   "changelogPreset": {
     "name": "conventionalcommits",
