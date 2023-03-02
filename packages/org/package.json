@@ -1,0 +1,19 @@
+{
+  "name": "@mamba/org",
+  "version": "9.5.0",
+  "description": "Organization methods for mamba apps",
+  "svelte": "Image.html",
+  "module": "index.js",
+  "sideEffects": false,
+  "author": "Stone Payments - Mamba Team",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">= 8 || <= 14",
+    "npm": ">= 7"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {},
+  "gitHead": ""
+}
