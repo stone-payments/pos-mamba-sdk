@@ -1,6 +1,6 @@
 {
   "lerna": "4.0.0",
-  "version": "9.4.1",
+  "version": "9.5.0",
   "npmClient": "yarn",
   "useWorkspaces": true,
   "command": {
@@ -26,7 +26,8 @@
     "packages/styles",
     "packages/utils",
     "packages/webpack",
-    "packages/logger"
+    "packages/logger",
+    "packages/org"
   ],
   "changelogPreset": {
     "name": "conventionalcommits",
