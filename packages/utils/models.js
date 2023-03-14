@@ -362,8 +362,9 @@ export const WITH_TOUCH = [
   MODELS.S920,
   MODELS.Q92,
   MODELS.Q92S,
-  MODELS.MP35P,
-  MODELS.MP35,
+  // MP35(P) no longer have touch, but this static declaration may be used only on simulator.
+  // MODELS.MP35P,
+  // MODELS.MP35,
   MODELS.V240M,
   MODELS.D199,
 ];
