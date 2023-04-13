@@ -10,8 +10,8 @@
         fileName: null,
         path:
           (window.Org &&
-            window.Org.getCustomizationFolderPath &&
-            window.Org.getCustomizationFolderPath()) ||
+            window.Org.getOrganizationFolderPath &&
+            window.Org.getOrganizationFolderPath(__APP_MANIFEST__.id)) ||
           defaultImagePath,
         className: '',
       };
