@@ -1,6 +1,6 @@
 {
   "name": "@mamba/radio",
-  "version": "9.4.0",
+  "version": "9.5.0",
   "svelte": "Radio.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",

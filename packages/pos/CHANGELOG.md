@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.5.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.4.1...v9.5.0) (2023-03-02)
+
+**Note:** Version bump only for package @mamba/pos
+
+
+
+
+
+### [9.4.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.4.0...v9.4.1) (2023-02-16)
+
+
+### Bug Fixes
+
+* 🐛 (simulator) fix generic model slug ([7293f3c](https://github.com/stone-payments/pos-mamba-sdk/commit/7293f3cd5613d37d1f9925f5e0125c944b241cab))
+* 🐛 fix related generic bundle erros ([bf65592](https://github.com/stone-payments/pos-mamba-sdk/commit/bf65592be9af7de2cd355838f43872d829ef119a))
+
+
+
 ## [9.4.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.3.1...v9.4.0) (2023-02-15)
 
 **Note:** Version bump only for package @mamba/pos

@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [9.5.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.5.0...v9.5.1) (2023-04-14)
+
+**Note:** Version bump only for package mamba-sdk
+
+
+
+
+
+## [9.5.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.4.1...v9.5.0) (2023-03-02)
+
+
+### Features
+
+* 🎸 add method to retrieve app org parameters ([d804789](https://github.com/stone-payments/pos-mamba-sdk/commit/d8047897885427d8b4319de1b638ad8087b9c94c))
+* 🎸 improve app org params method performance and add merge feature ([e161cf1](https://github.com/stone-payments/pos-mamba-sdk/commit/e161cf1a746c6dcc41166ddb171b0e890f669330))
+
+
+### Bug Fixes
+
+* 🐛 base version mamba org ([5f4bfea](https://github.com/stone-payments/pos-mamba-sdk/commit/5f4bfeaded89ba7bff9e0e3e7a9e589e816dcbc1))
+* 🐛 fix svelte component place ([de1f969](https://github.com/stone-payments/pos-mamba-sdk/commit/de1f969d352cff7a816c83dcbd2a5e62077689e8))
+
+
+
+### [9.4.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.4.0...v9.4.1) (2023-02-16)
+
+
+### Bug Fixes
+
+* 🐛 (simulator) fix generic model slug ([7293f3c](https://github.com/stone-payments/pos-mamba-sdk/commit/7293f3cd5613d37d1f9925f5e0125c944b241cab))
+* 🐛 fix related generic bundle erros ([bf65592](https://github.com/stone-payments/pos-mamba-sdk/commit/bf65592be9af7de2cd355838f43872d829ef119a))
+
+
+
 ## [9.4.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.3.1...v9.4.0) (2023-02-15)
 
 
