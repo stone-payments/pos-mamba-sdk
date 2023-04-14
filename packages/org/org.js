@@ -32,7 +32,10 @@ function mergeJSON(obj, source) {
 
 export function getAppOrgParams(defaultAppOrgParams) {
   try {
-    return mergeJSON(defaultAppOrgParams, JSON.parse(window.Org.getCustomizationFile()));
+    return mergeJSON(
+      defaultAppOrgParams,
+      JSON.parse(window.Org.getOrganizationFile(__APP_MANIFEST__.id)),
+    );
   } catch (_) {
     return defaultAppOrgParams;
   }
