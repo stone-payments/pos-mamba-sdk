@@ -1,13 +1,37 @@
-## System and generated files
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Generated
+node_modules
+dist
+dist-ssr
+*.local
+packages/**/*.d.*
+packages/**/*.map
+.tmp
+packages/**/dist
+packages/**/types
+packages/components/Keyboard/lib
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
 .idea
 .DS_Store
-.directory
-npm-debug.log
-yarn-error.log
-lerna-*
-/coverage.data
-/coverage
-package-lock.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+packages/*.old
 
 ## Components examples
 /packages/components/*/example/*
@@ -17,13 +41,26 @@ package-lock.json
 !/packages/components/*/example/*.html
 !/packages/components/*/example/*.svelte
 
-## Directories
-log/
-dist/
-node_modules/
-bower_components/
+# Test files
+coverage
+cypress/videos
+cypress/screenshots
+cypress/reports
+e2e/videos
+e2e/screenshots
+e2e/reports
+reports
+.nyc_output
 
-# ts
-packages/**/dist
-packages/**/types
-packages/components/Keyboard/lib
+
+# yarn 2
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# Ignore npm lock but not yarn.lock
+package-lock.json
