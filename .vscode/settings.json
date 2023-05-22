@@ -1,30 +1,24 @@
 {
   /** Allow to assign breakpoints to svelte templates */
   "debug.allowBreakpointsEverywhere": true,
-
   /** Enforce LF as line ending */
   "files.eol": "\n",
-
   /** Normalize trailing whitespaces */
   "editor.trimAutoWhitespace": true,
   "files.trimTrailingWhitespace": true,
-
   /** Disable vscode default linters */
   "javascript.validate.enable": false,
   "typescript.validate.enable": false,
   "css.validate": false,
   "html.validate.scripts": false,
   "html.validate.styles": false,
-
   /** Disable svelte-vscode linters */
   "svelte.plugin.css.diagnostics.enable": false,
   "svelte.plugin.typescript.diagnostics.enable": false,
-
   /** Associate css files to postcss language */
   "files.associations": {
     "*.css": "postcss"
   },
-
   /** Emmet completion in postcss context */
   "emmet.includeLanguages": {
     "postcss": "css"
@@ -53,16 +47,18 @@
     "source.fixAll.eslint": true,
     "source.fixAll.stylelint": true
   },
-
   /* Specifying which files to validate */
-  "stylelint.validate": ["css", "postcss", "html"],
-
+  "stylelint.validate": [
+    "css",
+    "postcss",
+    "html"
+  ],
   /* Controls the package manager to be used to resolve the Stylelint library */
   "stylelint.packageManager": "yarn",
-
   /* Enforce the extension use appropriate syntax for us. If invalid, VSCode will notify.*/
   "stylelint.customSyntax": "postcss-html",
-
   /* Enforce working dir for monorepo */
-  "eslint.workingDirectories": ["./"]
+  "eslint.workingDirectories": [
+    "./"
+  ]
 }
