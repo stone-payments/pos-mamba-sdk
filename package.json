@@ -1,6 +1,6 @@
 {
   "name": "mamba-sdk",
-  "version": "2.2.1",
+  "version": "3.0.0",
   "description": "SDK for developing in the Mamba web environment",
   "repository": "https://github.com/stone-payments/pos-mamba-sdk.git",
   "author": "Stone Payments - Mamba Team",
@@ -11,9 +11,10 @@
   ],
   "license": "Apache-2.0",
   "engines": {
-    "node": ">= 8 || <= 14",
-    "npm": ">=6"
+    "node": ">= 19",
+    "npm": ">= 7"
   },
+  "type": "module",
   "scripts": {
     "lint": "npm run lint:css; npm run lint:js",
     "lint:js": "eslint \"*.js\" \"{tools,packages}/**/*.{js,html,svelte}\"",
