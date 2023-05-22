@@ -1,15 +1,37 @@
 {
   "name": "@mamba/configs",
   "version": "9.5.0",
-  "description": "Tooling config presets to use in mamba projects.",
+  "description": "Tooling configs to use in MAMBA projects. Normally with Webpack + Svelte.",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 19",
     "npm": ">= 7"
   },
+  "type": "module",
   "publishConfig": {
     "access": "public"
+  },
+  "keywords": [
+    "stone-payments",
+    "mamba",
+    "webpack",
+    "svelte",
+    "typescript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stone-payments/pos-mamba-sdk.git",
+    "directory": "packages/configs"
+  },
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@tsconfig/svelte": "^4.0.1"
+  },
+  "peerDependencies": {
+    "jest": "^29.5.0",
+    "svelte": "^3",
+    "typescript": "^5"
   },
   "gitHead": "e919d0e654f8134f157bf4f6e078685f5dd8a000"
 }

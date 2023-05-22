@@ -3,7 +3,8 @@
   "description": "Prettier config for Mamba SDK",
   "version": "1.0.0",
   "license": "Apache-2.0",
-  "main": "index.js",
+  "main": "index.cjs",
+  "type": "module",
   "publishConfig": {
     "access": "public"
   },

@@ -1,3 +1,3 @@
 module.exports = {
-  extends: '/packages/stylelint-config/index.js',
+  extends: '@mamba/stylelint-config',
 };

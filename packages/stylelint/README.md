@@ -9,6 +9,7 @@
 ```bash
 npm install --save-dev @mamba/stylelint-config stylelint
 ```
+
 2. Enable this configuration in your Stylelint configuration file (e.g. `.stylelintrc.js`):
 
 ```js
@@ -39,7 +40,7 @@ This shareable config expands to the following:
 
 To work with [Visual Studio Code](https://code.visualstudio.com), you must install the
 [stylelint.vscode-stylelint](https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint)
-plugin.
+extension.
 
 ## License
 

@@ -1,4 +1,4 @@
-#  Mamba Prettier Config
+# Mamba Prettier Config
 
 [Prettier](https://prettier.io/docs/en/index.html) config of
 [Mamba SDK](https://mambasdk-docs.stone.com.br) with [Svelte](https://svelte.dev) + [TypeScript](https://www.typescriptlang.org).
@@ -37,6 +37,8 @@ and add `.vscode/settings.json` file to your workspace, add the following settin
 // Normally these configs aren't necessary, but it's an example for enforce format JavaScript files with Prettier.
 "editor.formatOnSave": true,
 "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+// With specific file association
 "[javascript]": {
   "editor.defaultFormatter": "esbenp.prettier-vscode"
 },
