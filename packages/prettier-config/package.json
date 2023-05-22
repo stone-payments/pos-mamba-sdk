@@ -1,0 +1,31 @@
+{
+  "name": "@mamba/prettier-config",
+  "description": "Prettier config for Mamba SDK",
+  "version": "1.0.0",
+  "license": "Apache-2.0",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "stone-payments",
+    "prettier",
+    "mamba"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stone-payments/pos-mamba-sdk.git",
+    "directory": "packages/prettier-config"
+  },
+  "dependencies": {
+    "prettier-plugin-svelte": "^2.10.0"
+  },
+  "peerDependencies": {
+    "prettier": "^2.8.0",
+    "svelte": "^3.2.0",
+    "typescript": "^5"
+  }
+}
