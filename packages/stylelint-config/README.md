@@ -4,12 +4,7 @@
 
 ## Install
 
-```
-$ npm install --save-dev @mamba/stylelint-config
-```
-
-
-1. Install locally:
+1. Install:
 
 ```bash
 npm install --save-dev @mamba/stylelint-config stylelint
