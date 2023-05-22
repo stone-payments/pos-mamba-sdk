@@ -1,0 +1,27 @@
+{
+  "name": "@mamba/babel-preset",
+  "description": "TS Babel preset config for Mamba SDK & Webpack 5",
+  "version": "1.0.0",
+  "license": "Apache-2.0",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "stone-payments",
+    "babel",
+    "mamba",
+    "webpack",
+    "typescript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stone-payments/pos-mamba-sdk.git",
+    "directory": "packages/babel"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "webpack": "^5",
+    "typescript": "^5"
+  }
+}
