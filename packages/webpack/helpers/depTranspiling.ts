@@ -1,9 +1,10 @@
-const { relative } = require('path');
-const { getPkg } = require('quickenv');
-const { readFileSync } = require('fs');
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { relative } from 'path';
+import { readFileSync } from 'fs';
+import getPackage from './getPackage';
 
 /** Base webpack rule condition to ignore dependencies that shouldn't be transpiled */
-const transpileIgnoreBaseCondition = {
+export const transpileIgnoreBaseCondition = {
   test: /\.js$/,
   include: [/node_modules/],
   exclude: [
@@ -18,21 +19,21 @@ const transpileIgnoreBaseCondition = {
  * */
 const INPUT_MODULE_TYPE_CACHE = {};
 
-module.exports = {
-  transpileIgnoreBaseCondition,
-  isOfModuleType: (depType) => (input) => {
+export const isOfModuleType =
+  (depType: any) =>
+  (input: any): any => {
     if (!(input in INPUT_MODULE_TYPE_CACHE)) {
-      const pkg = getPkg({ path: input });
+      const pkg = getPackage({ path: input });
       let moduleType = 'cjs';
 
       /**
        * If 'module', 'esnext', 'jsnext:main' or 'svelte'
        * properties are available, assume es6 module
        */
-      if (pkg.module || pkg.esnext || pkg['jsnext:main'] || pkg.svelte) {
+      if (pkg && (pkg.module || pkg.esnext || pkg['jsnext:main'] || pkg.svelte)) {
         moduleType = 'es';
         /** If no main file or the imported file is not the main file... */
-      } else if (!pkg.main || relative(pkg.rootDir, input) !== pkg.main) {
+      } else if (pkg && (!pkg.main || relative(pkg.rootDir, input) !== pkg.main)) {
         /**
          * If there's not a main property, let's read
          * the file content to assume a module type
@@ -50,5 +51,4 @@ module.exports = {
     }
 
     return INPUT_MODULE_TYPE_CACHE[input] === depType;
-  },
-};
+  };

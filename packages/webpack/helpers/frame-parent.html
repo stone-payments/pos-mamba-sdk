@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0" />
+
+    <title>Application</title>
+    <style>
+      html {
+        width: 100vw;
+        height: 100vh;
+      }
+
+      body {
+        overflow: hidden;
+        background-image: url(https://images.unsplash.com/photo-1525947088131-b701cd0f6dc3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: left top;
+        width: 100vw;
+        height: 100vh;
+      }
+
+      .pos-frame {
+        width: 333px;
+        height: 689px;
+        position: absolute;
+        bottom: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-repeat: no-repeat;
+        background-image: url(./assets/layoutQ92.png);
+        background-size: contain;
+        overflow: hidden;
+      }
+
+      .frame-container {
+        width: calc(100% - 92px);
+        height: calc(100% - 338px);
+        position: relative;
+        top: 126px;
+        left: 38px;
+        background-color: #fff;
+      }
+
+      iframe {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="pos-frame">
+      <div class="frame-container">
+        <iframe src="./app.html" frameborder="0"></iframe>
+      </div>
+    </div>
+  </body>
+</html>
