@@ -6,8 +6,7 @@
   "engines": {
     "node": "^12.22.0 || ^13.14.0 || ^14.17.0 || ^15.3.0 || >=16.0.0"
   },
-  "main": "index.cjs",
-  "type": "module",
+  "main": "index.js",
   "publishConfig": {
     "access": "public"
   },

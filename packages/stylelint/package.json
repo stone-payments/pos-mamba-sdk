@@ -3,8 +3,10 @@
   "description": "Stylelint configuration for Mamba SDK",
   "version": "1.0.0",
   "license": "Apache-2.0",
-  "main": "index.cjs",
-  "type": "module",
+  "main": "index.js",
+  "engines": {
+    "node": "^12.16.0 || >=13.7.0"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -23,11 +25,11 @@
     "prettier": "^2.8.8"
   },
   "peerDependencies": {
+    "postcss": "^8.4.23",
     "prettier": "^2",
     "stylelint": "^15"
   },
   "dependencies": {
-    "postcss": "^8.4.23",
     "postcss-html": "^1.5.0",
     "stylelint-config-html": "^1.1.0",
     "stylelint-config-standard": "^33.0.0",
