@@ -31,6 +31,8 @@
     "prepublish": "yarn run test"
   },
   "dependencies": {
+    "@mamba/styles": "workspace:^",
+    "@mamba/utils": "workspace:^",
     "@testing-library/jest-dom": "^5.16.5",
     "@tsconfig/svelte": "^4.0.1",
     "autoprefixer": "^10.4.14",

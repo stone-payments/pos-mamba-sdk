@@ -27,12 +27,12 @@
     "test:ci": "jest --no-cache --verbose",
     "link:packages": "lerna exec npm link",
     "build:modules": "lerna run --no-bail --scope=\"@mamba/{core,styles}*\" build",
+    "build:shared": "lerna run --no-bail --scope=\"@mamba/utils\" build",
     "packages:clear": "lerna exec -- rm -rf node_modules package-lock.json",
     "check-next-version": "echo 'n' | lerna version",
     "release": "rm -rf packages/**/package-lock.json && lerna publish",
     "link:name": "./tools/get-links.sh -m name",
     "link:path": "./tools/get-links.sh -m path",
-    "build:shared": "lerna run --no-bail --scope=\"@mamba/utils\" build",
     "postinstall": "run-s build:shared build:modules",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"

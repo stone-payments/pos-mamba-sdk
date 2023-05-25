@@ -3119,6 +3119,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@mamba/configs@workspace:packages/configs"
   dependencies:
+    "@mamba/styles": "workspace:^"
+    "@mamba/utils": "workspace:^"
     "@testing-library/jest-dom": ^5.16.5
     "@tsconfig/svelte": ^4.0.1
     "@types/node": ^20.2.3
@@ -3313,7 +3315,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@mamba/styles@workspace:packages/styles":
+"@mamba/styles@workspace:^, @mamba/styles@workspace:packages/styles":
   version: 0.0.0-use.local
   resolution: "@mamba/styles@workspace:packages/styles"
   dependencies:

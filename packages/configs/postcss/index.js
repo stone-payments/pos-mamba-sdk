@@ -1,8 +1,9 @@
 import resolve from 'resolve';
 import { existsSync } from 'node:fs';
 
+import colorsMamba from '@mamba/styles/colors.js';
+import { fromWorkingDir } from '@mamba/utils';
 import easyImport from 'postcss-easy-import';
-
 import sorting from 'postcss-sorting';
 import extendRule from 'postcss-extend-rule';
 import calc from 'postcss-calc';
@@ -17,13 +18,11 @@ import autoprefix from 'autoprefixer';
 import flexFix from 'postcss-flexbugs-fixes';
 import presetEnv from 'postcss-preset-env';
 import env from '../envModes.cjs';
-
-const postcssUniqueImports = require('./includes/uniqueImports.js');
-const unthrow = require('./includes/unthrow.js');
-const colorsMamba = require('../../styles/colors.js');
+import postcssUniqueImports from './includes/uniqueImports.js';
+import unthrow from './includes/unthrow.js';
 
 const globalThemeFile = unthrow(() => resolve.sync('@mamba/styles/theme.pcss'));
-const appThemeFile = fromCwd('src/theme.pcss');
+const appThemeFile = fromWorkingDir('src/theme.pcss');
 
 const { IS_PROD, APP_ENV } = env;
 const isBuildingApp = typeof APP_ENV !== 'undefined';
@@ -31,7 +30,7 @@ const isBuildingApp = typeof APP_ENV !== 'undefined';
 export default {
   plugins: [
     /** Custom plugin to prepend imports */
-    postcssUniqueImports.plugin([
+    postcssUniqueImports([
       globalThemeFile && '@mamba/styles/theme.pcss',
       /** If building an app, append the local theme file */
       isBuildingApp && existsSync(appThemeFile) && appThemeFile,
