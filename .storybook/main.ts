@@ -5,7 +5,11 @@ import preprocess from 'svelte-preprocess';
 process.env.STORYBOOK = JSON.stringify(true);
 
 const config: StorybookConfig = {
-  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|ts|svelte)'],
+  stories: [
+    './pages/*.mdx',
+    '../packages/jade*/**/*.mdx',
+    '../packages/jade*/**/*.stories.@(js|ts|svelte)',
+  ],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
@@ -29,6 +33,7 @@ const config: StorybookConfig = {
           },
         },
         babel: {
+          // presets: ['@babel/preset-env', '@babel/preset-typescript'],
           plugins: [
             '@babel/plugin-proposal-optional-chaining',
             '@babel/plugin-proposal-nullish-coalescing-operator',
@@ -51,4 +56,5 @@ const config: StorybookConfig = {
     autodocs: 'tag',
   },
 };
+
 export default config;

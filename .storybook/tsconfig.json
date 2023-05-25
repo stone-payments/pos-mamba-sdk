@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig",
+  "compilerOptions": {
+    "noEmit": false
+  },
+  "include": [
+    "./pages/**/*",
+    "../packages/jade-base/stories/**/*",
+  ]
+}

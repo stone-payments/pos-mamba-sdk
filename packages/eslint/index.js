@@ -278,6 +278,8 @@ module.exports = {
             allowObjectEnd: true,
           },
         ],
+        'no-restricted-exports': 'off',
+        'import/prefer-default-export': 'off',
       },
     },
     {

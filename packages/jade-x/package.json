@@ -1,0 +1,28 @@
+{
+  "name": "@mamba/jade-x",
+  "version": "0.0.1",
+  "author": "Stone Payments - Mamba Team",
+  "description": "Specialized library of Svelte UI components and fundamental elements for Mamba",
+  "main": "./src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "stone-payments",
+    "mamba",
+    "jade",
+    "svelte",
+    "typescript",
+    "ui"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stone-payments/pos-mamba-sdk.git",
+    "directory": "packages/jade"
+  },
+  "license": "Apache-2.0",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=12.0.0"
+  }
+}

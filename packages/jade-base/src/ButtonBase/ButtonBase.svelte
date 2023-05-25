@@ -1,6 +1,4 @@
 <script lang="ts">
-  import './button.css';
-
   /**
    * Is this the principal call to action on the page?
    */
