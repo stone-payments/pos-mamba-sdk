@@ -24,8 +24,6 @@ const postcssUniqueImports = (initialImports) => {
       for (let i = imports.length; i--; ) {
         root.prepend({ name: 'import', params: `'${imports[i]}'` });
       }
-
-      console.log(`root: `, root);
     },
   };
 };
