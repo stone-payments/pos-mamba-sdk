@@ -1,22 +1,26 @@
+/* eslint-disable import/order */
 import { join } from 'node:path';
 import { existsSync } from 'node:fs';
 import * as webpack from 'webpack';
 import { merge } from 'webpack-merge';
+import { BUNDLE_NAME, IS_PROD, ORG_ASSETS_FOLDER } from '@mamba/configs/envModes.cjs';
 
-// PLUGINS
+// Plugins
 import FileManagerPlugin from 'filemanager-webpack-plugin';
 import CSSMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
-
 import MambaManifestPlugin from './plugins/MambaManifestPlugin';
-import PKG from '../../package.json';
 
-// HELPERS
-import { BUNDLE_NAME, IS_PROD, ORG_ASSETS_FOLDER } from '../configs/envModes.cjs';
-import fromWorkingDir from './helpers/fromWorkingDir';
+// Utils
+import { fromWorkingDir } from '@mamba/utils';
 
-// BASE CONFIG
+// Helpers
+import getPackage from './helpers/getPackage';
+
+// Base config
 import appConfig from './config.app';
+
+const PKG = getPackage();
 
 const hasOrgFolder = existsSync(join(fromWorkingDir('src'), ORG_ASSETS_FOLDER));
 
@@ -55,7 +59,7 @@ const config: webpack.Configuration = merge<webpack.Configuration>(appConfig, {
             },
             {
               source: `dist/${BUNDLE_NAME}/`,
-              destination: `dist/${PKG.name}_v${PKG.version}.ppk`,
+              destination: `dist/${PKG.name}_v${PKG.appVersion}.ppk`,
               format: 'zip',
               options: {
                 gzip: true,

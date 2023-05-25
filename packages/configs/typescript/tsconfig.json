@@ -33,9 +33,7 @@
     "ignoreDeprecations": "5.0",
     "verbatimModuleSyntax": false,
     "types": [
-      "svelte",
-      "jest",
-      "@testing-library/jest-dom"
+      "svelte"
     ]
   }
 }

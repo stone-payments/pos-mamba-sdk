@@ -15,18 +15,6 @@ import wrappers from './wrappers.js';
 export default extendDriver(driverTarget, wrappers);
 ```
 
-## Currency
-
-Fornece constante da moeda no POS.
-
-### Limite máximo
-
-```js
-import { CURRENCY } from '@mamba/core';
-
-CURRENCY.LIMIT; // 999999.99
-```
-
 ## Keymap
 
 Fornece os mapas-chave e nomes-chave específicos do POS.

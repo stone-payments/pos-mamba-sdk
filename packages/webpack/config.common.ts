@@ -1,30 +1,10 @@
 import * as webpack from 'webpack';
 import { merge } from 'webpack-merge';
 
-// PLUGINS
+// Plugins
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { MiniHtmlWebpackPlugin } from 'mini-html-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
-
-// HELPERS
-import fromWorkingDir from './helpers/fromWorkingDir';
-import { isOfModuleType, transpileIgnoreBaseCondition } from './helpers/depTranspiling';
-import getHTMLTemplate from './helpers/getHTMLTemplate';
-import clientEnvironment, { CLIENT_ENVIRONMENT_MODE } from './helpers/clientEnvironment';
-import getPackage from './helpers/getPackage';
-
-// LOADERS
-import {
-  Css,
-  ExtractCss,
-  PostCss,
-  ResolveUrl,
-  Svelte,
-  Babel,
-  BabelCJS,
-  BabelSvelte,
-  TypeScript,
-} from '../configs/loaders';
 
 // Build mode
 import {
@@ -37,11 +17,26 @@ import {
   IS_POS,
   IS_TEST,
   IS_STORYBOOK,
-} from '../configs/envModes.cjs';
+} from '@mamba/configs/envModes.cjs';
+
+// Loaders
+import { Css, ExtractCss, PostCss, Svelte, TypeScript } from '@mamba/configs/loaders';
+import { Babel, BabelSvelte } from '@mamba/babel-config/loader';
+
+// Utils
+import { fromWorkingDir, clientEnvironment } from '@mamba/utils';
+
+// Helpers
+// import { isOfModuleType, transpileIgnoreBaseCondition } from './helpers/depTranspiling';
+
+import getHTMLTemplate from './helpers/getHTMLTemplate';
+import getPackage from './helpers/getPackage';
 
 const PKG = getPackage();
 
-const definePluginOptions = merge(clientEnvironment(CLIENT_ENVIRONMENT_MODE.Webpack), {
+type DefineObject = Record<string, webpack.DefinePlugin['definitions']>;
+
+const definePluginOptions = merge(clientEnvironment('Webpack'), {
   __APP_MANIFEST__: (() => {
     try {
       if (PKG) {
@@ -72,7 +67,7 @@ const definePluginOptions = merge(clientEnvironment(CLIENT_ENVIRONMENT_MODE.Webp
   __BROWSER__: IS_BROWSER,
   __MODEL__: JSON.stringify(process.env.PLATFORM),
   __PLATFORM__: JSON.stringify(process.env.PLATFORM),
-});
+}) as DefineObject;
 
 const scriptExtensions = ['.mjs', '.js', '.cjs', '.ts'];
 

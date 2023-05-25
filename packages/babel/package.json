@@ -3,12 +3,7 @@
   "description": "TS Babel preset config for Mamba SDK & Webpack 5",
   "version": "1.0.0",
   "license": "Apache-2.0",
-  "engines": {
-    "node": ">= 19",
-    "npm": ">= 7"
-  },
-  "main": "index.cjs",
-  "type": "module",
+  "main": "index.js",
   "publishConfig": {
     "access": "public"
   },
@@ -19,31 +14,38 @@
     "webpack",
     "typescript"
   ],
+  "files": [
+    "*"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/stone-payments/pos-mamba-sdk.git",
     "directory": "packages/babel"
   },
   "dependencies": {
-    "@babel/cli": "^7.21.0",
-    "@babel/core": "^7.21.4",
-    "@babel/plugin-proposal-class-properties": "^7.18.6",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
-    "@babel/plugin-proposal-optional-chaining": "^7.21.0",
-    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
-    "@babel/plugin-transform-runtime": "^7.21.4",
-    "@babel/preset-env": "^7.21.4",
-    "@babel/preset-typescript": "^7.21.4",
+    "@babel/cli": "^7",
+    "@babel/core": "^7",
+    "@babel/plugin-proposal-class-properties": "^7",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7",
+    "@babel/plugin-proposal-optional-chaining": "^7",
+    "@babel/plugin-syntax-dynamic-import": "^7",
+    "@babel/plugin-transform-runtime": "^7",
+    "@babel/preset-env": "^7",
+    "@babel/preset-typescript": "^7",
+    "@mamba/configs": "workspace:^",
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "babel-plugin-istanbul": "^6.1.1",
     "babel-plugin-module-resolver": "^5.0.0",
-    "babel-plugin-react-remove-properties": "^0.3.0"
+    "babel-plugin-react-remove-properties": "^0.3.0",
+    "browserslist": "latest",
+    "caniuse-lite": "latest"
   },
   "peerDependencies": {
+    "jest": "^29.5.0",
+    "svelte": "^3",
     "typescript": "^5"
   },
   "optionalDependencies": {
-    "babel-jest": "^29.5.0",
     "babel-loader": "^9",
     "webpack": "^5"
   }

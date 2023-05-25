@@ -1,18 +1,17 @@
 import * as webpack from 'webpack';
 import { merge } from 'webpack-merge';
 
-// import DashboardPlugin from 'webpack-dashboard/plugin';
 import type { Configuration as WebpackConfiguration } from 'webpack';
 import type { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 
-// BASE CONFIG
+// Utils
+import { fromWorkingDir } from '@mamba/utils';
+
+// Base config
 import appConfig from './config.app';
 
-// HELPERS
-import fromWorkingDir from './helpers/fromWorkingDir';
+// Helpers
 import * as Consts from './helpers/constants';
-
-delete process.env.TS_NODE_PROJECT;
 
 const { HOST_SERVER, PORT } = Consts.default;
 

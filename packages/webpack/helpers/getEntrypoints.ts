@@ -1,7 +1,7 @@
 import { existsSync } from 'node:fs';
 import * as webpack from 'webpack';
-import { IS_BROWSER } from '../../configs/envModes.cjs';
-import fromWorkingDir from './fromWorkingDir';
+import { IS_BROWSER } from '@mamba/configs/envModes.cjs';
+import { fromWorkingDir } from '@mamba/utils';
 
 export default function getEntrypoints(): webpack.EntryObject {
   return {

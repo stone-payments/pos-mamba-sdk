@@ -1,17 +1,8 @@
 {
   "name": "@mamba/configs",
   "version": "9.5.0",
-  "description": "Tooling configs to use in MAMBA projects. Normally with Webpack + Svelte.",
+  "description": "defined tools to use with Mamba projects. Normally, Webpack loaders with Svelte 3 configurations.",
   "author": "Stone Payments - Mamba Team",
-  "license": "Apache-2.0",
-  "engines": {
-    "node": ">= 19",
-    "npm": ">= 7"
-  },
-  "type": "module",
-  "publishConfig": {
-    "access": "public"
-  },
   "keywords": [
     "stone-payments",
     "mamba",
@@ -24,14 +15,59 @@
     "url": "https://github.com/stone-payments/pos-mamba-sdk.git",
     "directory": "packages/configs"
   },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">= 16",
+    "npm": ">= 7"
+  },
+  "types": "./index.d.ts",
+  "type": "module",
+  "main": "./loaders.ts",
+  "scripts": {
+    "test": "tsd",
+    "prepublish": "yarn run test"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
-    "@tsconfig/svelte": "^4.0.1"
+    "@tsconfig/svelte": "^4.0.1",
+    "autoprefixer": "^10.4.14",
+    "css-loader": "^6.7.4",
+    "postcss": "^8.4.23",
+    "postcss-advanced-variables": "^3.0.1",
+    "postcss-calc": "^9.0.1",
+    "postcss-cli": "^10.1.0",
+    "postcss-combine-duplicated-selectors": "^10.0.3",
+    "postcss-css-variables": "^0.19.0",
+    "postcss-custom-properties": "^13.1.5",
+    "postcss-easy-import": "^4.0.0",
+    "postcss-extend-rule": "^4.0.0",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-hexrgba": "^2.1.0",
+    "postcss-html": "^1.5.0",
+    "postcss-load-config": "^4.0.1",
+    "postcss-loader": "^7.3.0",
+    "postcss-nested": "^6.0.1",
+    "postcss-nesting": "^11.2.2",
+    "postcss-preset-env": "^8.3.2",
+    "postcss-reporter": "^7.0.5",
+    "postcss-sorting": "^8.0.2",
+    "resolve-url-loader": "^5.0.0",
+    "svelte-loader": "^3.1.7",
+    "svelte-preprocess": "^5",
+    "ts-loader": "^9.4.3",
+    "url-loader": "^4.1.1"
   },
   "peerDependencies": {
-    "jest": "^29.5.0",
     "svelte": "^3",
     "typescript": "^5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.2.3",
+    "resolve": "^1.22.2",
+    "tsd": "^0.28.1"
   },
   "gitHead": "e919d0e654f8134f157bf4f6e078685f5dd8a000"
 }

@@ -1,22 +1,67 @@
 {
   "name": "@mamba/utils",
-  "version": "9.5.0",
+  "version": "10.0.0",
   "description": "Utility methods for mamba apps",
-  "module": "index.js",
+  "type": "module",
+  "main": "./dist/node/index.js",
+  "types": "./dist/node/index.d.ts",
+  "files": [
+    "dist",
+    "types"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/node/index.d.ts",
+      "import": "./dist/node/index.cjs",
+      "require": "./dist/node/index.cjs"
+    },
+    "./client": {
+      "types": "./client.d.ts"
+    },
+    "./dist/client/*": "./dist/client/*",
+    "./package.json": "./package.json"
+  },
   "sideEffects": false,
   "author": "Stone Payments - Mamba Team",
-  "license": "Apache-2.0",
-  "engines": {
-    "node": ">= 8 || <= 14",
-    "npm": ">= 7"
+  "keywords": [
+    "stone-payments",
+    "mamba",
+    "utils"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stone-payments/pos-mamba-sdk.git",
+    "directory": "packages/utils"
   },
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {
-    "date-fns": "2.28.0",
-    "date-fns-tz": "1.2.2",
-    "lodash": "^4.17.21"
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">= 14",
+    "npm": ">= 7"
+  },
+  "scripts": {
+    "compile:client": "tsup --dts",
+    "compile:node": "tsup-node --dts",
+    "prebuild": "rimraf dist types",
+    "build": "run-s prebuild compile:client compile:node"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^5.0.1",
+    "tsup": "^6.7.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "tsup": {
+    "entry": [
+      "src/node/index.ts",
+      "src/client/index.ts"
+    ],
+    "sourcemap": true,
+    "shims": true
   },
   "gitHead": "e919d0e654f8134f157bf4f6e078685f5dd8a000"
 }

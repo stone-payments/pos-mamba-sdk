@@ -3,13 +3,23 @@
   "version": "9.5.0",
   "description": "Mamba web environment wrapper and simulator",
   "author": "Stone Payments - Mamba Team",
-  "license": "Apache-2.0",
-  "engines": {
-    "node": ">= 19",
-    "npm": ">= 7"
+  "keywords": [
+    "stone-payments",
+    "mamba",
+    "POS"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stone-payments/pos-mamba-sdk.git",
+    "directory": "packages/pos"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">= 14",
+    "npm": ">= 7"
   },
   "gitHead": "e919d0e654f8134f157bf4f6e078685f5dd8a000"
 }

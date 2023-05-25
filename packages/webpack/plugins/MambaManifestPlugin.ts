@@ -1,6 +1,8 @@
 import xmlBuilder from 'xmlbuilder';
 import { Compilation, Compiler, sources } from 'webpack';
-import PKG from '../../../package.json';
+import getPackage from '../helpers/getPackage';
+
+const PKG = getPackage();
 
 enum APP_TECHNOLOGY {
   NATIVE = 0,
@@ -23,7 +25,7 @@ export interface NativePackageManifest {
    * Package version.
    * And the application version (MAJOR.MINOR.PATCH).
    */
-  appVersion: string;
+  appVersion: string | unknown;
 
   /**
    * Package description

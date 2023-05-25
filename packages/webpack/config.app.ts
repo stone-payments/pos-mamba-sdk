@@ -1,19 +1,20 @@
 import * as webpack from 'webpack';
 import { merge } from 'webpack-merge';
 
-// PLUGINS
+// Plugins
 import VirtualModulesPlugin from 'webpack-virtual-modules';
 
-// HELPERS
-import { BUNDLE_NAME } from '../configs/envModes.cjs';
-import fromWorkingDir from './helpers/fromWorkingDir';
+// Utils
+import { fromWorkingDir } from '@mamba/utils';
+
+// Helpers
+import { BUNDLE_NAME } from '@mamba/configs/envModes.cjs';
+
+// import { Images, Fonts } from '@mamba/configs/loaders';
 import getEntrypoints from './helpers/getEntrypoints';
 import getVirtualFiles from './helpers/getVirtualFiles';
 
-// LOADERS
-import { Images, Fonts } from '../configs/loaders';
-
-// BASE CONFIG
+// Base config
 import commonConfig from './config.common';
 
 const config: webpack.Configuration = merge<webpack.Configuration>(commonConfig, {

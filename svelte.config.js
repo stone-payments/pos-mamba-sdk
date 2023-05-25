@@ -1,1 +1,3 @@
-module.exports = require('./packages/configs/svelte/index.js');
+import svelteConfig from '@mamba/configs/svelte/preprocess.cjs';
+
+export default svelteConfig;

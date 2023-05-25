@@ -1,0 +1,30 @@
+{
+  "name": "@mamba/device",
+  "version": "10.5.0",
+  "description": "Mamba device module",
+  "author": "Stone Payments - Mamba Team",
+  "type": "module",
+  "keywords": [
+    "stone-payments",
+    "mamba",
+    "POS",
+    "devices"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stone-payments/pos-mamba-sdk.git",
+    "directory": "packages/device"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">= 14",
+    "npm": ">= 7"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  },
+  "main": "index.js"
+}

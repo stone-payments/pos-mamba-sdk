@@ -1,0 +1,30 @@
+{
+  "name": "@mamba/date",
+  "version": "10.5.0",
+  "description": "Mamba date module",
+  "author": "Stone Payments - Mamba Team",
+  "type": "module",
+  "keywords": [
+    "stone-payments",
+    "mamba",
+    "date"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stone-payments/pos-mamba-sdk.git",
+    "directory": "packages/date"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">= 14",
+    "npm": ">= 7"
+  },
+  "dependencies": {
+    "date-fns": "2.28.0",
+    "date-fns-tz": "1.2.2"
+  },
+  "main": "index.js"
+}

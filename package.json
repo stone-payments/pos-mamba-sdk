@@ -1,5 +1,5 @@
 {
-  "name": "mamba-sdk",
+  "name": "@mamba/sdk",
   "version": "3.0.0",
   "description": "SDK for developing in the Mamba web environment",
   "repository": "https://github.com/stone-payments/pos-mamba-sdk.git",
@@ -26,12 +26,16 @@
     "test:watch": "jest --watch --collect-coverage",
     "test:ci": "jest --no-cache --verbose",
     "link:packages": "lerna exec npm link",
-    "build:modules": "lerna run --no-bail --scope=\"@mamba/{keyboard,core,styles}*\" build",
+    "build:modules": "lerna run --no-bail --scope=\"@mamba/{core,styles}*\" build",
     "packages:clear": "lerna exec -- rm -rf node_modules package-lock.json",
     "check-next-version": "echo 'n' | lerna version",
     "release": "rm -rf packages/**/package-lock.json && lerna publish",
     "link:name": "./tools/get-links.sh -m name",
-    "link:path": "./tools/get-links.sh -m path"
+    "link:path": "./tools/get-links.sh -m path",
+    "build:shared": "lerna run --no-bail --scope=\"@mamba/utils\" build",
+    "postinstall": "run-s build:shared build:modules",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "config": {
     "commitizen": {
@@ -56,24 +60,39 @@
     }
   },
   "devDependencies": {
+    "@babel/cli": "^7.21.5",
     "@babel/core": "^7.21.4",
+    "@babel/preset-env": "^7.21.4",
     "@commitlint/cli": "^7.6.1",
     "@commitlint/config-conventional": "^14.1.0",
     "@commitlint/config-lerna-scopes": "^15.0.0",
-    "@types/node": "^20.1.5",
+    "@storybook/addon-essentials": "^7.0.12",
+    "@storybook/addon-interactions": "^7.0.12",
+    "@storybook/addon-links": "^7.0.12",
+    "@storybook/blocks": "^7.0.12",
+    "@storybook/svelte": "^7.0.12",
+    "@storybook/svelte-webpack5": "^7.0.12",
+    "@storybook/testing-library": "^0.0.14-next.2",
+    "@types/node": "^20.2.3",
+    "babel-loader": "^9.1.2",
     "commitizen": "^3.1.2",
     "cross-env": "^7.0.3",
     "eslint": "^8.40.0",
     "jest": "^29.5.0",
+    "json5": "^2.2.3",
+    "lerna": "^6.6.2",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.23",
     "prettier": "^2.8.0",
+    "storybook": "^7.0.12",
     "stylelint": "^15",
     "svelte": "^3.59.1",
+    "svelte-loader": "3.1.5",
     "svelte-preprocess": "^5.0.3",
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "webpack": "^5"
   },
   "packageManager": "yarn@3.5.1"
 }

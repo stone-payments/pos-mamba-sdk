@@ -1,0 +1,26 @@
+{
+  "name": "@mamba/currency",
+  "version": "10.0.0",
+  "description": "Mamba currency module",
+  "author": "Stone Payments - Mamba Team",
+  "keywords": [
+    "stone-payments",
+    "mamba",
+    "money",
+    "currency"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stone-payments/pos-mamba-sdk.git",
+    "directory": "packages/currency"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">= 14",
+    "npm": ">= 7"
+  },
+  "main": "index.js"
+}

@@ -19,7 +19,7 @@ npm install --save-dev @mamba/babel-config
 
 ```js
 module.exports = {
-  extends: '@mamba/babel-config/common.cjs',
+  extends: '@mamba/babel-config',
 };
 ```
 
@@ -31,7 +31,7 @@ module.exports = {
 
 ```ts
 import * as webpack from 'webpack';
-import { Babel, BabelCJS, BabelSvelte } from '@mamba/babel-preset';
+import { Babel, BabelCJS, BabelSvelte } from '@mamba/babel-config';
 
 const config: webpack.Configuration = {
   // ...

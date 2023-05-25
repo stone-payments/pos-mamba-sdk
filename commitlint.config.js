@@ -1,4 +1,4 @@
-const commitizenConfig = require('./changelog.config.js');
+const commitizenConfig = require('./changelog.config.cjs');
 
 module.exports = {
   extends: ['@commitlint/config-conventional'],

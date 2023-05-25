@@ -10,7 +10,7 @@ import {
   IS_WATCHING,
   WEINRE_IP,
   HTML_BASE_URL,
-} from '../../configs/envModes.cjs';
+} from '@mamba/configs/envModes.cjs';
 
 function getLazyApp(src: string) {
   return `
@@ -72,6 +72,7 @@ export default function getHTMLTemplate({
   });
 
   let lazyApp = '';
+
   // Usefull to catch errors on launch
   if (IS_DEV && !IS_WATCHING()) {
     const app = js.pop();
