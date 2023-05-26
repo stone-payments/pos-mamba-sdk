@@ -12,11 +12,13 @@
   "exports": {
     ".": {
       "types": "./dist/node/index.d.ts",
-      "import": "./dist/node/index.cjs",
+      "import": "./dist/node/index.js",
       "require": "./dist/node/index.cjs"
     },
     "./client": {
-      "types": "./client.d.ts"
+      "types": "./dist/client/index.d.ts",
+      "import": "./dist/client/index.js",
+      "require": "./dist/client/index.cjs"
     },
     "./dist/client/*": "./dist/client/*",
     "./package.json": "./package.json"
@@ -42,8 +44,8 @@
     "npm": ">= 7"
   },
   "scripts": {
-    "compile:client": "tsup --dts",
-    "compile:node": "tsup-node --dts",
+    "compile:client": "tsup --format esm,cjs",
+    "compile:node": "tsup --format esm,cjs",
     "prebuild": "rimraf dist types",
     "build": "run-s prebuild compile:client compile:node"
   },
@@ -60,8 +62,7 @@
       "src/node/index.ts",
       "src/client/index.ts"
     ],
-    "sourcemap": true,
-    "shims": true
+    "dts": true
   },
   "gitHead": "e919d0e654f8134f157bf4f6e078685f5dd8a000"
 }

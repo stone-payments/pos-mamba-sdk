@@ -1,24 +1,36 @@
-const chalk = require('chalk');
-const { getWebpackConfigPath } = require('../utils.js');
+const { existsSync } = require('node:fs');
+const pico = require('picocolors');
+const { getWebpackConfigPath, getWebpackPaths } = require('../utils.js');
 const shell = require('../../../lib/shell.js');
 const { PLATFORMS } = require('../../../consts.js');
+
+const tsNodeProjectFileName = process.env.MAMBA_TS_NODE_FILE || 'tsconfig.json';
 
 /** Start the webpack development server */
 module.exports = {
   command: 'start',
   desc: 'Start the development server',
   handler({ debug, port, platform }) {
-    const webpackConfigPath = getWebpackConfigPath('app.dev');
+    const webpackConfigPath = getWebpackConfigPath('dev');
+    const tsNodeProjectPath = getWebpackPaths(tsNodeProjectFileName);
 
-    console.log(chalk.cyan(`Starting the development server at: http://localhost:${port}`));
-    if (platform) console.log(`PLATFORM: ${chalk.yellow(platform)}`);
+    if (!existsSync(tsNodeProjectPath)) {
+      throw new Error(
+        pico.red(`Typescript config for @mamba/webpack not found as "${tsNodeProjectPath}"`),
+      );
+    }
+
+    console.log(pico.cyan(`Starting the development server at: http://localhost:${port}`));
+    if (platform) console.log(`PLATFORM: ${pico.yellow(platform)}`);
 
     const cmd = [
       'cross-env',
       /** If development flag has a numeric value */
       Number.isInteger(debug) && `DEBUG_LVL=${debug}`,
+      `TS_NODE_PROJECT=${tsNodeProjectPath}`,
+      'NODE_ENV="development"',
       `PLATFORM=${platform}`,
-      `webpack-dev-server --env PLATFORM=${platform} --port ${port} --config "${webpackConfigPath}"`,
+      `webpack server --env PLATFORM=${platform} --port ${port} --config "${webpackConfigPath}"`,
     ]
       .filter(Boolean)
       .join(' ');

@@ -14,7 +14,7 @@ export default function getEntrypoints(): webpack.EntryObject {
       // fromWorkingDir('./packages/static-polyfills/css-polyfills.min.js'),
 
       /** Mamba style resetter/normalizer */
-      fromWorkingDir(`packages/styles/${IS_BROWSER ? 'desktop' : 'pos'}.pcss`),
+      `@mamba/styles/dist/${IS_BROWSER ? 'desktop' : 'pos'}.css`,
 
       /** Optional generic external styles file */
       existsSync(fromWorkingDir('src', 'app.pcss')) && './app.pcss',

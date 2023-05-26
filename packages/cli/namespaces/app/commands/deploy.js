@@ -3,13 +3,14 @@
 const { readdirSync, existsSync } = require('fs');
 const path = require('path');
 const os = require('os');
-const chalk = require('chalk');
-const { fromCwd, getPkg } = require('quickenv');
+const pico = require('picocolors');
+const { fromWorkingDir, getPackage } = require('@mamba/utils');
 const shell = require('../../../lib/shell.js');
+
 // const cliArgs = require('../args.js');
 const { MODELS, PLATFORMS } = require('../../../consts.js');
 
-const PKG = getPkg();
+const PKG = getPackage();
 
 module.exports = {
   command: 'deploy',
@@ -60,14 +61,14 @@ module.exports = {
   },
   handler({ legacy, force, customSSH, args, appsFolder: _folder, platform, tool: _tool, usage }) {
     if (usage === true) {
-      console.log(chalk.yellow(`\n  Examples:\n`));
+      console.log(pico.yellow(`\n  Examples:\n`));
       console.log(
-        `    Build for MP35(P): ${chalk.cyan(
+        `    Build for MP35(P): ${pico.cyan(
           `mamba app deploy -p MP35P -f /data/users/10004/apps/`,
         )}\n`,
       );
-      console.log(`    Build with Q92: ${chalk.cyan(`mamba app deploy -p Q92`)}\n`);
-      console.log(`    Build with XCB: ${chalk.cyan(`mamba app deploy -t xcb`)}\n`);
+      console.log(`    Build with Q92: ${pico.cyan(`mamba app deploy -p Q92`)}\n`);
+      console.log(`    Build with XCB: ${pico.cyan(`mamba app deploy -t xcb`)}\n`);
       return;
     }
     const { id } = PKG.mamba;
@@ -102,6 +103,7 @@ module.exports = {
     if (isVerifone) tool = SCP_TOOL;
 
     const useAdb = tool === ADB_TOOL || isGertec;
+
     // const useRsync = tool === 'rsync' && !useAdb;
     const useXcb = tool === 'xcb' && !useAdb;
     const useScp = tool === SCP_TOOL || isVerifone;
@@ -110,25 +112,25 @@ module.exports = {
 
     const command = (...rest) => [tool, ...rest].filter((v) => v !== '').join(' ');
 
-    const CDW_DIST = fromCwd('dist');
-    const DIST_DIR = fromCwd(legacy ? 'ui/dist' : 'dist/bundle.pos');
+    const CDW_DIST = fromWorkingDir('dist');
+    const DIST_DIR = fromWorkingDir(legacy ? 'ui/dist' : 'dist/bundle.pos');
     const APPS_DIR = `${appsFolder}${appSlug}`;
 
-    console.log(chalk.cyan('Deploy configuration: \n'));
-    console.log(`  Platform: ${chalk.yellow(platform)}`);
-    console.log(`  Tool: ${chalk.yellow(tool)}`);
-    console.log(`  Arguments: ${chalk.yellow(JSON.stringify(args))}`);
+    console.log(pico.cyan('Deploy configuration: \n'));
+    console.log(`  Platform: ${pico.yellow(platform)}`);
+    console.log(`  Tool: ${pico.yellow(tool)}`);
+    console.log(`  Arguments: ${pico.yellow(JSON.stringify(args))}`);
 
     if (!useXcb) {
-      console.log(`  Dist directory: ${chalk.yellow(DIST_DIR)}`);
-      console.log(`  App directory: ${chalk.yellow(APPS_DIR)}\n\n`);
+      console.log(`  Dist directory: ${pico.yellow(DIST_DIR)}`);
+      console.log(`  App directory: ${pico.yellow(APPS_DIR)}\n\n`);
     }
 
     if (useScp) {
       let sshConfig = customSSH;
       sshConfig = MODELS.V240M;
 
-      console.log(`  Deploying with: ${chalk.cyan(`${command(toolArgs)}`)}\n\n`);
+      console.log(`  Deploying with: ${pico.cyan(`${command(toolArgs)}`)}\n\n`);
       shell(`ssh ${sshConfig} "rm -rf ${APPS_DIR}"`);
       shell('sleep 1');
 
@@ -140,20 +142,20 @@ module.exports = {
 
       const scpCmd = command(toolArgs, `${DIST_DIR}/`, `${REMOTE_APP_DIR}`);
 
-      console.log(chalk.dim(`Deploying with: \n${chalk.cyan(scpCmd)}\n`));
+      console.log(pico.dim(`Deploying with: \n${pico.cyan(scpCmd)}\n`));
       console.log(`Deploying "${appSlug}" to "${REMOTE_APP_DIR}"`);
 
       shell(scpCmd);
     } else if (useAdb) {
       if (/MAINAPP/g.test(appsFolder) && isGertec) {
-        console.log(`Error: ${chalk.red(`Folder can't be MAINAPP for MP45P\n       Aborting\n`)}`);
+        console.log(`Error: ${pico.red(`Folder can't be MAINAPP for MP45P\n       Aborting\n`)}`);
         return;
       }
       const isValidFolder = /data\/users\/[0-9]+\/apps\//g.test(appsFolder);
       if (isValidFolder) {
         const PUSH = 'push';
         const adbCmd = command(PUSH, toolArgs, `${DIST_DIR}/.`, `${APPS_DIR}/.`);
-        console.log(`  Deploying with: ${chalk.cyan(`${command(PUSH, toolArgs)}`)}\n\n`);
+        console.log(`  Deploying with: ${pico.cyan(`${command(PUSH, toolArgs)}`)}\n\n`);
         shell('adb root');
         shell(`adb shell rm -rf ${APPS_DIR}`);
         shell('sleep 1');
@@ -163,7 +165,7 @@ module.exports = {
           `adb shell ls -R ${APPS_DIR} | grep -E ".js|.html|.css|assets|.xml|.jpg|.jpeg|.svg|.png|.gif"`,
         );
       } else {
-        console.log(`Error: ${chalk.red(`Wrong folder pattern ${appsFolder}\n       Aborting\n`)}`);
+        console.log(`Error: ${pico.red(`Wrong folder pattern ${appsFolder}\n       Aborting\n`)}`);
         return;
       }
     } else if (useXcb && isPax) {
@@ -175,7 +177,7 @@ module.exports = {
       try {
         if (found) {
           xcbCmd = command('installer', 'aup', aupPath);
-          console.log(`  AUP file: ${chalk.yellow(aupPath)}\n\n`);
+          console.log(`  AUP file: ${pico.yellow(aupPath)}\n\n`);
           shell(xcbCmd);
         } else {
           throw new Error(
@@ -183,19 +185,20 @@ module.exports = {
           );
         }
       } catch (err) {
-        console.log(chalk.yellow(err.message));
+        console.log(pico.yellow(err.message));
         const files = readdirSync(CDW_DIST);
         for (const i in files) {
           const file = files[i];
           if (path.extname(file) === '.aup') {
             found = true;
             xcbCmd = command('installer', 'aup', `${CDW_DIST}/${file}`);
-            console.log(`  AUP file: ${chalk.yellow(file)}\n\n`);
-            console.log(`Deploying "${appSlug}" with: \n${chalk.cyan(xcbCmd)}`);
+            console.log(`  AUP file: ${pico.yellow(file)}\n\n`);
+            console.log(`Deploying "${appSlug}" with: \n${pico.cyan(xcbCmd)}`);
             shell(xcbCmd);
           }
         }
-        if (!found) console.log(chalk.red('  .aup not found!'));
+
+        if (!found) console.log(pico.red('  .aup not found!'));
       }
     } else {
       let sshConfig = customSSH;
@@ -209,8 +212,8 @@ module.exports = {
       if (isQ60) sshConfig = MODELS.Q60;
 
       if (toolArgs === '') {
-        const _defaultsArgs = os.platform() === 'darwin' ? '-arvc' : '-zzaP';
-        toolArgs = legacy ? '-zzaPR' : _defaultsArgs;
+        const defaultsArgs = os.platform() === 'darwin' ? '-arvc' : '-zzaP';
+        toolArgs = legacy ? '-zzaPR' : defaultsArgs;
       }
 
       const REMOTE_APP_DIR = `${sshConfig}:${APPS_DIR}`;
@@ -223,7 +226,7 @@ module.exports = {
         `${REMOTE_APP_DIR}`,
       );
 
-      console.log(chalk.dim(`Deploying with: \n${chalk.cyan(rsyncCmd)}\n`));
+      console.log(pico.dim(`Deploying with: \n${pico.cyan(rsyncCmd)}\n`));
       console.log(`Deploying "${appSlug}" to "${REMOTE_APP_DIR}"`);
 
       shell(rsyncCmd);

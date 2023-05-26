@@ -10,7 +10,15 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
-    "importsNotUsedAsValues": "remove"
+    "importsNotUsedAsValues": "remove",
+    "typeRoots": [
+      "node_modules/@types",
+      "node_modules/@mamba/utils"
+    ],
+    "types": [
+      "node",
+      "@mamba/utils"
+    ]
   },
   "ts-node": {
     "esm": true,
@@ -19,6 +27,7 @@
   "typeAcquisition": {
     "include": [
       "webpack",
+      "@mamba/utils"
     ]
   },
   "include": [

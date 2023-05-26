@@ -1,4 +1,4 @@
-const chalk = require('chalk');
+const pico = require('picocolors');
 const cliArgs = require('../args.js');
 const shell = require('../../../lib/shell.js');
 
@@ -20,7 +20,7 @@ module.exports = {
 
     shell(cmds);
 
-    console.log(chalk.green('App format done'));
+    console.log(pico.green('App format done'));
   },
   builder: (yargs) =>
     yargs.options({

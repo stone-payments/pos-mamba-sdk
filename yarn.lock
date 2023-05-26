@@ -3052,7 +3052,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mamba/babel-config@workspace:^, @mamba/babel-config@workspace:packages/babel":
+"@mamba/babel-config@workspace:*, @mamba/babel-config@workspace:packages/babel":
   version: 0.0.0-use.local
   resolution: "@mamba/babel-config@workspace:packages/babel"
   dependencies:
@@ -3065,7 +3065,8 @@ __metadata:
     "@babel/plugin-transform-runtime": ^7
     "@babel/preset-env": ^7
     "@babel/preset-typescript": ^7
-    "@mamba/configs": "workspace:^"
+    "@mamba/configs": "workspace:*"
+    "@mamba/utils": "workspace:*"
     babel-loader: ^9
     babel-plugin-dynamic-import-node: ^2.3.3
     babel-plugin-istanbul: ^6.1.1
@@ -3073,6 +3074,9 @@ __metadata:
     babel-plugin-react-remove-properties: ^0.3.0
     browserslist: latest
     caniuse-lite: latest
+    json5: ^2.2.3
+    tsconfig: ^7.0.0
+    tsconfig-paths: ^4.2.0
     webpack: ^5
   peerDependencies:
     jest: ^29.5.0
@@ -3090,13 +3094,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@mamba/cli@workspace:packages/cli"
   dependencies:
+    "@mamba/utils": "workspace:*"
     case: ^1.6.1
-    chalk: ^2.4.2
     cross-env: ^5.2.0
     global-dirs: ^0.1.1
     import-global: ^0.1.0
     inquirer: ^6.2.2
-    quickenv: ^0.0.6
+    picocolors: ^1.0.0
     yargonaut: ^1.1.4
     yargs: ^13.1.0
   bin:
@@ -3115,12 +3119,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@mamba/configs@workspace:^, @mamba/configs@workspace:packages/configs":
+"@mamba/configs@workspace:*, @mamba/configs@workspace:packages/configs":
   version: 0.0.0-use.local
   resolution: "@mamba/configs@workspace:packages/configs"
   dependencies:
-    "@mamba/styles": "workspace:^"
-    "@mamba/utils": "workspace:^"
+    "@mamba/styles": "workspace:*"
+    "@mamba/utils": "workspace:*"
     "@testing-library/jest-dom": ^5.16.5
     "@tsconfig/svelte": ^4.0.1
     "@types/node": ^20.2.3
@@ -3147,7 +3151,7 @@ __metadata:
     postcss-sorting: ^8.0.2
     resolve: ^1.22.2
     resolve-url-loader: ^5.0.0
-    svelte-loader: ^3.1.7
+    svelte-loader: 3.1.5
     svelte-preprocess: ^5
     ts-loader: ^9.4.3
     tsd: ^0.28.1
@@ -3198,8 +3202,8 @@ __metadata:
     "@babel/core": ^7
     "@babel/eslint-parser": ^7.21.8
     "@babel/eslint-plugin": ^7.19.1
-    "@mamba/prettier-config": "workspace:^"
-    "@mamba/utils": "workspace:^"
+    "@mamba/prettier-config": "workspace:*"
+    "@mamba/utils": "workspace:*"
     "@typescript-eslint/eslint-plugin": ^5.59.6
     "@typescript-eslint/parser": ^5.59.6
     eslint: ^8.40.0
@@ -3226,6 +3230,8 @@ __metadata:
 "@mamba/jade-base@workspace:packages/jade-base":
   version: 0.0.0-use.local
   resolution: "@mamba/jade-base@workspace:packages/jade-base"
+  dependencies:
+    "@storybook/svelte": ^7.0.12
   languageName: unknown
   linkType: soft
 
@@ -3259,7 +3265,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@mamba/prettier-config@workspace:^, @mamba/prettier-config@workspace:packages/prettier":
+"@mamba/prettier-config@workspace:*, @mamba/prettier-config@workspace:packages/prettier":
   version: 0.0.0-use.local
   resolution: "@mamba/prettier-config@workspace:packages/prettier"
   dependencies:
@@ -3329,7 +3335,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@mamba/styles@workspace:^, @mamba/styles@workspace:packages/styles":
+"@mamba/styles@workspace:*, @mamba/styles@workspace:packages/styles":
   version: 0.0.0-use.local
   resolution: "@mamba/styles@workspace:packages/styles"
   dependencies:
@@ -3350,9 +3356,9 @@ __metadata:
     "@babel/preset-typescript": ^7
     "@cypress/code-coverage": ^3.10.4
     "@cypress/webpack-preprocessor": ^5.17.1
-    "@mamba/babel-config": "workspace:^"
-    "@mamba/configs": "workspace:^"
-    "@mamba/webpack": "workspace:^"
+    "@mamba/babel-config": "workspace:*"
+    "@mamba/configs": "workspace:*"
+    "@mamba/webpack": "workspace:*"
     "@testing-library/cypress": ^9.0.0
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/svelte": ^3.2.2
@@ -3376,6 +3382,7 @@ __metadata:
     svelte-preprocess: ^5.0.3
     ts-jest: ^29.1.0
   peerDependencies:
+    "@testing-library/svelte": ^3
     eslint: ^8
     svelte: ^3
     typescript: ^5
@@ -3383,7 +3390,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@mamba/utils@workspace:^, @mamba/utils@workspace:packages/utils":
+"@mamba/utils@workspace:*, @mamba/utils@workspace:packages/utils":
   version: 0.0.0-use.local
   resolution: "@mamba/utils@workspace:packages/utils"
   dependencies:
@@ -3395,13 +3402,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@mamba/webpack@workspace:^, @mamba/webpack@workspace:packages/webpack":
+"@mamba/webpack@workspace:*, @mamba/webpack@workspace:packages/webpack":
   version: 0.0.0-use.local
   resolution: "@mamba/webpack@workspace:packages/webpack"
   dependencies:
-    "@mamba/babel-config": "workspace:^"
-    "@mamba/configs": "workspace:^"
-    "@mamba/utils": "workspace:^"
+    "@mamba/babel-config": "workspace:*"
+    "@mamba/configs": "workspace:*"
+    "@mamba/utils": "workspace:*"
     "@types/html-minifier": ^4.0.2
     babel-loader: ^9.1.2
     css-minimizer-webpack-plugin: ^5.0.0
@@ -5778,6 +5785,20 @@ __metadata:
   version: 2.0.1
   resolution: "@types/stack-utils@npm:2.0.1"
   checksum: 205fdbe3326b7046d7eaf5e494d8084f2659086a266f3f9cf00bccc549c8e36e407f88168ad4383c8b07099957ad669f75f2532ed4bc70be2b037330f7bae019
+  languageName: node
+  linkType: hard
+
+"@types/strip-bom@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@types/strip-bom@npm:3.0.0"
+  checksum: cb165d0c2ce6abbef95506ebee25be02bd453600ef1792dc1754236e5d6f9c830d52bdb85978d0b08ea1f36b96a61235ac5ad99e0f4c2767fb4ea004e141d2df
+  languageName: node
+  linkType: hard
+
+"@types/strip-json-comments@npm:0.0.30":
+  version: 0.0.30
+  resolution: "@types/strip-json-comments@npm:0.0.30"
+  checksum: 829ddd389645073f347c5b1924a8c34b8813af29756576e511c46f40e218193cf93ccbade62661d47fc70f707e98f410331729b8c20edfcb2e807d51df1ad4b7
   languageName: node
   linkType: hard
 
@@ -18994,15 +19015,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"quickenv@npm:^0.0.6":
-  version: 0.0.6
-  resolution: "quickenv@npm:0.0.6"
-  dependencies:
-    find-up: ^3.0.0
-  checksum: 2684c9e822e7b425e47f3f43118106917987a1aa1d58c25a8b964d08c2ff5cb55ea403fd03bebcb8d759f8094814092921e4d22914de5ee3db7f360009005096
-  languageName: node
-  linkType: hard
-
 "ramda@npm:0.29.0":
   version: 0.29.0
   resolution: "ramda@npm:0.29.0"
@@ -20957,7 +20969,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"strip-json-comments@npm:2.0.1":
+"strip-json-comments@npm:2.0.1, strip-json-comments@npm:^2.0.0":
   version: 2.0.1
   resolution: "strip-json-comments@npm:2.0.1"
   checksum: 1074ccb63270d32ca28edfb0a281c96b94dc679077828135141f27d52a5a398ef5e78bcf22809d23cadc2b81dfbe345eb5fd8699b385c8b1128907dec4a7d1e1
@@ -21257,19 +21269,6 @@ __metadata:
   peerDependencies:
     svelte: ">3.0.0"
   checksum: 3bb2b229b190c7dea19411f01c7997e81398315f5841f9b00f8f57dcd9d81db3fd1908d4e1338fb6efa37a42da4394bed9e88663bdcf9de5cb62d790e4643922
-  languageName: node
-  linkType: hard
-
-"svelte-loader@npm:^3.1.7":
-  version: 3.1.7
-  resolution: "svelte-loader@npm:3.1.7"
-  dependencies:
-    loader-utils: ^2.0.4
-    svelte-dev-helper: ^1.1.9
-    svelte-hmr: ^0.14.2
-  peerDependencies:
-    svelte: ">3.0.0"
-  checksum: 4fb6f336960015c58d51fff0e859518805c08bc6dc68cd36b61ae6594464a9d2e50e1cc4bc903392b19bdd044712dd6ac13e5fa6d107391af20cf79331bad42a
   languageName: node
   linkType: hard
 
@@ -21931,6 +21930,18 @@ __metadata:
     minimist: ^1.2.6
     strip-bom: ^3.0.0
   checksum: 28c5f7bbbcabc9dabd4117e8fdc61483f6872a1c6b02a4b1c4d68c5b79d06896c3cc9547610c4c3ba64658531caa2de13ead1ea1bf321c7b53e969c4752b98c7
+  languageName: node
+  linkType: hard
+
+"tsconfig@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "tsconfig@npm:7.0.0"
+  dependencies:
+    "@types/strip-bom": ^3.0.0
+    "@types/strip-json-comments": 0.0.30
+    strip-bom: ^3.0.0
+    strip-json-comments: ^2.0.0
+  checksum: 8bce05e93c673defd56d93d83d4055e49651d3947c076339c4bc15d47b7eb5029bed194087e568764213a2e4bf45c477ba9f4da16adfd92cd901af7c09e4517e
   languageName: node
   linkType: hard
 

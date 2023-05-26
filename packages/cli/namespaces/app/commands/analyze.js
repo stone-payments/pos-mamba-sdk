@@ -1,4 +1,4 @@
-const chalk = require('chalk');
+const pico = require('picocolors');
 const { getWebpackConfigPath } = require('../utils.js');
 const shell = require('../../../lib/shell.js');
 const cliArgs = require('../args.js');
@@ -13,11 +13,11 @@ module.exports = {
       'cross-env',
       'NODE_ENV=production',
       `APP_ENV=${target}`,
-      `webpack --env PLATFORM=${platform} --config "${getWebpackConfigPath('app.analyzer')}"`,
+      `webpack --env PLATFORM=${platform} --config "${getWebpackConfigPath('analyzer')}"`,
     ].join(' ');
 
-    console.log(chalk.cyan(`Analyzing bundle for '${target.toUpperCase()}'`));
-    console.log(`PLATFORM: ${chalk.yellow(platform)}`);
+    console.log(pico.cyan(`Analyzing bundle for '${target.toUpperCase()}'`));
+    console.log(`PLATFORM: ${pico.yellow(platform)}`);
 
     shell(cmd);
   },

@@ -30,9 +30,9 @@
     "@babel/preset-typescript": "^7",
     "@cypress/code-coverage": "^3.10.4",
     "@cypress/webpack-preprocessor": "^5.17.1",
-    "@mamba/babel-config": "workspace:^",
-    "@mamba/configs": "workspace:^",
-    "@mamba/webpack": "workspace:^",
+    "@mamba/babel-config": "workspace:*",
+    "@mamba/configs": "workspace:*",
+    "@mamba/webpack": "workspace:*",
     "@testing-library/cypress": "^9.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/svelte": "^3.2.2",
@@ -57,6 +57,8 @@
     "ts-jest": "^29.1.0"
   },
   "peerDependencies": {
+    "@types/jest": "^29.5.1",
+    "@testing-library/svelte": "^3",
     "eslint": "^8",
     "svelte": "^3",
     "typescript": "^5",

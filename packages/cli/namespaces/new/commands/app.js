@@ -1,8 +1,8 @@
 const { writeFileSync } = require('fs');
 const Case = require('case');
 const inquirer = require('inquirer');
-const chalk = require('chalk');
-const { fromCwd, getPkg } = require('quickenv');
+const pico = require('picocolors');
+const { fromWorkingDir, getPackage } = require('@mamba/utils');
 
 const { removeDiacritics, hashString } = require('../utils.js');
 const shell = require('../../../lib/shell.js');
@@ -14,7 +14,7 @@ module.exports = {
   command: 'app <targetDir>',
   desc: 'Create a new app directory',
   handler({ targetDir, force }) {
-    targetDir = fromCwd(targetDir);
+    targetDir = fromWorkingDir(targetDir);
     inquirer
       .prompt([
         {
@@ -38,13 +38,13 @@ module.exports = {
         },
       ])
       .then(({ name, version, description }) => {
-        console.log(chalk.cyan('Downloading template...'));
+        console.log(pico.cyan('Downloading template...'));
 
         shell(`npx degit ${REPO} "${targetDir}" ${force ? '-f' : ''}`);
 
-        console.log(chalk.cyan("Setupping 'package.json'"));
+        console.log(pico.cyan("Setupping 'package.json'"));
 
-        const pkgJson = getPkg({ path: targetDir });
+        const pkgJson = getPackage({ path: targetDir });
         const normalizedName = Case.kebab(removeDiacritics(name));
         const date = new Date();
 
@@ -73,12 +73,12 @@ module.exports = {
 
         delete pkgJson.rootDir;
 
-        writeFileSync(fromCwd(targetDir, 'package.json'), JSON.stringify(pkgJson, null, 2));
+        writeFileSync(fromWorkingDir(targetDir, 'package.json'), JSON.stringify(pkgJson, null, 2));
 
-        console.log(chalk.cyan('Installing dependencies'));
+        console.log(pico.cyan('Installing dependencies'));
         shell([`cd ${targetDir}`, `npm i`]);
 
-        console.log(chalk.green(`App created at '${targetDir}'`));
+        console.log(pico.green(`App created at '${targetDir}'`));
       });
   },
   builder: (yargs) =>

@@ -32,13 +32,17 @@
     "@babel/plugin-transform-runtime": "^7",
     "@babel/preset-env": "^7",
     "@babel/preset-typescript": "^7",
-    "@mamba/configs": "workspace:^",
+    "@mamba/configs": "workspace:*",
+    "@mamba/utils": "workspace:*",
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "babel-plugin-istanbul": "^6.1.1",
     "babel-plugin-module-resolver": "^5.0.0",
     "babel-plugin-react-remove-properties": "^0.3.0",
     "browserslist": "latest",
-    "caniuse-lite": "latest"
+    "caniuse-lite": "latest",
+    "json5": "^2.2.3",
+    "tsconfig": "^7.0.0",
+    "tsconfig-paths": "^4.2.0"
   },
   "peerDependencies": {
     "jest": "^29.5.0",

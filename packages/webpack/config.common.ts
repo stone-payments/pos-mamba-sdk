@@ -24,13 +24,12 @@ import { Css, ExtractCss, PostCss, Svelte, TypeScript } from '@mamba/configs/loa
 import { Babel, BabelSvelte } from '@mamba/babel-config/loader';
 
 // Utils
-import { fromWorkingDir, clientEnvironment } from '@mamba/utils';
+import { fromWorkingDir, clientEnvironment, getPackage } from '@mamba/utils';
 
 // Helpers
 // import { isOfModuleType, transpileIgnoreBaseCondition } from './helpers/depTranspiling';
 
 import getHTMLTemplate from './helpers/getHTMLTemplate';
-import getPackage from './helpers/getPackage';
 
 const PKG = getPackage();
 

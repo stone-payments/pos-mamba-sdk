@@ -12,10 +12,7 @@ import TerserPlugin from 'terser-webpack-plugin';
 import MambaManifestPlugin from './plugins/MambaManifestPlugin';
 
 // Utils
-import { fromWorkingDir } from '@mamba/utils';
-
-// Helpers
-import getPackage from './helpers/getPackage';
+import { fromWorkingDir, getPackage } from '@mamba/utils';
 
 // Base config
 import appConfig from './config.app';

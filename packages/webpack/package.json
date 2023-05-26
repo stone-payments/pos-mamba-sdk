@@ -24,9 +24,9 @@
     "npm": ">= 7"
   },
   "dependencies": {
-    "@mamba/babel-config": "workspace:^",
-    "@mamba/configs": "workspace:^",
-    "@mamba/utils": "workspace:^",
+    "@mamba/babel-config": "workspace:*",
+    "@mamba/configs": "workspace:*",
+    "@mamba/utils": "workspace:*",
     "@types/html-minifier": "^4.0.2",
     "babel-loader": "^9.1.2",
     "css-minimizer-webpack-plugin": "^5.0.0",

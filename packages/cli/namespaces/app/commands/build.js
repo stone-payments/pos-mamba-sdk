@@ -1,4 +1,4 @@
-const chalk = require('chalk');
+const pico = require('picocolors');
 const { getWebpackConfigPath } = require('../utils.js');
 const shell = require('../../../lib/shell.js');
 const cliArgs = require('../args.js');
@@ -26,26 +26,24 @@ module.exports = {
         ADD_SIMULATOR && 'MAMBA_SIMULATOR=true',
         (choseAllPlatforms || platforms.length > 1) && 'BUILD_ALL=true',
         `PLATFORM=${plat}`,
-        `webpack --env PLATFORM=${plat} --config "${getWebpackConfigPath('app.build')}"`,
+        `webpack --env PLATFORM=${plat} --config "${getWebpackConfigPath('prod')}"`,
       ]
         .filter(Boolean)
         .join(' ');
 
-      console.log(chalk.cyan('Building app...'));
-      console.log(`  App target: ${chalk.yellow(target.toUpperCase())}`);
+      console.log(pico.cyan('Building app...'));
+      console.log(`  App target: ${pico.yellow(target.toUpperCase())}`);
       console.log(
-        `  Environment: ${chalk.yellow(
-          (development ? 'development' : 'production').toUpperCase(),
-        )}`,
+        `  Environment: ${pico.yellow((development ? 'development' : 'production').toUpperCase())}`,
       );
-      if (plat) console.log(`  PLATFORM: ${chalk.yellow(plat)}`);
+      if (plat) console.log(`  PLATFORM: ${pico.yellow(plat)}`);
 
       if (IS_DEBUG) {
-        console.log(`  Debug Level: ${chalk.yellow(development)}`);
+        console.log(`  Debug Level: ${pico.yellow(development)}`);
       }
 
       if (ADD_SIMULATOR) {
-        console.log(chalk.yellow('  Adding the Mamba simulator to the bundle'));
+        console.log(pico.yellow('  Adding the Mamba simulator to the bundle'));
       }
 
       // When exit is false the build script keeps working to another platform even though build error.

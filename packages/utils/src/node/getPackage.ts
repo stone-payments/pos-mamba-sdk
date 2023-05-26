@@ -1,18 +1,8 @@
 import { resolve, dirname } from 'node:path';
 import { existsSync, readFileSync } from 'node:fs';
-import type { MambaPackageField, NativePackageManifest } from '../plugins/MambaManifestPlugin';
+import { type PackagePrediction } from './types';
 
 const cache = new Map();
-
-export interface PackagePrediction extends NativePackageManifest {
-  name: string;
-  mamba: MambaPackageField;
-  module: string;
-  svelte: string;
-  esnext: string;
-  main: string;
-  rootDir: string;
-}
 
 /**
  * Retrieve working directore package.json

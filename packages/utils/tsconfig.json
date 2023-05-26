@@ -9,9 +9,10 @@
     "useUnknownInCatchVariables": false,
     "esModuleInterop": true,
     "declaration": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "noEmit": true
   },
   "include": [
-    "src",
+    "src/**/*.ts",
   ]
 }

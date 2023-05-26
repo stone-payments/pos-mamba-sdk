@@ -31,8 +31,8 @@
     "prepublish": "yarn run test"
   },
   "dependencies": {
-    "@mamba/styles": "workspace:^",
-    "@mamba/utils": "workspace:^",
+    "@mamba/styles": "workspace:*",
+    "@mamba/utils": "workspace:*",
     "@testing-library/jest-dom": "^5.16.5",
     "@tsconfig/svelte": "^4.0.1",
     "autoprefixer": "^10.4.14",
@@ -57,7 +57,7 @@
     "postcss-reporter": "^7.0.5",
     "postcss-sorting": "^8.0.2",
     "resolve-url-loader": "^5.0.0",
-    "svelte-loader": "^3.1.7",
+    "svelte-loader": "3.1.5",
     "svelte-preprocess": "^5",
     "ts-loader": "^9.4.3",
     "url-loader": "^4.1.1"

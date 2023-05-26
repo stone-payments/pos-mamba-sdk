@@ -1,11 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
-
-export enum CLIENT_ENVIRONMENT_MODE {
-  ESLint = 'ESLint',
-  Webpack = 'Webpack',
-}
+import type { CLIENT_ENVIRONMENT_MODE } from './types';
 
 export type ClientEnvModeType = keyof typeof CLIENT_ENVIRONMENT_MODE;
 
