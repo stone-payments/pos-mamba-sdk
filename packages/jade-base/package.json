@@ -27,5 +27,11 @@
   },
   "devDependencies": {
     "@storybook/svelte": "^7.0.12"
+  },
+  "peerDependencies": {
+    "eslint": "^8",
+    "svelte": "^3",
+    "typescript": "^5",
+    "webpack": "^5"
   }
 }

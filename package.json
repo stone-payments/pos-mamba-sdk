@@ -60,12 +60,12 @@
     }
   },
   "devDependencies": {
-    "@babel/cli": "^7.21.5",
-    "@babel/core": "^7.21.4",
-    "@babel/preset-env": "^7.21.4",
+    "@babel/cli": "^7",
+    "@babel/core": "^7",
+    "@babel/preset-env": "^7",
     "@commitlint/cli": "^7.6.1",
     "@commitlint/config-conventional": "^14.1.0",
-    "@commitlint/config-lerna-scopes": "^15.0.0",
+    "@commitlint/config-lerna-scopes": "^17.6.3",
     "@storybook/addon-essentials": "^7.0.12",
     "@storybook/addon-interactions": "^7.0.12",
     "@storybook/addon-links": "^7.0.12",

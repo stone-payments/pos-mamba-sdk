@@ -24,11 +24,13 @@
     "npm": ">= 7"
   },
   "dependencies": {
+    "@babel/core": "^7",
     "@mamba/babel-config": "workspace:*",
     "@mamba/configs": "workspace:*",
     "@mamba/utils": "workspace:*",
     "@types/html-minifier": "^4.0.2",
-    "babel-loader": "^9.1.2",
+    "@types/node": ">=20",
+    "babel-loader": "^9",
     "css-minimizer-webpack-plugin": "^5.0.0",
     "eslint-webpack-plugin": "^4.0.1",
     "filemanager-webpack-plugin": "^8.0.0",
@@ -63,6 +65,9 @@
   },
   "peerDependencies": {
     "eslint": "^8"
+  },
+  "optionalDependencies": {
+    "jest": "^29.5.0"
   },
   "gitHead": "e919d0e654f8134f157bf4f6e078685f5dd8a000"
 }
