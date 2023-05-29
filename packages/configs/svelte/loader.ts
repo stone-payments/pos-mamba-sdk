@@ -1,4 +1,5 @@
-import preprocess from './preprocess.cjs';
+import sveltePreprocess from 'svelte-preprocess';
+import defaultConfig from './defaults.json';
 import env from '../envModes.cjs';
 
 const { IS_PROD } = env;
@@ -17,6 +18,6 @@ export default {
     hotReload: !IS_PROD,
 
     // Svelte preprocessor
-    ...preprocess,
+    preprocess: sveltePreprocess(defaultConfig),
   },
 };

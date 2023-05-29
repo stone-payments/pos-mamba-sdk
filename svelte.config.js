@@ -1,3 +1,3 @@
-import svelteConfig from '@mamba/configs/svelte/preprocess.cjs';
+import preprocess from '@mamba/configs/svelte';
 
-export default svelteConfig;
+export default preprocess;
