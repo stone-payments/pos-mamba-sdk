@@ -8,8 +8,6 @@ import { Babel, BabelSvelte } from '@mamba/babel-config/loader';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { MiniHtmlWebpackPlugin } from 'mini-html-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
-
-// Build mode
 import {
   IS_PROD,
   NODE_ENV,
@@ -21,6 +19,8 @@ import {
   IS_TEST,
   IS_STORYBOOK,
 } from '@mamba/configs/envModes.cjs';
+
+import MambaLogger from './plugins/InfrastructureMamaLogger';
 
 import getHTMLTemplate from './helpers/getHTMLTemplate';
 
@@ -109,12 +109,6 @@ const config: webpack.Configuration = {
         exclude: [/node_modules/],
         use: [Babel, TypeScript],
       },
-
-      /* {
-        test: /\.js$/,
-        enforce: 'pre',
-        use: [SourceMaps],
-      }, */
       {
         test: /\.(c|m)?js$/,
         include: [fromWorkingDir('src')],
@@ -165,10 +159,9 @@ const config: webpack.Configuration = {
     ],
   },
   plugins: [
+    new MambaLogger(),
     new MiniCssExtractPlugin({
       filename: '[name].css',
-
-      // chunkFilename: '[name].[hash:5].css',
     }),
     new MiniHtmlWebpackPlugin({
       context: {
@@ -224,9 +217,11 @@ const config: webpack.Configuration = {
       },
     },
   },
+};
 
-  /** Minimal useful output log */
-  /* stats: {
+if (DEBUG_LVL < 5) {
+  /** Minimal output log compatible with Mamba Infra Logger */
+  config.stats = {
     all: false,
     modules: false,
     assets: false,
@@ -244,7 +239,7 @@ const config: webpack.Configuration = {
     errorsCount: true,
     entrypoints: false,
     warningsFilter: [/source-map-loader/, /Failed to parse source map/],
-  }, */
-};
+  };
+}
 
 export default config;
