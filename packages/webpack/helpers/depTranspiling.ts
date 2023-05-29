@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { relative } from 'path';
 import { readFileSync } from 'fs';
-import getPackage from './getPackage';
+import { getPackage } from '@mamba/utils';
 
 /** Base webpack rule condition to ignore dependencies that shouldn't be transpiled */
 export const transpileIgnoreBaseCondition = {
