@@ -32,6 +32,7 @@
     "@types/html-minifier": "^4.0.2",
     "@types/node": ">=20",
     "babel-loader": "^9",
+    "colorize-template": "^1.0.0",
     "css-minimizer-webpack-plugin": "^5.0.0",
     "eslint-webpack-plugin": "^4.0.1",
     "filemanager-webpack-plugin": "^8.0.0",
