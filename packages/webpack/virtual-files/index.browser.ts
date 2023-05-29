@@ -5,4 +5,4 @@ import App from './App.svelte';
 
 const target = document.getElementById('app-root');
 
-new App({ target });
+new App({ target: target || document.body });
