@@ -1,18 +1,15 @@
-/* eslint-disable import/order */
 import { join } from 'node:path';
 import { existsSync } from 'node:fs';
 import * as webpack from 'webpack';
 import { merge } from 'webpack-merge';
 import { BUNDLE_NAME, IS_PROD, ORG_ASSETS_FOLDER } from '@mamba/configs/envModes.cjs';
+import { fromWorkingDir, getPackage } from '@mamba/utils';
 
 // Plugins
 import FileManagerPlugin from 'filemanager-webpack-plugin';
 import CSSMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import MambaManifestPlugin from './plugins/MambaManifestPlugin';
-
-// Utils
-import { fromWorkingDir, getPackage } from '@mamba/utils';
 
 // Base config
 import appConfig from './config.app';

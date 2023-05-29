@@ -1,5 +1,8 @@
 import * as webpack from 'webpack';
 import { merge } from 'webpack-merge';
+import { fromWorkingDir, clientEnvironment, getPackage } from '@mamba/utils';
+import { Css, ExtractCss, PostCss, Svelte, TypeScript } from '@mamba/configs/loaders';
+import { Babel, BabelSvelte } from '@mamba/babel-config/loader';
 
 // Plugins
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
@@ -18,16 +21,6 @@ import {
   IS_TEST,
   IS_STORYBOOK,
 } from '@mamba/configs/envModes.cjs';
-
-// Loaders
-import { Css, ExtractCss, PostCss, Svelte, TypeScript } from '@mamba/configs/loaders';
-import { Babel, BabelSvelte } from '@mamba/babel-config/loader';
-
-// Utils
-import { fromWorkingDir, clientEnvironment, getPackage } from '@mamba/utils';
-
-// Helpers
-// import { isOfModuleType, transpileIgnoreBaseCondition } from './helpers/depTranspiling';
 
 import getHTMLTemplate from './helpers/getHTMLTemplate';
 
