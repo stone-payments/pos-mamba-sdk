@@ -1,5 +1,5 @@
 const pico = require('picocolors');
-const { getWebpackConfigPath } = require('../utils.js');
+const { getWebpackConfigPath, getTsNodeProjectPathVars } = require('../utils.js');
 const shell = require('../../../lib/shell.js');
 const cliArgs = require('../args.js');
 const { PLATFORMS } = require('../../../consts.js');
@@ -12,6 +12,8 @@ module.exports = {
     const choseAllPlatforms = platform.some((pl) => pl === 'all');
     const platforms = choseAllPlatforms ? PLATFORMS : platform;
 
+    const tsNodeProjectPathVars = getTsNodeProjectPathVars();
+
     platforms.forEach((plat) => {
       const IS_DEV = development === true || (typeof development === 'number' && development > 0);
       const IS_DEBUG = Number.isInteger(development) && development > 0;
@@ -20,6 +22,7 @@ module.exports = {
       const cmd = [
         'cross-env',
         `NODE_ENV=${IS_DEV ? 'development' : 'production'}`,
+        tsNodeProjectPathVars,
         `APP_ENV=${target}`,
         /** If development flag has a numeric value */
         IS_DEBUG && `DEBUG_LVL=${development}`,
