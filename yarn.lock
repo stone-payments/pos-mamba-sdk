@@ -3197,7 +3197,7 @@ __metadata:
     resolve-url-loader: ^5.0.0
     svelte-loader: 3.1.5
     svelte-preprocess: ^5
-    ts-loader: ^9.4.3
+    ts-loader: ^9
     tsd: ^0.28.1
     url-loader: ^4.1.1
     webpack: ^5
@@ -3398,6 +3398,7 @@ __metadata:
   resolution: "@mamba/styles@workspace:packages/styles"
   dependencies:
     ncp: ^2.0.0
+    npm-run-all: ^4.1.5
     postcss: ^8.4.23
     postcss-cli: ^10.1.0
     rimraf: ^5.0.1
@@ -3440,7 +3441,7 @@ __metadata:
     mocha: ^10.2.0
     svelte-check: ^3.3.2
     svelte-jester: ^2.3.2
-    svelte-preprocess: ^5.0.3
+    svelte-preprocess: ^5
     ts-jest: ^29.1.0
   peerDependencies:
     "@testing-library/svelte": ^3
@@ -3492,10 +3493,10 @@ __metadata:
     svelte-check: ^3.3.2
     svelte-eslint-parser: ^0.29.0
     svelte-loader: 3.1.5
-    svelte-preprocess: ^5.0.3
+    svelte-preprocess: ^5
     terser: ^5.17.4
     terser-webpack-plugin: ^5.3.8
-    ts-loader: ^9.4.2
+    ts-loader: ^9
     ts-node: ^10.9.1
     tsconfig-paths: ^4.2.0
     tslib: ^2.5.0
@@ -22055,7 +22056,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-loader@npm:^9.4.2, ts-loader@npm:^9.4.3":
+"ts-loader@npm:^9":
   version: 9.4.3
   resolution: "ts-loader@npm:9.4.3"
   dependencies:
