@@ -4,7 +4,7 @@ const { getWebpackConfigPath, getWebpackPaths } = require('../utils.js');
 const shell = require('../../../lib/shell.js');
 const { PLATFORMS } = require('../../../consts.js');
 
-const tsNodeProjectFileName = process.env.MAMBA_TS_NODE_FILE || 'tsconfig.json';
+const tsNodeProjectFileName = process.env.MAMBA_TS_NODE_FILE || 'tsconfig.node.json';
 
 /** Start the webpack development server */
 module.exports = {
@@ -30,6 +30,7 @@ module.exports = {
       `TS_NODE_PROJECT=${tsNodeProjectPath}`,
       'NODE_ENV="development"',
       `PLATFORM=${platform}`,
+      `NODE_OPTIONS="--trace-deprecation --no-warnings"`,
       `webpack server --env PLATFORM=${platform} --port ${port} --config "${webpackConfigPath}"`,
     ]
       .filter(Boolean)
