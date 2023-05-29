@@ -53,7 +53,7 @@ const config: webpack.Configuration = merge<webpack.Configuration>(appConfig, {
             },
             {
               source: `dist/${BUNDLE_NAME}/`,
-              destination: `dist/${PKG.name}_v${PKG.appVersion}.ppk`,
+              destination: `dist/${PKG.name}${PKG.appVersion ? `_v${PKG.appVersion}` : ''}.ppk`,
               format: 'zip',
               options: {
                 gzip: true,
