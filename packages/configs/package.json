@@ -1,7 +1,7 @@
 {
   "name": "@mamba/configs",
   "version": "9.5.0",
-  "description": "defined tools to use with Mamba projects. Normally, Webpack loaders with Svelte 3 configurations.",
+  "description": "Defined tools and base configurations to use with Mamba projects. Normally, Webpack loaders with Svelte 3 configurations.",
   "author": "Stone Payments - Mamba Team",
   "keywords": [
     "stone-payments",
