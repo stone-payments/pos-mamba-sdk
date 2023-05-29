@@ -56,7 +56,7 @@
     "mocha": "^10.2.0",
     "svelte-check": "^3.3.2",
     "svelte-jester": "^2.3.2",
-    "svelte-preprocess": "^5.0.3",
+    "svelte-preprocess": "^5",
     "ts-jest": "^29.1.0"
   },
   "peerDependencies": {
