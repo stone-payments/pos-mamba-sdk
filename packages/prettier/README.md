@@ -11,14 +11,20 @@
 npm install --save-dev @mamba/prettier-config prettier svelte
 ```
 
-2. Add the the `.prettierrc.js` (or `.prettierrc.cjs` if you use ESM) at your project root:
+2. Add the the `.prettierrc` at your project root:
 
-```js
-module.exports = {
-  ...require('@mamba/prettier-config'),
-  // semi: false, // Override some property
-};
+```json
+"@mamba/prettier-config"
 ```
+
+> Note: This method does not offer a way to extend the configuration to overwrite some properties from the shared configuration. If you need to do that, rename the file to .prettierrc.js (or `.prettierrc.cjs` if you use ESM) and export the modifications, e.g:
+>
+> ```js
+> module.exports = {
+>   ...require('@mamba/prettier-config'),
+>   semi: false,
+> };
+> ```
 
 ## Editor support
 
