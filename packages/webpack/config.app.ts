@@ -10,7 +10,6 @@ import { fromWorkingDir } from '@mamba/utils';
 // Helpers
 import { BUNDLE_NAME } from '@mamba/configs/envModes.cjs';
 
-// import { Images, Fonts } from '@mamba/configs/loaders';
 import getEntrypoints from './helpers/getEntrypoints';
 import getVirtualFiles from './helpers/getVirtualFiles';
 
@@ -31,16 +30,12 @@ const config: webpack.Configuration = merge<webpack.Configuration>(commonConfig,
       /** Handle font imports */
       {
         test: /\.(eot|woff2?|otf|ttf)$/,
-
-        // use: [Fonts],
         type: 'asset/resource',
       },
 
       /** Handle image imports */
       {
         test: /\.(gif|jpe?g|png|ico|svg|bmp)$/,
-
-        // use: [Images],
         type: 'asset/resource',
       },
       {
