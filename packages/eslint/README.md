@@ -7,7 +7,7 @@ Mamba ESLint config for Svelte and Node.js projects, utilizing TypeScript, Prett
 1. Install:
 
 ```bash
-npm install --save-dev@mamba/eslint-config eslint
+npm install --save-dev @mamba/eslint-config eslint
 ```
 
 2. Enable this configuration in your ESlint configuration file (e.g. `.eslintrc`):
