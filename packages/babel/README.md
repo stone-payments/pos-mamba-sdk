@@ -15,12 +15,12 @@ Babel configs and presets:
 npm install --save-dev @mamba/babel-config
 ```
 
-#### With `.babelrc.js` (or `.babelrc.cjs` if you use ESM) at your project root:
+#### With `.babelrc` at your project root:
 
-```js
-module.exports = {
-  extends: '@mamba/babel-config',
-};
+```json
+{
+  "extends": "@mamba/babel-config"
+}
 ```
 
 #### Webpack 5(babel-loader) with Typescript 5+ config:
