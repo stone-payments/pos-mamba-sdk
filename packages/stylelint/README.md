@@ -10,15 +10,24 @@
 npm install --save-dev @mamba/stylelint-config stylelint
 ```
 
-2. Enable this configuration in your Stylelint configuration file (e.g. `.stylelintrc.js`):
+2. Enable this configuration in your Stylelint configuration file (e.g. `.stylelintrc`):
 
-```js
-module.exports = {
-  extends: ' @mamba/stylelint-config',
-};
+```json
+{
+  "extends": "@mamba/stylelint-config"
+}
 ```
 
-This shareable config expands to the following:
+> Note: This method does not offer a way to extend the configuration to overwrite some properties from the shared configuration. If you need to do that, rename the file to .stylelintrc.js (or `.stylelintrc.cjs` if you use ESM) and export the modifications, e.g:
+>
+> ```js
+> module.exports = {
+>   extends: ' @mamba/stylelint-config',
+>   // ... overwrites
+> };
+> ```
+
+#### This shareable config expands to the following:
 
 ```js
 /** @mamba/stylelint-config/index.js */
