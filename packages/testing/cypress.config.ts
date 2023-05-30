@@ -1,20 +1,16 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-/* eslint-disable no-underscore-dangle */
-import { defineConfig } from 'cypress';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import codeCoverageTask from '@cypress/code-coverage/task';
 import webpackPreprocessor from '@cypress/webpack-preprocessor';
 import webpackConfig from './webpack.config.test';
 
-process.env.TEST = JSON.stringify(true);
-process.env.DEBUG = JSON.stringify('cypress:webpack');
-
 function setupNodeEvents(on: Cypress.PluginEvents, config: Cypress.PluginConfigOptions) {
+  process.env.TEST = JSON.stringify(true);
   on('file:preprocessor', webpackPreprocessor({ webpackOptions: webpackConfig }));
   codeCoverageTask(on, config);
   return config;
 }
 
-export default defineConfig({
+export default {
   reporter: 'mocha-junit-reporter',
   reporterOptions: {
     mochaFile: 'reports/tests-results.e2e.xml',
@@ -30,4 +26,4 @@ export default defineConfig({
     videosFolder: 'reports/videos',
     setupNodeEvents,
   },
-});
+} as Cypress.ConfigOptions<any>;
