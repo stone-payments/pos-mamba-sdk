@@ -8,9 +8,10 @@ export type ClientEnvModeType = keyof typeof CLIENT_ENVIRONMENT_MODE;
 // Get cwd project environment variables with .env.js file
 export default function clientEnvironment(mode: ClientEnvModeType = 'ESLint') {
   let externalConstants: Record<string, any> = {};
-  const externalEnvsPath = join(process.cwd(), '.env.js');
+  const externalEnvsPath = join(process.cwd(), '.env.cjs');
 
   if (existsSync(externalEnvsPath)) {
+    console.log('[mamba] env file found');
     externalConstants = require(externalEnvsPath); // eslint-disable-line
     externalConstants = Object.keys(externalConstants).reduce(
       (accumulator: Record<string, unknown>, key) => {
