@@ -1,9 +1,10 @@
-import type { JestConfigWithTsJest } from 'ts-jest';
-
-const config: JestConfigWithTsJest = {
+/**
+ * @type {import("ts-jest").JestConfigWithTsJest}
+ */
+module.exports = {
   rootDir: process.cwd(),
   roots: ['src', 'tests'],
-  extensionsToTreatAsEsm: ['.ts'],
+  extensionsToTreatAsEsm: ['.ts', '.svelte'],
   testMatch: ['**/?(*.)+(spec|test).+(ts|js)'],
   transform: {
     '^.+\\.ts$': [
@@ -13,7 +14,12 @@ const config: JestConfigWithTsJest = {
       },
     ],
     '^.+\\.js$': 'babel-jest',
-    '^.+\\.(html?|svelte)$': ['svelte-jester', { preprocess: true }],
+    '^.+\\.(html?|svelte)$': [
+      'svelte-jester',
+      {
+        preprocess: true,
+      },
+    ],
     '.+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$': 'jest-transform-stub',
   },
   moduleFileExtensions: ['js', 'ts', 'svelte'],
@@ -42,7 +48,6 @@ const config: JestConfigWithTsJest = {
     '<rootDir>/src/**/?(*.)+(ts|svelte)',
     '!<rootDir>/src/**/*.d.ts',
     '!**/node_modules/**',
-    '!**/packages/**/*',
     '!*.d.ts',
   ],
   coverageReporters: [/* 'clover', */ 'lcov', 'cobertura'],
@@ -50,6 +55,7 @@ const config: JestConfigWithTsJest = {
     'default',
     ['jest-junit', { outputDirectory: 'reports', outputName: 'tests-results.unit.xml' }],
   ],
+  coverageProvider: 'v8',
   coverageDirectory: '<rootDir>/reports',
   coverageThreshold: {
     global: {},
@@ -58,5 +64,3 @@ const config: JestConfigWithTsJest = {
     },
   },
 };
-
-export default config;

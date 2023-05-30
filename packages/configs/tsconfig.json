@@ -4,6 +4,9 @@
     "enable": true
   },
   "compilerOptions": {
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "node",
     "lib": [
       "DOM",
       "ESNext"
@@ -11,6 +14,8 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "verbatimModuleSyntax": false,
+    "forceConsistentCasingInFileNames": true,
     "types": [
       "svelte",
       "jest",
