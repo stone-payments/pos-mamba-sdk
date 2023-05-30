@@ -25,6 +25,7 @@ module.exports = [
       '@/*': './src/*',
       '@assets': './assets',
       '@c': './src/components',
+      '@routes': './src/routes',
     },
   },
 ];
