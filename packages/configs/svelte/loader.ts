@@ -1,5 +1,5 @@
 import sveltePreprocess from 'svelte-preprocess';
-import defaultConfig from './defaults.json';
+import defaultConfig from './defaults.cjs';
 import env from '../envModes.cjs';
 
 const { IS_PROD } = env;

@@ -217,11 +217,8 @@ const config: webpack.Configuration = {
       },
     },
   },
-};
 
-if (DEBUG_LVL < 5) {
-  /** Minimal output log compatible with Mamba Infra Logger */
-  config.stats = {
+  stats: {
     all: false,
     modules: false,
     assets: false,
@@ -239,7 +236,7 @@ if (DEBUG_LVL < 5) {
     errorsCount: true,
     entrypoints: false,
     warningsFilter: [/source-map-loader/, /Failed to parse source map/],
-  };
-}
+  },
+};
 
 export default config;
