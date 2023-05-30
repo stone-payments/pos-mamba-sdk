@@ -25,6 +25,7 @@ import MambaLogger from './plugins/InfrastructureMamaLogger';
 import getHTMLTemplate from './helpers/getHTMLTemplate';
 
 const PKG = getPackage();
+const warningsFilter = [/source-map-loader/, /Failed to parse source map/];
 
 type DefineObject = Record<string, webpack.DefinePlugin['definitions']>;
 
@@ -218,25 +219,30 @@ const config: webpack.Configuration = {
     },
   },
 
-  stats: {
-    all: false,
-    modules: false,
-    assets: false,
-    chunks: false,
-    colors: true,
-    version: false,
-    children: false,
-    moduleAssets: false,
-    groupAssetsByEmitStatus: false,
-    env: false,
-    errors: true,
-    performance: true,
-    timings: false,
-    warnings: true,
-    errorsCount: true,
-    entrypoints: false,
-    warningsFilter: [/source-map-loader/, /Failed to parse source map/],
-  },
+  stats:
+    !DEBUG_LVL || Number(DEBUG_LVL) < 5
+      ? {
+          all: false,
+          modules: false,
+          assets: false,
+          chunks: false,
+          colors: true,
+          version: false,
+          children: false,
+          moduleAssets: false,
+          groupAssetsByEmitStatus: false,
+          env: false,
+          errors: true,
+          performance: true,
+          timings: false,
+          warnings: true,
+          errorsCount: true,
+          entrypoints: false,
+          warningsFilter,
+        }
+      : {
+          warningsFilter,
+        },
 };
 
 export default config;
