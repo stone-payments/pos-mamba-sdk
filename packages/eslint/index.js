@@ -245,6 +245,8 @@ module.exports = {
         'no-return-assign': 'off',
         'no-inner-declarations': 'off',
         'no-undef-init': 'off',
+        '@typescript-eslint/no-shadow': 'off',
+        '@typescript-eslint/no-unused-vars': 'off',
         'no-restricted-syntax': ['error', 'ForInStatement', 'ForOfStatement', 'WithStatement'],
       },
     },

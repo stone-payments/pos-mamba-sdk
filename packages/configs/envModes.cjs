@@ -42,7 +42,7 @@ module.exports = {
   HTML_BASE_URL: env.HTML_BASE_URL,
   IS_PROD: env.NODE_ENV === 'production',
   IS_DEV: env.NODE_ENV === 'development',
-  DEBUG_LVL: env.DEBUG_LVL,
+  DEBUG_LVL: Number(env.DEBUG_LVL || 0),
   IS_BROWSER: env.APP_ENV === 'browser',
   IS_POS: env.APP_ENV === 'pos',
   BUNDLE_NAME: `bundle.${env.APP_ENV}`.toLowerCase(),

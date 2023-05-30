@@ -18,6 +18,14 @@
   "publishConfig": {
     "access": "public"
   },
+  "exports": {
+    "./*": "./*",
+    "./svelte": {
+      "import": "./svelte/index.js",
+      "require": "./svelte/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 16",
