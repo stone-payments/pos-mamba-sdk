@@ -19,12 +19,17 @@
     "access": "public"
   },
   "exports": {
-    "./*": "./*",
+    ".": "./",
+    "./loaders": "./loaders.ts",
+    "./postcss/*": "./postcss/*",
+    "./index.d.ts": "./index.d.ts",
+    "./envModes.cjs": "./envModes.cjs",
     "./svelte": {
       "import": "./svelte/index.js",
       "require": "./svelte/index.cjs"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./tsconfig.json": "./tsconfig.json"
   },
   "license": "Apache-2.0",
   "engines": {
@@ -45,6 +50,7 @@
     "@tsconfig/svelte": "^4.0.1",
     "autoprefixer": "^10.4.14",
     "css-loader": "^6.7.4",
+    "mini-css-extract-plugin": "^2.7.6",
     "postcss": "^8.4.23",
     "postcss-advanced-variables": "^3.0.1",
     "postcss-calc": "^9.0.1",
