@@ -47,6 +47,9 @@ module.exports = {
   IS_POS: env.APP_ENV === 'pos',
   BUNDLE_NAME: `bundle.${env.APP_ENV}`.toLowerCase(),
   ADD_MAMBA_SIMULATOR: env.MAMBA_SIMULATOR === 'true',
-  IS_WATCHING: () => require.main.filename.match(/webpack(-dev)?-server?/) !== null,
+  IS_WATCHING: () =>
+    process.env.WEBPACK_WATCH ||
+    process.env.WEBPACK_SERVE ||
+    require.main.filename.match(/webpack(-dev)?-server?/) !== null,
   IS_TEST: () => process.env.NODE_ENV === 'test' || typeof process.env.TEST !== 'undefined',
 };

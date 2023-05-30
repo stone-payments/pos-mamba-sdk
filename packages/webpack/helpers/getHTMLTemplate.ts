@@ -73,6 +73,10 @@ export default function getHTMLTemplate({
 
   let lazyApp = '';
 
+  console.log('====================================');
+  console.log(IS_WATCHING());
+  console.log('====================================');
+
   // Usefull to catch errors on launch
   if (IS_DEV && !IS_WATCHING()) {
     const app = js.pop();
