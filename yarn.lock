@@ -3447,6 +3447,8 @@ __metadata:
     ts-jest: ^29.1.0
     ts-node: ^10.9.1
   peerDependencies:
+    "@cypress/code-coverage": ^3
+    "@testing-library/cypress": ^9
     "@testing-library/svelte": ^3
     "@types/jest": ^29.5.1
     eslint: ^8
