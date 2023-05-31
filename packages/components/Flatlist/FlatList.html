@@ -88,6 +88,11 @@
     ITEM_ACTIVE: 'itemActive',
   };
 
+  const TELEMETRY_HANDLER = {
+    KEYBOARD: 'KEYBOARD',
+    TOUCH: 'TOUCH',
+  };
+
   let _flatListElement;
 
   export default {
@@ -241,9 +246,17 @@
 
         const { element } = _elementsRefs[internalIndex];
 
+        /**
+         * Indicates the last telemetry event action was the type of TOUCH/KEYBOARD, to app consumes.
+         */
+        if (parentProps.telemetryEmitType !== TELEMETRY_HANDLER.KEYBOARD) {
+          parentProps.telemetryEmitType = isKeystroke ? 'KEYBOARD' : 'TOUCH';
+        }
+
         eventData = {
           ...eventData,
           renderItemRefs: element.refs.renderItemRef.refs,
+          telemetryEmitType: parentProps.telemetryEmitType,
         };
 
         this.set({ selectedIndex: position });
@@ -299,7 +312,7 @@
         if (!_isKeystrokeActive) return;
 
         if (keyCode === ENTER && disableEnterKeystroke === false) {
-          this.setSelected(undefined, true);
+          this.setSelected({ telemetryEmitType: TELEMETRY_HANDLER.KEYBOARD }, true);
           return;
         }
 
