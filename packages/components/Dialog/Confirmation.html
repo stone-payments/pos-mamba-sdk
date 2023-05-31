@@ -19,13 +19,13 @@
             <button
               class="action negative"
               style={_negativeLabelStyle}
-              on:click="close('negative', 'touch')"
+              on:click="close('negative', 'TOUCH')"
               shortcut="close"
             >
               {negativeLabel}
             </button>
           {:else}
-            <div class="action" on:click="close('negative', 'touch')" shortcut="close">
+            <div class="action" on:click="close('negative', 'TOUCH')" shortcut="close">
               <RoundIcon
                 symbol="close"
                 size={buttonSize}
@@ -41,13 +41,13 @@
             <button
               class="action positive"
               style={_positiveLabelStyle}
-              on:click="close('positive', 'touch')"
+              on:click="close('positive', 'TOUCH')"
               shortcut="enter"
             >
               {positiveLabel}
             </button>
           {:else}
-            <div class="action" on:click="close('positive', 'touch')" shortcut="enter">
+            <div class="action" on:click="close('positive', 'TOUCH')" shortcut="enter">
               <RoundIcon
                 symbol="check"
                 size={buttonSize}
@@ -119,18 +119,18 @@
           e.stopImmediatePropagation();
           e.preventDefault();
 
-          if (isEnter) this.close('positive', 'keyboard');
-          if (isClose) this.close('negative', 'keyboard');
+          if (isEnter) this.close('positive', 'KEYBOARD');
+          if (isClose) this.close('negative', 'KEYBOARD');
         }
       },
       open(duration) {
         return this.refs.dialog.open(duration);
       },
-      close(event, handler) {
+      close(event, telemetryEmitType) {
         return this.refs.dialog.close().then(() => {
           if (event) {
             this.fire(event, {
-              handler,
+              telemetryEmitType,
             });
           }
         });
