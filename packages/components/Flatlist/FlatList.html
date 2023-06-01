@@ -20,11 +20,11 @@
           <!-- Render data itself -->
           {#each section.data.filter(Boolean) as item, index}
             {#if item.focusable}
-              <FocusController data={item} on:create="register(this, index, sectionIndex, item)" />
+              <FocusController data={item} on:create="_register(this, index, sectionIndex, item)" />
             {:else}
               <Parent
                 hasFirstFocusable={!!linkFirstFocusable}
-                on:create="register(this, index, sectionIndex)"
+                on:create="_register(this, index, sectionIndex)"
                 data={item}
                 key={index}
                 sectionIndex={sectionIndex}
@@ -49,9 +49,9 @@
     </div>
   </div>
 
-  <Keystroke key={KEY_NAMES.ENTER} on:keystroke="selectRowItems(ENTER)"/>
-  <Keystroke key={KEY_NAMES.ARROW_UP} on:keystroke="selectRowItems(ARROW_UP)"/>
-  <Keystroke key={KEY_NAMES.ARROW_DOWN} on:keystroke="selectRowItems(ARROW_DOWN)"/>
+  <Keystroke key={KEY_NAMES.ENTER} on:keystroke="_selectRowItems(ENTER)"/>
+  <Keystroke key={KEY_NAMES.ARROW_UP} on:keystroke="_selectRowItems(ARROW_UP)"/>
+  <Keystroke key={KEY_NAMES.ARROW_DOWN} on:keystroke="_selectRowItems(ARROW_DOWN)"/>
 
   {#if navBar}
     <NavBar
@@ -59,8 +59,8 @@
       labelDown={navDownLabel}
       labelUp={navUpLabel}
       className={isFirstOrLastSelectedOption}
-      on:keyup="selectRowItems(ARROW_UP)"
-      on:keydown="selectRowItems(ARROW_DOWN)"
+      on:keyup="_selectRowItems(ARROW_UP)"
+      on:keydown="_selectRowItems(ARROW_DOWN)"
       on:setup="_onNavbarSetup(event)"
     />
   {/if}
@@ -193,6 +193,15 @@
       }
 
       if (changed.data || changed.dataSection) {
+        this.render(current);
+      }
+    },
+    methods: {
+      /**
+       * @description Render the list with currenct data
+       */
+      render(current = undefined) {
+        if (!current) current = this.get();
         const { data, dataSection } = current;
 
         const isDataArray = Array.isArray(data);
@@ -215,8 +224,7 @@
         if (isValidData) {
           this._publishData(current, data);
         }
-      }
-    },
+      },
       hide() {
         this.set({ hidden: true });
       },
@@ -277,8 +285,8 @@
 
         if (intersect) this.fire(EVENTS.ITEM_SELECTED, eventData);
       },
-      // register elements (allowing handle them)
-      register(element, index, sectionIndex, focusableItem = undefined) {
+      // _register elements (allowing handle them)
+      _register(element, index, sectionIndex, focusableItem = undefined) {
         const { _elementsRefs, selectedIndex, scrollY } = this.get();
 
         const position = _elementsRefs.length;
@@ -301,7 +309,7 @@
           });
         }
       },
-      selectRowItems(keyCode) {
+      _selectRowItems(keyCode) {
         /**
          * KeyCode -> KeyName dictionary
          *
