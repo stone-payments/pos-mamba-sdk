@@ -353,6 +353,7 @@ type SelectEvent = {
   index: number;
   position: number;
   renderItemRefs: Component;
+  telemetryEmitType: 'KEYBOARD' | 'TOUCH';
 };
 
 interface DefaultRowProps {
