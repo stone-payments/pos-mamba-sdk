@@ -22,5 +22,10 @@ export const dispatchEventOn = (shortcutEl) => {
     null,
   );
 
+  /**
+   * Indicates the telemetry event emit action was the type of KEYBOARD, to app consumes.
+   */
+  event.telemetryEmitType = 'KEYBOARD';
+
   shortcutEl.dispatchEvent(event);
 };
