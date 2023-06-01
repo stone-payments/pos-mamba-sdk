@@ -218,7 +218,7 @@
       }
     },
     methods: {
-      setSelected(parentProps, isKeystroke = false) {
+      setSelected(eventData = {}, isKeystroke = false) {
         const {
           _elementsRefs,
           selectedIndex,
@@ -226,9 +226,9 @@
           intersectSelectedEvents: intersect,
         } = this.get();
 
-        let eventData = parentProps;
+        let { data, position: internalIndex } = eventData;
 
-        if (!eventData) {
+        if (typeof internalIndex !== 'number') {
           if (!this.get()._isKeystrokeActive) return;
           const { sectionIndex, element, index, position } = _elementsRefs[selectedIndex];
 
@@ -238,28 +238,26 @@
             position,
             sectionIndex,
           };
+          internalIndex = eventData.position;
+          data = eventData.data || {};
         }
-
-        const { data, position } = eventData;
-
-        const internalIndex = position;
-
-        const { element } = _elementsRefs[internalIndex];
 
         /**
          * Indicates the last telemetry event action was the type of TOUCH/KEYBOARD, to app consumes.
          */
-        if (parentProps.telemetryEmitType !== TELEMETRY_HANDLER.KEYBOARD) {
-          parentProps.telemetryEmitType = isKeystroke ? 'KEYBOARD' : 'TOUCH';
+        if (eventData.telemetryEmitType !== TELEMETRY_HANDLER.KEYBOARD) {
+          eventData.telemetryEmitType = isKeystroke ? 'KEYBOARD' : 'TOUCH';
         }
+
+        const { element } = _elementsRefs[internalIndex];
 
         eventData = {
           ...eventData,
           renderItemRefs: element.refs.renderItemRef.refs,
-          telemetryEmitType: parentProps.telemetryEmitType,
+          telemetryEmitType: eventData.telemetryEmitType,
         };
 
-        this.set({ selectedIndex: position });
+        this.set({ selectedIndex: internalIndex });
 
         if (autoSelectOnTouch && !(isKeystroke === true)) {
           toggleActive(_elementsRefs, internalIndex);
