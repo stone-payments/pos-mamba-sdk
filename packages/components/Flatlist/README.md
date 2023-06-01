@@ -25,6 +25,15 @@ O componente `Flatlist` serve para renderizar listas simples e básicas com util
 | navDownLabel            | Texto definido para o botão de descer                                                                                                                                                                                                    | `string`    | `Diminuir`  |
 | navUpLabel              | Texto definido para o botão de subir                                                                                                                                                                                                     | `string`    | `Aumentar`  |
 
+## Métodos
+
+| Método                                                                              | Descrição                                                                                             |
+| ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `render(current?: any[] \| Record<string, any>)`                                    | Renderiza a lista com o estado atual ou passando uma lista customizada.                               |
+| `setSelected(rowData: DefaultRowProps \| Record<string, any>, isKeystroke = false)` | Seleciona um item da lista programaticamente.                                                         |
+| `hide()`                                                                            | Esconde a lista. Útil para não precisar redesenhar a lista em alguns cenários e salvar processamento. |
+| `show()`                                                                            | Mostra a lista.                                                                                       |
+
 ## Eventos
 
 `<Flatlist ... on:active="itemActive(event)" on:selected="itemSelected(event)" />`
