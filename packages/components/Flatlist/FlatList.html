@@ -1,7 +1,7 @@
 <svelte:window bind:scrollY="scrollY" />
 
 {#if dataSection && dataSection.length > 0}
-  <div class="flatlist {className}" class:disabled="disabled" style={_styles} ref:flatListRef>
+  <div class="flatlist {className}" class:disabled="disabled" class:hidden style={_styles} ref:flatListRef>
     <div class="mb-list-wrapper" style="padding-bottom: {_extraBounds}px;">
       {#each dataSection.filter(Boolean) as section, sectionIndex (sectionIndex)}
 
@@ -217,7 +217,12 @@
         }
       }
     },
-    methods: {
+      hide() {
+        this.set({ hidden: true });
+      },
+      show() {
+        this.set({ hidden: false });
+      },
       setSelected(eventData = {}, isKeystroke = false) {
         const {
           _elementsRefs,
@@ -522,6 +527,10 @@
   .flatlist.disabled {
     cursor: not-allowed;
     opacity: 0.5;
+  }
+
+  .flatlist.hidden {
+    display: none;
   }
 
   .row {
