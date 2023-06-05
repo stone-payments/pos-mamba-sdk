@@ -6,11 +6,10 @@
       "esnext",
       "DOM"
     ],
-    "target": "es6",
-    "module": "es2020",
+    "target": "ES5",
+    "module": "ES6",
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "resolveJsonModule": true,
     "declarationDir": "types",
     "allowJs": true,
     "sourceMap": true,

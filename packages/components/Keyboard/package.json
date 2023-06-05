@@ -1,9 +1,8 @@
 {
   "name": "@mamba/keyboard",
   "version": "9.5.0",
-  "main": "lib/index.js",
-  "types": "types/index.d.ts",
-  "svelte": "Keyboard.html",
+  "main": "./lib/index.js",
+  "types": "./types/index.d.ts",
   "description": "POS physical keyboard handler and virtual ones",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
