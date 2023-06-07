@@ -2,7 +2,10 @@
   "compilerOptions": {
     "noImplicitAny": true,
     "outDir": "dist",
-    "lib": ["esnext", "DOM"],
+    "lib": [
+      "esnext",
+      "DOM"
+    ],
     "target": "es6",
     "module": "es2020",
     "esModuleInterop": true,
@@ -14,11 +17,16 @@
     "inlineSourceMap": false,
     "declaration": true,
     "suppressImplicitAnyIndexErrors": true,
+    "ignoreDeprecations": "5.0",
     "downlevelIteration": true,
     "strict": true,
     "strictNullChecks": true,
     "isolatedModules": true,
     "removeComments": false
   },
-  "include": ["./", "internal", "keymap"]
+  "include": [
+    "./",
+    "internal",
+    "keymap"
+  ]
 }
