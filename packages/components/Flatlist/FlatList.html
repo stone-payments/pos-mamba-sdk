@@ -180,8 +180,12 @@
       // Watch for navbar changes after mount
       if (changed.navBar) {
         const { navBar } = this.refs;
+        const { dataSection } = current;
         if (current.navBar === true && navBar && typeof navBar.getBoundingHeight === 'function') {
-          this.set({ _extraBounds: navBar.getBoundingHeight() });
+          this.set({
+            _extraBounds:
+              dataSection && dataSection[0].data.length > 2 ? navBar.getBoundingHeight() : 0,
+          });
         } else {
           this.set({ _extraBounds: 0 });
         }
@@ -494,7 +498,10 @@
        */
       _onNavbarSetup(event) {
         const { boundingHeight = 0 } = event;
-        this.set({ _extraBounds: boundingHeight });
+        const { dataSection } = this.get();
+        this.set({
+          _extraBounds: dataSection && dataSection[0].data.length > 2 ? boundingHeight : 0,
+        });
       },
     },
   };
