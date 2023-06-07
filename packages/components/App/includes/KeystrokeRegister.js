@@ -56,6 +56,10 @@ const keystrokeHandler = (e) => {
 
     keyHandlers.forEach((handlers) => {
       if (e.type !== 'keydown') {
+        /**
+         * Indicates the telemetry event emit action was the type of KEYBOARD, to app consumes.
+         */
+        e.telemetryEmitType = 'KEYBOARD';
         handlers(e);
       }
     });
