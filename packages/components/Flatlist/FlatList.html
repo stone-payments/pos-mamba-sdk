@@ -182,10 +182,16 @@
         const { navBar } = this.refs;
         const { dataSection } = current;
         if (current.navBar === true && navBar && typeof navBar.getBoundingHeight === 'function') {
-          this.set({
-            _extraBounds:
-              dataSection && dataSection[0].data.length > 2 ? navBar.getBoundingHeight() : 0,
-          });
+          try {
+            this.set({
+              _extraBounds:
+                dataSection && dataSection[0].data.length > 2 ? navBar.getBoundingHeight() : 0,
+            });
+          } catch (e) {
+            if(__DEV__) {
+              console.warn(e);
+            }
+          }
         } else {
           this.set({ _extraBounds: 0 });
         }
@@ -499,9 +505,15 @@
       _onNavbarSetup(event) {
         const { boundingHeight = 0 } = event;
         const { dataSection } = this.get();
-        this.set({
-          _extraBounds: dataSection && dataSection[0].data.length > 2 ? boundingHeight : 0,
-        });
+        try {
+          this.set({
+            _extraBounds: dataSection && dataSection[0].data.length > 2 ? boundingHeight : 0,
+          });
+        } catch (e) {
+          if(__DEV__) {
+            console.warn(e);
+          }
+        }
       },
     },
   };
