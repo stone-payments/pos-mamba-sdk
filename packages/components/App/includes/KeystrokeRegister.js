@@ -19,7 +19,7 @@ export const hasActiveHandlerFor = (key) => {
   return !!register[_key] && register[_key].length > 0;
 };
 
-export const hasKeystrokeToPrevent = () => {
+export const hasKeystrokeToPrevent = (keyName) => {
   /**
    * Get the element with focus.
    * ! This will only work with focusable elements, (ie: with tabindex = -1 or input)
@@ -27,8 +27,25 @@ export const hasKeystrokeToPrevent = () => {
   // eslint-disable-next-line prefer-destructuring
   const activeElement = document.activeElement;
   const hasTarget = activeElement !== window.document.body;
-  const notPrevent = hasTarget ? !(activeElement.dataset.freezeKeystrokes || false) : true;
-  return { notPrevent, handlerContext: hasTarget ? activeElement : document };
+  const handlerContext = hasTarget ? activeElement : document;
+  let prevent = false;
+
+  if (hasTarget) {
+    try {
+      const keystrokeToFreeze = JSON.parse(activeElement.dataset.freezeKeystrokes);
+      if (typeof keystrokeToFreeze === 'boolean') {
+        prevent = keystrokeToFreeze;
+      }
+
+      if (Array.isArray(keystrokeToFreeze) && keystrokeToFreeze.indexOf(keyName)) {
+        prevent = true;
+      }
+    } catch (e) {
+      // do nothing
+    }
+  }
+
+  return { prevent, handlerContext };
 };
 
 const keystrokeHandler = (e) => {
@@ -37,7 +54,7 @@ const keystrokeHandler = (e) => {
   const keyHandlers = register[keyName];
 
   // handlerContext: Do not execute keystroke handlers for non global(window target) events
-  const { notPrevent } = hasKeystrokeToPrevent(e);
+  const { prevent } = hasKeystrokeToPrevent(keyName);
 
   // Check if we have a editable input with focus
   const isInputOnFocus = isEditableInputOnFocus();
@@ -50,12 +67,19 @@ const keystrokeHandler = (e) => {
   const inputEventOnClose =
     isInputOnFocus && keyName === KEYBOARD.KEY_NAMES.CLOSE && hasActiveHandlerFor(keyName);
 
-  if (inputEventOnClose || (notPrevent && hasActiveHandlerFor(keyName) && !inputEventOnFocus)) {
+  if (
+    (isInputOnFocus && inputEventOnClose) ||
+    (!prevent && hasActiveHandlerFor(keyName) && !inputEventOnFocus)
+  ) {
     e.preventDefault();
     e.stopImmediatePropagation();
 
     keyHandlers.forEach((handlers) => {
       if (e.type !== 'keydown') {
+        /**
+         * Indicates the telemetry event emit action was the type of KEYBOARD, to app consumes.
+         */
+        e.telemetryEmitType = 'KEYBOARD';
         handlers(e);
       }
     });

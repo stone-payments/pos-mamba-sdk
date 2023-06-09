@@ -1,7 +1,7 @@
 <div
   ref:element
   tabindex={_tabPosition}
-  on:click|stopPropagation|preventDefault="fire('_click', { data, index: key, sectionIndex, position })"
+  on:click|stopPropagation|preventDefault="fire('_click', { data, index: key, sectionIndex, position, telemetryEmitType: event.telemetryEmitType })"
   shortcut={_shortcutComputed}
 >
   <svelte:component
@@ -32,10 +32,10 @@
     computed: {
       /**
        * @param {number} key
-       * @param {object} data
+       * @param {Object} data
        *
        * @description Handles shortcut
-       * */
+       */
       _shortcut({ key, data = {} }) {
         if (data.shortcut) return data.shortcut;
 
@@ -48,17 +48,17 @@
        * @param {boolean} hasFirstFocusable
        *
        * @description Check if use AUTO Shortcut
-       * */
+       */
       _shouldUseAutoShortcuts({ useAutoShortcuts, hasFirstFocusable }) {
         return useAutoShortcuts && !hasFirstFocusable;
       },
       /**
        * @param {boolean} _shouldUseAutoShortcuts
        * @param {number} _shortcut
-       * @param {object} data
+       * @param {Object} data
        *
        * @description Handle shortcut (if auto or not)
-       * */
+       */
       _shortcutComputed({ _shouldUseAutoShortcuts, _shortcut, data = {} }) {
         const dataShortcut = data.shortcut === 0 ? 0 : data.shortcut || undefined;
 
@@ -70,16 +70,16 @@
        * @param {number} _shortcutComputed
        *
        * @description Handle element index
-       * */
+       */
       _tabPosition({ position, hasFirstFocusable, _shortcutComputed }) {
         if (!hasFirstFocusable) return _shortcutComputed;
         return position + (hasFirstFocusable ? 0 : 1);
       },
       /**
-       * @param {object} decorator
+       * @param {Object} decorator
        *
        * @description Receives decorator block on parent
-       * */
+       */
       _decorator({ decorator }) {
         if (!decorator) return {};
         return decorator;
