@@ -23,8 +23,14 @@ export const KEY_7 = 55;
 export const KEY_8 = 56;
 export const KEY_9 = 57;
 
-export const F23 = 134; // MP35 power button. The 'F23' is the keyIdentifier from MP35 POS
-export const F24 = 135; // MP35 F2. The 'F24' is the keyIdentifier from MP35 POS
+export const MENU_OR_ESCAPE = 134; // MP35 power button. The 'F23' is the keyIdentifier from MP35 POS (Menu or Escape?)
+export const CAMERA = 135; // MP35 F2. The 'F24' is the keyIdentifier from MP35 POS (Camera?)
+
+/** @deprecated Use `MENU_OR_ESCAPE` */
+export const F23 = MENU_OR_ESCAPE; // MP35 power button. The 'F23' is the keyIdentifier from MP35 POS (Menu or Escape?)
+
+/** @deprecated Use `CAMERA` */
+export const F24 = CAMERA; // MP35 F2. The 'F24' is the keyIdentifier from MP35 POS (Camera?)
 
 // Deprecated keys
 

@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.6.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.5.1...v9.6.0) (2023-06-09)
+
+
+### Bug Fixes
+
+* 🐛 implementação de logica para colocar o padding-bottom quanto houver mais de 3 itens na lista ([ca52100](https://github.com/stone-payments/pos-mamba-sdk/commit/ca52100f685bfe14d4492ce77a8f29803b09567d))
+* 🐛 update cached flatlist->parent component when list changes ([f2c3915](https://github.com/stone-payments/pos-mamba-sdk/commit/f2c39159551170a24dbf6fe4cd8e153c5a779ac3))
+
+
+
 ## [9.5.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.4.1...v9.5.0) (2023-03-02)
 
 **Note:** Version bump only for package @mamba/flatlist
