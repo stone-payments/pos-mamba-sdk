@@ -5,7 +5,7 @@
   on:open
   on:close
   className="mb-confirmation-dialog"
-  on:keyup|capture="keyHandler(event)"
+  freezeKeystrokes="{typeof freezeKeystrokes !== 'boolean' ? ['enter', 'close'] : false}"
   contentStyle={[
     'padding: 0 12px'
   ]}
@@ -19,13 +19,13 @@
             <button
               class="action negative"
               style={_negativeLabelStyle}
-              on:click="close('negative', 'TOUCH')"
+              on:click="close('negative', event)"
               shortcut="close"
             >
               {negativeLabel}
             </button>
           {:else}
-            <div class="action" on:click="close('negative', 'TOUCH')" shortcut="close">
+            <div class="action" on:click="close('negative', event)" shortcut="close">
               <RoundIcon
                 symbol="close"
                 size={buttonSize}
@@ -41,13 +41,13 @@
             <button
               class="action positive"
               style={_positiveLabelStyle}
-              on:click="close('positive', 'TOUCH')"
+              on:click="close('positive', event)"
               shortcut="enter"
             >
               {positiveLabel}
             </button>
           {:else}
-            <div class="action" on:click="close('positive', 'TOUCH')" shortcut="enter">
+            <div class="action" on:click="close('positive', event)" shortcut="enter">
               <RoundIcon
                 symbol="check"
                 size={buttonSize}
@@ -64,8 +64,6 @@
 </Dialog>
 
 <script>
-  import Keyboard from '@mamba/keyboard/api/keyboard.js';
-  import { KEYBOARD } from '@mamba/core';
   import { green500, red400 } from '@mamba/styles/colors';
 
   export default {
@@ -105,34 +103,13 @@
       },
     },
     methods: {
-      keyHandler(e) {
-        if (!this.get().isOpen) return;
-        const keyCode = Keyboard.parseEventKeyCode(e);
-
-        const isClose = keyCode === KEYBOARD.KEY_CODES.CLOSE;
-        const isEnter = keyCode === KEYBOARD.KEY_CODES.ENTER;
-
-        if (isClose || isEnter) {
-          if (__DEV__ || __DEBUG_LVL__ >= 1) {
-            console.log(`[@mamba/dialog/Confirmation.html] !! stopping propagation of key.`);
-          }
-          e.stopImmediatePropagation();
-          e.preventDefault();
-
-          if (isEnter) this.close('positive', 'KEYBOARD');
-          if (isClose) this.close('negative', 'KEYBOARD');
-        }
-      },
       open(duration) {
         return this.refs.dialog.open(duration);
       },
-      close(event, telemetryEmitType) {
+      close(type, event = {}) {
         return this.refs.dialog.close().then(() => {
-          if (event) {
-            this.fire(event, {
-              telemetryEmitType,
-            });
-          }
+          if (!event.telemetryEmitType) event.telemetryEmitType = 'TOUCH';
+          if (type) this.fire(type, event);
         });
       },
     },
