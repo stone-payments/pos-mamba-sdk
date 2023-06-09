@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.7.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.6.0...v9.7.0) (2023-06-09)
+
+
+### Features
+
+* 🎸 add rmeotejs automatic tag ([497321f](https://github.com/stone-payments/pos-mamba-sdk/commit/497321fc31fe1881c5c8eb012e83ba43d0c016fa))
+
+
+### Bug Fixes
+
+* 🐛 fix remotejs value ([4e0f60c](https://github.com/stone-payments/pos-mamba-sdk/commit/4e0f60c21c3a40367c50418db6031be228910c5b))
+
+
+
 ## [9.6.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.5.1...v9.6.0) (2023-06-09)
 
 **Note:** Version bump only for package @mamba/webpack
