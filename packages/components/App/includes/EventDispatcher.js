@@ -41,8 +41,15 @@ export const dispatchEventOn = (shortcutEl, keyCode) => {
    */
   event.telemetryEmitType = 'KEYBOARD';
 
-  // Extends/hacks/fixes the propagation of physical keys to the emulated click
-  event.keyCode = keyCode;
+  try {
+    // Extends/hacks/fixes the propagation of physical keys to the emulated click
+    // We need to add multiples properties because the simulator/POS compatibility
+    event.code = keyCode;
+    event.keyCode = keyCode;
+    event.charCode = keyCode;
+  } catch (error) {
+    // Do nothing
+  }
 
   shortcutEl.dispatchEvent(event);
 };
