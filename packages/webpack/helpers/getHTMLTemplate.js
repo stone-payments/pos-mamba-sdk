@@ -34,7 +34,7 @@ module.exports = ({ css, js, title, publicPath }) => {
 
   let remotejs;
   if (REMOTEJS) {
-    remotejs = `<script data-consolejs-channel="${remotejs}" src="https://remotejs.com/agent/agent.js"></script>`;
+    remotejs = `<script data-consolejs-channel="${REMOTEJS}" src="https://remotejs.com/agent/agent.js"></script>`;
   }
 
   if (HTML_BASE_URL) {
