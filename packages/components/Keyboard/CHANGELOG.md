@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.7.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.6.0...v9.7.0) (2023-06-09)
+
+
+### Bug Fixes
+
+* 🐛 fix keyboard main field ([8f835de](https://github.com/stone-payments/pos-mamba-sdk/commit/8f835dee12f0c8448bb90e80a92de9085190f3f1))
+
+
+
+## [9.6.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.5.1...v9.6.0) (2023-06-09)
+
+**Note:** Version bump only for package @mamba/keyboard
+
+
+
+
+
 ## [9.5.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.4.1...v9.5.0) (2023-03-02)
 
 **Note:** Version bump only for package @mamba/keyboard

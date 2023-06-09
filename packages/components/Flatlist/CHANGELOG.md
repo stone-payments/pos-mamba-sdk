@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.7.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.6.0...v9.7.0) (2023-06-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* 🧨 onupdate uses render methods now
+
+### Features
+
+* 🎸 add method render ([930a0a9](https://github.com/stone-payments/pos-mamba-sdk/commit/930a0a90273b06fc87dd06f8364ebfb81876363e))
+* 🎸 add telemetry metadata on flatlist ([2e937ae](https://github.com/stone-payments/pos-mamba-sdk/commit/2e937ae0a97c520111ded750d097bdf485f2d1cc))
+* 🎸 controls flatlist rendered display (hide/show) ([506ae69](https://github.com/stone-payments/pos-mamba-sdk/commit/506ae69de3f27a93f58490585619cc805656948b))
+
+
+
+## [9.6.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.5.1...v9.6.0) (2023-06-09)
+
+
+### Bug Fixes
+
+* 🐛 implementação de logica para colocar o padding-bottom quanto houver mais de 3 itens na lista ([ca52100](https://github.com/stone-payments/pos-mamba-sdk/commit/ca52100f685bfe14d4492ce77a8f29803b09567d))
+* 🐛 update cached flatlist->parent component when list changes ([f2c3915](https://github.com/stone-payments/pos-mamba-sdk/commit/f2c39159551170a24dbf6fe4cd8e153c5a779ac3))
+
+
+
 ## [9.5.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.4.1...v9.5.0) (2023-03-02)
 
 **Note:** Version bump only for package @mamba/flatlist

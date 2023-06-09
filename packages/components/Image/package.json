@@ -1,6 +1,6 @@
 {
   "name": "@mamba/image",
-  "version": "9.5.0",
+  "version": "9.7.0",
   "svelte": "Image.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",

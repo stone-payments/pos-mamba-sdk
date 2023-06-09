@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.7.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.6.0...v9.7.0) (2023-06-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* 🧨 freeze keystroke changed
+* 🧨 event handler prop is not telemetryEmitType
+
+### Bug Fixes
+
+* 🐛 several critial keystroke bugs along with configmation dialog events ([47c78a0](https://github.com/stone-payments/pos-mamba-sdk/commit/47c78a0393a5eaa85dadee46a0d4887da6a3965a))
+
+
+### Code Refactoring
+
+* 💡 change prop handler ([ec3b9c8](https://github.com/stone-payments/pos-mamba-sdk/commit/ec3b9c8cd696d4fe0a87399e6c651e9c5f75ea03))
+
+
+
+## [9.6.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.5.1...v9.6.0) (2023-06-09)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
 ## [9.5.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.4.1...v9.5.0) (2023-03-02)
 
 **Note:** Version bump only for package @mamba/dialog
