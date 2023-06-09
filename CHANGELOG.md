@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.7.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.6.0...v9.7.0) (2023-06-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* 🧨 freeze keystroke changed
+* 🧨 onupdate uses render methods now
+* 🧨 event handler prop is not telemetryEmitType
+
+### Features
+
+* 🎸 add method render ([930a0a9](https://github.com/stone-payments/pos-mamba-sdk/commit/930a0a90273b06fc87dd06f8364ebfb81876363e))
+* 🎸 add rmeotejs automatic tag ([497321f](https://github.com/stone-payments/pos-mamba-sdk/commit/497321fc31fe1881c5c8eb012e83ba43d0c016fa))
+* 🎸 add telemetry metadata on flatlist ([2e937ae](https://github.com/stone-payments/pos-mamba-sdk/commit/2e937ae0a97c520111ded750d097bdf485f2d1cc))
+* 🎸 controls flatlist rendered display (hide/show) ([506ae69](https://github.com/stone-payments/pos-mamba-sdk/commit/506ae69de3f27a93f58490585619cc805656948b))
+* 🎸 extend event data to add telemetryEmitType ([58e5cb5](https://github.com/stone-payments/pos-mamba-sdk/commit/58e5cb5e860eeac9e97a490790b292c07c41b1f2))
+
+
+### Bug Fixes
+
+* 🐛 add telemetry emit type to the keystroke ([b99d163](https://github.com/stone-payments/pos-mamba-sdk/commit/b99d163d58f03e9acebbe3cd536d3bc1a6432246))
+* 🐛 fix keyboard main field ([8f835de](https://github.com/stone-payments/pos-mamba-sdk/commit/8f835dee12f0c8448bb90e80a92de9085190f3f1))
+* 🐛 fix remotejs value ([4e0f60c](https://github.com/stone-payments/pos-mamba-sdk/commit/4e0f60c21c3a40367c50418db6031be228910c5b))
+* 🐛 send keyCode through synthetic mouse event ([4ee70ee](https://github.com/stone-payments/pos-mamba-sdk/commit/4ee70eec069a8c512f8b6c1336a16b4607432b7f))
+* 🐛 several critial keystroke bugs along with configmation dialog events ([47c78a0](https://github.com/stone-payments/pos-mamba-sdk/commit/47c78a0393a5eaa85dadee46a0d4887da6a3965a))
+
+
+### Code Refactoring
+
+* 💡 change prop handler ([ec3b9c8](https://github.com/stone-payments/pos-mamba-sdk/commit/ec3b9c8cd696d4fe0a87399e6c651e9c5f75ea03))
+
+
+
 ## [9.6.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.5.1...v9.6.0) (2023-06-09)
 
 

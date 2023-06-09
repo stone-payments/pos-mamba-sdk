@@ -1,7 +1,7 @@
 <svelte:window bind:scrollY="scrollY" />
 
 {#if dataSection && dataSection.length > 0}
-  <div class="flatlist {className}" class:disabled="disabled" style={_styles} ref:flatListRef>
+  <div class="flatlist {className}" class:disabled="disabled" class:hidden style={_styles} ref:flatListRef>
     <div class="mb-list-wrapper" style="padding-bottom: {_extraBounds}px;">
       {#each dataSection.filter(Boolean) as section, sectionIndex (sectionIndex)}
 
@@ -20,11 +20,11 @@
           <!-- Render data itself -->
           {#each section.data.filter(Boolean) as item, index}
             {#if item.focusable}
-              <FocusController data={item} on:create="register(this, index, sectionIndex, item)" />
+              <FocusController data={item} on:create="_register(this, index, sectionIndex, item)" />
             {:else}
               <Parent
                 hasFirstFocusable={!!linkFirstFocusable}
-                on:create="register(this, index, sectionIndex)"
+                on:create="_register(this, index, sectionIndex)"
                 data={item}
                 key={index}
                 sectionIndex={sectionIndex}
@@ -49,9 +49,9 @@
     </div>
   </div>
 
-  <Keystroke key={KEY_NAMES.ENTER} on:keystroke="selectRowItems(ENTER)"/>
-  <Keystroke key={KEY_NAMES.ARROW_UP} on:keystroke="selectRowItems(ARROW_UP)"/>
-  <Keystroke key={KEY_NAMES.ARROW_DOWN} on:keystroke="selectRowItems(ARROW_DOWN)"/>
+  <Keystroke key={KEY_NAMES.ENTER} on:keystroke="_selectRowItems(ENTER)"/>
+  <Keystroke key={KEY_NAMES.ARROW_UP} on:keystroke="_selectRowItems(ARROW_UP)"/>
+  <Keystroke key={KEY_NAMES.ARROW_DOWN} on:keystroke="_selectRowItems(ARROW_DOWN)"/>
 
   {#if navBar}
     <NavBar
@@ -59,8 +59,8 @@
       labelDown={navDownLabel}
       labelUp={navUpLabel}
       className={isFirstOrLastSelectedOption}
-      on:keyup="selectRowItems(ARROW_UP)"
-      on:keydown="selectRowItems(ARROW_DOWN)"
+      on:keyup="_selectRowItems(ARROW_UP)"
+      on:keydown="_selectRowItems(ARROW_DOWN)"
       on:setup="_onNavbarSetup(event)"
     />
   {/if}
@@ -86,6 +86,11 @@
   const EVENTS = {
     ITEM_SELECTED: 'itemSelected',
     ITEM_ACTIVE: 'itemActive',
+  };
+
+  const TELEMETRY_HANDLER = {
+    KEYBOARD: 'KEYBOARD',
+    TOUCH: 'TOUCH',
   };
 
   let _flatListElement;
@@ -198,6 +203,15 @@
       }
 
       if (changed.data || changed.dataSection) {
+        this.render(current);
+      }
+    },
+    methods: {
+      /**
+       * @description Render the list with currenct data
+       */
+      render(current = undefined) {
+        if (!current) current = this.get();
         const { data, dataSection } = current;
 
         const isDataArray = Array.isArray(data);
@@ -220,10 +234,14 @@
         if (isValidData) {
           this._publishData(current, data);
         }
-      }
-    },
-    methods: {
-      setSelected(parentProps, isKeystroke = false) {
+      },
+      hide() {
+        this.set({ hidden: true });
+      },
+      show() {
+        this.set({ hidden: false });
+      },
+      setSelected(eventData = {}, isKeystroke = false) {
         const {
           _elementsRefs,
           selectedIndex,
@@ -231,9 +249,9 @@
           intersectSelectedEvents: intersect,
         } = this.get();
 
-        let eventData = parentProps;
+        let { data, position: internalIndex } = eventData;
 
-        if (!eventData) {
+        if (typeof internalIndex !== 'number') {
           if (!this.get()._isKeystrokeActive) return;
           const { sectionIndex, element, index, position } = _elementsRefs[selectedIndex];
 
@@ -243,20 +261,26 @@
             position,
             sectionIndex,
           };
+          internalIndex = eventData.position;
+          data = eventData.data || {};
         }
 
-        const { data, position } = eventData;
-
-        const internalIndex = position;
+        /**
+         * Indicates the last telemetry event action was the type of TOUCH/KEYBOARD, to app consumes.
+         */
+        if (eventData.telemetryEmitType !== TELEMETRY_HANDLER.KEYBOARD) {
+          eventData.telemetryEmitType = isKeystroke ? 'KEYBOARD' : 'TOUCH';
+        }
 
         const { element } = _elementsRefs[internalIndex];
 
         eventData = {
           ...eventData,
           renderItemRefs: element.refs.renderItemRef.refs,
+          telemetryEmitType: eventData.telemetryEmitType,
         };
 
-        this.set({ selectedIndex: position });
+        this.set({ selectedIndex: internalIndex });
 
         if (autoSelectOnTouch && !(isKeystroke === true)) {
           toggleActive(_elementsRefs, internalIndex);
@@ -271,8 +295,8 @@
 
         if (intersect) this.fire(EVENTS.ITEM_SELECTED, eventData);
       },
-      // register elements (allowing handle them)
-      register(element, index, sectionIndex, focusableItem = undefined) {
+      // _register elements (allowing handle them)
+      _register(element, index, sectionIndex, focusableItem = undefined) {
         const { _elementsRefs, selectedIndex, scrollY } = this.get();
 
         const position = _elementsRefs.length;
@@ -295,7 +319,7 @@
           });
         }
       },
-      selectRowItems(keyCode) {
+      _selectRowItems(keyCode) {
         /**
          * KeyCode -> KeyName dictionary
          *
@@ -309,7 +333,7 @@
         if (!_isKeystrokeActive) return;
 
         if (keyCode === ENTER && disableEnterKeystroke === false) {
-          this.setSelected(undefined, true);
+          this.setSelected({ telemetryEmitType: TELEMETRY_HANDLER.KEYBOARD }, true);
           return;
         }
 
@@ -530,6 +554,10 @@
   .flatlist.disabled {
     cursor: not-allowed;
     opacity: 0.5;
+  }
+
+  .flatlist.hidden {
+    display: none;
   }
 
   .row {

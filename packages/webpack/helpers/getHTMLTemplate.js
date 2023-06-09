@@ -4,7 +4,7 @@ const { minify: htmlMinifier } = require('html-minifier');
 
 const { generateCSSReferences, generateJSReferences } = MiniHtmlWebpackPlugin;
 
-const { IS_BROWSER, WEINRE_IP, HTML_BASE_URL } = require('./consts.js');
+const { IS_BROWSER, WEINRE_IP, HTML_BASE_URL, REMOTEJS } = require('./consts.js');
 
 module.exports = ({ css, js, title, publicPath }) => {
   console.log('WEINRE_IP: ', WEINRE_IP);
@@ -32,6 +32,11 @@ module.exports = ({ css, js, title, publicPath }) => {
     }
   }
 
+  let remotejs;
+  if (REMOTEJS) {
+    remotejs = `<script data-consolejs-channel="${REMOTEJS}" src="https://remotejs.com/agent/agent.js"></script>`;
+  }
+
   if (HTML_BASE_URL) {
     baseUrl = `<base href="${HTML_BASE_URL}">`;
   }
@@ -49,6 +54,7 @@ module.exports = ({ css, js, title, publicPath }) => {
   <body id="app-root">
     ${generateJSReferences(js, publicPath)}
     ${weinre || ''}
+    ${remotejs || ''}
   </body>
 </html>`;
 

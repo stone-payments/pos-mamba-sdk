@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.7.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.6.0...v9.7.0) (2023-06-09)
+
+**Note:** Version bump only for package @mamba/toast
+
+
+
+
+
 ## [9.6.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.5.1...v9.6.0) (2023-06-09)
 
 **Note:** Version bump only for package @mamba/toast
