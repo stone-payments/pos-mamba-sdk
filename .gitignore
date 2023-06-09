@@ -27,3 +27,12 @@ bower_components/
 packages/**/dist
 packages/**/types
 packages/components/Keyboard/lib
+
+# yarn 2
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

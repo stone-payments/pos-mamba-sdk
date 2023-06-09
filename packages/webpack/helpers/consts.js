@@ -43,5 +43,6 @@ module.exports = {
   BUNDLE_NAME: `bundle.${env.APP_ENV}`,
   ADD_MAMBA_SIMULATOR: env.MAMBA_SIMULATOR === 'true',
   WEINRE_IP: env.WEINRE_IP,
+  REMOTEJS: env.REMOTEJS,
   HTML_BASE_URL: env.HTML_BASE_URL,
 };

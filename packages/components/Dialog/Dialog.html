@@ -6,7 +6,7 @@
     class:is-wide="wide"
     {style}
     tabindex="-1"
-    data-freeze-keystrokes="{freezeKeystrokes}"
+    data-freeze-keystrokes="{JSON.stringify(freezeKeystrokes)}"
     on:keyup
   >
     <div class="content -align-{align}" style={_contentStyle}>
@@ -46,7 +46,7 @@ let lastShortcutsState;
         fullscreen: false,
         wide: false,
         className: undefined,
-        freezeKeystrokes: true,
+        freezeKeystrokes: false,
       };
     },
     computed: {
@@ -94,6 +94,15 @@ let lastShortcutsState;
 
           // Force a div focus with tabindex="-1" to prevent Keystroke actions in App.html method checker
           if (_dialog) _dialog.focus();
+
+          // Warns if focus failed
+          if (__DEV__) {
+            if (document.activeElement instanceof HTMLInputElement) {
+              console.warn(
+                '!! Detected an input forced focus behind the Dialog element. This will make undesired side effects. Disable the "forcefocus" property when the Dialog element of its context open.',
+              );
+            }
+          }
 
           if (dialogsOpened === 1 && this.root.meta) {
             const { scrollable, navigable } = this.root.meta.get();

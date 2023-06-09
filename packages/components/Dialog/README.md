@@ -5,15 +5,16 @@ O `PromisedDialog` é exibido durante a execução de uma `Promise` e após sua 
 
 `<Dialog ...props />`
 
-| Propriedades | Descrição                                             | Tipo      | Padrão      |
-| ------------ | ----------------------------------------------------- | --------- | ----------- |
-| align        | Alinhamento vertical do conteúdo (`top`, `center`)    | `string`  | `center`    |
-| bgColor      | Define a cor de fundo do modal                        | `string`  | `'#e3e3e3'` |
-| textColor    | Define a cor do texto do modal                        | `boolean` | `'#4a4a4a'` |
-| isOpen       | Define se o modal vai estar aberto por padrão         | `boolean` | `'false'`   |
-| title        | Título do modal                                       | `string`  | `undefined` |
-| fullscreen   | Define se o modal ocupará a tela inteira              | `boolean` | `false`     |
-| className    | Classe a ser adicionado ao elemento pai do componente | `string`  | ``          |
+| Propriedades     | Descrição                                                                                                                                   | Tipo      | Padrão      |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | --------- | ----------- |
+| align            | Alinhamento vertical do conteúdo (`top`, `center`)                                                                                          | `string`  | `center`    |
+| bgColor          | Define a cor de fundo do modal                                                                                                              | `string`  | `'#e3e3e3'` |
+| textColor        | Define a cor do texto do modal                                                                                                              | `boolean` | `'#4a4a4a'` |
+| isOpen           | Define se o modal vai estar aberto por padrão                                                                                               | `boolean` | `'false'`   |
+| title            | Título do modal                                                                                                                             | `string`  | `undefined` |
+| fullscreen       | Define se o modal ocupará a tela inteira                                                                                                    | `boolean` | `false`     |
+| className        | Classe a ser adicionado ao elemento pai do componente                                                                                       | `string`  | ``          |
+| freezeKeystrokes | Define se congela os eventos de `<Keystroke />` do pai do componente. Pode ser um valor booleano, ou uma lista de teclas separa por vírgula | `string`  | `false`     |
 
 `<ConfirmationDialog ...props />`
 

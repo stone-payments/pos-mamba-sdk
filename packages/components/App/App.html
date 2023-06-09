@@ -303,7 +303,7 @@
           /**/
         }
 
-        const { notPrevent, handlerContext } = hasKeystrokeToPrevent();
+        const { prevent, handlerContext } = hasKeystrokeToPrevent(keyName);
 
         if (handlerContext === document) {
           if (e.defaultPrevented || hasActiveHandlerFor(keyName)) {
@@ -371,13 +371,13 @@
          * If a shortcut element was found.
          * If 'enter' was clicked, check if the shortcut element isn't already focused
          */
-        if (!notPrevent && handlerContext !== document) {
-          dispatchEventOn(shortcutEl);
+        if (prevent && handlerContext !== document) {
+          dispatchEventOn(shortcutEl, keyCode);
           return;
         }
 
         if (keyCode !== KEYBOARD.KEY_CODES.ENTER || document.activeElement !== shortcutEl) {
-          dispatchEventOn(shortcutEl);
+          dispatchEventOn(shortcutEl, keyCode);
         }
       },
     },
