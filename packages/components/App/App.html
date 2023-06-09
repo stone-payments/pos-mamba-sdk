@@ -372,12 +372,12 @@
          * If 'enter' was clicked, check if the shortcut element isn't already focused
          */
         if (prevent && handlerContext !== document) {
-          dispatchEventOn(shortcutEl);
+          dispatchEventOn(shortcutEl, keyCode);
           return;
         }
 
         if (keyCode !== KEYBOARD.KEY_CODES.ENTER || document.activeElement !== shortcutEl) {
-          dispatchEventOn(shortcutEl);
+          dispatchEventOn(shortcutEl, keyCode);
         }
       },
     },
