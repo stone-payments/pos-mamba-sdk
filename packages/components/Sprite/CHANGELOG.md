@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.6.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.5.1...v9.6.0) (2023-06-09)
+
+**Note:** Version bump only for package @mamba/sprite
+
+
+
+
+
 ## [9.5.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.4.1...v9.5.0) (2023-03-02)
 
 **Note:** Version bump only for package @mamba/sprite
