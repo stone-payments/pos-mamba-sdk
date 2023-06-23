@@ -11,8 +11,7 @@
   ],
   "license": "Apache-2.0",
   "engines": {
-    "node": ">= 8 || <= 14",
-    "npm": ">=6"
+    "node": ">=12 <=16"
   },
   "scripts": {
     "lint": "npm run lint:css; npm run lint:js",
@@ -68,6 +67,7 @@
     "@commitlint/config-conventional": "^14.1.0",
     "@commitlint/config-lerna-scopes": "^15.0.0",
     "@mamba/pos": "*",
+    "@playwright/test": "^1.35.0",
     "@types/jest": "^27.0.2",
     "@typescript-eslint/eslint-plugin": "^5.27.0",
     "@typescript-eslint/parser": "^5.27.0",
