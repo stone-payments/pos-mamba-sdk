@@ -32,10 +32,8 @@ function mergeJSON(obj, source) {
 
 export function getAppOrgParams(defaultAppOrgParams) {
   try {
-    return mergeJSON(
-      defaultAppOrgParams,
-      JSON.parse(window.Org.getOrganizationFile(__APP_MANIFEST__.id)),
-    );
+    const orgFileContents = window.Org.getOrganizationFile(__APP_MANIFEST__.id);
+    return mergeJSON(defaultAppOrgParams, JSON.parse(orgFileContents));
   } catch (_) {
     return defaultAppOrgParams;
   }
