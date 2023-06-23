@@ -20,9 +20,9 @@ export default {
     DISCHARGE: 'DISCHARGE',
     ABSENT: 'ABSENT',
   }),
-  Organizations: Object.freeze({
-    STONE: 'Mamba',
+  DefaultOrganizations: Object.freeze({
+    STONE: 'stone',
     TON: 'ton',
-    WLPAGARME: 'WLPagarme',
+    WLPAGARME: 'wlpagarme',
   }),
 };

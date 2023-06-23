@@ -1,15 +1,12 @@
 <div class="title">Organização</div>
 
 <ul class="controllers">
-  <div class="notice">
-    <small>Precisa recarregar a página</small>
-  </div>
-  {#each orgs as org}
+  {#each options as org}
     <li class="controller">
-      <span>{org}</span>
+      <span class="org">{strings(org)}</span>
       <Radio
         name="orgs"
-        checked={current === Organizations[org]}
+        checked={current === org}
         on:click="setOrg(org)"
       />
     </li>
@@ -20,7 +17,7 @@
   import { Registry } from '../../../index.js';
   import store from '../store.js';
 
-  const System = () => Registry.persistent.get().$System;
+  const Organizations = () => Registry.persistent.get().$System.Organizations;
 
   export default {
     components: {
@@ -28,19 +25,24 @@
     },
     store: () => store,
     helpers: {
-      Organizations: System().Organizations,
+      strings(org) {
+        if (String(org).toLowerCase() === 'wlpagarme') return 'WL Pagarme';
+        return org;
+      },
     },
     data() {
       return {
-        orgs: System().Organizations.options,
-        current: System().Organizations.current,
+        options: Organizations().options,
+        current: Organizations().current,
+        enumerator: Organizations().enumerator,
       };
     },
     methods: {
       setOrg(org) {
         Registry.persistent.set((draft) => {
-          draft.$System.Organizations.current = System().Organizations[org];
+          draft.$System.Organizations.current = org;
         });
+        window.location.reload();
       },
     },
   };
@@ -51,6 +53,12 @@
     display: none;
     margin-top: 10px;
     color: $neutral400;
+  }
+
+  .org {
+    color: $green500;
+    font-weight: 600;
+    text-transform: uppercase;
   }
 
   :global(.section.is-active .notice) {

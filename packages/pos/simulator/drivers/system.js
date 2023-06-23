@@ -33,9 +33,10 @@ export const PERSISTENT_SETTINGS = {
   serialNumber: '00000000',
   model: 'S920',
   Organizations: {
-    ...systemEnums.Organizations,
-    options: Object.keys(systemEnums.Organizations),
-    current: systemEnums.Organizations.STONE,
+    enumerator: systemEnums.DefaultOrganizations,
+    options: Object.keys(systemEnums.DefaultOrganizations),
+    current: systemEnums.DefaultOrganizations.STONE,
+    external: undefined,
   },
 };
 
@@ -88,6 +89,40 @@ function _getToneFrequency(tone, toneMap) {
 }
 
 export function setup(System) {
+  async function setupExternalOrganizations() {
+    try {
+      const externalModule = await import(
+        // eslint-disable-next-line import/no-unresolved
+        '@mamba-pkg/module-organization'
+      );
+
+      Registry.persistent.set((draft) => {
+        draft.$System.Organizations.external = externalModule;
+
+        const { organizationList, organizationsEnum } = externalModule;
+
+        const cloneOptions = [...organizationList];
+        if (cloneOptions.length === 0) return;
+
+        const cloneEnumerator = { ...organizationsEnum };
+
+        draft.$System.Organizations.options = cloneOptions;
+        draft.$System.Organizations.enumerator = cloneEnumerator;
+
+        const { current } = draft.$System.Organizations;
+
+        if (!cloneEnumerator[current]) {
+          const [fisrt] = cloneOptions;
+          draft.$System.Organizations.current = cloneEnumerator[String(fisrt).toUpperCase()];
+        }
+      });
+    } catch (_) {
+      // ignore
+    }
+  }
+
+  setupExternalOrganizations();
+
   const localConfig = {
     TimeFromBoot: 0,
   };
