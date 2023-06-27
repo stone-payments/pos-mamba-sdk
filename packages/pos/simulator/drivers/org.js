@@ -3,7 +3,7 @@ import {
   OrganizationController,
   organizationFileName,
 } from '../libs/organization/organizationController.js';
-import { loadVirtualPosJson } from '../libs/organization/loadVirtualPosJson.js';
+import { loadVirtualPosFileSync } from '../libs/organization/loadVirtualPosJson.js';
 import { Registry } from '../index.js';
 
 export const NAMESPACE = 'Org';
@@ -78,26 +78,18 @@ export function setup(Org) {
   }
 
   /**
-   * We need to cache "appOrgParams" because getOrganizationFile can't be an asynchronous function to fetch on demand
-   */
-  let appOrgParamsCachedData;
-
-  async function cacheOrgParams() {
-    const file = getOrganizationFilePath(__APP_MANIFEST__.id);
-    appOrgParamsCachedData = await loadVirtualPosJson(file);
-  }
-
-  /**
    * Get the org customization file contents that defines the changes to be made.
    * @param {number} appId Id of the app that wants the organization file.
    * @returns {any} app organization params file contents
    */
   function getOrganizationFile(appId) {
     validateExternalOrgModule('getOrganizationFile');
-    return appOrgParamsCachedData;
+
+    const file = getOrganizationFilePath(appId);
+
+    return loadVirtualPosFileSync(file);
   }
 
-  cacheOrgParams();
   Org.getOrganizationFile = getOrganizationFile;
   Org.getOrganizationFolderPath = getOrganizationFolderPath;
 }

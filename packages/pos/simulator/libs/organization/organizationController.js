@@ -28,7 +28,7 @@ class OrganizationController {
     try {
       return {
         active_org: current,
-        [packageFolderField]: `${
+        [packageFolderField]: `${__VIRTUAL_POS_PATH__}/${
           external.consolidatedOrganizations[current][__MODULE_ORGANIZATION_CONFIG__.orgPackagePath]
         }`,
       };
