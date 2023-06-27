@@ -1,18 +1,21 @@
 /**
  * Webpack configuration for active development
  */
-const webpack = require('webpack');
+// const webpack = require('webpack');
 const merge = require('webpack-merge');
+const webpack = require('webpack');
 const { fromCwd } = require('quickenv');
 const bodyParser = require('body-parser');
+const chalk = require('chalk');
 const cors = require('cors');
-const path = require('path');
-const fs = require('fs');
+const { join } = require('path');
+const VirtualModulesPlugin = require('webpack-virtual-modules');
 const appCommands = require('./remote-api/commands.js');
+const virtualOrganizationFiles = require('./helpers/virtualOrganizationFiles.js');
 
 const { COMMANDS } = appCommands;
 
-// remot servere in=memory data
+// remote server in=memory data
 const data = [
   /* {
     id: Date.now(),
@@ -25,8 +28,12 @@ const data = [
   }, */
 ];
 
-const devServer = {
-  contentBase: [fromCwd('src')],
+const devServerBaseConfig = {
+  static: [
+    {
+      directory: fromCwd('src'),
+    },
+  ],
   compress: true,
   headers: {
     'X-Content-Type-Options': 'nosniff',
@@ -34,16 +41,23 @@ const devServer = {
     'Access-Control-Allow-Origin': '*',
   },
   host: '0.0.0.0',
-  open: false,
-  overlay: {
-    warnings: false,
-    errors: true,
+  client: {
+    overlay: {
+      warnings: false,
+      errors: true,
+    },
   },
-  inline: true,
   port: 8080,
-  publicPath: 'http://localhost:8080/',
-  hot: true,
-  before: function BeforeMid(app) {
+  devMiddleware: {
+    publicPath: 'http://localhost:8080/',
+  },
+  historyApiFallback: true,
+  setupMiddlewares: (middlewares, devServer) => {
+    if (!devServer) {
+      throw new Error('webpack-dev-server is not defined');
+    }
+
+    const { app } = devServer;
     app.use(bodyParser.json({ limit: '10mb' }));
     app.use(cors());
     app.use((req, res, next) => {
@@ -119,21 +133,50 @@ const devServer = {
 
       res.sendStatus(204);
     });
+
+    return middlewares;
   },
 };
 
-const extenralModuleOrgName = '@mamba-pkg/module-organization';
-const extenralModuleOrgPath = path.join(process.cwd(), 'node_modules', extenralModuleOrgName);
-const externalOrgExist = fs.existsSync(extenralModuleOrgPath);
-
-if (externalOrgExist) {
-  devServer.static = [{ directory: extenralModuleOrgPath }];
+if (
+  virtualOrganizationFiles.existsExtenralModuleOrgFolder &&
+  virtualOrganizationFiles.moduleOrgConfig
+) {
+  try {
+    devServerBaseConfig.static = [
+      ...devServerBaseConfig.static,
+      {
+        directory: join(
+          virtualOrganizationFiles.extenralModuleOrgFolder,
+          '/',
+          virtualOrganizationFiles.moduleOrgConfig.publicPath,
+        ),
+        publicPath: virtualOrganizationFiles.virtualPublicPath,
+      },
+    ];
+  } catch (error) {
+    console.log(
+      chalk.yellow(
+        `[dev server] Configure ${virtualOrganizationFiles.extenralModuleOrgName} was not possible.\n`,
+      ),
+      error.message,
+    );
+  }
 }
 
 module.exports = merge(require('./config.app.js'), {
   devtool: 'source-map',
 
-  plugins: [new webpack.HotModuleReplacementPlugin()],
+  plugins: [
+    new VirtualModulesPlugin(virtualOrganizationFiles.exportModule),
+    virtualOrganizationFiles.existsExtenralModuleOrgFolder &&
+      new webpack.DefinePlugin({
+        __VIRTUAL_POS_PATH__: JSON.stringify(virtualOrganizationFiles.virtualPublicPath),
+        __MODULE_ORGANIZATION_CONFIG__: JSON.stringify(
+          virtualOrganizationFiles.moduleOrgConfig || {},
+        ),
+      }),
+  ].filter(Boolean),
 
   optimization: {
     usedExports: true,
@@ -141,5 +184,5 @@ module.exports = merge(require('./config.app.js'), {
     noEmitOnErrors: true,
   },
 
-  devServer,
+  devServer: devServerBaseConfig,
 });

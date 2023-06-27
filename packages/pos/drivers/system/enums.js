@@ -1,3 +1,16 @@
+export const DefaultOrganizations = {
+  STONE: 'stone',
+  TON: 'ton',
+  WLPAGARME: 'wlpagarme',
+};
+
+export const SystemOrganizationsDefault = {
+  enumerator: DefaultOrganizations,
+  current: DefaultOrganizations.STONE,
+  // External is the organization module data
+  external: undefined,
+};
+
 export default {
   Tones: Object.freeze({
     TONE1: 'TONE1',
@@ -20,9 +33,6 @@ export default {
     DISCHARGE: 'DISCHARGE',
     ABSENT: 'ABSENT',
   }),
-  DefaultOrganizations: Object.freeze({
-    STONE: 'stone',
-    TON: 'ton',
-    WLPAGARME: 'wlpagarme',
-  }),
+  DefaultOrganizations,
+  SystemOrganizationsDefault,
 };
