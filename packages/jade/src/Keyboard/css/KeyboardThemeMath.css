@@ -1,0 +1,194 @@
+.mb-keyboard-theme-math {
+  max-height: none;
+  height: auto;
+  background-color: #f2f4f7;
+  border-top: 1px solid $neutral300;
+  padding: 8px 6px;
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    background: $neutral200;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 1px;
+  }
+
+  $button-size: 42px;
+
+  /* &.debug .mb-cell {
+    outline: 1px solid red;
+  } */
+
+  & .mb-row .mb-button,
+  & .mb-button {
+    &[data-mb-key='{backspace}'],
+    &[data-mb-key='{clear}'],
+    &[data-mb-key='{%}'],
+    &[data-mb-key='{.}'],
+    &[data-mb-key='{=}'],
+    &[data-mb-key='{+}'],
+    &[data-mb-key='{÷}'],
+    &[data-mb-key='{×}'],
+    &[data-mb-key='{*}'] {
+      & span {
+        min-width: 12px;
+        min-height: 12px;
+        width: 15px;
+        height: 15px;
+      }
+    }
+
+    &[data-mb-key='{clear}'] {
+      & span {
+        mask-image: url(../assets/math_clear.svg);
+      }
+    }
+
+    &[data-mb-key='{÷}'] {
+      & span {
+        mask-image: url(../assets/math_division.png);
+      }
+    }
+
+    &[data-mb-key='{.}'] {
+      & span {
+        max-width: 10px;
+        max-height: 10px;
+        mask-image: url(../assets/math_decimal.png);
+      }
+    }
+
+    &[data-mb-key='{backspace}'] {
+      & span {
+        width: 18px;
+        height: 18px;
+        left: -1px;
+        position: relative;
+        mask-image: url(../assets/math_backspace.png);
+      }
+    }
+
+    &[data-mb-key='{×}'] {
+      & span {
+        width: 12px;
+        height: 12px;
+        mask-image: url(../assets/math_multiply.png);
+      }
+    }
+
+    &[data-mb-key='{−}'] {
+      & span {
+        width: 10px;
+        height: 10px;
+        mask-image: url(../assets/math_minus.png);
+      }
+    }
+
+    &[data-mb-key='{+}'] {
+      & span {
+        mask-image: url(../assets/math_plus.png);
+      }
+    }
+
+    &[data-mb-key='{%}'] {
+      & span {
+        width: 19px;
+        height: 19px;
+        mask-image: url(../assets/math_percent.png);
+      }
+    }
+
+    &[data-mb-key='{=}'] {
+      & span {
+        mask-image: url(../assets/math_equal.png);
+      }
+    }
+
+    &[data-mb-key='{check}'] {
+      &.mb-active {
+        opacity: 0.7;
+      }
+
+      & span {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
+  & .mb-row {
+    & .mb-button {
+      &[data-mb-key='{.}'],
+      &[data-mb-key='{=}'] {
+        background-color: rgba($green300, 0.1);
+      }
+    }
+  }
+
+  &.mb-layout-fixed .mb-row {
+    & .mb-button {
+      font-weight: 600;
+      font-size: 16px;
+      margin: 0 auto;
+      position: relative;
+
+      &.mb-standard-btn {
+        background-color: white;
+        border-color: #dbece6;
+        border-width: 2px;
+        border-style: solid;
+        color: #303742;
+
+        &.mb-active {
+          background-color: #dbece6;
+        }
+      }
+
+      &.mb-function-btn {
+        border: none;
+
+        &:not([data-mb-key='{check}']) {
+          background-color: rgba(11, 167, 73, 0.1);
+
+          span {
+            color: $neutral700;
+            mask-size: contain, contain;
+            mask-repeat: no-repeat;
+            mask-position: 50% 50%;
+            background-repeat: no-repeat;
+            background-origin: content-box;
+            background-color: currentColor;
+          }
+        }
+
+        &.mb-active {
+          background-color: rgba(11, 167, 73, 0.3);
+        }
+      }
+
+      &.mb-standard-btn,
+      &.mb-function-btn {
+        &,
+        &:not(.mb-button-space) {
+          border-radius: 50%;
+          height: $button-size;
+          width: $button-size;
+        }
+
+        &:not([data-mb-key='{check}']) span {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+    }
+  }
+
+  &.mb-layout-fixed .mb-row:not(:last-child) .mb-cell {
+    padding-bottom: 8px;
+  }
+}

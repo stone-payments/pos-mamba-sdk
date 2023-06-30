@@ -1,0 +1,332 @@
+@import '@mamba/styles/settings.pcss';
+
+$level-shadow-color: $neutral400;
+
+.mb-keyboard-generic-wrapper {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+/* Layout essentials */
+
+.mb-row,
+.mb-column {
+  user-select: none;
+
+  &:not(:last-child) {
+    & .mb-button .mb-function-btn {
+      flex-shrink: 1;
+      flex-grow: 0;
+    }
+  }
+}
+
+.mb-keyboard:not(.mb-layout-fixed) {
+  & .mb-row,
+  & .mb-column {
+    flex: 1;
+  }
+
+  & .mb-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  & .mb-column {
+    display: inline-flex;
+    flex-direction: column;
+  }
+}
+
+.mb-layout-fixed {
+  & .mb-rows {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+
+    & .mb-row {
+      display: table-row;
+
+      & .mb-cell {
+        vertical-align: top;
+        display: table-cell;
+      }
+    }
+  }
+}
+
+.mb-layout-horizontal {
+  & .mb-row {
+    &:not(:last-child) {
+      margin-bottom: 4px;
+    }
+
+    & .mb-button {
+      min-width: 21px;
+
+      &.mb-standard-btn[data-mb-key='@'] {
+        max-width: 60px;
+      }
+
+      & span {
+        line-height: 35px;
+        height: 34px;
+      }
+
+      &.mb-standard-btn {
+        & span {
+          width: 21px;
+          max-width: 21px;
+        }
+      }
+
+      &.mb-function-btn {
+        min-width: 32px;
+        flex-grow: 1;
+        flex-shrink: 0;
+
+        &:not(.mb-button-space) {
+          max-width: 60px;
+        }
+      }
+    }
+
+    & .mb-button:not(:last-child) {
+      margin-right: 3px;
+    }
+
+    & > div:last-child {
+      margin-right: 0;
+    }
+
+    & > div:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.mb-layout-vertical {
+  & .mb-column {
+    align-items: stretch;
+
+    & .mb-button {
+      flex: 1;
+    }
+
+    &:not(:last-child) {
+      margin-right: 4px;
+    }
+
+    & .mb-button:not(:last-child) {
+      margin-bottom: 3px;
+    }
+
+    & > div:last-child {
+      margin-bottom: 0;
+    }
+
+    & > div:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+/* No definitions */
+/* .mb-layout-horizontal {} */
+
+/* Button essentials */
+
+:not(.mb-layout-fixed) {
+  & .mb-button {
+    display: flex;
+    vertical-align: middle;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+.mb-layout-fixed {
+  & .mb-button {
+    /* display: inline-block; */
+    vertical-align: middle;
+    text-align: center;
+  }
+}
+
+.mb-button {
+  cursor: pointer;
+
+  & span {
+    margin: 0 auto;
+    display: inline-block;
+  }
+
+  & * {
+    pointer-events: none;
+  }
+}
+
+/* Event changes */
+
+.mb-keyboard-hidden {
+  display: none;
+}
+
+.mb-keyboard-theme-default .mb-button.mb-active {
+  background-color: $neutral300;
+}
+
+.mb-keyboard-theme-default .mb-button[data-mb-key='{enter}'].mb-active {
+  background-color: $green600;
+}
+
+/* Transitions */
+
+.mamba-app-container:not(.S920) {
+  & .mb-keyboard .mb-button {
+    transition-duration: 100ms;
+    transition-timing-function: linear;
+    transition-property: background-color;
+  }
+}
+
+/* Customization */
+
+.mb-button {
+  background: white;
+  border-radius: 3px;
+
+  &[data-mb-key='{space}'] {
+    flex: 3;
+    color: $neutral600;
+  }
+
+  &[data-mb-key='{symbols}'],
+  &[data-mb-key='{altback}'] {
+    font-size: 13px;
+    letter-spacing: 0.5px;
+  }
+
+  &[data-mb-key='{shift}'],
+  &[data-mb-key='{enter}'] {
+    color: transparent;
+
+    & span {
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+
+  &[data-mb-key='{enter}'] {
+    background-color: $green500;
+    border-radius: 3px 3px 12px 3px;
+
+    & span {
+      background-image: url(../assets/stone_power_symbol.svg);
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &[data-mb-key='{altback}'],
+  &[data-mb-key='{symbols}'],
+  &[data-mb-key='{shift}'],
+  &[data-mb-key='{backspace}'] {
+    flex-basis: 30px;
+    flex-grow: 1;
+    flex-shrink: 1;
+  }
+
+  &[data-mb-key='{shift}'],
+  &[data-mb-key='{backspace}'],
+  &[data-mb-key='{delete}'] {
+    & span {
+      mask-size: contain;
+      mask-repeat: no-repeat;
+      mask-position: center;
+    }
+  }
+
+  &[data-mb-key='{shift}'],
+  &[data-mb-key='{backspace}'],
+  &[data-mb-key='{delete}'] {
+    & span {
+      background-color: currentcolor;
+      color: $neutral700;
+    }
+  }
+
+  &[data-mb-key='{shift}'] {
+    & span {
+      width: 18px;
+      height: 18px;
+      mask-image: url(../assets/shift.svg);
+    }
+  }
+
+  &[data-mb-key='{backspace}'],
+  &[data-mb-key='{delete}'] {
+    & span {
+      width: 20px;
+      height: 20px;
+      mask-image: url(../assets/delete.png);
+    }
+  }
+
+  &[data-mb-key='{check}'] {
+    color: transparent;
+    background-color: transparent;
+
+    &.mb-active {
+      background-color: rgba(11, 167, 73, 0.3);
+    }
+
+    & span {
+      display: block;
+      width: 28px;
+      height: 28px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-color: transparent;
+      background-image: url(../assets/check_symbol_round.svg);
+    }
+  }
+
+  &[data-mb-key='{default}'],
+  &[data-mb-key='{backspace}'],
+  &[data-mb-key='{alt}'],
+  &[data-mb-key='{altback}'],
+  &[data-mb-key='{symbols}'] {
+    border-bottom-color: #898b8e;
+  }
+}
+
+/* Themes */
+
+.mb-keyboard-theme-default {
+  user-select: none;
+  overflow: hidden;
+  background-color: $neutral200;
+  padding: 4px 2px 4px 2px;
+  font-size: 14px;
+  z-index: $layer-keyboard;
+
+  & .mb-button {
+    min-height: 34px;
+    text-align: center;
+    font-weight: 500;
+    padding: 0;
+    color: $neutral900;
+    border-bottom: 1px inset $level-shadow-color;
+    margin-bottom: -1px;
+  }
+
+  /* & .mb-button {
+    &:not(.mb-active),
+    &:not([data-mb-key='{enter}']) {
+    }
+  } */
+}

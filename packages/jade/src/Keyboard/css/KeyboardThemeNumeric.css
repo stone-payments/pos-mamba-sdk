@@ -1,0 +1,90 @@
+.mb-keyboard-theme-numeric {
+  border-top: 1px solid $neutral300;
+
+  & .mb-row,
+  & .mb-column,
+  & .mb-button {
+    flex-grow: initial;
+    flex-shrink: initial;
+    align-items: initial;
+    justify-content: initial;
+    flex-direction: initial;
+  }
+
+  &.mb-layout-fixed {
+    & .mb-row {
+      &,
+      &:not(:last-child) {
+        margin: 0;
+      }
+
+      & .mb-button {
+        height: 54px;
+        margin: 0;
+        font-size: 18px;
+        border-radius: 2px;
+        vertical-align: middle;
+        position: relative;
+
+        span {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+
+        &.mb-standard-btn {
+          color: $neutral700;
+        }
+
+        &:not(.mb-active) {
+          background-color: transparent;
+        }
+      }
+
+      & .mb-button:not(:last-child) {
+        margin-bottom: 0;
+      }
+    }
+
+    & .mb-row,
+    & .mb-rows {
+      margin: 0;
+    }
+  }
+
+  /* Uncomment for draw outline around the button */
+  /* &.debug .mb-button {
+    outline: 0.1px solid red;
+  } */
+
+  & .mb-button {
+    background-color: transparent;
+    box-shadow: none !important;
+    border: none !important;
+    vertical-align: middle;
+    text-align: center;
+
+    & span {
+      line-height: 36px;
+      margin: auto;
+    }
+
+    &:not([data-mb-key='{check}']).mb-active {
+      background-color: $neutral300;
+    }
+  }
+
+  /* Variations */
+  &.mb-variation {
+    &--compact {
+      background-color: transparent;
+
+      & .mb-row .mb-button {
+        font-size: 20px;
+        height: 36px;
+        margin: 3px;
+      }
+    }
+  }
+}
