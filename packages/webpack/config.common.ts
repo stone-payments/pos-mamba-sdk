@@ -18,6 +18,7 @@ import {
   IS_POS,
   IS_TEST,
   IS_STORYBOOK,
+  ADD_MAMBA_SIMULATOR,
 } from '@mamba/configs/envModes.cjs';
 
 import MambaLogger from './plugins/InfrastructureMamaLogger';
@@ -60,6 +61,7 @@ const definePluginOptions = merge(clientEnvironment('Webpack'), {
   __BROWSER__: IS_BROWSER,
   __MODEL__: JSON.stringify(process.env.PLATFORM),
   __PLATFORM__: JSON.stringify(process.env.PLATFORM),
+  __SIMULATOR__: ADD_MAMBA_SIMULATOR,
 }) as DefineObject;
 
 const scriptExtensions = ['.mjs', '.js', '.cjs', '.ts'];
