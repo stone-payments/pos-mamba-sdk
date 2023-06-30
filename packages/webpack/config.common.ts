@@ -104,8 +104,9 @@ const config: webpack.Configuration = {
     rules: [
       {
         test: /\.(html|svelte)$/,
+        include: [fromWorkingDir('src')],
         exclude: /node_modules/,
-        use: [BabelSvelte, Svelte],
+        use: [BabelSvelte, Svelte /** future linter goes here */],
       },
       {
         test: /\.ts$/,
@@ -119,6 +120,24 @@ const config: webpack.Configuration = {
         use: [Babel],
       },
 
+      /**
+       * ! Dependency modules
+       * */
+      /** On dependencies svelte files, run svelte compiler and babel */
+      {
+        test: /\.(html|svelte)$/,
+        include: [/node_modules/],
+        /** When developing, parse linked packages svelte dependencies */
+        use: [Babel, Svelte],
+      },
+      {
+        test: /\.mjs$/,
+        resolve: {
+          fullySpecified: false,
+        },
+        include: /node_modules/,
+        type: 'javascript/auto',
+      },
       /**
        * * Run app COMMONJS dependencies through babel with module: 'commonjs'.
        * @babel/preset-env inserts es6 import if we don't pass "module: 'commonjs'",
