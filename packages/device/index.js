@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import _kebabCase from 'lodash/fp/kebabCase';
+import _kebabCase from 'lodash/fp/kebabCase.js';
 
 const ThisStore = {
   _storedModel: undefined,
