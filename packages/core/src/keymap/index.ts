@@ -5,6 +5,7 @@ export {
   default as KEY_CODES,
   ENTER,
   CLOSE,
+  BACK,
   HELP,
   SHORTCUTS,
   F23,
