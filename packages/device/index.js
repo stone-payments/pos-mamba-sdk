@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import _kebabCase from 'lodash/fp/kebabCase';
+import lodash from 'lodash';
 
 const ThisStore = {
   _storedModel: undefined,
@@ -105,7 +105,7 @@ export const getPosModel = () => {
  * @returns {String} return sanitized Pos Model
  */
 export const getSanitizedPosModel = (model = undefined) => {
-  return _kebabCase(String(model || getPosModel()))
+  return lodash.kebabCase(String(model || getPosModel()))
     .toUpperCase()
     .replace(/-/g, '');
 };
