@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs';
 import * as webpack from 'webpack';
-import { IS_BROWSER } from '@mamba/configs/envModes.cjs';
+import { ADD_MAMBA_SIMULATOR, IS_BROWSER } from '@mamba/configs/envModes.cjs';
 import { fromWorkingDir } from '@mamba/utils';
 
 export default function getEntrypoints(): webpack.EntryObject {
@@ -18,6 +18,8 @@ export default function getEntrypoints(): webpack.EntryObject {
 
       /** Optional generic external styles file */
       existsSync(fromWorkingDir('src', 'app.pcss')) && './app.pcss',
+
+      ADD_MAMBA_SIMULATOR && './simulator.ts',
 
       /** Virtual app entry point */
       fromWorkingDir(`./src/index.${IS_BROWSER ? 'browser' : 'pos'}.ts`),
