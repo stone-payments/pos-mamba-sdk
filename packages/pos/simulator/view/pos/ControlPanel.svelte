@@ -1,0 +1,221 @@
+<script lang="ts">
+  import { onMount } from 'svelte';
+  import GeneralPanel from './panels/General.svelte';
+  import FlowsPanel from './panels/Flows.svelte';
+  import HttpPanel from './panels/Http.svelte';
+  import Merchant from './panels/Merchant.svelte';
+  import POS from './panels/POS.svelte';
+  import Orgs from './panels/Orgs.svelte';
+
+  export let toggle = null;
+  export let refPanel = null;
+
+  const panels = [POS, Orgs, GeneralPanel, Merchant, FlowsPanel, HttpPanel];
+  let lastKeypressTime;
+
+  function handleShortcutStroke() {
+    const keypressTime = new Date();
+    /** Require double keypress */
+    if (keypressTime - lastKeypressTime <= 400) {
+      this.refs.toggle.checked = !this.refs.toggle.checked;
+    }
+    lastKeypressTime = keypressTime;
+  }
+
+  onMount(() => {
+    const togglePanels = (e) => {
+      if (e.target.classList.contains('title')) {
+        const eventPath = e.path || (e.composedPath && e.composedPath());
+        const section = eventPath.find((n) => n.classList.contains('section'));
+        if (section) {
+          section.classList.toggle('is-active');
+        }
+      }
+    };
+
+    refPanel.addEventListener('click', togglePanels);
+
+    return () => refPanel.removeEventListener('click', togglePanels);
+  });
+</script>
+
+<div class="panel-wrapper">
+  <input bind:this={toggle} type="checkbox" class="panel-checkbox" id="panel-toggler" />
+  <label for="panel-toggler" class="panel-toggle">&#x2699;</label>
+  <div class="panel" bind:this={refPanel}>
+    {#each panels as panel}
+      <div class="section">
+        <svelte:component this={panel} />
+      </div>
+    {/each}
+  </div>
+</div>
+
+<style>
+  .panel-wrapper {
+    width: 100vh;
+    overflow: hidden;
+    color: $neutral700;
+    user-select: none;
+    font-family: 'Sharon Sans', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica', 'Arial',
+      sans-serif;
+  }
+
+  .panel-toggle {
+    position: fixed;
+    z-index: 9001;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
+    transition: transform 0.3s ease;
+    box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 20%);
+
+    @media (max-width: 400px) {
+      display: none;
+    }
+
+    &:hover {
+      transform: scale(1.1) rotate(0);
+    }
+
+    .panel-checkbox:checked ~ & {
+      transform: scale(1) rotate(360deg);
+    }
+  }
+
+  .panel-checkbox {
+    display: none;
+  }
+
+  .panel {
+    position: fixed;
+    z-index: 9000;
+    top: 0;
+    right: -100%;
+    background-color: #fff;
+    width: 260px;
+    height: 100%;
+    padding: 60px 15px 30px;
+    opacity: 0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 40%);
+    overflow: auto;
+    overflow-x: hidden;
+
+    @media (max-width: 400px) {
+      padding-top: 30px;
+      width: 220px;
+    }
+
+    @media (min-width: 401px) {
+      transition: right 0.3s ease, opacity 0.5s ease;
+    }
+
+    .panel-checkbox:checked ~ & {
+      right: 0;
+      opacity: 1;
+    }
+
+    :global(.title) {
+      cursor: pointer;
+      font-weight: bold;
+      border-bottom: 1px dotted #ccc;
+      font-size: 18px;
+      line-height: 1;
+      padding-bottom: 5px;
+      transition: transform 0.3s ease;
+      transform-origin: 0 50%;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+
+    :global(textarea),
+    :global(input) {
+      width: 100%;
+      border-radius: 3px;
+      border: none;
+      border-left: 3px solid $neutral50;
+      padding: 8px 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    :global(input:not(.disable-effects)) {
+      background-color: #fff;
+      transition: background-color 0.3s ease;
+    }
+
+    :global(textarea) {
+      background-color: $green500;
+    }
+
+    :global(input) {
+      &:hover,
+      &:focus {
+        background-color: $green500;
+      }
+    }
+
+    :global(.controllers) {
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    :global(.controller) {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+
+      &.is-full {
+        display: block;
+
+        :global(> span) {
+          display: block;
+          margin-bottom: 8px;
+        }
+      }
+
+      @media (max-width: 400px) {
+        font-size: 12px;
+
+        :global(> span) {
+          max-width: 145px;
+        }
+      }
+
+      :global(> *) {
+        display: block;
+      }
+    }
+  }
+
+  .section {
+    &:not(.is-active) {
+      :global(.title) {
+        border-bottom: none;
+      }
+
+      :global(.controllers) {
+        transition: none;
+        opacity: 0;
+        height: 0;
+        visibility: hidden;
+      }
+    }
+
+    & + .section {
+      margin-top: 25px;
+    }
+  }
+</style>

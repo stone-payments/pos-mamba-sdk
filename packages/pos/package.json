@@ -21,5 +21,13 @@
     "node": ">= 14",
     "npm": ">= 7"
   },
+  "dependencies": {
+    "@mamba/device": "file://home/rafael/Documentos/stone/mamba/pos-mamba-sdk/packages/device",
+    "immer": "^2.1.5",
+    "lodash": "^4.17.21",
+    "svelte": "3.59.1",
+    "typescript": "^5",
+    "webpack": "^5"
+  },
   "gitHead": "e919d0e654f8134f157bf4f6e078685f5dd8a000"
 }

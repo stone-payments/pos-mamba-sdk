@@ -1,0 +1,30 @@
+/* stylelint-disable */
+%hide-scrollbar {
+  /* Hide all scrollbars for webkit based browsers */
+  /* Hide all scrollbars for firefox > 63 */
+  /* For now, must set the tag 'layout.css.scrollbar-width.enabled' to 'true' in 'about:config' */
+  /* https://developer.mozilla.org/en-US/docs/Web/CSS/scrollbar-width#Browser_Compatibility */
+  &::-webkit-scrollbar {
+    display: none;
+    width: 0px;
+    background: transparent;
+  }
+
+  &,
+  &::before,
+  &::after {
+    scrollbar-width: none;
+  }
+}
+/* stylelint-enable */
+
+:global(.hide-scrollbar) {
+  @extend %hide-scrollbar;
+}
+
+:global(.hide-scrollbars) {
+  &,
+  :global(*) {
+    @extend %hide-scrollbar;
+  }
+}
