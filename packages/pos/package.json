@@ -22,10 +22,10 @@
     "npm": ">= 7"
   },
   "dependencies": {
-    "@mamba/device": "file://home/rafael/Documentos/stone/mamba/pos-mamba-sdk/packages/device",
+    "@mamba/device": "workspace:*",
     "immer": "^2.1.5",
     "lodash": "^4.17.21",
-    "svelte": "3.59.1",
+    "svelte": "^3",
     "typescript": "^5",
     "webpack": "^5"
   },
