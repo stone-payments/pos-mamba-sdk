@@ -22,7 +22,9 @@
     "npm": ">= 7"
   },
   "dependencies": {
+    "@mamba/core": "workspace:*",
     "@mamba/device": "workspace:*",
+    "@mamba/jade": "workspace:*",
     "immer": "^2.1.5",
     "lodash": "^4.17.21",
     "svelte": "^3",

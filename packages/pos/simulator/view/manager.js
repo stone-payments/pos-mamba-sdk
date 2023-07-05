@@ -28,7 +28,6 @@ View.resetRemovePos = () => {
 };
 
 View.addPanel = (panel) => {
-  console.log('View.addPanel', panel);
   panelsToAdd.push(panel);
   if (instance) {
     updatePanels();
@@ -36,7 +35,6 @@ View.addPanel = (panel) => {
 };
 
 View.show = () => {
-  console.log('View.show');
   if (!instance) {
     instance = new ViewWrapper({
       target: document.body,
@@ -51,6 +49,5 @@ View.show = () => {
 };
 
 View.getInstance = () => instance;
-console.log('View');
 
 export default View;

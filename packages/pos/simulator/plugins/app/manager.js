@@ -87,7 +87,7 @@ AppManager.open = async (appSlug, options = {}) => {
   /** Insert the most current app at the first index */
   openedApps.push(appMeta);
 
-  appMeta.runtime.instance = new appMeta.RootComponent({ target });
+  appMeta.runtime.instance = appMeta.RootComponent;
 
   // add a app root reference for mamba-pkgs packages
   window.$MAMBA = appMeta.runtime.instance;
