@@ -28,6 +28,7 @@
     "@babel/core": "^7",
     "@mamba/babel-config": "workspace:*",
     "@mamba/configs": "workspace:*",
+    "@mamba/pos": "workspace:*",
     "@mamba/utils": "workspace:*",
     "@types/html-minifier": "^4.0.2",
     "@types/node": ">=20",
