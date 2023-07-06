@@ -51,6 +51,8 @@ module.exports = {
     __PLATFORM_V240M__: 'writable',
     __PLATFORM_D230__: 'writable',
     __SUPPORT_SMALL_SCREEN__: 'writable',
+    __VIRTUAL_POS_PATH__: 'writable',
+    __MODULE_ORGANIZATION_CONFIG__: 'writable',
     DEVHOST_IP: 'readonly',
     LOG_INFO: 'readonly',
     LOG_ERROR: 'readonly',
