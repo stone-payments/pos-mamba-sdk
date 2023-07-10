@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.7.0...v10.0.0) (2023-07-10)
+
+
+### Features
+
+* 🎸 implements integration with organizations module ([0d7db60](https://github.com/stone-payments/pos-mamba-sdk/commit/0d7db600fa5d17b3ff4c66fa2e3076ec3cb069b8))
+
+
+
 ## [9.7.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.6.0...v9.7.0) (2023-06-09)
 
 **Note:** Version bump only for package @mamba/configs
