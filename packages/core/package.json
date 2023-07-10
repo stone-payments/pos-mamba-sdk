@@ -7,7 +7,7 @@
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
   "engines": {
-    "node": ">= 8 || <= 14",
+    "node": ">=14 <=16",
     "npm": ">= 7"
   },
   "files": [
