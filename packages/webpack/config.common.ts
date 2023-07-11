@@ -8,6 +8,7 @@ import { Babel, BabelSvelte } from '@mamba/babel-config/loader';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { MiniHtmlWebpackPlugin } from 'mini-html-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
+import LodashModuleReplacementPlugin from 'lodash-webpack-plugin';
 import {
   IS_PROD,
   NODE_ENV,
@@ -174,6 +175,7 @@ const config: webpack.Configuration = {
       template: getHTMLTemplate,
     }),
     new webpack.DefinePlugin(definePluginOptions),
+    new LodashModuleReplacementPlugin(),
 
     !IS_STORYBOOK &&
       new ESLintPlugin({
