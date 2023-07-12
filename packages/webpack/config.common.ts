@@ -1,3 +1,4 @@
+/// <reference types="./config.common.d.ts" />
 import * as webpack from 'webpack';
 import { merge } from 'webpack-merge';
 import { fromWorkingDir, clientEnvironment, getPackage } from '@mamba/utils';

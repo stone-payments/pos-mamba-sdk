@@ -16,6 +16,7 @@ packages/**/*.d.*
 !packages/**/index.d.ts
 !packages/**/global.d.ts
 !packages/**/mamba.d.ts
+!packages/**/config.common.d.ts
 packages/**/*.map
 .tmp
 packages/**/dist
