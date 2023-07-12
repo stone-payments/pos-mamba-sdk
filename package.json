@@ -47,7 +47,7 @@
       "stylelint --fix",
       "git add"
     ],
-    "*.js": [
+    "*.{js,ts,cjs,mjs}": [
       "prettier --write",
       "git add"
     ],
