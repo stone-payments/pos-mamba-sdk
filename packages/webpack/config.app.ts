@@ -8,13 +8,19 @@ import VirtualModulesPlugin from 'webpack-virtual-modules';
 import { fromWorkingDir } from '@mamba/utils';
 
 // Helpers
-import { BUNDLE_NAME } from '@mamba/configs/envModes.cjs';
-
+import { BUNDLE_NAME, SDK_ASSETS_FOLDER } from '@mamba/configs/envModes.cjs';
 import getEntrypoints from './helpers/getEntrypoints';
 import getVirtualFiles from './helpers/getVirtualFiles';
 
 // Base config
 import commonConfig from './config.common';
+
+function resolveFileLoaderName(resourcePath: string) {
+  if (/@mamba/.test(resourcePath)) {
+    return `${SDK_ASSETS_FOLDER}/[name][ext][query]`;
+  }
+  return `assets/[path][name][ext][query]`;
+}
 
 const config: webpack.Configuration = merge<webpack.Configuration>(commonConfig, {
   devtool: false,
@@ -31,16 +37,30 @@ const config: webpack.Configuration = merge<webpack.Configuration>(commonConfig,
       {
         test: /\.(eot|woff2?|otf|ttf)$/,
         type: 'asset/resource',
+        generator: {
+          filename: resolveFileLoaderName,
+        },
       },
 
       /** Handle image imports */
       {
         test: /\.(gif|jpe?g|png|ico|svg|bmp)$/,
-        type: 'asset/resource',
+        type: 'asset',
+        generator: {
+          filename: resolveFileLoaderName,
+        },
       },
       {
         test: /\.txt/,
-        type: 'asset/source',
+        type: 'asset',
+        parser: {
+          dataUrlCondition: {
+            maxSize: 5 * 1024, // 5kb
+          },
+        },
+        generator: {
+          filename: resolveFileLoaderName,
+        },
       },
     ],
   },
