@@ -104,5 +104,8 @@ module.exports = {
     allowEmptyScopes: true,
     breaklineChar: '>',
     maxSubjectLength: 100,
+    defaultScope: 'empty',
+    emptyScopesAlias: 'empty',
+    customScopesAlign: 'top-bottom',
   },
 };
