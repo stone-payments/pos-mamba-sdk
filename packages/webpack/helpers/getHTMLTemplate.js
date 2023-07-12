@@ -1,10 +1,13 @@
 const chalk = require('chalk');
 const MiniHtmlWebpackPlugin = require('mini-html-webpack-plugin');
 const { minify: htmlMinifier } = require('html-minifier');
+const { getPkg } = require('quickenv');
 
 const { generateCSSReferences, generateJSReferences } = MiniHtmlWebpackPlugin;
 
-const { IS_BROWSER, WEINRE_IP, HTML_BASE_URL, REMOTEJS } = require('./consts.js');
+const { IS_POS, IS_BROWSER, WEINRE_IP, HTML_BASE_URL, REMOTEJS } = require('./consts.js');
+
+const PKG = getPkg();
 
 module.exports = ({ css, js, title, publicPath }) => {
   console.log('WEINRE_IP: ', WEINRE_IP);
@@ -49,6 +52,11 @@ module.exports = ({ css, js, title, publicPath }) => {
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
     ${IS_BROWSER ? '<meta name="mobile-web-app-capable" content="yes">' : ''}
     <title>${title}</title>
+    ${
+      !IS_POS && typeof PKG.mamba === 'object' && typeof PKG.mamba.iconPath === 'string'
+        ? `<link rel="shortcut icon" href="${PKG.mamba.iconPath}" type="image/x-icon">`
+        : ''
+    }
     ${generateCSSReferences(css, publicPath)}
   </head>
   <body id="app-root">

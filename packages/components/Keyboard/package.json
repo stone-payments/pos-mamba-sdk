@@ -1,13 +1,13 @@
 {
   "name": "@mamba/keyboard",
-  "version": "9.7.0",
+  "version": "10.0.1",
   "main": "./lib/index.js",
   "types": "./types/index.d.ts",
   "description": "POS physical keyboard handler and virtual ones",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
   "engines": {
-    "node": ">= 8 || <= 14",
+    "node": ">=14 <=16",
     "npm": ">= 7"
   },
   "files": [
@@ -32,9 +32,9 @@
     "prepare": "npm run build"
   },
   "dependencies": {
-    "@mamba/core": "^9.7.0",
-    "@mamba/input": "^9.7.0",
-    "@mamba/utils": "^9.7.0",
+    "@mamba/core": "^10.0.0",
+    "@mamba/input": "^10.0.1",
+    "@mamba/utils": "^10.0.0",
     "@types/lodash": "^4.14.182",
     "lodash": "^4.17.21"
   },

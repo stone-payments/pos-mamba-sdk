@@ -7,7 +7,7 @@ import {
 } from '@mamba/utils/models.js';
 import { Registry, System as SimulatorSystem } from '../index.js';
 import { error, log } from '../libs/utils.js';
-import systemEnums from '../../drivers/system/enums.js';
+import systemEnums, { SystemOrganizationsDefault } from '../../drivers/system/enums.js';
 
 export const NAMESPACE = '$System';
 
@@ -33,9 +33,7 @@ export const PERSISTENT_SETTINGS = {
   serialNumber: '00000000',
   model: 'S920',
   Organizations: {
-    ...systemEnums.Organizations,
-    options: Object.keys(systemEnums.Organizations),
-    current: systemEnums.Organizations.STONE,
+    ...SystemOrganizationsDefault,
   },
 };
 

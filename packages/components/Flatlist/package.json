@@ -1,24 +1,24 @@
 {
   "name": "@mamba/flatlist",
-  "version": "9.7.0",
+  "version": "10.0.1",
   "svelte": "Flatlist.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
   "module": "index.js",
   "main": "index.js",
   "engines": {
-    "node": ">= 8 || <= 14",
+    "node": ">=14 <=16",
     "npm": ">= 7"
   },
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@mamba/core": "^9.7.0",
-    "@mamba/icon": "^9.7.0",
-    "@mamba/keyboard": "^9.7.0",
-    "@mamba/styles": "^9.7.0",
-    "@mamba/utils": "^9.7.0"
+    "@mamba/core": "^10.0.0",
+    "@mamba/icon": "^10.0.1",
+    "@mamba/keyboard": "^10.0.1",
+    "@mamba/styles": "^10.0.0",
+    "@mamba/utils": "^10.0.0"
   },
   "peerDependencies": {
     "@mamba/core": "^9.0.0",

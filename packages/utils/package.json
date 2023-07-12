@@ -1,13 +1,13 @@
 {
   "name": "@mamba/utils",
-  "version": "9.7.0",
+  "version": "10.0.0",
   "description": "Utility methods for mamba apps",
   "module": "index.js",
   "sideEffects": false,
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
   "engines": {
-    "node": ">= 8 || <= 14",
+    "node": ">=14 <=16",
     "npm": ">= 7"
   },
   "publishConfig": {

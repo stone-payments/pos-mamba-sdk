@@ -12,6 +12,7 @@ import * as $Http from './drivers/http.js';
 import * as $Card from './drivers/card.js';
 import * as $Gif from './drivers/gif.js';
 import * as Sound from './drivers/sound.js';
+import * as Org from './drivers/org.js';
 
 DriverManager.attachDrivers([
   $Printer,
@@ -26,4 +27,5 @@ DriverManager.attachDrivers([
   $Card,
   $Gif,
   Sound,
+  Org,
 ]);

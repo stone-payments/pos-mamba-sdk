@@ -1,13 +1,13 @@
 {
   "name": "@mamba/core",
-  "version": "9.7.0",
+  "version": "10.0.0",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
   "description": "Mamba QT bindings, wrappers and embbebded hardware handlers",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
   "engines": {
-    "node": ">= 8 || <= 14",
+    "node": ">=14 <=16",
     "npm": ">= 7"
   },
   "files": [

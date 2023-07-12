@@ -1,26 +1,85 @@
 <div class="title">Organização</div>
 
 <ul class="controllers">
-  <div class="notice">
-    <small>Precisa recarregar a página</small>
-  </div>
-  {#each orgs as org}
+  {#each Object.keys(enumerator) as key}
     <li class="controller">
-      <span>{org}</span>
+      <span class="org">{strings(key)}</span>
       <Radio
         name="orgs"
-        checked={current === Organizations[org]}
-        on:click="setOrg(org)"
+        checked={enumerator[key] === current}
+        on:click="setOrg(enumerator[key])"
       />
     </li>
   {/each}
 </ul>
 
 <script>
+  import { SystemOrganizationsDefault } from '../../../../drivers/system/enums.js';
   import { Registry } from '../../../index.js';
+  import { loadVirtualPosJson } from '../../../libs/organization/loadVirtualPosJson.js';
   import store from '../store.js';
 
-  const System = () => Registry.persistent.get().$System;
+  async function setupExternalOrganizations() {
+    let orgModule = {};
+
+    const genericErrorMessage = 'External organizations not installed!';
+
+    try {
+      const { organizationEnumFileName, consolidatedOrganizationsFileName } =
+        __MODULE_ORGANIZATION_CONFIG__;
+      const organizationsEnum = await loadVirtualPosJson(organizationEnumFileName);
+      const consolidatedOrganizations = await loadVirtualPosJson(consolidatedOrganizationsFileName);
+      orgModule = { organizationsEnum, consolidatedOrganizations };
+    } catch (error) {
+      // Org files not found
+      console.warn(genericErrorMessage, error.message);
+      return;
+    }
+
+    Registry.persistent.set((draft) => {
+      const { current, enumerator } = draft.$System.Organizations;
+
+      try {
+        const { organizationsEnum } = orgModule;
+
+        if (!organizationsEnum || Object.keys(organizationsEnum).length === 0) {
+          throw new Error('invalid organizations enumerators');
+        }
+
+        const cloneEnumerator = { ...organizationsEnum };
+        draft.$System.Organizations.enumerator = cloneEnumerator;
+
+        const values = Object.values(cloneEnumerator);
+
+        if (!values.includes(current)) {
+          console.warn('Last `current` org not in external ones. Using first one.');
+          const [first] = values;
+          draft.$System.Organizations.current = first;
+        }
+      } catch (error) {
+        console.warn(genericErrorMessage, error.message);
+
+        if (!Object.values(enumerator).includes(current)) {
+          console.warn('Last `current` org not in default ones. Resetting.');
+          // reset orgs to default
+          draft.$System.Organizations = { ...SystemOrganizationsDefault };
+        }
+      }
+
+      try {
+        const { consolidatedOrganizations } = orgModule;
+        if (!consolidatedOrganizations || typeof consolidatedOrganizations !== 'object') {
+          throw new Error('invalid consolidated organizations data');
+        }
+
+        draft.$System.Organizations.external = { ...orgModule };
+      } catch (error) {
+        console.warn(genericErrorMessage, error.message);
+      }
+    });
+  }
+
+  const Organizations = () => Registry.persistent.get().$System.Organizations;
 
   export default {
     components: {
@@ -28,19 +87,33 @@
     },
     store: () => store,
     helpers: {
-      Organizations: System().Organizations,
+      strings(org) {
+        if (String(org).toLowerCase() === 'wlpagarme') return 'WL Pagarme';
+        return org;
+      },
     },
     data() {
       return {
-        orgs: System().Organizations.options,
-        current: System().Organizations.current,
+        current: Organizations().current,
+        enumerator: Organizations().enumerator,
       };
     },
+    async oncreate() {
+      await setupExternalOrganizations();
+      this.update();
+    },
     methods: {
+      update() {
+        this.set({
+          current: Organizations().current,
+          enumerator: Organizations().enumerator,
+        });
+      },
       setOrg(org) {
         Registry.persistent.set((draft) => {
-          draft.$System.Organizations.current = System().Organizations[org];
+          draft.$System.Organizations.current = org;
         });
+        window.location.reload();
       },
     },
   };
@@ -51,6 +124,12 @@
     display: none;
     margin-top: 10px;
     color: $neutral400;
+  }
+
+  .org {
+    color: $green500;
+    font-weight: 600;
+    text-transform: uppercase;
   }
 
   :global(.section.is-active .notice) {

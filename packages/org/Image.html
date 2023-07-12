@@ -1,4 +1,10 @@
-<img class="{className}" src="{path}/{fileName}" onerror="this.src='{defImgPath}/{fileName}';" alt="" />
+<img
+  class="{className}"
+  src="{_imageSrc}"
+  on:error="useFallbackImage()"
+  on:load
+  alt=""
+/>
 
 <script>
   const defaultImagePath = './assets/org';
@@ -6,6 +12,7 @@
   export default {
     data() {
       return {
+        isFallback: false,
         defImgPath: defaultImagePath,
         fileName: null,
         path:
@@ -16,5 +23,18 @@
         className: '',
       };
     },
-};
+    computed: {
+      _imageSrc({ path, fileName }) {
+        return `${path}/${fileName}`;
+      },
+    },
+    methods: {
+      useFallbackImage() {
+        const { path, defImgPath } = this.get();
+        if (path !== defImgPath) {
+          this.set({ path: defImgPath });
+        }
+      },
+    },
+  };
 </script>

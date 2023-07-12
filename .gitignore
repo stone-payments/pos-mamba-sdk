@@ -22,6 +22,9 @@ log/
 dist/
 node_modules/
 bower_components/
+/test-results/
+/playwright-report/
+/playwright/.cache/
 
 # ts
 packages/**/dist
