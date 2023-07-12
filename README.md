@@ -7,7 +7,7 @@
 <div align="center">
 
 The solution that turns a POS(point of Sale) into much more than payment!
-
+<br />
 Develop applications using only web technology, without worrying about the complications of the capabilities of a POS.
 <br/>
 <br/>
