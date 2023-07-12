@@ -1,0 +1,5 @@
+{
+  "extends": [
+    "@mamba/commitlint-config-standard"
+  ]
+}
