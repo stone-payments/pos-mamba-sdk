@@ -58,7 +58,7 @@
     "prettier": "^2.6.0",
     "quickenv": "^0.0.6",
     "resolve": "^1.10.0",
-    "stylelint": "^14.0.0",
+    "stylelint": "^15.10.1",
     "stylelint-config-html": "^1.0.0",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard": "^25.0.0",
