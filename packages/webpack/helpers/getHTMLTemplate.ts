@@ -2,16 +2,20 @@
 import pico from 'picocolors';
 import { generateCSSReferences, generateJSReferences } from 'mini-html-webpack-plugin';
 import { minify as htmlMinify } from 'html-minifier';
+import { getPackage } from '@mamba/utils';
 
 import {
   IS_BROWSER,
   IS_DEV,
   IS_PROD,
+  IS_POS,
   IS_WATCHING,
   WEINRE_IP,
   HTML_BASE_URL,
   REMOTEJS,
 } from '@mamba/configs/envModes.cjs';
+
+const PKG = getPackage();
 
 function getLazyApp(src: string) {
   return `
@@ -136,11 +140,17 @@ export default function getHTMLTemplate({
       <title>${title}</title>
       ${cssTags}
       ${font || ''}
+      ${
+        !IS_POS && typeof PKG.mamba === 'object' && typeof PKG.mamba.iconPath === 'string'
+          ? `<link rel="shortcut icon" href="${PKG.mamba.iconPath}" type="image/x-icon">`
+          : ''
+      }
     </head>
     <body id="app-root">
       ${jsTags}
       ${weinre || ''}
       ${lazyApp}
+      ${remotejs || ''}
     </body>
   </html>`;
 
