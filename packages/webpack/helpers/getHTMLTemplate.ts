@@ -10,6 +10,7 @@ import {
   IS_WATCHING,
   WEINRE_IP,
   HTML_BASE_URL,
+  REMOTEJS,
 } from '@mamba/configs/envModes.cjs';
 
 function getLazyApp(src: string) {
@@ -114,6 +115,11 @@ export default function getHTMLTemplate({
   if (IS_BROWSER && IS_WATCHING() && IS_DEV) {
     font =
       '<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">';
+  }
+
+  let remotejs: string | undefined;
+  if (REMOTEJS) {
+    remotejs = `<script data-consolejs-channel="${REMOTEJS}" src="https://remotejs.com/agent/agent.js"></script>`;
   }
 
   if (HTML_BASE_URL) {

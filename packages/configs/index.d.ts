@@ -1,6 +1,7 @@
 declare module '@mamba/configs/envModes.cjs' {
   const NODE_ENV: string | undefined;
   const WEINRE_IP: string | undefined;
+  const REMOTEJS: string | undefined;
   const IS_STORYBOOK: boolean | undefined;
   const APP_ENV: string | undefined;
   const SDK_ASSETS_FOLDER: string | undefined;
@@ -19,6 +20,7 @@ declare module '@mamba/configs/envModes.cjs' {
   export {
     NODE_ENV,
     WEINRE_IP,
+    REMOTEJS,
     IS_STORYBOOK,
     APP_ENV,
     SDK_ASSETS_FOLDER,
