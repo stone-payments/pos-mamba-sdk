@@ -14,6 +14,7 @@
     "commitlint",
     "svelte",
     "git-cz",
+    "cz-git",
     "mamba",
     "sdk",
     "git"
@@ -24,10 +25,8 @@
     "directory": "packages/commitlint"
   },
   "dependencies": {
-    "@commitlint/cli": "^12.1.1",
-    "@commitlint/config-conventional": "^12.1.1"
-  },
-  "peerDependencies": {
-    "git-cz": "^4.7.6"
+    "commitizen": "^4.3.0",
+    "commitlint": "^17.6.6",
+    "cz-git": "^1.7.0"
   }
 }

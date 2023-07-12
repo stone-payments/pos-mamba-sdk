@@ -1,83 +1,51 @@
-const COMMIT_TYPES = {
-  chore: {
-    description: "Build process or auxiliary tool changes, that don't modify src or test files",
-    value: 'chore',
-    title: 'Chores',
-  },
-  ci: {
-    description: 'Changes to our CI configuration files',
-    value: 'ci',
-    title: 'Continuous Integrations',
-  },
-  docs: {
-    description: 'Documentation only changes',
-    value: 'docs',
-    title: 'Documentation',
-  },
-  feat: {
-    description: 'A new feature',
-    value: 'feat',
-    title: 'Features',
-  },
-  fix: {
-    description: 'A bug fix',
-    value: 'fix',
-    title: 'Bug Fixes',
-  },
-  perf: {
-    description: 'A code change that improves performance',
-    value: 'perf',
-    title: 'Performance Improvements',
-  },
-  refactor: {
-    description: 'A code change that neither fixes a bug or adds a feature',
-    value: 'refactor',
-    title: 'Code Refactoring',
-  },
-  revert: {
-    description: 'Reverts a previous commit',
-    value: 'revert',
-    title: 'Reverts',
-  },
-  release: {
-    description: 'Create a release commit',
-    value: 'release',
-    title: 'Style',
-  },
-  fire: {
-    description: 'Removing code or files',
-    value: 'fire',
-    title: 'Fires',
-  },
-  style: {
-    description:
-      'Changes that do not affect the meaning of the code (Markup, white-space, formatting, missing semi-colons...)',
+module.exports = [
+  { value: 'feat', name: 'feat:     ✨  A new feature', emoji: ':sparkles:' },
+  { value: 'fix', name: 'fix:      🐛  A bug fix', emoji: ':bug:' },
+  { value: 'docs', name: 'docs:     📝  Documentation only changes', emoji: ':memo:' },
+  {
     value: 'style',
-    title: 'Style',
+    name: 'style:    💄  Changes that do not affect the meaning of the code',
+    emoji: ':lipstick:',
   },
-  test: {
-    description: 'Adding missing tests',
+  {
+    value: 'refactor',
+    name: 'refactor: ♻️   A code change that neither fixes a bug nor adds a feature',
+    emoji: ':recycle:',
+  },
+  { value: 'perf', name: 'perf:     ⚡️  A code change that improves performance', emoji: ':zap:' },
+  {
     value: 'test',
-    title: 'Tests',
+    name: 'test:     ✅  Adding missing tests or correcting existing tests',
+    emoji: ':white_check_mark:',
   },
-  conf: {
-    description: 'A commit related to project configurations',
+  {
+    value: 'build',
+    name: 'build:    📦️  Changes that affect the build system or external dependencies',
+    emoji: ':package:',
+  },
+  {
+    value: 'ci',
+    name: 'ci:       🎡  Changes to our CI configuration files and scripts',
+    emoji: ':ferris_wheel:',
+  },
+  {
+    value: 'chore',
+    name: "chore:    🛠   Other changes that don't modify src or test files",
+    emoji: ':hammer:',
+  },
+  { value: 'revert', name: 'revert:   ⏪️  Reverts a previous commit', emoji: ':rewind:' },
+  { value: 'release', name: 'release:  🏹  Create a release commit', emoji: ':bow_and_arrow:' },
+  { value: 'fire', name: 'fire:     🔥  Removing code or files', emoji: ':fire:' },
+  {
     value: 'conf',
-    title: 'Conf',
+    name: 'conf:     🏗   A commit related to configs or scaffolding',
+    emoji: ':gear:',
   },
-  shirt: {
-    description: 'Removing linter warnings',
-    value: 'shirt',
-    title: 'Linter fixes',
+  { value: 'shirt', name: 'shirt:    👔  Removing linter warnings', emoji: ':shirt:' },
+  { value: 'wip', name: 'wip:      🚧  A work in progress commit', emoji: ':construction:' },
+  {
+    value: 'security',
+    name: 'security: 🔒  A commit that improves or fixes security',
+    emoji: ':lock:',
   },
-  wip: {
-    description: 'A work in progress commit',
-    value: 'WIP',
-    title: 'WIP',
-  },
-};
-
-module.exports = {
-  COMMIT_TYPES,
-  list: Object.keys(COMMIT_TYPES),
-};
+];

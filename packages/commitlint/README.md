@@ -12,123 +12,92 @@ type(scope): subject # scope can be overwritten to make more sense to your proje
 Commit types with disabled Emoji:
 
 ```js
+{ value: 'feat', name: 'feat:     ✨  A new feature', emoji: ':sparkles:' },
+{ value: 'fix', name: 'fix:      🐛  A bug fix', emoji: ':bug:' },
+{ value: 'docs', name: 'docs:     📝  Documentation only changes', emoji: ':memo:' },
 {
-  chore: {
-    description: "Build process or auxiliary tool changes, that don't modify src or test files",
-    value: "chore",
-    title: "Chores"
-  },
-  ci: {
-    description: "Changes to our CI configuration files",
-    value: "ci",
-    title: "Continuous Integrations"
-  },
-  docs: {
-    description: "Documentation only changes",
-    value: "docs",
-    title: "Documentation"
-  },
-  feat: {
-    description: "A new feature",
-    value: "feat",
-    title: "Features"
-  },
-  fix: {
-    description: "A bug fix",
-    value: "fix",
-    title: "Bug Fixes"
-  },
-  perf: {
-    description: "A code change that improves performance",
-    value: "perf",
-    title: "Performance Improvements"
-  },
-  refactor: {
-    description: "A code change that neither fixes a bug or adds a feature",
-    value: "refactor",
-    title: "Code Refactoring"
-  },
-  revert: {
-    description: "Reverts a previous commit",
-    value: "revert",
-    title: "Reverts"
-  },
-  release: {
-    description: "Create a release commit",
-    value: "release",
-    title: "Style"
-  },
-  fire: {
-    description: "Removing code or files",
-    value: "fire",
-    title: "Fires"
-  },
-  style: {
-    description: "Changes that do not affect the meaning of the code (Markup, white-space, formatting, missing semi-colons...)",
-    value: "style",
-    title: "Style"
-  },
-  test: {
-    description: "Adding missing tests",
-    value: "test",
-    title: "Tests"
-  },
-  shirt: {
-    description: "Removing linter warnings",
-    value: "shirt",
-    title: "Linter fixes"
-  },
+  value: 'style',
+  name: 'style:    💄  Changes that do not affect the meaning of the code',
+  emoji: ':lipstick:',
+},
+{
+  value: 'refactor',
+  name: 'refactor: ♻️   A code change that neither fixes a bug nor adds a feature',
+  emoji: ':recycle:',
+},
+{ value: 'perf', name: 'perf:     ⚡️  A code change that improves performance', emoji: ':zap:' },
+{
+  value: 'test',
+  name: 'test:     ✅  Adding missing tests or correcting existing tests',
+  emoji: ':white_check_mark:',
+},
+{
+  value: 'build',
+  name: 'build:    📦️  Changes that affect the build system or external dependencies',
+  emoji: ':package:',
+},
+{
+  value: 'ci',
+  name: 'ci:       🎡  Changes to our CI configuration files and scripts',
+  emoji: ':ferris_wheel:',
+},
+{
+  value: 'chore',
+  name: "chore:    🛠   Other changes that don't modify src or test files",
+  emoji: ':hammer:',
+},
+{ value: 'revert', name: 'revert:   ⏪️  Reverts a previous commit', emoji: ':rewind:' },
+{ value: 'release', name: 'release:  🏹  Create a release commit', emoji: ':bow_and_arrow:' },
+{ value: 'fire', name: 'fire:     🔥  Removing code or files', emoji: ':fire:' },
+{
+  value: 'conf',
+  name: 'conf:     🏗   A commit related to configs or scaffolding',
+  emoji: ':gear:',
+},
+{ value: 'shirt', name: 'shirt:    👔  Removing linter warnings', emoji: ':shirt:' },
+{ value: 'wip', name: 'wip:      🚧  A work in progress commit', emoji: ':construction:' },
+{
+  value: 'security',
+  name: 'security: 🔒  A commit that improves or fixes security',
+  emoji: ':lock:',
 }
 ```
 
 ## Usage
 
 1. Install [Commitizen](https://github.com/commitizen/cz-cli) globally and
-   `@mamba/commitlint-config-standard`, `git-cz` locally:
+   `@mamba/commitlint-config-standard` locally:
 
 ```bash
-npm install -g commitizen
-npm install --save-dev @mamba/commitlint-config-standard git-cz
+npm install -g commitizen #optional
+npm install --save-dev @mamba/commitlint-config-standard
 ```
 
-2. Add in your `package.json` add:
+1. Add in your `package.json` add:
 
 ```json
 {
   "config": {
     "commitizen": {
-      "path": "git-cz"
+      "path": "node_modules/cz-git"
     }
   }
 }
 ```
 
-3. Add [Commitlint](https://commitlint.js.org) config file `commitlint.config.js` at your project
+1. Add [Commitlint](https://commitlint.js.org) config file `.commitlintrc` at your project
    root:
 
-```js
-// commitlint.config.js
-
-module.exports = {
-  extends: ['mamba'],
-};
+```json
+{
+  "extends": ["@mamba/commitlint-config-standard"]
+}
 ```
 
-4. Finally add the the `changelog.config.js` at your project root, that git-cz will read:
-
-```js
-// changelog.config.js
-
-module.exports = {
-  ...require('@mamba/commitlint-config-standard/cz'),
-  // scopes: [] // Overrides scopes
-};
-```
-
-5. Run in your terminal:
+1. Run in your terminal:
 
 ```bash
-git cz
+cz
 ```
 
 ## License
