@@ -3,7 +3,8 @@
   "description": "TS Babel preset config for Mamba SDK & Webpack 5",
   "version": "1.0.0",
   "license": "Apache-2.0",
-  "main": "index.js",
+  "main": "index.cjs",
+  "type": "module",
   "publishConfig": {
     "access": "public"
   },

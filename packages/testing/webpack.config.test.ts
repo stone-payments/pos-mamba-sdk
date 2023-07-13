@@ -1,7 +1,7 @@
 import type * as webpack from 'webpack';
 
 // LOADERS
-import { Babel } from '@mamba/babel-config/loader';
+import * as Loaders from '@mamba/babel-config/loader';
 import { TypeScript } from '@mamba/configs/loaders';
 
 const config: webpack.Configuration = {
@@ -16,7 +16,7 @@ const config: webpack.Configuration = {
       {
         test: /\.(c|m)?js$/,
         exclude: [/node_modules/],
-        use: [Babel],
+        use: [Loaders.Babel],
       },
       {
         test: /\.ts$/,

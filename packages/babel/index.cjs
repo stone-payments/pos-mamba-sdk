@@ -1,5 +1,5 @@
 const { IS_TEST: IS_TEST_FN, IS_WATCHING: IS_WATCHING_FN } = require('@mamba/configs/envModes.cjs');
-const moduleResolverConfig = require('./lib/module-resolver-config.js');
+const moduleResolverConfig = require('./lib/module-resolver-config.cjs');
 
 const IS_TEST = IS_TEST_FN();
 const IS_WATCHING = IS_WATCHING_FN();

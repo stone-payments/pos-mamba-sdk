@@ -26,4 +26,11 @@ export default {
     videosFolder: 'reports/videos',
     setupNodeEvents,
   },
+  component: {
+    setupNodeEvents,
+    devServer: {
+      framework: 'svelte',
+      bundler: 'webpack',
+    },
+  },
 } as Cypress.ConfigOptions<any>;

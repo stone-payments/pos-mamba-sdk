@@ -1,5 +1,5 @@
-const commonConfig = require('./index.js');
-const extendPresetEnv = require('./lib/extendPresetEnv.js');
+const commonConfig = require('./index.cjs');
+const extendPresetEnv = require('./lib/extendPresetEnv.cjs');
 
 const config = extendPresetEnv(commonConfig, {
   useBuiltIns: 'usage',

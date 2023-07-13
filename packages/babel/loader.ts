@@ -2,16 +2,16 @@
 /**
  * These loaders and this file, is intended to use with Webpack 5 with TypeScript configuration files.
  */
-import { IS_DEV } from '@mamba/configs/envModes.cjs';
-import babelrc from './template.js';
-import extendPresetEnv from './lib/extendPresetEnv.js';
-import moduleResolverConfig from './lib/module-resolver-config.js';
+import * as envs from '@mamba/configs/envModes.cjs';
+import babelrc from './template.cjs';
+import extendPresetEnv from './lib/extendPresetEnv.cjs';
+import moduleResolverConfig from './lib/module-resolver-config.cjs';
 
 const Babel = {
   loader: 'babel-loader',
   options: {
-    sourceMaps: IS_DEV,
-    cacheDirectory: IS_DEV,
+    sourceMaps: envs.IS_DEV,
+    cacheDirectory: envs.IS_DEV,
     babelrc: false,
     ...babelrc,
   },
