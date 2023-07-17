@@ -3,6 +3,78 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [10.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@5.0.1...@mamba/dialog@10.0.2) (2023-07-17)
+
+### 10.0.1 (2023-07-12)
+
+## 10.0.0 (2023-07-10)
+
+## 9.7.0 (2023-06-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* 🧨 freeze keystroke changed
+
+### Bug Fixes
+
+* 🐛 several critial keystroke bugs along with configmation dialog events ([47c78a0](https://github.com/stone-payments/pos-mamba-sdk/commit/47c78a0393a5eaa85dadee46a0d4887da6a3965a))
+
+## 9.6.0 (2023-06-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* 🧨 event handler prop is not telemetryEmitType
+
+### Code Refactoring
+
+* 💡 change prop handler ([ec3b9c8](https://github.com/stone-payments/pos-mamba-sdk/commit/ec3b9c8cd696d4fe0a87399e6c651e9c5f75ea03))
+
+## 9.5.0 (2023-03-02)
+
+### 9.4.1 (2023-02-16)
+
+## 9.4.0 (2023-02-15)
+
+### 9.3.1 (2023-02-15)
+
+## 9.3.0 (2023-02-14)
+
+### 9.2.1 (2023-02-09)
+
+## 9.2.0 (2023-02-09)
+
+## 9.1.0 (2023-02-03)
+
+
+### Features
+
+* Include button size input for CorfirmationDialog component ([3c046f1](https://github.com/stone-payments/pos-mamba-sdk/commit/3c046f1246a78c5d87126b4174988b660b55df67))
+
+### 9.0.3 (2023-01-23)
+
+### 9.0.2 (2023-01-19)
+
+### 9.0.1 (2023-01-17)
+
+## 9.0.0 (2023-01-16)
+
+## 8.0.0 (2023-01-13)
+
+
+### Bug Fixes
+
+* 🐛 fix several issues related with cursors and/or suggestions ([d4a3b62](https://github.com/stone-payments/pos-mamba-sdk/commit/d4a3b62673a69ee01974b3668954322389e410bb))
+* outdated code ([530538b](https://github.com/stone-payments/pos-mamba-sdk/commit/530538ba5d52d580a136b6a1d18199b9f44f0231))
+
+
+### Reverts
+
+* Revert "bump: dialog version to 5.1.0" ([1d1f998](https://github.com/stone-payments/pos-mamba-sdk/commit/1d1f99805174c078d3cc56dfc463e48db6cd1424))
+
+
+
 ### [10.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v10.0.0...v10.0.1) (2023-07-12)
 
 **Note:** Version bump only for package @mamba/dialog
