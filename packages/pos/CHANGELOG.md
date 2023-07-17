@@ -3,6 +3,63 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.1.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@6.0.2...@mamba/pos@10.1.0) (2023-07-17)
+
+### 10.0.1 (2023-07-12)
+
+## 10.0.0 (2023-07-10)
+
+
+### Features
+
+* 🎸 [wip] org drivers ([1a82f0d](https://github.com/stone-payments/pos-mamba-sdk/commit/1a82f0d33f88254c9af4a8b86725dfc8703746ab))
+* 🎸 implements integration with organizations module ([0d7db60](https://github.com/stone-payments/pos-mamba-sdk/commit/0d7db600fa5d17b3ff4c66fa2e3076ec3cb069b8))
+* 🎸 implements synchronous getOrganizationFile ([a73f45c](https://github.com/stone-payments/pos-mamba-sdk/commit/a73f45c9db02fba8cf817730458d159e532ddfa8))
+
+## 9.7.0 (2023-06-09)
+
+## 9.6.0 (2023-06-09)
+
+## 9.5.0 (2023-03-02)
+
+### 9.4.1 (2023-02-16)
+
+
+### Bug Fixes
+
+* 🐛 (simulator) fix generic model slug ([7293f3c](https://github.com/stone-payments/pos-mamba-sdk/commit/7293f3cd5613d37d1f9925f5e0125c944b241cab))
+* 🐛 fix related generic bundle erros ([bf65592](https://github.com/stone-payments/pos-mamba-sdk/commit/bf65592be9af7de2cd355838f43872d829ef119a))
+
+## 9.4.0 (2023-02-15)
+
+### 9.3.1 (2023-02-15)
+
+## 9.3.0 (2023-02-14)
+
+### 9.2.1 (2023-02-09)
+
+## 9.2.0 (2023-02-09)
+
+## 9.1.0 (2023-02-03)
+
+### 9.0.3 (2023-01-23)
+
+### 9.0.2 (2023-01-19)
+
+### 9.0.1 (2023-01-17)
+
+## 9.0.0 (2023-01-16)
+
+## 8.0.0 (2023-01-13)
+
+
+### Features
+
+* 🎸 (simulator) add getPosBrand method like pos kernel ([10e8e9d](https://github.com/stone-payments/pos-mamba-sdk/commit/10e8e9d30a928ec02504cb2aae554696e4611218))
+* 🎸 (simulator) add Sound api for simulator ([88a6065](https://github.com/stone-payments/pos-mamba-sdk/commit/88a6065c868bc44b22903baecc642b2162169ed7))
+
+
+
 ### [10.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v10.0.0...v10.0.1) (2023-07-12)
 
 **Note:** Version bump only for package @mamba/pos

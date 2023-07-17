@@ -3,6 +3,91 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/keyboard@3.0.2...@mamba/keyboard@11.0.0) (2023-07-17)
+
+### 10.0.1 (2023-07-12)
+
+## 10.0.0 (2023-07-10)
+
+## 9.7.0 (2023-06-09)
+
+## 9.6.0 (2023-06-09)
+
+
+### Bug Fixes
+
+* 🐛 fix keyboard main field ([8f835de](https://github.com/stone-payments/pos-mamba-sdk/commit/8f835dee12f0c8448bb90e80a92de9085190f3f1))
+
+## 9.5.0 (2023-03-02)
+
+### 9.4.1 (2023-02-16)
+
+## 9.4.0 (2023-02-15)
+
+### 9.3.1 (2023-02-15)
+
+## 9.3.0 (2023-02-14)
+
+### 9.2.1 (2023-02-09)
+
+## 9.2.0 (2023-02-09)
+
+## 9.1.0 (2023-02-03)
+
+### 9.0.3 (2023-01-23)
+
+### 9.0.2 (2023-01-19)
+
+### 9.0.1 (2023-01-17)
+
+## 9.0.0 (2023-01-16)
+
+## 8.0.0 (2023-01-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* 🧨 Usage with direct prop instead keyboardOptions.
+
+### Features
+
+* 🎸 add disabled class when disabled ([8a9a779](https://github.com/stone-payments/pos-mamba-sdk/commit/8a9a779d7bb3345f132d87276612cd42757693c0))
+* 🎸 add key code/key name helpers for standardizing the way of key capturing ([1a2385b](https://github.com/stone-payments/pos-mamba-sdk/commit/1a2385b08d8fad48908b697f34fad58a70c9c295))
+* 🎸 add nummpad keycode for virtual keyboard and inputs parse it in handlers ([c71a601](https://github.com/stone-payments/pos-mamba-sdk/commit/c71a6013983f2d3417de1dc099e35c61b7185dd3))
+
+
+### Bug Fixes
+
+* 🐛 add destroy try..catch ([3e506f4](https://github.com/stone-payments/pos-mamba-sdk/commit/3e506f48c29ef857b048e82adc18547edcd0b923))
+* 🐛 alphanumeric enabled value switched ([ff1aaef](https://github.com/stone-payments/pos-mamba-sdk/commit/ff1aaef72e298284f35cb9acd1d46e46f324e027))
+* 🐛 alphanumeric is disable by default ([523c96b](https://github.com/stone-payments/pos-mamba-sdk/commit/523c96b22fab8b81c902de38d90d14a79324d50f))
+* 🐛 avoid focus effetcs when keyboard do not exist ([dc04b7f](https://github.com/stone-payments/pos-mamba-sdk/commit/dc04b7fcf908b46cd44eaefa7d6c8dfeb666f5e5))
+* 🐛 capture early input focus cursor position ([dff5537](https://github.com/stone-payments/pos-mamba-sdk/commit/dff5537883f9774db88e84114fae18a99ebbcc07))
+* 🐛 create normalized keyCode/keyName parse methods from keyboard event ([f2f0a1a](https://github.com/stone-payments/pos-mamba-sdk/commit/f2f0a1a0fa97724288f1fa0ad568fedd85ad1f11))
+* 🐛 deal a discrepancy of keyup behavior that reset target input cursor to the end of it on POS ([2e3085d](https://github.com/stone-payments/pos-mamba-sdk/commit/2e3085dbe2a49934b68cb74bee899a17cd2e9988))
+* 🐛 do not reset keyboard props on initial routes ([e3a0dc0](https://github.com/stone-payments/pos-mamba-sdk/commit/e3a0dc051bbc11a1fee167161ca494745ae01b62))
+* 🐛 fix alphanumeric methods ([8803caa](https://github.com/stone-payments/pos-mamba-sdk/commit/8803caa134b3dff927ef9fbaa9ddc7747e93a2e2))
+* 🐛 fix dead-locks flows ([038aa93](https://github.com/stone-payments/pos-mamba-sdk/commit/038aa937bf76a365b72bd4956973aa53c8450980))
+* 🐛 fix filter number keys by alphanumeric value ([301cacb](https://github.com/stone-payments/pos-mamba-sdk/commit/301cacb3860b03e8b5d65a126047c8322b4bdcf0))
+* 🐛 fix max length cursor positions and removing ([7280176](https://github.com/stone-payments/pos-mamba-sdk/commit/72801764efd57ea4934cbe5be8ba133c87af1c2b))
+* 🐛 fix several issues related with cursors and/or suggestions ([d4a3b62](https://github.com/stone-payments/pos-mamba-sdk/commit/d4a3b62673a69ee01974b3668954322389e410bb))
+* 🐛 fix update mode that was resetting on setOptions, and check for invalid values ([6832374](https://github.com/stone-payments/pos-mamba-sdk/commit/68323748c67da857aaaa58c3baf991400c81fc75))
+* 🐛 fix usage of input pattern option ([b256063](https://github.com/stone-payments/pos-mamba-sdk/commit/b25606367279b951e3c58aedfa2f0688802c08f4))
+* 🐛 fix virtual keyboard sound logic, also add means to update its state ([bdcac61](https://github.com/stone-payments/pos-mamba-sdk/commit/bdcac617b653d505f504d56138d43f5df44c8525))
+* 🐛 make virtualKeyboard reconfigurable ([b0c9587](https://github.com/stone-payments/pos-mamba-sdk/commit/b0c9587a9d2b9b2eab8a177efa58a6b555256f13))
+* 🐛 make visibility configurable ([fa92529](https://github.com/stone-payments/pos-mamba-sdk/commit/fa92529b28de3583785731177c9558693736d73a))
+* 🐛 prop layoutSuggestions was not implemented ([8013e3c](https://github.com/stone-payments/pos-mamba-sdk/commit/8013e3cd6faf6b8f753af9e6b31f0ddd05e7ac6c))
+* 🐛 remome filter numeric sync ([d1c25b1](https://github.com/stone-payments/pos-mamba-sdk/commit/d1c25b1e3cd066e6fc1beedbfea9d233d171f101))
+* 🐛 reset suggestion box on render ([3adc1d2](https://github.com/stone-payments/pos-mamba-sdk/commit/3adc1d2d4736fd30db93423813ad4d838e5f3958))
+* 🐛 set options not keep last options ([1b62a3f](https://github.com/stone-payments/pos-mamba-sdk/commit/1b62a3f684d030db99f040d1232c3a1287d6df5b))
+
+
+### internal
+
+* 🏭 Usage with direct prop instead keyboardOptions ([3e60b8b](https://github.com/stone-payments/pos-mamba-sdk/commit/3e60b8b5602d195d2f0fa632a2550bedf86dfc7d))
+
+
+
 ### [10.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v10.0.0...v10.0.1) (2023-07-12)
 
 **Note:** Version bump only for package @mamba/keyboard

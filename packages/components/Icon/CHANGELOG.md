@@ -3,6 +3,54 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/icon@5.0.0...@mamba/icon@11.0.0) (2023-07-17)
+
+
+### Bug Fixes
+
+* missing comma that was breaking the bundle ([9e0d723](https://github.com/stone-payments/pos-mamba-sdk/commit/9e0d723730654eab1ddc6705d30c91b8a08867e5))
+
+### 10.0.1 (2023-07-12)
+
+## 10.0.0 (2023-07-10)
+
+## 9.7.0 (2023-06-09)
+
+## 9.6.0 (2023-06-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* 🧨 no
+
+### Styles
+
+* 💄 change icons of network for launcher ([666631e](https://github.com/stone-payments/pos-mamba-sdk/commit/666631ef9ff0951b48472c854382319d56b6fedd))
+
+## 9.5.0 (2023-03-02)
+
+### 9.4.1 (2023-02-16)
+
+## 9.4.0 (2023-02-15)
+
+### 9.3.1 (2023-02-15)
+
+## 9.3.0 (2023-02-14)
+
+### 9.2.1 (2023-02-09)
+
+## 9.2.0 (2023-02-09)
+
+## 9.1.0 (2023-02-03)
+
+### 9.0.3 (2023-01-23)
+
+### 9.0.2 (2023-01-19)
+
+## 8.0.0 (2023-01-13)
+
+
+
 ### [10.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v10.0.0...v10.0.1) (2023-07-12)
 
 **Note:** Version bump only for package @mamba/icon
