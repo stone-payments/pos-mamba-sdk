@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.7.0...v10.0.0) (2023-07-10)
+
+
+### Bug Fixes
+
+* 🐛 fallback image fixes ([8d254e3](https://github.com/stone-payments/pos-mamba-sdk/commit/8d254e3734b3a5387c8ca447bc9b85563103cbcb))
+
+
+
 ## [9.7.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.6.0...v9.7.0) (2023-06-09)
 
 **Note:** Version bump only for package @mamba/org

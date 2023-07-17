@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [10.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v10.0.0...v10.0.1) (2023-07-12)
+
+**Note:** Version bump only for package mamba-sdk
+
+
+
+
+
+## [10.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.7.0...v10.0.0) (2023-07-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* 🧨 no
+
+### Features
+
+* 🎸 [wip] org drivers ([1a82f0d](https://github.com/stone-payments/pos-mamba-sdk/commit/1a82f0d33f88254c9af4a8b86725dfc8703746ab))
+* 🎸 add favicon to simulator env ([a50963e](https://github.com/stone-payments/pos-mamba-sdk/commit/a50963ec381444c33ee67dde6a9472fb2ebf190f))
+* 🎸 implements integration with organizations module ([0d7db60](https://github.com/stone-payments/pos-mamba-sdk/commit/0d7db600fa5d17b3ff4c66fa2e3076ec3cb069b8))
+* 🎸 implements synchronous getOrganizationFile ([a73f45c](https://github.com/stone-payments/pos-mamba-sdk/commit/a73f45c9db02fba8cf817730458d159e532ddfa8))
+
+
+### Bug Fixes
+
+* 🐛 fallback image fixes ([8d254e3](https://github.com/stone-payments/pos-mamba-sdk/commit/8d254e3734b3a5387c8ca447bc9b85563103cbcb))
+
+
+### Styles
+
+* 💄 change icons of network for launcher ([666631e](https://github.com/stone-payments/pos-mamba-sdk/commit/666631ef9ff0951b48472c854382319d56b6fedd))
+
+
+
 ## [9.7.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.6.0...v9.7.0) (2023-06-09)
 
 
