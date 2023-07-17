@@ -3,6 +3,64 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [10.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@8.0.2...@mamba/input@10.0.2) (2023-07-17)
+
+### 10.0.1 (2023-07-12)
+
+## 10.0.0 (2023-07-10)
+
+## 9.7.0 (2023-06-09)
+
+## 9.6.0 (2023-06-09)
+
+## 9.5.0 (2023-03-02)
+
+### 9.4.1 (2023-02-16)
+
+## 9.4.0 (2023-02-15)
+
+### 9.3.1 (2023-02-15)
+
+## 9.3.0 (2023-02-14)
+
+### 9.2.1 (2023-02-09)
+
+## 9.2.0 (2023-02-09)
+
+## 9.1.0 (2023-02-03)
+
+### 9.0.3 (2023-01-23)
+
+### 9.0.2 (2023-01-19)
+
+### 9.0.1 (2023-01-17)
+
+## 9.0.0 (2023-01-16)
+
+## 8.0.0 (2023-01-13)
+
+
+### Features
+
+* 🎸 implement Input compact prop ([4d3e478](https://github.com/stone-payments/pos-mamba-sdk/commit/4d3e478ce0e51a91e43198eb5d51ffc264223caf))
+
+
+### Bug Fixes
+
+* 🐛 create normalized keyCode/keyName parse methods from keyboard event ([f2f0a1a](https://github.com/stone-payments/pos-mamba-sdk/commit/f2f0a1a0fa97724288f1fa0ad568fedd85ad1f11))
+* 🐛 fix alphanumeric input values ([c862501](https://github.com/stone-payments/pos-mamba-sdk/commit/c862501150d57d168d99a97b332a52a1df8c91fd))
+* 🐛 fix dead-locks flows ([038aa93](https://github.com/stone-payments/pos-mamba-sdk/commit/038aa937bf76a365b72bd4956973aa53c8450980))
+* 🐛 fix input tokens param parse ([7cbfe39](https://github.com/stone-payments/pos-mamba-sdk/commit/7cbfe39163fde8bb48ea8cb42b510c25cf54c9d3))
+* 🐛 fix several issues related with cursors and/or suggestions ([d4a3b62](https://github.com/stone-payments/pos-mamba-sdk/commit/d4a3b62673a69ee01974b3668954322389e410bb))
+* 🐛 fiz keyboardOptions property of input that was not working ([ad2f502](https://github.com/stone-payments/pos-mamba-sdk/commit/ad2f502641a7e3ebe27840e636cf89f6d0af0d09))
+
+
+### Performance Improvements
+
+* ⚡️ use keyboard input pattern to avoid unnecessary processing of money input values ([9d57df2](https://github.com/stone-payments/pos-mamba-sdk/commit/9d57df2e05ad6063eb0650dd587bbfdeff8bda42))
+
+
+
 ### [10.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v10.0.0...v10.0.1) (2023-07-12)
 
 **Note:** Version bump only for package @mamba/input

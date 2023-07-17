@@ -3,6 +3,69 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [10.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/app@7.0.2...@mamba/app@10.0.2) (2023-07-17)
+
+### 10.0.1 (2023-07-12)
+
+## 10.0.0 (2023-07-10)
+
+## 9.7.0 (2023-06-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* 🧨 freeze keystroke changed
+
+### Bug Fixes
+
+* 🐛 send keyCode through synthetic mouse event ([4ee70ee](https://github.com/stone-payments/pos-mamba-sdk/commit/4ee70eec069a8c512f8b6c1336a16b4607432b7f))
+* 🐛 several critial keystroke bugs along with configmation dialog events ([47c78a0](https://github.com/stone-payments/pos-mamba-sdk/commit/47c78a0393a5eaa85dadee46a0d4887da6a3965a))
+
+## 9.6.0 (2023-06-09)
+
+
+### Features
+
+* 🎸 extend event data to add telemetryEmitType ([58e5cb5](https://github.com/stone-payments/pos-mamba-sdk/commit/58e5cb5e860eeac9e97a490790b292c07c41b1f2))
+
+
+### Bug Fixes
+
+* 🐛 add telemetry emit type to the keystroke ([b99d163](https://github.com/stone-payments/pos-mamba-sdk/commit/b99d163d58f03e9acebbe3cd536d3bc1a6432246))
+
+## 9.5.0 (2023-03-02)
+
+### 9.4.1 (2023-02-16)
+
+## 9.4.0 (2023-02-15)
+
+### 9.3.1 (2023-02-15)
+
+## 9.3.0 (2023-02-14)
+
+### 9.2.1 (2023-02-09)
+
+## 9.2.0 (2023-02-09)
+
+## 9.1.0 (2023-02-03)
+
+### 9.0.3 (2023-01-23)
+
+### 9.0.2 (2023-01-19)
+
+### 9.0.1 (2023-01-17)
+
+## 9.0.0 (2023-01-16)
+
+## 8.0.0 (2023-01-13)
+
+
+### Bug Fixes
+
+* 🐛 fix several issues related with cursors and/or suggestions ([d4a3b62](https://github.com/stone-payments/pos-mamba-sdk/commit/d4a3b62673a69ee01974b3668954322389e410bb))
+
+
+
 ### [10.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/v10.0.0...v10.0.1) (2023-07-12)
 
 **Note:** Version bump only for package @mamba/app
