@@ -1,6 +1,6 @@
 {
   "name": "@mamba/app",
-  "version": "10.0.2",
+  "version": "10.0.3",
   "svelte": "App.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -13,12 +13,12 @@
   },
   "gitHead": "e919d0e654f8134f157bf4f6e078685f5dd8a000",
   "dependencies": {
-    "@mamba/button": "^10.0.2",
-    "@mamba/core": "^10.0.0",
-    "@mamba/keyboard": "^10.0.2",
-    "@mamba/pos": "^10.0.2",
-    "@mamba/styles": "^10.0.0",
-    "@mamba/utils": "^10.0.0",
+    "@mamba/button": "^10.0.3",
+    "@mamba/core": "^10.0.1",
+    "@mamba/keyboard": "^10.0.3",
+    "@mamba/pos": "^10.0.3",
+    "@mamba/styles": "^10.0.1",
+    "@mamba/utils": "^10.0.1",
     "lodash": "^4.17.21"
   },
   "peerDependencies": {

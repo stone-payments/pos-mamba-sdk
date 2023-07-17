@@ -3,6 +3,77 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [10.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@6.0.1...@mamba/webpack@10.0.1) (2023-07-17)
+
+## 10.0.0 (2023-07-10)
+
+
+### Features
+
+* 🎸 [wip] org drivers ([1a82f0d](https://github.com/stone-payments/pos-mamba-sdk/commit/1a82f0d33f88254c9af4a8b86725dfc8703746ab))
+* 🎸 add favicon to simulator env ([a50963e](https://github.com/stone-payments/pos-mamba-sdk/commit/a50963ec381444c33ee67dde6a9472fb2ebf190f))
+* 🎸 implements integration with organizations module ([0d7db60](https://github.com/stone-payments/pos-mamba-sdk/commit/0d7db600fa5d17b3ff4c66fa2e3076ec3cb069b8))
+
+## 9.7.0 (2023-06-09)
+
+
+### Features
+
+* 🎸 add rmeotejs automatic tag ([497321f](https://github.com/stone-payments/pos-mamba-sdk/commit/497321fc31fe1881c5c8eb012e83ba43d0c016fa))
+
+
+### Bug Fixes
+
+* 🐛 fix remotejs value ([4e0f60c](https://github.com/stone-payments/pos-mamba-sdk/commit/4e0f60c21c3a40367c50418db6031be228910c5b))
+
+## 9.6.0 (2023-06-09)
+
+## 9.5.0 (2023-03-02)
+
+### 9.4.1 (2023-02-16)
+
+
+### Bug Fixes
+
+* 🐛 fix related generic bundle erros ([bf65592](https://github.com/stone-payments/pos-mamba-sdk/commit/bf65592be9af7de2cd355838f43872d829ef119a))
+
+## 9.4.0 (2023-02-15)
+
+### 9.3.1 (2023-02-15)
+
+
+### Features
+
+* 🎸 conditionally copy org assets to dist ([876264b](https://github.com/stone-payments/pos-mamba-sdk/commit/876264b64c65218db865d2f665d8b25675a4d263))
+
+## 9.3.0 (2023-02-14)
+
+### 9.2.1 (2023-02-09)
+
+## 9.2.0 (2023-02-09)
+
+
+### Features
+
+* 🎸 suport specific platform target build ([3b3a85d](https://github.com/stone-payments/pos-mamba-sdk/commit/3b3a85d71859e350718148e8f1728e32a08eb8b7))
+
+
+### Reverts
+
+* Revert "refactor: 💡 remove platform build" ([d537ff1](https://github.com/stone-payments/pos-mamba-sdk/commit/d537ff1d4f599d23227628f2fbffd6acb6f126fa))
+
+## 9.1.0 (2023-02-03)
+
+### 9.0.3 (2023-01-23)
+
+### 9.0.2 (2023-01-19)
+
+## 9.0.0 (2023-01-16)
+
+## 8.0.0 (2023-01-13)
+
+
+
 ## [10.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.7.0...v10.0.0) (2023-07-10)
 
 
