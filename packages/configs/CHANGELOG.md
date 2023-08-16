@@ -3,6 +3,53 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.1.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/configs@5.0.0...@mamba/configs@10.1.0) (2023-08-16)
+
+## 10.0.0 (2023-07-10)
+
+
+### Features
+
+* 🎸 implements integration with organizations module ([0d7db60](https://github.com/stone-payments/pos-mamba-sdk/commit/0d7db600fa5d17b3ff4c66fa2e3076ec3cb069b8))
+
+## 9.7.0 (2023-06-09)
+
+## 9.6.0 (2023-06-09)
+
+## 9.5.0 (2023-03-02)
+
+### 9.4.1 (2023-02-16)
+
+
+### Bug Fixes
+
+* 🐛 fix related generic bundle erros ([bf65592](https://github.com/stone-payments/pos-mamba-sdk/commit/bf65592be9af7de2cd355838f43872d829ef119a))
+
+## 9.4.0 (2023-02-15)
+
+### 9.3.1 (2023-02-15)
+
+## 9.3.0 (2023-02-14)
+
+### 9.2.1 (2023-02-09)
+
+## 9.2.0 (2023-02-09)
+
+
+### Features
+
+* 🎸 suport specific platform target build ([3b3a85d](https://github.com/stone-payments/pos-mamba-sdk/commit/3b3a85d71859e350718148e8f1728e32a08eb8b7))
+
+## 9.1.0 (2023-02-03)
+
+### 9.0.3 (2023-01-23)
+
+### 9.0.2 (2023-01-19)
+
+## 8.0.0 (2023-01-13)
+
+
+
 ## [10.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.7.0...v10.0.0) (2023-07-10)
 
 
