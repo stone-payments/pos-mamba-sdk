@@ -1,12 +1,6 @@
-<label
-  class="input type-{type}"
-  class:is-readable="readable"
-  class:is-invalid="!isValid && !!_errorMsg"
-  class:is-focused="isFocused"
-  class:is-compact="compact"
-  class:has-password-toggle="_hasPasswordToggle"
-  style="background-color: {bgColor}; color: {labelColor};"
->
+<label class="input type-{type}" class:is-readable="readable" class:is-invalid="!isValid && !!_errorMsg"
+  class:is-focused="isFocused" class:is-compact="compact" class:has-password-toggle="_hasPasswordToggle"
+  style="background-color: {bgColor}; color: {labelColor};">
   {#if label}
     <span class="label">{label}</span>
   {/if}
@@ -370,7 +364,6 @@
           if (validateOn === 'submit') {
             validationUpdate = {
               isValid: false,
-              _errorMsg: undefined,
             };
           }
 
