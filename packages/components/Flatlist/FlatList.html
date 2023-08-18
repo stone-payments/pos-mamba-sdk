@@ -31,6 +31,7 @@
                 renderItem={renderItem}
                 useAutoShortcuts={useAutoShortcuts}
                 decorator={_setDecorator(decorator, item, decoratorOverrides)}
+                {showPrefix}
                 on:_click="setSelected(event)"
               />
             {/if}
@@ -142,6 +143,7 @@
         navUpLabel: 'Aumentar',
         _hasElement: false,
         _elementsRefs: [],
+        showPrefix: true,
 
         // Extra height of other elemetns(like navbar) used to calculate navigation scroll
         // For performance, this var should change only when these elements show or hide.
@@ -179,6 +181,8 @@
       },
     },
     oncreate() {
+      const { showPrefix } = this.options.data;
+      this.set({ showPrefix: typeof showPrefix === 'boolean' ? showPrefix : true });
       this.fire('setup', { setupFirstFocusable: (elm, fr) => this.setupFirstFocusable(elm, fr) });
     },
     onupdate({ changed, current }) {
@@ -193,7 +197,7 @@
                 dataSection && dataSection[0].data.length > 2 ? navBar.getBoundingHeight() : 0,
             });
           } catch (e) {
-            if(__DEV__) {
+            if (__DEV__) {
               console.warn(e);
             }
           }
@@ -534,7 +538,7 @@
             _extraBounds: dataSection && dataSection[0].data.length > 2 ? boundingHeight : 0,
           });
         } catch (e) {
-          if(__DEV__) {
+          if (__DEV__) {
             console.warn(e);
           }
         }
