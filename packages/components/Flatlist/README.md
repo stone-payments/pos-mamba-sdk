@@ -24,6 +24,7 @@ O componente `Flatlist` serve para renderizar listas simples e básicas com util
 | navBar                  | Permite habilitar a barra de navegação pelo touch ou teclas de seta                                                                                                                                                                      | `boolean`   | `false`     |
 | navDownLabel            | Texto definido para o botão de descer                                                                                                                                                                                                    | `string`    | `Diminuir`  |
 | navUpLabel              | Texto definido para o botão de subir                                                                                                                                                                                                     | `string`    | `Aumentar`  |
+| showPrefix              | Define se deve mostrar o prefixo                                                                                                                                                                                                         | `boolean`   | `true`      |
 
 ## Métodos
 
@@ -81,7 +82,7 @@ Exemplo de método:
 </script>
 ```
 
-## Passando Data:
+## Passando Data
 
 Data é um `array` de objetos que irão compor os items da lista.
 Todas as propriedades do objeto serão repassadas para o componente `renderItem` com exceção das propriedades `shortcut` e `onSelected`, na qual o <FlatList /> faz o uso para:
@@ -120,9 +121,9 @@ const data = [
 ];
 ```
 
-#### Método `onSelect` da row:
+#### Método `onSelect` da row
 
-##### Função anônima:
+##### Função anônima
 
 - A função anônima pode chamar qualquer método da página:
 
@@ -152,7 +153,7 @@ const data = [
   },
   ```
 
-##### Executar um método que retorne uma função:
+##### Executar um método que retorne uma função
 
 - Executando um método no `onSelect`, irá chamar a função desejada quando a lista for montada, possibilitando retornar uma função dinâmica.
 
@@ -184,7 +185,7 @@ const data = [
   },
   ```
 
-##### Referênciando um método da página:
+##### Referênciando um método da página
 
 - Você pode referenciar um método da página para ser usado no `onSelected`, mas o `this` de dentro do escopo da função referenciada, será a referência de seu objeto.
 
@@ -234,7 +235,7 @@ const data = [
   },
   ```
 
-### Múltiplas seções:
+### Múltiplas seções
 
 Útil para renderizar múltiplas listas com contextos diferentes.
 
@@ -252,7 +253,7 @@ const dataSection = [
 | title        | É usada para renderizar um título antes da lista. A omissão dela faz com que nenhum título seja renderizado. | `string` |
 | data         | Array de objetos que irão compor os items da seção.                                                          | `array`  |
 
-#### Exemplo de `renderItem`:
+#### Exemplo de `renderItem`
 
 ```html
 <!-- Item.html -->
@@ -432,7 +433,7 @@ interface DefaultRowProps {
 
 Utilize para acessa o elemento e ter acesso as suas funcionalidades, como `States` e `Funções` .
 
-##### Exemplo:
+##### Exemplo
 
 ```ts
 interface DefaultRowProps = {
