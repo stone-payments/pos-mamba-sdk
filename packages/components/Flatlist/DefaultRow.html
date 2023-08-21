@@ -22,7 +22,7 @@
           <div class="mb-label" style={_label.style ? getStyles(_label.style) : undefined}>
 
             <!-- Prefix decorator -->
-            {#if _label.prefix}
+            {#if _label.prefix && _showPrefix}
               <Decorator
                 position={position}
                 value={_label.prefix}
@@ -160,6 +160,9 @@
       },
       _customView({ customView }) {
         return shouldReturnComponent(customView);
+      },
+      _showPrefix({ showPrefix }) {
+        return !!showPrefix;
       },
     },
   };
