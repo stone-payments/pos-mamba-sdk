@@ -23,7 +23,7 @@
     "@mamba/sprite": "^10.0.0",
     "@mamba/switch": "^10.0.0",
     "@mamba/utils": "^10.0.0",
-    "immer": "^2.1.5",
+    "immer": "^10.0.2",
     "lodash": "^4.17.21",
     "svelte": "<3"
   },
