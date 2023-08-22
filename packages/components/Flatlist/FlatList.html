@@ -1,4 +1,4 @@
-<svelte:window bind:scrollY="scrollY" />
+<svelte:window />
 
 {#if dataSection && dataSection.length > 0}
   <div class="flatlist {className}" class:disabled="disabled" class:hidden style={_styles} ref:flatListRef>
@@ -301,7 +301,7 @@
       },
       // _register elements (allowing handle them)
       _register(element, index, sectionIndex, focusableItem = undefined) {
-        const { _elementsRefs, selectedIndex, scrollY } = this.get();
+        const { _elementsRefs, selectedIndex } = this.get();
 
         const position = _elementsRefs.length;
 
@@ -319,7 +319,7 @@
 
         if (index === selectedIndex) {
           setTimeout(() => {
-            scrollActiveNodeAtIndex(_elementsRefs, selectedIndex, scrollY);
+            scrollActiveNodeAtIndex(_elementsRefs, selectedIndex);
           });
         }
       },
@@ -342,12 +342,11 @@
         }
 
         if (keyCode === ARROW_UP || keyCode === ARROW_DOWN) {
-          const { scrollY, selectedIndex, _elementsRefs } = this.get();
+          const { selectedIndex, _elementsRefs } = this.get();
 
           const internalIndex = selectRowItem({
             nodeList: _elementsRefs,
             index: selectedIndex,
-            yaxis: scrollY,
             keyAction: keyCode,
           });
 
@@ -401,9 +400,8 @@
           const _flatlist = this;
           domElement.onfocus = function _flatListFocus() {
             try {
-              const { _elementsRefs, scrollY } = _flatlist.get();
+              const { _elementsRefs } = _flatlist.get();
               const target = _elementsRefs[0];
-              scrollActiveNodeAtIndex(_elementsRefs, 0, scrollY);
               _flatlist.selectRowAtTarget(target, 0);
             } catch (_) {
               return null;

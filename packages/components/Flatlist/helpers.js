@@ -47,18 +47,21 @@ export const toggleActive = (items, index) => {
   });
 };
 
-const scrollTo = (item) => {
+const scrollTo = (item, index) => {
   const {
     focusableItem = {},
     element: { refs },
   } = item;
 
   const { element } = refs || focusableItem;
-  try {
-    element.scrollIntoView();
-  } catch (error) {
-    // Hot Realod can trigger error of element being null, but watch out on POS
-    if (__POS__) console.log(`${error}`);
+  console.log('index', index);
+  if (index !== 0) {
+    try {
+      element.scrollIntoView({ block: 'center', inline: 'center' });
+    } catch (error) {
+      // Hot Realod can trigger error of element being null, but watch out on POS
+      if (__POS__) console.log(`${error}`);
+    }
   }
 };
 
@@ -70,17 +73,18 @@ const getPosition = (index, keyAction) => {
 };
 
 export const scrollActiveNodeAtIndex = (nodeList, index) => {
-  scrollTo(nodeList[index]);
+  window.scrollBy(0, -200);
+  scrollTo(nodeList[index], index);
   toggleActive(nodeList, index);
 };
 
-export const selectRowItem = ({ nodeList, index, yaxis, keyAction }) => {
+export const selectRowItem = ({ nodeList, index, keyAction }) => {
   if (!keyAction) return index;
 
   const selectIndex = getPosition(index, keyAction);
 
   if (nodeList[selectIndex]) {
-    scrollActiveNodeAtIndex(nodeList, selectIndex, yaxis);
+    scrollActiveNodeAtIndex(nodeList, selectIndex);
     return selectIndex;
   }
 
