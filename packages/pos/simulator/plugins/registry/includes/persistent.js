@@ -1,4 +1,4 @@
-import produce, { applyPatches } from 'immer';
+import { produce, applyPatches } from 'immer';
 import { warn } from '../../../libs/utils.js';
 
 let cachedGet = null;

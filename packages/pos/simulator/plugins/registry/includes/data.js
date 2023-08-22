@@ -1,6 +1,7 @@
-import produce, { applyPatches } from 'immer';
-
+import { produce, applyPatches, enablePatches } from 'immer';
 import { log, warn } from '../../../libs/utils.js';
+
+enablePatches();
 
 export default (Registry) => {
   Registry._data = Object.freeze({});
