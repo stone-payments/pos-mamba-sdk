@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@10.0.2...@mamba/pos@10.3.0) (2023-08-23)
+
+
+### Bug Fixes
+
+* 🐛 add required enablePatches call ([0236a2d](https://github.com/stone-payments/pos-mamba-sdk/commit/0236a2dc5cbe033c236f748a89dfafdb02f1b423))
+
+
+
 ### [10.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@6.0.2...@mamba/pos@10.0.2) (2023-07-17)
 
 ### 10.0.1 (2023-07-12)

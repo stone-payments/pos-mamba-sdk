@@ -3,6 +3,58 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/utils@7.0.1...@mamba/utils@10.3.0) (2023-08-23)
+
+## 10.0.0 (2023-07-10)
+
+## 9.7.0 (2023-06-09)
+
+## 9.6.0 (2023-06-09)
+
+## 9.5.0 (2023-03-02)
+
+### 9.4.1 (2023-02-16)
+
+
+### Bug Fixes
+
+* 🐛 (simulator) fix generic model slug ([7293f3c](https://github.com/stone-payments/pos-mamba-sdk/commit/7293f3cd5613d37d1f9925f5e0125c944b241cab))
+
+## 9.4.0 (2023-02-15)
+
+### 9.3.1 (2023-02-15)
+
+## 9.3.0 (2023-02-14)
+
+### 9.2.1 (2023-02-09)
+
+## 9.2.0 (2023-02-09)
+
+## 9.1.0 (2023-02-03)
+
+### 9.0.3 (2023-01-23)
+
+
+### Bug Fixes
+
+* 🐛 pos wrongly excluded from has keyboard light ([7d2a38d](https://github.com/stone-payments/pos-mamba-sdk/commit/7d2a38d0dafd3382a7fadd27eafd082702374cf1))
+
+### 9.0.2 (2023-01-19)
+
+
+### Bug Fixes
+
+* 🐛 capabilities return ([0c7ef47](https://github.com/stone-payments/pos-mamba-sdk/commit/0c7ef472b7c8e7532858f21b368bc9bbaa8ebd76))
+
+## 8.0.0 (2023-01-13)
+
+
+### Bug Fixes
+
+* 🐛 add has-keyboard-light class ([e365188](https://github.com/stone-payments/pos-mamba-sdk/commit/e365188d186d34b1cfed628ecfd3f97397adbb4e))
+
+
+
 ## [10.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/v9.7.0...v10.0.0) (2023-07-10)
 
 **Note:** Version bump only for package @mamba/utils
