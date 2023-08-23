@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@10.0.2...@mamba/input@10.3.0) (2023-08-23)
+
+
+### Bug Fixes
+
+* 🐛 remove the reset of the error message ([e1eaae3](https://github.com/stone-payments/pos-mamba-sdk/commit/e1eaae317110c2c004747448d22dd22d340620e4))
+* 🐛 remove the reset of the error message ([bd36230](https://github.com/stone-payments/pos-mamba-sdk/commit/bd36230036288d95cea9684fd6d83d62e9d896c4))
+
+
+
 ### [10.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@8.0.2...@mamba/input@10.0.2) (2023-07-17)
 
 ### 10.0.1 (2023-07-12)

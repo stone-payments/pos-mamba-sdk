@@ -1,6 +1,6 @@
 {
   "name": "@mamba/org",
-  "version": "10.0.0",
+  "version": "10.3.0",
   "description": "Organization methods for mamba apps",
   "svelte": "Image.html",
   "module": "index.js",

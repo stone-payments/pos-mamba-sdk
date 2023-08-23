@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/flatlist@10.0.2...@mamba/flatlist@10.3.0) (2023-08-23)
+
+
+### Bug Fixes
+
+* 🐛 add a validation to hide the prefix decorator ([f838142](https://github.com/stone-payments/pos-mamba-sdk/commit/f8381424277b734be54c4ca89d993e0664aa9d3e))
+* addition of parameter for scrolltoview, and minimum scroll height ([f7ca8cd](https://github.com/stone-payments/pos-mamba-sdk/commit/f7ca8cd9d569ad4ceae619451e2e51d79156577a))
+* remove line coment ([a2ba0eb](https://github.com/stone-payments/pos-mamba-sdk/commit/a2ba0eb34553bbe63bf1c90b6f6a9a8da65cb094))
+* remove scrolly ([8aeec62](https://github.com/stone-payments/pos-mamba-sdk/commit/8aeec6252b7cc5037e167e5a8f1b8b1a87daf15d))
+
+
+
 ### [10.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/flatlist@8.0.2...@mamba/flatlist@10.0.2) (2023-07-17)
 
 ### 10.0.1 (2023-07-12)
