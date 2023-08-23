@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/icon@10.0.2...@mamba/icon@10.3.0) (2023-08-23)
+
+**Note:** Version bump only for package @mamba/icon
+
+
+
+
+
 ### [10.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/icon@5.0.0...@mamba/icon@10.0.2) (2023-07-17)
 
 
