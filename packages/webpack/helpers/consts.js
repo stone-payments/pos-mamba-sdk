@@ -30,9 +30,14 @@ if (typeof env.ORG_ASSETS_FOLDER === 'undefined') {
   env.ORG_ASSETS_FOLDER = 'assets/org';
 }
 
+if (typeof env.STATIC_ASSETS_FOLDER === 'undefined') {
+  env.STATIC_ASSETS_FOLDER = 'assets/static';
+}
+
 module.exports = {
   ORG_ASSETS_FOLDER: env.ORG_ASSETS_FOLDER,
   SDK_ASSETS_FOLDER: env.SDK_ASSETS_FOLDER,
+  STATIC_ASSETS_FOLDER: env.STATIC_ASSETS_FOLDER,
   NODE_ENV: env.NODE_ENV,
   APP_ENV: env.APP_ENV,
   IS_PROD: env.NODE_ENV === 'production',

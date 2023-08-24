@@ -11,7 +11,13 @@ const FileManagerPlugin = require('filemanager-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const cssProcessor = require('cssnano');
 const { getPkg } = require('quickenv');
-const { BUNDLE_NAME, IS_PROD, IS_POS, ORG_ASSETS_FOLDER } = require('./helpers/consts.js');
+const {
+  BUNDLE_NAME,
+  IS_PROD,
+  IS_POS,
+  ORG_ASSETS_FOLDER,
+  STATIC_ASSETS_FOLDER,
+} = require('./helpers/consts.js');
 const MambaManifestPlugin = require('./plugins/MambaManifestPlugin.js');
 
 const PKG = getPkg();
@@ -19,6 +25,8 @@ const PKG = getPkg();
 const { PLATFORM, BUILD_ALL } = process.env;
 
 const hasOrgFolder = fs.existsSync(join(fromCwd('src'), ORG_ASSETS_FOLDER));
+
+const hasStaticFolder = fs.existsSync(join(fromCwd('src'), STATIC_ASSETS_FOLDER));
 
 module.exports = merge(require('./config.app.js'), {
   devtool: false,
@@ -41,6 +49,10 @@ module.exports = merge(require('./config.app.js'), {
           hasOrgFolder && {
             source: `./src/${ORG_ASSETS_FOLDER}`,
             destination: `./dist/${BUNDLE_NAME}/${ORG_ASSETS_FOLDER}`,
+          },
+          hasStaticFolder && {
+            source: `./src/${STATIC_ASSETS_FOLDER}`,
+            destination: `./dist/${BUNDLE_NAME}/${STATIC_ASSETS_FOLDER}`,
           },
         ].filter(Boolean),
         archive: [
