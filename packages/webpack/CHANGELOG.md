@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.4.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@10.3.0...@mamba/webpack@10.4.0) (2023-08-29)
+
+
+### Features
+
+* 🎸 add static assets folder ([9742940](https://github.com/stone-payments/pos-mamba-sdk/commit/974294079a1c1c66f8e2c3bf21a9148891098d01))
+
+
+
 ## [10.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/webpack@6.0.1...@mamba/webpack@10.3.0) (2023-08-23)
 
 ## 10.0.0 (2023-07-10)

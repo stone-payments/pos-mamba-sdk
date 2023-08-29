@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.4.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/printable@10.3.0...@mamba/printable@10.4.0) (2023-08-29)
+
+**Note:** Version bump only for package @mamba/printable
+
+
+
+
+
 ## [10.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/printable@10.0.2...@mamba/printable@10.3.0) (2023-08-23)
 
 **Note:** Version bump only for package @mamba/printable
