@@ -4,7 +4,7 @@ import Registry from '../registry/manager.js';
 import Signal from '../../libs/signal.js';
 import { LOG_PREFIX } from '../../libs/utils.js';
 import extend from '../../../extend.js';
-import { HMAC } from './addons.js';
+import ADDONS from './addons.js';
 
 const DriverManager = extend({}, EventTarget());
 
@@ -15,12 +15,19 @@ DriverManager.Addons = {
     if (typeof addon !== 'string' || !addon) return;
 
     // Inferring HMAC
-    const { Addons = {} } = Registry.persistent.get();
-    Addons[HMAC] = addon === HMAC;
-    Registry.persistent.set((draft) => {
-      draft.Addons = { ...Addons };
-    });
-    if (typeof addonInitializer === 'function') addonInitializer();
+    try {
+      Registry.persistent.set((draft) => {
+        const { Addons = {} } = Registry.persistent.get();
+        const draftObject = { ...Addons };
+        draftObject[ADDONS.HMAC] =
+          String(addon).toLowerCase() === String(ADDONS.HMAC).toLowerCase();
+
+        draft.Addons = draftObject;
+      });
+      if (typeof addonInitializer === 'function') addonInitializer();
+    } catch (error) {
+      if (__DEV__) console.error(error);
+    }
   },
 };
 
