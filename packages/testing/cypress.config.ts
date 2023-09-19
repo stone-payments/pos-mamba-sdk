@@ -27,7 +27,7 @@ export default {
     setupNodeEvents,
   },
   component: {
-    setupNodeEvents,
+    supportFile: 'e2e/support/index.ts',
     devServer: {
       framework: 'svelte',
       bundler: 'webpack',
