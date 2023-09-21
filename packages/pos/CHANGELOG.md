@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [10.4.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@10.4.0...@mamba/pos@10.4.1) (2023-09-21)
+
+
+### Bug Fixes
+
+* 🐛 fix addon immutable assign of its object ([3711d23](https://github.com/stone-payments/pos-mamba-sdk/commit/3711d23bd879b0dc8bae05ffc486ea5892ba2b25))
+
+
+
 ## [10.4.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@10.3.0...@mamba/pos@10.4.0) (2023-08-29)
 
 **Note:** Version bump only for package @mamba/pos

@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [10.4.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@10.4.0...@mamba/input@10.4.1) (2023-09-21)
+
+
+### Bug Fixes
+
+* 🐛 fix isCompact prop ([ade2302](https://github.com/stone-payments/pos-mamba-sdk/commit/ade2302f043dee39cd3176c812eb34e19d62f525))
+
+
+
 ## [10.4.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@10.3.0...@mamba/input@10.4.0) (2023-08-29)
 
 **Note:** Version bump only for package @mamba/input
