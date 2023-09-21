@@ -1,4 +1,4 @@
-export const HMAC = 'HMAC';
+const HMAC = 'HMAC';
 
 export default {
   HMAC,
