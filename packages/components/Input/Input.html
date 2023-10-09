@@ -357,6 +357,8 @@
         }
       },
       _onInput(e) {
+        const keyCode = Keyboard.parseEventKeyCode(e);
+
         const { validation, validateOn } = this.get();
 
         /** Mask handler */
@@ -367,9 +369,9 @@
           let validationUpdate = validationUpdateMask;
 
           /** If validation is on submit, reset the validation state */
-          if (validateOn === 'submit') {
+          if (validateOn === 'submit' && keyCode !== KEYBOARD.ENTER) {
             validationUpdate = {
-              isValid: false,
+              isValid: true,
             };
           }
 
