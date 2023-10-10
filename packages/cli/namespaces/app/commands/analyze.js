@@ -14,7 +14,7 @@ module.exports = {
       'NODE_ENV=production',
       `APP_ENV=${target}`,
       `webpack --env PLATFORM=${platform} --config "${getWebpackConfigPath('app.analyzer')}"`,
-    ].join(' ');
+    ];
 
     console.log(chalk.cyan(`Analyzing bundle for '${target.toUpperCase()}'`));
     console.log(`PLATFORM: ${chalk.yellow(platform)}`);

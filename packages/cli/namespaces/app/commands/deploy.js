@@ -108,7 +108,7 @@ module.exports = {
 
     let toolArgs = args;
 
-    const command = (...rest) => [tool, ...rest].filter((v) => v !== '').join(' ');
+    const command = (...rest) => [tool, ...rest].filter((v) => v !== '');
 
     const CDW_DIST = fromCwd('dist');
     const DIST_DIR = fromCwd(legacy ? 'ui/dist' : 'dist/bundle.pos');

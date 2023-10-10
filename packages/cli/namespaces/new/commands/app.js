@@ -3,6 +3,7 @@ const Case = require('case');
 const inquirer = require('inquirer');
 const chalk = require('chalk');
 const { fromCwd, getPkg } = require('quickenv');
+const shelljs = require('shelljs');
 
 const { removeDiacritics, hashString } = require('../utils.js');
 const shell = require('../../../lib/shell.js');
@@ -76,7 +77,8 @@ module.exports = {
         writeFileSync(fromCwd(targetDir, 'package.json'), JSON.stringify(pkgJson, null, 2));
 
         console.log(chalk.cyan('Installing dependencies'));
-        shell([`cd ${targetDir}`, `npm i`]);
+        shelljs.cd(targetDir);
+        shell(`npm i`);
 
         console.log(chalk.green(`App created at '${targetDir}'`));
       });
