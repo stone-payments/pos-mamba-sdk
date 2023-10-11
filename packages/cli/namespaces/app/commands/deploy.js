@@ -108,7 +108,7 @@ module.exports = {
 
     let toolArgs = args;
 
-    const command = (...rest) => [tool, ...rest].filter((v) => v !== '');
+    const command = (...rest) => [tool, ...rest].filter((v) => v !== '').join(' ');
 
     const CDW_DIST = fromCwd('dist');
     const DIST_DIR = fromCwd(legacy ? 'ui/dist' : 'dist/bundle.pos');
@@ -164,7 +164,6 @@ module.exports = {
         );
       } else {
         console.log(`Error: ${chalk.red(`Wrong folder pattern ${appsFolder}\n       Aborting\n`)}`);
-        return;
       }
     } else if (useXcb && isPax) {
       const aupPath = `${CDW_DIST}/${appSlug}.aup`;
@@ -210,7 +209,9 @@ module.exports = {
 
       if (toolArgs === '') {
         const _defaultsArgs = os.platform() === 'darwin' ? '-arvc' : '-zzaP';
-        toolArgs = legacy ? '-zzaPR' : _defaultsArgs;
+        toolArgs = legacy
+          ? '-zzaPR'
+          : `${_defaultsArgs} -o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedAlgorithms=+ssh-rsa`;
       }
 
       const REMOTE_APP_DIR = `${sshConfig}:${APPS_DIR}`;
@@ -244,10 +245,10 @@ module.exports = {
           `${REMOTE_APP_DIR}/`,
         );
 
-        shell(rsyncCmd);
+        if (shell(rsyncCmd) === 0) {
+          console.log('App deployed');
+        }
       }
     }
-
-    console.log('App deployed');
   },
 };
