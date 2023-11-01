@@ -86,8 +86,8 @@ const keystrokeHandler = (e) => {
   }
 };
 
-const listen = () => window.addEventListener('keyup', keystrokeHandler);
-const unlisten = () => window.removeEventListener('keyup', keystrokeHandler);
+const listen = () => window.addEventListener('keyup', keystrokeHandler, true);
+const unlisten = () => window.removeEventListener('keyup', keystrokeHandler, true);
 
 export const addHandler = (key, handler) => {
   if (key) {
