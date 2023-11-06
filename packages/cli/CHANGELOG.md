@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [10.3.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@10.3.0...@mamba/cli@10.3.1) (2023-11-06)
+
+
+### Bug Fixes
+
+* 🐛 add legacy algoritms at rsync command for openssl 7 ([eb3f947](https://github.com/stone-payments/pos-mamba-sdk/commit/eb3f9474c4a8183069379fdfc228ea121af3d0eb))
+* 🐛 do not use childProcess.execSync, use a lib to handle and escape input to avoid injection ([d9db43d](https://github.com/stone-payments/pos-mamba-sdk/commit/d9db43d32135cdb27a14a9ca13dc387b98a1d709))
+
+
+
 ## [10.3.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@5.0.0...@mamba/cli@10.3.0) (2023-08-23)
 
 ## 10.0.0 (2023-07-10)

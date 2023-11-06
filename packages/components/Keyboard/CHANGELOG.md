@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [10.4.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/keyboard@10.4.1...@mamba/keyboard@10.4.2) (2023-11-06)
+
+**Note:** Version bump only for package @mamba/keyboard
+
+
+
+
+
 ### [10.4.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/keyboard@10.4.0...@mamba/keyboard@10.4.1) (2023-09-21)
 
 **Note:** Version bump only for package @mamba/keyboard

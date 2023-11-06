@@ -1,6 +1,6 @@
 {
   "name": "@mamba/cli",
-  "version": "10.3.0",
+  "version": "10.3.1",
   "description": "Mamba CLI",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -22,6 +22,8 @@
     "import-global": "^0.1.0",
     "inquirer": "^6.2.2",
     "quickenv": "^0.0.6",
+    "shell-escape-tag": "^2.0.2",
+    "shelljs": "^0.8.5",
     "yargonaut": "^1.1.4",
     "yargs": "^13.1.0"
   },

@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [10.4.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/app@10.4.1...@mamba/app@10.4.2) (2023-11-06)
+
+
+### Bug Fixes
+
+* 🐛 keystroke event capture order ([261ba8f](https://github.com/stone-payments/pos-mamba-sdk/commit/261ba8f21bcc1715c398eca7dcf7698991f584b8))
+
+
+
 ### [10.4.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/app@10.4.0...@mamba/app@10.4.1) (2023-09-21)
 
 **Note:** Version bump only for package @mamba/app

@@ -1,65 +1,71 @@
-const childProcess = require('child_process');
-const { homedir } = require('os');
+const shelljs = require('shelljs');
+const shellEscape = require('shell-escape-tag');
 
 const GLOBAL_OPTIONS = {
-  exit: true,
-  quiet: false,
+  /**
+   * @param {boolean} async Asynchronous execution. If a callback is provided, it will be set to true, regardless of the passed value (default: false).
+   * @default false
+   */
+  async: false,
+
+  /**
+   * @param {boolean} fatal Exit upon error (default: true).
+   * @default true
+   */
+  fatal: true,
+
+  /**
+   * @param {boolean} silent Do not echo program output to console (default: false).
+   * @default false
+   */
+  silent: false,
+
+  /**
+   * @param {string} encoding Character encoding to use. Affects the values returned to stdout and stderr, and what is written to stdout and stderr when not in silent mode (default: 'utf8').
+   * @default 'utf8'
+   */
+  encoding: 'utf8',
 };
 
+/**
+ *
+ * @param {*} cmd
+ * @param {GLOBAL_OPTIONS} opts
+ * @returns
+ */
 const shell = (cmd, opts = {}) => {
+  const { fatal } = opts;
+
   opts = {
     ...GLOBAL_OPTIONS,
     cwd: process.cwd(),
+    env: { ...process.env, FORCE_COLOR: 2 },
     ...opts,
   };
 
-  const { exit, quiet } = opts;
-
-  if (Array.isArray(cmd)) {
-    cmd = cmd.filter(Boolean).join(process.platform === 'win32' ? ' && ' : ';');
-  }
-
   try {
-    childProcess.execSync(cmd, {
-      cwd: opts.cwd,
-      stdio: [process.stdin, quiet ? null : process.stdout, quiet ? null : process.stderr],
-    });
+    if (Array.isArray(cmd)) {
+      cmd = cmd.join(' ');
+    }
+
+    const escaped = String(shellEscape.preserve`${cmd}`).trimStart();
+
+    if (process.env.DEBUG_LVL >= 1) {
+      console.info(escaped);
+    }
+
+    const run = shelljs.exec(cmd, opts);
+    if (fatal && run.code !== 0) {
+      throw new Error(run.stderr);
+    }
+
     return 0;
   } catch (error) {
-    if (exit) {
+    if (fatal) {
       process.exit(1);
     }
     return 1;
   }
-};
-
-shell.cd = (dir) => {
-  if (!dir) dir = homedir();
-
-  if (dir === '-' && process.env.OLDPWD) {
-    dir = process.env.OLDPWD;
-  }
-
-  try {
-    const curDir = process.cwd();
-    process.chdir(dir);
-    process.env.OLDPWD = curDir;
-  } catch (e) {
-    // something went wrong, let's figure out the error
-    console.error(`no such file or directory: ${dir}`);
-  }
-};
-
-shell.rsync = (src, tgt, opts = {}) => {
-  const cmd = ['rsync', '-zzaP', opts.checksum && '--checksum', src, tgt].filter(Boolean).join(' ');
-
-  delete opts.checksum;
-
-  return shell(cmd, opts);
-};
-
-shell.setGlobal = (opts) => {
-  Object.assign(GLOBAL_OPTIONS, opts);
 };
 
 module.exports = shell;
