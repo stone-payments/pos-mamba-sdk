@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [10.4.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@10.4.1...@mamba/input@10.4.2) (2023-11-06)
+
+
+### Bug Fixes
+
+* 🐛 hide error input error message when type ([5f87b68](https://github.com/stone-payments/pos-mamba-sdk/commit/5f87b68be0616ce0b7e20dabe4374b279f68e107))
+
+
+
 ### [10.4.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@10.4.0...@mamba/input@10.4.1) (2023-09-21)
 
 
