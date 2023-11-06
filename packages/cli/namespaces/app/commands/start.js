@@ -19,9 +19,7 @@ module.exports = {
       Number.isInteger(debug) && `DEBUG_LVL=${debug}`,
       `PLATFORM=${platform}`,
       `webpack-dev-server --env PLATFORM=${platform} --port ${port} --config "${webpackConfigPath}"`,
-    ]
-      .filter(Boolean)
-      .join(' ');
+    ].filter(Boolean);
 
     shell(cmd);
   },
