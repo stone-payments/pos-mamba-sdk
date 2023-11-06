@@ -27,9 +27,7 @@ module.exports = {
         (choseAllPlatforms || platforms.length > 1) && 'BUILD_ALL=true',
         `PLATFORM=${plat}`,
         `webpack --env PLATFORM=${plat} --config "${getWebpackConfigPath('app.build')}"`,
-      ]
-        .filter(Boolean)
-        .join(' ');
+      ].filter(Boolean);
 
       console.log(chalk.cyan('Building app...'));
       console.log(`  App target: ${chalk.yellow(target.toUpperCase())}`);
