@@ -209,9 +209,7 @@ module.exports = {
 
       if (toolArgs === '') {
         const _defaultsArgs = os.platform() === 'darwin' ? '-arvc' : '-zzaP';
-        toolArgs = legacy
-          ? '-zzaPR'
-          : `${_defaultsArgs} -o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedAlgorithms=+ssh-rsa`;
+        toolArgs = legacy ? '-zzaPR' : `${_defaultsArgs}`;
       }
 
       const REMOTE_APP_DIR = `${sshConfig}:${APPS_DIR}`;
