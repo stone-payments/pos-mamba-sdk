@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [10.3.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@10.3.1...@mamba/cli@10.3.2) (2023-11-08)
+
+
+### Bug Fixes
+
+* 🐛 remove keys algorithms from rsync command ([322b7bc](https://github.com/stone-payments/pos-mamba-sdk/commit/322b7bcffb83db884983b39c9a21593d63ee051f))
+
+
+
 ### [10.3.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@10.3.0...@mamba/cli@10.3.1) (2023-11-06)
 
 
