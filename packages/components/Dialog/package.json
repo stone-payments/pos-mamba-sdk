@@ -1,6 +1,6 @@
 {
   "name": "@mamba/dialog",
-  "version": "10.3.0",
+  "version": "10.3.1",
   "svelte": "Dialog.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -22,7 +22,7 @@
   "dependencies": {
     "@mamba/core": "^10.3.0",
     "@mamba/icon": "^10.3.0",
-    "@mamba/keyboard": "^10.3.0",
+    "@mamba/keyboard": "^10.4.3",
     "@mamba/styles": "^10.3.0"
   },
   "peerDependencies": {
