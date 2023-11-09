@@ -29,7 +29,8 @@
     "prebuild": "rimraf dist types",
     "compile": "tsc -p tsconfig.json",
     "build": "run-s prebuild compile",
-    "prepare": "npm run build"
+    "prepare": "yarn run build",
+    "test": "yarn run playwright test"
   },
   "dependencies": {
     "@mamba/core": "^10.3.0",
@@ -40,6 +41,9 @@
   },
   "peerDependencies": {
     "@mamba/core": "9.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.35.0"
   },
   "gitHead": "e919d0e654f8134f157bf4f6e078685f5dd8a000"
 }
