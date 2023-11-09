@@ -9,6 +9,7 @@ import {
 import { greddyBraces } from './regExps';
 import type Keyboard from '../Keyboard';
 import { bindMethods } from '../helpers';
+import { UIGeneralKeyboard } from '../controllers/GeneralKeyboard';
 
 /**
  * CursorWorker.
@@ -437,7 +438,7 @@ class CursorWorker {
         output = this.addStringAt(output, ' ', ...commonParams);
         break;
       case '{backspace}':
-        if (output.length > 0 && this.keyboardInstance.generalKeyboard.backspaceEnabled === true) {
+        if (output.length > 0 && UIGeneralKeyboard.isBackspaceEnabled() === true) {
           output = this.removeAt(output, ...commonParams);
         }
         break;

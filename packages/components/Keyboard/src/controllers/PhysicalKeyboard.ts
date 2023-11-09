@@ -12,6 +12,7 @@ import type Keyboard from '../Keyboard';
 import { bindMethods, isProperInput, isNonInputButProperElement } from '../helpers';
 import keyMapTable from '../mappings/keyTableMap';
 import { anyBraces } from '../common/regExps';
+import { UIGeneralKeyboard } from './GeneralKeyboard';
 
 /**
  * Responsible for handle keyboard towards physical device keys directly
@@ -456,10 +457,7 @@ class PhysicalKeyboard {
 
     /** Get the alpha code of a key of keyboard */
     const keyCode = Number(
-      this.keyboardInstance.generalKeyboard.getTableKeyCode(
-        button,
-        buttonType === ButtonType.Standard,
-      ),
+      UIGeneralKeyboard.getTableKeyCode(button, buttonType === ButtonType.Standard),
     );
 
     this.dispatchingEvent = true;

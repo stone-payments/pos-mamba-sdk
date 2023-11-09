@@ -16,12 +16,12 @@ class UIGeneralKeyboard {
   /**
    * Define if backspace button should be enabled
    */
-  backspaceEnabled = true;
+  static backspaceEnabled = true;
 
   /**
    * Define if keyboard is alphanumeric or numeric
    */
-  alphanumericEnabled = false;
+  static alphanumericEnabled = false;
 
   /**
    * Check Keyboard instance
@@ -60,15 +60,15 @@ class UIGeneralKeyboard {
   /**
    * Internal control for virtual keyboard when Sets the kernel keyboard to enter numbers only.
    */
-  setKeyboardAsNumeric(): void {
-    this.alphanumericEnabled = false;
+  static setKeyboardAsNumeric(): void {
+    UIGeneralKeyboard.alphanumericEnabled = false;
   }
 
   /**
    * Internal control for virtual keyboard when Sets the kernek keyboard to type alphanumeric characters.
    */
-  setKeyboardAsAlphanumeric(): void {
-    this.alphanumericEnabled = true;
+  static setKeyboardAsAlphanumeric(): void {
+    UIGeneralKeyboard.alphanumericEnabled = true;
   }
 
   /**
@@ -79,7 +79,7 @@ class UIGeneralKeyboard {
    * @param keyName Key name to find its code
    * @returns Found key code or `null`
    */
-  getMappedKeyCode(
+  static getMappedKeyCode(
     list: any[],
     map: { [key: number]: string | string[] },
     keyName: string,
@@ -104,7 +104,10 @@ class UIGeneralKeyboard {
    * @param modifiers Keyboard event modifierds
    * @returns Found key name or `null`
    */
-  getEventMappedKeyName(keyCode: number, modifiers: KeyEventSupportedModifier): string | null {
+  static getEventMappedKeyName(
+    keyCode: number,
+    modifiers: KeyEventSupportedModifier,
+  ): string | null {
     const found = KEY_TABLE_MAP[keyCode];
     if (!found) return null;
 
@@ -124,9 +127,9 @@ class UIGeneralKeyboard {
    * @param keyName Key name
    * @returns Relative key code
    */
-  getKeyCode(keyName: string): number | null {
+  static getKeyCode(keyName: string): number | null {
     if (typeof keyName !== 'string') return null;
-    const code = this.getMappedKeyCode(KEY_CODE_LIST, KEY_MAP, keyName);
+    const code = UIGeneralKeyboard.getMappedKeyCode(KEY_CODE_LIST, KEY_MAP, keyName);
     return code ? Number.parseInt(code, 10) : null;
   }
 
@@ -136,9 +139,9 @@ class UIGeneralKeyboard {
    * @param inferCharCode IF should infer via UTF table code (String.charCodeAt)
    * @returns Relative key code
    */
-  getTableKeyCode(keyName: string, inferCharCode = false): any {
+  static getTableKeyCode(keyName: string, inferCharCode = false): any {
     if (typeof keyName !== 'string') return null;
-    let code: string | number | null = this.getMappedKeyCode(
+    let code: string | number | null = UIGeneralKeyboard.getMappedKeyCode(
       KEY_TABLE_LIST,
       KEY_TABLE_MAP,
       keyName,
@@ -159,7 +162,7 @@ class UIGeneralKeyboard {
    * @param keyCode Key code
    * @returns Relative key name
    */
-  getKeyName(keyCode: number | undefined): string | undefined {
+  static getKeyName(keyCode: number | undefined): string | undefined {
     if (typeof keyCode === 'undefined') return keyCode;
     const key = KEY_MAP[keyCode];
     if (key) {
@@ -179,7 +182,7 @@ class UIGeneralKeyboard {
    * @param event User input event
    * @returns Relative key code
    */
-  parseEventKeyCode(event: KeyboardEvent): any {
+  static parseEventKeyCode(event: KeyboardEvent): any {
     const keyCode =
       typeof event.keyCode === 'number' && event.keyCode !== 0
         ? event.keyCode
@@ -192,9 +195,9 @@ class UIGeneralKeyboard {
    * @param event User input event
    * @returns The key name relative to its number
    */
-  parseEventKeyName(event: KeyboardEvent) {
-    const code = this.parseEventKeyCode(event);
-    return this.getKeyName(code);
+  static parseEventKeyName(event: KeyboardEvent) {
+    const code = UIGeneralKeyboard.parseEventKeyCode(event);
+    return UIGeneralKeyboard.getKeyName(code);
   }
 
   /**
@@ -202,12 +205,12 @@ class UIGeneralKeyboard {
    * @param event User input event
    * @returns A tuple containing the key code and key name respectively. Ex.: [13, "enter"]
    */
-  parseEventKeys(event: KeyboardEvent): ParsedEventInfo {
-    const code = this.parseEventKeyCode(event);
+  static parseEventKeys(event: KeyboardEvent): ParsedEventInfo {
+    const code = UIGeneralKeyboard.parseEventKeyCode(event);
     if (event.shiftKey) {
-      return [code, this.getEventMappedKeyName(code, { shiftKey: event.shiftKey })];
+      return [code, UIGeneralKeyboard.getEventMappedKeyName(code, { shiftKey: event.shiftKey })];
     }
-    return [code, this.getKeyName(code)];
+    return [code, UIGeneralKeyboard.getKeyName(code)];
   }
 
   /**
@@ -215,7 +218,7 @@ class UIGeneralKeyboard {
    * @param keyCode Key code
    * @returns
    */
-  isNumericKey(keyCode: number): boolean {
+  static isNumericKey(keyCode: number): boolean {
     return !Number.isNaN(parseFloat(KEY_MAP[keyCode]));
   }
 
@@ -224,8 +227,8 @@ class UIGeneralKeyboard {
    * @param keyCode Key code
    * @returns
    */
-  isFunctionKey(keyCode: number): boolean {
-    return !this.isNumericKey(keyCode);
+  static isFunctionKey(keyCode: number): boolean {
+    return !UIGeneralKeyboard.isNumericKey(keyCode);
   }
 
   /**
@@ -234,36 +237,36 @@ class UIGeneralKeyboard {
    * @deprecated Use `isFunctionKey(keyCode)`
    * @returns
    */
-  isActionKey(keyCode: number): boolean {
-    return this.isFunctionKey(keyCode);
+  static isActionKey(keyCode: number): boolean {
+    return UIGeneralKeyboard.isFunctionKey(keyCode);
   }
 
   /**
    * Return if the backspace button is enabled
    * @returns
    */
-  isBackspaceEnabled(): boolean {
-    return this.backspaceEnabled;
+  static isBackspaceEnabled(): boolean {
+    return UIGeneralKeyboard.backspaceEnabled;
   }
 
   /**
    * Switch OFF backspace key
    */
-  disableBackspace() {
-    this.backspaceEnabled = false;
+  static disableBackspace() {
+    UIGeneralKeyboard.backspaceEnabled = false;
   }
 
   /**
    * Switch ON backspace key
    */
-  enableBackspace() {
-    this.backspaceEnabled = true;
+  static enableBackspace() {
+    UIGeneralKeyboard.backspaceEnabled = true;
   }
 }
 
 export { UIGeneralKeyboard };
 
 // This is necessary to not duplicate the wrappers code and not create another class instance in order to they stay synchronized with backend config on embeded POS application.
-const GeneralKeyboard = new UIGeneralKeyboard();
+const GeneralKeyboard = UIGeneralKeyboard;
 
 export default GeneralKeyboard;
