@@ -1,6 +1,6 @@
 {
   "name": "@mamba/keyboard",
-  "version": "10.4.2",
+  "version": "10.4.3",
   "main": "./lib/index.js",
   "types": "./types/index.d.ts",
   "description": "POS physical keyboard handler and virtual ones",
@@ -29,17 +29,21 @@
     "prebuild": "rimraf dist types",
     "compile": "tsc -p tsconfig.json",
     "build": "run-s prebuild compile",
-    "prepare": "npm run build"
+    "prepare": "yarn run build",
+    "test": "yarn run playwright test"
   },
   "dependencies": {
     "@mamba/core": "^10.3.0",
-    "@mamba/input": "^10.4.2",
+    "@mamba/input": "^10.4.3",
     "@mamba/utils": "^10.3.0",
     "@types/lodash": "^4.14.182",
     "lodash": "^4.17.21"
   },
   "peerDependencies": {
     "@mamba/core": "9.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.35.0"
   },
   "gitHead": "e919d0e654f8134f157bf4f6e078685f5dd8a000"
 }

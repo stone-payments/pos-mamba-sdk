@@ -3,7 +3,7 @@
 
 import { merge, kebabCase } from 'lodash';
 import PhysicalKeyboard from './controllers/PhysicalKeyboard';
-import GeneralKeyboard, { UIGeneralKeyboard } from './controllers/GeneralKeyboard';
+import { UIGeneralKeyboard } from './controllers/GeneralKeyboard';
 import CursorWorker from './common/CursorWorker';
 import SuggestionBox from './components/SuggestionBox';
 import {
@@ -53,8 +53,6 @@ class Keyboard {
   buttonElements!: KeyboardButtonElements;
 
   physicalKeyboard?: PhysicalKeyboard;
-
-  generalKeyboard!: UIGeneralKeyboard;
 
   suggestionsBox?: SuggestionBox;
 
@@ -110,8 +108,6 @@ class Keyboard {
       throw new Error('INSTANCE_ALREADY_EXIST');
       return;
     }
-
-    this.generalKeyboard = GeneralKeyboard;
 
     const {
       keyboardDOMClass,
