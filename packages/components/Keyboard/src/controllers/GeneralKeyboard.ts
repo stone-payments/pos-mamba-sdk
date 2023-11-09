@@ -154,6 +154,10 @@ class UIGeneralKeyboard {
       code = keyName.charCodeAt(0);
     }
 
+    if (typeof code === 'string' && code !== '') {
+      return Number(code);
+    }
+
     return code;
   }
 
