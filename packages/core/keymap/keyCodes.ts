@@ -2,10 +2,12 @@
  * Represents keycodes of POS physical keyboard
  */
 
+export const POWER = 0; // Q60 power button
 export const BACK = 8;
 export const ENTER = 13;
 export const SHORTCUTS = 16; // MP35 F3 of keyIdentifier: "U+1000020"
 export const HELP = 17; // MP35 F1 of keyIdentifier: "U+1000021"
+export const MENU = 18; // Q60 menu button
 export const CLOSE = 27;
 export const SPACE = 32;
 export const ARROW_UP = 38;
@@ -53,6 +55,8 @@ export default Object.freeze({
   F23, // MP35 power button. The 'F23' is the keyIdentifier from MP35 POS
   F24, // MP35 F2. The 'F24' is the keyIdentifier from MP35 POS
   SPACE,
+  POWER,
+  MENU,
 
   ARROW_UP,
   ARROW_DOWN,
