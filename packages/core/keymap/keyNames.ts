@@ -7,6 +7,9 @@ export default Object.freeze({
   SHORTCUTS: 'shortcuts',
   SPACE: 'space',
 
+  POWER: 'power',
+  MENU: 'menu',
+
   ARROW_UP: 'keyup',
   ARROW_DOWN: 'keydown',
 
