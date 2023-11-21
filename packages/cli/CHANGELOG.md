@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [10.3.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@10.3.2...@mamba/cli@10.3.3) (2023-11-21)
+
+
+### Bug Fixes
+
+* 🐛 openssl 9 legacy flag ([d811604](https://github.com/stone-payments/pos-mamba-sdk/commit/d811604afacd599d4f748f61dc31f41d03d579ba))
+
+
+
 ### [10.3.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/cli@10.3.1...@mamba/cli@10.3.2) (2023-11-08)
 
 

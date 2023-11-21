@@ -135,7 +135,7 @@ module.exports = {
       const REMOTE_APP_DIR = `${sshConfig}:${APPS_DIR}`;
 
       if (toolArgs === '') {
-        toolArgs = '-r -P 8888';
+        toolArgs = '-O -r -P 8888';
       }
 
       const scpCmd = command(toolArgs, `${DIST_DIR}/`, `${REMOTE_APP_DIR}`);
