@@ -9,6 +9,8 @@ export {
   SHORTCUTS,
   F23,
   F24,
+  POWER,
+  MENU,
   ARROW_UP,
   ARROW_DOWN,
   KEYUP,
