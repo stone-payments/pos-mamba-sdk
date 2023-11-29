@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [10.4.4](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/printable@10.4.3...@mamba/printable@10.4.4) (2023-11-29)
+
+
+### Bug Fixes
+
+* 🐛 add prop "fullscreen" in failure print dialog ([431e200](https://github.com/stone-payments/pos-mamba-sdk/commit/431e2004ac509f0f57abda9a5940b748f4f45d6f))
+
+
+
 ### [10.4.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/printable@10.4.2...@mamba/printable@10.4.3) (2023-11-21)
 
 **Note:** Version bump only for package @mamba/printable
