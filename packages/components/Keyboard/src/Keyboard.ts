@@ -809,13 +809,6 @@ class Keyboard {
     }
 
     /**
-     *  Clear input listeners for keyboard route reset
-     */
-    if (this.physicalKeyboard) {
-      this.physicalKeyboard.clearInputListeners();
-    }
-
-    /**
      * Reset input value
      */
     this.setInput('');
