@@ -1,6 +1,6 @@
 {
   "name": "@mamba/tabs",
-  "version": "10.3.0",
+  "version": "10.3.1",
   "svelte": "Tabs.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
@@ -12,7 +12,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@mamba/collection": "^10.3.0"
+    "@mamba/collection": "^10.3.1"
   },
   "examples": [
     {
