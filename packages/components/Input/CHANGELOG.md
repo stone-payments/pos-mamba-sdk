@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [10.4.6](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@10.4.5...@mamba/input@10.4.6) (2023-12-05)
+
+**Note:** Version bump only for package @mamba/input
+
+
+
+
+
 ### [10.4.5](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/input@10.4.4...@mamba/input@10.4.5) (2023-11-29)
 
 **Note:** Version bump only for package @mamba/input
