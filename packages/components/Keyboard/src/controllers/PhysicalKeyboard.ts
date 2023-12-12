@@ -56,7 +56,7 @@ class PhysicalKeyboard {
      */
     if (this.getOptions().updateMode === KeyboardUpdateMode.Auto) {
       /** Add before focus event */
-      document.addEventListener('focusin', this.handleDocumentFocusIn, true);
+      document.addEventListener('focusin', this.handleDocumentFocusIn);
       /** Compute first interation. We need wait svelte render the active element, again... */
       setTimeout(() => {
         this.handleFocusIn(document.activeElement);
@@ -115,6 +115,11 @@ class PhysicalKeyboard {
    * @param e The Focus event
    */
   handleFocusIn(target?: EventTarget | Element | null, e?: FocusEvent): void {
+    if (e) {
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+    }
+
     if (!__POS__ && e) {
       let avoidExternals = false;
       try {
@@ -269,8 +274,8 @@ class PhysicalKeyboard {
    * Remove any input listeners, for life-cycle destroy
    */
   destroy() {
+    document.removeEventListener('focusin', this.handleDocumentFocusIn);
     this.clearInputListeners();
-    document.removeEventListener('focusin', this.handleDocumentFocusIn, true);
   }
 
   /**
