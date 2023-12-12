@@ -1,3 +1,6 @@
+const testDir = './tests';
+
 module.exports = {
-  testDir: './tests',
+  testDir,
+  testResults: `${testDir}/results`,
 };

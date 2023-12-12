@@ -1,4 +1,4 @@
-const { testDir } = require('./consts.js');
+const { testDir, testResults } = require('./consts.js');
 
 /**
  *
@@ -23,7 +23,7 @@ module.exports = (devices) => ({
 
   // Reporter to use
   reporter: [
-    process.env.CI ? ['junit', { outputFile: 'test-results/e2e-junit-results.xml' }] : ['html'],
+    process.env.CI ? ['junit', { outputFile: `${testResults}/e2e-junit-results.xml` }] : ['html'],
   ],
 
   use: {
