@@ -171,10 +171,6 @@ class PhysicalKeyboard {
          */
         this.keyboardInstance.handleDOMInputDataset();
 
-        if (this.getOptions().debug) {
-          console.log(`Added input event listeners`);
-        }
-
         return;
       }
 
