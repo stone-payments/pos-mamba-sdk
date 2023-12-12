@@ -115,10 +115,6 @@ class PhysicalKeyboard {
    * @param e The Focus event
    */
   handleFocusIn(target?: EventTarget | Element | null, e?: FocusEvent): void {
-    if (this.getOptions().debug) {
-      console.log(`Physical keyboard started to handling focus in event`);
-    }
-
     if (e) {
       e.stopPropagation();
       e.stopImmediatePropagation();
@@ -282,9 +278,6 @@ class PhysicalKeyboard {
    * Remove any input listeners, for life-cycle destroy
    */
   destroy() {
-    if (this.getOptions().debug) {
-      console.log(`Physical keyboard stoped to handling events`);
-    }
     document.removeEventListener('focusin', this.handleDocumentFocusIn);
     this.clearInputListeners();
   }
