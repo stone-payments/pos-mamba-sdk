@@ -67,7 +67,8 @@
     "webpack-merge": "^4.2.1"
   },
   "peerDependencies": {
-    "eslint": "^7.0.0"
+    "eslint": "^7.0.0",
+    "@playwright/test": "^1.40"
   },
   "gitHead": "e919d0e654f8134f157bf4f6e078685f5dd8a000"
 }
