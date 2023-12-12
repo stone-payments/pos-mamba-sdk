@@ -1,3 +1,5 @@
+const { testDir } = require('./consts.js');
+
 /**
  *
  * @param {typeof import("@playwright/test").devices} devices
@@ -5,7 +7,7 @@
  */
 module.exports = (devices) => ({
   // Look for test files in the "tests" directory, relative to this configuration file.
-  testDir: './tests',
+  testDir,
 
   // Run all tests in parallel.
   fullyParallel: true,
