@@ -5,7 +5,7 @@ if (typeof env.NODE_ENV === 'undefined') {
   env.NODE_ENV = 'development';
 }
 
-if (typeof env.TEST !== 'undefined' || typeof env.CI_TEST !== 'undefined') {
+if (typeof env.TEST === 'boolean' || typeof env.CI_TEST !== 'undefined') {
   env.NODE_ENV = 'test';
 }
 
