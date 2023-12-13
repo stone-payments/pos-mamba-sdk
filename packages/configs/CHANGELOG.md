@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/configs@10.3.2...@mamba/configs@11.0.0) (2023-12-13)
+
+
+### Features
+
+* 🎸 add istanbul nyc shared configs ([3849861](https://github.com/stone-payments/pos-mamba-sdk/commit/38498615d5f5d12b3d61b324ed6a14eb29a0388e))
+* 🎸 add nyc config ([67172e2](https://github.com/stone-payments/pos-mamba-sdk/commit/67172e2aa7e44d5d1cabf7ec40b259a2e8f60958))
+* 🎸 add test result folder constant ([a7fa85c](https://github.com/stone-payments/pos-mamba-sdk/commit/a7fa85c423d45f7028e91cb579768a729896f99e))
+* 🎸 centralizes playwright configuration ([98969e3](https://github.com/stone-payments/pos-mamba-sdk/commit/98969e33332fe13dd217988240fc7e0035a9c071))
+
+
+
 ### [10.3.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/configs@10.3.1...@mamba/configs@10.3.2) (2023-11-29)
 
 **Note:** Version bump only for package @mamba/configs

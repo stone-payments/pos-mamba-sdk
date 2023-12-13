@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/flatlist@10.3.4...@mamba/flatlist@11.0.0) (2023-12-13)
+
+**Note:** Version bump only for package @mamba/flatlist
+
+
+
+
+
 ### [10.3.4](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/flatlist@10.3.3...@mamba/flatlist@10.3.4) (2023-12-05)
 
 **Note:** Version bump only for package @mamba/flatlist
