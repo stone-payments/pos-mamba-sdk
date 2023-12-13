@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [12.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/keyboard@10.4.6...@mamba/keyboard@12.0.0) (2023-12-13)
+
+
+### Bug Fixes
+
+* 🐛 focusin event removal after keyboard destroy ([d55034c](https://github.com/stone-payments/pos-mamba-sdk/commit/d55034c35ade25b34ba894210fa85ea76ca6b0f5))
+
+
+
 ## [11.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/keyboard@10.4.6...@mamba/keyboard@11.0.0) (2023-12-13)
 
 
