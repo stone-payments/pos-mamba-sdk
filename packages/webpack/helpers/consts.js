@@ -5,6 +5,10 @@ if (typeof env.NODE_ENV === 'undefined') {
   env.NODE_ENV = 'development';
 }
 
+if (typeof env.TEST === 'boolean' || typeof env.CI_TEST !== 'undefined') {
+  env.NODE_ENV = 'test';
+}
+
 /** Debug level. false, 1, 2 */
 if (typeof env.DEBUG_LVL === 'undefined') {
   env.DEBUG_LVL = 'false';
@@ -42,6 +46,7 @@ module.exports = {
   APP_ENV: env.APP_ENV,
   IS_PROD: env.NODE_ENV === 'production',
   IS_DEV: env.NODE_ENV === 'development',
+  IS_TEST: env.NODE_ENV === 'test',
   DEBUG_LVL: env.DEBUG_LVL,
   IS_BROWSER: env.APP_ENV === 'browser',
   IS_POS: env.APP_ENV === 'pos',

@@ -1,6 +1,6 @@
 {
   "name": "@mamba/keyboard",
-  "version": "10.4.5",
+  "version": "11.0.0",
   "main": "./lib/index.js",
   "types": "./types/index.d.ts",
   "description": "POS physical keyboard handler and virtual ones",
@@ -33,9 +33,9 @@
     "test": "yarn run playwright test"
   },
   "dependencies": {
-    "@mamba/core": "^10.3.2",
-    "@mamba/input": "^10.4.5",
-    "@mamba/utils": "^10.3.1",
+    "@mamba/core": "^11.0.0",
+    "@mamba/input": "^11.0.0",
+    "@mamba/utils": "^11.0.0",
     "@types/lodash": "^4.14.182",
     "lodash": "^4.17.21"
   },
