@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/keyboard@12.0.0...@mamba/keyboard@11.0.0) (2023-12-13)
+
+**Note:** Version bump only for package @mamba/keyboard
+
+
+
+
+
+## [12.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/keyboard@10.4.6...@mamba/keyboard@12.0.0) (2023-12-13)
+
+
+### Bug Fixes
+
+* 🐛 focusin event removal after keyboard destroy ([d55034c](https://github.com/stone-payments/pos-mamba-sdk/commit/d55034c35ade25b34ba894210fa85ea76ca6b0f5))
+
+
+
+## [11.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/keyboard@10.4.6...@mamba/keyboard@11.0.0) (2023-12-13)
+
+
+### Bug Fixes
+
+* 🐛 focusin event removal after keyboard destroy ([d55034c](https://github.com/stone-payments/pos-mamba-sdk/commit/d55034c35ade25b34ba894210fa85ea76ca6b0f5))
+
+
+
+### [10.4.6](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/keyboard@10.4.5...@mamba/keyboard@10.4.6) (2023-12-05)
+
+
+### Bug Fixes
+
+* remove clear input listener action on reset ([d8e106a](https://github.com/stone-payments/pos-mamba-sdk/commit/d8e106ac8ae1e950ef3c8fab5a5e9ea24f98343c))
+
+
+
 ### [10.4.5](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/keyboard@10.4.4...@mamba/keyboard@10.4.5) (2023-11-29)
 
 **Note:** Version bump only for package @mamba/keyboard
