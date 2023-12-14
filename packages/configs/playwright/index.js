@@ -1,4 +1,4 @@
-const { testDir, testResults } = require('./consts.js');
+const { testDir, testResults, testArtifactsDir, testWebReportDir } = require('./consts.js');
 
 /**
  *
@@ -23,7 +23,9 @@ module.exports = (devices) => ({
 
   // Reporter to use
   reporter: [
-    process.env.CI ? ['junit', { outputFile: `${testResults}/e2e-junit-results.xml` }] : ['html'],
+    process.env.CI
+      ? ['junit', { outputFile: `${testResults}/e2e-junit-results.xml` }]
+      : ['html', { outputFolder: testWebReportDir }],
   ],
 
   use: {
@@ -46,4 +48,6 @@ module.exports = (devices) => ({
     url: 'http://127.0.0.1:8080',
     reuseExistingServer: !process.env.CI,
   },
+
+  outputDir: testArtifactsDir,
 });
