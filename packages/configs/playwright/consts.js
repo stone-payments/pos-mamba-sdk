@@ -1,6 +1,10 @@
 const testDir = './tests';
+const testResults = `${testDir}/results`;
 
 module.exports = {
   testDir,
-  testResults: `${testDir}/results`,
+  testResults,
+  testCoverageDir: `${testResults}/coverage`,
+  testArtifactsDir: `${testResults}/artifacts`,
+  testWebReportDir: `${testResults}/web-report`,
 };
