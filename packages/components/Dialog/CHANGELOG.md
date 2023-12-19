@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [11.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@12.0.0...@mamba/dialog@11.0.1) (2023-12-19)
+
+**Note:** Version bump only for package @mamba/dialog
+
+
+
+
+
 ## [11.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@12.0.0...@mamba/dialog@11.0.0) (2023-12-13)
 
 **Note:** Version bump only for package @mamba/dialog

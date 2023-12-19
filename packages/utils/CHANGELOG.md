@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [11.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/utils@11.0.0...@mamba/utils@11.0.1) (2023-12-19)
+
+
+### Bug Fixes
+
+* 🐛 add D230 as a POS with touch ([ca4796c](https://github.com/stone-payments/pos-mamba-sdk/commit/ca4796c8649b48055692785912379e08a469bec8))
+
+
+
 ## [11.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/utils@11.0.0...@mamba/utils@11.0.0) (2023-12-13)
 
 **Note:** Version bump only for package @mamba/utils
