@@ -367,6 +367,7 @@ export const WITH_TOUCH = [
   // MODELS.MP35,
   MODELS.V240M,
   MODELS.D199,
+  MODELS.D230,
 ];
 
 /**
