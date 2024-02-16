@@ -56,6 +56,7 @@ export function setup(Http) {
     refSignal,
   ) {
     const xhttp = new XMLHttpRequest();
+    const stateHedersMap = {};
 
     Http.fire('requestRefSinal', refSignal, refSignal);
 
@@ -86,11 +87,34 @@ export function setup(Http) {
     };
 
     xhttp.onreadystatechange = function onreadystatechange() {
-      /** On success state code 4 */
+      if (this.readyState === this.HEADERS_RECEIVED) {
+        // Get the raw header string
+        const resHeaders = this.getAllResponseHeaders();
+
+        // Convert the header string into an array
+        // of individual headers
+        const arr = resHeaders.trim().split(/[\r\n]+/);
+
+        // Create a map of header names to values
+
+        arr.forEach((line) => {
+          const parts = line.split(': ');
+          let header = parts.shift();
+          header = header
+            .split('-')
+            .map((i) => i.slice(0, 1).toUpperCase() + i.slice(1))
+            .join('-');
+          const value = parts.join(': ');
+          stateHedersMap[header] = value;
+        });
+      }
+
       if (this.readyState === 4 && this.status >= 200 && this.status < 300) {
+        /** On success state code 4 */
         _data = {
           status: this.status,
           body: this.responseText,
+          headers: { ...stateHedersMap },
         };
         Http.fire('requestFinished', _data, refSignal);
       }
@@ -123,6 +147,7 @@ export function setup(Http) {
           _data = {
             status: requestMsg.status,
             body: panel.requestPayload,
+            headers: {},
           };
           Http.fire('requestFinished', _data, refSignal);
         }
