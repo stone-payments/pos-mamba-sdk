@@ -6,7 +6,7 @@ module.exports = {
       {
         useBuiltIns: false,
         loose: true,
-        modules: process.env.NODE_ENV === 'test' ? 'auto' : false,
+        modules: process.env.NODE_ENV === 'test' ? 'commonjs' : false,
         debug: false,
         forceAllTransforms: true,
       },
