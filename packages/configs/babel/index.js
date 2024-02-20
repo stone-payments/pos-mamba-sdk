@@ -6,8 +6,7 @@ module.exports = {
       {
         useBuiltIns: false,
         loose: true,
-        /** Only parse modules if testing. If not, let bundler handle it */
-        modules: process.env.NODE_ENV === 'test' ? 'commonjs' : false,
+        modules: process.env.NODE_ENV === 'test' ? 'auto' : false,
         debug: false,
         forceAllTransforms: true,
       },
