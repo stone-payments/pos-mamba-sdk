@@ -54,6 +54,23 @@ function parseRawHeaders(rawHeaders) {
   return map;
 }
 
+/**
+ *
+ * @param {string} responseBody
+ * @returns {string}
+ */
+function getStringfiedBody(responseBody) {
+  let stringfiedBody = responseBody === '{}' ? '' : responseBody;
+
+  try {
+    stringfiedBody = JSON.parse(JSON.stringify(stringfiedBody));
+  } catch (_) {
+    // do nothing
+  }
+
+  return stringfiedBody;
+}
+
 export function setup(Http) {
   let _errorData = null;
   let _data = null;
@@ -63,7 +80,8 @@ export function setup(Http) {
   const setError = function onerror(refSignal) {
     _errorData = {
       status: this.status,
-      msg: this.responseText,
+      msg: this.statusText,
+      body: this.responseText,
     };
     Http.fire('requestFailed', _errorData, refSignal);
   };
@@ -113,7 +131,8 @@ export function setup(Http) {
       if (this.status >= 300) {
         _errorData = {
           status: this.status,
-          msg: this.responseText,
+          msg: this.statusText,
+          body: this.responseText,
         };
         setError.call(this, refSignal);
       }
@@ -154,13 +173,7 @@ export function setup(Http) {
       }
 
       setTimeout(() => {
-        let stringfiedBody = panel.responseBody === '{}' ? '' : panel.responseBody;
-
-        try {
-          stringfiedBody = JSON.parse(JSON.stringify(stringfiedBody));
-        } catch (_) {
-          // do nothing
-        }
+        const stringfiedBody = getStringfiedBody(panel.responseBody);
 
         if (parseInt(requestMsg.status, 10) !== 200) {
           _errorData = {
