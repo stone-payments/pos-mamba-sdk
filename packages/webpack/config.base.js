@@ -34,7 +34,6 @@ const definePluginOptions = merge(clientEnvironment('webpack'), {
   __APP_ENV__: JSON.stringify(APP_ENV),
   __PROD__: IS_PROD,
   __TEST__: IS_TEST,
-  __IS_TEST__: IS_TEST,
   __DEV__: IS_DEV,
   __DEBUG_LVL__: DEBUG_LVL,
   __POS__: IS_POS,
