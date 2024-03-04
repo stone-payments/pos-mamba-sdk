@@ -163,14 +163,17 @@
       transition: background-color 0.3s ease;
     }
 
-    :global(textarea) {
-      background-color: $green500;
-    }
-
     :global(input) {
       &:hover,
       &:focus {
-        background-color: $green500;
+        background-color: rgba($green400, 0.2);
+      }
+    }
+
+    :global(textarea) {
+      &:hover,
+      &:focus {
+        background-color: rgba($green400, 0.2);
       }
     }
 

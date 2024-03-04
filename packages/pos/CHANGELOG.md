@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [11.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@11.0.1...@mamba/pos@11.0.2) (2024-03-04)
+
+
+### Bug Fixes
+
+* 🐛 add missing response headers ([89db4fc](https://github.com/stone-payments/pos-mamba-sdk/commit/89db4fc0f9a630a77d47f6395f48fb4c786e32b3))
+* 🐛 make simulate request panel wirk again ([38651e9](https://github.com/stone-payments/pos-mamba-sdk/commit/38651e992177078b8e706afe71a714fdedbc47b0))
+* 🐛 simulator response body and status text ([6d3f521](https://github.com/stone-payments/pos-mamba-sdk/commit/6d3f521db5109b65bc665164232e71ca45b7cbb6))
+
+
+
 ### [11.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@11.0.0...@mamba/pos@11.0.1) (2023-12-19)
 
 **Note:** Version bump only for package @mamba/pos
