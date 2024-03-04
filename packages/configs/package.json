@@ -1,6 +1,6 @@
 {
   "name": "@mamba/configs",
-  "version": "11.0.2",
+  "version": "11.0.4",
   "description": "Tooling config presets to use in mamba projects.",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
