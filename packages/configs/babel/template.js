@@ -29,6 +29,10 @@ const config = extendPresetEnv(generalConfig, {
 });
 
 if (IS_TEST()) {
+  config.plugins.push('istanbul');
+}
+
+if (IS_TEST()) {
   /** Transpile dynamic imports and async/await */
   config.plugins.push('dynamic-import-node', '@babel/plugin-transform-runtime');
 } else {

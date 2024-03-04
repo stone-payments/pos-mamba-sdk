@@ -46,7 +46,7 @@ module.exports = {
   APP_ENV: env.APP_ENV,
   IS_PROD: env.NODE_ENV === 'production',
   IS_DEV: env.NODE_ENV === 'development',
-  IS_TEST: env.NODE_ENV === 'test',
+  IS_TEST: env.NODE_ENV === 'test' || env.TEST,
   DEBUG_LVL: env.DEBUG_LVL,
   IS_BROWSER: env.APP_ENV === 'browser',
   IS_POS: env.APP_ENV === 'pos',

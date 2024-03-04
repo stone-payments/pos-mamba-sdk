@@ -6,11 +6,20 @@ export const NAMESPACE = '$Http';
 
 export const SIGNALS = ['requestRefSinal', 'requestFinished', 'requestFailed'];
 
+export const DEFAULT_PANEL_SETTINGS = {
+  simulateTimeout: 0,
+  simulateRequest: false,
+  requestMsg: '',
+  responseBody: '',
+  simulateUrlPattern: '',
+  simulateHeaders: '',
+  simulateHeadersUrlPattern: '',
+  simulateRequestTime: 1000,
+};
+
 export const SETTINGS = {
   panel: {
-    simulateRequest: false,
-    requestMsg: '{}',
-    requestPayload: '{}',
+    ...DEFAULT_PANEL_SETTINGS,
   },
 };
 
@@ -18,8 +27,49 @@ export const PERSISTENT_SETTINGS = {
   panel: {
     activeProxy: false,
     proxyEnvironment: 'poiproxy-stg',
+    persistSimulateConfig: false,
   },
 };
+
+/**
+ * Create a map of header names to values
+ * @param {string} rawHeaders
+ * @returns {Object.<string, any>}
+ */
+function parseRawHeaders(rawHeaders) {
+  // Convert the header string into an array
+  // of individual headers
+  const arr = rawHeaders.trim().split(/[\r\n]+/);
+  const map = {};
+  arr.forEach((line) => {
+    const parts = line.split(': ');
+    let header = parts.shift();
+    header = header
+      .split('-')
+      .map((i) => i.slice(0, 1).toUpperCase() + i.slice(1))
+      .join('-');
+    const value = parts.join(': ');
+    map[header] = value;
+  });
+  return map;
+}
+
+/**
+ *
+ * @param {string} responseBody
+ * @returns {string}
+ */
+function getStringfiedBody(responseBody) {
+  let stringfiedBody = responseBody === '{}' ? '' : responseBody;
+
+  try {
+    stringfiedBody = JSON.parse(JSON.stringify(stringfiedBody));
+  } catch (_) {
+    // do nothing
+  }
+
+  return stringfiedBody;
+}
 
 export function setup(Http) {
   let _errorData = null;
@@ -30,7 +80,8 @@ export function setup(Http) {
   const setError = function onerror(refSignal) {
     _errorData = {
       status: this.status,
-      msg: this.responseText,
+      msg: this.statusText,
+      body: this.responseText,
     };
     Http.fire('requestFailed', _errorData, refSignal);
   };
@@ -56,6 +107,7 @@ export function setup(Http) {
     refSignal,
   ) {
     const xhttp = new XMLHttpRequest();
+    let stateHedersMap = {};
 
     Http.fire('requestRefSinal', refSignal, refSignal);
 
@@ -79,29 +131,37 @@ export function setup(Http) {
       if (this.status >= 300) {
         _errorData = {
           status: this.status,
-          msg: this.responseText,
+          msg: this.statusText,
+          body: this.responseText,
         };
         setError.call(this, refSignal);
       }
     };
 
+    const { panel } = Registry.get().$Http;
+
     xhttp.onreadystatechange = function onreadystatechange() {
-      /** On success state code 4 */
+      if (this.readyState === this.HEADERS_RECEIVED) {
+        // Get the raw header string
+        const resHeaders = this.getAllResponseHeaders();
+        stateHedersMap = parseRawHeaders(resHeaders);
+      }
+
       if (this.readyState === 4 && this.status >= 200 && this.status < 300) {
+        /** On success state code 4 */
         _data = {
           status: this.status,
           body: this.responseText,
+          headers: { ...stateHedersMap, ...panel.simulateHeaders },
         };
         Http.fire('requestFinished', _data, refSignal);
       }
     };
 
-    const { panel } = Registry.get().$Http;
-
     if (panel.simulateRequest) {
       const requestMsg = JSON.parse(panel.requestMsg);
 
-      if (timeout > 0) {
+      if (panel.timeout > 0) {
         setTimeout(() => {
           _errorData = {
             status: 504,
@@ -113,20 +173,34 @@ export function setup(Http) {
       }
 
       setTimeout(() => {
+        const stringfiedBody = getStringfiedBody(panel.responseBody);
+
         if (parseInt(requestMsg.status, 10) !== 200) {
           _errorData = {
             status: requestMsg.status,
             msg: requestMsg.msg,
+            body: stringfiedBody,
           };
           Http.fire('requestFailed', _errorData, refSignal);
         } else {
+          let hasMachtingUrl = typeof panel.simulateHeadersUrlPattern === 'string';
+          try {
+            hasMachtingUrl = new RegExp(panel.simulateHeadersUrlPattern).test(url);
+          } catch (_) {
+            // regex failed
+          }
+
           _data = {
             status: requestMsg.status,
-            body: panel.requestPayload,
+            body: stringfiedBody,
+            headers:
+              panel.simulateHeaders && hasMachtingUrl
+                ? parseRawHeaders(panel.simulateHeaders) || {}
+                : {},
           };
           Http.fire('requestFinished', _data, refSignal);
         }
-      }, 1000);
+      }, panel.simulateRequestTime);
 
       return;
     }

@@ -1,65 +1,165 @@
-<div class="title">Requests</div>
+<div class="simulator-panel-request">
+  <div class="title">Requests</div>
 
-<ul class="controllers">
-  <li class="controller">
-    <span>Simular requisição?</span>
-    <Switch bind:checked="simulateRequest" />
-  </li>
-  {#if simulateRequest}
+  <ul class="controllers">
     <li class="controller">
-      <span>Código</span>
-      <select on:change="set({ requestMsg: event.target.value })">
-          <option value={`{"status":200, "msg": "OK"}`} default>200</option>
-          <option value={`{"status":201, "msg": "Created"}`}>201</option>
-          <option value={`{"status":202, "msg": "Accepted"}`}>202</option>
-          <option value={`{"status":203, "msg": "Non-authoritative Information"}`}>203</option>
-          <option value={`{"status":204, "msg": "No Content"}`}>204</option>
-          <option value={`{"status":400, "msg": "Bad Request"}`}>400</option>
-          <option value={`{"status":401, "msg": "Unauthorized"}`}>401</option>
-          <option value={`{"status":403, "msg": "Forbidden"}`}>403</option>
-          <option value={`{"status":404, "msg": "Not Found"}`}>404</option>
-          <option value={`{"status":408, "msg": "Request Timeout"}`}>408</option>
-          <option value={`{"status":500, "msg": "Internal Server Error"}`}>500</option>
-          <option value={`{"status":504, "msg": "Gateway Time-Out"}`}>504</option>
-      </select>
+      <span>Simular requisição?</span>
+      <Switch bind:checked="simulateRequest" />
     </li>
-
-    <li class="controller is-full">
-      <span>Timeout</span>
-      <input type="text" bind:value="timeout"/>
-    </li>
-    <li class="controller is-full">
-      <span>Payload</span>
-      <textarea rows="4" style="resize:none;" bind:value="requestPayload"/>
-    </li>
-  {/if}
-
-  <li class="controller">
-    <span>Ativar proxy</span>
-    <Switch bind:checked="activeProxy" />
-  </li>
-
-  {#if activeProxy}
-    <li class="controller is-full">
-      <span>AppKey</span>
-      <input type="text" bind:value="appKey"/>
-    </li>
-    {#each Object.keys(proxyEnvs) as env}
+    {#if simulateRequest}
       <li class="controller">
-        <span>{env}</span>
-        <Radio
-          name="proxyEnvs"
-          checked="{proxyEnvironment === proxyEnvs[env]}"
-          on:click="setEnv(proxyEnvs[env])"
-        />
+        <span>Persistir configurações?</span>
+        <Switch bind:checked="persistSimulateConfig" />
       </li>
-    {/each}
-  {/if}
+      <br/>
 
-</ul>
+      <h6 class="heading">◼︎ Requisições</h6>
+      <ul class="controllers">
+        <li class="custom-headers controller is-full">
+          <span>
+            <span class="tooltip">ⓘ</span> URL Pattern:
+            <small>
+              Define a URL que vai ser simulada com um Regex. Se o campo ficar limpo, todas as requisições serão simuladas. Ex.: <code>/endpoint\/id/</code>
+            </small>
+          </span>
+          <input
+            type="text"
+            spellcheck="false"
+            autocapitalize="off"
+            autocomplete="off"
+            name="simulate-url-pattern"
+            class="disable-effects"
+            bind:value="simulateUrlPattern"
+          />
+          {#if !simulateUrlPatternValid && simulateUrlPattern !== ''}
+            <div class="invalid-message">Expressão inválida</div>
+          {/if}
+        </li>
+        <li class="controller">
+          <span>Código</span>
+          <select on:change="set({ requestMsg: event.target.value })">
+              <option value={`{"status":200, "msg": "OK"}`} default>200</option>
+              <option value={`{"status":201, "msg": "Created"}`}>201</option>
+              <option value={`{"status":202, "msg": "Accepted"}`}>202</option>
+              <option value={`{"status":203, "msg": "Non-authoritative Information"}`}>203</option>
+              <option value={`{"status":204, "msg": "No Content"}`}>204</option>
+              <option value={`{"status":400, "msg": "Bad Request"}`}>400</option>
+              <option value={`{"status":401, "msg": "Unauthorized"}`}>401</option>
+              <option value={`{"status":403, "msg": "Forbidden"}`}>403</option>
+              <option value={`{"status":404, "msg": "Not Found"}`}>404</option>
+              <option value={`{"status":408, "msg": "Request Timeout"}`}>408</option>
+              <option value={`{"status":500, "msg": "Internal Server Error"}`}>500</option>
+              <option value={`{"status":504, "msg": "Gateway Time-Out"}`}>504</option>
+          </select>
+        </li>
+        <li class="controller is-full">
+          <span>
+            <span class="tooltip">ⓘ</span> <span class="heading">Corpo da resposta</span>
+            <small>Define um JSON para ser usado como resposta das requisições, tanto sucesso quanto falha.</small>
+          </span>
+          <textarea
+            spellcheck="false"
+            data-gramm="false"
+            autocapitalize="off"
+            autocomplete="off"
+            class="response-body disable-effects"
+            rows="4"
+            style="resize:vertical;"
+            bind:value="responseBody"/>
+          {#if !responseBodyIsValid && responseBody !== ''}
+            <div class="invalid-message">JSON inválido</div>
+          {/if}
+        </li>
+      </ul>
+      <br/>
+
+      <h6 class="heading">◼︎ Headers customizados</h6>
+      <ul class="controllers">
+        <li class="custom-headers controller is-full">
+          <span>
+            <span class="tooltip">ⓘ</span> URL Pattern:
+            <small>
+              Define a URL que vai receber os headers com um Regex. Ex.: <code>/endpoint\/id/</code>
+            </small>
+          </span>
+          <input
+            type="text"
+            spellcheck="false"
+            autocapitalize="off"
+            autocomplete="off"
+            name="header-url-pattern"
+            class="disable-effects"
+            bind:value="simulateHeadersUrlPattern"
+          />
+          {#if !responseHeadersUrlPatternValid && simulateHeadersUrlPattern !== ''}
+            <div class="invalid-message">Expressão inválida</div>
+          {/if}
+        </li>
+        <li class="custom-headers controller is-full">
+          <span>
+            <span class="tooltip">ⓘ</span> Headers:
+            <small>
+              Separe os headers com <code>\r</code>.<br/>Ex.: <code>content-encoding: gzip\rcontent-type: text/html; charset=utf-8\r</code>
+            </small>
+          </span>
+          <input
+            type="text"
+            spellcheck="false"
+            autocapitalize="off"
+            autocomplete="off"
+            name="header-prop"
+            class="disable-effects"
+            bind:value="simulateHeaders"
+          />
+        </li>
+        <br/>
+        <h6 class="heading">Tempos</h6>
+        <li class="controller is-full">
+          <span>
+            <span class="tooltip">ⓘ</span> Timeout:
+            <small>Define um tempo para disparar um erro de Gateway Time-Out.</small>
+          </span>
+          <input type="number" bind:value="simulateTimeout"/>
+        </li>
+        <li class="controller is-full">
+          <span>
+            <span class="tooltip">ⓘ</span> Tempo da requisição:
+            <small>Define um tempo para as requisições simuladas quando o timeout for 0.</small>
+          </span>
+          <input type="number" bind:value="simulateRequestTime"/>
+        </li>
+      </ul>
+    {/if}
+
+    <ul class="controllers">
+      <li class="controller">
+        <span>Ativar proxy</span>
+        <Switch bind:checked="activeProxy" />
+      </li>
+
+      {#if activeProxy}
+        <li class="controller is-full">
+          <span>AppKey</span>
+          <input type="text" bind:value="appKey"/>
+        </li>
+        {#each Object.keys(proxyEnvs) as env}
+          <li class="controller">
+            <span>{env}</span>
+            <Radio
+              name="proxyEnvs"
+              checked="{proxyEnvironment === proxyEnvs[env]}"
+              on:click="setEnv(proxyEnvs[env])"
+            />
+          </li>
+        {/each}
+      {/if}
+    </ul>
+  </ul>
+</div>
 
 <script>
   import { Registry } from '../../../index.js';
+  import { DEFAULT_PANEL_SETTINGS } from '../../../drivers/http.js';
 
   export default {
     components: {
@@ -75,7 +175,6 @@
         ...Registry.get().$Http.panel,
         ...Registry.persistent.get().$Http.panel,
         appKey,
-        timeout: 0,
         proxyEnvs: {
           Produção: 'poiproxy',
           Stage: 'poiproxy-stg',
@@ -87,7 +186,126 @@
       this.set({ requestMsg: `{"status":200, "msg": "OK"}` });
     },
     onupdate({ previous, changed, current }) {
+      if (changed.simulateUrlPattern) {
+        try {
+          if (current.simulateUrlPattern !== '') {
+            const obj = new RegExp(current.simulateUrlPattern);
+            this.set({
+              simulateUrlPatternValid: !!obj,
+            });
+          }
+        } catch (_) {
+          this.set({
+            simulateUrlPatternValid: false,
+          });
+        }
+      }
+
+      if (changed.simulateHeadersUrlPattern) {
+        try {
+          if (current.simulateHeadersUrlPattern !== '') {
+            const obj = new RegExp(current.simulateHeadersUrlPattern);
+            this.set({
+              responseHeadersUrlPatternValid: !!obj,
+            });
+          }
+        } catch (_) {
+          this.set({
+            responseHeadersUrlPatternValid: false,
+          });
+        }
+      }
+
+      if (changed.responseBody) {
+        try {
+          if (current.responseBody !== '') {
+            const obj = JSON.parse(current.responseBody);
+            this.set({
+              responseBodyIsValid: !!obj,
+            });
+          }
+        } catch (_) {
+          this.set({
+            responseBodyIsValid: false,
+          });
+        }
+      }
+
+      function setSimulateProperties(resave = false) {
+        const registrySimulateSelected = current.persistSimulateConfig
+          ? Registry.persistent
+          : Registry;
+
+        registrySimulateSelected.set((draft) => {
+          if (resave) {
+            draft.$Http.panel.simulateTimeout = current.simulateTimeout;
+            draft.$Http.panel.simulateRequest = current.simulateRequest;
+            draft.$Http.panel.requestMsg = current.requestMsg;
+            draft.$Http.panel.responseBody = current.responseBody;
+            draft.$Http.panel.simulateUrlPattern = current.simulateUrlPattern;
+            draft.$Http.panel.simulateHeaders = current.simulateHeaders;
+            draft.$Http.panel.simulateHeadersUrlPattern = current.simulateHeadersUrlPattern;
+            draft.$Http.panel.simulateRequestTime = current.simulateRequestTime;
+            return;
+          }
+
+          if (changed.simulateTimeout) {
+            draft.$Http.panel.simulateTimeout = current.simulateTimeout;
+          }
+
+          if (changed.simulateRequest) {
+            draft.$Http.panel.simulateRequest = current.simulateRequest;
+          }
+
+          if (changed.requestMsg) {
+            draft.$Http.panel.requestMsg = current.requestMsg;
+          }
+
+          if (changed.responseBody) {
+            draft.$Http.panel.responseBody = current.responseBody;
+          }
+
+          if (changed.simulateUrlPattern) {
+            draft.$Http.panel.simulateUrlPattern = current.simulateUrlPattern;
+          }
+
+          if (changed.simulateHeaders) {
+            draft.$Http.panel.simulateHeaders = current.simulateHeaders;
+          }
+
+          if (changed.simulateHeadersUrlPattern) {
+            draft.$Http.panel.simulateHeadersUrlPattern = current.simulateHeadersUrlPattern;
+          }
+
+          if (changed.simulateRequestTime) {
+            draft.$Http.panel.simulateRequestTime = current.simulateRequestTime;
+          }
+        });
+      }
+
+      if (changed.persistSimulateConfig) {
+        Registry.persistent.set((draft) => {
+          draft.$Http.panel.persistSimulateConfig = current.persistSimulateConfig;
+        });
+
+        if (current.persistSimulateConfig === true) {
+          setSimulateProperties(true);
+        } else {
+          Registry.persistent.set((draft) => {
+            draft.$Http.panel = { ...DEFAULT_PANEL_SETTINGS };
+          });
+        }
+      }
+
       if (previous) {
+        // Simulate changes
+        setSimulateProperties();
+
+        Registry.set((draft) => {
+          draft.$Http.panel = current;
+        });
+
+        // Proxy changes
         Registry.persistent.set((draft) => {
           if (changed.appKey) {
             draft.$App.appKey = current.appKey;
@@ -113,3 +331,57 @@
     },
   };
 </script>
+
+<style type="text/postcss">
+  .title {
+    font-weight: bold;
+  }
+
+  .invalid-message {
+    color: $red400;
+    font-size: 10px;
+    margin-top: 4px
+  }
+
+  .simulator-panel-request {
+    input, textarea {
+      font-family: 'Fira Code', 'Courier New', 'Courier', monospace;
+    }
+
+    textarea {
+      font-size: 12px;
+    }
+
+    .controller.is-full .tooltip{
+      display: inline;
+    }
+
+    .tooltip:hover ~ small {
+      display: block;
+    }
+
+    small {
+      display: none;
+      line-height: 12px;
+      margin-top: 8px;
+    }
+  }
+
+  .heading, .invalid-message {
+    font-weight: 600;
+  }
+
+  :global(.panel) {
+    .custom-headers.controller {
+      .group {
+        padding-top: 8px;
+        margin-top: 8px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 4px;
+      }
+    }
+  }
+</style>
