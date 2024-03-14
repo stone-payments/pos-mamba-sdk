@@ -7,7 +7,10 @@ import {
 } from '@mamba/utils/models.js';
 import { Registry, System as SimulatorSystem } from '../index.js';
 import { error, log } from '../libs/utils.js';
-import systemEnums, { SystemOrganizationsDefault } from '../../drivers/system/enums.js';
+import systemEnums, {
+  SystemOrganizationsDefault,
+  DefaultAcquirerNames,
+} from '../../drivers/system/enums.js';
 
 export const NAMESPACE = '$System';
 
@@ -257,6 +260,28 @@ export function setup(System) {
    * @returns {string} `WLPagarme`
    */
   System.getWLPagarmeOrganizationName = () => systemEnums.Organizations.WLPAGARME;
+
+  /**
+   *
+   * @returns Returns the Stone Acquierer name.
+   */
+  System.getStoneAcquirerName = () => {
+    return DefaultAcquirerNames.STONE;
+  };
+
+  /**
+   *
+   * @returns Returns the active acquirer.
+   */
+  System.getActiveAcquirer = () => {
+    const { Organizations } = Registry.persistent.get().$System;
+
+    const slug = Object.keys(systemEnums.Organizations).find(
+      (key) => systemEnums.Organizations[key] === Organizations.current,
+    );
+
+    return DefaultAcquirerNames[slug];
+  };
 
   /**
    * Check if POS has printer capability
