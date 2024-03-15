@@ -1,6 +1,6 @@
 {
   "name": "@mamba/button",
-  "version": "11.0.0",
+  "version": "11.1.0",
   "svelte": "Button.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
