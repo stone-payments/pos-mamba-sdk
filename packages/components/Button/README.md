@@ -13,6 +13,7 @@ Além disso, os botões também podem ser acionados por um shortcut e executar m
 | size         | Tamanho do botão (opções: `small`, `normal`, `fill`, `full`)               | `string`       | `normal` |
 | bgColor      | Cor primária do botão                                                      | `string` (hex) | `''`     |
 | textColor    | Cor do texto no botão                                                      | `string` (hex) | `''`     |
+| className    | Classe a ser adicionado ao elemento pai do componente                      | `string`       | ``       |
 
 ## Métodos
 

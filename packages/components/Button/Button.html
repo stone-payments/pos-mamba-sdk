@@ -1,6 +1,6 @@
 <button
   ref:button
-  class="button size-{size}"
+  class="button{_class} size-{size}"
   class:at-bottom="bottom"
   class:is-secondary="secondary"
   {style}
@@ -29,6 +29,10 @@
       };
     },
     computed: {
+      _class({ className }) {
+        return className ? ` ${className}` : '';
+      },
+
       style({ secondary, bgColor, textColor, width }) {
         const style = [];
 

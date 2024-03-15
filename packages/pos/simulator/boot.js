@@ -1,4 +1,4 @@
-import { DriverManager } from './plugins/index.js';
+import { DriverManager, Registry } from './plugins/index.js';
 
 import * as $Printer from './drivers/printer.js';
 import * as $App from './drivers/app.js';
@@ -29,3 +29,21 @@ DriverManager.attachDrivers([
   Sound,
   Org,
 ]);
+
+Registry.hooks.initScriptHook(Registry, {
+  drivers: {
+    $Printer,
+    $App,
+    $Storage,
+    $Keyboard,
+    $Merchant,
+    $Payment,
+    $System,
+    $Cancellation,
+    $Http,
+    $Card,
+    $Gif,
+    Sound,
+    Org,
+  },
+});
