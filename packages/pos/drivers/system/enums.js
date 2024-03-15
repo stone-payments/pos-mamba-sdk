@@ -1,8 +1,14 @@
-export const DefaultOrganizations = {
+export const DefaultOrganizations = Object.freeze({
   STONE: 'stone',
   TON: 'ton',
   WLPAGARME: 'wlpagarme',
-};
+});
+
+export const DefaultAcquirerNames = Object.freeze({
+  STONE: 'Stone',
+  TON: 'Ton',
+  WLPAGARME: 'MarkOne',
+});
 
 export const SystemOrganizationsDefault = {
   enumerator: DefaultOrganizations,
@@ -34,5 +40,9 @@ export default {
     ABSENT: 'ABSENT',
   }),
   DefaultOrganizations,
+  DefaultAcquirerNames,
+  Organizations: {
+    ...DefaultOrganizations,
+  },
   SystemOrganizationsDefault,
 };
