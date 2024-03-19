@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [11.0.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/flatlist@11.0.2...@mamba/flatlist@11.0.3) (2024-03-19)
+
+
+### Bug Fixes
+
+* fix app for screen small ([a68026c](https://github.com/stone-payments/pos-mamba-sdk/commit/a68026c975ac8d612e8bdd282bbae954f7a4ea2b))
+
+
+
+### [11.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/flatlist@11.0.1...@mamba/flatlist@11.0.2) (2024-03-15)
+
+**Note:** Version bump only for package @mamba/flatlist
+
+
+
+
+
 ### [11.0.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/flatlist@12.0.0...@mamba/flatlist@11.0.1) (2023-12-19)
 
 **Note:** Version bump only for package @mamba/flatlist

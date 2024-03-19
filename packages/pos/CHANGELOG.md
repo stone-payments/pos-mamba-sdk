@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.1.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@11.0.2...@mamba/pos@11.1.0) (2024-03-15)
+
+
+### Features
+
+* 🎸 add init script hook for tests ([b3a4acc](https://github.com/stone-payments/pos-mamba-sdk/commit/b3a4acc45384de75405319b83a905057102c45e3))
+* 🎸 implements active acquirer ([24e6abc](https://github.com/stone-payments/pos-mamba-sdk/commit/24e6abc7f1ede392090a9f0fc00fbdb1b09d046f))
+
+
+### Bug Fixes
+
+* 🐛 missing Organization object for simulator system org methods ([d08e8da](https://github.com/stone-payments/pos-mamba-sdk/commit/d08e8da07a1309c5fcd3993924dc3099f7570c81))
+
+
+
 ### [11.0.2](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/pos@11.0.1...@mamba/pos@11.0.2) (2024-03-04)
 
 

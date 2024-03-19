@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.1.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/button@11.0.0...@mamba/button@11.1.0) (2024-03-15)
+
+
+### Features
+
+* 🎸 add className to the button comp ([9a83768](https://github.com/stone-payments/pos-mamba-sdk/commit/9a83768c399b20ab1035254491db46561545084e))
+
+
+
 ## [11.0.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/button@11.0.0...@mamba/button@11.0.0) (2023-12-13)
 
 **Note:** Version bump only for package @mamba/button
