@@ -54,14 +54,15 @@ const scrollTo = (item, index) => {
   } = item;
 
   const { element } = refs || focusableItem;
-  console.log('index', index);
-  if (index !== 0) {
-    try {
-      element.scrollIntoView({ block: 'center', inline: 'center' });
-    } catch (error) {
-      // Hot Realod can trigger error of element being null, but watch out on POS
-      if (__POS__) console.log(`${error}`);
+  try {
+    if (index !== 0) {
+      element.scrollIntoView({ block: 'center', inline: 'start' });
+    } else {
+      element.scrollIntoView(false);
     }
+  } catch (error) {
+    // Hot Realod can trigger error of element being null, but watch out on POS
+    if (__POS__) console.log(`${error}`);
   }
 };
 
@@ -73,7 +74,7 @@ const getPosition = (index, keyAction) => {
 };
 
 export const scrollActiveNodeAtIndex = (nodeList, index) => {
-  window.scrollBy(0, -200);
+  window.scrollBy(nodeList[index]);
   scrollTo(nodeList[index], index);
   toggleActive(nodeList, index);
 };
