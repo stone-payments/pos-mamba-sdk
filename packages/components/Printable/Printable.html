@@ -93,7 +93,7 @@
       if (changed._state) {
         if (current._state === STATES.FAILURE) {
           this.refs.failureDialog.open(5000);
-          this.fire('error');
+          this.fire('error', Printer.checkPrinter());
         } else if (current._state === STATES.SUCCESS) {
           this.fire('finish', true);
         }
