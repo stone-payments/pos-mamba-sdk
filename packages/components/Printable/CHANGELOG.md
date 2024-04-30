@@ -9,17 +9,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-
-
-### [11.0.4](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/printable@11.0.3...@mamba/printable@11.0.4) (2024-04-29)
-
-**Note:** Version bump only for package @mamba/printable
-
-### Add
-* Printer error emit error message
-
-
-
 ### [11.0.3](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/printable@11.0.2...@mamba/printable@11.0.3) (2024-03-15)
 
 **Note:** Version bump only for package @mamba/printable
