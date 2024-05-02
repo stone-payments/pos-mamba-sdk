@@ -19,7 +19,7 @@
 {#if _state === STATES.FAILURE && !$reprintException}
   <Dialog
     ref:failureDialog
-    on:close="fire('finish', true)"
+    on:close="printFailed()"
     fullscreen
   >
       <img class="failure-dialog-icon" src={alertIcon} alt="" />
@@ -93,7 +93,9 @@
       if (changed._state) {
         if (current._state === STATES.FAILURE) {
           this.refs.failureDialog.open(5000);
-          this.fire('error', Printer.checkPrinter());
+          if(typeof Printer.getErrorMsg === 'function')
+            this.fire('error', Printer.getErrorMsg());
+          else this.fire('error');
         } else if (current._state === STATES.SUCCESS) {
           this.fire('finish', true);
         }
@@ -138,6 +140,12 @@
           });
         });
       },
+      printFailed() {
+        if(typeof Printer.getErrorMsg === 'function') this.fire('error', Printer.getErrorMsg());
+        else this.fire('error');
+
+        this.fire('finish', true);
+      }
     },
   };
 </script>
