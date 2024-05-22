@@ -48,7 +48,8 @@ function add_to_gitignore() {
 #
 # Note: string2 is optional, if it is not passed then "." It will be used.
 function download_from_tools_on_mamba_sdk() {
-  local DOWNLOAD_BASEURL="https://raw.githubusercontent.com/stone-payments/pos-mamba-sdk/master/tools"
+  local BRANCH="master"
+  local DOWNLOAD_BASEURL="https://raw.githubusercontent.com/stone-payments/pos-mamba-sdk/$BRANCH/tools"
   local DOWNLOAD_TO="."
 
   if [ "$#" -eq 2 ]; then
