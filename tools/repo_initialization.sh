@@ -7,7 +7,6 @@
 #
 # -------------------------------------------------------
 
-
 # Log and exit with 1
 #
 # Usage:
@@ -15,10 +14,27 @@
 #
 # Args:
 #     string1 - Message to be printed.
-function log_fatal()
-{
+function log_fatal() {
   echo $@
   exit 1
+}
+
+# Add a file to gitignore if it not already defined
+#
+# Usage:
+#     add_to_gitignore <string1>
+#
+# Args:
+#     string1 - filepath to be added to .gitignore
+function add_to_gitignore() {
+  filename=$1
+
+  if grep -Fxq "$filename" .gitignore; then
+    echo "$filename already on .gitignore."
+  else
+    echo "$filename" >>.gitignore
+    echo "$filename added to .gitignore."
+  fi
 }
 
 # Download file from tools folder of repo stone-payments/pos-mamba-sdk/tools
@@ -43,6 +59,7 @@ function download_from_tools_on_mamba_sdk() {
   local FILE_TO_DOWNLOAD=$1
 
   wget -N -P $DOWNLOAD_TO $DOWNLOAD_BASEURL/$FILE_TO_DOWNLOAD
+  add_to_gitignore $FILE_TO_DOWNLOAD
 }
 
 # Download and install file from tools folder of repo stone-payments/pos-mamba-sdk/tools
@@ -55,7 +72,7 @@ function download_from_tools_on_mamba_sdk() {
 #     string2 (optional) - Relative folder path on repo to be saved.
 #
 # Note: string2 is optional, if it is not passed then "." It will be used.
-function download_and_install(){
+function download_and_install() {
   if [ "$#" -lt 1 ]; then
     log_fatal "Param error: No files were provided"
   fi
