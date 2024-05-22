@@ -1,5 +1,4 @@
 #! /usr/bin/env python3
-
 #
 # Script to CLONE or UPDATE all "submodules" listed in "repo_settings.json"
 #
@@ -98,6 +97,25 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 
 
 def update_repo(submodule):
+    def add_to_gitignore(filename):
+        """
+        Add a file to gitignore if it not already defined
+
+        Usage:
+            add_to_gitignore(filename)
+
+        Args:
+            filename: filepath to be added to .gitignore
+        """
+        with open(os.path.join(script_dir, ".gitignore"), "a+") as gitignore:
+            gitignore.seek(0)
+            lines = gitignore.readlines()
+            if filename + "\n" in lines:
+                print(f"{filename} already on .gitignore.")
+            else:
+                gitignore.write(filename + "\n")
+                print(f"{filename} added to .gitignore.")
+
     _repo_url = submodule["url"]
     _path = submodule["path"]
     _version = submodule.get("version")
@@ -156,6 +174,8 @@ def update_repo(submodule):
             f"{GREEN}Repo {_path} updated with {target_type} {target} successfully! Commit hash:"
         )
         run_command(["git", "rev-parse", "HEAD"], False)
+
+        add_to_gitignore(_path)
     else:
         print(f"{RED} Repo {_path} update attempt with {target_type} {target} FAILED!")
 
