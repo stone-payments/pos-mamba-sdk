@@ -2,6 +2,9 @@
 #
 # Script to CLONE or UPDATE all "submodules" listed in "repo_settings.json"
 #
+# The repository can have target as version, a minimal version or branch.
+# The priority order is "version" > "minimal_version" > "branch".
+# The "minimal_version" option searches for the higher version tag available (semantic) with same major of given in "minimal_version".
 
 import json
 import subprocess
@@ -9,6 +12,7 @@ import os
 import sys
 import platform
 import concurrent.futures
+import argparse
 
 # ansi escape codes "color"
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
@@ -30,24 +34,6 @@ LGRAY = "\033[0;37m"
 WHITE = "\033[1;37m"
 NC = "\033[0m"
 
-python_version = platform.python_version()
-if python_version == "3.6.9":
-    subprocess.check_call(
-        [sys.executable, "-m", "pip", "install", "importlib_metadata"]
-    )
-    from importlib_metadata import distribution, PackageNotFoundError
-else:
-    from importlib.metadata import distribution, PackageNotFoundError
-
-
-def install_package(package):
-    try:
-        dist = distribution(package)
-        # print('{} ({}) is installed'.format(dist.metadata['Name'], dist.version))
-    except PackageNotFoundError:
-        print("{} is NOT installed. Installing now...".format(package))
-        subprocess.call([sys.executable, "-m", "pip", "install", package])
-
 
 def run_command(cmd, stealth=True):
     if stealth == True:
@@ -56,12 +42,30 @@ def run_command(cmd, stealth=True):
         return subprocess.run(cmd, stderr=subprocess.PIPE)
 
 
-install_package("packaging")
+def install_dependencies():
+    def install_package(package):
+        try:
+            dist = distribution(package)
+            # print('{} ({}) is installed'.format(dist.metadata['Name'], dist.version))
+        except PackageNotFoundError:
+            print("{} is NOT installed. Installing now...".format(package))
+            subprocess.call([sys.executable, "-m", "pip", "install", package])
 
-from packaging import version
+    python_version = platform.python_version()
+    if python_version == "3.6.9":
+        subprocess.check_call(
+            [sys.executable, "-m", "pip", "install", "importlib_metadata"]
+        )
+        from importlib_metadata import distribution, PackageNotFoundError
+    else:
+        from importlib.metadata import distribution, PackageNotFoundError
+
+    install_package("packaging")
 
 
 def get_sorted_releases(path_to_run):
+    from packaging import version
+
     command_list = ["git", "ls-remote", "--tags"]
 
     output = subprocess.check_output(command_list, cwd=path_to_run).decode()
@@ -73,6 +77,8 @@ def get_sorted_releases(path_to_run):
 
 
 def get_latest_same_major(versions, base_version):
+    from packaging import version
+
     base_major = version.parse(base_version).major
     same_major_versions = [v for v in versions if version.parse(v).major == base_major]
 
@@ -82,21 +88,10 @@ def get_latest_same_major(versions, base_version):
     return max(same_major_versions, key=version.parse)
 
 
-# Reading the parameters from the JSON file
-with open("repo_settings.json", "r") as f:
-    repo_settings = json.load(f)
-
-submodules = repo_settings["submodules"]
-
-# Get the absolute path of the script
-script_dir = os.path.dirname(os.path.abspath(__file__))
-
-# The repository can have target as version, a minimal version or branch.
-# The priority order is "version" > "minimal_version" > "branch".
-# The "minimal_version" option searches for the higher version tag available (semantic) with same major of given in "minimal_version".
-
-
 def update_repo(submodule):
+    # Get the absolute path of the script
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+
     def add_to_gitignore(filename):
         """
         Add a file to gitignore if it not already defined
@@ -110,9 +105,7 @@ def update_repo(submodule):
         with open(os.path.join(script_dir, ".gitignore"), "a+") as gitignore:
             gitignore.seek(0)
             lines = gitignore.readlines()
-            if filename + "\n" in lines:
-                print(f"{filename} already on .gitignore.")
-            else:
+            if filename + "\n" not in lines:
                 gitignore.write(filename + "\n")
                 print(f"{filename} added to .gitignore.")
 
@@ -174,13 +167,40 @@ def update_repo(submodule):
             f"{GREEN}Repo {_path} updated with {target_type} {target} successfully! Commit hash:"
         )
         run_command(["git", "rev-parse", "HEAD"], False)
-
         add_to_gitignore(_path)
     else:
         print(f"{RED} Repo {_path} update attempt with {target_type} {target} FAILED!")
 
 
-# Create a pool of workers
-with concurrent.futures.ProcessPoolExecutor() as executor:
-    # Use the executor to map the function to the inputs
-    executor.map(update_repo, submodules)
+def main():
+    parser = argparse.ArgumentParser(description="Repo Setup Script")
+    parser.add_argument(
+        "repo_list",
+        help="Repositories to be updated. If nothing is provided then all repositories will be updated",
+        nargs="*",
+        default=[],
+    )
+
+    args = parser.parse_args()
+    repo_list = args.repo_list
+
+    install_dependencies()
+
+    # Reading the parameters from the JSON file
+    with open("repo_settings.json", "r") as f:
+        repo_settings = json.load(f)
+
+    submodules = repo_settings["submodules"]
+    if repo_list:
+        submodules = [
+            submodule for submodule in submodules if submodule["path"] in repo_list
+        ]
+
+    # Create a pool of workers
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        # Use the executor to map the function to the inputs
+        executor.map(update_repo, submodules)
+
+
+if __name__ == "__main__":
+    main()
