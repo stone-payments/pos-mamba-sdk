@@ -5,6 +5,10 @@
 # copy it to your repository and run it to install
 # repo_setup and the hooks common to the repositories.
 #
+# Optional args:
+#
+# --no-hooks:          Don't download and install hooks
+# --no-repo-setup-run: Don't run repo_setup.py
 # -------------------------------------------------------
 
 # Log and exit with 1
@@ -63,25 +67,47 @@ function download_from_tools_on_mamba_sdk() {
   add_to_gitignore $FILE_TO_DOWNLOAD
 }
 
-# Download and install file from tools folder of repo stone-payments/pos-mamba-sdk/tools
+# Run file from tools folder of repo stone-payments/pos-mamba-sdk/tools
 #
 # Usage:
-#     download_and_install <string1> <string2>
+#     run_file <string1>
+#
+# Args:
+#     string1 - File path to run.
+#
+# Note: string2 is optional, if it is not passed then "." It will be used.
+function run_file() {
+  if [ "$#" -lt 1 ]; then
+    log_fatal "Param error: No files were provided"
+  fi
+  chmod +x $(git rev-parse --show-toplevel)/$1
+  $(git rev-parse --show-toplevel)/$1
+}
+
+# Download and run file from tools folder of repo stone-payments/pos-mamba-sdk/tools
+#
+# Usage:
+#     download_and_run <string1> <string2>
 #
 # Args:
 #     string1 - Relative file path on repo to be downloaded.
 #     string2 (optional) - Relative folder path on repo to be saved.
 #
 # Note: string2 is optional, if it is not passed then "." It will be used.
-function download_and_install() {
+function download_and_run() {
   if [ "$#" -lt 1 ]; then
     log_fatal "Param error: No files were provided"
   fi
   download_from_tools_on_mamba_sdk $@
-  chmod +x $(git rev-parse --show-toplevel)/$1
-  $(git rev-parse --show-toplevel)/$1
+  run_file $1
 }
 
-download_from_tools_on_mamba_sdk _git_hooks/post-checkout _git_hooks
-download_and_install _git_hooks/install-hooks.sh _git_hooks
-download_and_install repo_setup.py
+if [[ "$@" != *"--no-hooks"* ]]; then
+  download_from_tools_on_mamba_sdk _git_hooks/post-checkout _git_hooks
+  download_and_run _git_hooks/install-hooks.sh _git_hooks
+fi
+
+download_from_tools_on_mamba_sdk repo_setup.py
+if [[ "$@" != *"--no-repo-setup-run"* ]]; then
+  run_file repo_setup.py
+fi
