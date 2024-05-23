@@ -36,7 +36,7 @@ function add_to_gitignore() {
   if grep -Fxq "$filename" .gitignore; then
     echo "$filename already on .gitignore."
   else
-    echo "$filename" >>.gitignore
+    echo "$filename" >> .gitignore
     echo "$filename added to .gitignore."
   fi
 }
