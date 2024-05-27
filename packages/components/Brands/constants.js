@@ -21,7 +21,6 @@ import VEROCARD from './assets/verocard.png';
 import BENVISAVALE from './assets/ben-visa-vale.png';
 import REDECOMPRAS from './assets/redecompras.png';
 import UNIONPAY from './assets/unionpay.png';
-import SOROCRED from './assets/sorocred.png';
 import BANESCARD from './assets/banescard.png';
 
 // POS Mapped brand names, don't change it deliberately
@@ -49,7 +48,6 @@ export const BRANDS = {
   REDECOMPRAS,
   UNIONPAY,
   BANESCARD,
-  SOROCRED,
 };
 
 export { BLANK };
