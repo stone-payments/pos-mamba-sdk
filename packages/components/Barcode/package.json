@@ -1,6 +1,6 @@
 {
   "name": "@mamba/barcode",
-  "version": "11.0.0",
+  "version": "12.0.0",
   "svelte": "Barcode.html",
   "author": "Stone Payments - Mamba Team",
   "license": "Apache-2.0",
