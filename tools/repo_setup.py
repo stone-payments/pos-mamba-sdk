@@ -111,6 +111,12 @@ def update_repo(submodule):
 
     _repo_url = submodule["url"]
     _path = submodule["path"]
+
+    if "pos-mamba-mal" in _repo_url: # Only for mal repositories
+      mal_path = os.environ.get("MAMBA_PATH", "")
+      if mal_path:
+        _path = mal_path + _path.replace("qml", "", 1)
+
     _version = submodule.get("version")
     _minimal_version = submodule.get("minimal_version")
     _branch = submodule.get("branch")
