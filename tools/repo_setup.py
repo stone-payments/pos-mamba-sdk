@@ -191,10 +191,15 @@ def main():
         repo_settings = json.load(f)
 
     submodules = repo_settings["submodules"]
+
     if repo_list:
-        submodules = [
-            submodule for submodule in submodules if submodule["path"] in repo_list
-        ]
+        filtered_submodules = []
+        for string1 in repo_list:
+            for submodule in submodules:
+                if string1.lower() in submodule["path"].lower():
+                    filtered_submodules.append(submodule)
+
+        submodules = filtered_submodules
 
     # Create a pool of workers
     with concurrent.futures.ProcessPoolExecutor() as executor:
