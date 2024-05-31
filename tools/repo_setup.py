@@ -35,7 +35,7 @@ WHITE = "\033[1;37m"
 NC = "\033[0m"
 
 
-def run_command(cmd, stealth=False):
+def run_command(cmd, stealth=True):
     if stealth == True:
         return subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     else:
