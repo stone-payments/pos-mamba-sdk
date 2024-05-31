@@ -39,6 +39,7 @@ def run_command(cmd, stealth=False):
     if stealth == True:
         return subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     else:
+        print(f"Running {cmd}")
         return subprocess.run(cmd, stderr=subprocess.PIPE)
 
 
