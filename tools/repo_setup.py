@@ -178,48 +178,34 @@ class PosMambaRepoSetup:
         while exec_count < 3:
             result = run_command(["git", "fetch", "origin", target, "--force"])
 
-            local_commit = subprocess.check_output(["git", "rev-parse", "HEAD"]).strip()
-            target_commit = subprocess.check_output(
-                ["git", "rev-parse", target]
-            ).strip()
-
-            # Compare os commits
-            if local_commit != target_commit:
-                if result.returncode == 0:
-                    if target_type == "tag":
-                        result = run_command(["git", "checkout", target, "--force"])
-                    elif target_type == "branch":
-                        result = run_command(
-                            [
-                                "git",
-                                "checkout",
-                                "-B",
-                                _branch,
-                                f"origin/{_branch}",
-                                "--force",
-                            ]
-                        )
-                        if result.returncode == 0:
-                            run_command(["git", "reset", "--hard", f"origin/{_branch}"])
-                            result = run_command(
-                                ["git", "pull", "--depth", "1", "--force"]
-                            )
-
-                if result.returncode == 0:
-                    print(
-                        f"{GREEN}Repo {_path} updated with {target_type} {target} successfully!"
+            if result.returncode == 0:
+                if target_type == "tag":
+                    result = run_command(["git", "checkout", target, "--force"])
+                elif target_type == "branch":
+                    result = run_command(
+                        [
+                            "git",
+                            "checkout",
+                            "-B",
+                            _branch,
+                            f"origin/{_branch}",
+                            "--force",
+                        ]
                     )
-                    add_to_gitignore(_path)
-                    break
-                else:
-                    print(
-                        f"{RED} Repo {_path} update attempt with {target_type} {target} FAILED!"
-                    )
+                    if result.returncode == 0:
+                        run_command(["git", "reset", "--hard", f"origin/{_branch}"])
+                        result = run_command(["git", "pull", "--depth", "1", "--force"])
+
+            if result.returncode == 0:
+                print(
+                    f"{GREEN}Repo {_path} updated with {target_type} {target} successfully!"
+                )
+                add_to_gitignore(_path)
+                break
             else:
                 print(
-                    f"{GREEN}Repo {_path} is already updated with {target_type} {target}!"
+                    f"{RED} Repo {_path} update attempt with {target_type} {target} FAILED!"
                 )
-                break
 
             exec_count += 1
 
