@@ -176,39 +176,50 @@ class PosMambaRepoSetup:
 
         exec_count = 0
         while exec_count < 3:
-            result = run_command(["git", "fetch", "origin", "--force"])
+            result = run_command(["git", "fetch", "origin", target, "--force"])
 
-            if result.returncode == 0:
-                if target_type == "tag":
-                    result = run_command(
-                        ["git", "checkout", f"tags/{target}", "--force"]
-                    )
-                elif target_type == "branch":
-                    result = run_command(
-                        [
-                            "git",
-                            "checkout",
-                            "-B",
-                            _branch,
-                            f"origin/{_branch}",
-                            "--force",
-                        ]
-                    )
-                    if result.returncode == 0:
-                        run_command(["git", "reset", "--hard", f"origin/{_branch}"])
-                        result = run_command(["git", "pull", "--depth", "1", "--force"])
+            local_commit = subprocess.check_output(["git", "rev-parse", "HEAD"]).strip()
+            target_commit = subprocess.check_output(
+                ["git", "rev-parse", target]
+            ).strip()
 
-            if result.returncode == 0:
-                print(
-                    f"{GREEN}Repo {_path} updated with {target_type} {target} successfully! Commit hash:"
-                )
-                run_command(["git", "rev-parse", "HEAD"], False)
-                add_to_gitignore(_path)
-                break
+            # Compare os commits
+            if local_commit != target_commit:
+                if result.returncode == 0:
+                    if target_type == "tag":
+                        result = run_command(["git", "checkout", target, "--force"])
+                    elif target_type == "branch":
+                        result = run_command(
+                            [
+                                "git",
+                                "checkout",
+                                "-B",
+                                _branch,
+                                f"origin/{_branch}",
+                                "--force",
+                            ]
+                        )
+                        if result.returncode == 0:
+                            run_command(["git", "reset", "--hard", f"origin/{_branch}"])
+                            result = run_command(
+                                ["git", "pull", "--depth", "1", "--force"]
+                            )
+
+                if result.returncode == 0:
+                    print(
+                        f"{GREEN}Repo {_path} updated with {target_type} {target} successfully!"
+                    )
+                    add_to_gitignore(_path)
+                    break
+                else:
+                    print(
+                        f"{RED} Repo {_path} update attempt with {target_type} {target} FAILED!"
+                    )
             else:
                 print(
-                    f"{RED} Repo {_path} update attempt with {target_type} {target} FAILED!"
+                    f"{GREEN}Repo {_path} is already updated with {target_type} {target}!"
                 )
+                break
 
             exec_count += 1
 
@@ -254,9 +265,11 @@ def main():
         submodules = filtered_submodules
 
     repo_setup = PosMambaRepoSetup(args.clone_type)
-  
+
+    max_workers = 2 if args.clone_type == "https" else None
+
     # Create a pool of workers
-    with concurrent.futures.ProcessPoolExecutor() as executor:
+    with concurrent.futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
         # Use the executor to map the function to the inputs
         executor.map(repo_setup.update_repo, submodules)
 
