@@ -180,10 +180,19 @@ class PosMambaRepoSetup:
 
             if result.returncode == 0:
                 if target_type == "tag":
-                    result = run_command(["git", "checkout", f"tags/{target}", "--force"])
+                    result = run_command(
+                        ["git", "checkout", f"tags/{target}", "--force"]
+                    )
                 elif target_type == "branch":
                     result = run_command(
-                        ["git", "checkout", "-B", _branch, f"origin/{_branch}", "--force"]
+                        [
+                            "git",
+                            "checkout",
+                            "-B",
+                            _branch,
+                            f"origin/{_branch}",
+                            "--force",
+                        ]
                     )
                     if result.returncode == 0:
                         run_command(["git", "reset", "--hard", f"origin/{_branch}"])
@@ -200,8 +209,8 @@ class PosMambaRepoSetup:
                 print(
                     f"{RED} Repo {_path} update attempt with {target_type} {target} FAILED!"
                 )
-            
-            exec_count+=1
+
+            exec_count += 1
 
 
 def main():
@@ -246,8 +255,10 @@ def main():
 
     repo_setup = PosMambaRepoSetup(args.clone_type)
 
+    max_workers = 2 if args.clone_type == "https" else None
+
     # Create a pool of workers
-    with concurrent.futures.ProcessPoolExecutor() as executor:
+    with concurrent.futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
         # Use the executor to map the function to the inputs
         executor.map(repo_setup.update_repo, submodules)
 
