@@ -174,29 +174,34 @@ class PosMambaRepoSetup:
             )
             return
 
-        result = run_command(["git", "fetch", "origin", "--force"])
+        exec_count = 0
+        while exec_count < 3:
+            result = run_command(["git", "fetch", "origin", "--force"])
 
-        if result.returncode == 0:
-            if target_type == "tag":
-                result = run_command(["git", "checkout", f"tags/{target}", "--force"])
-            elif target_type == "branch":
-                result = run_command(
-                    ["git", "checkout", "-B", _branch, f"origin/{_branch}", "--force"]
+            if result.returncode == 0:
+                if target_type == "tag":
+                    result = run_command(["git", "checkout", f"tags/{target}", "--force"])
+                elif target_type == "branch":
+                    result = run_command(
+                        ["git", "checkout", "-B", _branch, f"origin/{_branch}", "--force"]
+                    )
+                    if result.returncode == 0:
+                        run_command(["git", "reset", "--hard", f"origin/{_branch}"])
+                        result = run_command(["git", "pull", "--depth", "1", "--force"])
+
+            if result.returncode == 0:
+                print(
+                    f"{GREEN}Repo {_path} updated with {target_type} {target} successfully! Commit hash:"
                 )
-                if result.returncode == 0:
-                    run_command(["git", "reset", "--hard", f"origin/{_branch}"])
-                    result = run_command(["git", "pull", "--depth", "1", "--force"])
-
-        if result.returncode == 0:
-            print(
-                f"{GREEN}Repo {_path} updated with {target_type} {target} successfully! Commit hash:"
-            )
-            run_command(["git", "rev-parse", "HEAD"], False)
-            add_to_gitignore(_path)
-        else:
-            print(
-                f"{RED} Repo {_path} update attempt with {target_type} {target} FAILED!"
-            )
+                run_command(["git", "rev-parse", "HEAD"], False)
+                add_to_gitignore(_path)
+                break
+            else:
+                print(
+                    f"{RED} Repo {_path} update attempt with {target_type} {target} FAILED!"
+                )
+            
+            exec_count+=1
 
 
 def main():
