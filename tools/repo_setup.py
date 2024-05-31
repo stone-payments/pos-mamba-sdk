@@ -254,11 +254,9 @@ def main():
         submodules = filtered_submodules
 
     repo_setup = PosMambaRepoSetup(args.clone_type)
-
-    max_workers = 2 if args.clone_type == "https" else None
-
+  
     # Create a pool of workers
-    with concurrent.futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
+    with concurrent.futures.ProcessPoolExecutor() as executor:
         # Use the executor to map the function to the inputs
         executor.map(repo_setup.update_repo, submodules)
 
