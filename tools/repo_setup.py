@@ -170,7 +170,7 @@ class PosMambaRepoSetup:
             target_type = "branch"
         else:
             print(
-                "ERROR: No version, minimum_version, or branch was specified for the repository"
+                f"{RED}ERROR: No version, minimum_version, or branch was specified for the repository:{NC} {_path}"
             )
             return
 
