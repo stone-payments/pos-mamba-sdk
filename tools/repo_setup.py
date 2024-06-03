@@ -39,6 +39,7 @@ def run_command(cmd, stealth=True):
     if stealth == True:
         return subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     else:
+        print(f"Running {cmd}")
         return subprocess.run(cmd, stderr=subprocess.PIPE)
 
 
@@ -88,92 +89,138 @@ def get_latest_same_major(versions, base_version):
     return max(same_major_versions, key=version.parse)
 
 
-def update_repo(submodule):
-    # Get the absolute path of the script
-    script_dir = os.path.dirname(os.path.abspath(__file__))
+class PosMambaRepoSetup:
+    from enum import Enum
 
-    def add_to_gitignore(filename):
-        """
-        Add a file to gitignore if it not already defined
+    class CloneType(Enum):
+        SSH = "ssh"
+        HTTPS = "https"
 
-        Usage:
-            add_to_gitignore(filename)
+        @staticmethod
+        def value_list():
+            return list(map(lambda x: x.value, PosMambaRepoSetup.CloneType))
 
-        Args:
-            filename: filepath to be added to .gitignore
-        """
-        with open(os.path.join(script_dir, ".gitignore"), "a+") as gitignore:
-            gitignore.seek(0)
-            lines = gitignore.readlines()
-            if filename + "\n" not in lines:
-                gitignore.write(filename + "\n")
-                print(f"{filename} added to .gitignore.")
+        @staticmethod
+        def get_by_value(value):
+            for member in PosMambaRepoSetup.CloneType:
+                if member.value == value:
+                    return member
+            return None
 
-    _repo_url = submodule["url"]
-    _path = submodule["path"]
-    _version = submodule.get("version")
-    _minimal_version = submodule.get("minimal_version")
-    _branch = submodule.get("branch")
-    target = None
-    target_type = "tag"
+    def __init__(self, clone_type: str):
+        self.clone_type = PosMambaRepoSetup.CloneType.get_by_value(clone_type)
 
-    # Change the current working directory to the script directory
-    os.chdir(script_dir)
+    def update_repo(self, submodule):
+        # Get the absolute path of the script
+        script_dir = os.path.dirname(os.path.abspath(__file__))
 
-    # Checking if the repository already exists
-    if not os.path.exists(_path):
-        print(f"{BLUE}Initalizing submodule {_path}{NC}")
-        result = run_command(["git", "clone", "--no-checkout", _repo_url, _path])
-        if result.returncode != 0:
-            print(f"Git clone failed on {_path}")
-            return
-    else:
-        print(f"{BLUE}Updating submodule {_path}{NC}")
+        def add_to_gitignore(filename):
+            """
+            Add a file to gitignore if it not already defined
 
-    path_to_run = os.path.join(sys.path[0], _path)
-    # Changing to the repository directory
-    os.chdir(path_to_run)
+            Usage:
+                add_to_gitignore(filename)
 
-    if _version:
-        target = _version
-    elif _minimal_version:
-        target = get_latest_same_major(
-            get_sorted_releases(path_to_run), _minimal_version
-        )
-    elif _branch:
-        target = _branch
-        target_type = "branch"
-    else:
-        print(
-            "ERROR: No version, minimum_version, or branch was specified for the repository"
-        )
-        return
+            Args:
+                filename: filepath to be added to .gitignore
+            """
+            with open(os.path.join(script_dir, ".gitignore"), "a+") as gitignore:
+                gitignore.seek(0)
+                lines = gitignore.readlines()
+                if filename + "\n" not in lines:
+                    gitignore.write(filename + "\n")
+                    print(f"{filename} added to .gitignore.")
 
-    result = run_command(["git", "fetch", "origin", "--force"])
+        _repo_url: str = submodule["url"]
+        _path = submodule["path"]
+        _version = submodule.get("version")
+        _minimal_version = submodule.get("minimal_version")
+        _branch = submodule.get("branch")
+        target = None
+        target_type = "tag"
 
-    if result.returncode == 0:
-        if target_type == "tag":
-            result = run_command(["git", "checkout", f"tags/{target}", "--force"])
-        elif target_type == "branch":
-            result = run_command(
-                ["git", "checkout", "-B", _branch, f"origin/{_branch}", "--force"]
+        if self.clone_type == PosMambaRepoSetup.CloneType.HTTPS:
+            _repo_url = _repo_url.replace("git@github.com:", "https://github.com/")
+
+        # Change the current working directory to the script directory
+        os.chdir(script_dir)
+
+        # Checking if the repository already exists
+        if not os.path.exists(_path):
+            print(f"{BLUE}Initalizing submodule {_path}{NC}")
+            result = run_command(["git", "clone", "--no-checkout", _repo_url, _path])
+            if result.returncode != 0:
+                print(f"Git clone failed on {_path}")
+                return
+        else:
+            print(f"{BLUE}Updating submodule {_path}{NC}")
+
+        path_to_run = os.path.join(sys.path[0], _path)
+        # Changing to the repository directory
+        os.chdir(path_to_run)
+
+        if _version:
+            target = _version
+        elif _minimal_version:
+            target = get_latest_same_major(
+                get_sorted_releases(path_to_run), _minimal_version
             )
-            if result.returncode == 0:
-                run_command(["git", "reset", "--hard", f"origin/{_branch}"])
-                result = run_command(["git", "pull", "--depth", "1", "--force"])
+        elif _branch:
+            target = _branch
+            target_type = "branch"
+        else:
+            print(
+                f"{RED}ERROR: No version, minimum_version, or branch was specified for the repository:{NC} {_path}"
+            )
+            return
 
-    if result.returncode == 0:
-        print(
-            f"{GREEN}Repo {_path} updated with {target_type} {target} successfully! Commit hash:"
-        )
-        run_command(["git", "rev-parse", "HEAD"], False)
-        add_to_gitignore(_path)
-    else:
-        print(f"{RED} Repo {_path} update attempt with {target_type} {target} FAILED!")
+        exec_count = 0
+        while exec_count < 3:
+            result = run_command(["git", "fetch", "origin", target, "--force"])
+
+            if result.returncode == 0:
+                if target_type == "tag":
+                    result = run_command(["git", "checkout", target, "--force"])
+                elif target_type == "branch":
+                    result = run_command(
+                        [
+                            "git",
+                            "checkout",
+                            "-B",
+                            _branch,
+                            f"origin/{_branch}",
+                            "--force",
+                        ]
+                    )
+                    if result.returncode == 0:
+                        run_command(["git", "reset", "--hard", f"origin/{_branch}"])
+                        result = run_command(["git", "pull", "--depth", "1", "--force"])
+
+            if result.returncode == 0:
+                print(
+                    f"{GREEN}Repo {_path} updated with {target_type} {target} successfully!"
+                )
+                add_to_gitignore(_path)
+                break
+            else:
+                print(
+                    f"{RED} Repo {_path} update attempt with {target_type} {target} FAILED!"
+                )
+
+            exec_count += 1
 
 
 def main():
     parser = argparse.ArgumentParser(description="Repo Setup Script")
+    parser.add_argument(
+        "--clone_type",
+        "-c",
+        type=str,
+        choices=["ssh", "https"],
+        default="ssh",
+        help="Set clone type",
+    )
+
     parser.add_argument(
         "repo_list",
         help="Repositories to be updated. If nothing is provided then all repositories will be updated",
@@ -191,15 +238,24 @@ def main():
         repo_settings = json.load(f)
 
     submodules = repo_settings["submodules"]
-    if repo_list:
-        submodules = [
-            submodule for submodule in submodules if submodule["path"] in repo_list
-        ]
 
-    # Create a pool of workers
+    run_command(["git", "config", "--global", "advice.detachedHead", "false"])
+
+    if repo_list:
+        filtered_submodules = []
+        for string1 in repo_list:
+            for submodule in submodules:
+                if string1.lower() in submodule["path"].lower():
+                    filtered_submodules.append(submodule)
+
+        submodules = filtered_submodules
+
+    repo_setup = PosMambaRepoSetup(args.clone_type)
+
+   # Create a pool of workers
     with concurrent.futures.ProcessPoolExecutor() as executor:
         # Use the executor to map the function to the inputs
-        executor.map(update_repo, submodules)
+        executor.map(repo_setup.update_repo, submodules)
 
 
 if __name__ == "__main__":
