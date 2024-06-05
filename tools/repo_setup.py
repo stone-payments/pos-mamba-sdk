@@ -145,6 +145,16 @@ class PosMambaRepoSetup:
                     gitignore.write(filename + "\n")
                     print(f"{filename} added to .gitignore.")
 
+        def remove_repo(path):
+            if self.force or self.clone_type == PosMambaRepoSetup.CloneType.HTTPS:
+                os.chdir(script_dir)
+                print_warning(f"Removing {path} to try again...")
+                shutil.rmtree(os.path.join(script_dir, path))
+            else:
+                print_warning(
+                    f"Re-run repo_setup.py with -f param to fix this or remove {path} submodule dir..."
+                )
+
         _repo_url: str = submodule["url"]
         _path = submodule["path"]
         _version = submodule.get("version")
@@ -177,19 +187,9 @@ class PosMambaRepoSetup:
             # Changing to the repository directory
             os.chdir(path_to_run)
 
-            def remove_repo():
-                if self.force:
-                    os.chdir(script_dir)
-                    print_warning(f"Removing {_path} to try again...")
-                    shutil.rmtree(path_to_run)
-                else:
-                    print_warning(
-                        f"Re-run repo_setup.py with -f param to fix this or remove {_path} submodule dir..."
-                    )
-
             if not os.path.exists(os.path.join(path_to_run, ".git")):
                 print_warning(f".git not found on {_path}")
-                remove_repo()
+                remove_repo(_path)
                 exec_count += 1
                 continue
 
@@ -239,7 +239,7 @@ class PosMambaRepoSetup:
                     print_error(
                         f"Repo {_path} update attempt with {target_type} {target} FAILED!"
                     )
-                    remove_repo()
+                    remove_repo(_path)
             else:
                 print_error(f"Failed to fetch {_path}")
 
