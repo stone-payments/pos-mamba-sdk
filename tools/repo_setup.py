@@ -40,6 +40,9 @@ def print_color(message, color):
     print(f"{color}{message}{NC}")
 
 
+def print_warning(message):
+    print_color(message, YELLOW)
+
 def print_error(message):
     print_color(message, RED)
 
@@ -158,15 +161,15 @@ class PosMambaRepoSetup:
 
             # Checking if the repository already exists
             if not os.path.exists(_path):
-                print(f"{BLUE}Initalizing submodule {_path}{NC}")
+                print_color(f"Initalizing submodule {_path}", BLUE)
                 result = run_command(
                     ["git", "clone", "--no-checkout", _repo_url, _path]
                 )
                 if result.returncode != 0:
-                    print(f"Git clone failed on {_path}")
+                    print_error(f"Git clone failed on {_path}")
                     return
             else:
-                print(f"{BLUE}Updating submodule {_path}{NC}")
+                print_color(f"Updating submodule {_path}", BLUE)
 
             path_to_run = os.path.join(script_dir, _path)
             # Changing to the repository directory
@@ -174,11 +177,11 @@ class PosMambaRepoSetup:
 
             def remove_repo():
                 os.chdir(script_dir)
-                print_error(f"Removing {_path} to try again...")
+                print_warning(f"Removing {_path} to try again...")
                 shutil.rmtree(path_to_run)
 
             if not os.path.exists(os.path.join(path_to_run, ".git")):
-                print_error(f".git not found on {_path}")
+                print_warning(f".git not found on {_path}")
                 remove_repo()
                 exec_count += 1
                 continue
@@ -193,8 +196,8 @@ class PosMambaRepoSetup:
                 target = _branch
                 target_type = "branch"
             else:
-                print(
-                    f"{RED}ERROR: No version, minimum_version, or branch was specified for the repository:{NC} {_path}"
+                print_error(
+                    f"ERROR: No version, minimum_version, or branch was specified for the repository: {_path}"
                 )
                 return
 
