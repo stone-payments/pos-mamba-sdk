@@ -43,6 +43,7 @@ def print_color(message, color):
 def print_warning(message):
     print_color(message, YELLOW)
 
+
 def print_error(message):
     print_color(message, RED)
 
@@ -119,8 +120,9 @@ class PosMambaRepoSetup:
                     return member
             return None
 
-    def __init__(self, clone_type: str):
+    def __init__(self, clone_type: str, force: bool = False):
         self.clone_type = PosMambaRepoSetup.CloneType.get_by_value(clone_type)
+        self.force = force
 
     def update_repo(self, submodule):
         # Get the absolute path of the script
@@ -176,9 +178,14 @@ class PosMambaRepoSetup:
             os.chdir(path_to_run)
 
             def remove_repo():
-                os.chdir(script_dir)
-                print_warning(f"Removing {_path} to try again...")
-                shutil.rmtree(path_to_run)
+                if self.force:
+                    os.chdir(script_dir)
+                    print_warning(f"Removing {_path} to try again...")
+                    shutil.rmtree(path_to_run)
+                else:
+                    print_warning(
+                        f"Re-run repo_setup.py with -f param to fix this or remove {_path} submodule dir..."
+                    )
 
             if not os.path.exists(os.path.join(path_to_run, ".git")):
                 print_warning(f".git not found on {_path}")
@@ -242,6 +249,14 @@ class PosMambaRepoSetup:
 def main():
     parser = argparse.ArgumentParser(description="Repo Setup Script")
     parser.add_argument(
+        "--force",
+        "-f",
+        action="store_true",
+        default=False,
+        help="Force to remove submodule path if update fails",
+    )
+
+    parser.add_argument(
         "--clone_type",
         "-c",
         type=str,
@@ -279,7 +294,7 @@ def main():
 
         submodules = filtered_submodules
 
-    repo_setup = PosMambaRepoSetup(args.clone_type)
+    repo_setup = PosMambaRepoSetup(args.clone_type, args.force)
 
     # Create a pool of workers
     with concurrent.futures.ProcessPoolExecutor() as executor:
