@@ -48,14 +48,6 @@ def print_error(message):
     print_color(message, RED)
 
 
-def run_command(cmd, stealth=True):
-    if stealth == True:
-        return subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    else:
-        print(f"Running {cmd}")
-        return subprocess.run(cmd, stderr=subprocess.PIPE)
-
-
 def install_dependencies():
     def install_package(package):
         try:
@@ -120,13 +112,24 @@ class PosMambaRepoSetup:
                     return member
             return None
 
-    def __init__(self, clone_type: str, force: bool = False):
+    def __init__(self, clone_type: str, force: bool = False, log=False):
         self.clone_type = PosMambaRepoSetup.CloneType.get_by_value(clone_type)
         self.force = force
+        self.log = log
+
+    def run_command(self, cmd):
+        if self.log == True:
+            print(f"Running {cmd}")
+            return subprocess.run(cmd, stderr=subprocess.PIPE)
+        else:
+            return subprocess.run(
+                cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+            )
 
     def update_repo(self, submodule):
         # Get the absolute path of the script
         script_dir = os.path.dirname(os.path.abspath(__file__))
+        message_check = "Check your settings on repo_settings.json"
 
         def add_to_gitignore(filename):
             """
@@ -174,7 +177,7 @@ class PosMambaRepoSetup:
             # Checking if the repository already exists
             if not os.path.exists(_path):
                 print_color(f"Initalizing submodule {_path}", BLUE)
-                result = run_command(
+                result = self.run_command(
                     ["git", "clone", "--no-checkout", _repo_url, _path]
                 )
                 if result.returncode != 0:
@@ -199,6 +202,11 @@ class PosMambaRepoSetup:
                 target = get_latest_same_major(
                     get_sorted_releases(path_to_run), _minimal_version
                 )
+                if target is None:
+                    print_error(
+                        f"Minimal version {_minimal_version} not found on {_path}! {message_check}"
+                    )
+                    exit(1)
             elif _branch:
                 target = _branch
                 target_type = "branch"
@@ -208,13 +216,13 @@ class PosMambaRepoSetup:
                 )
                 return
 
-            result = run_command(["git", "fetch", "origin", target, "--force"])
+            result = self.run_command(["git", "fetch", "origin", target, "--force"])
 
             if result.returncode == 0:
                 if target_type == "tag":
-                    result = run_command(["git", "checkout", target, "--force"])
+                    result = self.run_command(["git", "checkout", target, "--force"])
                 elif target_type == "branch":
-                    result = run_command(
+                    result = self.run_command(
                         [
                             "git",
                             "checkout",
@@ -225,8 +233,12 @@ class PosMambaRepoSetup:
                         ]
                     )
                     if result.returncode == 0:
-                        run_command(["git", "reset", "--hard", f"origin/{_branch}"])
-                        result = run_command(["git", "pull", "--depth", "1", "--force"])
+                        self.run_command(
+                            ["git", "reset", "--hard", f"origin/{_branch}"]
+                        )
+                        result = self.run_command(
+                            ["git", "pull", "--depth", "1", "--force"]
+                        )
 
                 if result.returncode == 0:
                     print_color(
@@ -241,7 +253,9 @@ class PosMambaRepoSetup:
                     )
                     remove_repo(_path)
             else:
-                print_error(f"Failed to fetch {_path}")
+                print_error(
+                    f"Failed to fetch {target_type} {target} on {_path}! {message_check}"
+                )
 
             exec_count += 1
 
@@ -266,6 +280,14 @@ def main():
     )
 
     parser.add_argument(
+        "--log",
+        "-l",
+        action="store_true",
+        default=False,
+        help="Set log enabled/disabled",
+    )
+
+    parser.add_argument(
         "repo_list",
         help="Repositories to be updated. If nothing is provided then all repositories will be updated",
         nargs="*",
@@ -283,7 +305,12 @@ def main():
 
     submodules = repo_settings["submodules"]
 
-    run_command(["git", "config", "--global", "advice.detachedHead", "false"])
+    repo_setup = PosMambaRepoSetup(
+        clone_type=args.clone_type, force=args.force, log=args.log
+    )
+    repo_setup.run_command(
+        ["git", "config", "--global", "advice.detachedHead", "false"]
+    )
 
     if repo_list:
         filtered_submodules = []
@@ -293,8 +320,6 @@ def main():
                     filtered_submodules.append(submodule)
 
         submodules = filtered_submodules
-
-    repo_setup = PosMambaRepoSetup(args.clone_type, args.force)
 
     # Create a pool of workers
     with concurrent.futures.ProcessPoolExecutor() as executor:
