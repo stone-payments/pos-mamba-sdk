@@ -109,9 +109,6 @@ function download_and_run() {
 # Usage:
 #     get_commit_hash_from_branch
 function get_commit_hash_from_branch() {
-  if [ "$#" -lt 1 ]; then
-    log_fatal "Param error: No files were provided"
-  fi
   COMMIT_INFO=$(curl -s "https://api.github.com/repos/$GITHUB_REPO/commits?sha=$GITHUB_BRANCH")
   COMMIT_HASH=$(echo $COMMIT_INFO | jq -r '.[0].sha')
   echo $COMMIT_HASH
