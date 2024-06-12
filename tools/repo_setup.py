@@ -266,7 +266,7 @@ class PosMambaRepoSetup:
 
 
 def main():
-    def get_latest_sdk_commit():
+    def get_latest_sdk_commit() -> str:
         url = f"https://api.github.com/repos/stone-payments/pos-mamba-sdk/commits"
         response = requests.get(url)
         data = json.loads(response.text)
@@ -309,10 +309,10 @@ def main():
     repo_list = args.repo_list
 
     install_dependencies()
-    repo_setup_commit = "REPO_SETUP_PLACEHOLDER"
+    repo_setup_commit:str = "REPO_SETUP_PLACEHOLDER"
     sdk_commit = get_latest_sdk_commit()
 
-    if sdk_commit == repo_setup_commit:
+    if sdk_commit.lower() == repo_setup_commit.lower():
         with open("repo_settings.json", "r") as f:
             repo_settings = json.load(f)
 
@@ -340,6 +340,8 @@ def main():
             executor.map(repo_setup.update_repo, submodules)
     else:
         print_warning("repo_setup is outdated!!! Runnig repo_initialization!")
+        print_warning(f"Local repo_setup hash: {repo_setup_commit}")
+        print_warning(f"Remote sdk master hash: {sdk_commit}")
         subprocess.Popen(["wget -O - https://raw.githubusercontent.com/stone-payments/pos-mamba-sdk/master/tools/repo_initialization.sh | bash"], shell=True)
 
 if __name__ == "__main__":
