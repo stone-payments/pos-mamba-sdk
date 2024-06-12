@@ -118,9 +118,9 @@ class PosMambaRepoSetup:
         self.force = force
         self.log = log
 
-    def run_command(self, cmd):
+    def run_command(self, cmd, repo=None):
         if self.log == True:
-            print(f"Running {cmd}")
+            print_color(f"{repo} | Running {cmd}", CYAN)
             return subprocess.run(cmd, stderr=subprocess.PIPE)
         else:
             return subprocess.run(
@@ -179,7 +179,7 @@ class PosMambaRepoSetup:
             if not os.path.exists(_path):
                 print_color(f"Initalizing submodule {_path}", BLUE)
                 result = self.run_command(
-                    ["git", "clone", "--no-checkout", _repo_url, _path]
+                    ["git", "clone", "--no-checkout", _repo_url, _path], _path
                 )
                 if result.returncode != 0:
                     print_error(f"Git clone failed on {_path}")
@@ -217,11 +217,15 @@ class PosMambaRepoSetup:
                 )
                 return
 
-            result = self.run_command(["git", "fetch", "origin", target, "--force"])
+            fetch_command = ["git", "fetch", "origin"]
+            #if target_type == "tag":
+            #    fetch_command += ["tag"]
+            #fetch_command += [target, "--force"]
+            result = self.run_command(fetch_command, _path)
 
             if result.returncode == 0:
                 if target_type == "tag":
-                    result = self.run_command(["git", "checkout", target, "--force"])
+                    result = self.run_command(["git", "checkout", target, "--force"], _path)
                 elif target_type == "branch":
                     result = self.run_command(
                         [
@@ -231,14 +235,14 @@ class PosMambaRepoSetup:
                             _branch,
                             f"origin/{_branch}",
                             "--force",
-                        ]
+                        ], _path
                     )
                     if result.returncode == 0:
                         self.run_command(
-                            ["git", "reset", "--hard", f"origin/{_branch}"]
+                            ["git", "reset", "--hard", f"origin/{_branch}"], _path
                         )
                         result = self.run_command(
-                            ["git", "pull", "--depth", "1", "--force"]
+                            ["git", "pull", "--force"], _path
                         )
 
                 if result.returncode == 0:
