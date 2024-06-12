@@ -342,7 +342,7 @@ def main():
         print_warning("repo_setup is outdated!!! Runnig repo_initialization!")
         print_warning(f"Local repo_setup hash: {repo_setup_commit}")
         print_warning(f"Remote sdk master hash: {sdk_commit}")
-        subprocess.Popen(["wget -O - https://raw.githubusercontent.com/stone-payments/pos-mamba-sdk/master/tools/repo_initialization.sh | bash"], shell=True)
+        subprocess.run("wget -O - https://raw.githubusercontent.com/stone-payments/pos-mamba-sdk/master/tools/repo_initialization.sh | bash", shell=True)
 
 if __name__ == "__main__":
     main()
