@@ -14,6 +14,7 @@ import sys
 import platform
 import concurrent.futures
 import argparse
+import requests
 
 # ansi escape codes "color"
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
@@ -261,6 +262,12 @@ class PosMambaRepoSetup:
 
 
 def main():
+    def get_latest_sdk_commit():
+        url = f"https://api.github.com/repos/stone-payments/pos-mamba-sdk/commits"
+        response = requests.get(url)
+        data = json.loads(response.text)
+        return data[0]['sha']
+
     parser = argparse.ArgumentParser(description="Repo Setup Script")
     parser.add_argument(
         "--force",
@@ -298,34 +305,38 @@ def main():
     repo_list = args.repo_list
 
     install_dependencies()
+    repo_setup_commit = "REPO_SETUP_PLACEHOLDER"
+    sdk_commit = get_latest_sdk_commit()
 
-    # Reading the parameters from the JSON file
-    with open("repo_settings.json", "r") as f:
-        repo_settings = json.load(f)
+    if sdk_commit == repo_setup_commit:
+        with open("repo_settings.json", "r") as f:
+            repo_settings = json.load(f)
 
-    submodules = repo_settings["submodules"]
+        submodules = repo_settings["submodules"]
 
-    repo_setup = PosMambaRepoSetup(
-        clone_type=args.clone_type, force=args.force, log=args.log
-    )
-    repo_setup.run_command(
-        ["git", "config", "--global", "advice.detachedHead", "false"]
-    )
+        repo_setup = PosMambaRepoSetup(
+            clone_type=args.clone_type, force=args.force, log=args.log
+        )
+        repo_setup.run_command(
+            ["git", "config", "--global", "advice.detachedHead", "false"]
+        )
 
-    if repo_list:
-        filtered_submodules = []
-        for string1 in repo_list:
-            for submodule in submodules:
-                if string1.lower() in submodule["path"].lower():
-                    filtered_submodules.append(submodule)
+        if repo_list:
+            filtered_submodules = []
+            for string1 in repo_list:
+                for submodule in submodules:
+                    if string1.lower() in submodule["path"].lower():
+                        filtered_submodules.append(submodule)
 
-        submodules = filtered_submodules
+            submodules = filtered_submodules
 
-    # Create a pool of workers
-    with concurrent.futures.ProcessPoolExecutor() as executor:
-        # Use the executor to map the function to the inputs
-        executor.map(repo_setup.update_repo, submodules)
-
+        # Create a pool of workers
+        with concurrent.futures.ProcessPoolExecutor() as executor:
+            # Use the executor to map the function to the inputs
+            executor.map(repo_setup.update_repo, submodules)
+    else:
+        print_warning("repo_setup is outdated!!! Runnig repo_initialization!")
+        subprocess.Popen(["wget -O - https://raw.githubusercontent.com/stone-payments/pos-mamba-sdk/master/tools/repo_initialization.sh | bash"], shell=True)
 
 if __name__ == "__main__":
     main()
