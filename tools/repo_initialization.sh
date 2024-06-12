@@ -11,6 +11,9 @@
 # --no-repo-setup-run: Don't run repo_setup.py
 # -------------------------------------------------------
 
+GITHUB_REPO="stone-payments/pos-mamba-sdk"
+GITHUB_BRANCH="master"
+
 # Log and exit with 1
 #
 # Usage:
@@ -52,8 +55,7 @@ function add_to_gitignore() {
 #
 # Note: string2 is optional, if it is not passed then "." It will be used.
 function download_from_tools_on_mamba_sdk() {
-  local BRANCH="master"
-  local DOWNLOAD_BASEURL="https://raw.githubusercontent.com/stone-payments/pos-mamba-sdk/$BRANCH/tools"
+  local DOWNLOAD_BASEURL="https://raw.githubusercontent.com/$GITHUB_REPO/$GITHUB_BRANCH/tools"
   local DOWNLOAD_TO="."
 
   if [ "$#" -eq 2 ]; then
@@ -102,12 +104,37 @@ function download_and_run() {
   run_file $1
 }
 
+# Get commit hash by branch on sdk repo
+#
+# Usage:
+#     get_commit_hash_from_branch
+function get_commit_hash_from_branch() {
+  if [ "$#" -lt 1 ]; then
+    log_fatal "Param error: No files were provided"
+  fi
+  COMMIT_INFO=$(curl -s "https://api.github.com/repos/$GITHUB_REPO/commits?sha=$GITHUB_BRANCH")
+  COMMIT_HASH=$(echo $COMMIT_INFO | jq -r '.[0].sha')
+  echo $COMMIT_HASH
+}
+
+# All repo_setup stuff
+function repo_setup_init() {
+  repo_setup_file="repo_setup.py"
+
+  download_from_tools_on_mamba_sdk $repo_setup_file
+
+  commit_hash=$(get_commit_hash_from_branch)
+  echo $commit_hash
+  sed -i "s/REPO_SETUP_PLACEHOLDER/$commit_hash/g" $repo_setup_file
+
+  if [[ "$@" != *"--no-repo-setup-run"* ]]; then
+    run_file repo_setup.py
+  fi
+}
+
 if [[ "$@" != *"--no-hooks"* ]]; then
   download_from_tools_on_mamba_sdk _git_hooks/post-checkout _git_hooks
   download_and_run _git_hooks/install-hooks.sh _git_hooks
 fi
 
-download_from_tools_on_mamba_sdk repo_setup.py
-if [[ "$@" != *"--no-repo-setup-run"* ]]; then
-  run_file repo_setup.py
-fi
+repo_setup_init

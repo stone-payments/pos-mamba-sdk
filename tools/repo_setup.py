@@ -14,6 +14,7 @@ import sys
 import platform
 import concurrent.futures
 import argparse
+import requests
 
 # ansi escape codes "color"
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
@@ -117,9 +118,9 @@ class PosMambaRepoSetup:
         self.force = force
         self.log = log
 
-    def run_command(self, cmd):
+    def run_command(self, cmd, repo=None):
         if self.log == True:
-            print(f"Running {cmd}")
+            print_color(f"{repo} | Running {cmd}", CYAN)
             return subprocess.run(cmd, stderr=subprocess.PIPE)
         else:
             return subprocess.run(
@@ -178,7 +179,7 @@ class PosMambaRepoSetup:
             if not os.path.exists(_path):
                 print_color(f"Initalizing submodule {_path}", BLUE)
                 result = self.run_command(
-                    ["git", "clone", "--no-checkout", _repo_url, _path]
+                    ["git", "clone", "--no-checkout", _repo_url, _path], _path
                 )
                 if result.returncode != 0:
                     print_error(f"Git clone failed on {_path}")
@@ -216,11 +217,15 @@ class PosMambaRepoSetup:
                 )
                 return
 
-            result = self.run_command(["git", "fetch", "origin", target, "--force"])
+            fetch_command = ["git", "fetch", "origin"]
+            #if target_type == "tag":
+            #    fetch_command += ["tag"]
+            #fetch_command += [target, "--force"]
+            result = self.run_command(fetch_command, _path)
 
             if result.returncode == 0:
                 if target_type == "tag":
-                    result = self.run_command(["git", "checkout", target, "--force"])
+                    result = self.run_command(["git", "checkout", target, "--force"], _path)
                 elif target_type == "branch":
                     result = self.run_command(
                         [
@@ -230,14 +235,14 @@ class PosMambaRepoSetup:
                             _branch,
                             f"origin/{_branch}",
                             "--force",
-                        ]
+                        ], _path
                     )
                     if result.returncode == 0:
                         self.run_command(
-                            ["git", "reset", "--hard", f"origin/{_branch}"]
+                            ["git", "reset", "--hard", f"origin/{_branch}"], _path
                         )
                         result = self.run_command(
-                            ["git", "pull", "--depth", "1", "--force"]
+                            ["git", "pull", "--force"], _path
                         )
 
                 if result.returncode == 0:
@@ -261,6 +266,12 @@ class PosMambaRepoSetup:
 
 
 def main():
+    def get_latest_sdk_commit() -> str:
+        url = f"https://api.github.com/repos/stone-payments/pos-mamba-sdk/commits"
+        response = requests.get(url)
+        data = json.loads(response.text)
+        return data[0]['sha']
+
     parser = argparse.ArgumentParser(description="Repo Setup Script")
     parser.add_argument(
         "--force",
@@ -298,34 +309,40 @@ def main():
     repo_list = args.repo_list
 
     install_dependencies()
+    repo_setup_commit:str = "REPO_SETUP_PLACEHOLDER"
+    sdk_commit = get_latest_sdk_commit()
 
-    # Reading the parameters from the JSON file
-    with open("repo_settings.json", "r") as f:
-        repo_settings = json.load(f)
+    if sdk_commit.lower() == repo_setup_commit.lower():
+        with open("repo_settings.json", "r") as f:
+            repo_settings = json.load(f)
 
-    submodules = repo_settings["submodules"]
+        submodules = repo_settings["submodules"]
 
-    repo_setup = PosMambaRepoSetup(
-        clone_type=args.clone_type, force=args.force, log=args.log
-    )
-    repo_setup.run_command(
-        ["git", "config", "--global", "advice.detachedHead", "false"]
-    )
+        repo_setup = PosMambaRepoSetup(
+            clone_type=args.clone_type, force=args.force, log=args.log
+        )
+        repo_setup.run_command(
+            ["git", "config", "--global", "advice.detachedHead", "false"]
+        )
 
-    if repo_list:
-        filtered_submodules = []
-        for string1 in repo_list:
-            for submodule in submodules:
-                if string1.lower() in submodule["path"].lower():
-                    filtered_submodules.append(submodule)
+        if repo_list:
+            filtered_submodules = []
+            for string1 in repo_list:
+                for submodule in submodules:
+                    if string1.lower() in submodule["path"].lower():
+                        filtered_submodules.append(submodule)
 
-        submodules = filtered_submodules
+            submodules = filtered_submodules
 
-    # Create a pool of workers
-    with concurrent.futures.ProcessPoolExecutor() as executor:
-        # Use the executor to map the function to the inputs
-        executor.map(repo_setup.update_repo, submodules)
-
+        # Create a pool of workers
+        with concurrent.futures.ProcessPoolExecutor() as executor:
+            # Use the executor to map the function to the inputs
+            executor.map(repo_setup.update_repo, submodules)
+    else:
+        print_warning("repo_setup is outdated!!! Runnig repo_initialization!")
+        print_warning(f"Local repo_setup hash: {repo_setup_commit}")
+        print_warning(f"Remote sdk master hash: {sdk_commit}")
+        subprocess.Popen(["wget -O - https://raw.githubusercontent.com/stone-payments/pos-mamba-sdk/master/tools/repo_initialization.sh | bash"], shell=True)
 
 if __name__ == "__main__":
     main()
