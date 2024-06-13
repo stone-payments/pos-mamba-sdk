@@ -14,7 +14,6 @@ import sys
 import platform
 import concurrent.futures
 import argparse
-import requests
 
 # ansi escape codes "color"
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
@@ -68,6 +67,7 @@ def install_dependencies():
         from importlib.metadata import distribution, PackageNotFoundError
 
     install_package("packaging")
+    install_package("requests")
 
 
 def get_sorted_releases(path_to_run):
@@ -268,6 +268,8 @@ class PosMambaRepoSetup:
 
 def main():
     def get_latest_sdk_commit() -> str:
+        import requests
+
         url = f"https://api.github.com/repos/stone-payments/pos-mamba-sdk/commits"
         response = requests.get(url)
         data = json.loads(response.text)
@@ -317,7 +319,8 @@ def main():
     sdk_commit = get_latest_sdk_commit()
 
     if (
-        PosMambaRepoSetup.CloneType.get_by_value(args.clone_type) == PosMambaRepoSetup.CloneType.HTTPS
+        PosMambaRepoSetup.CloneType.get_by_value(args.clone_type)
+        == PosMambaRepoSetup.CloneType.HTTPS
         or not sdk_commit
         or sdk_commit.lower() == repo_setup_commit.lower()
     ):
