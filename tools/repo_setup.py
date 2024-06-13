@@ -218,14 +218,16 @@ class PosMambaRepoSetup:
                 return
 
             fetch_command = ["git", "fetch", "origin"]
-            #if target_type == "tag":
+            # if target_type == "tag":
             #    fetch_command += ["tag"]
-            #fetch_command += [target, "--force"]
+            # fetch_command += [target, "--force"]
             result = self.run_command(fetch_command, _path)
 
             if result.returncode == 0:
                 if target_type == "tag":
-                    result = self.run_command(["git", "checkout", target, "--force"], _path)
+                    result = self.run_command(
+                        ["git", "checkout", target, "--force"], _path
+                    )
                 elif target_type == "branch":
                     result = self.run_command(
                         [
@@ -235,15 +237,14 @@ class PosMambaRepoSetup:
                             _branch,
                             f"origin/{_branch}",
                             "--force",
-                        ], _path
+                        ],
+                        _path,
                     )
                     if result.returncode == 0:
                         self.run_command(
                             ["git", "reset", "--hard", f"origin/{_branch}"], _path
                         )
-                        result = self.run_command(
-                            ["git", "pull", "--force"], _path
-                        )
+                        result = self.run_command(["git", "pull", "--force"], _path)
 
                 if result.returncode == 0:
                     print_color(
@@ -270,7 +271,10 @@ def main():
         url = f"https://api.github.com/repos/stone-payments/pos-mamba-sdk/commits"
         response = requests.get(url)
         data = json.loads(response.text)
-        return data[0]['sha']
+        if isinstance(data, list) and len(data) > 0 and "sha" in data[0]:
+            return data[0]["sha"]
+
+        return None
 
     parser = argparse.ArgumentParser(description="Repo Setup Script")
     parser.add_argument(
@@ -309,10 +313,14 @@ def main():
     repo_list = args.repo_list
 
     install_dependencies()
-    repo_setup_commit:str = "REPO_SETUP_PLACEHOLDER"
+    repo_setup_commit: str = "REPO_SETUP_PLACEHOLDER"
     sdk_commit = get_latest_sdk_commit()
 
-    if sdk_commit.lower() == repo_setup_commit.lower():
+    if (
+        PosMambaRepoSetup.CloneType.get_by_value(args.clone_type) == PosMambaRepoSetup.CloneType.HTTPS
+        or not sdk_commit
+        or sdk_commit.lower() == repo_setup_commit.lower()
+    ):
         with open("repo_settings.json", "r") as f:
             repo_settings = json.load(f)
 
@@ -342,7 +350,11 @@ def main():
         print_warning("repo_setup is outdated!!! Runnig repo_initialization!")
         print_warning(f"Local repo_setup hash: {repo_setup_commit}")
         print_warning(f"Remote sdk master hash: {sdk_commit}")
-        subprocess.run("wget -O - https://raw.githubusercontent.com/stone-payments/pos-mamba-sdk/master/tools/repo_initialization.sh | bash", shell=True)
+        subprocess.run(
+            "wget -O - https://raw.githubusercontent.com/stone-payments/pos-mamba-sdk/master/tools/repo_initialization.sh -q -O - | bash",
+            shell=True,
+        )
+
 
 if __name__ == "__main__":
     main()
