@@ -36,9 +36,7 @@ function log_fatal() {
 function add_to_gitignore() {
   filename=$1
 
-  if grep -Fxq "$filename" .gitignore; then
-    echo "$filename already on .gitignore."
-  else
+  if ! grep -Fxq "$filename" .gitignore; then
     echo "$filename" >> .gitignore
     echo "$filename added to .gitignore."
   fi
@@ -65,7 +63,7 @@ function download_from_tools_on_mamba_sdk() {
   fi
   local FILE_TO_DOWNLOAD=$1
 
-  wget -N -P $DOWNLOAD_TO $DOWNLOAD_BASEURL/$FILE_TO_DOWNLOAD
+  wget -nv -P $DOWNLOAD_TO -O $FILE_TO_DOWNLOAD $DOWNLOAD_BASEURL/$FILE_TO_DOWNLOAD
   add_to_gitignore $FILE_TO_DOWNLOAD
 }
 
@@ -120,11 +118,10 @@ function repo_setup_init() {
 
   download_from_tools_on_mamba_sdk $repo_setup_file
 
-  commit_hash=$(get_commit_hash_from_branch)
-  echo $commit_hash
-  sed -i "s/REPO_SETUP_PLACEHOLDER/$commit_hash/g" $repo_setup_file
-
   if [[ "$@" != *"--no-repo-setup-run"* ]]; then
+    commit_hash=$(get_commit_hash_from_branch)
+    echo $commit_hash
+    sed -i "s/REPO_SETUP_PLACEHOLDER/$commit_hash/g" $repo_setup_file
     run_file repo_setup.py
   fi
 }
@@ -134,4 +131,4 @@ if [[ "$@" != *"--no-hooks"* ]]; then
   download_and_run _git_hooks/install-hooks.sh _git_hooks
 fi
 
-repo_setup_init
+repo_setup_init $@
