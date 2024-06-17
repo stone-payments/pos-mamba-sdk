@@ -223,11 +223,19 @@ class PosMambaRepoSetup:
                 ["git", "status", "--porcelain"]
             ).decode("utf-8")
             if status_output:
-                self.run_command(
-                    ["git", "stash", "push", "--include-untracked"],
+                _result = self.run_command(
+                    [
+                        "git",
+                        "stash",
+                        "push",
+                        "-m",
+                        '"STASHED BY REPO_SETUP.PY"',
+                        "--include-untracked",
+                    ],
                     _path,
                 )
-                stash_applied = True
+                if _result.returncode == 0:
+                    stash_applied = True
 
             fetch_command = ["git", "fetch", "origin"]
             # if target_type == "tag":
@@ -260,7 +268,9 @@ class PosMambaRepoSetup:
 
                 if result.returncode == 0:
                     if stash_applied:
-                        self.run_command(["git", "stash", "pop"], _path)
+                        _result = self.run_command(["git", "stash", "pop"], _path)
+                        if _result.returncode:
+                            print_error("Error applying stash")
 
                     print_color(
                         f"Repo {_path} updated with {target_type} {target} successfully!",
