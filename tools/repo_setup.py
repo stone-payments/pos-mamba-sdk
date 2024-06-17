@@ -98,6 +98,9 @@ def get_latest_same_major(versions, base_version):
 class PosMambaRepoSetup:
     from enum import Enum
 
+    # Get the absolute path of the script
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+
     class CloneType(Enum):
         SSH = "ssh"
         HTTPS = "https"
@@ -128,8 +131,6 @@ class PosMambaRepoSetup:
             )
 
     def update_repo(self, submodule):
-        # Get the absolute path of the script
-        script_dir = os.path.dirname(os.path.abspath(__file__))
         message_check = "Check your settings on repo_settings.json"
 
         def add_to_gitignore(filename):
@@ -142,7 +143,7 @@ class PosMambaRepoSetup:
             Args:
                 filename: filepath to be added to .gitignore
             """
-            with open(os.path.join(script_dir, ".gitignore"), "a+") as gitignore:
+            with open(os.path.join(self.script_dir, ".gitignore"), "a+") as gitignore:
                 gitignore.seek(0)
                 lines = gitignore.readlines()
                 if filename + "\n" not in lines:
@@ -151,9 +152,9 @@ class PosMambaRepoSetup:
 
         def remove_repo(path):
             if self.force or self.clone_type == PosMambaRepoSetup.CloneType.HTTPS:
-                os.chdir(script_dir)
+                os.chdir(self.script_dir)
                 print_warning(f"Removing {path} to try again...")
-                shutil.rmtree(os.path.join(script_dir, path))
+                shutil.rmtree(os.path.join(self.script_dir, path))
             else:
                 print_warning(
                     f"Re-run repo_setup.py with -f param to fix this or remove {path} submodule dir..."
@@ -173,13 +174,14 @@ class PosMambaRepoSetup:
         exec_count = 0
         while exec_count < 3:
             # Change the current working directory to the script directory
-            os.chdir(script_dir)
+            os.chdir(self.script_dir)
+            full_repo_path = os.path.join(self.script_dir, _path)
 
             # Checking if the repository already exists
             if not os.path.exists(_path):
                 print_color(f"Initalizing submodule {_path}", BLUE)
                 result = self.run_command(
-                    ["git", "clone", "--no-checkout", _repo_url, _path], _path
+                    ["git", "clone", "--no-checkout", _repo_url, full_repo_path], _path
                 )
                 if result.returncode != 0:
                     print_error(f"Git clone failed on {_path}")
@@ -187,11 +189,10 @@ class PosMambaRepoSetup:
             else:
                 print_color(f"Updating submodule {_path}", BLUE)
 
-            path_to_run = os.path.join(script_dir, _path)
             # Changing to the repository directory
-            os.chdir(path_to_run)
+            os.chdir(full_repo_path)
 
-            if not os.path.exists(os.path.join(path_to_run, ".git")):
+            if not os.path.exists(os.path.join(full_repo_path, ".git")):
                 print_warning(f".git not found on {_path}")
                 remove_repo(_path)
                 exec_count += 1
@@ -201,7 +202,7 @@ class PosMambaRepoSetup:
                 target = _version
             elif _minimal_version:
                 target = get_latest_same_major(
-                    get_sorted_releases(path_to_run), _minimal_version
+                    get_sorted_releases(full_repo_path), _minimal_version
                 )
                 if target is None:
                     print_error(
@@ -216,6 +217,25 @@ class PosMambaRepoSetup:
                     f"ERROR: No version, minimum_version, or branch was specified for the repository: {_path}"
                 )
                 return
+
+            stash_applied = False
+            status_output = subprocess.check_output(
+                ["git", "status", "--porcelain"]
+            ).decode("utf-8")
+            if status_output:
+                _result = self.run_command(
+                    [
+                        "git",
+                        "stash",
+                        "push",
+                        "-m",
+                        '"STASHED BY REPO_SETUP.PY"',
+                        "--include-untracked",
+                    ],
+                    _path,
+                )
+                if _result.returncode == 0:
+                    stash_applied = True
 
             fetch_command = ["git", "fetch", "origin"]
             # if target_type == "tag":
@@ -247,6 +267,11 @@ class PosMambaRepoSetup:
                         result = self.run_command(["git", "pull", "--force"], _path)
 
                 if result.returncode == 0:
+                    if stash_applied:
+                        _result = self.run_command(["git", "stash", "pop"], _path)
+                        if _result.returncode:
+                            print_error("Error applying stash")
+
                     print_color(
                         f"Repo {_path} updated with {target_type} {target} successfully!",
                         GREEN,
