@@ -173,6 +173,7 @@ class PosMambaRepoSetup:
 
         exec_count = 0
         while exec_count < 3:
+            repo_cloned = False
             # Change the current working directory to the script directory
             os.chdir(self.script_dir)
             full_repo_path = os.path.join(self.script_dir, _path)
@@ -186,6 +187,7 @@ class PosMambaRepoSetup:
                 if result.returncode != 0:
                     print_error(f"Git clone failed on {_path}")
                     return
+                repo_cloned = True
             else:
                 print_color(f"Updating submodule {_path}", BLUE)
 
@@ -219,23 +221,24 @@ class PosMambaRepoSetup:
                 return
 
             stash_applied = False
-            status_output = subprocess.check_output(
-                ["git", "status", "--porcelain"]
-            ).decode("utf-8")
-            if status_output:
-                _result = self.run_command(
-                    [
-                        "git",
-                        "stash",
-                        "push",
-                        "-m",
-                        '"STASHED BY REPO_SETUP.PY"',
-                        "--include-untracked",
-                    ],
-                    _path,
-                )
-                if _result.returncode == 0:
-                    stash_applied = True
+            if not repo_cloned:
+                status_output = subprocess.check_output(
+                    ["git", "status", "--porcelain"]
+                ).decode("utf-8")
+                if status_output:
+                    _result = self.run_command(
+                        [
+                            "git",
+                            "stash",
+                            "push",
+                            "-m",
+                            '"STASHED BY REPO_SETUP.PY"',
+                            "--include-untracked",
+                        ],
+                        _path,
+                    )
+                    if _result.returncode == 0:
+                        stash_applied = True
 
             fetch_command = ["git", "fetch", "origin"]
             # if target_type == "tag":
