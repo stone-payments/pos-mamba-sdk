@@ -249,26 +249,26 @@ class PosMambaRepoSetup:
 
             return versions
 
-        _version = submodule.get("version")
-        _minimal_version = submodule.get("minimal_version")
-        _branch = submodule.get("branch")
+        version = submodule.get("version")
+        minimal_version = submodule.get("minimal_version")
+        branch = submodule.get("branch")
         path = submodule["path"]
         target = "none"
 
         if PosMambaRepoSetup.repo_initialized(full_repo_path):
-            if _branch:
-                target = _branch
-            elif _minimal_version:
+            if branch:
+                target = branch
+            elif minimal_version:
                 target = get_latest_same_major(
-                    get_sorted_releases(full_repo_path), _minimal_version
+                    get_sorted_releases(full_repo_path), minimal_version
                 )
                 if target is None:
                     print_error(
-                        f"Minimal version {_minimal_version} not found on {path}! {PosMambaRepoSetup.message_check}"
+                        f"Minimal version {minimal_version} not found on {path}! {PosMambaRepoSetup.message_check}"
                     )
                     exit(1)
-            elif _version:
-                target = _version
+            elif version:
+                target = version
             else:
                 print_error(
                     f"ERROR: No version, minimum_version, or branch was specified for the repository: {path}"
@@ -282,9 +282,9 @@ class PosMambaRepoSetup:
 
         repo_url: str = submodule["url"]
         path = submodule["path"]
-        _version = submodule.get("version")
-        _minimal_version = submodule.get("minimal_version")
-        _branch = submodule.get("branch")
+        version = submodule.get("version")
+        minimal_version = submodule.get("minimal_version")
+        branch = submodule.get("branch")
         target_type = "tag"
 
         full_repo_path = (
@@ -293,9 +293,9 @@ class PosMambaRepoSetup:
             else full_repo_path
         )
 
-        if _version or _minimal_version:
+        if version or minimal_version:
             target_type = "tag"
-        elif _branch:
+        elif branch:
             target_type = "branch"
         else:
             print_error(
@@ -314,7 +314,9 @@ class PosMambaRepoSetup:
 
         if cls.repo_initialized(full_repo_path):
             print_color(f"Updating submodule {repo_name}", BLUE)
-        elif os.path.exists(os.path.join(full_repo_path)) and not os.path.exists(os.path.join(full_repo_path, ".git")):
+        elif os.path.exists(os.path.join(full_repo_path)) and not os.path.exists(
+            os.path.join(full_repo_path, ".git")
+        ):
             print_warning(f".git not found on {repo_name}")
             cls.remove_repo(full_repo_path)
             repo_error = True
@@ -460,6 +462,7 @@ def main():
             "wget -O - https://raw.githubusercontent.com/stone-payments/pos-mamba-sdk/master/tools/repo_initialization.sh -q -O - | bash",
             shell=True,
         )
+
 
 if __name__ == "__main__":
     main()
