@@ -73,12 +73,6 @@ def install_dependencies():
 class PosMambaRepoSetup:
     from enum import Enum
 
-    repo_settings_file_name = "repo_settings.json"
-
-    # Get the absolute path of the script
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    message_check = "Check your settings on repo_settings.json"
-
     class CloneType(Enum):
         SSH = "ssh"
         HTTPS = "https"
@@ -94,13 +88,23 @@ class PosMambaRepoSetup:
                     return member
             return None
 
+    repo_settings_file_name = "repo_settings.json"
+    clone_type = CloneType.SSH
+    force = False
+    log = False
+
+    # Get the absolute path of the script
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    message_check = "Check your settings on repo_settings.json"
+
     def __init__(self, clone_type: str, force: bool = False, log=False):
         self.clone_type = PosMambaRepoSetup.CloneType.get_by_value(clone_type)
         self.force = force
         self.log = log
 
-    def run_command(self, cmd, repo=None):
-        if self.log == True:
+    @classmethod
+    def run_command(cls, cmd, repo="Repo not passed"):
+        if cls.log == True:
             print_color(f"{repo} | Running {cmd}", CYAN)
             return subprocess.run(cmd, stderr=subprocess.PIPE)
         else:
@@ -108,11 +112,12 @@ class PosMambaRepoSetup:
                 cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
             )
 
-    def remove_repo(self, path):
-        if self.force or self.clone_type == PosMambaRepoSetup.CloneType.HTTPS:
-            os.chdir(self.script_dir)
+    @classmethod
+    def remove_repo(cls, path):
+        if cls.force or cls.clone_type == PosMambaRepoSetup.CloneType.HTTPS:
+            os.chdir(cls.script_dir)
             print_warning(f"Removing {path} to try again...")
-            shutil.rmtree(os.path.join(self.script_dir, path))
+            shutil.rmtree(path)
         else:
             print_warning(
                 f"Re-run repo_setup.py with -f param to fix this or remove {path} submodule dir..."
@@ -208,8 +213,17 @@ class PosMambaRepoSetup:
 
         return False
 
+    @classmethod
+    def repo_initialized(cls, full_repo_path: str) -> bool:
+        if os.path.exists(full_repo_path) and os.path.exists(
+            os.path.join(full_repo_path, ".git")
+        ):
+            return True
+
+        return False
+
     @staticmethod
-    def get_info_by_submodule(submodule, full_repo_path=None) -> tuple:
+    def get_target_of_submodule(submodule, full_repo_path=None) -> str:
         def get_latest_same_major(versions, base_version):
             from packaging import version
 
@@ -235,12 +249,42 @@ class PosMambaRepoSetup:
 
             return versions
 
+        _version = submodule.get("version")
+        _minimal_version = submodule.get("minimal_version")
+        _branch = submodule.get("branch")
+        path = submodule["path"]
+        target = "none"
+
+        if PosMambaRepoSetup.repo_initialized(full_repo_path):
+            if _branch:
+                target = _branch
+            elif _minimal_version:
+                target = get_latest_same_major(
+                    get_sorted_releases(full_repo_path), _minimal_version
+                )
+                if target is None:
+                    print_error(
+                        f"Minimal version {_minimal_version} not found on {path}! {PosMambaRepoSetup.message_check}"
+                    )
+                    exit(1)
+            elif _version:
+                target = _version
+            else:
+                print_error(
+                    f"ERROR: No version, minimum_version, or branch was specified for the repository: {path}"
+                )
+                exit(1)
+
+        return target
+
+    @staticmethod
+    def get_info_by_submodule(submodule, full_repo_path=None) -> tuple:
+
         repo_url: str = submodule["url"]
         path = submodule["path"]
         _version = submodule.get("version")
         _minimal_version = submodule.get("minimal_version")
         _branch = submodule.get("branch")
-        target = None
         target_type = "tag"
 
         full_repo_path = (
@@ -249,19 +293,9 @@ class PosMambaRepoSetup:
             else full_repo_path
         )
 
-        if _version:
-            target = _version
-        elif _minimal_version:
-            target = get_latest_same_major(
-                get_sorted_releases(full_repo_path), _minimal_version
-            )
-            if target is None:
-                print_error(
-                    f"Minimal version {_minimal_version} not found on {path}! {PosMambaRepoSetup.message_check}"
-                )
-                exit(1)
+        if _version or _minimal_version:
+            target_type = "tag"
         elif _branch:
-            target = _branch
             target_type = "branch"
         else:
             print_error(
@@ -269,48 +303,57 @@ class PosMambaRepoSetup:
             )
             return None
 
-        return repo_url, path, target_type, target
+        return repo_url, path, target_type
+
+    @classmethod
+    def init_repository(cls, repo_url, full_repo_path) -> tuple:
+        repo_cloned = False
+        repo_error = False
+        path_parts = full_repo_path.split(os.sep)
+        repo_name = os.path.join(path_parts[-2], path_parts[-1])
+
+        if cls.repo_initialized(full_repo_path):
+            print_color(f"Updating submodule {repo_name}", BLUE)
+        elif os.path.exists(os.path.join(full_repo_path)) and not os.path.exists(os.path.join(full_repo_path, ".git")):
+            print_warning(f".git not found on {repo_name}")
+            cls.remove_repo(full_repo_path)
+            repo_error = True
+        else:
+            print_color(f"Initalizing submodule {repo_name}", BLUE)
+            result = cls.run_command(
+                ["git", "clone", "--no-checkout", repo_url, full_repo_path],
+                repo_name,
+            )
+            if result.returncode != 0:
+                print_error(f"Git clone failed on {full_repo_path}")
+            else:
+                repo_cloned = True
+
+        return repo_cloned, repo_error
 
     def update_repo(self, submodule):
         submodule_info = self.get_info_by_submodule(submodule)
 
         if submodule_info:
-            repo_url, path, target_type, target = submodule_info
+            repo_url, path, target_type = submodule_info
 
             if self.clone_type == self.CloneType.HTTPS:
                 repo_url = repo_url.replace("git@github.com:", "https://github.com/")
 
             exec_count = 0
             while exec_count < 3:
-                repo_cloned = False
                 # Change the current working directory to the script directory
                 os.chdir(self.script_dir)
                 full_repo_path = os.path.join(self.script_dir, path)
 
-                # Checking if the repository already exists
-                if not os.path.exists(path):
-                    print_color(f"Initalizing submodule {path}", BLUE)
-                    result = self.run_command(
-                        ["git", "clone", "--no-checkout", repo_url, full_repo_path],
-                        path,
-                    )
-                    if result.returncode != 0:
-                        print_error(f"Git clone failed on {path}")
-                        return
-                    repo_cloned = True
+                repo_cloned, repo_error = self.init_repository(repo_url, full_repo_path)
+
+                if not repo_error:
+                    target = self.get_target_of_submodule(submodule, full_repo_path)
+                    if self.checkout_and_pull(path, target_type, target, repo_cloned):
+                        break
                 else:
-                    print_color(f"Updating submodule {path}", BLUE)
-
-                if not os.path.exists(os.path.join(full_repo_path, ".git")):
-                    print_warning(f".git not found on {path}")
-                    self.remove_repo(path)
-                    exec_count += 1
-                    continue
-
-                result = self.checkout_and_pull(path, target_type, target, repo_cloned)
-
-                if result:
-                  break
+                    break
 
                 exec_count += 1
         else:
@@ -362,14 +405,23 @@ def main():
         default=[],
     )
 
+    parser.add_argument(
+        "--bypass_auto_update",
+        "-u",
+        action="store_true",
+        default=False,
+        help="Bypass auto update of repo_setup.py",
+    )
+
     args = parser.parse_args()
     repo_list = args.repo_list
 
     install_dependencies()
     repo_setup_commit: str = "REPO_SETUP_PLACEHOLDER"
     sdk_commit = get_latest_sdk_commit()
+    bypass_auto_update = args.bypass_auto_update
 
-    if (
+    if bypass_auto_update or (
         PosMambaRepoSetup.CloneType.get_by_value(args.clone_type)
         == PosMambaRepoSetup.CloneType.HTTPS
         or not sdk_commit
@@ -409,7 +461,5 @@ def main():
             shell=True,
         )
 
-
 if __name__ == "__main__":
     main()
-
