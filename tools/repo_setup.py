@@ -90,8 +90,6 @@ class PosMambaRepoSetup:
 
     repo_settings_file_name = "repo_settings.json"
     clone_type = CloneType.SSH
-    force = False
-    log = False
 
     # Get the absolute path of the script
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -102,9 +100,8 @@ class PosMambaRepoSetup:
         self.force = force
         self.log = log
 
-    @classmethod
-    def run_command(cls, cmd, repo="Repo not passed"):
-        if cls.log == True:
+    def run_command(self, cmd, repo="Repo not passed"):
+        if self.log == True:
             print_color(f"{repo} | Running {cmd}", CYAN)
             return subprocess.run(cmd, stderr=subprocess.PIPE)
         else:
@@ -112,10 +109,9 @@ class PosMambaRepoSetup:
                 cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
             )
 
-    @classmethod
-    def remove_repo(cls, path):
-        if cls.force or cls.clone_type == PosMambaRepoSetup.CloneType.HTTPS:
-            os.chdir(cls.script_dir)
+    def remove_repo(self, path):
+        if self.force or self.clone_type == PosMambaRepoSetup.CloneType.HTTPS:
+            os.chdir(PosMambaRepoSetup.script_dir)
             print_warning(f"Removing {path} to try again...")
             shutil.rmtree(path)
         else:
@@ -213,23 +209,25 @@ class PosMambaRepoSetup:
 
         return False
 
-    @classmethod
-    def repo_initialized(cls, full_repo_path: str) -> bool:
-        if os.path.exists(full_repo_path) and os.path.exists(
-            os.path.join(full_repo_path, ".git")
+    @staticmethod
+    def repo_initialized(full_repo_path: str | None) -> bool:
+        if (
+            full_repo_path
+            and os.path.exists(full_repo_path)
+            and os.path.exists(os.path.join(full_repo_path, ".git"))
         ):
             return True
 
         return False
 
     @staticmethod
-    def get_target_of_submodule(submodule, full_repo_path=None) -> str:
+    def get_target_of_submodule(submodule, full_repo_path: str | None = None) -> str:
         def get_latest_same_major(versions, base_version):
             from packaging import version
 
-            base_major = version.parse(base_version).major
+            base_major = version.parse(base_version).major  # type: ignore
             same_major_versions = [
-                v for v in versions if version.parse(v).major == base_major
+                v for v in versions if version.parse(v).major == base_major  # type: ignore
             ]
 
             if not same_major_versions:
@@ -278,7 +276,7 @@ class PosMambaRepoSetup:
         return target
 
     @staticmethod
-    def get_info_by_submodule(submodule, full_repo_path=None) -> tuple:
+    def get_info_by_submodule(submodule, full_repo_path=None) -> tuple | None:
 
         repo_url: str = submodule["url"]
         path = submodule["path"]
@@ -305,24 +303,32 @@ class PosMambaRepoSetup:
 
         return repo_url, path, target_type
 
-    @classmethod
-    def init_repository(cls, repo_url, full_repo_path) -> tuple:
+    @staticmethod
+    def init_repository(
+        repo_url,
+        full_repo_path,
+        clone_type=CloneType.SSH.value,
+        force_remove_repo=False,
+        log=False,
+    ) -> tuple:
         repo_cloned = False
         repo_error = False
         path_parts = full_repo_path.split(os.sep)
         repo_name = os.path.join(path_parts[-2], path_parts[-1])
 
-        if cls.repo_initialized(full_repo_path):
+        repo_setup = PosMambaRepoSetup(clone_type, force_remove_repo, log)
+
+        if repo_setup.repo_initialized(full_repo_path):
             print_color(f"Updating submodule {repo_name}", BLUE)
         elif os.path.exists(os.path.join(full_repo_path)) and not os.path.exists(
             os.path.join(full_repo_path, ".git")
         ):
             print_warning(f".git not found on {repo_name}")
-            cls.remove_repo(full_repo_path)
+            repo_setup.remove_repo(full_repo_path)
             repo_error = True
         else:
             print_color(f"Initalizing submodule {repo_name}", BLUE)
-            result = cls.run_command(
+            result = repo_setup.run_command(
                 ["git", "clone", "--no-checkout", repo_url, full_repo_path],
                 repo_name,
             )
@@ -348,7 +354,9 @@ class PosMambaRepoSetup:
                 os.chdir(self.script_dir)
                 full_repo_path = os.path.join(self.script_dir, path)
 
-                repo_cloned, repo_error = self.init_repository(repo_url, full_repo_path)
+                repo_cloned, repo_error = self.init_repository(
+                    repo_url, full_repo_path, self.clone_type, self.force, self.log
+                )
 
                 if not repo_error:
                     target = self.get_target_of_submodule(submodule, full_repo_path)
@@ -363,7 +371,7 @@ class PosMambaRepoSetup:
 
 
 def main():
-    def get_latest_sdk_commit() -> str:
+    def get_latest_sdk_commit() -> str | None:
         import requests
 
         url = f"https://api.github.com/repos/stone-payments/pos-mamba-sdk/commits"
