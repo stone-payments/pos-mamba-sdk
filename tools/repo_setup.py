@@ -210,7 +210,7 @@ class PosMambaRepoSetup:
         return False
 
     @staticmethod
-    def repo_initialized(full_repo_path: str | None) -> bool:
+    def repo_initialized(full_repo_path: str) -> bool:
         if (
             full_repo_path
             and os.path.exists(full_repo_path)
@@ -221,7 +221,7 @@ class PosMambaRepoSetup:
         return False
 
     @staticmethod
-    def get_target_of_submodule(submodule, full_repo_path: str | None = None) -> str:
+    def get_target_of_submodule(submodule, full_repo_path: str = None) -> str:
         def get_latest_same_major(versions, base_version):
             from packaging import version
 
@@ -276,7 +276,7 @@ class PosMambaRepoSetup:
         return target
 
     @staticmethod
-    def get_info_by_submodule(submodule, full_repo_path=None) -> tuple | None:
+    def get_info_by_submodule(submodule, full_repo_path=None) -> tuple:
 
         repo_url: str = submodule["url"]
         path = submodule["path"]
@@ -371,7 +371,7 @@ class PosMambaRepoSetup:
 
 
 def main():
-    def get_latest_sdk_commit() -> str | None:
+    def get_latest_sdk_commit() -> str:
         import requests
 
         url = f"https://api.github.com/repos/stone-payments/pos-mamba-sdk/commits"
