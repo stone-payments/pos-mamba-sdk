@@ -10,6 +10,9 @@
     on:keyup
   >
     <div class="content -align-{align}" style={_contentStyle}>
+      <div class="begin">
+        <slot name="begin"></slot>
+      </div>
       <div class="message">
         {#if title}
           <div class="title">{title}</div>
