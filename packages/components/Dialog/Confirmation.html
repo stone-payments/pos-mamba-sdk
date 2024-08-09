@@ -20,12 +20,11 @@
               class="action negative"
               style={_negativeLabelStyle}
               on:click="close('negative', event)"
-              shortcut="close"
             >
               {negativeLabel}
             </button>
           {:else}
-            <div class="action" on:click="close('negative', event)" shortcut="close">
+            <div class="action" on:click="close('negative', { telemetryEmitType: 'TOUCH', key: KEY.CLOSE })">
               <RoundIcon
                 symbol="close"
                 size={buttonSize}
@@ -42,12 +41,11 @@
               class="action positive"
               style={_positiveLabelStyle}
               on:click="close('positive', event)"
-              shortcut="enter"
             >
               {positiveLabel}
             </button>
           {:else}
-            <div class="action" on:click="close('positive', event)" shortcut="enter">
+            <div class="action" on:click="close('positive', { telemetryEmitType: 'TOUCH', key: KEY.ENTER })">
               <RoundIcon
                 symbol="check"
                 size={buttonSize}
@@ -63,17 +61,23 @@
   </div>
 </Dialog>
 
+<Keystroke key="close" on:keystroke="close('negative', { telemetryEmitType: 'KEYBOARD', key: KEY.CLOSE })" />
+<Keystroke key="enter" on:keystroke="close('positive', { telemetryEmitType: 'KEYBOARD', key: KEY.ENTER })" />
+
 <script>
+  import { KEYBOARD } from '@mamba/core';
   import { green500, red400 } from '@mamba/styles/colors';
 
   export default {
     components: {
       RoundIcon: '@mamba/icon/Round.html',
       Dialog: './Dialog.html',
+      Keystroke: '@mamba/app/Keystroke.html',
     },
     helpers: {
       green500,
       red400,
+      KEY: KEYBOARD.KEY_NAMES,
     },
     data() {
       return {
@@ -108,7 +112,6 @@
       },
       close(type, event = {}) {
         return this.refs.dialog.close().then(() => {
-          if (!event.telemetryEmitType) event.telemetryEmitType = 'TOUCH';
           if (type) this.fire(type, event);
         });
       },
