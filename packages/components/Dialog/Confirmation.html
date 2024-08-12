@@ -111,8 +111,6 @@
         return this.refs.dialog.open(duration);
       },
       close(type, event = {}) {
-        console.log('type', type);
-        console.log('event', event);
         return this.refs.dialog.close().then(() => {
           if (type) this.fire(type, event);
         });
