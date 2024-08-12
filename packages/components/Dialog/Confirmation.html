@@ -24,7 +24,7 @@
               {negativeLabel}
             </button>
           {:else}
-            <div class="action" on:click="close('negative', { telemetryEmitType: 'TOUCH', key: BTN.CLOSE })">
+            <div class="action" on:click="close('negative', { telemetryEmitType: 'TOUCH', key: BTN.FINISH })">
               <RoundIcon
                 symbol="close"
                 size={buttonSize}
@@ -45,7 +45,7 @@
               {positiveLabel}
             </button>
           {:else}
-            <div class="action" on:click="close('positive', { telemetryEmitType: 'TOUCH', key: BTN.ENTER })">
+            <div class="action" on:click="close('positive', { telemetryEmitType: 'TOUCH', key: BTN.PRINT })">
               <RoundIcon
                 symbol="check"
                 size={buttonSize}
