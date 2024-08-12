@@ -24,7 +24,7 @@
               {negativeLabel}
             </button>
           {:else}
-            <div class="action" on:click="close('negative', { telemetryEmitType: 'TOUCH', key: BTN.FINISH })">
+            <div class="action" on:click="close('negative', { telemetryEmitType: 'TOUCH', key: 'BTN.FINISH' })">
               <RoundIcon
                 symbol="close"
                 size={buttonSize}
@@ -45,7 +45,7 @@
               {positiveLabel}
             </button>
           {:else}
-            <div class="action" on:click="close('positive', { telemetryEmitType: 'TOUCH', key: BTN.PRINT })">
+            <div class="action" on:click="close('positive', { telemetryEmitType: 'TOUCH', key: 'BTN.PRINT' })">
               <RoundIcon
                 symbol="check"
                 size={buttonSize}
@@ -111,6 +111,8 @@
         return this.refs.dialog.open(duration);
       },
       close(type, event = {}) {
+        console.log('type', type);
+        console.log('event', event);
         return this.refs.dialog.close().then(() => {
           if (type) this.fire(type, event);
         });
