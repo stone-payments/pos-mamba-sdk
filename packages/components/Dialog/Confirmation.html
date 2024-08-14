@@ -24,7 +24,7 @@
               {negativeLabel}
             </button>
           {:else}
-            <div class="action" on:click="close('negative', { telemetryEmitType: 'TOUCH', key: 'BTN_FINISH' })">
+            <div class="action" on:click="close('negative', { telemetryEmitType: telemetryType.touch, key: buttonType.finish })">
               <RoundIcon
                 symbol="close"
                 size={buttonSize}
@@ -45,7 +45,7 @@
               {positiveLabel}
             </button>
           {:else}
-            <div class="action" on:click="close('positive', { telemetryEmitType: 'TOUCH', key: 'BTN_PRINT' })">
+            <div class="action" on:click="close('positive', { telemetryEmitType: telemetryType.touch, key: buttonType.print })">
               <RoundIcon
                 symbol="check"
                 size={buttonSize}
@@ -61,11 +61,10 @@
   </div>
 </Dialog>
 
-<Keystroke key="close" on:keystroke="close('negative', { telemetryEmitType: 'KEYBOARD', key: KEY.CLOSE })" />
-<Keystroke key="enter" on:keystroke="close('positive', { telemetryEmitType: 'KEYBOARD', key: KEY.ENTER })" />
+<Keystroke key="close" on:keystroke="close('negative', { telemetryEmitType: telemetryType.keyboard, key: keyType.close })" />
+<Keystroke key="enter" on:keystroke="close('positive', { telemetryEmitType: telemetryType.keyboard, key: keyType.enter })" />
 
 <script>
-  import { KEYBOARD } from '@mamba/core';
   import { green500, red400 } from '@mamba/styles/colors';
 
   export default {
@@ -77,7 +76,6 @@
     helpers: {
       green500,
       red400,
-      KEY: KEYBOARD.KEY_NAMES,
     },
     data() {
       return {
@@ -86,6 +84,18 @@
         negativeLabel: null,
         primaryColor: green500,
         buttonSize: 'giant',
+        telemetryType: {
+          keyboard: 'KEYBOARD',
+          touch: 'TOUCH',
+        },
+        buttonType: {
+          print: 'BTN_PRINT',
+          finish: 'BTN_FINISH',
+        },
+        keyType: {
+          close: 'KEY_CLOSE',
+          enter: 'KEY_ENTER',
+        },
       };
     },
     computed: {
