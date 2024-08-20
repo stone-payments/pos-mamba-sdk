@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [12.2.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@12.1.0...@mamba/dialog@12.2.0) (2024-08-20)
+
+
+### Bug Fixes
+
+* add '' to names os the buttons ([c5b44f9](https://github.com/stone-payments/pos-mamba-sdk/commit/c5b44f9ec04a7c445ae7f11205383e4912fb6669))
+* change . for _ ([17636c3](https://github.com/stone-payments/pos-mamba-sdk/commit/17636c3d1243fa9222c29701604009eb2eabfd25))
+* change names of the button ([0731bdd](https://github.com/stone-payments/pos-mamba-sdk/commit/0731bddb83022e5449d25af789510fc17844ef51))
+* delete console.log ([ea265fe](https://github.com/stone-payments/pos-mamba-sdk/commit/ea265fe0fc4b51c48b1363d5170cfda4cab29d7b))
+
+
+
 ## [12.1.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@11.0.2...@mamba/dialog@12.1.0) (2024-07-12)
 
 **Note:** Version bump only for package @mamba/dialog
