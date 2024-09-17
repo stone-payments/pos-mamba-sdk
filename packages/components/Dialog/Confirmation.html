@@ -61,8 +61,8 @@
   </div>
 </Dialog>
 
-<Keystroke key="close" on:keystroke="close('negative', { telemetryEmitType: telemetryType.keyboard, key: keyType.close })" />
-<Keystroke key="enter" on:keystroke="close('positive', { telemetryEmitType: telemetryType.keyboard, key: keyType.enter })" />
+<Keystroke key="close" on:keystroke="close('negative', { telemetryEmitType: telemetryType.keyboard, key: keyType.close })" active="{isOpen}"/>
+<Keystroke key="enter" on:keystroke="close('positive', { telemetryEmitType: telemetryType.keyboard, key: keyType.enter })" active="{isOpen}"/>
 
 <script>
   import { green500, red400 } from '@mamba/styles/colors';
