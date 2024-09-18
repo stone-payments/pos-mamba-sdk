@@ -7,6 +7,7 @@
 # The "minimal_version" option searches for the higher version tag available (semantic) with same major of given in "minimal_version".
 
 import json
+import shutil
 import subprocess
 import os
 import sys
@@ -35,11 +36,16 @@ WHITE = "\033[1;37m"
 NC = "\033[0m"
 
 
-def run_command(cmd, stealth=True):
-    if stealth == True:
-        return subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    else:
-        return subprocess.run(cmd, stderr=subprocess.PIPE)
+def print_color(message, color):
+    print(f"{color}{message}{NC}")
+
+
+def print_warning(message):
+    print_color(message, YELLOW)
+
+
+def print_error(message):
+    print_color(message, RED)
 
 
 def install_dependencies():
@@ -61,119 +67,347 @@ def install_dependencies():
         from importlib.metadata import distribution, PackageNotFoundError
 
     install_package("packaging")
+    install_package("requests")
 
 
-def get_sorted_releases(path_to_run):
-    from packaging import version
+class PosMambaRepoSetup:
+    from enum import Enum
 
-    command_list = ["git", "ls-remote", "--tags"]
+    class CloneType(Enum):
+        SSH = "ssh"
+        HTTPS = "https"
 
-    output = subprocess.check_output(command_list, cwd=path_to_run).decode()
-    versions = [line.split("/")[-1] for line in output.split("\n") if line]
-    versions = [v for v in versions if version.parse(v).is_devrelease == False]
-    versions.sort(key=version.parse)
+        @staticmethod
+        def value_list():
+            return list(map(lambda x: x.value, PosMambaRepoSetup.CloneType))
 
-    return versions
+        @staticmethod
+        def get_by_value(value):
+            for member in PosMambaRepoSetup.CloneType:
+                if member.value == value:
+                    return member
+            return None
 
+    repo_settings_file_name = "repo_settings.json"
+    clone_type = CloneType.SSH
 
-def get_latest_same_major(versions, base_version):
-    from packaging import version
-
-    base_major = version.parse(base_version).major
-    same_major_versions = [v for v in versions if version.parse(v).major == base_major]
-
-    if not same_major_versions:
-        return None
-
-    return max(same_major_versions, key=version.parse)
-
-
-def update_repo(submodule):
     # Get the absolute path of the script
     script_dir = os.path.dirname(os.path.abspath(__file__))
+    message_check = "Check your settings on repo_settings.json"
 
-    def add_to_gitignore(filename):
-        """
-        Add a file to gitignore if it not already defined
+    def __init__(self, clone_type: str, force: bool = False, log=False):
+        self.clone_type = PosMambaRepoSetup.CloneType.get_by_value(clone_type)
+        self.force = force
+        self.log = log
 
-        Usage:
-            add_to_gitignore(filename)
-
-        Args:
-            filename: filepath to be added to .gitignore
-        """
-        with open(os.path.join(script_dir, ".gitignore"), "a+") as gitignore:
-            gitignore.seek(0)
-            lines = gitignore.readlines()
-            if filename + "\n" not in lines:
-                gitignore.write(filename + "\n")
-                print(f"{filename} added to .gitignore.")
-
-    _repo_url = submodule["url"]
-    _path = submodule["path"]
-    _version = submodule.get("version")
-    _minimal_version = submodule.get("minimal_version")
-    _branch = submodule.get("branch")
-    target = None
-    target_type = "tag"
-
-    # Change the current working directory to the script directory
-    os.chdir(script_dir)
-
-    # Checking if the repository already exists
-    if not os.path.exists(_path):
-        print(f"{BLUE}Initalizing submodule {_path}{NC}")
-        result = run_command(["git", "clone", "--no-checkout", _repo_url, _path])
-        if result.returncode != 0:
-            print(f"Git clone failed on {_path}")
-            return
-    else:
-        print(f"{BLUE}Updating submodule {_path}{NC}")
-
-    path_to_run = os.path.join(sys.path[0], _path)
-    # Changing to the repository directory
-    os.chdir(path_to_run)
-
-    if _version:
-        target = _version
-    elif _minimal_version:
-        target = get_latest_same_major(
-            get_sorted_releases(path_to_run), _minimal_version
-        )
-    elif _branch:
-        target = _branch
-        target_type = "branch"
-    else:
-        print(
-            "ERROR: No version, minimum_version, or branch was specified for the repository"
-        )
-        return
-
-    result = run_command(["git", "fetch", "origin", "--force"])
-
-    if result.returncode == 0:
-        if target_type == "tag":
-            result = run_command(["git", "checkout", f"tags/{target}", "--force"])
-        elif target_type == "branch":
-            result = run_command(
-                ["git", "checkout", "-B", _branch, f"origin/{_branch}", "--force"]
+    def run_command(self, cmd, repo="Repo not passed"):
+        if self.log == True:
+            print_color(f"{repo} | Running {cmd}", CYAN)
+            return subprocess.run(cmd, stderr=subprocess.PIPE)
+        else:
+            return subprocess.run(
+                cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
             )
-            if result.returncode == 0:
-                run_command(["git", "reset", "--hard", f"origin/{_branch}"])
-                result = run_command(["git", "pull", "--depth", "1", "--force"])
 
-    if result.returncode == 0:
-        print(
-            f"{GREEN}Repo {_path} updated with {target_type} {target} successfully! Commit hash:"
+    def remove_repo(self, path):
+        if self.force or self.clone_type == PosMambaRepoSetup.CloneType.HTTPS:
+            os.chdir(PosMambaRepoSetup.script_dir)
+            print_warning(f"Removing {path} to try again...")
+            shutil.rmtree(path)
+        else:
+            print_warning(
+                f"Re-run repo_setup.py with -f param to fix this or remove {path} submodule dir..."
+            )
+
+    def checkout_and_pull(self, path, target_type, target, repo_cloned=True) -> bool:
+        def add_to_gitignore(filename):
+            """
+            Add a file to gitignore if it not already defined
+
+            Usage:
+                add_to_gitignore(filename)
+
+            Args:
+                filename: filepath to be added to .gitignore
+            """
+            with open(os.path.join(self.script_dir, ".gitignore"), "a+") as gitignore:
+                gitignore.seek(0)
+                lines = gitignore.readlines()
+                if filename + "\n" not in lines:
+                    gitignore.write(filename + "\n")
+                    print(f"{filename} added to .gitignore.")
+
+        # Changing to the repository directory
+        full_repo_path = os.path.join(self.script_dir, path)
+        os.chdir(full_repo_path)
+
+        stash_applied = False
+        if not repo_cloned:
+            status_output = subprocess.check_output(
+                ["git", "status", "--porcelain"]
+            ).decode("utf-8")
+            if status_output:
+                _result = self.run_command(
+                    [
+                        "git",
+                        "stash",
+                        "push",
+                        "-m",
+                        '"STASHED BY REPO_SETUP.PY"',
+                        "--include-untracked",
+                    ],
+                    path,
+                )
+                if _result.returncode == 0:
+                    stash_applied = True
+
+        fetch_command = ["git", "fetch", "origin"]
+        result = self.run_command(fetch_command, path)
+
+        if result.returncode == 0:
+            if target_type == "tag":
+                result = self.run_command(["git", "checkout", target, "--force"], path)
+            elif target_type == "branch":
+                result = self.run_command(
+                    [
+                        "git",
+                        "checkout",
+                        "-B",
+                        target,
+                        f"origin/{target}",
+                        "--force",
+                    ],
+                    path,
+                )
+                if result.returncode == 0:
+                    self.run_command(
+                        ["git", "reset", "--hard", f"origin/{target}"], path
+                    )
+                    result = self.run_command(["git", "pull", "--force"], path)
+
+            if result.returncode == 0:
+                if stash_applied:
+                    _result = self.run_command(["git", "stash", "pop"], path)
+                    if _result.returncode:
+                        print_error("Error applying stash")
+
+                print_color(
+                    f"Repo {path} updated with {target_type} {target} successfully!",
+                    GREEN,
+                )
+                add_to_gitignore(path)
+                return True
+            else:
+                print_error(
+                    f"Repo {path} update attempt with {target_type} {target} FAILED!"
+                )
+                self.remove_repo(path)
+        else:
+            print_error(
+                f"Failed to fetch {target_type} {target} on {path}! {self.message_check}"
+            )
+
+        return False
+
+    @staticmethod
+    def repo_initialized(full_repo_path: str) -> bool:
+        if (
+            full_repo_path
+            and os.path.exists(full_repo_path)
+            and os.path.exists(os.path.join(full_repo_path, ".git"))
+        ):
+            return True
+
+        return False
+
+    @staticmethod
+    def get_target_of_submodule(submodule, full_repo_path: str = None) -> str:
+        def get_latest_same_major(versions, base_version):
+            from packaging import version
+
+            base_major = version.parse(base_version).major  # type: ignore
+            same_major_versions = [
+                v for v in versions if version.parse(v).major == base_major  # type: ignore
+            ]
+
+            if not same_major_versions:
+                return None
+
+            return max(same_major_versions, key=version.parse)
+
+        def get_sorted_releases(path_to_run):
+            from packaging import version
+
+            command_list = ["git", "ls-remote", "--tags"]
+
+            output = subprocess.check_output(command_list, cwd=path_to_run).decode()
+            versions = [line.split("/")[-1] for line in output.split("\n") if line]
+            versions = [v for v in versions if version.parse(v).is_devrelease == False]
+            versions.sort(key=version.parse)
+
+            return versions
+
+        version = submodule.get("version")
+        minimal_version = submodule.get("minimal_version")
+        branch = submodule.get("branch")
+        path = submodule["path"]
+        target = "none"
+
+        if PosMambaRepoSetup.repo_initialized(full_repo_path):
+            if branch:
+                target = branch
+            elif minimal_version:
+                target = get_latest_same_major(
+                    get_sorted_releases(full_repo_path), minimal_version
+                )
+                if target is None:
+                    print_error(
+                        f"Minimal version {minimal_version} not found on {path}! {PosMambaRepoSetup.message_check}"
+                    )
+                    exit(1)
+            elif version:
+                target = version
+            else:
+                print_error(
+                    f"ERROR: No version, minimum_version, or branch was specified for the repository: {path}"
+                )
+                exit(1)
+
+        return target
+
+    @staticmethod
+    def get_info_by_submodule(submodule, full_repo_path=None) -> tuple:
+
+        repo_url: str = submodule["url"]
+        path = submodule["path"]
+        version = submodule.get("version")
+        minimal_version = submodule.get("minimal_version")
+        branch = submodule.get("branch")
+        target_type = "tag"
+
+        full_repo_path = (
+            os.path.join(PosMambaRepoSetup.script_dir, path)
+            if not full_repo_path
+            else full_repo_path
         )
-        run_command(["git", "rev-parse", "HEAD"], False)
-        add_to_gitignore(_path)
-    else:
-        print(f"{RED} Repo {_path} update attempt with {target_type} {target} FAILED!")
+
+        if version or minimal_version:
+            target_type = "tag"
+        elif branch:
+            target_type = "branch"
+        else:
+            print_error(
+                f"ERROR: No version, minimum_version, or branch was specified for the repository: {path}"
+            )
+            return None
+
+        return repo_url, path, target_type
+
+    @staticmethod
+    def init_repository(
+        repo_url,
+        full_repo_path,
+        clone_type=CloneType.SSH.value,
+        force_remove_repo=False,
+        log=False,
+    ) -> tuple:
+        repo_cloned = False
+        repo_error = False
+        path_parts = full_repo_path.split(os.sep)
+        repo_name = os.path.join(path_parts[-2], path_parts[-1])
+
+        repo_setup = PosMambaRepoSetup(clone_type, force_remove_repo, log)
+
+        if repo_setup.repo_initialized(full_repo_path):
+            print_color(f"Updating submodule {repo_name}", BLUE)
+        elif os.path.exists(os.path.join(full_repo_path)) and not os.path.exists(
+            os.path.join(full_repo_path, ".git")
+        ):
+            print_warning(f".git not found on {repo_name}")
+            repo_setup.remove_repo(full_repo_path)
+            repo_error = True
+        else:
+            print_color(f"Initalizing submodule {repo_name}", BLUE)
+            result = repo_setup.run_command(
+                ["git", "clone", "--no-checkout", repo_url, full_repo_path],
+                repo_name,
+            )
+            if result.returncode != 0:
+                print_error(f"Git clone failed on {full_repo_path}")
+            else:
+                repo_cloned = True
+
+        return repo_cloned, repo_error
+
+    def update_repo(self, submodule):
+        submodule_info = self.get_info_by_submodule(submodule)
+
+        if submodule_info:
+            repo_url, path, target_type = submodule_info
+
+            if self.clone_type == self.CloneType.HTTPS:
+                repo_url = repo_url.replace("git@github.com:", "https://github.com/")
+
+            exec_count = 0
+            while exec_count < 3:
+                # Change the current working directory to the script directory
+                os.chdir(self.script_dir)
+                full_repo_path = os.path.join(self.script_dir, path)
+
+                repo_cloned, repo_error = self.init_repository(
+                    repo_url, full_repo_path, self.clone_type, self.force, self.log
+                )
+
+                if not repo_error:
+                    target = self.get_target_of_submodule(submodule, full_repo_path)
+                    if self.checkout_and_pull(path, target_type, target, repo_cloned):
+                        break
+                else:
+                    break
+
+                exec_count += 1
+        else:
+            print_error("Error loading submodule info")
 
 
 def main():
+    def get_latest_sdk_commit() -> str:
+        import requests
+
+        url = f"https://api.github.com/repos/stone-payments/pos-mamba-sdk/commits"
+        response = requests.get(url)
+        data = json.loads(response.text)
+        if isinstance(data, list) and len(data) > 0 and "sha" in data[0]:
+            return data[0]["sha"]
+
+        return None
+
     parser = argparse.ArgumentParser(description="Repo Setup Script")
+    parser.add_argument(
+        "--force",
+        "-f",
+        action="store_true",
+        default=False,
+        help="Force to remove submodule path if update fails",
+    )
+
+    parser.add_argument(
+        "--clone_type",
+        "-c",
+        type=str,
+        choices=["ssh", "https"],
+        default="ssh",
+        help="Set clone type",
+    )
+
+    parser.add_argument(
+        "--log",
+        "-l",
+        action="store_true",
+        default=False,
+        help="Set log enabled/disabled",
+    )
+
     parser.add_argument(
         "repo_list",
         help="Repositories to be updated. If nothing is provided then all repositories will be updated",
@@ -181,25 +415,61 @@ def main():
         default=[],
     )
 
+    parser.add_argument(
+        "--bypass_auto_update",
+        "-u",
+        action="store_true",
+        default=False,
+        help="Bypass auto update of repo_setup.py",
+    )
+
     args = parser.parse_args()
     repo_list = args.repo_list
 
     install_dependencies()
+    repo_setup_commit: str = "REPO_SETUP_PLACEHOLDER"
+    sdk_commit = get_latest_sdk_commit()
+    bypass_auto_update = args.bypass_auto_update
 
-    # Reading the parameters from the JSON file
-    with open("repo_settings.json", "r") as f:
-        repo_settings = json.load(f)
+    if bypass_auto_update or (
+        PosMambaRepoSetup.CloneType.get_by_value(args.clone_type)
+        == PosMambaRepoSetup.CloneType.HTTPS
+        or not sdk_commit
+        or sdk_commit.lower() == repo_setup_commit.lower()
+    ):
+        with open(PosMambaRepoSetup.repo_settings_file_name, "r") as f:
+            repo_settings = json.load(f)
 
-    submodules = repo_settings["submodules"]
-    if repo_list:
-        submodules = [
-            submodule for submodule in submodules if submodule["path"] in repo_list
-        ]
+        submodules = repo_settings["submodules"]
 
-    # Create a pool of workers
-    with concurrent.futures.ProcessPoolExecutor() as executor:
-        # Use the executor to map the function to the inputs
-        executor.map(update_repo, submodules)
+        repo_setup = PosMambaRepoSetup(
+            clone_type=args.clone_type, force=args.force, log=args.log
+        )
+        repo_setup.run_command(
+            ["git", "config", "--global", "advice.detachedHead", "false"]
+        )
+
+        if repo_list:
+            filtered_submodules = []
+            for repo in repo_list:
+                for submodule in submodules:
+                    if repo.lower() in submodule["path"].lower():
+                        filtered_submodules.append(submodule)
+
+            submodules = filtered_submodules
+
+        # Create a pool of workers
+        with concurrent.futures.ProcessPoolExecutor() as executor:
+            # Use the executor to map the function to the inputs
+            executor.map(repo_setup.update_repo, submodules)
+    else:
+        print_warning("repo_setup is outdated!!! Runnig repo_initialization!")
+        print_warning(f"Local repo_setup hash: {repo_setup_commit}")
+        print_warning(f"Remote sdk master hash: {sdk_commit}")
+        subprocess.run(
+            "wget -O - https://raw.githubusercontent.com/stone-payments/pos-mamba-sdk/master/tools/repo_initialization.sh -q -O - | bash",
+            shell=True,
+        )
 
 
 if __name__ == "__main__":
