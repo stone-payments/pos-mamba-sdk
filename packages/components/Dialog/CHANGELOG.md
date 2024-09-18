@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [12.2.1](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@12.2.0...@mamba/dialog@12.2.1) (2024-09-18)
+
+
+### Bug Fixes
+
+* set active value on keystroke ([#981](https://github.com/stone-payments/pos-mamba-sdk/issues/981)) ([808966b](https://github.com/stone-payments/pos-mamba-sdk/commit/808966b89e5fb75028667bdd9f588ff801b6d078))
+
+
+
 ## [12.2.0](https://github.com/stone-payments/pos-mamba-sdk/compare/@mamba/dialog@12.1.0...@mamba/dialog@12.2.0) (2024-08-20)
 
 
