@@ -14,7 +14,7 @@
   "dependencies": {
     "@mamba/icon": "^12.1.0",
     "@mamba/styles": "^12.1.0",
-    "svelte": "<3"
+    "svelte": "<6"
   },
   "examples": [
     {
