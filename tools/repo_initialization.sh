@@ -63,6 +63,8 @@ function download_from_tools_on_mamba_sdk() {
   fi
   local FILE_TO_DOWNLOAD=$1
 
+  [ -d "$DOWNLOAD_TO" ] || mkdir -p "$DOWNLOAD_TO"
+
   wget -nv -P $DOWNLOAD_TO -O $FILE_TO_DOWNLOAD $DOWNLOAD_BASEURL/$FILE_TO_DOWNLOAD
   add_to_gitignore $FILE_TO_DOWNLOAD
 }
