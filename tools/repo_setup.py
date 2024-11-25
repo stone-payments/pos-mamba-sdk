@@ -449,14 +449,19 @@ def main():
             ["git", "config", "--global", "advice.detachedHead", "false"]
         )
 
+        filtered_submodules = []
         if repo_list:
-            filtered_submodules = []
             for repo in repo_list:
                 for submodule in submodules:
                     if repo.lower() in submodule["path"].lower():
                         filtered_submodules.append(submodule)
-
-            submodules = filtered_submodules
+        else:
+            for submodule in submodules:
+                required = submodule.get("required", True)
+                if required:
+                    filtered_submodules.append(submodule)
+                        
+        submodules = filtered_submodules
 
         # Create a pool of workers
         with concurrent.futures.ProcessPoolExecutor() as executor:
