@@ -94,6 +94,7 @@ class PosMambaRepoSetup:
 
     # Get the absolute path of the script
     script_dir = os.path.dirname(os.path.abspath(__file__))
+    download_dir = os.path.join(script_dir, "output/downloads/artifacts")
     message_check = "Check your settings on repo_settings.json"
 
     def __init__(self, clone_type: str, force: bool = False, log=False):
@@ -384,10 +385,14 @@ class PosMambaRepoSetup:
     def get_archives(self, archive):
         archive_info = self.get_info_by_archive(archive)
 
+        if not os.path.exists(self.download_dir):
+            os.makedirs(self.download_dir)
+
         if archive_info:
             organization, project, artifact, version, path = archive_info
 
             full_repo_path = os.path.join(self.script_dir, path)
+            file_name = f"{artifact}-{version}.tar.xz"
             if not os.path.exists(full_repo_path):
                 print_error(f"Error finding path {full_repo_path}")
                 return
@@ -398,32 +403,36 @@ class PosMambaRepoSetup:
                 f"--feed \"{project}\" " +
                 f"--name \"{artifact}\" " +
                 f"--version \"{version}\" " +
-                f"--path {full_repo_path}"
+                f"--path {self.download_dir}"
             ]
 
             try:
-                result = subprocess.run(command, check=True, shell=True)
-                if result.returncode == 0:
+                tar_file_path = os.path.join(self.download_dir, file_name)
+
+                print(f"Looking for {tar_file_path}...")
+                if not os.path.exists(tar_file_path):
+                    print(f"Downloading {file_name} to {full_repo_path}...")
+                    result = subprocess.run(command, check=True, shell=True)
+                    if result.returncode == 0:
+                        print_color(
+                            f"Archive {artifact} downloaded to {full_repo_path} successfully!",
+                            GREEN,
+                        )
+                else:
                     print_color(
-                        f"Archive {artifact} downloaded to {full_repo_path} successfully!",
+                        f"Archive {artifact} already downloaded to {full_repo_path}!",
                         GREEN,
                     )
 
                 # Unzip the downloaded file
-                tar_file_path = os.path.join(full_repo_path, f"{artifact}-{version}.tar.xz")
-                if os.path.exists(tar_file_path):
-                    with tarfile.open(tar_file_path) as tar:
-                        tar.extractall(path=full_repo_path)
+                with tarfile.open(tar_file_path) as tar:
+                    tar.extractall(path=full_repo_path)
 
-                    # Delete the tar file
-                    os.remove(tar_file_path)
-                    print_color(f"Unzipped {tar_file_path} successfully!", GREEN)
-                else:
-                    print_error(f"Artifact {artifact}-{version} not found as {tar_file_path}!")
+                print_color(f"Downloaded {file_name} successfully!", GREEN)
 
             except subprocess.CalledProcessError as e:
                 print_error(
-                    f"Failed to download archive {artifact} to {full_repo_path}!",
+                    f"Failed to download archive {file_name} to {full_repo_path}!",
                     f"{e.stderr}",
                 )
 
