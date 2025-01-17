@@ -383,62 +383,67 @@ class PosMambaRepoSetup:
             print_error("Error loading submodule info")
 
     def get_archives(self, archive):
+        type = archive["type"]
+
+        if type == "az_artifacts":
+            self.get_archives_az_artifacts(archive)
+
+    def get_archives_az_artifacts(self, archive):
         archive_info = self.get_info_by_archive(archive)
 
         if not os.path.exists(self.download_dir):
             os.makedirs(self.download_dir)
 
-        if archive_info:
-            organization, project, artifact, version, path = archive_info
+        if not archive_info:
+            print_error("Error loading archive info")
+            return
 
-            full_repo_path = os.path.join(self.script_dir, path)
-            file_name = f"{artifact}-{version}.tar.xz"
-            if not os.path.exists(full_repo_path):
-                print_error(f"Error finding path {full_repo_path}")
-                return
+        organization, project, artifact, version, path = archive_info
 
-            command = [
-                "az artifacts universal download " +
-                f"--organization \"{organization}\" " +
-                f"--feed \"{project}\" " +
-                f"--name \"{artifact}\" " +
-                f"--version \"{version}\" " +
-                f"--path {self.download_dir}"
-            ]
+        full_repo_path = os.path.join(self.script_dir, path)
+        file_name = f"{artifact}-{version}.tar.xz"
+        if not os.path.exists(full_repo_path):
+            print_error(f"Error finding path {full_repo_path}")
+            return
 
-            try:
-                tar_file_path = os.path.join(self.download_dir, file_name)
+        command = [
+            "az artifacts universal download " +
+            f"--organization \"{organization}\" " +
+            f"--feed \"{project}\" " +
+            f"--name \"{artifact}\" " +
+            f"--version \"{version}\" " +
+            f"--path {self.download_dir}"
+        ]
 
-                print(f"Looking for {tar_file_path}...")
-                if not os.path.exists(tar_file_path):
-                    print(f"Downloading {file_name} to {full_repo_path}...")
-                    result = subprocess.run(command, check=True, shell=True)
-                    if result.returncode == 0:
-                        print_color(
-                            f"Archive {artifact} downloaded to {full_repo_path} successfully!",
-                            GREEN,
-                        )
-                else:
+        try:
+            tar_file_path = os.path.join(self.download_dir, file_name)
+
+            print(f"Looking for {tar_file_path}...")
+            if not os.path.exists(tar_file_path):
+                print(f"Downloading {file_name} to {full_repo_path}...")
+                result = subprocess.run(command, check=True, shell=True)
+                if result.returncode == 0:
                     print_color(
-                        f"Archive {artifact} already downloaded to {full_repo_path}!",
+                        f"Archive {artifact} downloaded to {full_repo_path} successfully!",
                         GREEN,
                     )
-
-                # Unzip the downloaded file
-                with tarfile.open(tar_file_path) as tar:
-                    tar.extractall(path=full_repo_path)
-
-                print_color(f"Downloaded {file_name} successfully!", GREEN)
-
-            except subprocess.CalledProcessError as e:
-                print_error(
-                    f"Failed to download archive {file_name} to {full_repo_path}!",
-                    f"{e.stderr}",
+            else:
+                print_color(
+                    f"Archive {artifact} already downloaded to {full_repo_path}!",
+                    GREEN,
                 )
 
-        else:
-            print_error("Error loading archive info")
+            # Unzip the downloaded file
+            with tarfile.open(tar_file_path) as tar:
+                tar.extractall(path=full_repo_path)
 
+            print_color(f"Downloaded {file_name} successfully!", GREEN)
+
+        except subprocess.CalledProcessError as e:
+            print_error(
+                f"Failed to download archive {file_name} to {full_repo_path}!",
+                f"{e.stderr}",
+            )
 
 def main():
     def get_latest_sdk_commit() -> str:
