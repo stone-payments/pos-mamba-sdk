@@ -14,6 +14,7 @@ import sys
 import platform
 import concurrent.futures
 import argparse
+import tarfile
 
 # ansi escape codes "color"
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
@@ -304,6 +305,17 @@ class PosMambaRepoSetup:
         return repo_url, path, target_type
 
     @staticmethod
+    def get_info_by_archive(archive) -> tuple:
+
+        organization = archive["organization"]
+        project = archive["project"]
+        artifact = archive["name"]
+        version = archive["version"]
+        path = archive["path"]
+
+        return organization, project, artifact, version, path
+
+    @staticmethod
     def init_repository(
         repo_url,
         full_repo_path,
@@ -368,6 +380,55 @@ class PosMambaRepoSetup:
                 exec_count += 1
         else:
             print_error("Error loading submodule info")
+
+    def get_archives(self, archive):
+        archive_info = self.get_info_by_archive(archive)
+
+        if archive_info:
+            organization, project, artifact, version, path = archive_info
+
+            full_repo_path = os.path.join(self.script_dir, path)
+            if not os.path.exists(full_repo_path):
+                print_error(f"Error finding path {full_repo_path}")
+                return
+
+            command = [
+                "az artifacts universal download " +
+                f"--organization \"{organization}\" " +
+                f"--feed \"{project}\" " +
+                f"--name \"{artifact}\" " +
+                f"--version \"{version}\" " +
+                f"--path {full_repo_path}"
+            ]
+
+            try:
+                result = subprocess.run(command, check=True, shell=True)
+                if result.returncode == 0:
+                    print_color(
+                        f"Archive {artifact} downloaded to {full_repo_path} successfully!",
+                        GREEN,
+                    )
+
+                # Unzip the downloaded file
+                tar_file_path = os.path.join(full_repo_path, f"{artifact}-{version}.tar.xz")
+                if os.path.exists(tar_file_path):
+                    with tarfile.open(tar_file_path) as tar:
+                        tar.extractall(path=full_repo_path)
+
+                    # Delete the tar file
+                    os.remove(tar_file_path)
+                    print_color(f"Unzipped {tar_file_path} successfully!", GREEN)
+                else:
+                    print_error(f"Artifact {artifact}-{version} not found as {tar_file_path}!")
+
+            except subprocess.CalledProcessError as e:
+                print_error(
+                    f"Failed to download archive {artifact} to {full_repo_path}!",
+                    f"{e.stderr}",
+                )
+
+        else:
+            print_error("Error loading archive info")
 
 
 def main():
@@ -441,6 +502,7 @@ def main():
             repo_settings = json.load(f)
 
         submodules = repo_settings["submodules"]
+        archives = repo_settings["archives"]
 
         repo_setup = PosMambaRepoSetup(
             clone_type=args.clone_type, force=args.force, log=args.log
@@ -460,13 +522,23 @@ def main():
                 required = submodule.get("required", True)
                 if required:
                     filtered_submodules.append(submodule)
-                        
+
         submodules = filtered_submodules
 
         # Create a pool of workers
         with concurrent.futures.ProcessPoolExecutor() as executor:
             # Use the executor to map the function to the inputs
             executor.map(repo_setup.update_repo, submodules)
+
+            # Wait for submodules to be updated
+            print('Waiting for update_repo to complete...')
+            executor.shutdown(wait=True)
+            print('Starting archive download...')
+
+            # Create a new executor after submodules are updated for the archive function
+            with concurrent.futures.ProcessPoolExecutor() as executor:
+                executor.map(repo_setup.get_archives, archives)
+
     else:
         print_warning("repo_setup is outdated!!! Runnig repo_initialization!")
         print_warning(f"Local repo_setup hash: {repo_setup_commit}")
