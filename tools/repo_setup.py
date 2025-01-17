@@ -418,18 +418,16 @@ class PosMambaRepoSetup:
         try:
             tar_file_path = os.path.join(self.download_dir, file_name)
 
-            print(f"Looking for {tar_file_path}...")
             if not os.path.exists(tar_file_path):
                 print(f"Downloading {file_name} to {full_repo_path}...")
                 result = subprocess.run(command, check=True, shell=True)
-                if result.returncode == 0:
-                    print_color(
-                        f"Archive {artifact} downloaded to {full_repo_path} successfully!",
-                        GREEN,
+                if result.returncode != 0:
+                    print_error(
+                        f"Failed to download archive {file_name}!"
                     )
             else:
                 print_color(
-                    f"Archive {artifact} already downloaded to {full_repo_path}!",
+                    f"Archive {file_name} already downloaded!",
                     GREEN,
                 )
 
@@ -441,8 +439,7 @@ class PosMambaRepoSetup:
 
         except subprocess.CalledProcessError as e:
             print_error(
-                f"Failed to download archive {file_name} to {full_repo_path}!",
-                f"{e.stderr}",
+                f"Failed to download archive {file_name} to {full_repo_path}! Error: {e.stderr}"
             )
 
 def main():
@@ -552,7 +549,6 @@ def main():
             # Create a new executor after submodules are updated for the archive function
             with concurrent.futures.ProcessPoolExecutor() as executor:
                 executor.map(repo_setup.get_archives, archives)
-
     else:
         print_warning("repo_setup is outdated!!! Runnig repo_initialization!")
         print_warning(f"Local repo_setup hash: {repo_setup_commit}")
