@@ -433,6 +433,9 @@ class PosMambaRepoSetup:
 
             # Unzip the downloaded file
             with tarfile.open(tar_file_path) as tar:
+                for entry in tar.getmembers():
+                    if os.path.isabs(entry.name) or ".." in entry.name:
+                        raise ValueError(f"Illegal tar archive entry: {entry.name}")
                 tar.extractall(path=full_repo_path)
 
             print_color(f"Downloaded {file_name} successfully!", GREEN)
