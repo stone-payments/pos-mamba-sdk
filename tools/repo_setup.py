@@ -516,7 +516,10 @@ def main():
             repo_settings = json.load(f)
 
         submodules = repo_settings["submodules"]
-        archives = repo_settings["archives"]
+        if "archives" in repo_settings:
+            archives = repo_settings["archives"]
+        else:
+            archives = None
 
         repo_setup = PosMambaRepoSetup(
             clone_type=args.clone_type, force=args.force, log=args.log
@@ -547,11 +550,13 @@ def main():
             # Wait for submodules to be updated
             print('Waiting for update_repo to complete...')
             executor.shutdown(wait=True)
-            print('Starting archive download...')
 
-            # Create a new executor after submodules are updated for the archive function
-            with concurrent.futures.ProcessPoolExecutor() as executor:
-                executor.map(repo_setup.get_archives, archives)
+            if archives != None:
+                print('Starting archive download...')
+
+                # Create a new executor after submodules are updated for the archive function
+                with concurrent.futures.ProcessPoolExecutor() as executor:
+                    executor.map(repo_setup.get_archives, archives)
     else:
         print_warning("repo_setup is outdated!!! Runnig repo_initialization!")
         print_warning(f"Local repo_setup hash: {repo_setup_commit}")
