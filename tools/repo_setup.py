@@ -14,6 +14,7 @@ import sys
 import platform
 import concurrent.futures
 import argparse
+import tarfile
 
 # ansi escape codes "color"
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
@@ -93,6 +94,7 @@ class PosMambaRepoSetup:
 
     # Get the absolute path of the script
     script_dir = os.path.dirname(os.path.abspath(__file__))
+    download_dir = os.path.join(script_dir, "output/downloads/artifacts")
     message_check = "Check your settings on repo_settings.json"
 
     def __init__(self, clone_type: str, force: bool = False, log=False):
@@ -304,6 +306,17 @@ class PosMambaRepoSetup:
         return repo_url, path, target_type
 
     @staticmethod
+    def get_info_by_archive(archive) -> tuple:
+
+        organization = archive["organization"]
+        project = archive["project"]
+        artifact = archive["name"]
+        version = archive["version"]
+        path = archive["path"]
+
+        return organization, project, artifact, version, path
+
+    @staticmethod
     def init_repository(
         repo_url,
         full_repo_path,
@@ -369,6 +382,68 @@ class PosMambaRepoSetup:
         else:
             print_error("Error loading submodule info")
 
+    def get_archives(self, archive):
+        type = archive["type"]
+
+        if type == "az_artifacts":
+            self.get_archives_az_artifacts(archive)
+
+    def get_archives_az_artifacts(self, archive):
+        archive_info = self.get_info_by_archive(archive)
+
+        if not os.path.exists(self.download_dir):
+            os.makedirs(self.download_dir)
+
+        if not archive_info:
+            print_error("Error loading archive info")
+            return
+
+        organization, project, artifact, version, path = archive_info
+
+        full_repo_path = os.path.join(self.script_dir, path)
+        file_name = f"{artifact}-{version}.tar.xz"
+        if not os.path.exists(full_repo_path):
+            print_error(f"Error finding path {full_repo_path}")
+            return
+
+        command = [
+            "az artifacts universal download " +
+            f"--organization \"{organization}\" " +
+            f"--feed \"{project}\" " +
+            f"--name \"{artifact}\" " +
+            f"--version \"{version}\" " +
+            f"--path {self.download_dir}"
+        ]
+
+        try:
+            tar_file_path = os.path.join(self.download_dir, file_name)
+
+            if not os.path.exists(tar_file_path):
+                print(f"Downloading {file_name} to {full_repo_path}...")
+                result = subprocess.run(command, check=True, shell=True)
+                if result.returncode != 0:
+                    print_error(
+                        f"Failed to download archive {file_name}!"
+                    )
+            else:
+                print_color(
+                    f"Archive {file_name} already downloaded!",
+                    GREEN,
+                )
+
+            # Unzip the downloaded file
+            with tarfile.open(tar_file_path) as tar:
+                for entry in tar.getmembers():
+                    if os.path.isabs(entry.name) or ".." in entry.name:
+                        raise ValueError(f"Illegal tar archive entry: {entry.name}")
+                tar.extractall(path=full_repo_path)
+
+            print_color(f"Downloaded {file_name} successfully!", GREEN)
+
+        except subprocess.CalledProcessError as e:
+            print_error(
+                f"Failed to download archive {file_name} to {full_repo_path}! Error: {e.stderr}"
+            )
 
 def main():
     def get_latest_sdk_commit() -> str:
@@ -441,6 +516,10 @@ def main():
             repo_settings = json.load(f)
 
         submodules = repo_settings["submodules"]
+        if "archives" in repo_settings:
+            archives = repo_settings["archives"]
+        else:
+            archives = None
 
         repo_setup = PosMambaRepoSetup(
             clone_type=args.clone_type, force=args.force, log=args.log
@@ -460,13 +539,24 @@ def main():
                 required = submodule.get("required", True)
                 if required:
                     filtered_submodules.append(submodule)
-                        
+
         submodules = filtered_submodules
 
         # Create a pool of workers
         with concurrent.futures.ProcessPoolExecutor() as executor:
             # Use the executor to map the function to the inputs
             executor.map(repo_setup.update_repo, submodules)
+
+            # Wait for submodules to be updated
+            print('Waiting for update_repo to complete...')
+            executor.shutdown(wait=True)
+
+            if archives != None:
+                print('Starting archive download...')
+
+                # Create a new executor after submodules are updated for the archive function
+                with concurrent.futures.ProcessPoolExecutor() as executor:
+                    executor.map(repo_setup.get_archives, archives)
     else:
         print_warning("repo_setup is outdated!!! Runnig repo_initialization!")
         print_warning(f"Local repo_setup hash: {repo_setup_commit}")
