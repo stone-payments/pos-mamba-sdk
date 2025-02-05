@@ -9,7 +9,6 @@ import MASTERCARD from './assets/mastercard.png';
 import SENFF from './assets/senff.png';
 import SODEXO from './assets/sodexo.png';
 import TICKET from './assets/ticket.png';
-import VERDECARD from './assets/verdecard.png';
 import VISA from './assets/visa.png';
 import VR from './assets/vr.png';
 import HIPER from './assets/hiper.png';
@@ -36,7 +35,6 @@ export const BRANDS = {
   SENFF,
   SODEXO,
   TICKET,
-  VERDECARD,
   VISA,
   VR,
   HIPER,

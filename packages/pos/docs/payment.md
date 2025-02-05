@@ -162,7 +162,6 @@ Retorna a Bandeira da transação.
 - GREENCARD
 - VALECARD
 - VEROCARD
-- VERDECARD
 - CABAL
 - UP BRASIL
 - SOROCRED
