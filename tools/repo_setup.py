@@ -389,6 +389,38 @@ class PosMambaRepoSetup:
             self.get_archives_az_artifacts(archive)
 
     def get_archives_az_artifacts(self, archive):
+
+        def azure_login():
+            azure_token = os.getenv("AZURE_TOKEN")
+            if azure_token is None:
+                result = subprocess.run(
+                    ["az", "account", "list"],
+                    stdout=PIPE,
+                    stderr=PIPE,
+                    universal_newlines=True,
+                )
+                accounts = json.loads(result.stdout)
+                status = any(account["state"] == "Enabled" for account in accounts)
+                if not status:
+                    Log.info(
+                        "Waiting for user login. Check your browser window that opened."
+                    )
+                    GenericUtils.shell_run(["az", "login", "--allow-no-subscriptions"])
+            else:
+                Log.info("Using Azure Token from pipeline")
+                GenericUtils.shell_run(
+                    f"echo {azure_token} | az devops login", shell=True
+                )
+
+            GenericUtils.shell_run(
+                [
+                    "az",
+                    "config",
+                    "set",
+                    "extension.use_dynamic_install=yes_without_prompt",
+                ]
+            )
+
         archive_info = self.get_info_by_archive(archive)
 
         if not os.path.exists(self.download_dir):
@@ -416,6 +448,7 @@ class PosMambaRepoSetup:
             tar_file_path = os.path.join(self.download_dir, file_name)
 
             if not os.path.exists(tar_file_path):
+                azure_login()
                 print(f"Downloading {file_name} to {full_repo_path}...")
                 result = subprocess.run(command, check=True, shell=True)
                 if result.returncode != 0:
