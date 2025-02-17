@@ -402,9 +402,6 @@ class PosMambaRepoSetup:
 
         full_repo_path = os.path.join(self.script_dir, path)
         file_name = f"{artifact}-{version}.tar.xz"
-        if not os.path.exists(full_repo_path):
-            print_error(f"Error finding path {full_repo_path}")
-            return
 
         command = [
             "az artifacts universal download " +
