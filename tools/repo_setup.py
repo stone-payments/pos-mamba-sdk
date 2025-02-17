@@ -406,7 +406,8 @@ class PosMambaRepoSetup:
                     result = subprocess.run(["az login --allow-no-subscriptions"], shell=True)
             else:
                 print_color("Using Azure Token from pipeline", BLUE)
-                subprocess.run([f"echo {azure_token} | az devops login"], shell=True)
+                command = f"echo {azure_token} | az devops login"
+                subprocess.run([command], shell=True)
 
             subprocess.run(["az config set extension.use_dynamic_install=yes_without_prompt"], shell=True)
 
