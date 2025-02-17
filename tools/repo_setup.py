@@ -395,31 +395,20 @@ class PosMambaRepoSetup:
             if azure_token is None:
                 result = subprocess.run(
                     ["az", "account", "list"],
-                    stdout=PIPE,
-                    stderr=PIPE,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
                     universal_newlines=True,
                 )
                 accounts = json.loads(result.stdout)
                 status = any(account["state"] == "Enabled" for account in accounts)
                 if not status:
-                    Log.info(
-                        "Waiting for user login. Check your browser window that opened."
-                    )
-                    GenericUtils.shell_run(["az", "login", "--allow-no-subscriptions"])
+                    print_warning("Waiting for user login. Check your browser window that opened.")
+                    result = subprocess.run(["az login --allow-no-subscriptions"], shell=True)
             else:
-                Log.info("Using Azure Token from pipeline")
-                GenericUtils.shell_run(
-                    f"echo {azure_token} | az devops login", shell=True
-                )
+                print_color("Using Azure Token from pipeline", BLUE)
+                subprocess.run([f"echo {azure_token} | az devops login"], shell=True)
 
-            GenericUtils.shell_run(
-                [
-                    "az",
-                    "config",
-                    "set",
-                    "extension.use_dynamic_install=yes_without_prompt",
-                ]
-            )
+            subprocess.run(["az config set extension.use_dynamic_install=yes_without_prompt"], shell=True)
 
         archive_info = self.get_info_by_archive(archive)
 
