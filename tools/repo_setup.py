@@ -452,6 +452,16 @@ class PosMambaRepoSetup:
                 f"Failed to download archive {file_name} to {full_repo_path}! Error: {e.stderr}"
             )
 
+    @staticmethod
+    def filter_archives(archives: list, artifacts_list: list = None) -> list:
+        is_pipeline = os.getenv("AZURE_TOKEN") is not None
+        if is_pipeline and not artifacts_list:
+            return []
+        elif artifacts_list:
+            return [a for a in archives if a['name'] in artifacts_list]
+        else:
+            return archives
+
 def main():
     def get_latest_sdk_commit() -> str:
         import requests
@@ -498,6 +508,14 @@ def main():
     )
 
     parser.add_argument(
+        "--archive_list",
+        "-a",
+        help="Archives to be updated. If nothing provided in pipeline nothing is updated, locally all will be updated",
+        nargs="*",
+        default=[],
+    )
+
+    parser.add_argument(
         "--bypass_auto_update",
         "-u",
         action="store_true",
@@ -523,10 +541,7 @@ def main():
             repo_settings = json.load(f)
 
         submodules = repo_settings["submodules"]
-        if "archives" in repo_settings:
-            archives = repo_settings["archives"]
-        else:
-            archives = None
+        archives = repo_settings["archives"] if "archives" in repo_settings else None
 
         repo_setup = PosMambaRepoSetup(
             clone_type=args.clone_type, force=args.force, log=args.log
@@ -559,11 +574,10 @@ def main():
             executor.shutdown(wait=True)
 
             if archives != None:
-                print('Starting archive download...')
-
+                filtered_archives = PosMambaRepoSetup.filter_archives(archives, args.archive_list)
                 # Create a new executor after submodules are updated for the archive function
                 with concurrent.futures.ProcessPoolExecutor() as executor:
-                    executor.map(repo_setup.get_archives, archives)
+                    executor.map(repo_setup.get_archives, filtered_archives)
     else:
         print_warning("repo_setup is outdated!!! Runnig repo_initialization!")
         print_warning(f"Local repo_setup hash: {repo_setup_commit}")
