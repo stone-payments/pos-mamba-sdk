@@ -432,8 +432,6 @@ class PosMambaRepoSetup:
                     print_error(
                         f"Failed to download archive {file_name}!"
                     )
-                else:
-                    print_color(f"Downloaded {file_name} successfully!", GREEN)
             else:
                 print_color(
                     f"Archive {file_name} already downloaded!",
@@ -445,42 +443,14 @@ class PosMambaRepoSetup:
                 for entry in tar.getmembers():
                     if os.path.isabs(entry.name) or ".." in entry.name:
                         raise ValueError(f"Illegal tar archive entry: {entry.name}")
-                print_color(f"Extracting {file_name}", GREEN)
                 tar.extractall(path=full_repo_path)
+
+            print_color(f"Downloaded {file_name} successfully!", GREEN)
 
         except subprocess.CalledProcessError as e:
             print_error(
                 f"Failed to download archive {file_name} to {full_repo_path}! Error: {e.stderr}"
             )
-
-    @staticmethod
-    def filter_submodules(submodules: list, repo_list: list = None) -> list:
-        filtered_submodules = []
-        if repo_list:
-            for repo in repo_list:
-                for submodule in submodules:
-                    if repo.lower() in submodule["path"].lower():
-                        filtered_submodules.append(submodule)
-        else:
-            for submodule in submodules:
-                required = submodule.get("required", True)
-                if required:
-                    filtered_submodules.append(submodule)
-
-        return filtered_submodules
-
-    @staticmethod
-    def filter_archives(archives: list, artifacts_list: list = None) -> list:
-        if archives == None:
-            return None
-
-        is_pipeline = os.getenv("AZURE_TOKEN") is not None
-        if is_pipeline and not artifacts_list:
-            return []
-        elif artifacts_list:
-            return [a for a in archives if a['name'] in artifacts_list]
-        else:
-            return archives
 
 def main():
     def get_latest_sdk_commit() -> str:
@@ -528,14 +498,6 @@ def main():
     )
 
     parser.add_argument(
-        "--archive_list",
-        "-a",
-        help="Archives to be updated. If nothing provided in pipeline nothing is updated, locally all will be updated",
-        nargs="*",
-        default=[],
-    )
-
-    parser.add_argument(
         "--bypass_auto_update",
         "-u",
         action="store_true",
@@ -561,7 +523,10 @@ def main():
             repo_settings = json.load(f)
 
         submodules = repo_settings["submodules"]
-        archives = repo_settings["archives"] if "archives" in repo_settings else None
+        if "archives" in repo_settings:
+            archives = repo_settings["archives"]
+        else:
+            archives = None
 
         repo_setup = PosMambaRepoSetup(
             clone_type=args.clone_type, force=args.force, log=args.log
@@ -570,22 +535,35 @@ def main():
             ["git", "config", "--global", "advice.detachedHead", "false"]
         )
 
-        filtered_submodules = PosMambaRepoSetup.filter_submodules(submodules, repo_list)
-        filtered_archives = PosMambaRepoSetup.filter_archives(archives, args.archive_list)
+        filtered_submodules = []
+        if repo_list:
+            for repo in repo_list:
+                for submodule in submodules:
+                    if repo.lower() in submodule["path"].lower():
+                        filtered_submodules.append(submodule)
+        else:
+            for submodule in submodules:
+                required = submodule.get("required", True)
+                if required:
+                    filtered_submodules.append(submodule)
+
+        submodules = filtered_submodules
 
         # Create a pool of workers
         with concurrent.futures.ProcessPoolExecutor() as executor:
             # Use the executor to map the function to the inputs
-            executor.map(repo_setup.update_repo, filtered_submodules)
+            executor.map(repo_setup.update_repo, submodules)
 
             # Wait for submodules to be updated
             print('Waiting for update_repo to complete...')
             executor.shutdown(wait=True)
 
-            if filtered_archives != None:
+            if archives != None:
+                print('Starting archive download...')
+
                 # Create a new executor after submodules are updated for the archive function
                 with concurrent.futures.ProcessPoolExecutor() as executor:
-                    executor.map(repo_setup.get_archives, filtered_archives)
+                    executor.map(repo_setup.get_archives, archives)
     else:
         print_warning("repo_setup is outdated!!! Runnig repo_initialization!")
         print_warning(f"Local repo_setup hash: {repo_setup_commit}")
