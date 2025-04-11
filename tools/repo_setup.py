@@ -587,7 +587,7 @@ def main():
                 with concurrent.futures.ProcessPoolExecutor() as executor:
                     executor.map(repo_setup.get_archives, filtered_archives)
 
-        if os.path.exists(os.path.join(repo_setup.script_dir, "_git_hooks")):
+        if os.path.exists(os.path.join(repo_setup.script_dir, "_git_hooks/install-hooks.sh")):
             subprocess.run("_git_hooks/install-hooks.sh ", shell=True)
     else:
         print_warning("repo_setup is outdated!!! Runnig repo_initialization!")
