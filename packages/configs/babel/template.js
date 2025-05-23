@@ -3,7 +3,7 @@ const generalConfig = require('./index.js');
 const { extendPresetEnv } = require('./utils.js');
 
 const config = extendPresetEnv(generalConfig, {
-  useBuiltIns: 'usage',
+  useBuiltIns: 'entry',
   corejs: { version: 3, proposals: true },
   exclude: [
     'es.string.anchor', // Not used
