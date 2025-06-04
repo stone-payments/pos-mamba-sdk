@@ -421,6 +421,12 @@ class PosMambaRepoSetup:
             f"--path {self.download_dir}"
         ]
 
+        ndk26_path = os.path.join(full_repo_path, f"toolchain_ndk26")
+
+        if os.path.exists(ndk26_path):
+            print(f"Toolchain NDK26 already exists. Skipping download.")
+            return
+
         try:
             tar_file_path = os.path.join(self.download_dir, file_name)
 
