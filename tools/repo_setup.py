@@ -313,8 +313,9 @@ class PosMambaRepoSetup:
         artifact = archive["name"]
         version = archive["version"]
         path = archive["path"]
+        fileFlag = archive["fileFlag"]
 
-        return organization, project, artifact, version, path
+        return organization, project, artifact, version, path, fileFlag
 
     @staticmethod
     def init_repository(
@@ -407,7 +408,10 @@ class PosMambaRepoSetup:
             print_error("Error loading archive info")
             return
 
-        organization, project, artifact, version, path = archive_info
+        organization, project, artifact, version, path, fileFlag = archive_info
+
+
+        flagFilePath = os.path.join(self.script_dir, fileFlag)
 
         full_repo_path = os.path.join(self.script_dir, path)
         file_name = f"{artifact}-{version}.tar.xz"
@@ -421,30 +425,27 @@ class PosMambaRepoSetup:
             f"--path {self.download_dir}"
         ]
 
-        ndk26_path = os.path.join(full_repo_path, f"toolchain_ndk26")
+        flagFileExists = os.path.exists(flagFilePath)
 
-        if os.path.exists(ndk26_path):
-            print(f"Toolchain NDK26 already exists. Skipping download.")
-            return
+        if flagFileExists:
+            with open(flagFilePath, "r") as f:
+                content = f.read().strip()
+                if content == version:
+                    print(f"Toolchain NDK26 already exists and is updated. Skipping download.")
+                    return
 
         try:
             tar_file_path = os.path.join(self.download_dir, file_name)
 
-            if not os.path.exists(tar_file_path):
-                azure_login()
-                print(f"Downloading {file_name} to {full_repo_path}...")
-                result = subprocess.run(command, check=True, shell=True)
-                if result.returncode != 0:
-                    print_error(
-                        f"Failed to download archive {file_name}!"
-                    )
-                else:
-                    print_color(f"Downloaded {file_name} successfully!", GREEN)
-            else:
-                print_color(
-                    f"Archive {file_name} already downloaded!",
-                    GREEN,
+            azure_login()
+            print(f"Downloading {file_name} to {full_repo_path}...")
+            result = subprocess.run(command, check=True, shell=True)
+            if result.returncode != 0:
+                print_error(
+                    f"Failed to download archive {file_name}!"
                 )
+            else:
+                print_color(f"Downloaded {file_name} successfully!", GREEN)
 
             # Unzip the downloaded file
             with tarfile.open(tar_file_path) as tar:
@@ -453,6 +454,10 @@ class PosMambaRepoSetup:
                         raise ValueError(f"Illegal tar archive entry: {entry.name}")
                 print_color(f"Extracting {file_name}", GREEN)
                 tar.extractall(path=full_repo_path)
+
+                with open(flagFilePath, "w") as f:
+                    f.write(version)
+                    print(f"Updated {flagFilePath} with {file_name}")
 
         except subprocess.CalledProcessError as e:
             print_error(
@@ -553,7 +558,7 @@ def main():
     repo_list = args.repo_list
 
     install_dependencies()
-    repo_setup_commit: str = "REPO_SETUP_PLACEHOLDER"
+    repo_setup_commit: str = "4224b4f2946afad23d98670839e9ad1de921689d"
     sdk_commit = get_latest_sdk_commit()
     bypass_auto_update = args.bypass_auto_update
 
