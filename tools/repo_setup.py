@@ -96,7 +96,6 @@ class PosMambaRepoSetup:
     # Get the absolute path of the script
     script_dir = os.path.dirname(os.path.abspath(__file__))
     download_dir = os.path.join(script_dir, "output/downloads/artifacts")
-    downloaded_artifact_register = os.path.join(script_dir, ".downloaded_artifacts.ini")
     message_check = "Check your settings on repo_settings.json"
 
     def __init__(self, clone_type: str, force: bool = False, log=False):
@@ -411,6 +410,7 @@ class PosMambaRepoSetup:
 
         organization, project, artifact, version, path = archive_info
 
+        artifact_version_file_path = os.path.join(path, ".package.ini")
         full_repo_path = os.path.join(self.script_dir, path)
         file_name = f"{artifact}-{version}.tar.xz"
 
@@ -424,18 +424,15 @@ class PosMambaRepoSetup:
         ]
 
         config = configparser.ConfigParser()
-        config.read(self.downloaded_artifact_register)
+        config.read(artifact_version_file_path)
 
-        if not os.path.isfile(self.downloaded_artifact_register):
-            config.add_section(artifact)
-            config.set(artifact, "version", "none")
-            with open(self.downloaded_artifact_register, "w") as artifact_register:
-                config.write(artifact_register)
-
-
-        elif config.get(artifact, "version") == version:
-            print_color(f"Artifact {artifact} already exists and is updated. Skipping download.", GREEN)
-            return
+        if os.path.isfile(artifact_version_file_path):
+            current_version = config.get(artifact, "version")
+            if current_version == version:
+                print_color(f"Artifact {artifact} already exists and is updated. Skipping download.", GREEN)
+                return
+            else:
+                print_color(f"Current {artifact} version: {current_version}. Will update to {version}.", BLUE)
 
         try:
             tar_file_path = os.path.join(self.download_dir, file_name)
@@ -457,10 +454,6 @@ class PosMambaRepoSetup:
                         raise ValueError(f"Illegal tar archive entry: {entry.name}")
                 print_color(f"Extracting {file_name}", GREEN)
                 tar.extractall(path=full_repo_path)
-
-            config.set(artifact, "version", version)
-            with open(self.downloaded_artifact_register, "w") as artifact_register:
-                config.write(artifact_register)
 
         except subprocess.CalledProcessError as e:
             print_error(
