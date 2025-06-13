@@ -423,16 +423,17 @@ class PosMambaRepoSetup:
             f"--path {self.download_dir}"
         ]
 
-        config = configparser.ConfigParser()
-        config.read(artifact_version_file_path)
-
         if os.path.isfile(artifact_version_file_path):
+            config = configparser.ConfigParser()
+            config.read(artifact_version_file_path)
             current_version = config.get(artifact, "version")
             if current_version == version:
                 print_color(f"Artifact {artifact} already exists and is updated. Skipping download.", GREEN)
                 return
             else:
                 print_color(f"Current {artifact} version: {current_version}. Will update to {version}.", BLUE)
+        else:
+            print_color(f"Version file '.package.ini' not found. Will download {version}.", YELLOW)
 
         try:
             tar_file_path = os.path.join(self.download_dir, file_name)
