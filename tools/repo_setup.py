@@ -15,6 +15,7 @@ import platform
 import concurrent.futures
 import argparse
 import tarfile
+import configparser
 
 # ansi escape codes "color"
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
@@ -409,6 +410,7 @@ class PosMambaRepoSetup:
 
         organization, project, artifact, version, path = archive_info
 
+        artifact_version_file_path = os.path.join(path, ".package.ini")
         full_repo_path = os.path.join(self.script_dir, path)
         file_name = f"{artifact}-{version}.tar.xz"
 
@@ -421,24 +423,30 @@ class PosMambaRepoSetup:
             f"--path {self.download_dir}"
         ]
 
+        if os.path.isfile(artifact_version_file_path):
+            config = configparser.ConfigParser()
+            config.read(artifact_version_file_path)
+            current_version = config.get(artifact, "version")
+            if current_version == version:
+                print_color(f"Artifact {artifact} already exists and is updated. Skipping download.", GREEN)
+                return
+            else:
+                print_color(f"Current {artifact} version: {current_version}. Will update to {version}.", BLUE)
+        else:
+            print_color(f"Version file '.package.ini' not found. Will download {version}.", YELLOW)
+
         try:
             tar_file_path = os.path.join(self.download_dir, file_name)
 
-            if not os.path.exists(tar_file_path):
-                azure_login()
-                print(f"Downloading {file_name} to {full_repo_path}...")
-                result = subprocess.run(command, check=True, shell=True)
-                if result.returncode != 0:
-                    print_error(
-                        f"Failed to download archive {file_name}!"
-                    )
-                else:
-                    print_color(f"Downloaded {file_name} successfully!", GREEN)
-            else:
-                print_color(
-                    f"Archive {file_name} already downloaded!",
-                    GREEN,
+            azure_login()
+            print(f"Downloading {file_name} to {full_repo_path}...")
+            result = subprocess.run(command, check=True, shell=True)
+            if result.returncode != 0:
+                print_error(
+                    f"Failed to download archive {file_name}!"
                 )
+            else:
+                print_color(f"Downloaded {file_name} successfully!", GREEN)
 
             # Unzip the downloaded file
             with tarfile.open(tar_file_path) as tar:
