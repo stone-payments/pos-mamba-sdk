@@ -41,6 +41,8 @@ export const MODELS = Object.freeze({
   Q92S: 'Q92S',
   MP35P: 'Gertec MP35P',
   MP35: 'Gertec MP35',
+  MP35PS: 'Gertec MP35PS',
+  MP35S: 'Gertec MP35S',
   V240M: 'Verifone V240M',
   D195: 'D195',
   Q60: 'Q60',
@@ -122,6 +124,8 @@ export const getPOSChecksObject = () => {
     IS_V240M: model === MODELS.V240M,
     IS_MP35: model === MODELS.MP35,
     IS_MP35P: model === MODELS.MP35P,
+    IS_MP35S: model === MODELS.MP35S,
+    IS_MP35PS: model === MODELS.MP35PS,
     IS_D195: model === MODELS.D195,
     IS_Q60: model === MODELS.Q60,
     IS_D230: model === MODELS.D230,
@@ -223,7 +227,7 @@ export function isVerifoneDevices() {
  * @deprecated
  * @returns {array}
  */
-export const GERTEC_DEVICES = [MODELS.MP35, MODELS.MP35P];
+export const GERTEC_DEVICES = [MODELS.MP35, MODELS.MP35P, MODELS.MP35S, MODELS.MP35PS];
 
 /**
  * @deprecated
@@ -253,6 +257,8 @@ export function isGertecDevices() {
 export const SMALL_SCREEN_DEVICES = [
   MODELS.MP35P,
   MODELS.MP35,
+  MODELS.MP35PS,
+  MODELS.MP35S,
   MODELS.D195,
   MODELS.D230,
   MODELS.Q60,
@@ -286,6 +292,8 @@ export function hasSmallScreen() {
 export const ARROW_NAVIGATION_DEVICES = [
   MODELS.MP35P,
   MODELS.MP35,
+  MODELS.MP35PS,
+  MODELS.MP35S,
   MODELS.D195,
   MODELS.D230,
   MODELS.Q60,
@@ -312,6 +320,8 @@ export const HAS_KEYBOARD = [
   MODELS.Q92S,
   MODELS.MP35P,
   MODELS.MP35,
+  MODELS.MP35PS,
+  MODELS.MP35S,
   MODELS.V240M,
   MODELS.D195,
   MODELS.Q60,
@@ -337,7 +347,7 @@ export function hasKeyboard() {
  * @description Devices with keyboard light
  * @returns {array} A list of devices that has keyboard light
  */
-export const HAS_KEYBOARD_LIGHT = [MODELS.MP35P, MODELS.D230, MODELS.S920, MODELS.Q92, MODELS.Q92S];
+export const HAS_KEYBOARD_LIGHT = [MODELS.MP35P, MODELS.MP35PS, MODELS.D230, MODELS.S920, MODELS.Q92, MODELS.Q92S];
 
 /**
  * @description If current model have keyboard light
@@ -405,7 +415,7 @@ export function hasNoTouch() {
  * @description Devices with no printer
  * @returns {array} A list of devices that doesn't have printer
  */
-export const NO_PRINTER = [MODELS.MP35, MODELS.D199, MODELS.D195];
+export const NO_PRINTER = [MODELS.MP35, MODELS.MP35S, MODELS.D199, MODELS.D195];
 
 /**
  * @description If current model have printer
@@ -495,7 +505,7 @@ export function hasHighDPI() {
  * @description A list of devices that have function keys
  * @returns {array}
  */
-export const FUNCTION_KEYS_DEVICES = [MODELS.MP35P, MODELS.MP35];
+export const FUNCTION_KEYS_DEVICES = [MODELS.MP35P, MODELS.MP35, MODELS.MP35PS, MODELS.MP35S];
 
 /**
  * @DEPRECATED since @mamba/utils v6.0.0
