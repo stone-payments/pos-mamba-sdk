@@ -367,7 +367,7 @@ installMambaDesktop(){
     msgBox "Build de sucesso!"
 
     msgBoxEnter "Executando Mamba Desktop..." "Duas telas serão abertas em caso de Sucesso." "Você pode fechar em seguida para continuar."
-    ./output/install/Linux_Desktop/StoneMambaSystem -qws child
+    ./output/install/LINUX_DESKTOP_QT4/StoneMambaSystem -qws child
 
     msgBoxEnter "Em seguida, vamos buildar e rodar os Testes Unitários." "Este passo será um pouco mais demorado"
     devtools/mbs/mbs.py   --device desktop   --pack dev   --threads $procThreadCount_1  --config build_tests  ||  exit
