@@ -127,6 +127,10 @@ installBasicPackages() {
         sudo cp /etc/apt/trusted.gpg /etc/apt/trusted.gpg.d
     fi
 
+    # Gertecs
+    sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test   || exit
+    sudo add-apt-repository -y ppa:linuxuprising/libpng12
+
     sudo apt update
 
     # Ensure last kernel version for Ubuntu:  https://bugs.launchpad.net/ubuntu/+source/linux-hwe-6.5/+bug/2069288
@@ -149,6 +153,17 @@ installBasicPackages() {
                 speech-dispatcher \
                 clang-tidy  clang-tools  clang-format  clang-format-15 \
                 || exit
+
+    # Gertecs
+    sudo apt install -y \
+                 android-tools-adb autoconf gperf bison flex libtool \
+                 unzip default-jre libstdc++6 \
+                 libfuse-dev libpng12-0 pkg-config \
+                 || exit
+    sudo apt remove -y modemmanager
+    
+
+
 
     # need for installation
     sudo apt install -y \
@@ -640,15 +655,16 @@ while true; do
     echo "║  ───────  CRIADOR DE AMBIENTE MAMBA  ─────────  ║"
     echo "╠═════════════════════════════════════════════════╣"
     echo "║ Selecione uma opção:                            ║"
-    echo "║ a - Instalar - pacotes Linux                    ║"
+    echo "║ a - Instalar - pacotes essenciais Linux         ║"
     echo "║ b - Configurar - GitHub                         ║"
     echo "║ c - Repositórios - Clonar e buildar             ║"
     echo "║ d - Mamba Desktop - instalar, buildar e rodar   ║"
     echo "║ e - Driver PAX - Instalar                       ║"
-    echo "║ f - Docker Mamba - Instalar e buildar           ║"
-    echo "║ g - Qt Creator - Instalar e configurar          ║"
-    echo "║ h - Configurar ccache (otimizador de builds)    ║"
-    echo "║ i - Instalar outras ferramentas úteis para dev  ║"
+    echo "║ f - adb Gertec - Configurar                     ║"
+    echo "║ g - Docker Mamba - Instalar e buildar           ║"
+    echo "║ h - Qt Creator - Instalar e configurar          ║"
+    echo "║ i - Configurar ccache (otimizador de builds)    ║"
+    echo "║ j - Instalar outras ferramentas úteis para dev  ║"
     echo "║ q - Sair                                        ║"
     echo "╚═════════════════════════════════════════════════╝"
     echo -e ${clear}
@@ -699,25 +715,31 @@ while true; do
             time installPaxDriver
             ;;
 
-        f)  # DOCKER INSTALL
+        f) # config Gertec communication
+            # Installing busybox - Connect the MP35p at the Computer USB.
+            adb root
+            adb shell "su 0 mount -o rw,remount /system && busybox --install /system/bin"
+            ;;
+
+        g)  # DOCKER INSTALL
             msgBox  "!"   "Para executar esse passo é necessário ter" \
                           "executado o passo a) e ter reinicado o sistema."
             time installDockerImage
             ;;
 
-        g)  # Download Qt Creator
+        h)  # Download Qt Creator
             time installQtCreator
             ;;
 
-        h)  # Config ccache
+        i)  # Config ccache
             time config_ccache
             ;;
 
-        i)  # Other tools
+        j)  # Other tools
             time installOtherTools
             ;;
 
-        q)
+        k)
             echo "Saindo..."
             exit 0
             ;;
