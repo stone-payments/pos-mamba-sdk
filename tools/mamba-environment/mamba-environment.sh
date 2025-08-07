@@ -181,7 +181,7 @@ installBasicPackages() {
                 # cppcheck pavucontrol libappindicator3-1 \
                 # libnl-3-dev  libsdl1.2-dev libsdl2-dev \
 
-    #sudo snap install  slack
+    sudo snap install  code --classic
 
     addKeys
     sudo apt update
@@ -604,7 +604,6 @@ installOtherTools(){
     sudo apt install -y   wireshark   || exit
 
     # Snap installs have automatic updates!
-    sudo snap install  code --classic
     sudo snap install  p7zip-desktop
     sudo snap install  postman
     sudo snap install  sublime-merge --classic
