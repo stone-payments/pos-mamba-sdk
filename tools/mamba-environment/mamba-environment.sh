@@ -134,20 +134,19 @@ installBasicPackages() {
     sudo apt update
 
     # Ensure last kernel version for Ubuntu:  https://bugs.launchpad.net/ubuntu/+source/linux-hwe-6.5/+bug/2069288
-    sudo apt install linux-generic-hwe-22.04 -y
-    sudo apt install gcc-12 -y || exit
+    sudo apt install -y linux-generic-hwe-22.04 || exit
+    sudo apt install -y gcc-12 || exit
     sudo ln -s -f   /usr/bin/gcc-12   /usr/bin/gcc
 
     sudo apt dist-upgrade -y
 
     # essential packages
     sudo apt install -y \
-                build-essential sshpass at jq moreutils jo \
-                default-jre  jq  android-tools-adb \
+                build-essential sshpass at moreutils jo jq \
                 sqlite3 libsqlite3-dev  \
                 gcc-multilib g++-multilib gdb gdbserver \
                 git cmake coreutils ccache \
-                curl  minicom \
+                curl  minicom  azure-cli  \
                 python3  python3-pip \
                 lcov  ca-certificates \
                 speech-dispatcher \
@@ -173,14 +172,12 @@ installBasicPackages() {
     # other very useful packages
     sudo apt install -y \
                 net-tools openssh-server\
-                ninja-build unzip \
+                ninja-build \
                 || exit
-                # qtbase5-dev   qtchooser   qt5-qmake   qtbase5-dev-tools \
                 # gnupg apt-transport-https lsb-release \
                 # cmake-format cgroupfs-mount \
-                # autoconf automake libtool flex bison \
+                #  automake   \
                 # lm-sensors bzr gvfs \
-                # gperf   \
                 # cppcheck pavucontrol libappindicator3-1 \
                 # libnl-3-dev  libsdl1.2-dev libsdl2-dev \
 
@@ -512,8 +509,8 @@ installDockerImage(){
                     if [ -f "$DOCKER_SCRIPT" ]; then
 
                         sudo apt install -y \
-                            docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin \
-                            azure-cli  \
+                            docker-ce               docker-ce-cli      containerd.io \
+                            docker-buildx-plugin    docker-compose-plugin \
                           || exit
 
 
