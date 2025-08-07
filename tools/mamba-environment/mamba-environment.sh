@@ -417,11 +417,13 @@ installQtCreator() {
     #   http://www.nic.funet.fi/pub/mirrors/download.qt-project.org/archive/online_installers/4.6/
     #   http://www.nic.funet.fi/pub/mirrors/download.qt-project.org/archive/online_installers/4.6/qt-unified-linux-x64-4.6.1-online.run
     #   tirado daqui: https://www.qt.io/blog/qt-online-installer-4.0.1-1-released
-    wget https://download.qt.io/official_releases/online_installers/qt-unified-linux-x64-online.run
+    
+    local QtPackage="qt-online-installer-linux-x64-online.run"
+    wget https://download.qt.io/official_releases/online_installers/$QtPackage
 
-    chmod +x qt-unified-linux-x64-online.run
-    ./qt-unified-linux-x64-online.run
-    rm qt-unified-linux-x64-online.run
+    chmod +x $QtPackage
+    ./$QtPackage
+    rm $QtPackage
 
     ## Criacao de kits
     # 
