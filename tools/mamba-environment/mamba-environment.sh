@@ -428,37 +428,6 @@ installQtCreator() {
 }
 
 # ------------------------------------------------------------------------------------------------------------------
-addSshConfig(){
-    local config_file=~/.ssh/config
-    if [ ! -f "$config_file" ]; then
-    echo "
-host pax
-    User MAINAPP
-    PubkeyAcceptedAlgorithms=+ssh-rsa
-    HostKeyAlgorithms=+ssh-rsa
-    StrictHostKeyChecking=no
-    hostname localhost
-    IdentityFile /home/user/.ssh/id_rsa_pax
-    PreferredAuthentications publickey
-    RemoteCommand cd /data/app/MAINAPP && LD_LIBRARY_PATH=/data/app/MAINAPP/lib exec ash
-    RequestTTY yes
-    Port 51000
-
-
-Host pax_sshfs
-    User MAINAPP
-    PubkeyAcceptedAlgorithms=+ssh-rsa
-    HostkeyAlgorithms=+ssh-rsa
-    StrictHostKeyChecking=no
-    hostname localhost
-    IdentityFile ~/.ssh/id_rsa_pax
-    RequestTTY yes
-    Port  51000
-" >> "$config_file"
-   fi
-}
-
-# ------------------------------------------------------------------------------------------------------------------
 installPaxDriver(){
     cd $MAMBA_PATH
     git checkout develop
@@ -493,7 +462,6 @@ installPaxDriver(){
         # isto eh temporario, para atualizar o path para o xcb, dentro do atual shell
         source ~/.bashrc
 
-#       addSshConfig
         break
     done
 }
