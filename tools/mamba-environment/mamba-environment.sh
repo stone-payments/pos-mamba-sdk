@@ -4,7 +4,6 @@
   ToDo:
   - Create a function to messages (windows)
     - title boxes windows
-  - exclude pos-pax-monitor in future
 
 '
 
@@ -291,8 +290,8 @@ cloneRepos() {
            "Se houver pergunta sobre chave ED25519, escreva 'yes'"
     git clone --progress --recurse-submodules git@github.com:stone-payments/pos-mamba.git
 
-    msgBox "Clonando repositório pos-pax-monitor"
-    git clone --progress --recurse-submodules git@github.com:stone-payments/pos-pax-monitor.git
+    msgBox "Clonando repositório pos-newton"
+    git clone --progress --recurse-submodules git@github.com:stone-payments/pos-newton.git
 
     msgBox "Clonando repositório pos-pax-monitor-lite"
     git clone --progress --recurse-submodules git@github.com:stone-payments/pos-pax-monitor-lite.git
@@ -602,11 +601,13 @@ installOtherTools(){
     sudo snap install  sqlitebrowser
 
     # Configuring SublimeMerge
+    smerge "$WORKSPACE_PATH/pos-pax-monitor-lite/"
+    sleep 5
+    smerge "$WORKSPACE_PATH/pos-newton/"
+    sleep 5
     smerge "$WORKSPACE_PATH/pos-mamba/"
     sleep 5
-    smerge "$WORKSPACE_PATH/pos-pax-monitor/"
-    sleep 5
-    smerge "$WORKSPACE_PATH/pos-pax-monitor-lite/"
+    smerge "$WORKSPACE_PATH/pos-mamba/devtools/"
 
 
     # Cleaning:
