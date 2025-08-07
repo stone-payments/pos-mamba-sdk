@@ -41,8 +41,6 @@ repeteExpr(){
     echo "$mult"
 }
 
-
-
 # Passar vetor de strings de mensagens
 msgBox(){
     local msgArr=("$@")
@@ -91,7 +89,7 @@ msgBoxEnter(){
 
 
 # ------------------------------------------------------------------------------------------------------------------
-# adiciona as chaves e baixa os pacotes
+# adiciona as chaves
 addKeys(){
     msgBox "Adding keys for Azure and others"
     local ARCH=$(dpkg --print-architecture)
@@ -100,13 +98,14 @@ addKeys(){
     sudo mkdir -p /etc/apt/keyrings
     sudo install -m 0755 -d /etc/apt/keyrings
 
-    # docker key
+# docker key
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
     sudo chmod a+r /etc/apt/keyrings/docker.gpg
     echo "deb [arch=$ARCH signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $DISTRO stable" | \
     sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-    # microsoft Azure key
+# microsoft Azure key
+    # https://documentation.ubuntu.com/azure/azure-how-to/instances/install-azure-cli/
     curl -sLS https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/keyrings/microsoft.gpg > /dev/null
     sudo chmod go+r /etc/apt/keyrings/microsoft.gpg
     echo "deb [arch=$ARCH signed-by=/etc/apt/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/azure-cli/ $DISTRO main" | \
@@ -134,13 +133,14 @@ installBasicPackages() {
     sudo apt update
 
     # Ensure last kernel version for Ubuntu:  https://bugs.launchpad.net/ubuntu/+source/linux-hwe-6.5/+bug/2069288
-    sudo apt install -y linux-generic-hwe-22.04 || exit
+    msgBox "Kernel config..."
     sudo apt install -y gcc-12 || exit
     sudo ln -s -f   /usr/bin/gcc-12   /usr/bin/gcc
 
     sudo apt dist-upgrade -y
 
     # essential packages
+    msgBox "Installing essential dev packages..."
     sudo apt install -y \
                 build-essential sshpass at moreutils jo jq \
                 sqlite3 libsqlite3-dev  \
@@ -169,7 +169,7 @@ installBasicPackages() {
                 snapd  xclip \
                 || exit
 
-    # other very useful packages
+    msgBox "Installing other very useful packages..."
     sudo apt install -y \
                 net-tools openssh-server\
                 ninja-build \
@@ -181,7 +181,8 @@ installBasicPackages() {
                 # cppcheck pavucontrol libappindicator3-1 \
                 # libnl-3-dev  libsdl1.2-dev libsdl2-dev \
 
-    sudo snap install  code --classic
+    msgBox "Installing Visual Studio Code..."
+    sudo snap install  code --classic || exit 1
 
     addKeys
     sudo apt update
@@ -191,7 +192,7 @@ installBasicPackages() {
     sudo apt autoremove -y
     sudo apt autoclean
 
-    # installs nvm (Node Version Manager)
+    msgBox "Installing NVM stuff..."
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
     # download and install Node.js (you may need to restart the terminal)
     nvm install 16
@@ -200,6 +201,7 @@ installBasicPackages() {
     # verifies the right npm version is in the environment
     npm -v # should print `8.19.4`
 
+    msgBox "Installing Python stuff..."
     pip3 install   defusedxml gitpython pygithub requests # Mamba
     pip3 install   psutil pyserial                        # Toninho
 }
@@ -216,7 +218,7 @@ configGithub(){
     xdg-open https://github.com/login     1> /dev/null 2>&1
     msgBoxEnter "Pressione ENTER após fazer login..."
 
-    msgBoxEnter "Para as próximas perguntas, basta dar enter:"
+    msgBoxEnter "Para as próximas perguntas, basta teclar enter:"
 
     ssh-keygen -t ed25519 -C "$email"
     eval "$(ssh-agent -s)"
@@ -295,11 +297,10 @@ cloneRepos() {
 
     cd $WORKSPACE_PATH || exit
 
- 
     msgBox "Clonando repositórios..."
 
     msgBox "Clonando repositório Mamba" \
-           "Se houver pergunta sobre chave ED25519, escreva 'yes'"
+           "Se houver pergunta sobre chave ED25519, responda escrevendo 'yes'"
     git clone --progress --recurse-submodules git@github.com:stone-payments/pos-mamba.git
 
     msgBox "Clonando repositório pos-newton"
@@ -307,7 +308,8 @@ cloneRepos() {
 
     msgBox "Clonando repositório pos-pax-monitor-lite"
     git clone --progress --recurse-submodules git@github.com:stone-payments/pos-pax-monitor-lite.git
-    
+
+    #git@github.com:stone-payments/pos-mamba-sal.git
 
     cd $MAMBA_PATH || exit
 
@@ -320,11 +322,8 @@ cloneRepos() {
     msgBox "Inicializando repositório git Mamba..."
     wget -O - https://raw.githubusercontent.com/stone-payments/pos-mamba-sdk/master/tools/repo_initialization.sh | bash
 
-
-
     msgBox "Configurando devtools ..."
     stone_dev_ini
-
 
     msgBox "Compilando o Mamba pela primeira vez!" "POS alvo: S920"
     echo "Usando $procThreadCount_1 threads"
@@ -359,7 +358,7 @@ installMambaDesktop(){
     msgBox "Compilando o Mamba Desktop"
     echo "Usando $procThreadCount_1 threads"
     sleep 5
-    
+
     devtools/mbs/mbs.py   --device desktop   --pack dev   --threads $procThreadCount_1  ||  exit
     msgBox "Build de sucesso!"
 
@@ -554,9 +553,14 @@ config_ccache(){
 
 # ------------------------------------------------------------------------------------------------------------------
 installOtherTools(){
+    # Please divide this function by area, for specific packages/configs:
+        #                QtCreator   Node   
+        # front ()
+        # Systems
+        # Platform
+        # Connectivity 
     # Other tools
     sudo apt update
-    
     sudo apt install -y \
                 htop              iotop \
                 screenfetch \
@@ -613,26 +617,27 @@ opcao="nenhuma"
 
 # Loop principal do menu
 while true; do
-    echo -e ${green}
+    echo -e ${cyan}
     echo
     echo "Sua última opção foi: $opcao"
+    echo -e ${green}
     echo 
-    echo "╔═════════════════════════════════════════════════╗"
-    echo "║  ───────  CRIADOR DE AMBIENTE MAMBA  ─────────  ║"
-    echo "╠═════════════════════════════════════════════════╣"
-    echo "║ Selecione uma opção:                            ║"
-    echo "║ a - Instalar - pacotes essenciais Linux         ║"
-    echo "║ b - Configurar - GitHub                         ║"
-    echo "║ c - Repositórios - Clonar e buildar             ║"
-    echo "║ d - Mamba Desktop - instalar, buildar e rodar   ║"
-    echo "║ e - Driver PAX - Instalar                       ║"
-    echo "║ f - adb Gertec - Configurar                     ║"
-    echo "║ g - Docker Mamba - Instalar e buildar           ║"
-    echo "║ h - Qt Creator - Instalar e configurar          ║"
-    echo "║ i - Configurar ccache (otimizador de builds)    ║"
-    echo "║ j - Instalar outras ferramentas úteis para dev  ║"
-    echo "║ q - Sair                                        ║"
-    echo "╚═════════════════════════════════════════════════╝"
+    echo "╔════════════════════════════════════════════════════╗"
+    echo "║  ───────  CRIADOR DE AMBIENTE MAMBA  ───────────── ║"
+    echo "╠════════════════════════════════════════════════════╣"
+    echo "║ Selecione uma opção:                               ║"
+    echo "║ a - Instalar - pacotes essenciais Linux            ║"
+    echo "║ b - Configurar - GitHub                            ║"
+    echo "║ c - Repositórios - Clonar e buildar                ║"
+    echo "║ d - Mamba Desktop - instalar, buildar e rodar      ║"
+    echo "║ e - Driver PAX - Instalar                          ║"
+    echo "║ f - adb Gertec - Configurar comunicação            ║"
+    echo "║ g - Docker Mamba - Instalar e buildar              ║"
+    echo "║ h - Qt Creator - Instalar e configurar             ║"
+    echo "║ i - Configurar ccache (otimizador de builds C/C++) ║"
+    echo "║ j - Instalar outras ferramentas úteis para dev     ║"
+    echo "║ x - Exit                                           ║"
+    echo "╚════════════════════════════════════════════════════╝"
     echo -e ${clear}
     echo "> _"
 
