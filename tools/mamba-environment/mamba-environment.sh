@@ -709,7 +709,7 @@ while true; do
             time installOtherTools
             ;;
 
-        k)
+        x)
             echo "Saindo..."
             exit 0
             ;;
