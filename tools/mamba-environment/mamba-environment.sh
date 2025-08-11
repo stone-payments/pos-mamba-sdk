@@ -158,7 +158,7 @@ installBasicPackages() {
                 python3 python3-pip \
                 lcov speech-dispatcher \
                 clang-tidy  clang-tools  clang-format  clang-format-15 \
-                || exit
+                || exit 1
 
     addKeys
     msgBox "Installing azure-cli..."
@@ -169,7 +169,7 @@ installBasicPackages() {
                  android-tools-adb autoconf gperf bison flex libtool \
                  unzip default-jre libstdc++6 \
                  libfuse-dev libpng12-0 pkg-config \
-                 || exit
+                 || exit 1
     sudo apt remove -y modemmanager
 
     msgBox "Installing other very useful packages..."
@@ -296,7 +296,7 @@ cloneRepos() {
         mkdir -p "$WORKSPACE_PATH"
     fi
 
-    cd $WORKSPACE_PATH || exit
+    cd $WORKSPACE_PATH || exit 1
 
     msgBox "Clonando repositórios..."
 
@@ -312,7 +312,7 @@ cloneRepos() {
 
     #git@github.com:stone-payments/pos-mamba-sal.git
 
-    cd $MAMBA_PATH || exit
+    cd $MAMBA_PATH || exit 1
 
     msgBox "Checking out develop branch..."
     git checkout develop
@@ -329,13 +329,13 @@ cloneRepos() {
     msgBox "Compilando o Mamba pela primeira vez!" "POS alvo: S920"
     echo "Usando $procThreadCount_1 threads"
     sleep 5
-    devtools/mbs/mbs.py   --device s920   --pack dev   --org stone  --threads $procThreadCount_1  ||  exit
+    devtools/mbs/mbs.py   --device s920   --pack dev   --org stone  --threads $procThreadCount_1  ||  exit 1
     msgBox "Build de sucesso!!"
 }
 
 # ------------------------------------------------------------------------------------------------------------------
 installMambaDesktop(){
-    cd $MAMBA_PATH || exit
+    cd $MAMBA_PATH || exit 1
 
     msgBox "Instalando pacotes básicos para Mamba Desktop"
 
@@ -351,7 +351,7 @@ installMambaDesktop(){
         libsdl1.2-compat-dev \
         libbz2-dev \
         libpcre2-dev libgl1-mesa-dev \
-        || exit
+        || exit 1
         # libcanberra-gtk-module   
         #  libreadline-dev \
         #  \
@@ -360,16 +360,15 @@ installMambaDesktop(){
     echo "Usando $procThreadCount_1 threads"
     sleep 5
 
-    devtools/mbs/mbs.py   --device desktop   --pack dev   --threads $procThreadCount_1  ||  exit
+    devtools/mbs/mbs.py   --device desktop   --pack dev   --threads $procThreadCount_1  ||  exit 1
     msgBox "Build de sucesso!"
 
     msgBoxEnter "Executando Mamba Desktop..." "Duas telas serão abertas em caso de Sucesso." "Você pode fechar em seguida para continuar."
     ./output/install/LINUX_DESKTOP_QT4/StoneMambaSystem -qws child
 
     msgBoxEnter "Em seguida, vamos buildar e rodar os Testes Unitários." "Este passo será um pouco mais demorado"
-    devtools/mbs/mbs.py   --device desktop   --pack dev   --threads $procThreadCount_1  --config build_tests  ||  exit
-    ./scripts/environment_and_tests/runTests.sh -t || exit
-
+    devtools/mbs/mbs.py   --device desktop   --pack dev   --threads $procThreadCount_1  --config build_tests  ||  exit 1
+    ./scripts/environment_and_tests/runTests.sh -t || exit 1
 
     ./scripts/runMambaDesktop.sh 
 }
@@ -395,7 +394,7 @@ installQtCreator() {
         libxcb-keysyms1 \
         libxcb-icccm4 \
         libxkbcommon-x11-0 \
-        ||  exit
+        ||  exit 1
 
     msgBox "O instalador online está sendo baixado e será executado em breve." \
            ""                                                                  \
@@ -481,8 +480,7 @@ installDockerImage(){
                         sudo apt install -y \
                             docker-ce               docker-ce-cli      containerd.io \
                             docker-buildx-plugin    docker-compose-plugin \
-                          || exit
-
+                          || exit 1
 
                         # https://medium.com/@praveenadoni4456/error-got-permission-denied-while-trying-to-connect-to-the-docker-daemon-socket-at-e68bfab8146a
                         sudo usermod -aG docker ${USER}
@@ -490,9 +488,9 @@ installDockerImage(){
                         sudo systemctl restart docker
 
                         azurePrepare
-                        $DOCKER_SCRIPT $MAMBA_PATH  ||  exit
+                        $DOCKER_SCRIPT $MAMBA_PATH  ||  exit 1
 
-                        $MAMBA_PATH/scripts/cmm.sh   --device desktop   --pack dev   --threads $procThreadCount_1   --rebuild   ||  exit
+                        $MAMBA_PATH/scripts/cmm.sh   --device desktop   --pack dev   --threads $procThreadCount_1   --rebuild   ||  exit 1
                     else
                         msgBox  "!"   "Script de instalação do docker não encontrado! (${DOCKER_SCRIPT})"
                     fi
@@ -568,7 +566,7 @@ installOtherTools(){
                 baobab            gparted           gnome-system-monitor \
                 valgrind          valgrind-dbg      valgrind-mpi \
                 zsh \
-                || exit
+                || exit 1
 #                gsfonts \
 #                libcanberra-gtk-module \
 #                kcachegrind       kcachegrind-converters \
@@ -576,7 +574,7 @@ installOtherTools(){
 
     # Special for Wireshark
     msgBoxEnter "Para instalar Wireshark, por favor selecione <Yes> na instalação a seguir."
-    sudo apt install -y   wireshark   || exit
+    sudo apt install -y   wireshark   || exit 1
 
     # Snap installs have automatic updates!
     sudo snap install  p7zip-desktop
