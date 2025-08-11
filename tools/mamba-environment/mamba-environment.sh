@@ -538,7 +538,7 @@ config_ccache(){
         local profile="$1"
         local export_line="export CCACHE_DIR=$HOME/.ccache"
 
-        if ! grep -q -F "$export_line" "$profile"; then
+        if [ ! grep -q -F "$export_line" "$profile" ]; then
             echo -e "\n$export_line" >>"$profile"
             source "$profile"
         fi
