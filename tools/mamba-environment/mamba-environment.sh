@@ -109,7 +109,9 @@ addKeys(){
     curl -sLS https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/keyrings/microsoft.gpg > /dev/null
     sudo chmod go+r /etc/apt/keyrings/microsoft.gpg
     echo "deb [arch=$ARCH signed-by=/etc/apt/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/azure-cli/ $DISTRO main" | \
-    sudo tee /etc/apt/sources.list.d/azure-cli.list > /dev/null
+    sudo tee /etc/apt/sources.list.d/azure-cli.list >  /dev/null
+
+    sudo apt update
 }
 
 
@@ -127,56 +129,55 @@ installBasicPackages() {
     fi
 
     # Gertecs
-    sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test   || exit
-    sudo add-apt-repository -y ppa:linuxuprising/libpng12
+    sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test  || exit 1
+    sudo add-apt-repository -y ppa:linuxuprising/libpng12   || exit 1
 
     sudo apt update
 
     # Ensure last kernel version for Ubuntu:  https://bugs.launchpad.net/ubuntu/+source/linux-hwe-6.5/+bug/2069288
     msgBox "Kernel config..."
-    sudo apt install -y gcc-12 || exit
+    sudo apt install -y linux-generic-hwe-22.04 || exit 1
+    sudo apt install -y gcc-12 || exit 1
     sudo ln -s -f   /usr/bin/gcc-12   /usr/bin/gcc
 
-    sudo apt dist-upgrade -y
 
-    # essential packages
+
+    msgBox "Installing basic for proccess installation..."
+    sudo apt install -y \
+                snapd  xclip curl \
+                || exit 1
+
     msgBox "Installing essential dev packages..."
     sudo apt install -y \
-                build-essential sshpass at moreutils jo jq \
+                apt-transport-https ca-certificates gnupg lsb-release \
+                build-essential sshpass at moreutils jo jq ninja-build \
                 sqlite3 libsqlite3-dev  \
                 gcc-multilib g++-multilib gdb gdbserver \
                 git cmake coreutils ccache \
-                curl  minicom  azure-cli  \
-                python3  python3-pip \
-                lcov  ca-certificates \
-                speech-dispatcher \
+                minicom  \
+                python3 python3-pip \
+                lcov speech-dispatcher \
                 clang-tidy  clang-tools  clang-format  clang-format-15 \
                 || exit
 
-    # Gertecs
+    addKeys
+    msgBox "Installing azure-cli..."
+    sudo apt install -y azure-cli || exit 1
+
+    msgBox "Installing Gertec utils..."
     sudo apt install -y \
                  android-tools-adb autoconf gperf bison flex libtool \
                  unzip default-jre libstdc++6 \
                  libfuse-dev libpng12-0 pkg-config \
                  || exit
     sudo apt remove -y modemmanager
-    
-
-
-
-    # need for installation
-    sudo apt install -y \
-                snapd  xclip \
-                || exit
 
     msgBox "Installing other very useful packages..."
     sudo apt install -y \
                 net-tools openssh-server\
-                ninja-build \
-                || exit
-                # gnupg apt-transport-https lsb-release \
+                || exit 1
                 # cmake-format cgroupfs-mount \
-                #  automake   \
+                # automake   \
                 # lm-sensors bzr gvfs \
                 # cppcheck pavucontrol libappindicator3-1 \
                 # libnl-3-dev  libsdl1.2-dev libsdl2-dev \
@@ -184,13 +185,8 @@ installBasicPackages() {
     msgBox "Installing Visual Studio Code..."
     sudo snap install  code --classic || exit 1
 
-    addKeys
-    sudo apt update
-
-    # Cleaning:
-    sudo apt install -f
-    sudo apt autoremove -y
-    sudo apt autoclean
+    msgBox "Upgrading OS packages..."
+    sudo apt full-upgrade -y  || exit 1
 
     msgBox "Installing NVM stuff..."
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
@@ -204,6 +200,11 @@ installBasicPackages() {
     msgBox "Installing Python stuff..."
     pip3 install   defusedxml gitpython pygithub requests # Mamba
     pip3 install   psutil pyserial                        # Toninho
+
+    msgBox "Cleaning unused OS packages..."
+    sudo apt install -f
+    sudo apt autoremove -y
+    sudo apt autoclean
 }
 
 # ------------------------------------------------------------------------------------------------------------------
