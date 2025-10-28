@@ -71,7 +71,7 @@ function download_from_tools_on_mamba_sdk() {
   if [ -n "$GITHUB_TOKEN" ]; then
     AUTH_HEADER="-H \"Authorization: token $GITHUB_TOKEN\""
   fi
-
+  echo $GITHUB_TOKEN
   if ! curl -GLf \
     $AUTH_HEADER \
     -H "Accept: application/vnd.github.v4.raw" \
