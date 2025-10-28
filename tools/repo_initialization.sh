@@ -67,16 +67,19 @@ function download_from_tools_on_mamba_sdk() {
   local FILENAME=$(basename "$FILE_TO_DOWNLOAD")
   local OUTPUT_PATH="$DOWNLOAD_TO/$FILENAME"
 
-  local CURL_CMD="curl -GLf"
-  
   if [ -n "$GITHUB_TOKEN" ]; then
-    CURL_CMD="$CURL_CMD -H \"Authorization: token $GITHUB_TOKEN\""
-  fi
-  
-  CURL_CMD="$CURL_CMD -H \"Accept: application/vnd.github.v4.raw\" \"https://api.github.com/repos/$GITHUB_REPO/contents/tools/$FILE_TO_DOWNLOAD\" -d ref=\"$GITHUB_BRANCH\" --output \"$OUTPUT_PATH\""
-
-  if ! eval $CURL_CMD; then
-    log_fatal "Failed to download: $FILE_TO_DOWNLOAD"
+    curl -GLf \
+      -H "Authorization: token $GITHUB_TOKEN" \
+      -H "Accept: application/vnd.github.v4.raw" \
+      "https://api.github.com/repos/$GITHUB_REPO/contents/tools/$FILE_TO_DOWNLOAD" \
+      -d "ref=$GITHUB_BRANCH" \
+      --output "$OUTPUT_PATH" || log_fatal "Failed to download: $FILE_TO_DOWNLOAD"
+  else
+    curl -GLf \
+      -H "Accept: application/vnd.github.v4.raw" \
+      "https://api.github.com/repos/$GITHUB_REPO/contents/tools/$FILE_TO_DOWNLOAD" \
+      -d "ref=$GITHUB_BRANCH" \
+      --output "$OUTPUT_PATH" || log_fatal "Failed to download: $FILE_TO_DOWNLOAD"
   fi
 
   add_to_gitignore "$OUTPUT_PATH"
