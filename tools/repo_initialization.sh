@@ -67,16 +67,15 @@ function download_from_tools_on_mamba_sdk() {
   local FILENAME=$(basename "$FILE_TO_DOWNLOAD")
   local OUTPUT_PATH="$DOWNLOAD_TO/$FILENAME"
 
-  local AUTH_HEADER=""
+  local CURL_CMD="curl -GLf"
+  
   if [ -n "$GITHUB_TOKEN" ]; then
-    AUTH_HEADER="-H \"Authorization: token $GITHUB_TOKEN\""
+    CURL_CMD="$CURL_CMD -H \"Authorization: token $GITHUB_TOKEN\""
   fi
-  echo $GITHUB_TOKEN
-  if ! curl -GLf \
-    $AUTH_HEADER \
-    -H "Accept: application/vnd.github.v4.raw" \
-    "https://api.github.com/repos/$GITHUB_REPO/contents/tools/$FILE_TO_DOWNLOAD" -d ref="$GITHUB_BRANCH" \
-    --output "$OUTPUT_PATH"; then
+  
+  CURL_CMD="$CURL_CMD -H \"Accept: application/vnd.github.v4.raw\" \"https://api.github.com/repos/$GITHUB_REPO/contents/tools/$FILE_TO_DOWNLOAD\" -d ref=\"$GITHUB_BRANCH\" --output \"$OUTPUT_PATH\""
+
+  if ! eval $CURL_CMD; then
     log_fatal "Failed to download: $FILE_TO_DOWNLOAD"
   fi
 
