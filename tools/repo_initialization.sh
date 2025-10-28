@@ -53,7 +53,6 @@ function add_to_gitignore() {
 #
 # Note: string2 is optional, if it is not passed then "." It will be used.
 function download_from_tools_on_mamba_sdk() {
-  local DOWNLOAD_BASEURL="https://raw.githubusercontent.com/$GITHUB_REPO/$GITHUB_BRANCH/tools"
   local DOWNLOAD_TO="."
 
   if [ "$#" -eq 2 ]; then
@@ -65,8 +64,23 @@ function download_from_tools_on_mamba_sdk() {
 
   [ -d "$DOWNLOAD_TO" ] || mkdir -p "$DOWNLOAD_TO"
 
-  wget -nv -P $DOWNLOAD_TO -O $FILE_TO_DOWNLOAD $DOWNLOAD_BASEURL/$FILE_TO_DOWNLOAD
-  add_to_gitignore $FILE_TO_DOWNLOAD
+  local FILENAME=$(basename "$FILE_TO_DOWNLOAD")
+  local OUTPUT_PATH="$DOWNLOAD_TO/$FILENAME"
+
+  local AUTH_HEADER=""
+  if [ -n "$GITHUB_TOKEN" ]; then
+    AUTH_HEADER="-H \"Authorization: token $GITHUB_TOKEN\""
+  fi
+
+  if ! curl -GLf \
+    $AUTH_HEADER \
+    -H "Accept: application/vnd.github.v4.raw" \
+    "https://api.github.com/repos/$GITHUB_REPO/contents/tools/$FILE_TO_DOWNLOAD" -d ref="$GITHUB_BRANCH" \
+    --output "$OUTPUT_PATH"; then
+    log_fatal "Failed to download: $FILE_TO_DOWNLOAD"
+  fi
+
+  add_to_gitignore "$OUTPUT_PATH"
 }
 
 # Run file from tools folder of repo stone-payments/pos-mamba-sdk/tools
