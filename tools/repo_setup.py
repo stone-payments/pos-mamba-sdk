@@ -578,7 +578,7 @@ def main():
     repo_list = args.repo_list
 
     install_dependencies()
-    repo_setup_commit: str = "e36bf7c26adc119677bc1e9a2331c8e13d915bea"
+    repo_setup_commit: str = "REPO_SETUP_PLACEHOLDER"
     sdk_commit = get_latest_sdk_commit()
     bypass_auto_update = args.bypass_auto_update
 
