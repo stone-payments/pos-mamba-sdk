@@ -133,12 +133,24 @@ class PosMambaRepoSetup:
             Args:
                 filename: filepath to be added to .gitignore
             """
+            # Normalize to directory format for root-level paths (e.g., config -> /config/)
+            normalized_pattern = f"/{filename}/"
+
             with open(os.path.join(self.script_dir, ".gitignore"), "a+") as gitignore:
                 gitignore.seek(0)
                 lines = gitignore.readlines()
-                if filename + "\n" not in lines:
-                    gitignore.write(filename + "\n")
-                    print(f"{filename} added to .gitignore.")
+
+                # Check for various equivalent patterns that would already ignore this path
+                equivalent_patterns = [
+                    normalized_pattern + "\n",  # /config/
+                    filename + "\n",  # config
+                    filename + "/\n",  # config/
+                    "/" + filename + "\n",  # /config
+                ]
+
+                if not any(pattern in lines for pattern in equivalent_patterns):
+                    gitignore.write(normalized_pattern + "\n")
+                    print(f"{normalized_pattern} added to .gitignore.")
 
         # Changing to the repository directory
         full_repo_path = os.path.join(self.script_dir, path)
@@ -397,7 +409,10 @@ class PosMambaRepoSetup:
                 print_color("Using Azure Token from pipeline", BLUE)
                 command = f"echo {azure_token} | az devops login"
                 subprocess.run([command], shell=True)
-                subprocess.run(["az config set extension.use_dynamic_install=yes_without_prompt"], shell=True)
+                subprocess.run(
+                    ["az config set extension.use_dynamic_install=yes_without_prompt"],
+                    shell=True,
+                )
 
         archive_info = self.get_info_by_archive(archive)
 
@@ -415,12 +430,12 @@ class PosMambaRepoSetup:
         file_name = f"{artifact}-{version}.tar.xz"
 
         command = [
-            "az artifacts universal download " +
-            f"--organization \"{organization}\" " +
-            f"--feed \"{project}\" " +
-            f"--name \"{artifact}\" " +
-            f"--version \"{version}\" " +
-            f"--path {self.download_dir}"
+            "az artifacts universal download "
+            + f'--organization "{organization}" '
+            + f'--feed "{project}" '
+            + f'--name "{artifact}" '
+            + f'--version "{version}" '
+            + f"--path {self.download_dir}"
         ]
 
         if os.path.isfile(artifact_version_file_path):
@@ -428,12 +443,21 @@ class PosMambaRepoSetup:
             config.read(artifact_version_file_path)
             current_version = config.get(artifact, "version")
             if current_version == version:
-                print_color(f"Artifact {artifact} already exists and is updated. Skipping download.", GREEN)
+                print_color(
+                    f"Artifact {artifact} already exists and is updated. Skipping download.",
+                    GREEN,
+                )
                 return
             else:
-                print_color(f"Current {artifact} version: {current_version}. Will update to {version}.", BLUE)
+                print_color(
+                    f"Current {artifact} version: {current_version}. Will update to {version}.",
+                    BLUE,
+                )
         else:
-            print_color(f"Version file '.package.ini' not found. Will download {version}.", YELLOW)
+            print_color(
+                f"Version file '.package.ini' not found. Will download {version}.",
+                YELLOW,
+            )
 
         try:
             tar_file_path = os.path.join(self.download_dir, file_name)
@@ -442,9 +466,7 @@ class PosMambaRepoSetup:
             print(f"Downloading {file_name} to {full_repo_path}...")
             result = subprocess.run(command, check=True, shell=True)
             if result.returncode != 0:
-                print_error(
-                    f"Failed to download archive {file_name}!"
-                )
+                print_error(f"Failed to download archive {file_name}!")
             else:
                 print_color(f"Downloaded {file_name} successfully!", GREEN)
 
@@ -486,9 +508,10 @@ class PosMambaRepoSetup:
         if is_pipeline and not artifacts_list:
             return []
         elif artifacts_list:
-            return [a for a in archives if a['name'] in artifacts_list]
+            return [a for a in archives if a["name"] in artifacts_list]
         else:
             return archives
+
 
 def main():
     def get_latest_sdk_commit() -> str:
@@ -555,7 +578,7 @@ def main():
     repo_list = args.repo_list
 
     install_dependencies()
-    repo_setup_commit: str = "REPO_SETUP_PLACEHOLDER"
+    repo_setup_commit: str = "e36bf7c26adc119677bc1e9a2331c8e13d915bea"
     sdk_commit = get_latest_sdk_commit()
     bypass_auto_update = args.bypass_auto_update
 
@@ -579,7 +602,9 @@ def main():
         )
 
         filtered_submodules = PosMambaRepoSetup.filter_submodules(submodules, repo_list)
-        filtered_archives = PosMambaRepoSetup.filter_archives(archives, args.archive_list)
+        filtered_archives = PosMambaRepoSetup.filter_archives(
+            archives, args.archive_list
+        )
 
         # Create a pool of workers
         with concurrent.futures.ProcessPoolExecutor() as executor:
@@ -587,7 +612,7 @@ def main():
             executor.map(repo_setup.update_repo, filtered_submodules)
 
             # Wait for submodules to be updated
-            print('Waiting for update_repo to complete...')
+            print("Waiting for update_repo to complete...")
             executor.shutdown(wait=True)
 
             if filtered_archives != None:
