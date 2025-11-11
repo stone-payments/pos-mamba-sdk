@@ -131,7 +131,7 @@ class PosMambaRepoSetup:
                 add_to_gitignore(filename)
 
             Args:
-                filename: filepath to be added to .gitignore
+                filename: directory path to be added to .gitignore
             """
             # Normalize to directory format for root-level paths (e.g., config -> /config/)
             normalized_pattern = f"/{filename}/"
