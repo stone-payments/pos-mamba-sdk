@@ -123,18 +123,18 @@ class PosMambaRepoSetup:
             )
 
     def checkout_and_pull(self, path, target_type, target, repo_cloned=True) -> bool:
-        def add_to_gitignore(filename):
+        def add_to_gitignore(directory_name):
             """
-            Add a file to gitignore if it not already defined
+            Add a directory to gitignore if it not already defined
 
             Usage:
-                add_to_gitignore(filename)
+                add_to_gitignore(directory_name)
 
             Args:
-                filename: directory path to be added to .gitignore
+                directory_name: name of the directory to be added to .gitignore
             """
             # Normalize to directory format for root-level paths (e.g., config -> /config/)
-            normalized_pattern = f"/{filename}/"
+            normalized_pattern = f"/{directory_name}/"
 
             with open(os.path.join(self.script_dir, ".gitignore"), "a+") as gitignore:
                 gitignore.seek(0)
@@ -143,9 +143,9 @@ class PosMambaRepoSetup:
                 # Check for various equivalent patterns that would already ignore this path
                 equivalent_patterns = [
                     normalized_pattern + "\n",  # /config/
-                    filename + "\n",  # config
-                    filename + "/\n",  # config/
-                    "/" + filename + "\n",  # /config
+                    directory_name + "\n",  # config
+                    directory_name + "/\n",  # config/
+                    "/" + directory_name + "\n",  # /config
                 ]
 
                 if not any(pattern in lines for pattern in equivalent_patterns):
