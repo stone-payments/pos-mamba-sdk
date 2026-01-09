@@ -506,7 +506,7 @@ class PosMambaRepoSetup:
                 except Exception as e:
                     print_error(f"Error reading token file: {e}")
             if not token:
-                print_warning("Github token not found. Write your token bellow.")
+                print_warning("Github token not found. Write your token below.")
                 token = getpass.getpass("GitHub Token: ")
                 try:
                     with open(token_file, "w") as f:
