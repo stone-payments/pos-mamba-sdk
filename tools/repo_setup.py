@@ -492,7 +492,9 @@ class PosMambaRepoSetup:
 
     def get_archives_github_assets(self, archive):
         def get_github_token(self):
-            ## TODO: FALTA PEGAR O TOKEN DA PIPELINE AQUI
+            token = os.getenv("GITHUB_TOKEN")
+            if token is not None:
+                return token
 
             token_file = os.path.join(self.script_dir, "github_token.json")
             token = None
