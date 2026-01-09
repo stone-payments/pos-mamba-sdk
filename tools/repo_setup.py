@@ -405,7 +405,7 @@ class PosMambaRepoSetup:
 
         if type == "az_artifacts":
             self.get_archives_az_artifacts(archive)
-        if type == "github_assets":
+        elif type == "github_assets":
             self.get_archives_github_assets(archive)
 
     def get_archives_az_artifacts(self, archive):
