@@ -327,11 +327,12 @@ class PosMambaRepoSetup:
 
         organization = archive.get("organization", None)
         project = archive.get("project", None)
+        release = archive.get("release", None)
         artifact = archive.get("name", None)
         version = archive.get("version", None)
         path = archive.get("path", None)
 
-        return organization, project, artifact, version, path
+        return organization, project, release, artifact, version, path
 
     @staticmethod
     def init_repository(
@@ -429,7 +430,7 @@ class PosMambaRepoSetup:
             print_error("Error loading archive info")
             return
 
-        organization, project, artifact, version, path = archive_info
+        organization, project, release, artifact, version, path = archive_info
 
         artifact_version_file_path = os.path.join(path, ".package.ini")
         full_repo_path = os.path.join(self.script_dir, path)
@@ -555,11 +556,12 @@ class PosMambaRepoSetup:
                             else:
                                 print_error(f"Error: {response.status_code}")
                                 return False
+
+                return True
+
             except Exception as e:
                 print_error(f"Release {version} not found in {repo_name}")
                 return False
-
-            return False
 
         archive_info = self.get_info_by_archive(archive)
 
@@ -570,7 +572,7 @@ class PosMambaRepoSetup:
             print_error("Error loading archive info")
             return
 
-        organization, repo, asset, version, path = archive_info
+        organization, repo, release, asset_name, version, path = archive_info
 
         asset_version_file_path = os.path.join(path, ".package.ini")
         extraction_path = os.path.join(self.script_dir, path)
@@ -585,25 +587,24 @@ class PosMambaRepoSetup:
                 if config.has_option(section, "version"):
                     current_version = config.get(section, "version")
             if current_version == version:
-                print_color(f"Asset {asset} already exists. Skipping download", GREEN)
+                print_color(f"Asset {asset_name} already exists. Skipping download", GREEN)
                 return
 
         donwloaded = download_release(
             self,
             repo_name=repo,
-            version=version,
-            asset_filter=lambda asset: asset.name == asset,
-            package_check=lambda filename: filename == asset,
+            version=release,
+            asset_filter=lambda asset: asset.name == asset_name,
+            package_check=lambda filename: filename == asset_name,
         )
 
         if donwloaded:
-            # Unzip the downloaded file
-            file_path = os.path.join(self.download_dir, asset)
+            file_path = os.path.join(self.download_dir, asset_name)
             with tarfile.open(file_path) as tar:
                 for entry in tar.getmembers():
                     if os.path.isabs(entry.name) or ".." in entry.name:
                         raise ValueError(f"Illegal tar archive entry: {entry.name}")
-                print_color(f"Extracting {asset}", GREEN)
+                print_color(f"Extracting {asset_name}", GREEN)
                 tar.extractall(path=extraction_path)
 
     @staticmethod
