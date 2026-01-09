@@ -592,7 +592,7 @@ class PosMambaRepoSetup:
                 print_color(f"Asset {asset_name} already exists. Skipping download", GREEN)
                 return
 
-        donwloaded = download_release(
+        downloaded = download_release(
             self,
             repo_name=repo,
             version=release,
@@ -600,7 +600,7 @@ class PosMambaRepoSetup:
             package_check=lambda filename: filename == asset_name,
         )
 
-        if donwloaded:
+        if downloaded:
             file_path = os.path.join(self.download_dir, asset_name)
             with tarfile.open(file_path) as tar:
                 for entry in tar.getmembers():
