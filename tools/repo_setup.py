@@ -19,7 +19,7 @@ import configparser
 import requests
 import getpass
 
-from github import Github
+from github import Auth, Github
 
 # ansi escape codes "color"
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
@@ -531,7 +531,7 @@ class PosMambaRepoSetup:
                         os.makedirs(self.download_dir)
 
                     token = get_github_token(self)
-                    github = Github(token)
+                    github = Github(auth=Auth.Token(token))
                     repo = github.get_repo(f"stone-payments/{repo_name}")
                     release = repo.get_release(version)
                     headers = {
