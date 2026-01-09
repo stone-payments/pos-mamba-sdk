@@ -12,7 +12,7 @@
 # -------------------------------------------------------
 
 GITHUB_REPO="stone-payments/pos-mamba-sdk"
-GITHUB_BRANCH="master"
+GITHUB_BRANCH="PRJHW-2371-criar-release-para-assets-da-gertec-no-github"
 
 # Log and exit with 1
 #
