@@ -630,7 +630,7 @@ class PosMambaRepoSetup:
         if archives == None:
             return None
 
-        is_pipeline = os.getenv("AZURE_TOKEN") is not None
+        is_pipeline = os.getenv("AZURE_TOKEN") is not None or os.getenv("GITHUB_TOKEN") is not None
         if is_pipeline and not artifacts_list:
             return []
         elif artifacts_list:
