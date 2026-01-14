@@ -16,6 +16,10 @@ import concurrent.futures
 import argparse
 import tarfile
 import configparser
+import requests
+import getpass
+
+from github import Auth, Github
 
 # ansi escape codes "color"
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
@@ -321,13 +325,14 @@ class PosMambaRepoSetup:
     @staticmethod
     def get_info_by_archive(archive) -> tuple:
 
-        organization = archive["organization"]
-        project = archive["project"]
-        artifact = archive["name"]
-        version = archive["version"]
-        path = archive["path"]
+        organization = archive.get("organization", None)
+        project = archive.get("project", None)
+        release = archive.get("release", None)
+        artifact = archive.get("name", None)
+        version = archive.get("version", None)
+        path = archive.get("path", None)
 
-        return organization, project, artifact, version, path
+        return organization, project, release, artifact, version, path
 
     @staticmethod
     def init_repository(
@@ -400,6 +405,8 @@ class PosMambaRepoSetup:
 
         if type == "az_artifacts":
             self.get_archives_az_artifacts(archive)
+        elif type == "github_assets":
+            self.get_archives_github_assets(archive)
 
     def get_archives_az_artifacts(self, archive):
 
@@ -423,7 +430,7 @@ class PosMambaRepoSetup:
             print_error("Error loading archive info")
             return
 
-        organization, project, artifact, version, path = archive_info
+        organization, project, release, artifact, version, path = archive_info
 
         artifact_version_file_path = os.path.join(path, ".package.ini")
         full_repo_path = os.path.join(self.script_dir, path)
@@ -483,6 +490,125 @@ class PosMambaRepoSetup:
                 f"Failed to download archive {file_name} to {full_repo_path}! Error: {e.stderr}"
             )
 
+    def get_archives_github_assets(self, archive):
+        def get_github_token(self):
+            token = os.getenv("GITHUB_TOKEN")
+            if token is not None:
+                return token
+
+            token_file = os.path.join(os.path.expanduser("~"), ".github_token.json")
+            token = None
+            if os.path.exists(token_file):
+                try:
+                    with open(token_file, "r") as f:
+                        data = json.load(f)
+                        token = data.get("github_token", None)
+                except Exception as e:
+                    print_error(f"Error reading token file: {e}")
+            if not token:
+                print_warning("Github token not found. Write your token below.")
+                token = getpass.getpass("GitHub Token: ")
+                try:
+                    with open(token_file, "w") as f:
+                        json.dump({"github_token": token}, f)
+                except Exception as e:
+                    print_error(f"Error saving token to file: {e}")
+            return token
+
+        def download_release(self, repo_name, version, asset_filter: bool, package_check: bool) -> bool:
+            try:
+                def check_if_exist(package_check) -> bool:
+                    if os.path.exists(self.download_dir):
+                        files = os.listdir(self.download_dir)
+                        for file in files:
+                            if package_check(file):
+                                return True
+
+                    return False
+
+                if not check_if_exist(package_check):
+                    if not os.path.exists(self.download_dir):
+                        os.makedirs(self.download_dir)
+
+                    token = get_github_token(self)
+                    github = Github(auth=Auth.Token(token))
+                    repo = github.get_repo(f"stone-payments/{repo_name}")
+                    release = repo.get_release(version)
+                    headers = {
+                        "Authorization": f"Bearer {token}",
+                        "X-GitHub-Api-Version": "2022-11-28",
+                        "Accept": "application/octet-stream"
+                    }
+
+                    for asset in release.get_assets():
+                        if asset_filter(asset):
+                            filename = os.path.join(self.download_dir, asset.name)
+                            print_color(f"Downloading {asset.name} into {self.download_dir}...", GREEN)
+                            if os.path.exists(filename):
+                                print_error(f"The file {asset.name} already exists!")
+                                break
+
+                            response = requests.get(asset.url, headers=headers)
+
+                            if response.status_code == requests.codes.ok:
+                                with open(filename, "wb") as f:
+                                    f.write(response.content)
+                                    print_color(f"{asset.name} downloaded successfully.", GREEN)
+                                    return True
+                            else:
+                                print_error(f"Error: {response.status_code}")
+                                return False
+
+                return True
+
+            except Exception as e:
+                print_error(f"Release {version} not found in {repo_name}")
+                return False
+
+        archive_info = self.get_info_by_archive(archive)
+
+        if not os.path.exists(self.download_dir):
+            os.makedirs(self.download_dir)
+
+        if not archive_info:
+            print_error("Error loading archive info")
+            return
+
+        organization, repo, release, asset_name, version, path = archive_info
+
+        asset_version_file_path = os.path.join(path, ".package.ini")
+        extraction_path = os.path.join(self.script_dir, path)
+
+        if os.path.isfile(asset_version_file_path):
+            config = configparser.ConfigParser()
+            config.read(asset_version_file_path)
+            sections = config.sections()
+            current_version = None
+            if sections:
+                section = sections[0]
+                if config.has_option(section, "version"):
+                    current_version = config.get(section, "version")
+            if current_version == version:
+                print_color(f"Asset {asset_name} already exists. Skipping download", GREEN)
+                return
+
+        downloaded = download_release(
+            self,
+            repo_name=repo,
+            version=release,
+            asset_filter=lambda asset: asset.name == asset_name,
+            package_check=lambda filename: filename == asset_name,
+        )
+
+        if downloaded:
+            file_path = os.path.join(self.download_dir, asset_name)
+            with tarfile.open(file_path) as tar:
+                for entry in tar.getmembers():
+                    if os.path.isabs(entry.name) or ".." in entry.name:
+                        raise ValueError(f"Illegal tar archive entry: {entry.name}")
+                print_color(f"Extracting {asset_name}", GREEN)
+                tar.extractall(path=extraction_path)
+
     @staticmethod
     def filter_submodules(submodules: list, repo_list: list = None) -> list:
         filtered_submodules = []
@@ -504,7 +630,7 @@ class PosMambaRepoSetup:
         if archives == None:
             return None
 
-        is_pipeline = os.getenv("AZURE_TOKEN") is not None
+        is_pipeline = os.getenv("AZURE_TOKEN") is not None or os.getenv("GITHUB_TOKEN") is not None
         if is_pipeline and not artifacts_list:
             return []
         elif artifacts_list:
