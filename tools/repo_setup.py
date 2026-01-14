@@ -74,6 +74,7 @@ def install_dependencies():
 
     install_package("packaging")
     install_package("requests")
+    install_package("PyGithub")
 
 
 class PosMambaRepoSetup:
