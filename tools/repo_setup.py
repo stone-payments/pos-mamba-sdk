@@ -19,8 +19,6 @@ import configparser
 import requests
 import getpass
 
-from github import Auth, Github
-
 # ansi escape codes "color"
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
 BLACK = "\033[0;30m"
@@ -492,6 +490,8 @@ class PosMambaRepoSetup:
             )
 
     def get_archives_github_assets(self, archive):
+        from github import Auth, Github
+
         def get_github_token(self):
             token = os.getenv("GITHUB_TOKEN")
             if token is not None:
