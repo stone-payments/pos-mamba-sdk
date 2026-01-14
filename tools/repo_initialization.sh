@@ -141,11 +141,19 @@ function install_pygithub() {
     echo "PyGithub is already installed."
   else
     echo "PyGithub is not installed. Installing..."
-    # Try with --user flag first, fall back to without if in virtual environment
-    if ! python3 -m pip install --user PyGithub 2>/dev/null; then
+    # Detect if running inside a virtual environment
+    if python3 -c "import sys; sys.exit(0 if sys.prefix != sys.base_prefix else 1)"; then
+      # In a virtual environment: install into the venv (no --user)
       python3 -m pip install PyGithub || log_fatal "Failed to install PyGithub"
+    else
+      # Not in a virtual environment: install into user site
+      python3 -m pip install --user PyGithub || log_fatal "Failed to install PyGithub"
     fi
-    echo "PyGithub installed successfully."
+    if python3 -c "import github" 2>/dev/null; then
+      echo "PyGithub installed successfully."
+    else
+      log_fatal "PyGithub installation completed but the 'github' module cannot be imported."
+    fi
   fi
 }
 
