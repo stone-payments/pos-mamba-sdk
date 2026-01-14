@@ -130,6 +130,33 @@ function get_commit_hash_from_branch() {
   echo $COMMIT_HASH
 }
 
+# Install PyGithub if not present
+#
+# Usage:
+#     install_pygithub
+#
+# Note: PyGithub package is imported as 'github' in Python
+function install_pygithub() {
+  if python3 -c "import github" 2>/dev/null; then
+    echo "PyGithub is already installed."
+  else
+    echo "PyGithub is not installed. Installing..."
+    # Detect if running inside a virtual environment
+    if python3 -c "import sys; sys.exit(0 if sys.prefix != sys.base_prefix else 1)"; then
+      # In a virtual environment: install into the venv (no --user)
+      python3 -m pip install PyGithub || log_fatal "Failed to install PyGithub"
+    else
+      # Not in a virtual environment: install into user site
+      python3 -m pip install --user PyGithub || log_fatal "Failed to install PyGithub"
+    fi
+    if python3 -c "import github" 2>/dev/null; then
+      echo "PyGithub installed successfully."
+    else
+      log_fatal "PyGithub installation completed but the 'github' module cannot be imported."
+    fi
+  fi
+}
+
 # All repo_setup stuff
 function repo_setup_init() {
   repo_setup_file="repo_setup.py"
@@ -137,6 +164,7 @@ function repo_setup_init() {
   download_from_tools_on_mamba_sdk $repo_setup_file
 
   if [[ "$@" != *"--no-repo-setup-run"* ]]; then
+    install_pygithub
     commit_hash=$(get_commit_hash_from_branch)
     echo $commit_hash
     sed -i "s/REPO_SETUP_PLACEHOLDER/$commit_hash/g" $repo_setup_file
