@@ -134,12 +134,17 @@ function get_commit_hash_from_branch() {
 #
 # Usage:
 #     install_pygithub
+#
+# Note: PyGithub package is imported as 'github' in Python
 function install_pygithub() {
   if python3 -c "import github" 2>/dev/null; then
     echo "PyGithub is already installed."
   else
     echo "PyGithub is not installed. Installing..."
-    python3 -m pip install --user PyGithub || log_fatal "Failed to install PyGithub"
+    # Try with --user flag first, fall back to without if in virtual environment
+    if ! python3 -m pip install --user PyGithub 2>/dev/null; then
+      python3 -m pip install PyGithub || log_fatal "Failed to install PyGithub"
+    fi
     echo "PyGithub installed successfully."
   fi
 }
