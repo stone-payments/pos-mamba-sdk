@@ -496,7 +496,7 @@ class PosMambaRepoSetup:
             if token is not None:
                 return token
 
-            token_file = os.path.join(self.script_dir, "github_token.json")
+            token_file = os.path.join(os.path.expanduser("~"), ".github_token.json")
             token = None
             if os.path.exists(token_file):
                 try:
