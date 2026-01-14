@@ -139,7 +139,7 @@ function install_pygithub() {
     echo "PyGithub is already installed."
   else
     echo "PyGithub is not installed. Installing..."
-    python3 -m pip install PyGithub || log_fatal "Failed to install PyGithub"
+    python3 -m pip install --user PyGithub || log_fatal "Failed to install PyGithub"
     echo "PyGithub installed successfully."
   fi
 }
