@@ -130,6 +130,20 @@ function get_commit_hash_from_branch() {
   echo $COMMIT_HASH
 }
 
+# Install PyGithub if not present
+#
+# Usage:
+#     install_pygithub
+function install_pygithub() {
+  if python3 -c "import github" 2>/dev/null; then
+    echo "PyGithub is already installed."
+  else
+    echo "PyGithub is not installed. Installing..."
+    python3 -m pip install PyGithub || log_fatal "Failed to install PyGithub"
+    echo "PyGithub installed successfully."
+  fi
+}
+
 # All repo_setup stuff
 function repo_setup_init() {
   repo_setup_file="repo_setup.py"
@@ -137,6 +151,7 @@ function repo_setup_init() {
   download_from_tools_on_mamba_sdk $repo_setup_file
 
   if [[ "$@" != *"--no-repo-setup-run"* ]]; then
+    install_pygithub
     commit_hash=$(get_commit_hash_from_branch)
     echo $commit_hash
     sed -i "s/REPO_SETUP_PLACEHOLDER/$commit_hash/g" $repo_setup_file
