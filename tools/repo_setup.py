@@ -16,8 +16,6 @@ import concurrent.futures
 import argparse
 import tarfile
 import configparser
-import requests
-import getpass
 
 # ansi escape codes "color"
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
@@ -491,6 +489,8 @@ class PosMambaRepoSetup:
 
     def get_archives_github_assets(self, archive):
         from github import Auth, Github
+        import requests
+        import getpass
 
         def get_github_token(self):
             token = os.getenv("GITHUB_TOKEN")
