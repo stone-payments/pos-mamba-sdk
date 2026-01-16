@@ -58,6 +58,8 @@ def install_dependencies():
         except PackageNotFoundError:
             print("{} is NOT installed. Installing now...".format(package))
             subprocess.call([sys.executable, "-m", "pip", "install", package])
+    def upgrade_package(package):
+            subprocess.call([sys.executable, "-m", "pip", "install", package, "--upgrade"])
 
     python_version = platform.python_version()
     if python_version == "3.6.9":
@@ -68,6 +70,7 @@ def install_dependencies():
     else:
         from importlib.metadata import distribution, PackageNotFoundError
 
+    upgrade_package("pyopenssl")
     install_package("packaging")
     install_package("requests")
     install_package("PyGithub")
