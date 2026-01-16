@@ -59,7 +59,7 @@ def install_dependencies():
             print("{} is NOT installed. Installing now...".format(package))
             subprocess.call([sys.executable, "-m", "pip", "install", package])
     def upgrade_package(package):
-            subprocess.call([sys.executable, "-m", "pip", "install", package, "--upgrade"])
+        subprocess.call([sys.executable, "-m", "pip", "install", package, "--upgrade"])
 
     python_version = platform.python_version()
     if python_version == "3.6.9":
