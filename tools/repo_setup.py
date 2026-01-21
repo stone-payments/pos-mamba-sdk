@@ -491,7 +491,7 @@ class PosMambaRepoSetup:
             )
 
     def get_archives_github_assets(self, archive):
-        from github import Auth, Github
+        from github import Auth, Github, BadCredentialsException
         import requests
         import getpass
 
@@ -510,7 +510,7 @@ class PosMambaRepoSetup:
                 except Exception as e:
                     print_error(f"Error reading token file: {e}")
             if not token:
-                print_warning("Github token not found. Write your token below.")
+                print_warning("Github token not found. Create or insert your Classic Token below.")
                 token = getpass.getpass("GitHub Token: ")
                 try:
                     with open(token_file, "w") as f:
@@ -564,7 +564,9 @@ class PosMambaRepoSetup:
                                 return False
 
                 return True
-
+            except BadCredentialsException:
+                print_error(f"Invalid GitHub credentials. Please check your token at ~/.github_token.json")
+                return False
             except Exception as e:
                 print_error(f"Release {version} not found in {repo_name}")
                 return False
