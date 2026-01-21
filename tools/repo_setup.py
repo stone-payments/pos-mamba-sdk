@@ -491,8 +491,7 @@ class PosMambaRepoSetup:
             )
 
     def get_archives_github_assets(self, archive):
-        from github import Auth, Github
-        from github.GithubException import BadCredentialsException
+        from github import Auth, Github, BadCredentialsException
         import requests
         import getpass
 
