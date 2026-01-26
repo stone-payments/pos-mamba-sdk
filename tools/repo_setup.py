@@ -16,6 +16,7 @@ import concurrent.futures
 import argparse
 import tarfile
 import configparser
+import tempfile
 
 # ansi escape codes "color"
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
@@ -657,6 +658,38 @@ def main():
 
         return None
 
+    def auto_update_repo_setup(original_args):
+        """Download and execute the latest repo_setup.py from master branch"""
+        import requests
+
+        url = "https://raw.githubusercontent.com/stone-payments/pos-mamba-sdk/master/tools/repo_setup.py"
+        tmp_path = None
+
+        try:
+            print_warning("Downloading latest repo_setup.py...")
+            resp = requests.get(url, timeout=30)
+            if resp.status_code == 200:
+                with tempfile.NamedTemporaryFile("w", suffix=".py", delete=False) as tmp_file:
+                    tmp_file.write(resp.text)
+                    tmp_path = tmp_file.name
+
+                print_warning("Executing updated repo_setup.py...")
+                # Execute the new version with original arguments
+                subprocess.run([sys.executable, tmp_path] + original_args, check=True)
+                sys.exit(0)
+            else:
+                print_error(f"Failed to download repo_setup.py (status {resp.status_code})")
+                sys.exit(1)
+        except Exception as exc:
+            print_error(f"Error during auto-update: {exc}")
+            sys.exit(1)
+        finally:
+            if tmp_path and os.path.exists(tmp_path):
+                try:
+                    os.remove(tmp_path)
+                except Exception:
+                    pass
+
     parser = argparse.ArgumentParser(description="Repo Setup Script")
     parser.add_argument(
         "--force",
@@ -714,6 +747,19 @@ def main():
     sdk_commit = get_latest_sdk_commit()
     bypass_auto_update = args.bypass_auto_update
 
+    # Check if update is needed and not bypassed
+    if (
+        not bypass_auto_update
+        and PosMambaRepoSetup.CloneType.get_by_value(args.clone_type)
+        != PosMambaRepoSetup.CloneType.HTTPS
+        and sdk_commit
+        and sdk_commit.lower() != repo_setup_commit.lower()
+    ):
+        print_warning("repo_setup is outdated!!! Auto-updating...")
+        print_warning(f"Local repo_setup hash: {repo_setup_commit}")
+        print_warning(f"Remote sdk master hash: {sdk_commit}")
+        auto_update_repo_setup(sys.argv[1:])
+
     if bypass_auto_update or (
         PosMambaRepoSetup.CloneType.get_by_value(args.clone_type)
         == PosMambaRepoSetup.CloneType.HTTPS
@@ -751,14 +797,6 @@ def main():
                 # Create a new executor after submodules are updated for the archive function
                 with concurrent.futures.ProcessPoolExecutor() as executor:
                     executor.map(repo_setup.get_archives, filtered_archives)
-    else:
-        print_warning("repo_setup is outdated!!! Runnig repo_initialization!")
-        print_warning(f"Local repo_setup hash: {repo_setup_commit}")
-        print_warning(f"Remote sdk master hash: {sdk_commit}")
-        subprocess.run(
-            "curl -s https://raw.githubusercontent.com/stone-payments/pos-mamba-sdk/master/tools/repo_initialization.sh | bash",
-            shell=True,
-        )
 
 
 if __name__ == "__main__":
