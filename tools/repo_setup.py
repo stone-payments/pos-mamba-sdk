@@ -756,7 +756,7 @@ def main():
         print_warning(f"Local repo_setup hash: {repo_setup_commit}")
         print_warning(f"Remote sdk master hash: {sdk_commit}")
         subprocess.run(
-            "wget -O - https://raw.githubusercontent.com/stone-payments/pos-mamba-sdk/master/tools/repo_initialization.sh -q -O - | bash",
+            "curl -s https://raw.githubusercontent.com/stone-payments/pos-mamba-sdk/master/tools/repo_initialization.sh | bash",
             shell=True,
         )
 
