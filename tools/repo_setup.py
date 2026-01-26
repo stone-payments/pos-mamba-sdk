@@ -17,6 +17,7 @@ import argparse
 import tarfile
 import configparser
 import tempfile
+import ssl
 
 # ansi escape codes "color"
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
@@ -51,7 +52,30 @@ def print_error(message):
     print_color(message, RED)
 
 
-def install_dependencies():
+def parse_semantic_version(version_str: str) -> tuple:
+    """Parse semantic version string (e.g., '1.2.3-rc1') into tuple for comparison"""
+    # Remove 'v' or 'V' prefix if present
+    version_str = version_str.lstrip("vV")
+
+    # Split by dash to separate version from prerelease
+    parts = version_str.split("-")
+    version_part = parts[0]
+    prerelease = parts[1] if len(parts) > 1 else ""
+
+    # Parse main version
+    try:
+        version_numbers = version_part.split(".")
+        major = int(version_numbers[0]) if len(version_numbers) > 0 else 0
+        minor = int(version_numbers[1]) if len(version_numbers) > 1 else 0
+        patch = int(version_numbers[2]) if len(version_numbers) > 2 else 0
+    except (ValueError, IndexError):
+        # If parsing fails, return high values so invalid versions sort last
+        return (999, 999, 999, "zzz")
+
+    return (major, minor, patch, prerelease)
+
+
+def install_dependencies(has_github_assets: bool = False):
     def install_package(package):
         try:
             dist = distribution(package)
@@ -59,8 +83,6 @@ def install_dependencies():
         except PackageNotFoundError:
             print("{} is NOT installed. Installing now...".format(package))
             subprocess.call([sys.executable, "-m", "pip", "install", package])
-    def upgrade_package(package):
-        subprocess.call([sys.executable, "-m", "pip", "install", package, "--upgrade"])
 
     python_version = platform.python_version()
     if python_version == "3.6.9":
@@ -71,10 +93,9 @@ def install_dependencies():
     else:
         from importlib.metadata import distribution, PackageNotFoundError
 
-    upgrade_package("pyopenssl")
-    install_package("packaging")
-    install_package("requests")
-    install_package("PyGithub")
+    # Only install PyGithub if github_assets are needed
+    if has_github_assets:
+        install_package("PyGithub")
 
 
 class PosMambaRepoSetup:
@@ -243,27 +264,30 @@ class PosMambaRepoSetup:
     @staticmethod
     def get_target_of_submodule(submodule, full_repo_path: str = None) -> str:
         def get_latest_same_major(versions, base_version):
-            from packaging import version
+            base_ver = parse_semantic_version(base_version)
+            base_major = base_ver[0]
 
-            base_major = version.parse(base_version).major  # type: ignore
             same_major_versions = [
-                v for v in versions if version.parse(v).major == base_major  # type: ignore
+                v for v in versions if parse_semantic_version(v)[0] == base_major
             ]
 
             if not same_major_versions:
                 return None
 
-            return max(same_major_versions, key=version.parse)
+            return max(same_major_versions, key=parse_semantic_version)
 
         def get_sorted_releases(path_to_run):
-            from packaging import version
-
             command_list = ["git", "ls-remote", "--tags"]
 
             output = subprocess.check_output(command_list, cwd=path_to_run).decode()
             versions = [line.split("/")[-1] for line in output.split("\n") if line]
-            versions = [v for v in versions if version.parse(v).is_devrelease == False]
-            versions.sort(key=version.parse)
+            # Filter out dev releases (simple heuristic: no '-dev' or '.dev')
+            versions = [
+                v
+                for v in versions
+                if "-dev" not in v.lower() and ".dev" not in v.lower()
+            ]
+            versions.sort(key=parse_semantic_version)
 
             return versions
 
@@ -492,9 +516,16 @@ class PosMambaRepoSetup:
             )
 
     def get_archives_github_assets(self, archive):
-        from github import Auth, Github, BadCredentialsException
-        import requests
         import getpass
+        import urllib.request
+
+        # Import PyGithub only when needed
+        try:
+            from github import Auth, Github, BadCredentialsException
+        except ImportError:
+            print_error("PyGithub is required for github_assets. Installing now...")
+            subprocess.call([sys.executable, "-m", "pip", "install", "PyGithub"])
+            from github import Auth, Github, BadCredentialsException
 
         def get_github_token(self):
             token = os.getenv("GITHUB_TOKEN")
@@ -511,7 +542,9 @@ class PosMambaRepoSetup:
                 except Exception as e:
                     print_error(f"Error reading token file: {e}")
             if not token:
-                print_warning("Github token not found. Create or insert your Classic Token below.")
+                print_warning(
+                    "Github token not found. Create or insert your Classic Token below."
+                )
                 token = getpass.getpass("GitHub Token: ")
                 try:
                     with open(token_file, "w") as f:
@@ -520,8 +553,11 @@ class PosMambaRepoSetup:
                     print_error(f"Error saving token to file: {e}")
             return token
 
-        def download_release(self, repo_name, version, asset_filter: bool, package_check: bool) -> bool:
+        def download_release(
+            self, repo_name, version, asset_filter: bool, package_check: bool
+        ) -> bool:
             try:
+
                 def check_if_exist(package_check) -> bool:
                     if os.path.exists(self.download_dir):
                         files = os.listdir(self.download_dir)
@@ -542,31 +578,35 @@ class PosMambaRepoSetup:
                     headers = {
                         "Authorization": f"Bearer {token}",
                         "X-GitHub-Api-Version": "2022-11-28",
-                        "Accept": "application/octet-stream"
+                        "Accept": "application/octet-stream",
                     }
 
                     for asset in release.get_assets():
                         if asset_filter(asset):
                             filename = os.path.join(self.download_dir, asset.name)
-                            print_color(f"Downloading {asset.name} into {self.download_dir}...", GREEN)
+                            print_color(
+                                f"Downloading {asset.name} into {self.download_dir}...",
+                                GREEN,
+                            )
                             if os.path.exists(filename):
                                 print_error(f"The file {asset.name} already exists!")
                                 break
 
-                            response = requests.get(asset.url, headers=headers)
-
-                            if response.status_code == requests.codes.ok:
+                            # Create request with auth header
+                            req = urllib.request.Request(asset.url, headers=headers)
+                            with urllib.request.urlopen(req) as response:
                                 with open(filename, "wb") as f:
-                                    f.write(response.content)
-                                    print_color(f"{asset.name} downloaded successfully.", GREEN)
+                                    f.write(response.read())
+                                    print_color(
+                                        f"{asset.name} downloaded successfully.", GREEN
+                                    )
                                     return True
-                            else:
-                                print_error(f"Error: {response.status_code}")
-                                return False
 
                 return True
             except BadCredentialsException:
-                print_error(f"Invalid GitHub credentials. Please check your token at ~/.github_token.json")
+                print_error(
+                    f"Invalid GitHub credentials. Please check your token at ~/.github_token.json"
+                )
                 return False
             except Exception as e:
                 print_error(f"Release {version} not found in {repo_name}")
@@ -596,7 +636,9 @@ class PosMambaRepoSetup:
                 if config.has_option(section, "version"):
                     current_version = config.get(section, "version")
             if current_version == version:
-                print_color(f"Asset {asset_name} already exists. Skipping download", GREEN)
+                print_color(
+                    f"Asset {asset_name} already exists. Skipping download", GREEN
+                )
                 return
 
         downloaded = download_release(
@@ -637,7 +679,10 @@ class PosMambaRepoSetup:
         if archives == None:
             return None
 
-        is_pipeline = os.getenv("AZURE_TOKEN") is not None or os.getenv("GITHUB_TOKEN") is not None
+        is_pipeline = (
+            os.getenv("AZURE_TOKEN") is not None
+            or os.getenv("GITHUB_TOKEN") is not None
+        )
         if is_pipeline and not artifacts_list:
             return []
         elif artifacts_list:
@@ -648,38 +693,41 @@ class PosMambaRepoSetup:
 
 def main():
     def get_latest_sdk_commit() -> str:
-        import requests
+        import urllib.request
 
         url = f"https://api.github.com/repos/stone-payments/pos-mamba-sdk/commits"
-        response = requests.get(url)
-        data = json.loads(response.text)
-        if isinstance(data, list) and len(data) > 0 and "sha" in data[0]:
-            return data[0]["sha"]
+        try:
+            with urllib.request.urlopen(url, timeout=30) as response:
+                data = json.loads(response.read().decode("utf-8"))
+            if isinstance(data, list) and len(data) > 0 and "sha" in data[0]:
+                return data[0]["sha"]
+        except Exception:
+            pass
 
         return None
 
     def auto_update_repo_setup(original_args):
         """Download and execute the latest repo_setup.py from master branch"""
-        import requests
+        import urllib.request
 
         url = "https://raw.githubusercontent.com/stone-payments/pos-mamba-sdk/master/tools/repo_setup.py"
         tmp_path = None
 
         try:
             print_warning("Downloading latest repo_setup.py...")
-            resp = requests.get(url, timeout=30)
-            if resp.status_code == 200:
-                with tempfile.NamedTemporaryFile("w", suffix=".py", delete=False) as tmp_file:
-                    tmp_file.write(resp.text)
-                    tmp_path = tmp_file.name
+            with urllib.request.urlopen(url, timeout=30) as response:
+                content = response.read().decode("utf-8")
 
-                print_warning("Executing updated repo_setup.py...")
-                # Execute the new version with original arguments
-                subprocess.run([sys.executable, tmp_path] + original_args, check=True)
-                sys.exit(0)
-            else:
-                print_error(f"Failed to download repo_setup.py (status {resp.status_code})")
-                sys.exit(1)
+            with tempfile.NamedTemporaryFile(
+                "w", suffix=".py", delete=False
+            ) as tmp_file:
+                tmp_file.write(content)
+                tmp_path = tmp_file.name
+
+            print_warning("Executing updated repo_setup.py...")
+            # Execute the new version with original arguments
+            subprocess.run([sys.executable, tmp_path] + original_args, check=True)
+            sys.exit(0)
         except Exception as exc:
             print_error(f"Error during auto-update: {exc}")
             sys.exit(1)
@@ -742,7 +790,20 @@ def main():
     args = parser.parse_args()
     repo_list = args.repo_list
 
-    install_dependencies()
+    # Check if there are github_assets before installing dependencies
+    has_github_assets = False
+    try:
+        with open(PosMambaRepoSetup.repo_settings_file_name, "r") as f:
+            repo_settings = json.load(f)
+            archives = repo_settings.get("archives", [])
+            if archives:
+                has_github_assets = any(
+                    a.get("type") == "github_assets" for a in archives
+                )
+    except Exception:
+        pass
+
+    install_dependencies(has_github_assets)
     repo_setup_commit: str = "REPO_SETUP_PLACEHOLDER"
     sdk_commit = get_latest_sdk_commit()
     bypass_auto_update = args.bypass_auto_update
