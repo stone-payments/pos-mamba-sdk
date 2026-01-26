@@ -148,6 +148,7 @@ function repo_setup_init() {
 if [[ "$@" != *"--no-hooks"* ]]; then
   download_from_tools_on_mamba_sdk _git_hooks/post-checkout _git_hooks
   download_and_run _git_hooks/install-hooks.sh _git_hooks
+  rm -rf _git_hooks
 fi
 
 repo_setup_init $@
