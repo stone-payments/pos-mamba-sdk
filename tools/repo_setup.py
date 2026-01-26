@@ -110,7 +110,10 @@ class PosMambaRepoSetup:
     def run_command(self, cmd, repo="Repo not passed"):
         if self.log == True:
             print_color(f"{repo} | Running {cmd}", CYAN)
-            return subprocess.run(cmd, stderr=subprocess.PIPE)
+            result = subprocess.run(cmd, capture_output=True, text=True)
+            print("Output:", result.stdout)
+            print("Err:", result.stderr)
+            return result
         else:
             return subprocess.run(
                 cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
