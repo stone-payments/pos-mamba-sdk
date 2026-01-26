@@ -66,6 +66,7 @@ function download_from_tools_on_mamba_sdk() {
 
   local FILENAME=$(basename "$FILE_TO_DOWNLOAD")
   local OUTPUT_PATH="$DOWNLOAD_TO/$FILENAME"
+  OUTPUT_PATH="${OUTPUT_PATH#./}"  # Remove ./ prefix if present
 
   if [ -n "$GITHUB_TOKEN" ]; then
     curl -GLf \
