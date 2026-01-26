@@ -66,6 +66,7 @@ function download_from_tools_on_mamba_sdk() {
 
   local FILENAME=$(basename "$FILE_TO_DOWNLOAD")
   local OUTPUT_PATH="$DOWNLOAD_TO/$FILENAME"
+  OUTPUT_PATH="${OUTPUT_PATH#./}"  # Remove ./ prefix if present
 
   if [ -n "$GITHUB_TOKEN" ]; then
     curl -GLf \
@@ -145,6 +146,7 @@ function repo_setup_init() {
 }
 
 if [[ "$@" != *"--no-hooks"* ]]; then
+  trap "rm -rf _git_hooks" EXIT
   download_from_tools_on_mamba_sdk _git_hooks/post-checkout _git_hooks
   download_and_run _git_hooks/install-hooks.sh _git_hooks
 fi
