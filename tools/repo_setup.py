@@ -17,7 +17,7 @@ import argparse
 import tarfile
 import configparser
 import tempfile
-import ssl
+from typing import Optional
 
 # ansi escape codes "color"
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
@@ -53,14 +53,23 @@ def print_error(message):
 
 
 def parse_semantic_version(version_str: str) -> tuple:
-    """Parse semantic version string (e.g., '1.2.3-rc1') into tuple for comparison"""
+    """Parse semantic version string (e.g., '1.2.3-rc1') into comparable tuple.
+
+    Returns a tuple: (major, minor, patch, is_final, prerelease_parts)
+    - is_final: True if no prerelease (1.2.3), False if prerelease (1.2.3-rc1)
+    - prerelease_parts: list of (prefix, number) tuples parsed from prerelease
+
+    This ensures correct SemVer precedence:
+    - 1.2.3 > 1.2.3-rc1 (stable > prerelease)
+    - 1.2.3-rc10 > 1.2.3-rc2 (numeric ordering in prerelease)
+    """
     # Remove 'v' or 'V' prefix if present
     version_str = version_str.lstrip("vV")
 
     # Split by dash to separate version from prerelease
     parts = version_str.split("-")
     version_part = parts[0]
-    prerelease = parts[1] if len(parts) > 1 else ""
+    prerelease_str = parts[1] if len(parts) > 1 else ""
 
     # Parse main version
     try:
@@ -70,9 +79,43 @@ def parse_semantic_version(version_str: str) -> tuple:
         patch = int(version_numbers[2]) if len(version_numbers) > 2 else 0
     except (ValueError, IndexError):
         # If parsing fails, return high values so invalid versions sort last
-        return (999, 999, 999, "zzz")
+        return (999, 999, 999, False, [("zzz", 999)])
 
-    return (major, minor, patch, prerelease)
+    # is_final=True means it's a final release (no prerelease)
+    # is_final=False means it's a prerelease
+    is_final = not prerelease_str
+
+    # Parse prerelease components (e.g., "rc1.beta2" -> [("rc", 1), ("beta", 2)])
+    prerelease_parts = []
+    if prerelease_str:
+        components = prerelease_str.split(".")
+        for component in components:
+            # Extract prefix (letters) and suffix (numbers)
+            i = 0
+            while i < len(component) and not component[i].isdigit():
+                i += 1
+
+            if i == 0:
+                # Starts with digit
+                try:
+                    num = int(component)
+                    prerelease_parts.append(("", num))
+                except ValueError:
+                    prerelease_parts.append((component, 0))
+            elif i == len(component):
+                # Only letters (no numbers)
+                prerelease_parts.append((component, 0))
+            else:
+                # Mixed (e.g., "rc1")
+                prefix = component[:i]
+                suffix = component[i:]
+                try:
+                    num = int(suffix)
+                    prerelease_parts.append((prefix, num))
+                except ValueError:
+                    prerelease_parts.append((component, 0))
+
+    return (major, minor, patch, is_final, prerelease_parts)
 
 
 def install_dependencies(has_github_assets: bool = False):
@@ -96,6 +139,25 @@ def install_dependencies(has_github_assets: bool = False):
     # Only install PyGithub if github_assets are needed
     if has_github_assets:
         install_package("PyGithub")
+
+
+def urlopen_with_timeout(url_or_request, timeout: int = 30):
+    """Wrapper for urllib.request.urlopen with standardized timeout.
+
+    Args:
+        url_or_request: URL string or urllib.request.Request object
+        timeout: Timeout in seconds (default: 30)
+
+    Returns:
+        Response object from urlopen
+
+    Raises:
+        urllib.error.URLError: If the URL cannot be opened
+        socket.timeout: If the request times out
+    """
+    import urllib.request
+
+    return urllib.request.urlopen(url_or_request, timeout=timeout)
 
 
 class PosMambaRepoSetup:
@@ -594,7 +656,7 @@ class PosMambaRepoSetup:
 
                             # Create request with auth header
                             req = urllib.request.Request(asset.url, headers=headers)
-                            with urllib.request.urlopen(req) as response:
+                            with urlopen_with_timeout(req) as response:
                                 with open(filename, "wb") as f:
                                     f.write(response.read())
                                     print_color(
@@ -692,22 +754,29 @@ class PosMambaRepoSetup:
 
 
 def main():
-    def get_latest_sdk_commit() -> str:
+    def get_latest_sdk_commit() -> Optional[str]:
         import urllib.request
 
         url = f"https://api.github.com/repos/stone-payments/pos-mamba-sdk/commits"
         try:
-            with urllib.request.urlopen(url, timeout=30) as response:
+            with urlopen_with_timeout(url) as response:
                 data = json.loads(response.read().decode("utf-8"))
             if isinstance(data, list) and len(data) > 0 and "sha" in data[0]:
                 return data[0]["sha"]
         except Exception:
+            # Silently ignore network errors; if we can't fetch the commit,
+            # we just skip the auto-update check and proceed normally
+            print_warning("Warning: Could not fetch latest SDK commit from remote")
             pass
 
         return None
 
     def auto_update_repo_setup(original_args):
-        """Download and execute the latest repo_setup.py from master branch"""
+        """Download and execute the latest repo_setup.py from master branch.
+
+        If successful, executes the updated script and terminates.
+        If it fails, logs the error and returns to allow the current script to run.
+        """
         import urllib.request
 
         url = "https://raw.githubusercontent.com/stone-payments/pos-mamba-sdk/master/tools/repo_setup.py"
@@ -715,7 +784,7 @@ def main():
 
         try:
             print_warning("Downloading latest repo_setup.py...")
-            with urllib.request.urlopen(url, timeout=30) as response:
+            with urlopen_with_timeout(url) as response:
                 content = response.read().decode("utf-8")
 
             with tempfile.NamedTemporaryFile(
@@ -730,12 +799,18 @@ def main():
             sys.exit(0)
         except Exception as exc:
             print_error(f"Error during auto-update: {exc}")
-            sys.exit(1)
+            print_warning("Falling back to current repo_setup version")
+            # Return to allow current script to continue execution
+            return
         finally:
             if tmp_path and os.path.exists(tmp_path):
                 try:
                     os.remove(tmp_path)
                 except Exception:
+                    # Best-effort cleanup; ignore errors if temp file can't be removed
+                    print_warning(
+                        "Warning: Could not remove temporary file during cleanup"
+                    )
                     pass
 
     parser = argparse.ArgumentParser(description="Repo Setup Script")
@@ -801,11 +876,14 @@ def main():
                     a.get("type") == "github_assets" for a in archives
                 )
     except Exception:
+        # Silently handle missing or invalid repo_settings.json;
+        # will proceed with default behavior (no github_assets)
+        print_warning("Warning: Could not load repo_settings.json for dependency check")
         pass
 
     install_dependencies(has_github_assets)
     repo_setup_commit: str = "REPO_SETUP_PLACEHOLDER"
-    sdk_commit = get_latest_sdk_commit()
+    sdk_commit: Optional[str] = get_latest_sdk_commit()
     bypass_auto_update = args.bypass_auto_update
 
     # Check if update is needed and not bypassed
@@ -820,44 +898,48 @@ def main():
         print_warning(f"Local repo_setup hash: {repo_setup_commit}")
         print_warning(f"Remote sdk master hash: {sdk_commit}")
         auto_update_repo_setup(sys.argv[1:])
+        # If auto_update succeeds, sys.exit(0) is called and execution ends
+        # If auto_update fails, it returns here and we proceed with current version
 
-    if bypass_auto_update or (
-        PosMambaRepoSetup.CloneType.get_by_value(args.clone_type)
-        == PosMambaRepoSetup.CloneType.HTTPS
-        or not sdk_commit
-        or sdk_commit.lower() == repo_setup_commit.lower()
-    ):
-        with open(PosMambaRepoSetup.repo_settings_file_name, "r") as f:
-            repo_settings = json.load(f)
+    print_color("\nLoading repository settings...", BLUE)
+    with open(PosMambaRepoSetup.repo_settings_file_name, "r") as f:
+        repo_settings = json.load(f)
 
-        submodules = repo_settings["submodules"]
-        archives = repo_settings["archives"] if "archives" in repo_settings else None
+    submodules = repo_settings["submodules"]
+    archives = repo_settings["archives"] if "archives" in repo_settings else None
 
-        repo_setup = PosMambaRepoSetup(
-            clone_type=args.clone_type, force=args.force, log=args.log
-        )
-        repo_setup.run_command(
-            ["git", "config", "--global", "advice.detachedHead", "false"]
-        )
+    repo_setup = PosMambaRepoSetup(
+        clone_type=args.clone_type, force=args.force, log=args.log
+    )
+    repo_setup.run_command(
+        ["git", "config", "--global", "advice.detachedHead", "false"]
+    )
 
-        filtered_submodules = PosMambaRepoSetup.filter_submodules(submodules, repo_list)
-        filtered_archives = PosMambaRepoSetup.filter_archives(
-            archives, args.archive_list
-        )
+    filtered_submodules = PosMambaRepoSetup.filter_submodules(submodules, repo_list)
+    filtered_archives = PosMambaRepoSetup.filter_archives(archives, args.archive_list)
 
-        # Create a pool of workers
-        with concurrent.futures.ProcessPoolExecutor() as executor:
-            # Use the executor to map the function to the inputs
-            executor.map(repo_setup.update_repo, filtered_submodules)
+    print_color(f"\nProcessing {len(filtered_submodules)} submodules...", BLUE)
+    if filtered_archives:
+        print_color(f"Processing {len(filtered_archives)} archives...", BLUE)
 
-            # Wait for submodules to be updated
-            print("Waiting for update_repo to complete...")
-            executor.shutdown(wait=True)
+    # Create a pool of workers
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        # Use the executor to map the function to the inputs
+        executor.map(repo_setup.update_repo, filtered_submodules)
 
-            if filtered_archives != None:
-                # Create a new executor after submodules are updated for the archive function
-                with concurrent.futures.ProcessPoolExecutor() as executor:
-                    executor.map(repo_setup.get_archives, filtered_archives)
+        # Wait for submodules to be updated
+        print_color("Waiting for submodules update to complete...", CYAN)
+        executor.shutdown(wait=True)
+        print_color("✓ All submodules updated successfully", GREEN)
+
+        if filtered_archives != None:
+            print_color("\nProcessing archives...", CYAN)
+            # Create a new executor after submodules are updated for the archive function
+            with concurrent.futures.ProcessPoolExecutor() as executor:
+                executor.map(repo_setup.get_archives, filtered_archives)
+            print_color("✓ All archives processed successfully", GREEN)
+
+    print_color("\n=== Repository Setup Completed ===\n", CYAN)
 
 
 if __name__ == "__main__":
