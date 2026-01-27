@@ -829,13 +829,13 @@ def main():
             latest_commit_hash: Latest SDK commit hash to replace placeholder with
         """
         import urllib.request
-        import base64
 
         # Try to get token for authenticated requests (higher rate limit)
         token = get_github_token(prompt_if_missing=False)
 
-        # Use GitHub API to fetch the file content (authenticated if token available)
+        # Prefer GitHub API when token is available; fallback to raw URL when unauthenticated
         api_url = "https://api.github.com/repos/stone-payments/pos-mamba-sdk/contents/tools/repo_setup.py?ref=master"
+        raw_url = "https://raw.githubusercontent.com/stone-payments/pos-mamba-sdk/master/tools/repo_setup.py"
         tmp_path = None
 
         try:
@@ -852,14 +852,8 @@ def main():
                 with urlopen_with_timeout(req) as response:
                     content = response.read().decode("utf-8")
             else:
-                # Use unauthenticated API request (60 requests/hour limit)
-                req = urllib.request.Request(
-                    api_url,
-                    headers={
-                        "Accept": "application/vnd.github.raw+json",
-                    },
-                )
-                with urlopen_with_timeout(req) as response:
+                # No token: use raw content endpoint to avoid low unauthenticated API limit
+                with urlopen_with_timeout(raw_url) as response:
                     content = response.read().decode("utf-8")
 
             # Replace placeholder with actual commit hash to prevent loop
