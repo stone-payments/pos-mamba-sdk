@@ -67,7 +67,7 @@ def get_github_token(prompt_if_missing: bool = True) -> Optional[str]:
         prompts user for input and saves it to ~/.github_token.json for future use.
     """
     token = os.getenv("GITHUB_TOKEN")
-    if token is not None:
+    if token:
         return token
 
     token_file = os.path.join(os.path.expanduser("~"), ".github_token.json")
@@ -84,14 +84,20 @@ def get_github_token(prompt_if_missing: bool = True) -> Optional[str]:
         import getpass
 
         print_warning(
-            "Github token not found. Create or insert your Classic Token below."
+            "GitHub token not found. Create or insert your Classic Token below."
         )
         token = getpass.getpass("GitHub Token: ")
-        try:
-            with open(token_file, "w") as f:
-                json.dump({"github_token": token}, f)
-        except Exception as e:
-            print_error(f"Error saving token to file: {e}")
+        # Treat empty or whitespace-only input as no token
+        if token is not None:
+            token = token.strip()
+        if token:
+            try:
+                with open(token_file, "w") as f:
+                    json.dump({"github_token": token}, f)
+            except Exception as e:
+                print_error(f"Error saving token to file: {e}")
+        else:
+            token = None
 
     return token
 
@@ -652,6 +658,12 @@ class PosMambaRepoSetup:
                         os.makedirs(self.download_dir)
 
                     token = get_github_token()
+                    if not token:
+                        print_error(
+                            "GitHub token is required to download release assets. "
+                            "Please configure a valid token in ~/.github_token.json."
+                        )
+                        return False
                     github = Github(auth=Auth.Token(token))
                     repo = github.get_repo(f"stone-payments/{repo_name}")
                     release = repo.get_release(version)
@@ -814,7 +826,6 @@ def main():
                 print_warning(
                     f"Warning: Could not fetch latest SDK commit from remote: {error_msg}"
                 )
-            pass
 
         return None
 
