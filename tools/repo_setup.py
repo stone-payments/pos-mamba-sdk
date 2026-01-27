@@ -52,6 +52,50 @@ def print_error(message):
     print_color(message, RED)
 
 
+def get_github_token(prompt_if_missing: bool = True) -> Optional[str]:
+    """Get GitHub token from environment variable or token file.
+
+    Args:
+        prompt_if_missing: If True and no token is found, prompts user for input.
+                          If False, returns None silently when token is not found.
+
+    Returns:
+        GitHub token string if found, None otherwise.
+
+    Note:
+        When prompt_if_missing=True and no token is found in environment or file,
+        prompts user for input and saves it to ~/.github_token.json for future use.
+    """
+    token = os.getenv("GITHUB_TOKEN")
+    if token is not None:
+        return token
+
+    token_file = os.path.join(os.path.expanduser("~"), ".github_token.json")
+    token = None
+    if os.path.exists(token_file):
+        try:
+            with open(token_file, "r") as f:
+                data = json.load(f)
+                token = data.get("github_token", None)
+        except Exception:
+            pass  # Silently ignore file read errors
+
+    if not token and prompt_if_missing:
+        import getpass
+
+        print_warning(
+            "Github token not found. Create or insert your Classic Token below."
+        )
+        token = getpass.getpass("GitHub Token: ")
+        try:
+            with open(token_file, "w") as f:
+                json.dump({"github_token": token}, f)
+        except Exception as e:
+            print_error(f"Error saving token to file: {e}")
+
+    return token
+
+
 def parse_semantic_version(version_str: str) -> tuple:
     """Parse semantic version string (e.g., '1.2.3-rc1') into comparable tuple.
 
@@ -589,32 +633,6 @@ class PosMambaRepoSetup:
             subprocess.call([sys.executable, "-m", "pip", "install", "PyGithub"])
             from github import Auth, Github, BadCredentialsException
 
-        def get_github_token(self):
-            token = os.getenv("GITHUB_TOKEN")
-            if token is not None:
-                return token
-
-            token_file = os.path.join(os.path.expanduser("~"), ".github_token.json")
-            token = None
-            if os.path.exists(token_file):
-                try:
-                    with open(token_file, "r") as f:
-                        data = json.load(f)
-                        token = data.get("github_token", None)
-                except Exception as e:
-                    print_error(f"Error reading token file: {e}")
-            if not token:
-                print_warning(
-                    "Github token not found. Create or insert your Classic Token below."
-                )
-                token = getpass.getpass("GitHub Token: ")
-                try:
-                    with open(token_file, "w") as f:
-                        json.dump({"github_token": token}, f)
-                except Exception as e:
-                    print_error(f"Error saving token to file: {e}")
-            return token
-
         def download_release(
             self, repo_name, version, asset_filter: bool, package_check: bool
         ) -> bool:
@@ -633,7 +651,7 @@ class PosMambaRepoSetup:
                     if not os.path.exists(self.download_dir):
                         os.makedirs(self.download_dir)
 
-                    token = get_github_token(self)
+                    token = get_github_token()
                     github = Github(auth=Auth.Token(token))
                     repo = github.get_repo(f"stone-payments/{repo_name}")
                     release = repo.get_release(version)
@@ -757,35 +775,95 @@ def main():
     def get_latest_sdk_commit() -> Optional[str]:
         import urllib.request
 
+        # Try to get GitHub token for authenticated requests (5000/hour limit vs 60/hour)
+        # Use prompt_if_missing=False to avoid prompting user during auto-update check
+        token = get_github_token(prompt_if_missing=False)
+
         url = f"https://api.github.com/repos/stone-payments/pos-mamba-sdk/commits"
         try:
-            with urlopen_with_timeout(url) as response:
-                data = json.loads(response.read().decode("utf-8"))
+            if token:
+                # Use authenticated request (5000 requests/hour limit)
+                headers = {
+                    "Authorization": f"Bearer {token}",
+                    "X-GitHub-Api-Version": "2022-11-28",
+                    "Accept": "application/vnd.github+json",
+                }
+                req = urllib.request.Request(url, headers=headers)
+                with urlopen_with_timeout(req) as response:
+                    data = json.loads(response.read().decode("utf-8"))
+            else:
+                # Use unauthenticated request (60 requests/hour limit)
+                with urlopen_with_timeout(url) as response:
+                    data = json.loads(response.read().decode("utf-8"))
+
             if isinstance(data, list) and len(data) > 0 and "sha" in data[0]:
                 return data[0]["sha"]
-        except Exception:
+        except Exception as e:
             # Silently ignore network errors; if we can't fetch the commit,
             # we just skip the auto-update check and proceed normally
-            print_warning("Warning: Could not fetch latest SDK commit from remote")
+            error_msg = str(e)
+            if "403" in error_msg and "rate limit" in error_msg.lower():
+                print_warning(
+                    "Warning: GitHub API rate limit exceeded. Use --bypass_auto_update to skip this check."
+                )
+            elif "403" in error_msg:
+                print_warning(
+                    f"Warning: GitHub API access forbidden (403). Consider using --bypass_auto_update or setting GITHUB_TOKEN."
+                )
+            else:
+                print_warning(
+                    f"Warning: Could not fetch latest SDK commit from remote: {error_msg}"
+                )
             pass
 
         return None
 
-    def auto_update_repo_setup(original_args):
+    def auto_update_repo_setup(original_args, latest_commit_hash: str):
         """Download and execute the latest repo_setup.py from master branch.
 
         If successful, executes the updated script and terminates.
         If it fails, logs the error and returns to allow the current script to run.
+
+        Args:
+            original_args: Original command-line arguments to pass to updated script
+            latest_commit_hash: Latest SDK commit hash to replace placeholder with
         """
         import urllib.request
+        import base64
 
-        url = "https://raw.githubusercontent.com/stone-payments/pos-mamba-sdk/master/tools/repo_setup.py"
+        # Try to get token for authenticated requests (higher rate limit)
+        token = get_github_token(prompt_if_missing=False)
+
+        # Use GitHub API to fetch the file content (authenticated if token available)
+        api_url = "https://api.github.com/repos/stone-payments/pos-mamba-sdk/contents/tools/repo_setup.py?ref=master"
         tmp_path = None
 
         try:
             print_warning("Downloading latest repo_setup.py...")
-            with urlopen_with_timeout(url) as response:
-                content = response.read().decode("utf-8")
+
+            if token:
+                # Use authenticated API request (5000 requests/hour limit)
+                headers = {
+                    "Authorization": f"Bearer {token}",
+                    "X-GitHub-Api-Version": "2022-11-28",
+                    "Accept": "application/vnd.github.raw+json",
+                }
+                req = urllib.request.Request(api_url, headers=headers)
+                with urlopen_with_timeout(req) as response:
+                    content = response.read().decode("utf-8")
+            else:
+                # Use unauthenticated API request (60 requests/hour limit)
+                req = urllib.request.Request(
+                    api_url,
+                    headers={
+                        "Accept": "application/vnd.github.raw+json",
+                    },
+                )
+                with urlopen_with_timeout(req) as response:
+                    content = response.read().decode("utf-8")
+
+            # Replace placeholder with actual commit hash to prevent loop
+            content = content.replace("REPO_SETUP_PLACEHOLDER", latest_commit_hash)
 
             with tempfile.NamedTemporaryFile(
                 "w", suffix=".py", delete=False
@@ -897,7 +975,7 @@ def main():
         print_warning("repo_setup is outdated!!! Auto-updating...")
         print_warning(f"Local repo_setup hash: {repo_setup_commit}")
         print_warning(f"Remote sdk master hash: {sdk_commit}")
-        auto_update_repo_setup(sys.argv[1:])
+        auto_update_repo_setup(sys.argv[1:], sdk_commit)
         # If auto_update succeeds, sys.exit(0) is called and execution ends
         # If auto_update fails, it returns here and we proceed with current version
 
