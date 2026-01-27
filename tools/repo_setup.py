@@ -786,6 +786,7 @@ class PosMambaRepoSetup:
 def main():
     def get_latest_sdk_commit() -> Optional[str]:
         import urllib.request
+        import urllib.error
 
         # Try to get GitHub token for authenticated requests (5000/hour limit vs 60/hour)
         # Use prompt_if_missing=False to avoid prompting user during auto-update check
@@ -810,22 +811,24 @@ def main():
 
             if isinstance(data, list) and len(data) > 0 and "sha" in data[0]:
                 return data[0]["sha"]
-        except Exception as e:
-            # Silently ignore network errors; if we can't fetch the commit,
-            # we just skip the auto-update check and proceed normally
-            error_msg = str(e)
-            if "403" in error_msg and "rate limit" in error_msg.lower():
+        except urllib.error.HTTPError as e:
+            # Handle HTTP errors with proper status code checking
+            if e.code == 429:
                 print_warning(
-                    "Warning: GitHub API rate limit exceeded. Use --bypass_auto_update to skip this check."
+                    "Warning: GitHub API rate limit exceeded (429). Use --bypass_auto_update to skip this check."
                 )
-            elif "403" in error_msg:
+            elif e.code == 403:
                 print_warning(
                     f"Warning: GitHub API access forbidden (403). Consider using --bypass_auto_update or setting GITHUB_TOKEN."
                 )
             else:
-                print_warning(
-                    f"Warning: Could not fetch latest SDK commit from remote: {error_msg}"
-                )
+                print_warning(f"Warning: GitHub API error ({e.code}): {e.reason}")
+        except Exception as e:
+            # Silently ignore other network errors; if we can't fetch the commit,
+            # we just skip the auto-update check and proceed normally
+            print_warning(
+                f"Warning: Could not fetch latest SDK commit from remote: {e}"
+            )
 
         return None
 
