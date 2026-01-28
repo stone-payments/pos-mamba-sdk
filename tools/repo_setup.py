@@ -28,7 +28,7 @@ DEFAULT_NETWORK_TIMEOUT = 30
 # Auto-update configuration constants - DO NOT MODIFY THESE LINES
 REPO_SETUP_HASH_PLACEHOLDER: str = "REPO_SETUP_PLACEHOLDER"
 REPO_SETUP_SOURCE_REPO: str = "stone-payments/pos-mamba-sdk"
-REPO_SETUP_SOURCE_BRANCH: str = "fix_repo_setup_auto_update"
+REPO_SETUP_SOURCE_BRANCH: str = "master"
 
 # Current commit hash - this value gets replaced during auto-update
 repo_setup_commit: str = REPO_SETUP_HASH_PLACEHOLDER
