@@ -14,7 +14,6 @@ import configparser
 import tempfile
 import re
 import urllib.request
-import urllib.error
 from typing import Optional
 
 # ---- Configuration constants ----
@@ -216,19 +215,49 @@ def download_file_from_github(
     Returns:
         File content as bytes, or None if download fails
     """
-    import urllib.request
-    import json as json_module
-
-    url = f"{GITHUB_API_BASE}/repos/{repo}/contents/{file_path}?ref={branch}"
-
     try:
-        headers = {"Accept": "application/vnd.github.v4.raw"}
         if token:
-            headers["Authorization"] = f"token {token}"
+            # Use authenticated API request (5000 requests/hour limit)
+            url = f"{GITHUB_API_BASE}/repos/{repo}/contents/{file_path}?ref={branch}"
+            # Use valid GitHub raw media type to get file contents as bytes
+            headers = {
+                "Accept": "application/vnd.github.v3.raw",
+                "Authorization": f"token {token}",
+            }
+            request = urllib.request.Request(url, headers=headers)
+            with urlopen_with_timeout(request) as response:
+                data = response.read()
 
-        request = urllib.request.Request(url, headers=headers)
-        response = urlopen_with_timeout(request)
-        return response.read()
+                # Basic validation: detect JSON responses that indicate metadata instead of raw file
+                content_type = response.info().get_content_type()
+                if content_type in ("application/json", "text/json"):
+                    print_warning(
+                        f"Warning: Expected raw file content for {file_path} from {repo}, "
+                        f"but received JSON (content-type: {content_type})."
+                    )
+                    return None
+
+                # Heuristic check: if content looks like JSON, treat it as a failure
+                stripped = data.lstrip()
+                if stripped.startswith((b"{", b"[")):
+                    try:
+                        json.loads(stripped.decode("utf-8"))
+                    except Exception:
+                        # Not valid JSON; assume it's the intended file content
+                        return data
+                    else:
+                        print_warning(
+                            f"Warning: Expected raw file content for {file_path} from {repo}, "
+                            "but received JSON-like data."
+                        )
+                        return None
+
+                return data
+        else:
+            # No token: use raw content endpoint to avoid low unauthenticated API limit (60 requests/hour)
+            url = f"{GITHUB_RAW_BASE}/{repo}/{branch}/{file_path}"
+            with urlopen_with_timeout(url) as response:
+                return response.read()
     except Exception as e:
         print_warning(f"Warning: Could not download {file_path} from {repo}: {e}")
         return None
@@ -238,11 +267,9 @@ def install_git_hooks():
     """Download and install git hooks from the remote repository.
 
     Downloads hook files from stone-payments/pos-mamba-sdk repository
-    and installs them in the .git/hooks directory. Skips download if hook
-    already exists in .git/hooks.
+    and installs them in the .git/hooks directory. Skips download if an
+    executable hook already exists in .git/hooks.
     """
-    import json as json_module
-
     # Get GitHub token if available
     token = get_github_token(prompt_if_missing=False)
 
@@ -1006,22 +1033,31 @@ def main():
             )
 
             tmp_path = None
-            with tempfile.NamedTemporaryFile(
-                "w", suffix=".py", delete=False, dir=current_script_dir
-            ) as tmp_file:
-                tmp_file.write(content)
-                tmp_path = tmp_file.name
+            try:
+                with tempfile.NamedTemporaryFile(
+                    "w", suffix=".py", delete=False, dir=current_script_dir
+                ) as tmp_file:
+                    tmp_file.write(content)
+                    tmp_path = tmp_file.name
 
-            os.replace(tmp_path, current_script_path)
-            if current_mode is not None:
-                os.chmod(current_script_path, current_mode)
+                os.replace(tmp_path, current_script_path)
+                tmp_path = None  # Mark as successfully moved
+                if current_mode is not None:
+                    os.chmod(current_script_path, current_mode)
 
-            print_warning("Executing updated repo_setup.py...")
-            # Execute the updated version with original arguments
-            subprocess.run(
-                [sys.executable, current_script_path] + original_args, check=True
-            )
-            sys.exit(0)
+                print_warning("Executing updated repo_setup.py...")
+                # Execute the updated version with original arguments
+                subprocess.run(
+                    [sys.executable, current_script_path] + original_args, check=True
+                )
+                sys.exit(0)
+            finally:
+                # Clean up temp file if it still exists (wasn't moved)
+                if tmp_path and os.path.exists(tmp_path):
+                    try:
+                        os.remove(tmp_path)
+                    except OSError:
+                        pass  # Ignore cleanup errors
         except Exception as exc:
             print_error(f"Error during auto-update: {exc}")
             print_warning("Falling back to current repo_setup version")
@@ -1078,7 +1114,7 @@ def main():
     )
 
     parser.add_argument(
-        "--no-hooks",
+        "--no_hooks",
         action="store_true",
         default=False,
         help="Skip git hooks installation",
