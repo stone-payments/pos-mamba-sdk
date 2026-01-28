@@ -306,8 +306,8 @@ def install_git_hooks():
                 with open(hook_dest_path, "wb") as f:
                     f.write(hook_content)
 
-                # Make it executable
-                os.chmod(hook_dest_path, 0o755)
+                # Make it executable (owner only)
+                os.chmod(hook_dest_path, 0o700)
 
                 print_color(f"✓ Hook '{hook_name}' installed successfully", GREEN)
                 hooks_installed = True
