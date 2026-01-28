@@ -862,6 +862,11 @@ def main():
         tmp_path = None
         current_script_path = os.path.abspath(__file__)
         current_script_dir = os.path.dirname(current_script_path)
+        current_mode = None
+        try:
+            current_mode = os.stat(current_script_path).st_mode
+        except OSError:
+            current_mode = None
 
         try:
             print_warning("Downloading latest repo_setup.py...")
@@ -882,6 +887,7 @@ def main():
                     content = response.read().decode("utf-8")
 
             # Replace only the repo_setup_commit value, preserving the REPO_SETUP_PLACEHOLDER constant
+            # Matches: repo_setup_commit: str = REPO_SETUP_PLACEHOLDER
             content = re.sub(
                 r"(repo_setup_commit: str = )REPO_SETUP_PLACEHOLDER",
                 rf'\g<1>"{latest_commit_hash}"',
@@ -895,6 +901,8 @@ def main():
                 tmp_path = tmp_file.name
 
             os.replace(tmp_path, current_script_path)
+            if current_mode is not None:
+                os.chmod(current_script_path, current_mode)
             tmp_path = None
 
             print_warning("Executing updated repo_setup.py...")
