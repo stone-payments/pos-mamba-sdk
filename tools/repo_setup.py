@@ -238,7 +238,8 @@ def install_git_hooks():
     """Download and install git hooks from the remote repository.
 
     Downloads hook files from stone-payments/pos-mamba-sdk repository
-    and installs them in the .git/hooks directory.
+    and installs them in the .git/hooks directory. Skips download if hook
+    already exists in .git/hooks.
     """
     import json as json_module
 
@@ -274,9 +275,24 @@ def install_git_hooks():
 
     # List of hooks to install from the remote repository
     hooks_to_install = ["post-checkout"]
+    hooks_installed = False
 
     # Download and install each hook
     for hook_name in hooks_to_install:
+        hook_dest_path = os.path.join(hooks_dest_dir, hook_name)
+
+        # Skip if hook already exists and is executable
+        if os.path.exists(hook_dest_path):
+            try:
+                # Check if file is executable
+                is_executable = os.access(hook_dest_path, os.X_OK)
+                if is_executable:
+                    # Hook installed and executable, skip download
+                    continue
+            except Exception:
+                pass  # If we can't check, proceed with update
+
+        # Download hook from remote repository
         hook_content = download_file_from_github(
             repo=REPO_SETUP_SOURCE_REPO,
             branch=REPO_SETUP_SOURCE_BRANCH,
@@ -286,8 +302,6 @@ def install_git_hooks():
 
         if hook_content:
             try:
-                hook_dest_path = os.path.join(hooks_dest_dir, hook_name)
-
                 # Write hook file
                 with open(hook_dest_path, "wb") as f:
                     f.write(hook_content)
@@ -296,8 +310,13 @@ def install_git_hooks():
                 os.chmod(hook_dest_path, 0o755)
 
                 print_color(f"✓ Hook '{hook_name}' installed successfully", GREEN)
+                hooks_installed = True
             except Exception as e:
                 print_error(f"Error writing hook file {hook_name}: {e}")
+
+    # Log if all hooks were already installed
+    if not hooks_installed:
+        print_color("✓ All git hooks are already installed", GREEN)
 
 
 def urlopen_with_timeout(url_or_request, timeout: int = DEFAULT_NETWORK_TIMEOUT):
