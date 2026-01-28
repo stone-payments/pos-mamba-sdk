@@ -13,6 +13,8 @@ import tarfile
 import configparser
 import tempfile
 import re
+import urllib.request
+import urllib.error
 from typing import Optional
 
 # ---- Configuration constants ----
@@ -198,6 +200,104 @@ def install_dependencies(has_github_assets: bool = False):
     # Only install PyGithub if github_assets are needed
     if has_github_assets:
         install_package("PyGithub")
+
+
+def download_file_from_github(
+    repo: str, branch: str, file_path: str, token: Optional[str] = None
+) -> Optional[bytes]:
+    """Download a file from GitHub repository.
+
+    Args:
+        repo: Repository in format "owner/repo"
+        branch: Branch name
+        file_path: Path to file in repository (relative to root)
+        token: GitHub token for authentication (optional)
+
+    Returns:
+        File content as bytes, or None if download fails
+    """
+    import urllib.request
+    import json as json_module
+
+    url = f"{GITHUB_API_BASE}/repos/{repo}/contents/{file_path}?ref={branch}"
+
+    try:
+        headers = {"Accept": "application/vnd.github.v4.raw"}
+        if token:
+            headers["Authorization"] = f"token {token}"
+
+        request = urllib.request.Request(url, headers=headers)
+        response = urlopen_with_timeout(request)
+        return response.read()
+    except Exception as e:
+        print_warning(f"Warning: Could not download {file_path} from {repo}: {e}")
+        return None
+
+
+def install_git_hooks():
+    """Download and install git hooks from the remote repository.
+
+    Downloads hook files from stone-payments/pos-mamba-sdk repository
+    and installs them in the .git/hooks directory.
+    """
+    import json as json_module
+
+    # Get GitHub token if available
+    token = get_github_token(prompt_if_missing=False)
+
+    # Determine git repository root
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "--show-toplevel"],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        git_root = result.stdout.strip()
+    except subprocess.CalledProcessError:
+        print_warning(
+            "Warning: Could not determine git root directory, skipping git hooks installation"
+        )
+        return
+
+    hooks_dest_dir = os.path.join(git_root, ".git", "hooks")
+
+    # Create .git/hooks directory if it doesn't exist
+    if not os.path.exists(hooks_dest_dir):
+        try:
+            os.makedirs(hooks_dest_dir)
+        except Exception as e:
+            print_warning(
+                f"Warning: Could not create hooks directory {hooks_dest_dir}: {e}"
+            )
+            return
+
+    # List of hooks to install from the remote repository
+    hooks_to_install = ["post-checkout"]
+
+    # Download and install each hook
+    for hook_name in hooks_to_install:
+        hook_content = download_file_from_github(
+            repo=REPO_SETUP_SOURCE_REPO,
+            branch=REPO_SETUP_SOURCE_BRANCH,
+            file_path=f"tools/_git_hooks/{hook_name}",
+            token=token,
+        )
+
+        if hook_content:
+            try:
+                hook_dest_path = os.path.join(hooks_dest_dir, hook_name)
+
+                # Write hook file
+                with open(hook_dest_path, "wb") as f:
+                    f.write(hook_content)
+
+                # Make it executable
+                os.chmod(hook_dest_path, 0o755)
+
+                print_color(f"✓ Hook '{hook_name}' installed successfully", GREEN)
+            except Exception as e:
+                print_error(f"Error writing hook file {hook_name}: {e}")
 
 
 def urlopen_with_timeout(url_or_request, timeout: int = DEFAULT_NETWORK_TIMEOUT):
@@ -851,15 +951,9 @@ def main():
             original_args: Original command-line arguments to pass to updated script
             latest_commit_hash: Latest SDK commit hash to replace placeholder with
         """
-        import urllib.request
-
         # Try to get token for authenticated requests (higher rate limit)
         token = get_github_token(prompt_if_missing=False)
 
-        # Prefer GitHub API when token is available; fallback to raw URL when unauthenticated
-        api_url = f"{GITHUB_API_BASE}/repos/{REPO_SETUP_SOURCE_REPO}/contents/tools/repo_setup.py?ref={REPO_SETUP_SOURCE_BRANCH}"
-        raw_url = f"{GITHUB_RAW_BASE}/{REPO_SETUP_SOURCE_REPO}/{REPO_SETUP_SOURCE_BRANCH}/tools/repo_setup.py"
-        tmp_path = None
         current_script_path = os.path.abspath(__file__)
         current_script_dir = os.path.dirname(current_script_path)
         current_mode = None
@@ -871,20 +965,18 @@ def main():
         try:
             print_warning("Downloading latest repo_setup.py...")
 
-            if token:
-                # Use authenticated API request (5000 requests/hour limit)
-                headers = {
-                    "Authorization": f"Bearer {token}",
-                    "X-GitHub-Api-Version": "2022-11-28",
-                    "Accept": "application/vnd.github.raw+json",
-                }
-                req = urllib.request.Request(api_url, headers=headers)
-                with urlopen_with_timeout(req) as response:
-                    content = response.read().decode("utf-8")
-            else:
-                # No token: use raw content endpoint to avoid low unauthenticated API limit
-                with urlopen_with_timeout(raw_url) as response:
-                    content = response.read().decode("utf-8")
+            # Download repo_setup.py from remote repository
+            content_bytes = download_file_from_github(
+                repo=REPO_SETUP_SOURCE_REPO,
+                branch=REPO_SETUP_SOURCE_BRANCH,
+                file_path="tools/repo_setup.py",
+                token=token,
+            )
+
+            if not content_bytes:
+                raise Exception("Failed to download repo_setup.py")
+
+            content = content_bytes.decode("utf-8")
 
             # Replace only the repo_setup_commit value, preserving the placeholder constant
             # Matches either placeholder or a quoted hash.
@@ -894,6 +986,7 @@ def main():
                 content,
             )
 
+            tmp_path = None
             with tempfile.NamedTemporaryFile(
                 "w", suffix=".py", delete=False, dir=current_script_dir
             ) as tmp_file:
@@ -903,7 +996,6 @@ def main():
             os.replace(tmp_path, current_script_path)
             if current_mode is not None:
                 os.chmod(current_script_path, current_mode)
-            tmp_path = None
 
             print_warning("Executing updated repo_setup.py...")
             # Execute the updated version with original arguments
@@ -916,16 +1008,6 @@ def main():
             print_warning("Falling back to current repo_setup version")
             # Return to allow current script to continue execution
             return
-        finally:
-            if tmp_path and os.path.exists(tmp_path):
-                try:
-                    os.remove(tmp_path)
-                except Exception:
-                    # Best-effort cleanup; ignore errors if temp file can't be removed
-                    print_warning(
-                        "Warning: Could not remove temporary file during cleanup"
-                    )
-                    pass
 
     parser = argparse.ArgumentParser(description="Repo Setup Script")
     parser.add_argument(
@@ -974,6 +1056,13 @@ def main():
         action="store_true",
         default=False,
         help="Bypass auto update of repo_setup.py",
+    )
+
+    parser.add_argument(
+        "--no-hooks",
+        action="store_true",
+        default=False,
+        help="Skip git hooks installation",
     )
 
     args = parser.parse_args()
@@ -1056,6 +1145,11 @@ def main():
             with concurrent.futures.ProcessPoolExecutor() as executor:
                 executor.map(repo_setup.get_archives, filtered_archives)
             print_color("✓ All archives processed successfully", GREEN)
+
+    # Install git hooks
+    if not args.no_hooks:
+        print_color("\n🔧 Installing git hooks...", BLUE)
+        install_git_hooks()
 
     print_color("\n✅ Repository Setup Completed ✅\n", CYAN)
 
