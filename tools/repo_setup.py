@@ -20,10 +20,13 @@ import tempfile
 import re
 from typing import Optional
 
-# Placeholder constant - DO NOT MODIFY THIS LINE
+# Auto-update configuration constants - DO NOT MODIFY THESE LINES
 REPO_SETUP_PLACEHOLDER: str = "REPO_SETUP_PLACEHOLDER"
+REPO_SETUP_SOURCE_REPO: str = "stone-payments/pos-mamba-sdk"
+REPO_SETUP_SOURCE_BRANCH: str = "fix_repo_setup_auto_update"
+
 # Current commit hash - this value gets replaced during auto-update
-repo_setup_commit: str = "REPO_SETUP_PLACEHOLDER"
+repo_setup_commit: str = REPO_SETUP_PLACEHOLDER
 
 # ansi escape codes "color"
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
@@ -798,7 +801,7 @@ def main():
         # Use prompt_if_missing=False to avoid prompting user during auto-update check
         token = get_github_token(prompt_if_missing=False)
 
-        url = f"https://api.github.com/repos/stone-payments/pos-mamba-sdk/commits"
+        url = f"https://api.github.com/repos/{REPO_SETUP_SOURCE_REPO}/commits?sha={REPO_SETUP_SOURCE_BRANCH}"
         try:
             if token:
                 # Use authenticated request (5000 requests/hour limit)
@@ -854,8 +857,8 @@ def main():
         token = get_github_token(prompt_if_missing=False)
 
         # Prefer GitHub API when token is available; fallback to raw URL when unauthenticated
-        api_url = "https://api.github.com/repos/stone-payments/pos-mamba-sdk/contents/tools/repo_setup.py?ref=master"
-        raw_url = "https://raw.githubusercontent.com/stone-payments/pos-mamba-sdk/master/tools/repo_setup.py"
+        api_url = f"https://api.github.com/repos/{REPO_SETUP_SOURCE_REPO}/contents/tools/repo_setup.py?ref={REPO_SETUP_SOURCE_BRANCH}"
+        raw_url = f"https://raw.githubusercontent.com/{REPO_SETUP_SOURCE_REPO}/{REPO_SETUP_SOURCE_BRANCH}/tools/repo_setup.py"
         tmp_path = None
 
         try:
@@ -878,8 +881,8 @@ def main():
 
             # Replace only the repo_setup_commit value, preserving the REPO_SETUP_PLACEHOLDER constant
             content = re.sub(
-                r'(repo_setup_commit: str = ")REPO_SETUP_PLACEHOLDER(")',
-                rf"\g<1>{latest_commit_hash}\g<2>",
+                r"(repo_setup_commit: str = )REPO_SETUP_PLACEHOLDER",
+                rf'\g<1>"{latest_commit_hash}"',
                 content,
             )
 
@@ -997,7 +1000,7 @@ def main():
     ):
         print_warning("repo_setup is outdated!!! Auto-updating...")
         print_warning(f"Local repo_setup hash: {repo_setup_commit}")
-        print_warning(f"Remote sdk master hash: {sdk_commit}")
+        print_warning(f"Remote sdk {REPO_SETUP_SOURCE_BRANCH} hash: {sdk_commit}")
         auto_update_repo_setup(sys.argv[1:], sdk_commit)
         # If auto_update succeeds, sys.exit(0) is called and execution ends
         # If auto_update fails, it returns here and we proceed with current version
