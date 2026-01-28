@@ -17,7 +17,13 @@ import argparse
 import tarfile
 import configparser
 import tempfile
+import re
 from typing import Optional
+
+# Placeholder constant - DO NOT MODIFY THIS LINE
+REPO_SETUP_PLACEHOLDER: str = "REPO_SETUP_PLACEHOLDER"
+# Current commit hash - this value gets replaced during auto-update
+repo_setup_commit: str = "REPO_SETUP_PLACEHOLDER"
 
 # ansi escape codes "color"
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
@@ -870,8 +876,12 @@ def main():
                 with urlopen_with_timeout(raw_url) as response:
                     content = response.read().decode("utf-8")
 
-            # Replace placeholder with actual commit hash to prevent loop
-            content = content.replace("REPO_SETUP_PLACEHOLDER", latest_commit_hash)
+            # Replace only the repo_setup_commit value, preserving the REPO_SETUP_PLACEHOLDER constant
+            content = re.sub(
+                r'(repo_setup_commit: str = ")REPO_SETUP_PLACEHOLDER(")',
+                rf"\g<1>{latest_commit_hash}\g<2>",
+                content,
+            )
 
             with tempfile.NamedTemporaryFile(
                 "w", suffix=".py", delete=False
@@ -968,17 +978,22 @@ def main():
         pass
 
     install_dependencies(has_github_assets)
-    repo_setup_commit: str = "REPO_SETUP_PLACEHOLDER"
     sdk_commit: Optional[str] = get_latest_sdk_commit()
     bypass_auto_update = args.bypass_auto_update
 
     # Check if update is needed and not bypassed
+    # Update is needed if commit is placeholder or differs from remote
+    needs_update = (
+        repo_setup_commit == REPO_SETUP_PLACEHOLDER
+        or sdk_commit
+        and sdk_commit.lower() != repo_setup_commit.lower()
+    )
     if (
         not bypass_auto_update
         and PosMambaRepoSetup.CloneType.get_by_value(args.clone_type)
         != PosMambaRepoSetup.CloneType.HTTPS
         and sdk_commit
-        and sdk_commit.lower() != repo_setup_commit.lower()
+        and needs_update
     ):
         print_warning("repo_setup is outdated!!! Auto-updating...")
         print_warning(f"Local repo_setup hash: {repo_setup_commit}")
