@@ -1,10 +1,5 @@
 #! /usr/bin/env python3
-#
-# Script to CLONE or UPDATE all "submodules" listed in "repo_settings.json"
-#
-# The repository can have target as version, a minimal version or branch.
-# The priority order is "version" > "minimal_version" > "branch".
-# The "minimal_version" option searches for the higher version tag available (semantic) with same major of given in "minimal_version".
+"""Repo setup script for cloning/updating submodules and archives."""
 
 import json
 import shutil
@@ -20,15 +15,21 @@ import tempfile
 import re
 from typing import Optional
 
+# ---- Configuration constants ----
+GITHUB_TOKEN_ENV = "GITHUB_TOKEN"
+GITHUB_TOKEN_FILE = ".github_token.json"
+GITHUB_API_BASE = "https://api.github.com"
+GITHUB_RAW_BASE = "https://raw.githubusercontent.com"
+
 # Auto-update configuration constants - DO NOT MODIFY THESE LINES
-REPO_SETUP_PLACEHOLDER: str = "REPO_SETUP_PLACEHOLDER"
+REPO_SETUP_HASH_PLACEHOLDER: str = "REPO_SETUP_PLACEHOLDER"
 REPO_SETUP_SOURCE_REPO: str = "stone-payments/pos-mamba-sdk"
 REPO_SETUP_SOURCE_BRANCH: str = "fix_repo_setup_auto_update"
 
 # Current commit hash - this value gets replaced during auto-update
-repo_setup_commit: str = REPO_SETUP_PLACEHOLDER
+repo_setup_commit: str = REPO_SETUP_HASH_PLACEHOLDER
 
-# ansi escape codes "color"
+# ---- Console colors ----
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
 BLACK = "\033[0;30m"
 DGRAY = "\033[1;30m"
@@ -75,11 +76,11 @@ def get_github_token(prompt_if_missing: bool = True) -> Optional[str]:
         When prompt_if_missing=True and no token is found in environment or file,
         prompts user for input and saves it to ~/.github_token.json for future use.
     """
-    token = os.getenv("GITHUB_TOKEN")
+    token = os.getenv(GITHUB_TOKEN_ENV)
     if token:
         return token
 
-    token_file = os.path.join(os.path.expanduser("~"), ".github_token.json")
+    token_file = os.path.join(os.path.expanduser("~"), GITHUB_TOKEN_FILE)
     token = None
     if os.path.exists(token_file):
         try:
@@ -219,7 +220,7 @@ def urlopen_with_timeout(url_or_request, timeout: int = 30):
     return urllib.request.urlopen(url_or_request, timeout=timeout)
 
 
-class PosMambaRepoSetup:
+class RepoSetup:
     from enum import Enum
 
     class CloneType(Enum):
@@ -228,11 +229,11 @@ class PosMambaRepoSetup:
 
         @staticmethod
         def value_list():
-            return list(map(lambda x: x.value, PosMambaRepoSetup.CloneType))
+            return list(map(lambda x: x.value, RepoSetup.CloneType))
 
         @staticmethod
         def get_by_value(value):
-            for member in PosMambaRepoSetup.CloneType:
+            for member in RepoSetup.CloneType:
                 if member.value == value:
                     return member
             return None
@@ -246,7 +247,7 @@ class PosMambaRepoSetup:
     message_check = "Check your settings on repo_settings.json"
 
     def __init__(self, clone_type: str, force: bool = False, log=False):
-        self.clone_type = PosMambaRepoSetup.CloneType.get_by_value(clone_type)
+        self.clone_type = RepoSetup.CloneType.get_by_value(clone_type)
         self.force = force
         self.log = log
 
@@ -260,8 +261,8 @@ class PosMambaRepoSetup:
             )
 
     def remove_repo(self, path):
-        if self.force or self.clone_type == PosMambaRepoSetup.CloneType.HTTPS:
-            os.chdir(PosMambaRepoSetup.script_dir)
+        if self.force or self.clone_type == RepoSetup.CloneType.HTTPS:
+            os.chdir(RepoSetup.script_dir)
             print_warning(f"Removing {path} to try again...")
             shutil.rmtree(path)
         else:
@@ -418,7 +419,7 @@ class PosMambaRepoSetup:
         path = submodule["path"]
         target = "none"
 
-        if PosMambaRepoSetup.repo_initialized(full_repo_path):
+        if RepoSetup.repo_initialized(full_repo_path):
             if branch:
                 target = branch
             elif minimal_version:
@@ -427,7 +428,7 @@ class PosMambaRepoSetup:
                 )
                 if target is None:
                     print_error(
-                        f"Minimal version {minimal_version} not found on {path}! {PosMambaRepoSetup.message_check}"
+                        f"Minimal version {minimal_version} not found on {path}! {RepoSetup.message_check}"
                     )
                     exit(1)
             elif version:
@@ -451,7 +452,7 @@ class PosMambaRepoSetup:
         target_type = "tag"
 
         full_repo_path = (
-            os.path.join(PosMambaRepoSetup.script_dir, path)
+            os.path.join(RepoSetup.script_dir, path)
             if not full_repo_path
             else full_repo_path
         )
@@ -493,7 +494,7 @@ class PosMambaRepoSetup:
         path_parts = full_repo_path.split(os.sep)
         repo_name = os.path.join(path_parts[-2], path_parts[-1])
 
-        repo_setup = PosMambaRepoSetup(clone_type, force_remove_repo, log)
+        repo_setup = RepoSetup(clone_type, force_remove_repo, log)
 
         if repo_setup.repo_initialized(full_repo_path):
             print_color(f"Updating submodule {repo_name}", BLUE)
@@ -801,7 +802,7 @@ def main():
         # Use prompt_if_missing=False to avoid prompting user during auto-update check
         token = get_github_token(prompt_if_missing=False)
 
-        url = f"https://api.github.com/repos/{REPO_SETUP_SOURCE_REPO}/commits?sha={REPO_SETUP_SOURCE_BRANCH}"
+        url = f"{GITHUB_API_BASE}/repos/{REPO_SETUP_SOURCE_REPO}/commits?sha={REPO_SETUP_SOURCE_BRANCH}"
         try:
             if token:
                 # Use authenticated request (5000 requests/hour limit)
@@ -857,8 +858,8 @@ def main():
         token = get_github_token(prompt_if_missing=False)
 
         # Prefer GitHub API when token is available; fallback to raw URL when unauthenticated
-        api_url = f"https://api.github.com/repos/{REPO_SETUP_SOURCE_REPO}/contents/tools/repo_setup.py?ref={REPO_SETUP_SOURCE_BRANCH}"
-        raw_url = f"https://raw.githubusercontent.com/{REPO_SETUP_SOURCE_REPO}/{REPO_SETUP_SOURCE_BRANCH}/tools/repo_setup.py"
+        api_url = f"{GITHUB_API_BASE}/repos/{REPO_SETUP_SOURCE_REPO}/contents/tools/repo_setup.py?ref={REPO_SETUP_SOURCE_BRANCH}"
+        raw_url = f"{GITHUB_RAW_BASE}/{REPO_SETUP_SOURCE_REPO}/{REPO_SETUP_SOURCE_BRANCH}/tools/repo_setup.py"
         tmp_path = None
         current_script_path = os.path.abspath(__file__)
         current_script_dir = os.path.dirname(current_script_path)
@@ -886,10 +887,10 @@ def main():
                 with urlopen_with_timeout(raw_url) as response:
                     content = response.read().decode("utf-8")
 
-            # Replace only the repo_setup_commit value, preserving the REPO_SETUP_PLACEHOLDER constant
-            # Matches: repo_setup_commit: str = REPO_SETUP_PLACEHOLDER
+            # Replace only the repo_setup_commit value, preserving the placeholder constant
+            # Matches either placeholder or a quoted hash.
             content = re.sub(
-                r"(repo_setup_commit: str = )REPO_SETUP_PLACEHOLDER",
+                r"(repo_setup_commit: str = )(REPO_SETUP_HASH_PLACEHOLDER|\"[^\"]*\")",
                 rf'\g<1>"{latest_commit_hash}"',
                 content,
             )
@@ -982,7 +983,7 @@ def main():
     # Check if there are github_assets before installing dependencies
     has_github_assets = False
     try:
-        with open(PosMambaRepoSetup.repo_settings_file_name, "r") as f:
+        with open(RepoSetup.repo_settings_file_name, "r") as f:
             repo_settings = json.load(f)
             archives = repo_settings.get("archives", [])
             if archives:
@@ -1002,14 +1003,14 @@ def main():
     # Check if update is needed and not bypassed
     # Update is needed if commit is placeholder or differs from remote
     needs_update = (
-        repo_setup_commit == REPO_SETUP_PLACEHOLDER
+        repo_setup_commit == REPO_SETUP_HASH_PLACEHOLDER
         or sdk_commit
         and sdk_commit.lower() != repo_setup_commit.lower()
     )
     if (
         not bypass_auto_update
-        and PosMambaRepoSetup.CloneType.get_by_value(args.clone_type)
-        != PosMambaRepoSetup.CloneType.HTTPS
+        and RepoSetup.CloneType.get_by_value(args.clone_type)
+        != RepoSetup.CloneType.HTTPS
         and sdk_commit
         and needs_update
     ):
@@ -1021,21 +1022,19 @@ def main():
         # If auto_update fails, it returns here and we proceed with current version
 
     print_color("\nLoading repository settings...", BLUE)
-    with open(PosMambaRepoSetup.repo_settings_file_name, "r") as f:
+    with open(RepoSetup.repo_settings_file_name, "r") as f:
         repo_settings = json.load(f)
 
     submodules = repo_settings["submodules"]
     archives = repo_settings["archives"] if "archives" in repo_settings else None
 
-    repo_setup = PosMambaRepoSetup(
-        clone_type=args.clone_type, force=args.force, log=args.log
-    )
+    repo_setup = RepoSetup(clone_type=args.clone_type, force=args.force, log=args.log)
     repo_setup.run_command(
         ["git", "config", "--global", "advice.detachedHead", "false"]
     )
 
-    filtered_submodules = PosMambaRepoSetup.filter_submodules(submodules, repo_list)
-    filtered_archives = PosMambaRepoSetup.filter_archives(archives, args.archive_list)
+    filtered_submodules = RepoSetup.filter_submodules(submodules, repo_list)
+    filtered_archives = RepoSetup.filter_archives(archives, args.archive_list)
 
     print_color(f"\nProcessing {len(filtered_submodules)} submodules...", BLUE)
     if filtered_archives:
