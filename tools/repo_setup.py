@@ -842,7 +842,7 @@ def main():
         return None
 
     def auto_update_repo_setup(original_args, latest_commit_hash: str):
-        """Download and execute the latest repo_setup.py from master branch.
+        """Download and replace the current repo_setup.py, then execute it.
 
         If successful, executes the updated script and terminates.
         If it fails, logs the error and returns to allow the current script to run.
@@ -860,6 +860,8 @@ def main():
         api_url = f"https://api.github.com/repos/{REPO_SETUP_SOURCE_REPO}/contents/tools/repo_setup.py?ref={REPO_SETUP_SOURCE_BRANCH}"
         raw_url = f"https://raw.githubusercontent.com/{REPO_SETUP_SOURCE_REPO}/{REPO_SETUP_SOURCE_BRANCH}/tools/repo_setup.py"
         tmp_path = None
+        current_script_path = os.path.abspath(__file__)
+        current_script_dir = os.path.dirname(current_script_path)
 
         try:
             print_warning("Downloading latest repo_setup.py...")
@@ -887,14 +889,19 @@ def main():
             )
 
             with tempfile.NamedTemporaryFile(
-                "w", suffix=".py", delete=False
+                "w", suffix=".py", delete=False, dir=current_script_dir
             ) as tmp_file:
                 tmp_file.write(content)
                 tmp_path = tmp_file.name
 
+            os.replace(tmp_path, current_script_path)
+            tmp_path = None
+
             print_warning("Executing updated repo_setup.py...")
-            # Execute the new version with original arguments
-            subprocess.run([sys.executable, tmp_path] + original_args, check=True)
+            # Execute the updated version with original arguments
+            subprocess.run(
+                [sys.executable, current_script_path] + original_args, check=True
+            )
             sys.exit(0)
         except Exception as exc:
             print_error(f"Error during auto-update: {exc}")
