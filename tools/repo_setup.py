@@ -20,6 +20,8 @@ GITHUB_TOKEN_ENV = "GITHUB_TOKEN"
 GITHUB_TOKEN_FILE = ".github_token.json"
 GITHUB_API_BASE = "https://api.github.com"
 GITHUB_RAW_BASE = "https://raw.githubusercontent.com"
+# Network request timeout in seconds
+DEFAULT_NETWORK_TIMEOUT = 30
 
 # Auto-update configuration constants - DO NOT MODIFY THESE LINES
 REPO_SETUP_HASH_PLACEHOLDER: str = "REPO_SETUP_PLACEHOLDER"
@@ -96,10 +98,7 @@ def get_github_token(prompt_if_missing: bool = True) -> Optional[str]:
         print_warning(
             "GitHub token not found. Create or insert your Classic Token below."
         )
-        token = getpass.getpass("GitHub Token: ")
-        # Treat empty or whitespace-only input as no token
-        if token is not None:
-            token = token.strip()
+        token = getpass.getpass("GitHub Token: ").strip()
         if token:
             try:
                 with open(token_file, "w") as f:
@@ -201,12 +200,12 @@ def install_dependencies(has_github_assets: bool = False):
         install_package("PyGithub")
 
 
-def urlopen_with_timeout(url_or_request, timeout: int = 30):
+def urlopen_with_timeout(url_or_request, timeout: int = DEFAULT_NETWORK_TIMEOUT):
     """Wrapper for urllib.request.urlopen with standardized timeout.
 
     Args:
         url_or_request: URL string or urllib.request.Request object
-        timeout: Timeout in seconds (default: 30)
+        timeout: Timeout in seconds (default: DEFAULT_NETWORK_TIMEOUT)
 
     Returns:
         Response object from urlopen
@@ -993,27 +992,28 @@ def main():
     except Exception:
         # Silently handle missing or invalid repo_settings.json;
         # will proceed with default behavior (no github_assets)
-        print_warning("Warning: Could not load repo_settings.json for dependency check")
-        pass
+        print_warning(
+            f"Warning: Could not load {RepoSetup.repo_settings_file_name} for dependency check"
+        )
 
     install_dependencies(has_github_assets)
     sdk_commit: Optional[str] = get_latest_sdk_commit()
     bypass_auto_update = args.bypass_auto_update
+    is_https_clone = (
+        RepoSetup.CloneType.get_by_value(args.clone_type) == RepoSetup.CloneType.HTTPS
+    )
 
     # Check if update is needed and not bypassed
     # Update is needed if commit is placeholder or differs from remote
-    needs_update = (
-        repo_setup_commit == REPO_SETUP_HASH_PLACEHOLDER
-        or sdk_commit
-        and sdk_commit.lower() != repo_setup_commit.lower()
+    needs_update = repo_setup_commit == REPO_SETUP_HASH_PLACEHOLDER or (
+        sdk_commit and sdk_commit.lower() != repo_setup_commit.lower()
     )
-    if (
-        not bypass_auto_update
-        and RepoSetup.CloneType.get_by_value(args.clone_type)
-        != RepoSetup.CloneType.HTTPS
-        and sdk_commit
-        and needs_update
-    ):
+
+    should_auto_update = (
+        not bypass_auto_update and not is_https_clone and sdk_commit and needs_update
+    )
+
+    if should_auto_update:
         print_warning("repo_setup is outdated!!! Auto-updating...")
         print_warning(f"Local repo_setup hash: {repo_setup_commit}")
         print_warning(f"Remote sdk {REPO_SETUP_SOURCE_BRANCH} hash: {sdk_commit}")
@@ -1036,9 +1036,9 @@ def main():
     filtered_submodules = RepoSetup.filter_submodules(submodules, repo_list)
     filtered_archives = RepoSetup.filter_archives(archives, args.archive_list)
 
-    print_color(f"\nProcessing {len(filtered_submodules)} submodules...", BLUE)
+    print_color(f"\n📦 Processing {len(filtered_submodules)} submodule(s)...", BLUE)
     if filtered_archives:
-        print_color(f"Processing {len(filtered_archives)} archives...", BLUE)
+        print_color(f"📦 Processing {len(filtered_archives)} archive(s)...", BLUE)
 
     # Create a pool of workers
     with concurrent.futures.ProcessPoolExecutor() as executor:
@@ -1046,18 +1046,18 @@ def main():
         executor.map(repo_setup.update_repo, filtered_submodules)
 
         # Wait for submodules to be updated
-        print_color("Waiting for submodules update to complete...", CYAN)
+        print_color("⏳ Waiting for submodules update to complete...", CYAN)
         executor.shutdown(wait=True)
         print_color("✓ All submodules updated successfully", GREEN)
 
-        if filtered_archives != None:
-            print_color("\nProcessing archives...", CYAN)
+        if filtered_archives is not None:
+            print_color("\n📦 Processing archives...", CYAN)
             # Create a new executor after submodules are updated for the archive function
             with concurrent.futures.ProcessPoolExecutor() as executor:
                 executor.map(repo_setup.get_archives, filtered_archives)
             print_color("✓ All archives processed successfully", GREEN)
 
-    print_color("\n=== Repository Setup Completed ===\n", CYAN)
+    print_color("\n✅ Repository Setup Completed ✅\n", CYAN)
 
 
 if __name__ == "__main__":
