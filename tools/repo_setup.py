@@ -1,10 +1,5 @@
 #! /usr/bin/env python3
-#
-# Script to CLONE or UPDATE all "submodules" listed in "repo_settings.json"
-#
-# The repository can have target as version, a minimal version or branch.
-# The priority order is "version" > "minimal_version" > "branch".
-# The "minimal_version" option searches for the higher version tag available (semantic) with same major of given in "minimal_version".
+"""Repo setup script for cloning/updating submodules and archives."""
 
 import json
 import shutil
@@ -17,9 +12,27 @@ import argparse
 import tarfile
 import configparser
 import tempfile
+import re
+import urllib.request
 from typing import Optional
 
-# ansi escape codes "color"
+# ---- Configuration constants ----
+GITHUB_TOKEN_ENV = "GITHUB_TOKEN"
+GITHUB_TOKEN_FILE = ".github_token.json"
+GITHUB_API_BASE = "https://api.github.com"
+GITHUB_RAW_BASE = "https://raw.githubusercontent.com"
+# Network request timeout in seconds
+DEFAULT_NETWORK_TIMEOUT = 30
+
+# Auto-update configuration constants - DO NOT MODIFY THESE LINES
+REPO_SETUP_HASH_PLACEHOLDER: str = "REPO_SETUP_PLACEHOLDER"
+REPO_SETUP_SOURCE_REPO: str = "stone-payments/pos-mamba-sdk"
+REPO_SETUP_SOURCE_BRANCH: str = "master"
+
+# Current commit hash - this value gets replaced during auto-update
+repo_setup_commit: str = REPO_SETUP_HASH_PLACEHOLDER
+
+# ---- Console colors ----
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
 BLACK = "\033[0;30m"
 DGRAY = "\033[1;30m"
@@ -66,11 +79,11 @@ def get_github_token(prompt_if_missing: bool = True) -> Optional[str]:
         When prompt_if_missing=True and no token is found in environment or file,
         prompts user for input and saves it to ~/.github_token.json for future use.
     """
-    token = os.getenv("GITHUB_TOKEN")
+    token = os.getenv(GITHUB_TOKEN_ENV)
     if token:
         return token
 
-    token_file = os.path.join(os.path.expanduser("~"), ".github_token.json")
+    token_file = os.path.join(os.path.expanduser("~"), GITHUB_TOKEN_FILE)
     token = None
     if os.path.exists(token_file):
         try:
@@ -86,10 +99,7 @@ def get_github_token(prompt_if_missing: bool = True) -> Optional[str]:
         print_warning(
             "GitHub token not found. Create or insert your Classic Token below."
         )
-        token = getpass.getpass("GitHub Token: ")
-        # Treat empty or whitespace-only input as no token
-        if token is not None:
-            token = token.strip()
+        token = getpass.getpass("GitHub Token: ").strip()
         if token:
             try:
                 with open(token_file, "w") as f:
@@ -191,12 +201,157 @@ def install_dependencies(has_github_assets: bool = False):
         install_package("PyGithub")
 
 
-def urlopen_with_timeout(url_or_request, timeout: int = 30):
+def download_file_from_github(
+    repo: str, branch: str, file_path: str, token: Optional[str] = None
+) -> Optional[bytes]:
+    """Download a file from GitHub repository.
+
+    Args:
+        repo: Repository in format "owner/repo"
+        branch: Branch name
+        file_path: Path to file in repository (relative to root)
+        token: GitHub token for authentication (optional)
+
+    Returns:
+        File content as bytes, or None if download fails
+    """
+    try:
+        if token:
+            # Use authenticated API request (5000 requests/hour limit)
+            url = f"{GITHUB_API_BASE}/repos/{repo}/contents/{file_path}?ref={branch}"
+            # Use valid GitHub raw media type to get file contents as bytes
+            headers = {
+                "Accept": "application/vnd.github.v3.raw",
+                "Authorization": f"token {token}",
+            }
+            request = urllib.request.Request(url, headers=headers)
+            with urlopen_with_timeout(request) as response:
+                data = response.read()
+
+                # Basic validation: detect JSON responses that indicate metadata instead of raw file
+                content_type = response.info().get_content_type()
+                if content_type in ("application/json", "text/json"):
+                    print_warning(
+                        f"Warning: Expected raw file content for {file_path} from {repo}, "
+                        f"but received JSON (content-type: {content_type})."
+                    )
+                    return None
+
+                # Heuristic check: if content looks like JSON, treat it as a failure
+                stripped = data.lstrip()
+                if stripped.startswith((b"{", b"[")):
+                    try:
+                        json.loads(stripped.decode("utf-8"))
+                    except Exception:
+                        # Not valid JSON; assume it's the intended file content
+                        return data
+                    else:
+                        print_warning(
+                            f"Warning: Expected raw file content for {file_path} from {repo}, "
+                            "but received JSON-like data."
+                        )
+                        return None
+
+                return data
+        else:
+            # No token: use raw content endpoint to avoid low unauthenticated API limit (60 requests/hour)
+            url = f"{GITHUB_RAW_BASE}/{repo}/{branch}/{file_path}"
+            with urlopen_with_timeout(url) as response:
+                return response.read()
+    except Exception as e:
+        print_warning(f"Warning: Could not download {file_path} from {repo}: {e}")
+        return None
+
+
+def install_git_hooks():
+    """Download and install git hooks from the remote repository.
+
+    Downloads hook files from stone-payments/pos-mamba-sdk repository
+    and installs them in the .git/hooks directory. Skips download if an
+    executable hook already exists in .git/hooks.
+    """
+    # Get GitHub token if available
+    token = get_github_token(prompt_if_missing=False)
+
+    # Determine git repository root
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "--show-toplevel"],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        git_root = result.stdout.strip()
+    except subprocess.CalledProcessError:
+        print_warning(
+            "Warning: Could not determine git root directory, skipping git hooks installation"
+        )
+        return
+
+    hooks_dest_dir = os.path.join(git_root, ".git", "hooks")
+
+    # Create .git/hooks directory if it doesn't exist
+    if not os.path.exists(hooks_dest_dir):
+        try:
+            os.makedirs(hooks_dest_dir)
+        except Exception as e:
+            print_warning(
+                f"Warning: Could not create hooks directory {hooks_dest_dir}: {e}"
+            )
+            return
+
+    # List of hooks to install from the remote repository
+    hooks_to_install = ["post-checkout"]
+    hooks_installed = False
+
+    # Download and install each hook
+    for hook_name in hooks_to_install:
+        hook_dest_path = os.path.join(hooks_dest_dir, hook_name)
+
+        # Skip if hook already exists and is executable
+        if os.path.exists(hook_dest_path):
+            try:
+                # Check if file is executable
+                is_executable = os.access(hook_dest_path, os.X_OK)
+                if is_executable:
+                    # Hook installed and executable, skip download
+                    continue
+            except Exception:
+                pass  # If we can't check, proceed with update
+
+        # Download hook from remote repository
+        hook_content = download_file_from_github(
+            repo=REPO_SETUP_SOURCE_REPO,
+            branch=REPO_SETUP_SOURCE_BRANCH,
+            file_path=f"tools/_git_hooks/{hook_name}",
+            token=token,
+        )
+
+        if hook_content:
+            try:
+                # Write hook file
+                with open(hook_dest_path, "wb") as f:
+                    f.write(hook_content)
+
+                # Make it executable (owner only)
+                os.chmod(hook_dest_path, 0o700)
+
+                print_color(f"✓ Hook '{hook_name}' installed successfully", GREEN)
+                hooks_installed = True
+            except Exception as e:
+                print_error(f"Error writing hook file {hook_name}: {e}")
+
+    # Log if all hooks were already installed
+    if not hooks_installed:
+        print_color("✓ All git hooks are already installed", GREEN)
+
+
+def urlopen_with_timeout(url_or_request, timeout: int = DEFAULT_NETWORK_TIMEOUT):
     """Wrapper for urllib.request.urlopen with standardized timeout.
 
     Args:
         url_or_request: URL string or urllib.request.Request object
-        timeout: Timeout in seconds (default: 30)
+        timeout: Timeout in seconds (default: DEFAULT_NETWORK_TIMEOUT)
 
     Returns:
         Response object from urlopen
@@ -210,7 +365,7 @@ def urlopen_with_timeout(url_or_request, timeout: int = 30):
     return urllib.request.urlopen(url_or_request, timeout=timeout)
 
 
-class PosMambaRepoSetup:
+class RepoSetup:
     from enum import Enum
 
     class CloneType(Enum):
@@ -219,11 +374,11 @@ class PosMambaRepoSetup:
 
         @staticmethod
         def value_list():
-            return list(map(lambda x: x.value, PosMambaRepoSetup.CloneType))
+            return list(map(lambda x: x.value, RepoSetup.CloneType))
 
         @staticmethod
         def get_by_value(value):
-            for member in PosMambaRepoSetup.CloneType:
+            for member in RepoSetup.CloneType:
                 if member.value == value:
                     return member
             return None
@@ -237,7 +392,7 @@ class PosMambaRepoSetup:
     message_check = "Check your settings on repo_settings.json"
 
     def __init__(self, clone_type: str, force: bool = False, log=False):
-        self.clone_type = PosMambaRepoSetup.CloneType.get_by_value(clone_type)
+        self.clone_type = RepoSetup.CloneType.get_by_value(clone_type)
         self.force = force
         self.log = log
 
@@ -251,8 +406,8 @@ class PosMambaRepoSetup:
             )
 
     def remove_repo(self, path):
-        if self.force or self.clone_type == PosMambaRepoSetup.CloneType.HTTPS:
-            os.chdir(PosMambaRepoSetup.script_dir)
+        if self.force or self.clone_type == RepoSetup.CloneType.HTTPS:
+            os.chdir(RepoSetup.script_dir)
             print_warning(f"Removing {path} to try again...")
             shutil.rmtree(path)
         else:
@@ -409,7 +564,7 @@ class PosMambaRepoSetup:
         path = submodule["path"]
         target = "none"
 
-        if PosMambaRepoSetup.repo_initialized(full_repo_path):
+        if RepoSetup.repo_initialized(full_repo_path):
             if branch:
                 target = branch
             elif minimal_version:
@@ -418,7 +573,7 @@ class PosMambaRepoSetup:
                 )
                 if target is None:
                     print_error(
-                        f"Minimal version {minimal_version} not found on {path}! {PosMambaRepoSetup.message_check}"
+                        f"Minimal version {minimal_version} not found on {path}! {RepoSetup.message_check}"
                     )
                     exit(1)
             elif version:
@@ -442,7 +597,7 @@ class PosMambaRepoSetup:
         target_type = "tag"
 
         full_repo_path = (
-            os.path.join(PosMambaRepoSetup.script_dir, path)
+            os.path.join(RepoSetup.script_dir, path)
             if not full_repo_path
             else full_repo_path
         )
@@ -484,7 +639,7 @@ class PosMambaRepoSetup:
         path_parts = full_repo_path.split(os.sep)
         repo_name = os.path.join(path_parts[-2], path_parts[-1])
 
-        repo_setup = PosMambaRepoSetup(clone_type, force_remove_repo, log)
+        repo_setup = RepoSetup(clone_type, force_remove_repo, log)
 
         if repo_setup.repo_initialized(full_repo_path):
             print_color(f"Updating submodule {repo_name}", BLUE)
@@ -792,7 +947,7 @@ def main():
         # Use prompt_if_missing=False to avoid prompting user during auto-update check
         token = get_github_token(prompt_if_missing=False)
 
-        url = f"https://api.github.com/repos/stone-payments/pos-mamba-sdk/commits"
+        url = f"{GITHUB_API_BASE}/repos/{REPO_SETUP_SOURCE_REPO}/commits?sha={REPO_SETUP_SOURCE_BRANCH}"
         try:
             if token:
                 # Use authenticated request (5000 requests/hour limit)
@@ -833,7 +988,7 @@ def main():
         return None
 
     def auto_update_repo_setup(original_args, latest_commit_hash: str):
-        """Download and execute the latest repo_setup.py from master branch.
+        """Download and replace the current repo_setup.py, then execute it.
 
         If successful, executes the updated script and terminates.
         If it fails, logs the error and returns to allow the current script to run.
@@ -842,62 +997,72 @@ def main():
             original_args: Original command-line arguments to pass to updated script
             latest_commit_hash: Latest SDK commit hash to replace placeholder with
         """
-        import urllib.request
-
         # Try to get token for authenticated requests (higher rate limit)
         token = get_github_token(prompt_if_missing=False)
 
-        # Prefer GitHub API when token is available; fallback to raw URL when unauthenticated
-        api_url = "https://api.github.com/repos/stone-payments/pos-mamba-sdk/contents/tools/repo_setup.py?ref=master"
-        raw_url = "https://raw.githubusercontent.com/stone-payments/pos-mamba-sdk/master/tools/repo_setup.py"
-        tmp_path = None
+        current_script_path = os.path.abspath(__file__)
+        current_script_dir = os.path.dirname(current_script_path)
+        current_mode = None
+        try:
+            current_mode = os.stat(current_script_path).st_mode
+        except OSError:
+            current_mode = None
 
         try:
             print_warning("Downloading latest repo_setup.py...")
 
-            if token:
-                # Use authenticated API request (5000 requests/hour limit)
-                headers = {
-                    "Authorization": f"Bearer {token}",
-                    "X-GitHub-Api-Version": "2022-11-28",
-                    "Accept": "application/vnd.github.raw+json",
-                }
-                req = urllib.request.Request(api_url, headers=headers)
-                with urlopen_with_timeout(req) as response:
-                    content = response.read().decode("utf-8")
-            else:
-                # No token: use raw content endpoint to avoid low unauthenticated API limit
-                with urlopen_with_timeout(raw_url) as response:
-                    content = response.read().decode("utf-8")
+            # Download repo_setup.py from remote repository
+            content_bytes = download_file_from_github(
+                repo=REPO_SETUP_SOURCE_REPO,
+                branch=REPO_SETUP_SOURCE_BRANCH,
+                file_path="tools/repo_setup.py",
+                token=token,
+            )
 
-            # Replace placeholder with actual commit hash to prevent loop
-            content = content.replace("REPO_SETUP_PLACEHOLDER", latest_commit_hash)
+            if not content_bytes:
+                raise Exception("Failed to download repo_setup.py")
 
-            with tempfile.NamedTemporaryFile(
-                "w", suffix=".py", delete=False
-            ) as tmp_file:
-                tmp_file.write(content)
-                tmp_path = tmp_file.name
+            content = content_bytes.decode("utf-8")
 
-            print_warning("Executing updated repo_setup.py...")
-            # Execute the new version with original arguments
-            subprocess.run([sys.executable, tmp_path] + original_args, check=True)
-            sys.exit(0)
+            # Replace only the repo_setup_commit value, preserving the placeholder constant
+            # Matches either placeholder or a quoted hash.
+            content = re.sub(
+                r"(repo_setup_commit: str = )(REPO_SETUP_HASH_PLACEHOLDER|\"[^\"]*\")",
+                rf'\g<1>"{latest_commit_hash}"',
+                content,
+            )
+
+            tmp_path = None
+            try:
+                with tempfile.NamedTemporaryFile(
+                    "w", suffix=".py", delete=False, dir=current_script_dir
+                ) as tmp_file:
+                    tmp_file.write(content)
+                    tmp_path = tmp_file.name
+
+                os.replace(tmp_path, current_script_path)
+                tmp_path = None  # Mark as successfully moved
+                if current_mode is not None:
+                    os.chmod(current_script_path, current_mode)
+
+                print_warning("Executing updated repo_setup.py...")
+                # Execute the updated version with original arguments
+                subprocess.run(
+                    [sys.executable, current_script_path] + original_args, check=True
+                )
+                sys.exit(0)
+            finally:
+                # Clean up temp file if it still exists (wasn't moved)
+                if tmp_path and os.path.exists(tmp_path):
+                    try:
+                        os.remove(tmp_path)
+                    except OSError:
+                        pass  # Ignore cleanup errors
         except Exception as exc:
             print_error(f"Error during auto-update: {exc}")
             print_warning("Falling back to current repo_setup version")
             # Return to allow current script to continue execution
             return
-        finally:
-            if tmp_path and os.path.exists(tmp_path):
-                try:
-                    os.remove(tmp_path)
-                except Exception:
-                    # Best-effort cleanup; ignore errors if temp file can't be removed
-                    print_warning(
-                        "Warning: Could not remove temporary file during cleanup"
-                    )
-                    pass
 
     parser = argparse.ArgumentParser(description="Repo Setup Script")
     parser.add_argument(
@@ -948,13 +1113,20 @@ def main():
         help="Bypass auto update of repo_setup.py",
     )
 
+    parser.add_argument(
+        "--no_hooks",
+        action="store_true",
+        default=False,
+        help="Skip git hooks installation",
+    )
+
     args = parser.parse_args()
     repo_list = args.repo_list
 
     # Check if there are github_assets before installing dependencies
     has_github_assets = False
     try:
-        with open(PosMambaRepoSetup.repo_settings_file_name, "r") as f:
+        with open(RepoSetup.repo_settings_file_name, "r") as f:
             repo_settings = json.load(f)
             archives = repo_settings.get("archives", [])
             if archives:
@@ -964,49 +1136,53 @@ def main():
     except Exception:
         # Silently handle missing or invalid repo_settings.json;
         # will proceed with default behavior (no github_assets)
-        print_warning("Warning: Could not load repo_settings.json for dependency check")
-        pass
+        print_warning(
+            f"Warning: Could not load {RepoSetup.repo_settings_file_name} for dependency check"
+        )
 
     install_dependencies(has_github_assets)
-    repo_setup_commit: str = "REPO_SETUP_PLACEHOLDER"
     sdk_commit: Optional[str] = get_latest_sdk_commit()
     bypass_auto_update = args.bypass_auto_update
+    is_https_clone = (
+        RepoSetup.CloneType.get_by_value(args.clone_type) == RepoSetup.CloneType.HTTPS
+    )
 
     # Check if update is needed and not bypassed
-    if (
-        not bypass_auto_update
-        and PosMambaRepoSetup.CloneType.get_by_value(args.clone_type)
-        != PosMambaRepoSetup.CloneType.HTTPS
-        and sdk_commit
-        and sdk_commit.lower() != repo_setup_commit.lower()
-    ):
+    # Update is needed if commit is placeholder or differs from remote
+    needs_update = repo_setup_commit == REPO_SETUP_HASH_PLACEHOLDER or (
+        sdk_commit and sdk_commit.lower() != repo_setup_commit.lower()
+    )
+
+    should_auto_update = (
+        not bypass_auto_update and not is_https_clone and sdk_commit and needs_update
+    )
+
+    if should_auto_update:
         print_warning("repo_setup is outdated!!! Auto-updating...")
         print_warning(f"Local repo_setup hash: {repo_setup_commit}")
-        print_warning(f"Remote sdk master hash: {sdk_commit}")
+        print_warning(f"Remote sdk {REPO_SETUP_SOURCE_BRANCH} hash: {sdk_commit}")
         auto_update_repo_setup(sys.argv[1:], sdk_commit)
         # If auto_update succeeds, sys.exit(0) is called and execution ends
         # If auto_update fails, it returns here and we proceed with current version
 
     print_color("\nLoading repository settings...", BLUE)
-    with open(PosMambaRepoSetup.repo_settings_file_name, "r") as f:
+    with open(RepoSetup.repo_settings_file_name, "r") as f:
         repo_settings = json.load(f)
 
     submodules = repo_settings["submodules"]
     archives = repo_settings["archives"] if "archives" in repo_settings else None
 
-    repo_setup = PosMambaRepoSetup(
-        clone_type=args.clone_type, force=args.force, log=args.log
-    )
+    repo_setup = RepoSetup(clone_type=args.clone_type, force=args.force, log=args.log)
     repo_setup.run_command(
         ["git", "config", "--global", "advice.detachedHead", "false"]
     )
 
-    filtered_submodules = PosMambaRepoSetup.filter_submodules(submodules, repo_list)
-    filtered_archives = PosMambaRepoSetup.filter_archives(archives, args.archive_list)
+    filtered_submodules = RepoSetup.filter_submodules(submodules, repo_list)
+    filtered_archives = RepoSetup.filter_archives(archives, args.archive_list)
 
-    print_color(f"\nProcessing {len(filtered_submodules)} submodules...", BLUE)
+    print_color(f"\n📦 Processing {len(filtered_submodules)} submodule(s)...", BLUE)
     if filtered_archives:
-        print_color(f"Processing {len(filtered_archives)} archives...", BLUE)
+        print_color(f"📦 Processing {len(filtered_archives)} archive(s)...", BLUE)
 
     # Create a pool of workers
     with concurrent.futures.ProcessPoolExecutor() as executor:
@@ -1014,18 +1190,23 @@ def main():
         executor.map(repo_setup.update_repo, filtered_submodules)
 
         # Wait for submodules to be updated
-        print_color("Waiting for submodules update to complete...", CYAN)
+        print_color("⏳ Waiting for submodules update to complete...", CYAN)
         executor.shutdown(wait=True)
         print_color("✓ All submodules updated successfully", GREEN)
 
-        if filtered_archives != None:
-            print_color("\nProcessing archives...", CYAN)
+        if filtered_archives is not None:
+            print_color("\n📦 Processing archives...", CYAN)
             # Create a new executor after submodules are updated for the archive function
             with concurrent.futures.ProcessPoolExecutor() as executor:
                 executor.map(repo_setup.get_archives, filtered_archives)
             print_color("✓ All archives processed successfully", GREEN)
 
-    print_color("\n=== Repository Setup Completed ===\n", CYAN)
+    # Install git hooks
+    if not args.no_hooks:
+        print_color("\n🔧 Installing git hooks...", BLUE)
+        install_git_hooks()
+
+    print_color("\n✅ Repository Setup Completed ✅\n", CYAN)
 
 
 if __name__ == "__main__":
