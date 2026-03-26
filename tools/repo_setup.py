@@ -798,6 +798,7 @@ class RepoSetup:
         def download_release(
             self, repo_name, version, asset_filter: bool, package_check: bool
         ) -> bool:
+            print_color(f"[DEBUG] Chamando download_release para repo={repo_name}, version={version}", LBLUE)
             try:
                 def check_if_exist(package_check) -> bool:
                     if os.path.exists(self.download_dir):
@@ -1146,7 +1147,7 @@ def main():
     print_color(f"[DEBUG] Itens recebidos em --archive_list:", LBLUE)
     for idx, item in enumerate(args.archive_list):
         print_color(f"  [{idx}] {item}", LBLUE)
-    print_color(f"[DEBUG] Celso 2", LBLUE)
+    print_color(f"[DEBUG] Celso 3", LBLUE)
     print_color(f"[DEBUG] args.archive_list recebido: {args.archive_list}", LBLUE)
     print_color(f"[DEBUG] args.repo_list recebido: {args.repo_list}", LBLUE)
 
@@ -1213,25 +1214,23 @@ def main():
         print_color(f"📦 Processing {len(filtered_archives)} archive(s)...", BLUE)
         print_color(f"[DEBUG] Lista completa de filtered_archives: {json.dumps(filtered_archives, indent=2)}", LBLUE)
 
-    # Create a pool of workers
+    # Create a pool of workers para submodules (mantém em paralelo)
     with concurrent.futures.ProcessPoolExecutor() as executor:
-        # Use the executor to map the function to the inputs
         executor.map(repo_setup.update_repo, filtered_submodules)
-
-        # Wait for submodules to be updated
         print_color("⏳ Waiting for submodules update to complete...", CYAN)
         executor.shutdown(wait=True)
         print_color("✓ All submodules updated successfully", GREEN)
 
-        if filtered_archives is not None:
-            print_color("\n📦 Processing archives...", CYAN)
-            # Debug: mostrar cada archive antes de processar
-            for idx, archive in enumerate(filtered_archives):
-                print_color(f"[DEBUG] Vai processar archive {idx}: {archive['name']}", LBLUE)
-            # Create a new executor after submodules are updated for the archive function
-            with concurrent.futures.ProcessPoolExecutor() as executor:
-                executor.map(repo_setup.get_archives, filtered_archives)
-            print_color("✓ All archives processed successfully", GREEN)
+    # Processar archives em modo serial para debug
+    if filtered_archives is not None:
+        print_color("\n📦 Processing archives...", CYAN)
+        for idx, archive in enumerate(filtered_archives):
+            print_color(f"[DEBUG] Vai processar archive {idx}: {archive['name']}", LBLUE)
+            try:
+                repo_setup.get_archives(archive)
+            except Exception as e:
+                print_error(f"[ERRO] Exceção inesperada ao processar archive {archive['name']}: {e}")
+        print_color("✓ All archives processed successfully", GREEN)
 
     # Install git hooks
     if not args.no_hooks:
