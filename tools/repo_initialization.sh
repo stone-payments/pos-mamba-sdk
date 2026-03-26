@@ -12,7 +12,7 @@
 # -------------------------------------------------------
 
 GITHUB_REPO="stone-payments/pos-mamba-sdk"
-GITHUB_BRANCH="master"
+GITHUB_BRANCH="PRJHW-3324"
 
 # Log and exit with 1
 #
