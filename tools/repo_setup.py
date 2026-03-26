@@ -923,7 +923,7 @@ class RepoSetup:
 
     @staticmethod
     def filter_archives(archives: list, artifacts_list: list = None) -> list:
-        if archives == None:
+        if archives is None:
             return None
 
         is_pipeline = (
@@ -933,7 +933,13 @@ class RepoSetup:
         if is_pipeline and not artifacts_list:
             return []
         elif artifacts_list:
-            return [a for a in archives if a["name"] in artifacts_list]
+            filtered = [a for a in archives if a["name"] in artifacts_list]
+            # Adiciona aviso para cada nome não encontrado
+            archive_names = set(a["name"] for a in archives)
+            for name in artifacts_list:
+                if name not in archive_names:
+                    print_warning(f"[AVISO] O arquivo '{name}' não existe em repo_settings.json e será ignorado.")
+            return filtered
         else:
             return archives
 
