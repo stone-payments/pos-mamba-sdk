@@ -1179,7 +1179,7 @@ def main():
 
     filtered_submodules = RepoSetup.filter_submodules(submodules, repo_list)
     filtered_archives = RepoSetup.filter_archives(archives, args.archive_list)
-    print_color(f"DEBUG: filtered_archives = {[a['name'] for a in filtered_archives]}", YELLOW)
+    print_color(f"DEBUG: filtered_archives Celso repo_setup.py = {[a['name'] for a in filtered_archives]}", YELLOW)
 
     print_color(f"\n📦 Processing {len(filtered_submodules)} submodule(s)...", BLUE)
     if filtered_archives:
