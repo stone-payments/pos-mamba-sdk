@@ -1128,6 +1128,7 @@ def main():
 
     args = parser.parse_args()
     repo_list = args.repo_list
+    print_color(f"[DEBUG] Celso ", LBLUE)
     print_color(f"[DEBUG] args.archive_list recebido: {args.archive_list}", LBLUE)
     print_color(f"[DEBUG] args.repo_list recebido: {args.repo_list}", LBLUE)
 
