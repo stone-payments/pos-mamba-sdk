@@ -30,7 +30,7 @@ REPO_SETUP_SOURCE_REPO: str = "stone-payments/pos-mamba-sdk"
 REPO_SETUP_SOURCE_BRANCH: str = "PRJHW-3324"
 
 # Current commit hash - this value gets replaced during auto-update
-repo_setup_commit: str = REPO_SETUP_HASH_PLACEHOLDER
+repo_setup_commit: str = "5b927b4293838f6d0bb706d7ef5baaeac3433408"
 
 # ---- Console colors ----
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
