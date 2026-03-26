@@ -1122,6 +1122,8 @@ def main():
 
     args = parser.parse_args()
     repo_list = args.repo_list
+    print_color(f"[DEBUG] args.archive_list recebido: {args.archive_list}", LBLUE)
+    print_color(f"[DEBUG] args.repo_list recebido: {args.repo_list}", LBLUE)
 
     # Check if there are github_assets before installing dependencies
     has_github_assets = False
@@ -1179,11 +1181,12 @@ def main():
 
     filtered_submodules = RepoSetup.filter_submodules(submodules, repo_list)
     filtered_archives = RepoSetup.filter_archives(archives, args.archive_list)
-    print_color(f"DEBUG: filtered_archives Celso repo_setup.py = {[a['name'] for a in filtered_archives]}", YELLOW)
+    print_color(f"[DEBUG] filtered_archives (nomes): {[a['name'] for a in filtered_archives] if filtered_archives else filtered_archives}", YELLOW)
 
     print_color(f"\n📦 Processing {len(filtered_submodules)} submodule(s)...", BLUE)
     if filtered_archives:
         print_color(f"📦 Processing {len(filtered_archives)} archive(s)...", BLUE)
+        print_color(f"[DEBUG] Lista completa de filtered_archives: {json.dumps(filtered_archives, indent=2)}", LBLUE)
 
     # Create a pool of workers
     with concurrent.futures.ProcessPoolExecutor() as executor:
@@ -1197,6 +1200,9 @@ def main():
 
         if filtered_archives is not None:
             print_color("\n📦 Processing archives...", CYAN)
+            # Debug: mostrar cada archive antes de processar
+            for idx, archive in enumerate(filtered_archives):
+                print_color(f"[DEBUG] Vai processar archive {idx}: {archive['name']}", LBLUE)
             # Create a new executor after submodules are updated for the archive function
             with concurrent.futures.ProcessPoolExecutor() as executor:
                 executor.map(repo_setup.get_archives, filtered_archives)
