@@ -782,6 +782,7 @@ class RepoSetup:
                 f"Failed to download archive {file_name} to {full_repo_path}! Error: {e.stderr}"
             )
 
+
     def get_archives_github_assets(self, archive):
         import getpass
         import urllib.request
@@ -798,14 +799,12 @@ class RepoSetup:
             self, repo_name, version, asset_filter: bool, package_check: bool
         ) -> bool:
             try:
-
                 def check_if_exist(package_check) -> bool:
                     if os.path.exists(self.download_dir):
                         files = os.listdir(self.download_dir)
                         for file in files:
                             if package_check(file):
                                 return True
-
                     return False
 
                 if not check_if_exist(package_check):
@@ -821,15 +820,23 @@ class RepoSetup:
                         return False
                     github = Github(auth=Auth.Token(token))
                     repo = github.get_repo(f"stone-payments/{repo_name}")
-                    release = repo.get_release(version)
+                    print_color(f"[DEBUG] Procurando release '{version}' no repo '{repo_name}'...", LBLUE)
+                    try:
+                        release = repo.get_release(version)
+                    except Exception as e:
+                        print_error(f"[ERRO] Release '{version}' não encontrado no repo '{repo_name}': {e}")
+                        return False
                     headers = {
                         "Authorization": f"Bearer {token}",
                         "X-GitHub-Api-Version": "2022-11-28",
                         "Accept": "application/octet-stream",
                     }
 
+                    found_asset = False
                     for asset in release.get_assets():
+                        print_color(f"[DEBUG] Asset encontrado no release: {asset.name}", LBLUE)
                         if asset_filter(asset):
+                            found_asset = True
                             filename = os.path.join(self.download_dir, asset.name)
                             print_color(
                                 f"Downloading {asset.name} into {self.download_dir}...",
@@ -841,14 +848,22 @@ class RepoSetup:
 
                             # Create request with auth header
                             req = urllib.request.Request(asset.url, headers=headers)
-                            with urlopen_with_timeout(req) as response:
-                                with open(filename, "wb") as f:
-                                    f.write(response.read())
-                                    print_color(
-                                        f"{asset.name} downloaded successfully.", GREEN
-                                    )
-                                    return True
-
+                            try:
+                                with urlopen_with_timeout(req) as response:
+                                    with open(filename, "wb") as f:
+                                        f.write(response.read())
+                                        print_color(
+                                            f"{asset.name} downloaded successfully.", GREEN
+                                        )
+                                        return True
+                            except Exception as e:
+                                print_error(f"[ERRO] Falha ao baixar {asset.name}: {e}")
+                                return False
+                    if not found_asset:
+                        print_error(f"[ERRO] Asset requisitado não encontrado no release: {repo_name} {version}")
+                        return False
+                else:
+                    print_color(f"[DEBUG] Asset já existe localmente, pulando download.", LBLUE)
                 return True
             except BadCredentialsException:
                 print_error(
@@ -856,7 +871,7 @@ class RepoSetup:
                 )
                 return False
             except Exception as e:
-                print_error(f"Release {version} not found in {repo_name}")
+                print_error(f"[ERRO] Exceção inesperada ao baixar asset do release {repo_name} {version}: {e}")
                 return False
 
         archive_info = self.get_info_by_archive(archive)
@@ -1128,7 +1143,10 @@ def main():
 
     args = parser.parse_args()
     repo_list = args.repo_list
-    print_color(f"[DEBUG] Celso ", LBLUE)
+    print_color(f"[DEBUG] Itens recebidos em --archive_list:", LBLUE)
+    for idx, item in enumerate(args.archive_list):
+        print_color(f"  [{idx}] {item}", LBLUE)
+    print_color(f"[DEBUG] Celso 2", LBLUE)
     print_color(f"[DEBUG] args.archive_list recebido: {args.archive_list}", LBLUE)
     print_color(f"[DEBUG] args.repo_list recebido: {args.repo_list}", LBLUE)
 
