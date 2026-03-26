@@ -1184,6 +1184,8 @@ def main():
     if filtered_archives:
         print_color(f"📦 Processing {len(filtered_archives)} archive(s)...", BLUE)
 
+    print_color("Celso Xpto", LBLUE)
+
     # Processa submodules em paralelo
     with concurrent.futures.ProcessPoolExecutor() as executor:
         executor.map(repo_setup.update_repo, filtered_submodules)
