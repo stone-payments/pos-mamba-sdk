@@ -1192,7 +1192,7 @@ def main():
         print_color("✓ All submodules updated successfully", GREEN)
 
     # Processa archives em modo serial, fora do with
-    if filtered_archives is not None:
+    if filtered_archives:
         print_color("\n📦 Processing archives...", CYAN)
         for idx, archive in enumerate(filtered_archives):
             print_color(f"[DEBUG] Processing archive {idx}: {archive['name']}", LBLUE)
