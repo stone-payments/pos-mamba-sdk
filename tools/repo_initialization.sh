@@ -12,7 +12,7 @@
 # -------------------------------------------------------
 
 GITHUB_REPO="stone-payments/pos-mamba-sdk"
-GITHUB_BRANCH="PRJHW-2903-utilizar-biblioteca-do-newton-para-converter-os-xmls-para-o-mamba"
+GITHUB_BRANCH="master"
 
 # Log and exit with 1
 #
