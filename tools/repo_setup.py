@@ -1199,7 +1199,7 @@ def main():
             try:
                 repo_setup.get_archives(archive)
             except Exception as e:
-                print_error(f"[ERRO] Unexpected exception while processing archive {archive['name']}: {e}")
+                print_error(f"Unexpected exception while processing archive {archive['name']}: {e}")
         print_color("✓ All archives processed successfully", GREEN)
 
     # Install git hooks
