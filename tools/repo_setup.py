@@ -1184,8 +1184,6 @@ def main():
     if filtered_archives:
         print_color(f"📦 Processing {len(filtered_archives)} archive(s)...", BLUE)
 
-    print_color("Celso Xpto", LBLUE)
-
     # Processa submodules em paralelo
     with concurrent.futures.ProcessPoolExecutor() as executor:
         executor.map(repo_setup.update_repo, filtered_submodules)
@@ -1197,11 +1195,11 @@ def main():
     if filtered_archives is not None:
         print_color("\n📦 Processing archives...", CYAN)
         for idx, archive in enumerate(filtered_archives):
-            print_color(f"[DEBUG] Vai processar archive {idx}: {archive['name']}", LBLUE)
+            print_color(f"[DEBUG] Processing archive {idx}: {archive['name']}", LBLUE)
             try:
                 repo_setup.get_archives(archive)
             except Exception as e:
-                print_error(f"[ERRO] Exceção inesperada ao processar archive {archive['name']}: {e}")
+                print_error(f"[ERRO] Unexpected exception while processing archive {archive['name']}: {e}")
         print_color("✓ All archives processed successfully", GREEN)
 
     # Install git hooks
