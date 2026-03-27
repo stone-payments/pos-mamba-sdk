@@ -1186,20 +1186,21 @@ def main():
 
     # Create a pool of workers
     with concurrent.futures.ProcessPoolExecutor() as executor:
-        # Use the executor to map the function to the inputs
         executor.map(repo_setup.update_repo, filtered_submodules)
-
-        # Wait for submodules to be updated
         print_color("⏳ Waiting for submodules update to complete...", CYAN)
         executor.shutdown(wait=True)
         print_color("✓ All submodules updated successfully", GREEN)
 
-        if filtered_archives is not None:
-            print_color("\n📦 Processing archives...", CYAN)
-            # Create a new executor after submodules are updated for the archive function
-            with concurrent.futures.ProcessPoolExecutor() as executor:
-                executor.map(repo_setup.get_archives, filtered_archives)
-            print_color("✓ All archives processed successfully", GREEN)
+    # Processa archives em modo serial, fora do with
+    if filtered_archives:
+        print_color("\n📦 Processing archives...", CYAN)
+        for idx, archive in enumerate(filtered_archives):
+            print_color(f"[DEBUG] Processing archive {idx}: {archive['name']}", LBLUE)
+            try:
+                repo_setup.get_archives(archive)
+            except Exception as e:
+                print_error(f"Unexpected exception while processing archive {archive['name']}: {e}")
+        print_color("✓ All archives processed successfully", GREEN)
 
     # Install git hooks
     if not args.no_hooks:
